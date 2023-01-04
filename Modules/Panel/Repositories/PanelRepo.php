@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Panal\Repositories;
+namespace Modules\Panel\Repositories;
 
 class PanelRepo
 {

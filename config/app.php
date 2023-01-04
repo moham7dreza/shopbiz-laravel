@@ -165,8 +165,10 @@ return [
         /*
          * Module Service Providers...
          */
-        Modules\Panal\Providers\PanelServiceProvider::class,
+        Modules\Panel\Providers\PanelServiceProvider::class,
         Modules\Share\Providers\ShareServiceProvider::class,
+        Modules\Category\Product\Providers\ProductCategoryServiceProvider::class,
+        Modules\Category\Post\Providers\PostCategoryServiceProvider::class,
 
         /*
          * Package Service Providers...
