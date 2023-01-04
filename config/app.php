@@ -167,8 +167,6 @@ return [
          */
         Modules\Panel\Providers\PanelServiceProvider::class,
         Modules\Share\Providers\ShareServiceProvider::class,
-        Modules\Category\Product\Providers\ProductCategoryServiceProvider::class,
-        Modules\Category\Post\Providers\PostCategoryServiceProvider::class,
         Modules\Brand\Providers\BrandServiceProvider::class,
         Modules\Banner\Providers\BannerServiceProvider::class,
         Modules\Faq\Providers\FaqServiceProvider::class,
@@ -176,8 +174,19 @@ return [
         Modules\Page\Providers\PageServiceProvider::class,
         Modules\Post\Providers\PostServiceProvider::class,
         Modules\Product\Providers\ProductServiceProvider::class,
-        Modules\Comment\Post\Providers\PostCommentServiceProvider::class,
-        Modules\Comment\Product\Providers\ProductCommentServiceProvider::class,
+        Modules\Discount\Providers\DiscountServiceProvider::class,
+        Modules\Auth\Providers\AuthServiceProvider::class,
+        Modules\Home\Providers\HomeServiceProvider::class,
+        Modules\Notify\Providers\NotifyServiceProvider::class,
+        Modules\Setting\Providers\SettingServiceProvider::class,
+        Modules\Ticket\Providers\TicketServiceProvider::class,
+        Modules\Order\Providers\OrderServiceProvider::class,
+        Modules\Payment\Providers\PaymentServiceProvider::class,
+        Modules\Cart\Providers\CartServiceProvider::class,
+        Modules\Delivery\Providers\DeliveryServiceProvider::class,
+        Modules\Faq\Providers\FaqServiceProvider::class,
+        Modules\ACL\Providers\AclServiceProvider::class,
+        Modules\User\Providers\UserServiceProvider::class,
 
         /*
          * Package Service Providers...

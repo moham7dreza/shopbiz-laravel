@@ -9,19 +9,29 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Panel" isTestSource="false" packagePrefix="Modules\Panel\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Share" isTestSource="false" packagePrefix="Modules\Share\" />
-      <sourceFolder url="file://$MODULE_DIR$/Modules/Category/Post" isTestSource="false" packagePrefix="Modules\Category\Post\" />
-      <sourceFolder url="file://$MODULE_DIR$/Modules/Category/Product" isTestSource="false" packagePrefix="Modules\Category\Product\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Banner" isTestSource="false" packagePrefix="Modules\Banner\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Brand" isTestSource="false" packagePrefix="Modules\Brand\" />
-      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment/Post" isTestSource="false" packagePrefix="Modules\Comment\Post\" />
-      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment/Product" isTestSource="false" packagePrefix="Modules\Comment\Product\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Faq" isTestSource="false" packagePrefix="Modules\Faq\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Menu" isTestSource="false" packagePrefix="Modules\Menu\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Page" isTestSource="false" packagePrefix="Modules\Page\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Post" isTestSource="false" packagePrefix="Modules\Post\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Product" isTestSource="false" packagePrefix="Modules\Product\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/ACL" isTestSource="false" packagePrefix="Modules\ACL\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Auth" isTestSource="false" packagePrefix="Modules\Auth\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Cart" isTestSource="false" packagePrefix="Modules\Cart\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Category" isTestSource="false" packagePrefix="Modules\Category\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment" isTestSource="false" packagePrefix="Modules\Comment\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Delivery" isTestSource="false" packagePrefix="Modules\Delivery\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Discount" isTestSource="false" packagePrefix="Modules\Discount\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Home" isTestSource="false" packagePrefix="Modules\Home\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Notify" isTestSource="false" packagePrefix="Modules\Notify\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Order" isTestSource="false" packagePrefix="Modules\Order\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Payment" isTestSource="false" packagePrefix="Modules\Payment\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Setting" isTestSource="false" packagePrefix="Modules\Setting\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Ticket" isTestSource="false" packagePrefix="Modules\Ticket\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/User" isTestSource="false" packagePrefix="Modules\User\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bacon/bacon-qr-code" />
