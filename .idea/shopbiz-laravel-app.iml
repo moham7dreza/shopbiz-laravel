@@ -13,6 +13,15 @@
       <sourceFolder url="file://$MODULE_DIR$/Modules/Category/Product" isTestSource="false" packagePrefix="Modules\Category\Product\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Banner" isTestSource="false" packagePrefix="Modules\Banner\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Brand" isTestSource="false" packagePrefix="Modules\Brand\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment/Post" isTestSource="false" packagePrefix="Modules\Comment\Post\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment/Product" isTestSource="false" packagePrefix="Modules\Comment\Product\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Faq" isTestSource="false" packagePrefix="Modules\Faq\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Menu" isTestSource="false" packagePrefix="Modules\Menu\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Page" isTestSource="false" packagePrefix="Modules\Page\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Post" isTestSource="false" packagePrefix="Modules\Post\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Product" isTestSource="false" packagePrefix="Modules\Product\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bacon/bacon-qr-code" />

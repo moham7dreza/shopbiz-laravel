@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\Category\Post\Providers;
+namespace Modules\Comment\Product\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class PostCategoryServiceProvider extends ServiceProvider
+class ProductCommentServiceProvider extends ServiceProvider
 {
     /**
      * Get namespace for category controllers.
      *
      * @var string
      */
-    private string $namespace = 'Modules\Category\Post\Http\Controllers';
+    private string $namespace = 'Modules\Comment\Product\Http\Controllers';
 
     /**
      * Get migration path.
@@ -33,14 +33,14 @@ class PostCategoryServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    private string $name = 'PostCategory';
+    private string $name = 'ProductComment';
 
     /**
      * Get route path.
      *
      * @var string
      */
-    private string $routePath = '/../Routes/post_category_routes.php';
+    private string $routePath = '/../Routes/product_comment_routes.php';
 
     /**
      * Get midddleware route.

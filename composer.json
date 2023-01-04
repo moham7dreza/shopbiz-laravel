@@ -38,7 +38,16 @@
             "Modules\\Panel\\" : "Modules/Panel/",
             "Modules\\Share\\" : "Modules/Share/",
             "Modules\\Category\\Product\\" : "Modules/Category/Product/",
-            "Modules\\Category\\Post\\" : "Modules/Category/Post/"
+            "Modules\\Category\\Post\\" : "Modules/Category/Post/",
+            "Modules\\Comment\\Product\\" : "Modules/Comment/Product/",
+            "Modules\\Comment\\Post\\" : "Modules/Comment/Post/",
+            "Modules\\Brand\\" : "Modules/Brand/",
+            "Modules\\Product\\" : "Modules/Product/",
+            "Modules\\Post\\" : "Modules/Post/",
+            "Modules\\Menu\\" : "Modules/Menu/",
+            "Modules\\Banner\\" : "Modules/Banner/",
+            "Modules\\Page\\" : "Modules/Page/",
+            "Modules\\Faq\\" : "Modules/Faq/"
         }
     },
     "autoload-dev": {

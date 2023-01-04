@@ -169,6 +169,15 @@ return [
         Modules\Share\Providers\ShareServiceProvider::class,
         Modules\Category\Product\Providers\ProductCategoryServiceProvider::class,
         Modules\Category\Post\Providers\PostCategoryServiceProvider::class,
+        Modules\Brand\Providers\BrandServiceProvider::class,
+        Modules\Banner\Providers\BannerServiceProvider::class,
+        Modules\Faq\Providers\FaqServiceProvider::class,
+        Modules\Menu\Providers\MenuServiceProvider::class,
+        Modules\Page\Providers\PageServiceProvider::class,
+        Modules\Post\Providers\PostServiceProvider::class,
+        Modules\Product\Providers\ProductServiceProvider::class,
+        Modules\Comment\Post\Providers\PostCommentServiceProvider::class,
+        Modules\Comment\Product\Providers\ProductCommentServiceProvider::class,
 
         /*
          * Package Service Providers...
