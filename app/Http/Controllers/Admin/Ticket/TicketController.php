@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\ticket;
+namespace App\Http\Controllers\admin\Ticket;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;

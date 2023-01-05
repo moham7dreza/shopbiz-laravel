@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Profile;
+namespace Modules\User\Http\Controllers\Home\Profile;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+
+use Modules\Share\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -17,6 +17,6 @@ class OrderController extends Controller
         else{
             $orders = auth()->user()->orders()->orderBy('id', 'desc')->get();
         }
-        return view('customer.profile.orders', compact('orders'));
+        return view('User::home.profile.orders', compact('orders'));
     }
 }

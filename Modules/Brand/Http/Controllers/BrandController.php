@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Brand\Http\Controllers;
 
-use App\Models\Market\Brand;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Market\BrandRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Brand\Entities\Brand;
+use Modules\Share\Http\Controllers\Controller;
 
 class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.market.brand.index', compact('brands'));
+        $brands = Brand::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Brand::index', compact('brands'));
     }
 
     /**

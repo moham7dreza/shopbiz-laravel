@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\admin\notify;
+namespace Modules\Notify\Http\Controllers;
 
-use App\Models\Notify\SMS;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Notify\SMSRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Notify\Entities\SMS;
+use Modules\Share\Http\Controllers\Controller;
 
 class SMSController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $sms = SMS::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.notify.sms.index', compact('sms'));
+        $sms = SMS::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Notify::sms.index', compact('sms'));
     }
 
     /**

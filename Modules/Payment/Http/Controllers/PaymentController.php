@@ -1,33 +1,52 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Payment\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Market\Payment;
-use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Modules\Payment\Entities\Payment;
+use Modules\Share\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
+    /**
+     * @return Application|Factory|View
+     */
     public function index()
     {
         $payments = Payment::all();
-        return view('admin.market.payment.index', compact('payments'));
+        return view('Payment::admin.index', compact('payments'));
     }
+
+    /**
+     * @return Application|Factory|View
+     */
     public function offline()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\OfflinePayment')->get();
-        return view('admin.market.payment.index', compact('payments'));
+        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\OfflinePayment')->get();
+        return view('Payment::admin.index', compact('payments'));
     }
+
+    /**
+     * @return Application|Factory|View
+     */
     public function online()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\OnlinePayment')->get();
-        return view('admin.market.payment.index', compact('payments'));
+        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\OnlinePayment')->get();
+        return view('Payment::admin.index', compact('payments'));
     }
     public function cash()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\CashPayment')->get();
-        return view('admin.market.payment.index', compact('payments'));
+        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\CashPayment')->get();
+        return view('Payment::admin.index', compact('payments'));
     }
+
+    /**
+     * @param Payment $payment
+     * @return RedirectResponse
+     */
     public function canceled(Payment $payment)
     {
         $payment->status = 2;
@@ -35,6 +54,10 @@ class PaymentController extends Controller
         return redirect()->route('admin.market.payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
     }
 
+    /**
+     * @param Payment $payment
+     * @return RedirectResponse
+     */
     public function returned(Payment $payment)
     {
         $payment->status = 3;
@@ -42,8 +65,12 @@ class PaymentController extends Controller
         return redirect()->route('admin.market.payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
     }
 
+    /**
+     * @param Payment $payment
+     * @return Application|Factory|View
+     */
     public function show(Payment $payment)
     {
-        return view('admin.market.payment.show', compact('payment'));
+        return view('Payment::admin.show', compact('payment'));
     }
 }

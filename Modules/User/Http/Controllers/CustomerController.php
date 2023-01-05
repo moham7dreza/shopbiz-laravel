@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace Modules\User\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\User\CustomerRequest;
-use App\Notifications\NewUserRegistered;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Entities\User;
 
 class CustomerController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $users = User::where('user_type', 0)->get();
-        return view('admin.user.customer.index', compact('users'));
+        $users = User::query()->where('user_type', 0)->get();
+        return view('User::customer.index', compact('users'));
 
     }
 

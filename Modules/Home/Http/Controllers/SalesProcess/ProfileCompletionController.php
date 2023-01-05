@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Customer\SalesProcess;
+namespace Modules\Home\Http\Controllers\SalesProcess;
 
-use Illuminate\Http\Request;
-use App\Models\Market\CartItem;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Customer\SalesProcess\ProfileCompletionRequest;
+use Modules\Cart\Entities\CartItem;
+use Modules\Share\Http\Controllers\Controller;
 
 class ProfileCompletionController extends Controller
 {
@@ -14,8 +12,8 @@ class ProfileCompletionController extends Controller
     {
        $user = Auth::user();
 
-       $cartItems = CartItem::where('user_id', $user->id)->get();
-       return view('customer.sales-process.profile-completion', compact('user', 'cartItems'));
+       $cartItems = CartItem::query()->where('user_id', $user->id)->get();
+       return view('Home::sales-process.profile-completion', compact('user', 'cartItems'));
 
     }
 

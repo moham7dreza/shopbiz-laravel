@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Product\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\GuaranteeRequest;
-use App\Models\Market\Guarantee;
-use App\Models\Market\Product;
-use Illuminate\Http\Request;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class GuaranteeController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return Application|Factory|View
      */
     public function index(Product $product)
     {
-        return view('admin.market.product.guarantee.index', compact('product'));
+        return view('Product::admin.guarantee.index', compact('product'));
     }
 
     /**

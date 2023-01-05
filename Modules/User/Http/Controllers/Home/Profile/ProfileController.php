@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Profile;
+namespace Modules\User\Http\Controllers\Home\Profile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Customer\Profile\UpdateProfileRequest;
+
+use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Http\Controllers\Home\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-        return view('customer.profile.profile');
+        return view('User::home.profile.profile');
     }
 
     public function update(UpdateProfileRequest $request)

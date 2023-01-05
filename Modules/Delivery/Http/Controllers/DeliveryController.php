@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Delivery\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Market\Delivery;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\DeliveryRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Delivery\Entities\Delivery;
+use Modules\Share\Http\Controllers\Controller;
 
 class DeliveryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $delivery_methods = Delivery::all();
-        return view('admin.market.delivery.index', compact('delivery_methods'));
+        return view('Delivery::admin.index', compact('delivery_methods'));
     }
 
     /**

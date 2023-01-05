@@ -1,28 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Comment\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Content\Comment;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\CommentRequest;
 
-class CommentController extends Controller
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Comment\Entities\Comment;
+use Modules\Share\Http\Controllers\Controller;
+
+class ProductCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $unSeenComments = Comment::where('commentable_type', 'App\Models\Market\Product')->where('seen', 0)->get();
+        $unSeenComments = Comment::query()->where('commentable_type', 'App\Models\Market\Product')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment){
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Market\Product')->simplePaginate(15);
-        return view('admin.market.comment.index', compact('comments'));
+        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Market\Product')->simplePaginate(15);
+        return view('Comment::product-comment.index', compact('comments'));
     }
 
     /**

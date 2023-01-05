@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Customer\SalesProcess;
+namespace Modules\Home\Http\Controllers\SalesProcess;
 
-use App\Models\Address;
-use App\Models\Province;
-use App\Models\Market\Order;
-use Illuminate\Http\Request;
-use App\Models\Market\CartItem;
-use App\Models\Market\Delivery;
-use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
-use App\Models\Market\CommonDiscount;
-use App\Http\Requests\Customer\SalesProcess\StoreAddressRequest;
-use App\Http\Requests\Customer\SalesProcess\UpdateAddressRequest;
-use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
+use Modules\Cart\Entities\CartItem;
+use Modules\Delivery\Entities\Delivery;
+use Modules\Discount\Entities\CommonDiscount;
+use Modules\Order\Entities\Order;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Entities\Address;
+use Modules\User\Entities\Province;
 
 class AddressController extends Controller
 {
@@ -22,15 +19,15 @@ class AddressController extends Controller
         //check profile
         $user = Auth::user();
         $provinces = Province::all();
-        $cartItems = CartItem::where('user_id', $user->id)->get();
-        $deliveryMethods = Delivery::where('status', 1)->get();
+        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
+        $deliveryMethods = Delivery::query()->where('status', 1)->get();
 
-        if(empty(CartItem::where('user_id', $user->id)->count()))
+        if(empty(CartItem::query()->where('user_id', $user->id)->count()))
         {
             return redirect()->route('customer.sales-process.cart');
         }
 
-        return view('customer.sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods'));
+        return view('Home::sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods'));
     }
 
 
@@ -72,7 +69,7 @@ class AddressController extends Controller
         $inputs = $request->all();
 
         //calc price
-        $cartItems = CartItem::where('user_id', $user->id)->get();
+        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
         $totalProductPrice = 0;
         $totalDiscount = 0;
         $totalFinalPrice = 0;
@@ -87,7 +84,7 @@ class AddressController extends Controller
 
 
         //commonDiscount
-        $commonDiscount = CommonDiscount::where([['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
+        $commonDiscount = CommonDiscount::query()->where([['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
         if($commonDiscount)
         {
             $inputs['common_discount_id'] = $commonDiscount->id;
@@ -116,7 +113,7 @@ class AddressController extends Controller
         $inputs['order_discount_amount'] = $totalFinalDiscountPriceWithNumbers;
         $inputs['order_common_discount_amount'] = $commonPercentageDiscountAmount;
         $inputs['order_total_products_discount_amount'] = $inputs['order_discount_amount'] + $inputs['order_common_discount_amount'];
-        $order = Order::updateOrCreate(
+        $order = Order::query()->updateOrCreate(
             ['user_id' => $user->id, 'order_status' => 0],
             $inputs
         );

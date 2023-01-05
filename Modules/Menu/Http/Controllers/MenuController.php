@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\Menu\Http\Controllers;
 
-use App\Models\Content\Menu;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\MenuRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Menu\Entities\Menu;
+use Modules\Share\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $menus = Menu::orderBy('created_at', 'desc')->simplePaginate(15);
-        // dd($menus[2]->children);
-        return view('admin.content.menu.index', compact('menus'));
+        $menus = Menu::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Menu::index', compact('menus'));
     }
 
     /**

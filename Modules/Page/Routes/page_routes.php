@@ -12,5 +12,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('page', 'PageController');
+    $router->resource('page', 'PageController', ['except' => 'show']);
 });

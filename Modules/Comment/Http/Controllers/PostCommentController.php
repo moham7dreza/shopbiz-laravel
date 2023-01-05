@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\Comment\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Content\Comment;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\CommentRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Comment\Entities\Comment;
+use Modules\Share\Http\Controllers\Controller;
 
-class CommentController extends Controller
+class PostCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $unSeenComments = Comment::where('commentable_type', 'App\Models\Content\Post')->where('seen', 0)->get();
+        $unSeenComments = Comment::query()->where('commentable_type', 'App\Models\Content\Post')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment){
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Content\Post')->simplePaginate(15);
-        return view('admin.content.comment.index', compact('comments'));
+        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Content\Post')->simplePaginate(15);
+        return view('Comment::post-comment.index', compact('comments'));
 
     }
 

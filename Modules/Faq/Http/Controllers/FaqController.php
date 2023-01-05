@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\Faq\Http\Controllers;
 
-use App\Models\Content\Faq;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\FaqRequest;
 
-class FAQController extends Controller
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Faq\Entities\Faq;
+use Modules\Share\Http\Controllers\Controller;
+
+class FaqController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $faqs = Faq::orderBy('created_at')->simplePaginate(15);
-        return view('admin.content.faq.index', compact('faqs'));
+        $faqs = Faq::query()->orderBy('created_at')->simplePaginate(15);
+        return view('Faq::index', compact('faqs'));
     }
 
     /**

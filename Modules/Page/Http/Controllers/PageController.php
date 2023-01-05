@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\admin\content;
+namespace Modules\Page\Http\Controllers;
 
-use App\Models\Content\Page;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PageRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Page\Entities\Page;
+use Modules\Share\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $pages = Page::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.page.index', compact('pages'));
+        $pages = Page::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Page::index', compact('pages'));
     }
 
     /**

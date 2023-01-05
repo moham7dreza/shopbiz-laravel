@@ -1,27 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace Modules\User\Http\Controllers;
 
-use App\Models\User;
-use App\Models\User\Role;
-use Illuminate\Http\Request;
-use App\Models\User\Permission;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\User\AdminUserRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Entities\User;
 
 class AdminUserController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $admins = User::where('user_type', 1)->get();
-        return view('admin.user.admin-user.index', compact('admins'));
+        $admins = User::query()->where('user_type', 1)->get();
+        return view('User::admin-user.index', compact('admins'));
     }
 
     /**

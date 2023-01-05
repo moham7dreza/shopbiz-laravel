@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Market\Product;
-use App\Models\Market\ProductColor;
-use App\Http\Controllers\Controller;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class ProductColorController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return Application|Factory|View
      */
     public function index(Product $product)
     {
-        return view('admin.market.product.color.index', compact('product'));
+        return view('Product::admin.color.index', compact('product'));
     }
 
     /**

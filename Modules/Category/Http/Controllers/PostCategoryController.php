@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\Category\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostCategoryRequest;
-use App\Http\Services\Image\ImageService;
-use App\Models\Content\PostCategory;
-use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Category\Entities\PostCategory;
+use Modules\Share\Http\Controllers\Controller;
+
+class PostCategoryController extends Controller
 {
 
     function __construct(){
@@ -16,21 +17,21 @@ class CategoryController extends Controller
         // $this->middleware('role:operator')->only(['create']);
         // $this->middleware('role:accounting')->only(['store']);
         // $this->middleware('role:operator')->only(['edit']);
-        $this->middleware('can:show-category')->only(['index']);
-        $this->middleware('can:update-category')->only(['edit', 'update']);
+//        $this->middleware('can:show-category')->only(['index']);
+//        $this->middleware('can:update-category')->only(['edit', 'update']);
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $user = auth()->user();
         // if ($user->can('show-category')) {
 
-        $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.category.index', compact('postCategories'));
+        $postCategories = PostCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Category::post-category.index', compact('postCategories'));
         // } else {
         //     abort(403);
         // }

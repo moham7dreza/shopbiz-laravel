@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Profile;
+namespace Modules\User\Http\Controllers\Home\Profile;
 
-use App\Http\Controllers\Controller;
-use App\Models\Market\Product;
+
+use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Http\Controllers\Home\Product;
 
 class FavoriteController extends Controller
 {
     public function index()
     {
-        return view('customer.profile.my-favorites');
+        return view('User::home.profile.my-favorites');
     }
 
     public function delete(Product $product)

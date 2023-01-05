@@ -1,28 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Product\Http\Controllers;
 
-use App\Models\Market\Brand;
-use Illuminate\Http\Request;
-use App\Models\Market\Product;
-use App\Models\Market\ProductMeta;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\Market\ProductCategory;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Market\ProductRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.market.product.index', compact('products'));
+        $products = Product::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Product::admin.index', compact('products'));
     }
 
     /**

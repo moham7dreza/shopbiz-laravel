@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\admin\notify;
+namespace Modules\Notify\Http\Controllers;
 
-use App\Models\Notify\Email;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Notify\EmailRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Notify\Entities\Email;
+use Modules\Share\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $emails = Email::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.notify.email.index', compact('emails'));
+        $emails = Email::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Notify::email.index', compact('emails'));
 
     }
 

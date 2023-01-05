@@ -1,28 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Customer\SalesProcess;
+namespace Modules\Payment\Http\Controllers\Home;
 
-use App\Http\Controllers\Controller;
-use App\Http\Services\Payment\PaymentService;
-use App\Models\Market\CartItem;
-use App\Models\Market\CashPayment;
-use App\Models\Market\Copan;
-use App\Models\Market\OfflinePayment;
-use App\Models\Market\OnlinePayment;
-use App\Models\Market\Order;
-use App\Models\Market\OrderItem;
-use App\Models\Market\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Cart\Entities\CartItem;
+use Modules\Discount\Entities\Copan;
+use Modules\Order\Entities\Order;
+use Modules\Order\Entities\OrderItem;
+use Modules\Payment\Entities\CashPayment;
+use Modules\Payment\Entities\OfflinePayment;
+use Modules\Payment\Entities\OnlinePayment;
+use Modules\Payment\Entities\Payment;
+use Modules\Share\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
     public function payment()
     {
         $user = auth()->user();
-        $cartItems = CartItem::where('user_id', $user->id)->get();
-        $order = Order::where('user_id', Auth::user()->id)->where('order_status', 0)->first();
-        return view('customer.sales-process.payment', compact('cartItems', 'order'));
+        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
+        $order = Order::query()->where('user_id', Auth::user()->id)->where('order_status', 0)->first();
+        return view('Payment::home.payment', compact('cartItems', 'order'));
     }
 
     public function copanDiscount(Request $request)
@@ -31,16 +30,16 @@ class PaymentController extends Controller
             ['copan' => 'required']
         );
 
-        $copan = Copan::where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
+        $copan = Copan::query()->where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
         if ($copan != null) {
             if ($copan->user_id != null) {
-                $copan = Copan::where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()], ['user_id', auth()->user()->id]])->first();
+                $copan = Copan::query()->where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()], ['user_id', auth()->user()->id]])->first();
                 if ($copan == null) {
                     return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
                 }
             }
 
-            $order = Order::where('user_id', Auth::user()->id)->where('order_status', 0)->where('copan_id', null)->first();
+            $order = Order::query()->where('user_id', Auth::user()->id)->where('order_status', 0)->where('copan_id', null)->first();
 
             if ($order) {
                 if ($copan->amount_type == 0) {
@@ -97,7 +96,7 @@ class PaymentController extends Controller
                 return redirect()->back()->withErrors(['error' => 'خطا']);
         }
 
-        $paymented = $targetModel::create([
+        $paymented = $targetModel::query()->create([
             'amount' => $order->order_final_amount,
             'user_id' => auth()->user()->id,
             'pay_date' => now(),
@@ -105,7 +104,7 @@ class PaymentController extends Controller
             'status' => 1,
         ]);
 
-        $payment = Payment::create(
+        $payment = Payment::query()->create(
             [
                 'amount' => $order->order_final_amount,
                 'user_id' => auth()->user()->id,
@@ -127,7 +126,7 @@ class PaymentController extends Controller
 
         foreach ($cartItems as $cartItem) {
 
-            OrderItem::create([
+            OrderItem::query()->create([
                 'order_id' => $order->id,
                 'product_id' => $cartItem->product_id,
                 'product' => $cartItem->product,
@@ -152,10 +151,10 @@ class PaymentController extends Controller
     {
         $amount = $onlinePayment->amount * 10;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
-        $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
+        $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();
 
         foreach ($cartItems as $cartItem) {
-            OrderItem::create([
+            OrderItem::query()->create([
                 'order_id' => $order->id,
                 'product_id' => $cartItem->product_id,
                 'product' => $cartItem->product,

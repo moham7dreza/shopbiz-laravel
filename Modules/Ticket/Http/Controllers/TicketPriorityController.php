@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Ticket;
+namespace Modules\Ticket\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Ticket\TicketPriorityRequest;
-use App\Models\Ticket\TicketPriority;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\Ticket\Entities\TicketPriority;
 
 class TicketPriorityController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $ticketPriorities = TicketPriority::all();
-        return view('admin.ticket.priority.index', compact('ticketPriorities'));
+        return view('Ticket::priority.index', compact('ticketPriorities'));
     }
 
     /**

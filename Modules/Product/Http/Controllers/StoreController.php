@@ -1,25 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Market\Product;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\StoreRequest;
-use App\Http\Requests\Admin\Market\StoreUpdateRequest;
+
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class StoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.market.store.index', compact('products'));
+        $products = Product::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Product::admin.store.index', compact('products'));
     }
 
     /**

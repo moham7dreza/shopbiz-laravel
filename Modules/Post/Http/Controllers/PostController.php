@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin\content;
+namespace Modules\Post\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostRequest;
-use App\Http\Services\Image\ImageService;
-use App\Models\Content\Post;
-use App\Models\Content\PostCategory;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Post\Entities\Post;
+use Modules\Share\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -19,12 +18,12 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.post.index', compact('posts'));
+        $posts = Post::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Post::index', compact('posts'));
     }
 
     /**

@@ -1,45 +1,52 @@
 <?php
 
-namespace App\Http\Controllers\admin\ticket;
+namespace Modules\Ticket\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Ticket\TicketRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\Ticket\Entities\Ticket;
 
 class TicketController extends Controller
 {
 
+    /**
+     * @return Application|Factory|View
+     */
     public function newTickets()
     {
-        $tickets = Ticket::where('seen', 0)->get();
+        $tickets = Ticket::query()->where('seen', 0)->get();
         foreach($tickets as $newTicket){
             $newTicket->seen = 1;
             $result = $newTicket->save();
         }
-        return view('admin.ticket.index', compact('tickets'));
+        return view('Ticket::index', compact('tickets'));
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function openTickets()
     {
-        $tickets = Ticket::where('status', 0)->get();
-        return view('admin.ticket.index', compact('tickets'));
+        $tickets = Ticket::query()->where('status', 0)->get();
+        return view('Ticket::index', compact('tickets'));
     }
 
     public function closeTickets()
     {
-        $tickets = Ticket::where('status', 1)->get();
-        return view('admin.ticket.index', compact('tickets'));
+        $tickets = Ticket::query()->where('status', 1)->get();
+        return view('Ticket::index', compact('tickets'));
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $tickets = Ticket::all();
-        return view('admin.ticket.index', compact('tickets'));
+        return view('Ticket::index', compact('tickets'));
     }
 
     /**

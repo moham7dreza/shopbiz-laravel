@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Market;
+namespace Modules\Product\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
-use App\Models\Market\Product;
-use App\Models\Content\Comment;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
     public function product(Product $product)
     {
         $relatedProducts = Product::all();
-        // Auth::loginUsingId(15);
-        return view('customer.market.product.product', compact('product', 'relatedProducts'));
+        return view('Product::home.product', compact('product', 'relatedProducts'));
     }
 
     public function addComment(Product $product, Request $request)

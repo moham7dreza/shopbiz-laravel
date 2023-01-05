@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Category\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\CategoryAttributeRequest;
-use App\Models\Market\ProductCategory;
-use App\Models\Market\CategoryAttribute;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Category\Entities\CategoryAttribute;
+use Modules\Share\Http\Controllers\Controller;
 
 class PropertyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $category_attributes = CategoryAttribute::all();
-        return view('admin.market.property.index', compact('category_attributes'));
+        return view('Category::property.index', compact('category_attributes'));
     }
 
     /**

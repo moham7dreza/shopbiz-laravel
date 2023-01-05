@@ -1,30 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\admin\setting;
+namespace Modules\Setting\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Setting\Setting;
-use Database\Seeders\SettingSeeder;
-use App\Http\Controllers\Controller;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Setting\SettingRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Setting\Database\Seeders\SettingSeeder;
+use Modules\Setting\Entities\Setting;
+use Modules\Share\Http\Controllers\Controller;
 
 class SettingController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $setting = Setting::first();
+        $setting = Setting::query()->first();
         if($setting === null){
             $default = new SettingSeeder();
             $default->run();
-            $setting = Setting::first();
+            $setting = Setting::query()->first();
         }
-        return view('admin.setting.index', compact('setting'));
+        return view('Setting::index', compact('setting'));
     }
 
     /**

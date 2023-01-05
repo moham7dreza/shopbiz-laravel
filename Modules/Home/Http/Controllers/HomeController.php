@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace Modules\Home\Http\Controllers;
 
-use App\Models\Market\Brand;
-use Illuminate\Http\Request;
-use App\Models\Content\Banner;
-use App\Models\Market\Product;
-use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Modules\Banner\Entities\Banner;
+use Modules\Brand\Entities\Brand;
+use Modules\Product\Entities\Product;
+use Modules\Share\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
 
 
+    /**
+     * @return Application|Factory|View
+     */
     public function home()
     {
-        Auth::loginUsingId(15);
+        Auth::loginUsingId(1);
 
         $slideShowImages = Banner::where('position', 0)->where('status', 1)->get();
         $topBanners = Banner::where('position', 1)->where('status', 1)->take(2)->get();

@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Notify;
+namespace Modules\Notify\Http\Controllers;
 
-use App\Models\Notify\Email;
-use Illuminate\Http\Request;
-use App\Models\Notify\EmailFile;
-use App\Http\Controllers\Controller;
-use App\Http\Services\File\FileService;
-use App\Http\Requests\Admin\Notify\EmailFileRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Notify\Entities\Email;
+use Modules\Share\Http\Controllers\Controller;
 
 class EmailFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index(Email $email)
     {
-       return view('admin.notify.email-file.index', compact('email'));
+       return view('Notify::email-file.index', compact('email'));
     }
 
     /**

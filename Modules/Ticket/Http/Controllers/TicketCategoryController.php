@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Ticket;
+namespace Modules\Ticket\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Ticket\TicketCategory;
-use App\Http\Requests\Admin\Ticket\TicketCategoryRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\Ticket\Entities\TicketCategory;
 
 class TicketCategoryController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $ticketCategories = TicketCategory::all();
-        return view('admin.ticket.category.index', compact('ticketCategories'));
+        return view('Ticket::category.index', compact('ticketCategories'));
     }
 
     /**
