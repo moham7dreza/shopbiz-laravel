@@ -187,6 +187,8 @@ return [
         Modules\Faq\Providers\FaqServiceProvider::class,
         Modules\ACL\Providers\AclServiceProvider::class,
         Modules\User\Providers\UserServiceProvider::class,
+        Modules\Category\Providers\CategoryServiceProvider::class,
+        Modules\Comment\Providers\CommentServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -19,7 +19,7 @@ class DeliveryController extends Controller
     public function index()
     {
         $delivery_methods = Delivery::all();
-        return view('Delivery::admin.index', compact('delivery_methods'));
+        return view('Delivery::index', compact('delivery_methods'));
     }
 
     /**

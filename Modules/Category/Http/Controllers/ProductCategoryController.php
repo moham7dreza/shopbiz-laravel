@@ -5,8 +5,11 @@ namespace Modules\Category\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class ProductCategoryController extends Controller
 {
@@ -18,27 +21,27 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $productCategories = ProductCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('Panel::product-category.index', compact('productCategories'));
+        return view('Category::product-category.index', compact(['productCategories']));
     }
 
+
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        $categories = ProductCategory::where('parent_id', null)->get();
-        return view('admin.market.category.create', compact('categories'));
+        $categories = ProductCategory::query()->where('parent_id', null)->get();
+        return view('Category::product-category.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProductCategoryRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(ProductCategoryRequest $request, ImageService $imageService)
+    public function store(ProductCategoryRequest $request, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
         if($request->hasFile('image'))
@@ -48,11 +51,11 @@ class ProductCategoryController extends Controller
         }
         if($result === false)
         {
-            return redirect()->route('admin.market.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
         }
         $inputs['image'] = $result;
         $productCategory = ProductCategory::create($inputs);
-        return redirect()->route('admin.market.category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -69,22 +72,24 @@ class ProductCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ProductCategory $productCategory
+     * @return Application|Factory|View
      */
     public function edit(ProductCategory $productCategory)
     {
-        $parent_categories = ProductCategory::where('parent_id', null)->get()->except($productCategory->id);
-       return view('admin.market.category.edit', compact('productCategory', 'parent_categories'));
+        $parent_categories = ProductCategory::query()->where('parent_id', null)->get()->except($productCategory->id);
+        return view('Category::product-category.index', compact('productCategory', 'parent_categories'));
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ProductCategoryRequest $request
+     * @param ProductCategory $productCategory
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(ProductCategoryRequest $request, ProductCategory $productCategory, ImageService $imageService)
+    public function update(ProductCategoryRequest $request, ProductCategory $productCategory, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -98,7 +103,7 @@ class ProductCategoryController extends Controller
             $result = $imageService->createIndexAndSave($request->file('image'));
             if($result === false)
             {
-                return redirect()->route('admin.market.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -111,18 +116,18 @@ class ProductCategoryController extends Controller
             }
         }
         $productCategory->update($inputs);
-        return redirect()->route('admin.market.category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ProductCategory $productCategory
+     * @return RedirectResponse
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(ProductCategory $productCategory): RedirectResponse
     {
        $result = $productCategory->delete();
-       return redirect()->route('admin.market.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+       return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('Panel::layouts.master')
 
 @section('head-tag')
 <title>نقش ها</title>
@@ -25,7 +25,7 @@
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.user.role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
+                <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -57,9 +57,9 @@
                                 @endif
                                 </td>
                             <td class="width-22-rem text-left">
-                                <a href="{{ route('admin.user.role.permission-form', $role->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>
-                                <a href="{{ route('admin.user.role.edit', $role->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <form class="d-inline" action="{{ route('admin.user.role.destroy', $role->id) }}" method="post">
+                                <a href="{{ route('role.permission-form', $role->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>
+                                <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form class="d-inline" action="{{ route('role.destroy', $role->id) }}" method="post">
                                     @csrf
                                     {{ method_field('delete') }}
                                 <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>

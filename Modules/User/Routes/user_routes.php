@@ -17,7 +17,7 @@ use Modules\User\Http\Controllers\Home\Profile\ProfileController;
 |
 */
 
-Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
+Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
     $router->resource('admin-user', 'AdminUserController', ['except' => 'show']);
     //admin-user
     Route::prefix('admin-user')->group(function () {
@@ -29,12 +29,12 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::post('/permissions/{admin}/store', [AdminUserController::class, 'permissionsStore'])->name('admin-user.permissions.store');
     });
 
-    $router->resource('customer', 'CustomerController', ['except' => 'show']);
+    $router->resource('customer-user', 'CustomerController', ['except' => 'show']);
 
     //customer
     Route::prefix('customer')->group(function () {
-        Route::get('/status/{user}', [CustomerController::class, 'status'])->name('customer.status');
-        Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('customer.activation');
+        Route::get('/status/{user}', [CustomerController::class, 'status'])->name('customer-user.status');
+        Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('customer-user.activation');
     });
 });
 Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Category\Http\Controllers\ProductCategoryController;
 use Modules\Category\Http\Controllers\PropertyValueController;
 
 /*
@@ -17,7 +18,7 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
     $router->resource('post-category', 'PostCategoryController', ['except' => 'show']);
     $router->resource('category-attribute', 'PropertyController');
 
-    Route::prefix('product-category', static function () {
+    Route::prefix('product-category')->group(static function () {
         Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('product-category.property.value.index');
         Route::get('/value/create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('product-category.property.value.create');
         Route::post('/value/store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('product-category.property.value.store');

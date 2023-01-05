@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>اولویت</title>
+    <title>روش های ارسال</title>
 @endsection
 
 @section('content')
@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page">اولویت</li>
+            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> روش های ارسال</li>
         </ol>
     </nav>
 
@@ -20,14 +20,12 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        اولویت
+                        روش های ارسال
                     </h5>
                 </section>
 
-                @include('Panel::alerts.alert-section.success')
-
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('ticket-priority.create') }}" class="btn btn-info btn-sm">ایجاد اولویت</a>
+                    <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال جدید </a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -38,34 +36,36 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام اولویت</th>
+                            <th>نام روش ارسال</th>
+                            <th>هزینه ارسال</th>
+                            <th>زمان ارسال</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-
-                        @foreach ($ticketPriorities as $key => $ticketPriority)
+                        @foreach ($delivery_methods as $delivery_method)
 
                             <tr>
-                                <th>{{ $key += 1 }}</th>
-                                <td>{{ $ticketPriority->name }}</td>
+                                <th>{{ $loop->iteration }}</th>
+                                <td>{{ $delivery_method->name }}</td>
+                                <td>{{ $delivery_method->amount }} تومان</td>
+                                <td>{{ $delivery_method->delivery_time . ' - ' . $delivery_method->delivery_time_unit }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $ticketPriority->id }}"
-                                               onchange="changeStatus({{ $ticketPriority->id }})"
-                                               data-url="{{ route('ticket-priority.status', $ticketPriority->id) }}"
-                                               type="checkbox" @if ($ticketPriority->status === 1)
+                                        <input id="{{ $delivery_method->id }}"
+                                               onchange="changeStatus({{ $delivery_method->id }})"
+                                               data-url="{{ route('delivery.status', $delivery_method->id) }}"
+                                               type="checkbox" @if ($delivery_method->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('ticket-priority.edit', $ticketPriority->id) }}"
+                                    <a href="{{ route('delivery.edit', $delivery_method->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <form class="d-inline"
-                                          action="{{ route('ticket-priority.destroy', $ticketPriority->id) }}"
-                                          method="post">
+                                          action="{{ route('delivery.destroy', $delivery_method->id) }}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
@@ -77,7 +77,6 @@
 
                         @endforeach
 
-
                         </tbody>
                     </table>
                 </section>
@@ -87,6 +86,7 @@
     </section>
 
 @endsection
+
 @section('script')
 
     <script type="text/javascript">
@@ -95,7 +95,6 @@
             var url = element.attr('data-url')
             var elementValue = !element.prop('checked');
 
-
             $.ajax({
                 url: url,
                 type: "GET",
@@ -103,10 +102,10 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('اولویت با موفقیت فعال شد')
+                            successToast('دسته بندی با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('اولویت با موفقیت غیر فعال شد')
+                            successToast('دسته بندی با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);

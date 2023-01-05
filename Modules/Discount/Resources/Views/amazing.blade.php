@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('Panel::layouts.master')
 
 @section('head-tag')
 <title>فروش شگفت انگیز</title>
@@ -25,7 +25,7 @@
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.market.discount.amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست شگفت انگیز</a>
+                <a href="{{ route('discount.amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست شگفت انگیز</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -52,8 +52,8 @@
                             <td>{{ jalaliDate($amazingSale->start_date) }}</td>
                             <td>{{ jalaliDate($amazingSale->end_date) }}</td>
                             <td class="width-16-rem text-left">
-                                <a href="{{ route('admin.market.discount.amazingSale.edit', $amazingSale->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <form class="d-inline" action="{{ route('admin.market.discount.amazingSale.destroy', $amazingSale->id) }}" method="post">
+                                <a href="{{ route('discount.amazingSale.edit', $amazingSale->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form class="d-inline" action="{{ route('discount.amazingSale.destroy', $amazingSale->id) }}" method="post">
                                     @csrf
                                     {{ method_field('delete') }}
                                 <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
@@ -76,7 +76,7 @@
 
 @section('script')
 
-@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+@include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
 
 @endsection
