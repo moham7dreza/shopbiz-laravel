@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Market;
+namespace Modules\Brand\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;

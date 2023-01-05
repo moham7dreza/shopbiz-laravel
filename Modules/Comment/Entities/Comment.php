@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Content;
+namespace Modules\Comment\Entities;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Market;
+namespace Modules\Product\Entities;
 
 use Carbon\Carbon;
 use App\Models\User;

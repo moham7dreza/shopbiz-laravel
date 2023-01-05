@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Market;
+namespace Modules\Category\Entities;
 
 use App\Models\Content\Post;
 use Cviebrock\EloquentSluggable\Sluggable;

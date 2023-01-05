@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Notify;
+namespace Modules\Notify\Entities;
 
 use App\Models\Notify\Email;
 use Illuminate\Database\Eloquent\Model;

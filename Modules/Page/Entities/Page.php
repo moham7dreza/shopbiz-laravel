@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Content;
+namespace Modules\Page\Entities;
 
 
 use Cviebrock\EloquentSluggable\Sluggable;

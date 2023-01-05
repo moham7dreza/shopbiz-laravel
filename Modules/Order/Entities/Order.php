@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Market;
+namespace Modules\Order\Entities;
 
 use App\Models\User;
 use App\Models\Address;

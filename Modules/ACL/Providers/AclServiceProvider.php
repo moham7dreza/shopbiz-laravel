@@ -2,10 +2,10 @@
 
 namespace Modules\ACL\Providers;
 
-use App\Models\Content\Comment;
-use App\Models\Market\CartItem;
-use App\Models\Notification;
+use Modules\ACL\Entities\Permission;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -73,6 +73,7 @@ class AclServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->checkUserHasPermissionTo();
         $this->app->booted(function () {
 //            $this->setMenuForPanel();
         });
@@ -132,5 +133,30 @@ class AclServiceProvider extends ServiceProvider
             'icon' => 'home',
             'url' => route('panel.index'),
         ]);
+    }
+
+    private function checkUserHasPermissionTo()
+    {
+        try {
+
+            Permission::query()->get()->map(function ($permission) {
+                Gate::define($permission->name, function ($user) use ($permission){
+                    return $user->hasPermissionTo($permission);
+                });
+            });
+
+        } catch (Exception $e) {
+            report($e);
+            return false;
+        }
+
+
+        Blade::directive('role', function ($role) {
+            return "<?php if(auth()->check() && auth()->user()->hasRole($role)) : ?>";
+        });
+
+        Blade::directive('endrole', function ($role) {
+            return "<?php endif; ?>";
+        });
     }
 }

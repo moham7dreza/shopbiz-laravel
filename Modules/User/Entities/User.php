@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace Modules\User\Entities;
 
-use App\Models\User\Role;
 use App\Models\Market\Order;
-use App\Models\Ticket\Ticket;
 use App\Models\Market\Product;
-use App\Models\User\Permission;
-use Laravel\Sanctum\HasApiTokens;
+use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
-use Laravel\Jetstream\HasProfilePhoto;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use App\Traits\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
+use Modules\ACL\Traits\HasPermissionsTrait;
 
 class User extends Authenticatable
 {

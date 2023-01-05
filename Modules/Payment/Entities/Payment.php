@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Market;
+namespace Modules\Payment\Entities;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
