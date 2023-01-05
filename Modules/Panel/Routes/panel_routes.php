@@ -12,6 +12,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
-    $router->get('index', ['uses' => 'PanelController', 'as' => 'panel.index']);
+    $router->get('/', ['uses' => 'PanelController', 'as' => 'panel.home']);
 //    $router->get('index', [\Modules\Panel\Http\Controllers\PanelController::class, 'index'])->name('panel.index');
 });

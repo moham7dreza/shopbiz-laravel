@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\Banner\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Content\Banner;
-use App\Http\Controllers\Controller;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Content\BannerRequest;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Banner\Entities\Banner;
+use Modules\Share\Http\Controllers\Controller;
 
 class BannerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $banners = Banner::orderBy('created_at', 'desc')->simplePaginate(15);
+        $banners = Banner::query()->orderBy('created_at', 'desc')->simplePaginate(15);
         $positions = Banner::$positions;
-        return view('admin.content.banner.index', compact('banners', 'positions'));
+        return view('Banner::index', compact('banners', 'positions'));
     }
 
     /**

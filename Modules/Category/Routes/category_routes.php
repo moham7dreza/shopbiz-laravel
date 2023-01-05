@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('acl', 'AclController');
+Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
+    $router->resource('product-category', 'ProductCategoryController');
+    $router->resource('post-category', 'PostCategoryController');
+    $router->resource('category-attribute', 'PropertyController');
+    $router->resource('category-attribute-value', 'PropertyValueController');
 });

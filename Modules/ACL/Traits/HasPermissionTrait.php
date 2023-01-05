@@ -2,8 +2,8 @@
 
 namespace Modules\ACL\Traits;
 
-use App\Models\User\Permission;
-use App\Models\User\Role;
+use Modules\ACL\Entities\Permission;
+use Modules\ACL\Entities\Role;
 
 trait HasPermissionTrait
 {

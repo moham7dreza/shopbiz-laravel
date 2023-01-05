@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace Modules\Category\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Market\ProductCategory;
-use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Market\ProductCategoryRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\Category\Entities\ProductCategory;
+use Modules\Share\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $productCategories = ProductCategory::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.market.category.index', compact('productCategories'));
+        $productCategories = ProductCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('Panel::product-category.index', compact('productCategories'));
     }
 
     /**

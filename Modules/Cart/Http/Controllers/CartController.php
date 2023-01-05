@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Banner\Http\Controllers;
+namespace Modules\Cart\Http\Controllers;
 
 use Modules\Share\Http\Controllers\Controller;
 
-class BannerController extends Controller
+class CartController extends Controller
 {
     public function index()
     {

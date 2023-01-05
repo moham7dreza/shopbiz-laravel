@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\admin\user;
+namespace Modules\ACL\Http\Controllers;
 
-use App\Models\User\Role;
-use Illuminate\Http\Request;
-use App\Models\User\Permission;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\User\RoleRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Modules\ACL\Entities\Role;
+use Modules\Share\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
         $roles = Role::all();
-        return view('admin.user.role.index', compact('roles'));
+        return view('ACL::role.index', compact('roles'));
     }
 
     /**

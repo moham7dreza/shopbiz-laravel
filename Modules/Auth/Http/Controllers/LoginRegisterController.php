@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Customer;
+namespace Modules\Auth\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Otp;
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use App\Http\Services\Message\MessageService;
-use App\Http\Services\Message\SMS\SmsService;
-use App\Http\Services\Message\Email\EmailService;
-use App\Http\Requests\Auth\Customer\LoginRegisterRequest;
+use Illuminate\Support\Str;
+use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Message\Email\EmailService;
+use Modules\Share\Http\Services\Message\MessageService;
+use Modules\Share\Http\Services\Message\SMS\SmsService;
+use Modules\User\Entities\Otp;
+use Modules\User\Entities\User;
 
 class LoginRegisterController extends Controller
 {
     public function loginRegisterForm()
     {
-        return view('customer.auth.login-register');
+        return view('Auth::home.login-register');
     }
 
     public function loginRegister(LoginRegisterRequest $request)
@@ -27,17 +25,14 @@ class LoginRegisterController extends Controller
         $inputs = $request->all();
 
         //check id is email or not
-        if(filter_var($inputs['id'], FILTER_VALIDATE_EMAIL))
-        {
+        if (filter_var($inputs['id'], FILTER_VALIDATE_EMAIL)) {
             $type = 1; // 1 => email
-            $user = User::where('email', $inputs['id'])->first();
-            if(empty($user)){
+            $user = User::query()->where('email', $inputs['id'])->first();
+            if (empty($user)) {
                 $newUser['email'] = $inputs['id'];
             }
-        }
-
-        //check id is mobile or not
-        elseif(preg_match('/^(\+98|98|0)9\d{9}$/', $inputs['id'])){
+        } //check id is mobile or not
+        elseif (preg_match('/^(\+98|98|0)9\d{9}$/', $inputs['id'])) {
             $type = 0; // 0 => mobile;
 
 
@@ -46,18 +41,16 @@ class LoginRegisterController extends Controller
             $inputs['id'] = substr($inputs['id'], 0, 2) === '98' ? substr($inputs['id'], 2) : $inputs['id'];
             $inputs['id'] = str_replace('+98', '', $inputs['id']);
 
-            $user = User::where('mobile', $inputs['id'])->first();
-            if(empty($user)){
+            $user = User::query()->where('mobile', $inputs['id'])->first();
+            if (empty($user)) {
                 $newUser['mobile'] = $inputs['id'];
             }
-        }
-
-        else{
+        } else {
             $errorText = 'شناسه ورودی شما نه شماره موبایل است نه ایمیل';
             return redirect()->route('auth.customer.login-register-form')->withErrors(['id' => $errorText]);
         }
 
-        if(empty($user)){
+        if (empty($user)) {
             $newUser['password'] = '98355154';
             $newUser['activation'] = 1;
             $user = User::create($newUser);
@@ -74,11 +67,11 @@ class LoginRegisterController extends Controller
             'type' => $type,
         ];
 
-        Otp::create($otpInputs);
+        Otp::query()->create($otpInputs);
 
         //send sms or email
 
-        if($type == 0){
+        if ($type == 0) {
             //send sms
             $smsService = new SmsService();
             $smsService->setFrom(Config::get('sms.otp_from'));
@@ -88,9 +81,7 @@ class LoginRegisterController extends Controller
 
             $messagesService = new MessageService($smsService);
 
-        }
-
-        elseif($type === 1){
+        } elseif ($type === 1) {
             $emailService = new EmailService();
             $details = [
                 'title' => 'ایمیل فعال سازی',
@@ -113,43 +104,38 @@ class LoginRegisterController extends Controller
     }
 
 
-    public function loginConfirmForm($token){
+    public function loginConfirmForm($token)
+    {
 
-        $otp = Otp::where('token', $token)->first();
-        if(empty($otp))
-        {
+        $otp = Otp::query()->where('token', $token)->first();
+        if (empty($otp)) {
             return redirect()->route('auth.customer.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
         }
-        return view('customer.auth.login-confirm', compact('token', 'otp'));
+        return view('Auth::home.login-confirm', compact('token', 'otp'));
     }
 
 
     public function loginConfirm($token, LoginRegisterRequest $request)
     {
-       $inputs = $request->all();
+        $inputs = $request->all();
 
 
-       $otp = Otp::where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(5)->toDateTimeString())->first();
-       if(empty($otp))
-       {
-        return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
-       }
+        $otp = Otp::query()->where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(5)->toDateTimeString())->first();
+        if (empty($otp)) {
+            return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
+        }
 
-       //if otp not match
-       if($otp->otp_code !== $inputs['otp'])
-       {
-        return redirect()->route('auth.customer.login-confirm-form', $token)->withErrors(['otp' => 'کد وارد شده صحیح نمیباشد']);
-       }
+        //if otp not match
+        if ($otp->otp_code !== $inputs['otp']) {
+            return redirect()->route('auth.customer.login-confirm-form', $token)->withErrors(['otp' => 'کد وارد شده صحیح نمیباشد']);
+        }
 
-       // if everything is ok :
+        // if everything is ok :
         $otp->update(['used' => 1]);
         $user = $otp->user()->first();
-        if($otp->type == 0 && empty($user->mobile_verified_at))
-        {
+        if ($otp->type == 0 && empty($user->mobile_verified_at)) {
             $user->update(['mobile_verified_at' => Carbon::now()]);
-        }
-        elseif($otp->type == 1 && empty($user->email_verified_at))
-        {
+        } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
             $user->update(['email_verified_at' => Carbon::now()]);
         }
         Auth::login($user);
@@ -159,62 +145,57 @@ class LoginRegisterController extends Controller
 
     public function loginResendOtp($token)
     {
-       $otp = Otp::where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+        $otp = Otp::query()->where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
 
-       if(empty($otp))
-       {
-           return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
-       }
-
+        if (empty($otp)) {
+            return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
+        }
 
 
+        $user = $otp->user()->first();
+        //create otp code
+        $otpCode = rand(111111, 999999);
+        $token = Str::random(60);
+        $otpInputs = [
+            'token' => $token,
+            'user_id' => $user->id,
+            'otp_code' => $otpCode,
+            'login_id' => $otp->login_id,
+            'type' => $otp->type,
+        ];
 
-       $user = $otp->user()->first();
-         //create otp code
-         $otpCode = rand(111111, 999999);
-         $token = Str::random(60);
-         $otpInputs = [
-             'token' => $token,
-             'user_id' => $user->id,
-             'otp_code' => $otpCode,
-             'login_id' => $otp->login_id,
-             'type' => $otp->type,
-         ];
+        Otp::query()->create($otpInputs);
 
-         Otp::create($otpInputs);
+        //send sms or email
 
-         //send sms or email
+        if ($otp->type == 0) {
+            //send sms
+            $smsService = new SmsService();
+            $smsService->setFrom(Config::get('sms.otp_from'));
+            $smsService->setTo(['0' . $user->mobile]);
+            $smsService->setText("مجموعه آمازون \n  کد تایید : $otpCode");
+            $smsService->setIsFlash(true);
 
-         if($otp->type == 0){
-             //send sms
-             $smsService = new SmsService();
-             $smsService->setFrom(Config::get('sms.otp_from'));
-             $smsService->setTo(['0' . $user->mobile]);
-             $smsService->setText("مجموعه آمازون \n  کد تایید : $otpCode");
-             $smsService->setIsFlash(true);
+            $messagesService = new MessageService($smsService);
 
-             $messagesService = new MessageService($smsService);
+        } elseif ($otp->type === 1) {
+            $emailService = new EmailService();
+            $details = [
+                'title' => 'ایمیل فعال سازی',
+                'body' => "کد فعال سازی شما : $otpCode"
+            ];
+            $emailService->setDetails($details);
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject('کد احراز هویت');
+            $emailService->setTo($otp->login_id);
 
-         }
+            $messagesService = new MessageService($emailService);
 
-         elseif($otp->type === 1){
-             $emailService = new EmailService();
-             $details = [
-                 'title' => 'ایمیل فعال سازی',
-                 'body' => "کد فعال سازی شما : $otpCode"
-             ];
-             $emailService->setDetails($details);
-             $emailService->setFrom('noreply@example.com', 'example');
-             $emailService->setSubject('کد احراز هویت');
-             $emailService->setTo($otp->login_id);
+        }
 
-             $messagesService = new MessageService($emailService);
+        $messagesService->send();
 
-         }
-
-         $messagesService->send();
-
-         return redirect()->route('auth.customer.login-confirm-form', $token);
+        return redirect()->route('auth.customer.login-confirm-form', $token);
 
     }
 
@@ -224,10 +205,4 @@ class LoginRegisterController extends Controller
         Auth::logout();
         return redirect()->route('customer.home');
     }
-
-
-
-
-
-
 }
