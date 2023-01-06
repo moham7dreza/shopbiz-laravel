@@ -3,10 +3,18 @@
 namespace Modules\Home\Http\Controllers\SalesProcess;
 
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Discount\Entities\CommonDiscount;
+use Modules\Home\Http\Requests\SalesProcess\ChooseAddressAndDeliveryRequest;
+use Modules\Home\Http\Requests\SalesProcess\StoreAddressRequest;
+use Modules\Home\Http\Requests\SalesProcess\UpdateAddressRequest;
 use Modules\Order\Entities\Order;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\User\Entities\Address;
@@ -14,6 +22,9 @@ use Modules\User\Entities\Province;
 
 class AddressController extends Controller
 {
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
     public function addressAndDelivery()
     {
         //check profile
@@ -22,8 +33,7 @@ class AddressController extends Controller
         $cartItems = CartItem::query()->where('user_id', $user->id)->get();
         $deliveryMethods = Delivery::query()->where('status', 1)->get();
 
-        if(empty(CartItem::query()->where('user_id', $user->id)->count()))
-        {
+        if (empty(CartItem::query()->where('user_id', $user->id)->count())) {
             return redirect()->route('customer.sales-process.cart');
         }
 
@@ -31,39 +41,54 @@ class AddressController extends Controller
     }
 
 
-    public function getCities(Province $province)
+    /**
+     * @param Province $province
+     * @return JsonResponse
+     */
+    public function getCities(Province $province): JsonResponse
     {
-       $cities = $province->cities;
-       if($cities != null)
-       {
-        return response()->json(['status' => true, 'cities' => $cities]);
-       }
-       else{
-        return response()->json(['status' => false, 'cities' => null]);
-       }
+        $cities = $province->cities;
+        if ($cities != null) {
+            return response()->json(['status' => true, 'cities' => $cities]);
+        } else {
+            return response()->json(['status' => false, 'cities' => null]);
+        }
     }
 
-    public function addAddress(StoreAddressRequest $request)
+    /**
+     * @param StoreAddressRequest $request
+     * @return RedirectResponse
+     */
+    public function addAddress(StoreAddressRequest $request): RedirectResponse
     {
         $inputs = $request->all();
         $inputs['user_id'] = auth()->user()->id;
         $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
         $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
-        $address = Address::create($inputs);
+        $address = Address::query()->create($inputs);
         return redirect()->back();
     }
 
-    public function updateAddress(Address $address, UpdateAddressRequest $request)
+    /**
+     * @param Address $address
+     * @param UpdateAddressRequest $request
+     * @return RedirectResponse
+     */
+    public function updateAddress(Address $address, UpdateAddressRequest $request): RedirectResponse
     {
-       $inputs = $request->all();
-       $inputs['user_id'] = auth()->user()->id;
-       $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
-       $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
-       $address->update($inputs);
-       return redirect()->back();
+        $inputs = $request->all();
+        $inputs['user_id'] = auth()->user()->id;
+        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
+        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
+        $address->update($inputs);
+        return redirect()->back();
     }
 
-    public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
+    /**
+     * @param ChooseAddressAndDeliveryRequest $request
+     * @return RedirectResponse
+     */
+    public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request): RedirectResponse
     {
         $user = auth()->user();
         $inputs = $request->all();
@@ -74,8 +99,7 @@ class AddressController extends Controller
         $totalDiscount = 0;
         $totalFinalPrice = 0;
         $totalFinalDiscountPriceWithNumbers = 0;
-        foreach ($cartItems as $cartItem)
-        {
+        foreach ($cartItems as $cartItem) {
             $totalProductPrice += $cartItem->cartItemProductPrice();
             $totalDiscount += $cartItem->cartItemProductDiscount();
             $totalFinalPrice += $cartItem->cartItemFinalPrice();
@@ -85,24 +109,19 @@ class AddressController extends Controller
 
         //commonDiscount
         $commonDiscount = CommonDiscount::query()->where([['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
-        if($commonDiscount)
-        {
+        if ($commonDiscount) {
             $inputs['common_discount_id'] = $commonDiscount->id;
-             $commonPercentageDiscountAmount = $totalFinalPrice * ($commonDiscount->percentage / 100);
-             if($commonPercentageDiscountAmount > $commonDiscount->discount_ceiling)
-             {
+            $commonPercentageDiscountAmount = $totalFinalPrice * ($commonDiscount->percentage / 100);
+            if ($commonPercentageDiscountAmount > $commonDiscount->discount_ceiling) {
                 $commonPercentageDiscountAmount = $commonDiscount->discount_ceiling;
-             }
-             if($commonDiscount != null and $totalFinalPrice >= $commonDiscount->minimal_order_amount)
-             {
+            }
+            if ($commonDiscount != null and $totalFinalPrice >= $commonDiscount->minimal_order_amount) {
                 $finalPrice = $totalFinalPrice - $commonPercentageDiscountAmount;
-             }
-             else{
+            } else {
 
                 $finalPrice = $totalFinalPrice;
-             }
-        }
-        else{
+            }
+        } else {
             $commonPercentageDiscountAmount = null;
             $finalPrice = $totalFinalPrice;
         }

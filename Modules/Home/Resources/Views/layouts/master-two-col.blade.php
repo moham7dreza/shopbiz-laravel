@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('customer.layouts.head-tag')
+    @include('Home::layouts.head-tag')
     @yield('head-tag')
 </head>
 <body>
 
-    @include('customer.layouts.header')
+@include('Home::layouts.header')
 
-    <section class="container-xxl body-container">
-        @yield('customer.layouts.sidebar')
-    </section>
+<section class="container-xxl body-container">
+    @yield('Home::layouts.sidebar')
+</section>
 
-    @include('admin.alerts.alert-section.success')
-    <main id="main-body-one-col" class="main-body">
+@include('admin.alerts.alert-section.success')
+<main id="main-body-one-col" class="main-body">
 
     @yield('content')
 
-    </main>
+</main>
 
 
-    @include('customer.layouts.footer')
+@include('Home::layouts.footer')
 
 
 
-    @include('customer.layouts.script')
-    @yield('script')
+@include('Home::layouts.script')
+@yield('script')
 </body>
 </html>

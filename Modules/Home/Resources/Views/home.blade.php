@@ -1,10 +1,7 @@
-@extends('customer.layouts.master-one-col')
+@extends('Home::layouts.master-one-col')
 
 
 @section('content')
-
-
-
 
     <!-- start slideshow -->
     <section class="container-xxl my-4">

@@ -2,9 +2,7 @@
 
 namespace Modules\Home\Providers;
 
-use App\Models\Content\Comment;
 use App\Models\Market\CartItem;
-use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -73,6 +71,7 @@ class HomeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->sendVarsToViews();
         $this->app->booted(function () {
 //            $this->setMenuForPanel();
         });
@@ -132,5 +131,15 @@ class HomeServiceProvider extends ServiceProvider
             'icon' => 'home',
             'url' => route('panel.index'),
         ]);
+    }
+
+    private function sendVarsToViews()
+    {
+        view()->composer('Home::layouts.header', function ($view) {
+            if (Auth::check()) {
+                $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();
+                $view->with('cartItems', $cartItems);
+            }
+        });
     }
 }

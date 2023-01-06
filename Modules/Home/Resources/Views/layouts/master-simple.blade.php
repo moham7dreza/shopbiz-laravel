@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('customer.layouts.head-tag')
+    @include('Home::layouts.head-tag')
     @yield('head-tag')
 </head>
 <body>
 
 
-    <main id="main-body-one-col" class="main-body">
+<main id="main-body-one-col" class="main-body">
 
     @yield('content')
 
-    </main>
+</main>
 
 
+@include('Home::layouts.script')
+@yield('script')
 
-
-
-    @include('customer.layouts.script')
-    @yield('script')
-    
 </body>
 </html>

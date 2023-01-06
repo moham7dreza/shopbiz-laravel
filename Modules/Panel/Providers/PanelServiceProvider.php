@@ -138,16 +138,8 @@ class PanelServiceProvider extends ServiceProvider
     private function sendVarsToViews()
     {
         view()->composer('Panel::layouts.header', function ($view) {
-            $view->with('unseenComments', Comment::where('seen', 0)->get());
-            $view->with('notifications', Notification::where('read_at', null)->get());
+            $view->with('unseenComments', Comment::query()->where('seen', 0)->get());
+            $view->with('notifications', Notification::query()->where('read_at', null)->get());
         });
-
-
-//        view()->composer('customer.layouts.header', function ($view) {
-//            if (Auth::check()) {
-//                $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
-//                $view->with('cartItems', $cartItems);
-//            }
-//        });
     }
 }

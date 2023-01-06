@@ -2,22 +2,28 @@
 
 namespace Modules\Home\Http\Controllers\SalesProcess;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
+use Modules\Home\Http\Requests\SalesProcess\ProfileCompletionRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class ProfileCompletionController extends Controller
 {
     public function profileCompletion()
     {
-       $user = Auth::user();
+        $user = Auth::user();
 
-       $cartItems = CartItem::query()->where('user_id', $user->id)->get();
-       return view('Home::sales-process.profile-completion', compact('user', 'cartItems'));
+        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
+        return view('Home::sales-process.profile-completion', compact('user', 'cartItems'));
 
     }
 
-    public function update(ProfileCompletionRequest $request)
+    /**
+     * @param ProfileCompletionRequest $request
+     * @return RedirectResponse
+     */
+    public function update(ProfileCompletionRequest $request): RedirectResponse
     {
         $user = Auth::user();
         $national_code = convertArabicToEnglish($request->national_code);
@@ -29,8 +35,7 @@ class ProfileCompletionController extends Controller
             'national_code' => $request->national_code,
         ];
 
-        if(isset($request->mobile) && empty($user->mobile))
-        {
+        if (isset($request->mobile) && empty($user->mobile)) {
             $mobile = convertArabicToEnglish($request->mobile);
             $mobile = convertPersianToEnglish($mobile);
 
@@ -44,29 +49,24 @@ class ProfileCompletionController extends Controller
 
                 $inputs['mobile'] = $mobile;
             }
-            }
-            else{
-                $errorText = 'فرمت شماره موبایل معتبر نیست';
-                return redirect()->back()->withErrors(['mobile', $errorText]);
-            }
+        } else {
+            $errorText = 'فرمت شماره موبایل معتبر نیست';
+            return redirect()->back()->withErrors(['mobile', $errorText]);
+        }
 
-            if(isset($request->email) && empty($user->email))
-            {
-                $email = convertArabicToEnglish($request->mobile);
-                $email = convertPersianToEnglish($email);
+        if (isset($request->email) && empty($user->email)) {
+            $email = convertArabicToEnglish($request->mobile);
+            $email = convertPersianToEnglish($email);
 
-                $inputs['email'] = $email;
+            $inputs['email'] = $email;
 
-            }
+        }
 
-            $inputs = array_filter($inputs);
+        $inputs = array_filter($inputs);
 
-            if(!empty($inputs))
-            {
-                $user->update($inputs);
-            }
-            return redirect()->route('customer.sales-process.address-and-delivery');
-
-
+        if (!empty($inputs)) {
+            $user->update($inputs);
+        }
+        return redirect()->route('customer.sales-process.address-and-delivery');
     }
 }

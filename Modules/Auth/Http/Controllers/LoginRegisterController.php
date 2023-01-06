@@ -3,9 +3,14 @@
 namespace Modules\Auth\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Modules\Auth\Http\Requests\LoginRegisterRequest;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Message\Email\EmailService;
 use Modules\Share\Http\Services\Message\MessageService;
@@ -15,12 +20,19 @@ use Modules\User\Entities\User;
 
 class LoginRegisterController extends Controller
 {
+    /**
+     * @return Application|Factory|View
+     */
     public function loginRegisterForm()
     {
         return view('Auth::home.login-register');
     }
 
-    public function loginRegister(LoginRegisterRequest $request)
+    /**
+     * @param LoginRegisterRequest $request
+     * @return RedirectResponse
+     */
+    public function loginRegister(LoginRegisterRequest $request): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -53,7 +65,7 @@ class LoginRegisterController extends Controller
         if (empty($user)) {
             $newUser['password'] = '98355154';
             $newUser['activation'] = 1;
-            $user = User::create($newUser);
+            $user = User::query()->create($newUser);
         }
 
         //create otp code
@@ -99,14 +111,15 @@ class LoginRegisterController extends Controller
         $messagesService->send();
 
         return redirect()->route('auth.customer.login-confirm-form', $token);
-
-
     }
 
 
+    /**
+     * @param $token
+     * @return Application|Factory|View|RedirectResponse
+     */
     public function loginConfirmForm($token)
     {
-
         $otp = Otp::query()->where('token', $token)->first();
         if (empty($otp)) {
             return redirect()->route('auth.customer.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
@@ -115,6 +128,11 @@ class LoginRegisterController extends Controller
     }
 
 
+    /**
+     * @param $token
+     * @param LoginRegisterRequest $request
+     * @return RedirectResponse
+     */
     public function loginConfirm($token, LoginRegisterRequest $request)
     {
         $inputs = $request->all();
@@ -143,7 +161,11 @@ class LoginRegisterController extends Controller
     }
 
 
-    public function loginResendOtp($token)
+    /**
+     * @param $token
+     * @return RedirectResponse
+     */
+    public function loginResendOtp($token): RedirectResponse
     {
         $otp = Otp::query()->where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
 
@@ -200,6 +222,9 @@ class LoginRegisterController extends Controller
     }
 
 
+    /**
+     * @return RedirectResponse
+     */
     public function logout()
     {
         Auth::logout();
