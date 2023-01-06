@@ -68,6 +68,9 @@ class AclServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
 //        $this->loadPolicyFiles();
 
+        $this->bindSeeder();
+        $this->bindRepository();
+
         $this->setDatabaseSeederWithPermissionSeeder();
         $this->setGateBefore();
     }
@@ -134,11 +137,21 @@ class AclServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.index'),
+        config()->set('panelConfig.menus.role-permissions', [
+            'title' => 'Role & Permissions',
+            'icon' => 'alert-triangle',
+            'url' => route('role-permissions.index'),
         ]);
+    }
+
+    /**
+     * Bind permission seeder.
+     *
+     * @return void
+     */
+    private function bindSeeder(): void
+    {
+        $this->app->bind(PermissionSeeder::class, PermissionTableSeeder::class);
     }
 
     private function defineSystemPermissions(): void
@@ -176,6 +189,7 @@ class AclServiceProvider extends ServiceProvider
         DatabaseSeeder::$seeders[] = PermissionSeeder::class;
     }
 
+
     /**
      * Set gate before for super admin permission.
      *
@@ -186,5 +200,15 @@ class AclServiceProvider extends ServiceProvider
         Gate::before(static function ($user) {
             return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(RolePermissionRepoEloquentInterface::class, RolePermissionRepoEloquent::class);
     }
 }
