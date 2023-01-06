@@ -2,10 +2,10 @@
 
 namespace Modules\Home\Providers;
 
-use App\Models\Market\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Cart\Entities\CartItem;
 
 class HomeServiceProvider extends ServiceProvider
 {

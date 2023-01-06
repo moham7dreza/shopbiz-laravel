@@ -1,4 +1,4 @@
-@extends('customer.layouts.master-two-col')
+@extends('Home::layouts.master-two-col')
 
 @section('head-tag')
     <title>سفارشات شما</title>
@@ -12,7 +12,7 @@
             <section class="row">
 
 
-                @include('customer.layouts.partials.profile-sidebar')
+                @include('Home::layouts.partials.profile-sidebar')
 
                 <main id="main-body" class="main-body col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">

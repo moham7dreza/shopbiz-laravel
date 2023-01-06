@@ -24,7 +24,7 @@
                     </h5>
                 </section>
 
-                @include('admin.alerts.alert-section.success')
+                @include('Panel::alerts.alert-section.success')
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('post-category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
