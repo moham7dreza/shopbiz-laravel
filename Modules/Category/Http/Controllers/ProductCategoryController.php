@@ -7,7 +7,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Category\Entities\ProductCategory;
+use Modules\Category\Http\Requests\ProductCategoryRequest;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
@@ -48,13 +50,14 @@ class ProductCategoryController extends Controller
         {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
+            if($result === false)
+            {
+                return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result;
         }
-        if($result === false)
-        {
-            return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-        }
-        $inputs['image'] = $result;
-        $productCategory = ProductCategory::create($inputs);
+
+        $productCategory = ProductCategory::query()->create($inputs);
         return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
@@ -62,11 +65,11 @@ class ProductCategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**

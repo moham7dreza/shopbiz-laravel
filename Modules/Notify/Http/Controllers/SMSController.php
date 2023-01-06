@@ -6,7 +6,12 @@ namespace Modules\Notify\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Notify\Entities\SMS;
+use Modules\Notify\Http\Requests\SMSRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class SMSController extends Controller
@@ -25,84 +30,89 @@ class SMSController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.notify.sms.create');
+        return view('Notify::sms.create');
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SMSRequest $request
+     * @return RedirectResponse
      */
-    public function store(SMSRequest $request)
+    public function store(SMSRequest $request): RedirectResponse
     {
         $inputs = $request->all();
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $sms = SMS::create($inputs);
-        return redirect()->route('admin.notify.sms.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
+        $sms = SMS::query()->create($inputs);
+        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SMS $sms
+     * @return Application|Factory|View
      */
     public function edit(SMS $sms)
     {
-        return view('admin.notify.sms.edit', compact('sms'));
+        return view('Notify::sms.edit', compact('sms'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SMSRequest $request
+     * @param SMS $sms
+     * @return RedirectResponse
      */
-    public function update(SMSRequest $request, SMS $sms)
+    public function update(SMSRequest $request, SMS $sms): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $sms->update($inputs);
-        return redirect()->route('admin.notify.sms.index')->with('swal-success', 'پیامک شما با موفقیت ویرایش شد');
+        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SMS $sms
+     * @return RedirectResponse
      */
-    public function destroy(SMS $sms)
+    public function destroy(SMS $sms): RedirectResponse
     {
         $result = $sms->delete();
-        return redirect()->route('admin.notify.sms.index')->with('swal-success', 'پیامک شما با موفقیت حذف شد');
+        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت حذف شد');
     }
 
 
-    public function status(SMS $sms){
+    /**
+     * @param SMS $sms
+     * @return JsonResponse
+     */
+    public function status(SMS $sms): JsonResponse
+    {
 
         $sms->status = $sms->status == 0 ? 1 : 0;
         $result = $sms->save();

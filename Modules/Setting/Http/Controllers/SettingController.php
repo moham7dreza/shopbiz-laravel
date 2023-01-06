@@ -5,9 +5,12 @@ namespace Modules\Setting\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Modules\Setting\Database\Seeders\SettingSeeder;
 use Modules\Setting\Entities\Setting;
+use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class SettingController extends Controller
 {
@@ -33,7 +36,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        //
+        abort(403);
     }
 
     /**
@@ -44,7 +47,7 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -55,28 +58,29 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Setting $setting
+     * @return Application|Factory|View
      */
     public function edit(Setting $setting)
     {
-        return view('admin.setting.edit', compact('setting'));
+        return view('Setting::edit', compact('setting'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SettingRequest $request
+     * @param Setting $setting
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(SettingRequest $request, Setting $setting, ImageService $imageService)
+    public function update(SettingRequest $request, Setting $setting, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -91,7 +95,7 @@ class SettingController extends Controller
             $result = $imageService->save($request->file('logo'));
             if($result === false)
             {
-                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('setting.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['logo'] = $result;
         }
@@ -106,20 +110,13 @@ class SettingController extends Controller
             $result = $imageService->save($request->file('icon'));
             if($result === false)
             {
-                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('setting.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['icon'] = $result;
         }
         $setting->update($inputs);
-        return redirect()->route('admin.setting.index')->with('swal-success', 'تنظیمات سایت  شما با موفقیت ویرایش شد');
+        return redirect()->route('setting.index')->with('swal-success', 'تنظیمات سایت  شما با موفقیت ویرایش شد');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * Remove the specified resource from storage.
@@ -129,6 +126,6 @@ class SettingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort(403);
     }
 }

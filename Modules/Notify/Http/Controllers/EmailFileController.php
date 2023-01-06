@@ -6,8 +6,15 @@ namespace Modules\Notify\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Notify\Entities\Email;
+use Modules\Notify\Entities\EmailFile;
+use Modules\Notify\Http\Requests\EmailFileRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\File\FileService;
 
 class EmailFileController extends Controller
 {
@@ -24,21 +31,23 @@ class EmailFileController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(Email $email)
     {
-        return view('admin.notify.email-file.create', compact('email'));
+        return view('Notify::email-file.create', compact('email'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param EmailFileRequest $request
+     * @param Email $email
+     * @param FileService $fileService
+     * @return RedirectResponse
      */
-    public function store(EmailFileRequest $request, Email $email, FileService $fileService)
+    public function store(EmailFileRequest $request, Email $email, FileService $fileService): RedirectResponse
     {
         $inputs = $request->all();
         if($request->hasFile('file'))
@@ -49,49 +58,51 @@ class EmailFileController extends Controller
             $result = $fileService->moveToPublic($request->file('file'));
             // $result = $fileService->moveToStorage($request->file('file'));
             $fileFormat = $fileService->getFileFormat();
+            if($result === false)
+            {
+                return redirect()->route('notify.email-file.index', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+            }
         }
-        if($result === false)
-        {
-            return redirect()->route('admin.notify.email-file.index', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
-        }
+
          $inputs['public_mail_id'] = $email->id;
          $inputs['file_path'] = $result;
          $inputs['file_size'] = $fileSize;
          $inputs['file_type'] = $fileFormat;
-         $file = EmailFile::create($inputs);
-         return redirect()->route('admin.notify.email-file.index', $email->id)->with('swal-success', 'فایل جدید شما با موفقیت ثبت شد');
+         $file = EmailFile::query()->create($inputs);
+         return redirect()->route('notify.email-file.index', $email->id)->with('swal-success', 'فایل جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EmailFile $file
+     * @return Application|Factory|View
      */
     public function edit(EmailFile $file)
     {
-        return view('admin.notify.email-file.edit', compact('file'));
+        return view('Notify::email-file.edit', compact('file'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EmailFileRequest $request
+     * @param EmailFile $file
+     * @param FileService $fileService
+     * @return RedirectResponse
      */
-    public function update(EmailFileRequest $request, EmailFile $file, FileService $fileService)
+    public function update(EmailFileRequest $request, EmailFile $file, FileService $fileService): RedirectResponse
     {
         $inputs = $request->all();
         if($request->hasFile('file'))
@@ -109,28 +120,32 @@ class EmailFileController extends Controller
             $fileFormat = $fileService->getFileFormat();
             if($result === false)
             {
-                return redirect()->route('admin.notify.email-file.index', $file->email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
             $inputs['file_path'] = $result;
             $inputs['file_size'] = $fileSize;
             $inputs['file_type'] = $fileFormat;
         }
          $file->update($inputs);
-         return redirect()->route('admin.notify.email-file.index', $file->email->id)->with('swal-success', 'فایل  شما با موفقیت ویرایش شد');
+         return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-success', 'فایل  شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EmailFile $file
+     * @return RedirectResponse
      */
-    public function destroy(EmailFile $file)
+    public function destroy(EmailFile $file): RedirectResponse
     {
         $result = $file->delete();
-        return redirect()->route('admin.notify.email-file.index', $file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
+        return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
     }
 
+    /**
+     * @param EmailFile $file
+     * @return JsonResponse
+     */
     public function status(EmailFile $file){
 
         $file->status = $file->status == 0 ? 1 : 0;

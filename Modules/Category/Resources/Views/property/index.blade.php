@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('category-attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                    <a href="{{ route('category-property.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -52,16 +52,16 @@
                                 <td>{{ $category_attribute->category->name }}</td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('product-category.property.value.index', $category_attribute->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> ویژگی ها</a>
-                                    <a href="{{ route('category-attribute.edit', $category_attribute->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                       class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ route('category-property.edit', $category_attribute->id) }}"
+                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('category-attribute.destroy', $category_attribute->id) }}"
+                                          action="{{ route('category-property.destroy', $category_attribute->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

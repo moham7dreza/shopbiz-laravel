@@ -5,7 +5,11 @@ namespace Modules\Page\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Modules\Page\Entities\Page;
+use Modules\Page\Http\Requests\PageRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class PageController extends Controller
@@ -24,89 +28,92 @@ class PageController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.content.page.create');
+        return view('Page::create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PageRequest $request
+     * @return RedirectResponse
      */
-    public function store(PageRequest $request)
+    public function store(PageRequest $request): RedirectResponse
     {
         $inputs = $request->all();
-        $page = Page::create($inputs);
-        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه  جدید شما با موفقیت ثبت شد');
+        $page = Page::query()->create($inputs);
+        return redirect()->route('page.index')->with('swal-success', 'صفحه  جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Page $page
+     * @return Application|Factory|View
      */
     public function edit(Page $page)
     {
-        return view('admin.content.page.edit', compact('page'));
+        return view('Page::edit', compact('page'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PageRequest $request
+     * @param Page $page
+     * @return RedirectResponse
      */
-    public function update(PageRequest $request, Page $page)
+    public function update(PageRequest $request, Page $page): RedirectResponse
     {
         $inputs = $request->all();
         // $inputs['slug'] = null;
         $page->update($inputs);
-        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه  شما با موفقیت ویرایش شد');
+        return redirect()->route('page.index')->with('swal-success', 'صفحه  شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Page $page
+     * @return RedirectResponse
      */
-    public function destroy(Page $page)
+    public function destroy(Page $page): \Illuminate\Http\RedirectResponse
     {
         $result = $page->delete();
-        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه  شما با موفقیت حذف شد');
+        return redirect()->route('page.index')->with('swal-success', 'صفحه  شما با موفقیت حذف شد');
     }
 
 
-    public function status(Page $page){
+    /**
+     * @param Page $page
+     * @return JsonResponse
+     */
+    public function status(Page $page): JsonResponse
+    {
 
         $page->status = $page->status == 0 ? 1 : 0;
         $result = $page->save();
-        if($result){
-                if($page->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($page->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
 

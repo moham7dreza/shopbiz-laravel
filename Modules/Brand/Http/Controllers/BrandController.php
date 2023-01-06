@@ -5,8 +5,12 @@ namespace Modules\Brand\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Modules\Brand\Entities\Brand;
+use Modules\Brand\Http\Requests\BrandRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class BrandController extends Controller
 {
@@ -24,105 +28,101 @@ class BrandController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.market.brand.create');
+        return view('Brand::create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param BrandRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(BrandRequest $request, ImageService $imageService)
+    public function store(BrandRequest $request, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
-        if($request->hasFile('logo'))
-        {
+        if ($request->hasFile('logo')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
             $result = $imageService->createIndexAndSave($request->file('logo'));
+            if ($result === false) {
+                return redirect()->route('brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            } else {
+                $inputs['logo'] = $result;
+            }
         }
-        if($result === false)
-        {
-            return redirect()->route('admin.market.brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-        }
-        $inputs['logo'] = $result;
-        $brand = Brand::create($inputs);
-        return redirect()->route('admin.market.brand.index')->with('swal-success', 'برند جدید شما با موفقیت ثبت شد');
+        $brand = Brand::query()->create($inputs);
+        return redirect()->route('brand.index')->with('swal-success', 'برند جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Brand $brand
+     * @return Application|Factory|View
      */
     public function edit(Brand $brand)
     {
-        return view('admin.market.brand.edit', compact('brand'));
+        return view('Brand::edit', compact('brand'));
 
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param BrandRequest $request
+     * @param Brand $brand
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(BrandRequest $request, Brand $brand, ImageService $imageService)
+    public function update(BrandRequest $request, Brand $brand, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
-        if($request->hasFile('logo'))
-        {
-            if(!empty($brand->logo))
-            {
+        if ($request->hasFile('logo')) {
+            if (!empty($brand->logo)) {
                 $imageService->deleteDirectoryAndFiles($brand->logo['directory']);
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
             $result = $imageService->createIndexAndSave($request->file('logo'));
-            if($result === false)
-            {
-                return redirect()->route('admin.market.brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            if ($result === false) {
+                return redirect()->route('brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['logo'] = $result;
-        }
-        else{
-            if(isset($inputs['currentImage']) && !empty($brand->logo))
-            {
+        } else {
+            if (isset($inputs['currentImage']) && !empty($brand->logo)) {
                 $image = $brand->logo;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['logo'] = $image;
             }
         }
         $brand->update($inputs);
-        return redirect()->route('admin.market.brand.index')->with('swal-success', 'برند شما با موفقیت ویرایش شد');
+        return redirect()->route('brand.index')->with('swal-success', 'برند شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Brand $brand
+     * @return RedirectResponse
      */
-    public function destroy(Brand $brand)
+    public function destroy(Brand $brand): RedirectResponse
     {
         $result = $brand->delete();
-        return redirect()->route('admin.market.brand.index')->with('swal-success', 'برند شما با موفقیت حذف شد');
+        return redirect()->route('brand.index')->with('swal-success', 'برند شما با موفقیت حذف شد');
     }
 }

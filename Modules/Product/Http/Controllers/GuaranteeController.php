@@ -6,6 +6,9 @@ namespace Modules\Product\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 
@@ -24,20 +27,21 @@ class GuaranteeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(Product $product)
     {
-        return view('admin.market.product.guarantee.create', compact('product'));
+        return view('Product::admin.guarantee.create', compact('product'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Product $product
+     * @return RedirectResponse
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request, Product $product): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validate([
                 'name'              =>  'required',
@@ -45,8 +49,8 @@ class GuaranteeController extends Controller
         ]);
         $inputs = $request->all();
         $inputs['product_id'] = $product->id;
-        $guarantee = Guarantee::create($inputs);
-        return redirect()->route('admin.market.guarantee.index', $product->id)->with('swal-success', 'گارانتی شما با موفقیت ثبت شد');
+        $guarantee = Guarantee::query()->create($inputs);
+        return redirect()->route('product.guarantee.index', $product->id)->with('swal-success', 'گارانتی شما با موفقیت ثبت شد');
     }
 
     /**
@@ -57,7 +61,7 @@ class GuaranteeController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -68,7 +72,7 @@ class GuaranteeController extends Controller
      */
     public function edit($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -80,16 +84,17 @@ class GuaranteeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param Guarantee $guarantee
+     * @return RedirectResponse
      */
-    public function destroy(Product $product, Guarantee $guarantee)
+    public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
         return back();

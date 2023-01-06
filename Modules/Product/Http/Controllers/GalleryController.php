@@ -6,8 +6,12 @@ namespace Modules\Product\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Modules\Product\Entities\Gallery;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class GalleryController extends Controller
 {
@@ -24,20 +28,22 @@ class GalleryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(Product $product)
     {
-        return view('admin.market.product.gallery.create', compact('product'));
+        return view('Product::admin.gallery.create', compact('product'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Product $product
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(Request $request, Product $product, ImageService $imageService)
+    public function store(Request $request, Product $product, ImageService $imageService): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validate([
             'image' => 'required|image|mimes:png,jpg,jpeg,gif',
@@ -47,58 +53,61 @@ class GalleryController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-gallery');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.market.gallery.index', $product->id)->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('product.gallery.index', $product->id)->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
             $inputs['product_id'] = $product->id;
-            $gallery = Gallery::create($inputs);
-            return redirect()->route('admin.market.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت ثبت شد');
+            $gallery = Gallery::query()->create($inputs);
+            return redirect()->route('product.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت ثبت شد');
+        } else {
+            return back();
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param Gallery $gallery
+     * @return RedirectResponse
      */
-    public function destroy(Product $product,Gallery $gallery)
+    public function destroy(Product $product, Gallery $gallery): RedirectResponse
     {
         $result = $gallery->delete();
-        return redirect()->route('admin.market.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت حذف شد');
+        return redirect()->route('product.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت حذف شد');
     }
 }

@@ -5,7 +5,10 @@ namespace Modules\Comment\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class PostCommentController extends Controller
@@ -34,7 +37,7 @@ class PostCommentController extends Controller
      */
     public function create()
     {
-        //
+        abort(403);
     }
 
     /**
@@ -45,18 +48,18 @@ class PostCommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort(403);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Comment $comment
+     * @return Application|Factory|View
      */
     public function show(Comment $comment)
     {
-        return view('admin.content.comment.show', compact('comment'));
+        return view('Comment::post-comment.show', compact('comment'));
     }
 
     /**
@@ -67,7 +70,7 @@ class PostCommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -79,7 +82,7 @@ class PostCommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -90,11 +93,16 @@ class PostCommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort(403);
     }
 
 
-    public function status(Comment $comment){
+    /**
+     * @param Comment $comment
+     * @return JsonResponse
+     */
+    public function status(Comment $comment): JsonResponse
+    {
 
         $comment->status = $comment->status == 0 ? 1 : 0;
         $result = $comment->save();
@@ -112,21 +120,30 @@ class PostCommentController extends Controller
 
     }
 
+    /**
+     * @param Comment $comment
+     * @return RedirectResponse
+     */
     public function approved(Comment $comment){
 
         $comment->approved = $comment->approved == 0 ? 1 : 0;
         $result = $comment->save();
         if($result){
-            return redirect()->route('admin.content.comment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
+            return redirect()->route('post-comment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
         }
         else{
-            return redirect()->route('admin.content.comment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
+            return redirect()->route('post-comment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
         }
 
     }
 
 
-    public function answer(CommentRequest $request, Comment $comment)
+    /**
+     * @param CommentRequest $request
+     * @param Comment $comment
+     * @return RedirectResponse
+     */
+    public function answer(CommentRequest $request, Comment $comment): RedirectResponse
     {
         if ($comment->parent == null) {
             $inputs = $request->all();
@@ -136,13 +153,12 @@ class PostCommentController extends Controller
             $inputs['commentable_type'] = $comment->commentable_type;
             $inputs['approved'] = 1;
             $inputs['status'] = 1;
-            $comment = Comment::create($inputs);
-            return redirect()->route('admin.content.comment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
+            $comment = Comment::query()->create($inputs);
+            return redirect()->route('post-comment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
         }
         else{
-            return redirect()->route('admin.content.comment.index')->with('swal-error', 'خطا');
+            return redirect()->route('post-comment.index')->with('swal-error', 'خطا');
 
         }
     }
-
 }

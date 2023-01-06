@@ -6,7 +6,10 @@ namespace Modules\Delivery\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Delivery\Entities\Delivery;
+use Modules\Delivery\Http\Requests\DeliveryRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class DeliveryController extends Controller
@@ -25,88 +28,91 @@ class DeliveryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.market.delivery.create');
+        return view('Delivery::create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param DeliveryRequest $request
+     * @return RedirectResponse
      */
-    public function store(DeliveryRequest $request)
+    public function store(DeliveryRequest $request): RedirectResponse
     {
         $inputs = $request->all();
-        $delivery = Delivery::create($inputs);
-        return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال جدید شما با موفقیت ثبت شد');
+        $delivery = Delivery::query()->create($inputs);
+        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Delivery $delivery
+     * @return Application|Factory|View
      */
     public function edit(Delivery $delivery)
     {
-        return view('admin.market.delivery.edit', compact('delivery'));
+        return view('Delivery::edit', compact('delivery'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param DeliveryRequest $request
+     * @param Delivery $delivery
+     * @return RedirectResponse
      */
-    public function update(DeliveryRequest $request, Delivery $delivery)
+    public function update(DeliveryRequest $request, Delivery $delivery): RedirectResponse
     {
         $inputs = $request->all();
         $delivery->update($inputs);
-        return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت ویرایش شد');
+        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Delivery $delivery
+     * @return RedirectResponse
      */
-    public function destroy(Delivery $delivery)
+    public function destroy(Delivery $delivery): RedirectResponse
     {
         $result = $delivery->delete();
-       return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت حذف شد');
+        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت حذف شد');
     }
 
 
-    public function status(Delivery $delivery){
+    /**
+     * @param Delivery $delivery
+     * @return JsonResponse
+     */
+    public function status(Delivery $delivery): JsonResponse
+    {
 
         $delivery->status = $delivery->status == 0 ? 1 : 0;
         $result = $delivery->save();
-        if($result){
-                if($delivery->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($delivery->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
 

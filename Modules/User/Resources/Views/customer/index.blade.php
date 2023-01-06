@@ -74,13 +74,13 @@
                                 </td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('customer-user.edit', $user->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline" action="{{ route('customer-user.destroy', $user->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

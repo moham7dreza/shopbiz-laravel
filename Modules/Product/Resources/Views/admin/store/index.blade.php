@@ -69,14 +69,12 @@
                         @endforeach
 
 
+                        </tbody>
+                    </table>
+                </section>
 
-
-                    </tbody>
-                </table>
             </section>
-
         </section>
     </section>
-</section>
 
 @endsection

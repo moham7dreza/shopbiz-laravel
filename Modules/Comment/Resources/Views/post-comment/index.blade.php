@@ -70,16 +70,15 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('post-comment.show', $comment->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
+                                       class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
 
                                     @if($comment->approved == 1)
                                         <a href="{{ route('post-comment.approved', $comment->id)}} "
-                                           class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i> عدم
-                                            تایید</a>
+                                           class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i></a>
                                     @else
                                         <a href="{{ route('post-comment.approved', $comment->id)}}"
                                            class="btn btn-success btn-sm text-white" type="submit"><i
-                                                class="fa fa-check"></i>تایید</a>
+                                                class="fa fa-check"></i></a>
                                     @endif
                                 </td>
 

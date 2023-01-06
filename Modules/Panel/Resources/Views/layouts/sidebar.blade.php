@@ -17,7 +17,7 @@
                 </section>
                 <section class="sidebar-dropdown">
                     <a href="{{ route('product-category.index') }}">دسته بندی</a>
-                    <a href="{{ route('category-attribute.index') }}">فرم کالا</a>
+                    <a href="{{ route('category-property.index') }}">فرم کالا</a>
                     <a href="{{ route('brand.index') }}">برندها</a>
                     <a href="{{ route('product.index') }}">کالاها</a>
                     <a href="{{ route('product.store.index') }}">انبار</a>

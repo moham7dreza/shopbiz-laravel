@@ -6,7 +6,12 @@ namespace Modules\Faq\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Faq\Entities\Faq;
+use Modules\Faq\Http\Requests\FaqRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class FaqController extends Controller
@@ -25,76 +30,81 @@ class FaqController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.content.faq.create');
+        return view('Faq::create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param FaqRequest $request
+     * @return RedirectResponse
      */
-    public function store(FaqRequest $request)
+    public function store(FaqRequest $request): RedirectResponse
     {
         $inputs = $request->all();
-        $faq = Faq::create($inputs);
-        return redirect()->route('admin.content.faq.index')->with('swal-success', 'پرسش  جدید شما با موفقیت ثبت شد');
+        $faq = Faq::query()->create($inputs);
+        return redirect()->route('faq.index')->with('swal-success', 'پرسش  جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Faq $faq
+     * @return Application|Factory|View
      */
     public function edit(Faq $faq)
     {
-        return view('admin.content.faq.edit', compact('faq'));
+        return view('Faq::edit', compact('faq'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param FaqRequest $request
+     * @param Faq $faq
+     * @return RedirectResponse
      */
-    public function update(FaqRequest $request, Faq $faq)
+    public function update(FaqRequest $request, Faq $faq): RedirectResponse
     {
         $inputs = $request->all();
         $faq->update($inputs);
-        return redirect()->route('admin.content.faq.index')->with('swal-success', 'پرسش شما با موفقیت ویرایش شد');;
+        return redirect()->route('faq.index')->with('swal-success', 'پرسش شما با موفقیت ویرایش شد');;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Faq $faq
+     * @return RedirectResponse
      */
-    public function destroy(Faq $faq)
+    public function destroy(Faq $faq): RedirectResponse
     {
         $result = $faq->delete();
-        return redirect()->route('admin.content.faq.index')->with('swal-success', 'پرسش  شما با موفقیت حذف شد');
+        return redirect()->route('faq.index')->with('swal-success', 'پرسش  شما با موفقیت حذف شد');
     }
 
 
-    public function status(Faq $faq){
+    /**
+     * @param Faq $faq
+     * @return JsonResponse
+     */
+    public function status(Faq $faq): JsonResponse
+    {
 
         $faq->status = $faq->status == 0 ? 1 : 0;
         $result = $faq->save();

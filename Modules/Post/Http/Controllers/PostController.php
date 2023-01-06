@@ -5,8 +5,13 @@ namespace Modules\Post\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Modules\Category\Entities\PostCategory;
 use Modules\Post\Entities\Post;
+use Modules\Post\Http\Requests\PostRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class PostController extends Controller
 {
@@ -29,21 +34,22 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
         $postCategories = PostCategory::all();
-        return view('admin.content.post.create', compact('postCategories'));
+        return view('Post::create', compact('postCategories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PostRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(PostRequest $request, ImageService $imageService)
+    public function store(PostRequest $request, ImageService $imageService): RedirectResponse
     {
         // if($request->user()->cannot('create'))
         // {
@@ -57,52 +63,53 @@ class PostController extends Controller
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int) $realTimestampStart);
+        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         if ($request->hasFile('image')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
         $inputs['author_id'] = auth()->user()->id;
-        $post = Post::create($inputs);
-        return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
+        $post = Post::query()->create($inputs);
+        return redirect()->route('post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return Application|Factory|View
      */
     public function edit(Post $post)
     {
         $postCategories = PostCategory::all();
-        return view('admin.content.post.edit', compact('post', 'postCategories'));
+        return view('Post::edit', compact('post', 'postCategories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PostRequest $request
+     * @param Post $post
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(PostRequest $request, Post $post, ImageService $imageService)
+    public function update(PostRequest $request, Post $post, ImageService $imageService): RedirectResponse
     {
 
         // if(!Gate::allows('update-post', $post))
@@ -114,17 +121,17 @@ class PostController extends Controller
         // {
 
         // }
-        if($request->user()->cannot('update', $post))
-        {
-            abort(403);
-        }
+//        if($request->user()->cannot('update', $post))
+//        {
+//            abort(403);
+//        }
 
         // $this->authorize('update', $post);
 
         $inputs = $request->all();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int) $realTimestampStart);
+        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         if ($request->hasFile('image')) {
             if (!empty($post->image)) {
@@ -133,7 +140,7 @@ class PostController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -144,22 +151,26 @@ class PostController extends Controller
             }
         }
         $post->update($inputs);
-        return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');
+        return redirect()->route('post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return RedirectResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $result = $post->delete();
-        return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت حذف شد');
+        return redirect()->route('post.index')->with('swal-success', 'پست  شما با موفقیت حذف شد');
     }
 
-    public function status(Post $post)
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function status(Post $post): JsonResponse
     {
 
         $post->status = $post->status == 0 ? 1 : 0;
@@ -175,7 +186,11 @@ class PostController extends Controller
         }
     }
 
-    public function commentable(Post $post)
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function commentable(Post $post): JsonResponse
     {
 
         $post->commentable = $post->commentable == 0 ? 1 : 0;

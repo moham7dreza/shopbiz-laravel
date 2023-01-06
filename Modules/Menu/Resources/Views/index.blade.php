@@ -61,13 +61,13 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('menu.edit', $menu->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i> ویرایش</a>
+                                            class="fa fa-edit"></i></a>
                                     <form class="d-inline" action="{{ route('menu.destroy', $menu->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

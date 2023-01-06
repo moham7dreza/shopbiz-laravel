@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('Panel::layouts.master')
 
 @section('head-tag')
     <title>ایجاد اطلاعیه پیامکی</title>
@@ -9,9 +9,9 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"> <a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-12"> <a href="#">اطلاعیه پیامکی</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#">اطلاع رسانی</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#">اطلاعیه پیامکی</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد اطلاعیه پیامکی</li>
         </ol>
     </nav>
@@ -27,11 +27,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('admin.notify.sms.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('sms-notify.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('admin.notify.sms.store') }}" method="post">
+                    <form action="{{ route('sms-notify.store') }}" method="post">
                         @csrf
                         <section class="row">
 
@@ -39,10 +39,10 @@
                                 <div class="form-group">
                                     <label for="">عنوان پیامک</label>
                                     <input type="text" name="title" class="form-control form-control-sm"
-                                        value="{{ old('title') }}">
+                                           value="{{ old('title') }}">
                                 </div>
                                 @error('title')
-                                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -55,11 +55,11 @@
                                 <div class="form-group">
                                     <label for="">تاریخ انتشار</label>
                                     <input type="text" name="published_at" id="published_at"
-                                        class="form-control form-control-sm d-none">
+                                           class="form-control form-control-sm d-none">
                                     <input type="text" id="published_at_view" class="form-control form-control-sm">
                                 </div>
                                 @error('published_at')
-                                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -76,7 +76,7 @@
                                     </select>
                                 </div>
                                 @error('status')
-                                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -88,17 +88,16 @@
                                 <div class="form-group">
                                     <label for="">متن پیامک</label>
                                     <textarea name="body" id="body" class="form-control form-control-sm"
-                                        rows="6">{{ old('body') }}</textarea>
+                                              rows="6">{{ old('body') }}</textarea>
                                 </div>
                                 @error('body')
-                                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
                                     </span>
                                 @enderror
                             </section>
-
 
 
                             <section class="col-12">
@@ -120,7 +119,7 @@
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#published_at_view').persianDatepicker({
                 format: 'YYYY/MM/DD',
                 altField: '#published_at',

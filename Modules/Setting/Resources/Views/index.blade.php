@@ -53,7 +53,7 @@
                             <td><img src="{{ asset($setting->icon ) }}" alt="" width="100" height="50"></td>
                             <td class="width-22-rem text-left">
                                 <a href="{{ route('setting.edit', $setting->id) }}"
-                                   class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                   class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                             </td>
                         </tr>
                         </tbody>

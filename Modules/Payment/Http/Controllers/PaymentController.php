@@ -37,6 +37,7 @@ class PaymentController extends Controller
         $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\OnlinePayment')->get();
         return view('Payment::admin.index', compact('payments'));
     }
+
     public function cash()
     {
         $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\CashPayment')->get();
@@ -47,22 +48,22 @@ class PaymentController extends Controller
      * @param Payment $payment
      * @return RedirectResponse
      */
-    public function canceled(Payment $payment)
+    public function canceled(Payment $payment): RedirectResponse
     {
         $payment->status = 2;
         $payment->save();
-        return redirect()->route('admin.market.payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
+        return redirect()->route('payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
     }
 
     /**
      * @param Payment $payment
      * @return RedirectResponse
      */
-    public function returned(Payment $payment)
+    public function returned(Payment $payment): RedirectResponse
     {
         $payment->status = 3;
         $payment->save();
-        return redirect()->route('admin.market.payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
+        return redirect()->route('payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
     }
 
     /**

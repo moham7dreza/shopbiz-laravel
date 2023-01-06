@@ -39,7 +39,7 @@ class OrderController extends Controller
      */
     public function unpaid()
     {
-        $orders = Order::where('payment_status', 0)->get();
+        $orders = Order::query()->where('payment_status', 0)->get();
         return view('Order::index', compact('orders'));
     }
 
@@ -92,7 +92,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return RedirectResponse
      */
-    public function changeSendStatus(Order $order)
+    public function changeSendStatus(Order $order): RedirectResponse
     {
         switch ($order->delivery_status){
             case 0:
@@ -115,7 +115,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return RedirectResponse
      */
-    public function changeOrderStatus(Order $order)
+    public function changeOrderStatus(Order $order): RedirectResponse
     {
         switch ($order->order_status){
             case 1:
@@ -144,7 +144,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return RedirectResponse
      */
-    public function cancelOrder(Order $order)
+    public function cancelOrder(Order $order): RedirectResponse
     {
         $order->order_status = 4;
         $order->save();

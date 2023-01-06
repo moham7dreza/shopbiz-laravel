@@ -6,11 +6,16 @@ namespace Modules\Discount\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Entities\CommonDiscount;
 use Modules\Discount\Entities\Copan;
+use Modules\Discount\Http\Requests\AmazingSaleRequest;
+use Modules\Discount\Http\Requests\CommonDiscountRequest;
+use Modules\Discount\Http\Requests\CopanRequest;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Entities\User;
 
 class DiscountController extends Controller
 {
@@ -32,7 +37,11 @@ class DiscountController extends Controller
         return view('Discount::copan-create', compact('users'));
     }
 
-    public function copanStore(CopanRequest $request)
+    /**
+     * @param CopanRequest $request
+     * @return RedirectResponse
+     */
+    public function copanStore(CopanRequest $request): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
@@ -43,17 +52,26 @@ class DiscountController extends Controller
         if ($inputs['type'] == 0) {
             $inputs['user_id'] = null;
         }
-        $amazingSale = Copan::create($inputs);
-        return redirect()->route('admin.market.discount.copan')->with('swal-success', ' کد تخفیف جدید شما با موفقیت ثبت شد');
+        $amazingSale = Copan::query()->create($inputs);
+        return redirect()->route('discount.copan')->with('swal-success', ' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
+    /**
+     * @param Copan $copan
+     * @return Application|Factory|View
+     */
     public function copanEdit(Copan $copan)
     {
         $users = User::all();
-        return view('admin.market.discount.copan-edit', compact('copan', 'users'));
+        return view('discount.copan-edit', compact('copan', 'users'));
     }
 
+    /**
+     * @param CopanRequest $request
+     * @param Copan $copan
+     * @return RedirectResponse
+     */
     public function copanUpdate(CopanRequest $request, Copan $copan)
     {
         $inputs = $request->all();
@@ -66,14 +84,18 @@ class DiscountController extends Controller
             $inputs['user_id'] = null;
         }
         $copan->update($inputs);
-        return redirect()->route('admin.market.discount.copan')->with('swal-success', 'کد تخفیف  شما با موفقیت ویرایش شد');
+        return redirect()->route('discount.copan')->with('swal-success', 'کد تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
+    /**
+     * @param Copan $copan
+     * @return RedirectResponse
+     */
     public function copanDestroy(Copan $copan)
     {
         $result = $copan->delete();
-        return redirect()->route('admin.market.discount.copan')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
+        return redirect()->route('discount.copan')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**
@@ -90,10 +112,14 @@ class DiscountController extends Controller
      */
     public function commonDiscountCreate()
     {
-        return view('Discount.common-create');
+        return view('Discount::common-create');
     }
 
-    public function commonDiscountStore(CommonDiscountRequest $request)
+    /**
+     * @param CommonDiscountRequest $request
+     * @return RedirectResponse
+     */
+    public function commonDiscountStore(CommonDiscountRequest $request): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
@@ -101,17 +127,26 @@ class DiscountController extends Controller
         $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $realTimestampEnd = substr($request->end_date, 0, 10);
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $commonDiscount = CommonDiscount::create($inputs);
-        return redirect()->route('admin.market.discount.commonDiscount')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ثبت شد');
+        $commonDiscount = CommonDiscount::query()->create($inputs);
+        return redirect()->route('discount.commonDiscount')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
+    /**
+     * @param CommonDiscount $commonDiscount
+     * @return Application|Factory|View
+     */
     public function commonDiscountEdit(CommonDiscount $commonDiscount)
     {
-        return view('admin.market.discount.common-edit', compact('commonDiscount'));
+        return view('Discount::common-edit', compact('commonDiscount'));
     }
 
-    public function commonDiscountUpdate(CommonDiscountRequest $request, CommonDiscount $commonDiscount)
+    /**
+     * @param CommonDiscountRequest $request
+     * @param CommonDiscount $commonDiscount
+     * @return RedirectResponse
+     */
+    public function commonDiscountUpdate(CommonDiscountRequest $request, CommonDiscount $commonDiscount): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
@@ -120,13 +155,17 @@ class DiscountController extends Controller
         $realTimestampEnd = substr($request->end_date, 0, 10);
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
         $commonDiscount->update($inputs);
-        return redirect()->route('admin.market.discount.commonDiscount')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ویرایش شد');
+        return redirect()->route('discount.commonDiscount')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ویرایش شد');
     }
 
-    public function commonDiscountDestroy(CommonDiscount $commonDiscount)
+    /**
+     * @param CommonDiscount $commonDiscount
+     * @return RedirectResponse
+     */
+    public function commonDiscountDestroy(CommonDiscount $commonDiscount): RedirectResponse
     {
         $result = $commonDiscount->delete();
-        return redirect()->route('admin.market.discount.commonDiscount')->with('swal-success', 'کد تخفیف  شما با موفقیت حذف شد');
+        return redirect()->route('discount.commonDiscount')->with('swal-success', 'کد تخفیف  شما با موفقیت حذف شد');
     }
 
     /**
@@ -147,7 +186,11 @@ class DiscountController extends Controller
         return view('Discount::amazing-create', compact('products'));
     }
 
-    public function amazingSaleStore(AmazingSaleRequest $request)
+    /**
+     * @param AmazingSaleRequest $request
+     * @return RedirectResponse
+     */
+    public function amazingSaleStore(AmazingSaleRequest $request): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
@@ -155,17 +198,22 @@ class DiscountController extends Controller
         $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $realTimestampEnd = substr($request->end_date, 0, 10);
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $amazingSale = AmazingSale::create($inputs);
-        return redirect()->route('admin.market.discount.amazingSale')->with('swal-success', ' تخفیف جدید شما با موفقیت ثبت شد');
+        $amazingSale = AmazingSale::query()->create($inputs);
+        return redirect()->route('discount.amazingSale')->with('swal-success', ' تخفیف جدید شما با موفقیت ثبت شد');
     }
 
     public function amazingSaleEdit(AmazingSale $amazingSale)
     {
         $products = Product::all();
-        return view('admin.market.discount.amazing-edit', compact('amazingSale', 'products'));
+        return view('discount.amazing-edit', compact('amazingSale', 'products'));
     }
 
-    public function amazingSaleUpdate(AmazingSaleRequest $request, AmazingSale $amazingSale)
+    /**
+     * @param AmazingSaleRequest $request
+     * @param AmazingSale $amazingSale
+     * @return RedirectResponse
+     */
+    public function amazingSaleUpdate(AmazingSaleRequest $request, AmazingSale $amazingSale): RedirectResponse
     {
         $inputs = $request->all();
         //date fixed
@@ -174,13 +222,17 @@ class DiscountController extends Controller
         $realTimestampEnd = substr($request->end_date, 0, 10);
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
         $amazingSale->update($inputs);
-        return redirect()->route('admin.market.discount.amazingSale')->with('swal-success', ' تخفیف  شما با موفقیت ویرایش شد');
+        return redirect()->route('discount.amazingSale')->with('swal-success', ' تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
-    public function amazingSaleDestroy(AmazingSale $amazingSale)
+    /**
+     * @param AmazingSale $amazingSale
+     * @return RedirectResponse
+     */
+    public function amazingSaleDestroy(AmazingSale $amazingSale): RedirectResponse
     {
         $result = $amazingSale->delete();
-        return redirect()->route('admin.market.discount.amazingSale')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
+        return redirect()->route('discount.amazingSale')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
     }
 }

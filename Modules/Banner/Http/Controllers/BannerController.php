@@ -6,8 +6,13 @@ namespace Modules\Banner\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Modules\Banner\Entities\Banner;
+use Modules\Banner\Http\Requests\BannerRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class BannerController extends Controller
 {
@@ -26,21 +31,22 @@ class BannerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
         $positions = Banner::$positions;
-        return view('admin.content.banner.create', compact('positions'));
+        return view('Banner::create', compact('positions'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param BannerRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(BannerRequest $request, ImageService $imageService)
+    public function store(BannerRequest $request, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -49,50 +55,49 @@ class BannerController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'banner');
             $result = $imageService->save($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
-        $banner = Banner::create($inputs);
-        return redirect()->route('admin.content.banner.index')->with('swal-success', 'بنر  جدید شما با موفقیت ثبت شد');
+        $banner = Banner::query()->create($inputs);
+        return redirect()->route('banner.index')->with('swal-success', 'بنر  جدید شما با موفقیت ثبت شد');
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Banner $banner
+     * @return Application|Factory|View
      */
     public function edit(Banner $banner)
     {
         $positions = Banner::$positions;
-        return view('admin.content.banner.edit', compact('banner', 'positions'));
+        return view('banner.edit', compact('banner', 'positions'));
 
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param BannerRequest $request
+     * @param Banner $banner
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(BannerRequest $request, Banner $banner, ImageService $imageService)
+    public function update(BannerRequest $request, Banner $banner, ImageService $imageService): RedirectResponse
     {
-
         $inputs = $request->all();
-
-
         if ($request->hasFile('image')) {
             if (!empty($banner->image)) {
                 $imageService->deleteImage($banner->image);
@@ -101,7 +106,7 @@ class BannerController extends Controller
             $result = $imageService->save($request->file('image'));
 
             if ($result === false) {
-                return redirect()->route('admin.content.banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -112,24 +117,27 @@ class BannerController extends Controller
             }
         }
         $banner->update($inputs);
-        return redirect()->route('admin.content.banner.index')->with('swal-success', 'بنر  شما با موفقیت ویرایش شد');
+        return redirect()->route('banner.index')->with('swal-success', 'بنر  شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Banner $banner
+     * @return RedirectResponse
      */
-    public function destroy(Banner $banner)
+    public function destroy(Banner $banner): RedirectResponse
     {
         $result = $banner->delete();
-        return redirect()->route('admin.content.banner.index')->with('swal-success', 'بنر  شما با موفقیت حذف شد');
+        return redirect()->route('banner.index')->with('swal-success', 'بنر  شما با موفقیت حذف شد');
     }
 
 
-
-    public function status(Banner $banner)
+    /**
+     * @param Banner $banner
+     * @return JsonResponse
+     */
+    public function status(Banner $banner): JsonResponse
     {
         $banner->status = $banner->status == 0 ? 1 : 0;
         $result = $banner->save();

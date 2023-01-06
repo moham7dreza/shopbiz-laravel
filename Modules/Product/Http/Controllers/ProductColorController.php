@@ -6,7 +6,11 @@ namespace Modules\Product\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductColor;
 use Modules\Share\Http\Controllers\Controller;
 
 class ProductColorController extends Controller
@@ -24,20 +28,21 @@ class ProductColorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(Product $product)
     {
-        return view('admin.market.product.color.create', compact('product'));
+        return view('Product::admin.color.create', compact('product'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Product $product
+     * @return RedirectResponse
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request, Product $product): RedirectResponse
     {
         $validated = $request->validate([
             'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
@@ -46,8 +51,8 @@ class ProductColorController extends Controller
         ]);
         $inputs = $request->all();
             $inputs['product_id'] = $product->id;
-            $color = ProductColor::create($inputs);
-            return redirect()->route('admin.market.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
+            $color = ProductColor::query()->create($inputs);
+            return redirect()->route('product.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
     }
 
     /**
@@ -58,7 +63,7 @@ class ProductColorController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -69,7 +74,7 @@ class ProductColorController extends Controller
      */
     public function edit($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -81,16 +86,17 @@ class ProductColorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param ProductColor $color
+     * @return RedirectResponse
      */
-    public function destroy(Product $product, ProductColor $color)
+    public function destroy(Product $product, ProductColor $color): RedirectResponse
     {
         $color->delete();
         return back();

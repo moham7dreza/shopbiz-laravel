@@ -6,9 +6,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Modules\ACL\Entities\Permission;
-use Modules\Share\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\ACL\Entities\Permission;
+use Modules\ACL\Http\Requests\PermissionRequest;
+use Modules\Share\Http\Controllers\Controller;
 
 class PermissionController extends Controller
 {
@@ -30,7 +31,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('ACL::create');
+        return view('ACL::permission.create');
     }
 
     /**
@@ -43,7 +44,7 @@ class PermissionController extends Controller
     {
         $inputs = $request->all();
         $permission = Permission::query()->create($inputs);
-        return redirect()->route('ACL::index')->with('swal-success', 'دسترسی جدید با موفقیت ثبت شد');
+        return redirect()->route('permission.index')->with('swal-success', 'دسترسی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -54,7 +55,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -65,22 +66,22 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return view('ACL::edit', compact('permission'));
+        return view('ACL::permission.edit', compact('permission'));
 
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param PermissionRequest $request
      * @param Permission $permission
      * @return RedirectResponse
      */
-    public function update(Request $request, Permission $permission): RedirectResponse
+    public function update(PermissionRequest $request, Permission $permission): RedirectResponse
     {
         $inputs = $request->all();
         $permission->update($inputs);
-        return redirect()->route('ACL::index')->with('swal-success', 'دسترسی شما با موفقیت ویرایش شد');
+        return redirect()->route('permission.index')->with('swal-success', 'دسترسی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -92,6 +93,6 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $result = $permission->delete();
-        return redirect()->route('ACL::index')->with('swal-success', 'دسترسی شما با موفقیت حذف شد');
+        return redirect()->route('permission.index')->with('swal-success', 'دسترسی شما با موفقیت حذف شد');
     }
 }

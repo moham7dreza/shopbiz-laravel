@@ -27,11 +27,11 @@ class TicketAdminController extends Controller
      * @param User $admin
      * @return RedirectResponse
      */
-    public function set(User $admin)
+    public function set(User $admin): RedirectResponse
     {
         TicketAdmin::query()->where('user_id', $admin->id)->first()
             ? TicketAdmin::query()->where(['user_id' => $admin->id])->forceDelete()
             : TicketAdmin::query()->create(['user_id' => $admin->id]);
-        return redirect()->route('admin.ticket.admin.index')->with('swal-success', 'تغییر شما با موفقیت حذف شد');
+        return redirect()->route('ticket-admin.index')->with('swal-success', 'تغییر شما با موفقیت حذف شد');
     }
 }

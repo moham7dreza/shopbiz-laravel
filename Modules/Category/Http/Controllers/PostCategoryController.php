@@ -6,13 +6,20 @@ namespace Modules\Category\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Category\Entities\PostCategory;
+use Modules\Category\Http\Requests\PostCategoryRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class PostCategoryController extends Controller
 {
 
-    function __construct(){
+    function __construct()
+    {
         // $this->middleware('role:operator')->only(['edit']);
         // $this->middleware('role:operator')->only(['create']);
         // $this->middleware('role:accounting')->only(['store']);
@@ -20,6 +27,7 @@ class PostCategoryController extends Controller
 //        $this->middleware('can:show-category')->only(['index']);
 //        $this->middleware('can:update-category')->only(['edit', 'update']);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,22 +49,23 @@ class PostCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
         // $imageCache = new ImageCacheService();
         // return $imageCache->cache('1.png');
-        return view('admin.content.category.create');
+        return view('Category::post-category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PostCategoryRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(PostCategoryRequest $request, ImageService $imageService)
+    public function store(PostCategoryRequest $request, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
@@ -65,43 +74,45 @@ class PostCategoryController extends Controller
             // $result = $imageService->fitAndSave($request->file('image'), 600, 150);
             // exit;
             $result = $imageService->createIndexAndSave($request->file('image'));
+            if ($result === false) {
+                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result;
         }
-        if ($result === false) {
-            return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-        }
-        $inputs['image'] = $result;
-        $postCategory = PostCategory::create($inputs);
+
+        $postCategory = PostCategory::query()->create($inputs);
         return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PostCategory $postCategory
+     * @return Application|Factory|View
      */
     public function edit(PostCategory $postCategory)
     {
-        return view('admin.content.category.edit', compact('postCategory'));
+        return view('Category::post-category.edit', compact('postCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PostCategoryRequest $request
+     * @param PostCategory $postCategory
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
     public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService)
     {
@@ -114,7 +125,7 @@ class PostCategoryController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('post-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -126,24 +137,27 @@ class PostCategoryController extends Controller
         }
         // $inputs['slug'] = null;
         $postCategory->update($inputs);
-        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        return redirect()->route('post-category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PostCategory $postCategory
+     * @return RedirectResponse
      */
-    public function destroy(PostCategory $postCategory)
+    public function destroy(PostCategory $postCategory): RedirectResponse
     {
         $result = $postCategory->delete();
-        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        return redirect()->route('post-category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 
-    public function status(PostCategory $postCategory)
+    /**
+     * @param PostCategory $postCategory
+     * @return JsonResponse
+     */
+    public function status(PostCategory $postCategory): JsonResponse
     {
-
         $postCategory->status = $postCategory->status == 0 ? 1 : 0;
         $result = $postCategory->save();
         if ($result) {

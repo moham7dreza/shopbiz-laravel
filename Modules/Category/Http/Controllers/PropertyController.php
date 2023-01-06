@@ -6,7 +6,12 @@ namespace Modules\Category\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Category\Entities\CategoryAttribute;
+use Modules\Category\Entities\ProductCategory;
+use Modules\Category\Http\Requests\CategoryAttributeRequest;
 use Modules\Share\Http\Controllers\Controller;
 
 class PropertyController extends Controller
@@ -25,73 +30,73 @@ class PropertyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
         $productCategories = ProductCategory::all();
-        return view('admin.market.property.create', compact('productCategories'));
+        return view('Category::property.create', compact('productCategories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CategoryAttributeRequest $request
+     * @return RedirectResponse
      */
-    public function store(CategoryAttributeRequest $request)
+    public function store(CategoryAttributeRequest $request): RedirectResponse
     {
         $inputs = $request->all();
-        $attribute = CategoryAttribute::create($inputs);
-        return redirect()->route('admin.market.property.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
+        $attribute = CategoryAttribute::query()->create($inputs);
+        return redirect()->route('property-value.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CategoryAttribute $categoryAttribute
+     * @return Application|Factory|View
      */
     public function edit(CategoryAttribute $categoryAttribute)
     {
         $productCategories = ProductCategory::all();
-        return view('admin.market.property.edit', compact('categoryAttribute', 'productCategories'));
+        return view('Category::property.edit', compact('categoryAttribute', 'productCategories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CategoryAttributeRequest $request
+     * @param CategoryAttribute $categoryAttribute
+     * @return RedirectResponse
      */
-    public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute)
+    public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $inputs = $request->all();
         $categoryAttribute->update($inputs);
-        return redirect()->route('admin.market.property.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
+        return redirect()->route('property-value.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CategoryAttribute $categoryAttribute
+     * @return RedirectResponse
      */
-    public function destroy(CategoryAttribute $categoryAttribute)
+    public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $result = $categoryAttribute->delete();
-        return redirect()->route('admin.market.property.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
+        return redirect()->route('property-value.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
     }
 }

@@ -5,8 +5,14 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 use Modules\User\Entities\User;
+use Modules\User\Http\Requests\CustomerRequest;
+use Modules\User\Notifications\NewUserRegistered;
 
 class CustomerController extends Controller
 {
@@ -24,21 +30,22 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.user.customer.create');
+        return view('User::customer.create');
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CustomerRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(CustomerRequest $request, ImageService $imageService)
+    public function store(CustomerRequest $request, ImageService $imageService): \Illuminate\Http\RedirectResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('profile_photo_path')) {
@@ -46,117 +53,118 @@ class CustomerController extends Controller
             $result = $imageService->save($request->file('profile_photo_path'));
 
             if ($result === false) {
-                return redirect()->route('admin.user.customer.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('customer-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['profile_photo_path'] = $result;
         }
         $inputs['password'] = Hash::make($request->password);
         $inputs['user_type'] = 0;
-        $user = User::create($inputs);
+        $user = User::query()->create($inputs);
         $details = [
             'message' => 'یک کاربر جدید در سایت ثبت نام کرد'
         ];
-        $adminUser = User::find(1);
+        $adminUser = User::query()->find(1);
         $adminUser->notify(new NewUserRegistered($details));
-        return redirect()->route('admin.user.customer.index')->with('swal-success', 'مشتری جدید با موفقیت ثبت شد');
+        return redirect()->route('customer-user.index')->with('swal-success', 'مشتری جدید با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return Application|Factory|View
      */
     public function edit(User $user)
     {
-        return view('admin.user.customer.edit', compact('user'));
+        return view('User::customer.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CustomerRequest $request
+     * @param User $user
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(CustomerRequest $request, User $user, ImageService $imageService)
+    public function update(CustomerRequest $request, User $user, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
-        if($request->hasFile('profile_photo_path'))
-        {
-            if(!empty($user->profile_photo_path))
-            {
+        if ($request->hasFile('profile_photo_path')) {
+            if (!empty($user->profile_photo_path)) {
                 $imageService->deleteImage($user->profile_photo_path);
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
             $result = $imageService->save($request->file('profile_photo_path'));
-            if($result === false)
-            {
-                return redirect()->route('admin.user.customer.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            if ($result === false) {
+                return redirect()->route('customer-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['profile_photo_path'] = $result;
         }
         $user->update($inputs);
-        return redirect()->route('admin.user.customer.index')->with('swal-success', 'مشتری سایت شما با موفقیت ویرایش شد');
+        return redirect()->route('customer-user.index')->with('swal-success', 'مشتری سایت شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $result = $user->forceDelete();
-        return redirect()->route('admin.user.customer.index')->with('swal-success', 'مشتری شما با موفقیت حذف شد');
+        return redirect()->route('customer-user.index')->with('swal-success', 'مشتری شما با موفقیت حذف شد');
     }
 
 
-
-    public function status(User $user){
-
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function status(User $user)
+    {
         $user->status = $user->status == 0 ? 1 : 0;
         $result = $user->save();
-        if($result){
-                if($user->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($user->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
 
 
-    public function activation(User $user){
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function activation(User $user): JsonResponse
+    {
         $user->activation = $user->activation == 0 ? 1 : 0;
         $result = $user->save();
-        if($result){
-                if($user->activation == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($user->activation == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
 

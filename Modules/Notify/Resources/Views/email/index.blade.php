@@ -63,15 +63,15 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('admin.notify.email-file.index', $email->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-file"></i> فایل های ضمیمه شده</a>
+                                       class="btn btn-warning btn-sm"><i class="fa fa-file"></i></a>
                                     <a href="{{ route('email-notify.edit', $email->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                       class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
                                           action="{{ route('email-notify.destroy', $email->id) }}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>

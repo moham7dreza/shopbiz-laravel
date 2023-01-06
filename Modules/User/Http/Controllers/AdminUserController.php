@@ -6,8 +6,16 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Modules\ACL\Entities\Permission;
+use Modules\ACL\Entities\Role;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Image\ImageService;
 use Modules\User\Entities\User;
+use Modules\User\Http\Requests\AdminUserRequest;
 
 class AdminUserController extends Controller
 {
@@ -24,21 +32,22 @@ class AdminUserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        return view('admin.user.admin-user.create');
+        return view('User::admin-user.create');
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AdminUserRequest $request
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function store(AdminUserRequest $request, ImageService $imageService)
+    public function store(AdminUserRequest $request, ImageService $imageService): \Illuminate\Http\RedirectResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('profile_photo_path')) {
@@ -46,46 +55,47 @@ class AdminUserController extends Controller
             $result = $imageService->save($request->file('profile_photo_path'));
 
             if ($result === false) {
-                return redirect()->route('admin.user.admin-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('admin-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['profile_photo_path'] = $result;
         }
         $inputs['password'] = Hash::make($request->password);
         $inputs['user_type'] = 1;
-        $user = User::create($inputs);
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین جدید با موفقیت ثبت شد');
+        $user = User::query()->create($inputs);
+        return redirect()->route('admin-user.index')->with('swal-success', 'ادمین جدید با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        abort(403);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $admin
+     * @return Application|Factory|View
      */
     public function edit(User $admin)
     {
-        return view('admin.user.admin-user.edit', compact('admin'));
+        return view('User::admin-user.edit', compact('admin'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param AdminUserRequest $request
+     * @param User $admin
+     * @param ImageService $imageService
+     * @return RedirectResponse
      */
-    public function update(AdminUserRequest $request, User $admin, ImageService $imageService)
+    public function update(AdminUserRequest $request, User $admin, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -96,27 +106,31 @@ class AdminUserController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
             $result = $imageService->save($request->file('profile_photo_path'));
             if ($result === false) {
-                return redirect()->route('admin.user.admin-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('admin-user.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['profile_photo_path'] = $result;
         }
         $admin->update($inputs);
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین سایت شما با موفقیت ویرایش شد');
+        return redirect()->route('admin-user.index')->with('swal-success', 'ادمین سایت شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $admin
+     * @return RedirectResponse
      */
-    public function destroy(User $admin)
+    public function destroy(User $admin): RedirectResponse
     {
         $result = $admin->forceDelete();
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین شما با موفقیت حذف شد');
+        return redirect()->route('admin-user.index')->with('swal-success', 'ادمین شما با موفقیت حذف شد');
     }
 
-    public function status(User $user)
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function status(User $user): \Illuminate\Http\JsonResponse
     {
 
         $user->status = $user->status == 0 ? 1 : 0;
@@ -130,9 +144,12 @@ class AdminUserController extends Controller
         } else {
             return response()->json(['status' => false]);
         }
-
     }
 
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
     public function activation(User $user)
     {
         $user->activation = $user->activation == 0 ? 1 : 0;
@@ -146,45 +163,57 @@ class AdminUserController extends Controller
         } else {
             return response()->json(['status' => false]);
         }
-
     }
 
+    /**
+     * @param User $admin
+     * @return Application|Factory|View
+     */
     public function roles(User $admin)
     {
         $roles = Role::all();
         return view('admin.user.admin-user.roles', compact('admin', 'roles'));
-
     }
 
-    public function rolesStore(Request $request, User $admin)
+    /**
+     * @param Request $request
+     * @param User $admin
+     * @return RedirectResponse
+     */
+    public function rolesStore(Request $request, User $admin): RedirectResponse
     {
         $validated = $request->validate([
             'roles' => 'required|exists:roles,id|array'
         ]);
 
         $admin->roles()->sync($request->roles);
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
-
+        return redirect()->route('admin-user.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
     }
 
 
+    /**
+     * @param User $admin
+     * @return Application|Factory|View
+     */
     public function permissions(User $admin)
     {
         $permissions = Permission::all();
-
-
-        return view('admin.user.admin-user.permissions', compact('admin', 'permissions'));
-
+        return view('admin-user.permissions', compact('admin', 'permissions'));
     }
 
-    public function permissionsStore(Request $request, User $admin)
+    /**
+     * @param Request $request
+     * @param User $admin
+     * @return RedirectResponse
+     */
+    public function permissionsStore(Request $request, User $admin): RedirectResponse
     {
         $validated = $request->validate([
             'permissions' => 'required|exists:permissions,id|array'
         ]);
 
         $admin->permissions()->sync($request->permissions);
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
+        return redirect()->route('admin-user.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
 
     }
 }
