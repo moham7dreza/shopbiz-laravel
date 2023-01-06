@@ -2,6 +2,9 @@
 
 namespace Modules\ACL\Providers;
 
+use Database\Seeders\DatabaseSeeder;
+use Exception;
+use Modules\ACL\Database\Seeders\PermissionSeeder;
 use Modules\ACL\Entities\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -64,6 +67,9 @@ class AclServiceProvider extends ServiceProvider
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
 //        $this->loadPolicyFiles();
+
+        $this->setDatabaseSeederWithPermissionSeeder();
+        $this->setGateBefore();
     }
 
     /**
@@ -73,7 +79,7 @@ class AclServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->checkUserHasPermissionTo();
+        $this->defineSystemPermissions();
         $this->app->booted(function () {
 //            $this->setMenuForPanel();
         });
@@ -135,7 +141,7 @@ class AclServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function checkUserHasPermissionTo()
+    private function defineSystemPermissions(): void
     {
         try {
 
@@ -147,16 +153,38 @@ class AclServiceProvider extends ServiceProvider
 
         } catch (Exception $e) {
             report($e);
-            return false;
+            return;
         }
 
 
-        Blade::directive('role', function ($role) {
-            return "<?php if(auth()->check() && auth()->user()->hasRole($role)) : ?>";
-        });
+//        Blade::directive('role', function ($role) {
+/*            return "<?php if(auth()->check() && auth()->user()->hasRole($role)) : ?>";*/
+//        });
+//
+//        Blade::directive('endrole', function ($role) {
+/*            return "<?php endif; ?>";*/
+//        });
+    }
 
-        Blade::directive('endrole', function ($role) {
-            return "<?php endif; ?>";
+    /**
+     * Set database seeder with permission seeder.
+     *
+     * @return void
+     */
+    private function setDatabaseSeederWithPermissionSeeder(): void
+    {
+        DatabaseSeeder::$seeders[] = PermissionSeeder::class;
+    }
+
+    /**
+     * Set gate before for super admin permission.
+     *
+     * @return void
+     */
+    private function setGateBefore(): void
+    {
+        Gate::before(static function ($user) {
+            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
     }
 }
