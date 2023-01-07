@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\RolePermission\Database\Seeds;
+namespace Modules\ACL\Database\Seeders;
 
 class PermissionSeeder
 {

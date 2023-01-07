@@ -4,6 +4,7 @@ namespace Modules\Payment\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class OnlinePayment extends Model
 {
@@ -12,8 +13,8 @@ class OnlinePayment extends Model
     protected $guarded = ['id'];
 
 
-    public function payments()
+    public function payments(): MorphMany
     {
-        return $this->morphMany('App\Models\Market\Payment', 'paymentable');
+        return $this->morphMany('Modules\Payment\Entities\Payment', 'paymentable');
     }
 }

@@ -2,14 +2,21 @@
 
 namespace Modules\ACL\Entities;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Share\Traits\HasFaDate;
+use Modules\User\Entities\User;
 
 class Permission extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasFaDate;
+
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+
+    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
     protected $fillable = ['name', 'description', 'status'];
 
@@ -641,13 +648,36 @@ class Permission extends Model
         , self::PERMISSION_SERVICE_COMMENT_APPROVE
     ];
 
-    public function roles()
+    //relations
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    // methods
+
+    public function rolesCount(): int
+    {
+        return $this->roles->count() ?? 0;
+    }
+
+    public function usersCount(): int
+    {
+        return $this->users->count() ?? 0;
+    }
+
+    public function textName()
+    {
+        foreach (self::$permissions as $permission) {
+            if ($this->name == $permission['name']) {
+                return $permission['description'];
+            }
+        }
+        return 'سطح دسترسی یافت نشد.';
     }
 }

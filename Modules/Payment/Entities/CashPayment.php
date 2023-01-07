@@ -11,8 +11,8 @@ class CashPayment extends Model
 
     protected $guarded = ['id'];
 
-    public function payments()
+    public function payments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->morphMany('App\Models\Market\Payment', 'paymentable');
+        return $this->morphMany('Modules\Payment\Entities\Payment', 'paymentable');
     }
 }

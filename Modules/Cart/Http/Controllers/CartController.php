@@ -55,7 +55,7 @@ class CartController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function addToCart(Product $product, Request $request)
+    public function addToCart(Product $product, Request $request): RedirectResponse
     {
         if (Auth::check()) {
             $request->validate([

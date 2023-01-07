@@ -9,10 +9,25 @@ use Illuminate\Http\RedirectResponse;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
+use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
+use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
+    private string $redirectRoute = 'role.index';
+
+    private string $class = Permission::class;
+
+    public RolePermissionRepoEloquentInterface $repo;
+    public RolePermissionService $service;
+
+    public function __construct(RolePermissionService $rolePermissionService, RolePermissionRepoEloquentInterface $permissionRepo)
+    {
+        $this->repo = $permissionRepo;
+        $this->service = $rolePermissionService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +35,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = $this->repo->index()->paginate(10);
         return view('ACL::role.index', compact('roles'));
     }
 
@@ -31,7 +46,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = $this->repo->getAllPermissions();
         return view('ACL::role.create', compact('permissions'));
     }
 
