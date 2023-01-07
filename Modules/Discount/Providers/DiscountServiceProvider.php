@@ -2,10 +2,6 @@
 
 namespace Modules\Discount\Providers;
 
-use App\Models\Content\Comment;
-use App\Models\Market\CartItem;
-use App\Models\Notification;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 

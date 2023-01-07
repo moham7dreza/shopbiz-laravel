@@ -73,7 +73,8 @@ class AclServiceProvider extends ServiceProvider
         $this->bindRepository();
 
         $this->setDatabaseSeederWithPermissionSeeder();
-        $this->defineSystemPermissions();
+
+
         $this->setGateBefore();
     }
 
@@ -85,6 +86,7 @@ class AclServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
+            $this->defineSystemPermissions();
 //            $this->setMenuForPanel();
         });
     }
@@ -141,7 +143,7 @@ class AclServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.role-permissions', [
             'title' => 'Role & Permissions',
             'icon' => 'alert-triangle',
-            'url' => route('role-permissions.index'),
+            'url' => route('role.index'),
         ]);
     }
 

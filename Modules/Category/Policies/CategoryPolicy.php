@@ -3,9 +3,6 @@
 namespace Modules\Category\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Modules\RolePermission\Models\Permission;
-use Modules\User\Models\User;
-
 class CategoryPolicy
 {
     use HandlesAuthorization;

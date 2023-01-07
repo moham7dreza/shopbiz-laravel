@@ -2,8 +2,7 @@
 
 namespace Modules\Category\Repositories;
 
-use Modules\Category\Enums\CategoryStatusEnum;
-use Modules\Category\Models\Category;
+use Modules\Category\Entities\ProductCategory;
 
 class CategoryRepoEloquent implements CategoryRepoEloquentInterface
 {
@@ -58,7 +57,7 @@ class CategoryRepoEloquent implements CategoryRepoEloquentInterface
      */
     public function getActiveCategories()
     {
-        return $this->query()->where('status', CategoryStatusEnum::STATUS_ACTIVE->value);
+        return $this->query()->where('status', ProductCategory::STATUS_ACTIVE);
     }
 
     /**
@@ -68,6 +67,6 @@ class CategoryRepoEloquent implements CategoryRepoEloquentInterface
      */
     private function query()
     {
-        return Category::query();
+        return ProductCategory::query();
     }
 }

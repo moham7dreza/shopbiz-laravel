@@ -2,8 +2,8 @@
 
 namespace Modules\Category\Services;
 
-use Modules\Category\Models\Category;
-use Modules\Share\Services\ShareService;
+
+use Modules\Category\Entities\ProductCategory;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -52,6 +52,6 @@ class CategoryService implements CategoryServiceInterface
      */
     private function query()
     {
-        return Category::query();
+        return ProductCategory::query();
     }
 }

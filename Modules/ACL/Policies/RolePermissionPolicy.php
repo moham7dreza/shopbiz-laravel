@@ -1,10 +1,8 @@
 <?php
 
-namespace Modules\RolePermission\Policies;
+namespace Modules\ACL\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Modules\RolePermission\Models\Permission;
-use Modules\User\Models\User;
 
 class RolePermissionPolicy
 {
