@@ -48,11 +48,11 @@ class Permission extends Model
     public const PERMISSION_PRODUCT_PROPERTY_EDIT = ['name' => 'permission-product-property-edit', 'description' => 'دسترسی به بخش ویرایش فرم کالا'];
     public const PERMISSION_PRODUCT_PROPERTY_DELETE = ['name' => 'permission-product-property-delete', 'description' => 'دسترسی به بخش حذف فرم کالا'];
     public const PERMISSION_PRODUCT_PROPERTY_STATUS = ['name' => 'permission-product-property-status', 'description' => 'دسترسی به بخش تغغیر وضعیت فرم کالا'];
-    public const PERMISSION_PRODUCT_PROPERTY_ATTRIBUTES = ['name' => 'permission-product-property-attributes', 'description' => 'دسترسی به بخش ویژگی های فرم کالا'];
-    public const PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_CREATE = ['name' => 'permission-product-property-attribute-create', 'description' => 'دسترسی به بخش ایجاد ویژگی برای فرم کالا'];
-    public const PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_EDIT = ['name' => 'permission-product-property-attribute-edit', 'description' => 'دسترسی به بخش ویرایش ویژگی مربوط به فرم کالا'];
-    public const PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_DELETE = ['name' => 'permission-product-property-attribute-delete', 'description' => 'دسترسی به بخش حذف ویژگی مربوط به فرم کالا'];
-    public const PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_STATUS = ['name' => 'permission-product-property-attribute-status', 'description' => 'دسترسی به بخش تغییر وضعیت ویژگی مربوط به فرم کالا'];
+    public const PERMISSION_PRODUCT_PROPERTY_VALUES = ['name' => 'permission-product-property-values', 'description' => 'دسترسی به بخش ویژگی های فرم کالا'];
+    public const PERMISSION_PRODUCT_PROPERTY_VALUE_CREATE = ['name' => 'permission-product-property-value-create', 'description' => 'دسترسی به بخش ایجاد ویژگی برای فرم کالا'];
+    public const PERMISSION_PRODUCT_PROPERTY_VALUE_EDIT = ['name' => 'permission-product-property-value-edit', 'description' => 'دسترسی به بخش ویرایش ویژگی مربوط به فرم کالا'];
+    public const PERMISSION_PRODUCT_PROPERTY_VALUE_DELETE = ['name' => 'permission-product-property-value-delete', 'description' => 'دسترسی به بخش حذف ویژگی مربوط به فرم کالا'];
+    public const PERMISSION_PRODUCT_PROPERTY_VALUE_STATUS = ['name' => 'permission-product-property-value-status', 'description' => 'دسترسی به بخش تغییر وضعیت ویژگی مربوط به فرم کالا'];
 
     // 3- PRODUCT BRAND
     public const PERMISSION_PRODUCT_BRANDS = ['name' => 'permission-product-brands', 'description' => 'دسترسی به بخش برندهای محصولات'];
@@ -410,11 +410,11 @@ class Permission extends Model
         , self::PERMISSION_PRODUCT_PROPERTY_EDIT
         , self::PERMISSION_PRODUCT_PROPERTY_DELETE
         , self::PERMISSION_PRODUCT_PROPERTY_STATUS
-        , self::PERMISSION_PRODUCT_PROPERTY_ATTRIBUTES
-        , self::PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_CREATE
-        , self::PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_EDIT
-        , self::PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_DELETE
-        , self::PERMISSION_PRODUCT_PROPERTY_ATTRIBUTE_STATUS
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUES
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_CREATE
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_EDIT
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_DELETE
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_STATUS
         , self::PERMISSION_PRODUCT_BRANDS
         , self::PERMISSION_PRODUCT_BRAND_CREATE
         , self::PERMISSION_PRODUCT_BRAND_EDIT

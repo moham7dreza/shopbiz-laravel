@@ -1,15 +1,17 @@
 <?php
 
-namespace Modules\Article\Repositories;
+namespace Modules\Post\Repositories;
 
-use Modules\Article\Models\Article;
 
-class ArticleRepoEloquent implements ArticleRepoEloquentInterface
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Post\Entities\Post;
+
+class PostRepoEloquent implements PostRepoEloquentInterface
 {
     /**
      * Get latest articles.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getLatestArticles()
     {
@@ -20,7 +22,7 @@ class ArticleRepoEloquent implements ArticleRepoEloquentInterface
      * Find article by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function findById($id)
     {
@@ -41,10 +43,10 @@ class ArticleRepoEloquent implements ArticleRepoEloquentInterface
     /**
      * Get builder query.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
-        return Article::query();
+        return Post::query();
     }
 }

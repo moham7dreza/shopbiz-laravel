@@ -13,12 +13,31 @@ use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductMeta;
 use Modules\Product\Http\Requests\ProductRequest;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
+use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class ProductController extends Controller
 {
+    private string $redirectRoute = 'product.index';
 
+    private string $class = Product::class;
+
+    public ProductRepoEloquentInterface $repo;
+    public ProductService $service;
+
+    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductService $productService)
+    {
+        $this->repo = $productRepoEloquent;
+        $this->service = $productService;
+
+        $this->middleware('can:permission-products')->only(['index']);
+        $this->middleware('can:permission-product-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-product-delete')->only(['destroy']);
+        $this->middleware('can:permission-product-status')->only(['status']);
+    }
     /**
      * @return Application|Factory|View
      */

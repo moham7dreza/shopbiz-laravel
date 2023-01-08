@@ -2,7 +2,7 @@
 
 namespace Modules\User\Repositories;
 
-use Modules\User\Models\User;
+use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
 {

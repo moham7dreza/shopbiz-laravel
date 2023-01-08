@@ -13,6 +13,10 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PermissionController extends Controller
 {
+    private string $redirectRoute = 'permission.index';
+
+    private string $class = Permission::class;
+
     /**
      * Display a listing of the resource.
      *

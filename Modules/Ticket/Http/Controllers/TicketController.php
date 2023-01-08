@@ -10,10 +10,30 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Http\Requests\TicketRequest;
+use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
+use Modules\Ticket\Services\Ticket\TicketService;
 
 class TicketController extends Controller
 {
+    private string $redirectRoute = 'ticket.index';
 
+    private string $class = Ticket::class;
+
+    public TicketRepoEloquentInterface $repo;
+    public TicketService $service;
+
+    public function __construct(TicketRepoEloquentInterface $ticketRepoEloquent, TicketService $ticketService)
+    {
+        $this->repo = $ticketRepoEloquent;
+        $this->service = $ticketService;
+
+        $this->middleware('can:permission-all-tickets')->only(['index']);
+        $this->middleware('can:permission-new-tickets')->only(['newTickets']);
+        $this->middleware('can:permission-close-tickets')->only(['closeTickets']);
+        $this->middleware('can:permission-open-tickets')->only(['openTickets']);
+        $this->middleware('can:permission-all-ticket-show')->only(['show']);
+        $this->middleware('can:permission-all-ticket-change')->only(['change']);
+    }
     /**
      * @return Application|Factory|View
      */

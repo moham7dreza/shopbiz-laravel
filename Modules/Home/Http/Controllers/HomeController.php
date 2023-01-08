@@ -8,17 +8,16 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Modules\Banner\Entities\Banner;
 use Modules\Brand\Entities\Brand;
+use Modules\Home\Repositories\HomeRepoEloquentInterface;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-
-
     /**
      * @return Application|Factory|View
      */
-    public function home()
+    public function home(HomeRepoEloquentInterface $homeRepo)
     {
         Auth::loginUsingId(1);
 

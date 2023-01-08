@@ -12,10 +12,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Http\Requests\MenuRequest;
+use Modules\Menu\Repositories\MenuRepoEloquentInterface;
+use Modules\Menu\Services\MenuService;
 use Modules\Share\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
+    private string $redirectRoute = 'menu.index';
+
+    private string $class = Menu::class;
+
+    public MenuRepoEloquentInterface $repo;
+    public MenuService $service;
+
+    public function __construct(MenuRepoEloquentInterface $menuRepoEloquent, MenuService $menuService)
+    {
+        $this->repo = $menuRepoEloquent;
+        $this->service = $menuService;
+
+        $this->middleware('can:permission-menus')->only(['index']);
+        $this->middleware('can:permission-menu-create')->only(['create', 'store']);
+        $this->middleware('can:permission-menu-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-menu-delete')->only(['destroy']);
+        $this->middleware('can:permission-menu-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

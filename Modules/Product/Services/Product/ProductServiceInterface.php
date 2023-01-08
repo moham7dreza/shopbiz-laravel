@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Services;
+namespace Modules\Product\Services\Product;
 
 interface ProductServiceInterface
 {

@@ -7,10 +7,39 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Payment\Entities\Payment;
+use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
+    private string $redirectRoute = 'payment.index';
+
+    private string $class = Payment::class;
+
+    public PaymentRepoEloquentInterface $repo;
+
+    public function __construct(PaymentRepoEloquentInterface $paymentRepoEloquent)
+    {
+        $this->repo = $paymentRepoEloquent;
+
+        $this->middleware('can:permission-product-all-payments')->only(['index']);
+        $this->middleware('can:permission-product-online-payments')->only(['online']);
+        $this->middleware('can:permission-product-offline-payments')->only(['offline']);
+        $this->middleware('can:permission-product-cash-payments')->only(['cash']);
+        $this->middleware('can:permission-product-payment-cancel,
+                                        permission-product-online-payment-cancel,
+                                        permission-product-offline-payment-cancel,
+                                        permission-product-cash-payment-cancel')->only(['canceled']);
+        $this->middleware('can:permission-product-payment-return,
+                                        permission-product-online-payment-return,
+                                        permission-product-offline-payment-return,
+                                        permission-product-cash-payment-return')->only(['returned']);
+        $this->middleware('can:permission-product-payment-show,
+                                        permission-product-online-payment-show,
+                                        permission-product-offline-payment-show,
+                                        permission-product-cash-payment-show')->only(['show']);
+    }
+
     /**
      * @return Application|Factory|View
      */

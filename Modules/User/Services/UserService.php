@@ -3,7 +3,7 @@
 namespace Modules\User\Services;
 
 use Illuminate\Support\Facades\Hash;
-use Modules\User\Models\User;
+use Modules\User\Entities\User;
 
 class UserService
 {

@@ -12,10 +12,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Notify\Entities\SMS;
 use Modules\Notify\Http\Requests\SMSRequest;
+use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
+use Modules\Notify\Services\SMS\SMSService;
 use Modules\Share\Http\Controllers\Controller;
 
 class SMSController extends Controller
 {
+    private string $redirectRoute = 'sms-notify.index';
+
+    private string $class = SMS::class;
+
+    public SMSRepoEloquentInterface $repo;
+    public SMSService $service;
+
+    public function __construct(SMSRepoEloquentInterface $smsRepoEloquent, SMSService $smsService)
+    {
+        $this->repo = $smsRepoEloquent;
+        $this->service = $smsService;
+
+        $this->middleware('can:permission-sms-notify')->only(['index']);
+        $this->middleware('can:permission-sms-notify-create')->only(['create', 'store']);
+        $this->middleware('can:permission-sms-notify-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-sms-notify-delete')->only(['destroy']);
+        $this->middleware('can:permission-sms-notify-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

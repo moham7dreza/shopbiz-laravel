@@ -9,10 +9,28 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Ticket\Entities\TicketAdmin;
+use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquentInterface;
+use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
 use Modules\User\Entities\User;
 
 class TicketAdminController extends Controller
 {
+
+    private string $redirectRoute = 'ticket-admin.index';
+
+    private string $class = TicketAdmin::class;
+
+    public TicketAdminRepoEloquentInterface $repo;
+    public TicketAdminService $service;
+
+    public function __construct(TicketAdminRepoEloquentInterface $ticketRepoEloquent, TicketAdminService $ticketService)
+    {
+        $this->repo = $ticketRepoEloquent;
+        $this->service = $ticketService;
+
+        $this->middleware('can:permission-admin-tickets')->only(['index']);
+        $this->middleware('can:permission-admin-ticket-add')->only(['set']);
+    }
     /**
      * @return Application|Factory|View
      */

@@ -10,10 +10,31 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Http\Requests\EmailRequest;
+use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
+use Modules\Notify\Services\Email\EmailService;
 use Modules\Share\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
+    private string $redirectRoute = 'email-notify.index';
+
+    private string $class = Email::class;
+
+    public EmailRepoEloquentInterface $repo;
+    public EmailService $service;
+
+    public function __construct(EmailRepoEloquentInterface $emailRepoEloquent, EmailService $emailService)
+    {
+        $this->repo = $emailRepoEloquent;
+        $this->service = $emailService;
+
+        $this->middleware('can:permission-email-notify')->only(['index']);
+        $this->middleware('can:permission-email-notify-create')->only(['create', 'store']);
+        $this->middleware('can:permission-email-notify-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-email-notify-delete')->only(['destroy']);
+        $this->middleware('can:permission-email-notify-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

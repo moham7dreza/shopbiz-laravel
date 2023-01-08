@@ -17,6 +17,16 @@ use Modules\Share\Http\Controllers\Controller;
 class StoreController extends Controller
 {
 
+    private string $redirectRoute = 'product-store.index';
+
+    private string $class = Product::class;
+    public function __construct()
+    {
+        $this->middleware('can:permission-product-warehouse')->only(['index']);
+        $this->middleware('can:permission-product-warehouse-add')->only(['addToStore', 'store']);
+        $this->middleware('can:permission-product-warehouse-modify')->only(['edit', 'update']);
+    }
+
     /**
      * @return Application|Factory|View
      */

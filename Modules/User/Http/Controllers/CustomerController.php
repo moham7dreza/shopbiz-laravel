@@ -13,10 +13,31 @@ use Modules\Share\Http\Services\Image\ImageService;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\CustomerRequest;
 use Modules\User\Notifications\NewUserRegistered;
+use Modules\User\Repositories\UserRepoEloquentInterface;
+use Modules\User\Services\UserService;
 
 class CustomerController extends Controller
 {
 
+    private string $redirectRoute = 'customer-user.index';
+
+    private string $class = User::class;
+
+    public UserRepoEloquentInterface $repo;
+    public UserService $service;
+
+    public function __construct(UserRepoEloquentInterface $userRepoEloquent, UserService $userService)
+    {
+        $this->repo = $userRepoEloquent;
+        $this->service = $userService;
+
+        $this->middleware('can:permission-customer-users')->only(['index']);
+        $this->middleware('can:permission-customer-user-create')->only(['create', 'store']);
+        $this->middleware('can:permission-customer-user-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-customer-user-delete')->only(['destroy']);
+        $this->middleware('can:permission-customer-user-status')->only(['status']);
+        $this->middleware('can:permission-customer-user-activation')->only(['activation']);
+    }
     /**
      * @return Application|Factory|View
      */

@@ -10,10 +10,30 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Ticket\Entities\TicketCategory;
 use Modules\Ticket\Http\Requests\TicketCategoryRequest;
+use Modules\Ticket\Repositories\TicketCategory\TicketCategoryRepoEloquentInterface;
+use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 
 class TicketCategoryController extends Controller
 {
 
+    private string $redirectRoute = 'ticket-category.index';
+
+    private string $class = TicketCategory::class;
+
+    public TicketCategoryRepoEloquentInterface $repo;
+    public TicketCategoryService $service;
+
+    public function __construct(TicketCategoryRepoEloquentInterface $ticketRepoEloquent, TicketCategoryService $ticketService)
+    {
+        $this->repo = $ticketRepoEloquent;
+        $this->service = $ticketService;
+
+        $this->middleware('can:permission-ticket-categories')->only(['index']);
+        $this->middleware('can:permission-ticket-category-create')->only(['create', 'store']);
+        $this->middleware('can:permission-ticket-category-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-ticket-category-delete')->only(['destroy']);
+        $this->middleware('can:permission-ticket-category-status')->only(['status']);
+    }
     /**
      * @return Application|Factory|View
      */

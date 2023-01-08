@@ -11,11 +11,28 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
+use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
+use Modules\Product\Services\Color\ProductColorService;
 use Modules\Share\Http\Controllers\Controller;
 
 class ProductColorController extends Controller
 {
+    private string $redirectRoute = 'product-color.index';
 
+    private string $class = ProductColor::class;
+
+    public ProductColorRepoEloquentInterface $repo;
+    public ProductColorService $service;
+
+    public function __construct(ProductColorRepoEloquentInterface $colorRepoEloquent, ProductColorService $colorService)
+    {
+        $this->repo = $colorRepoEloquent;
+        $this->service = $colorService;
+
+        $this->middleware('can:permission-product-colors')->only(['index']);
+        $this->middleware('can:permission-product-color-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-color-delete')->only(['destroy']);
+    }
     /**
      * @param Product $product
      * @return Application|Factory|View

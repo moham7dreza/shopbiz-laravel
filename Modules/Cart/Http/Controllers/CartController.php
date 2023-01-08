@@ -9,11 +9,24 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Cart\Services\CartService;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
+    private string $class = CartItem::class;
+
+    public CartRepoEloquentInterface $repo;
+    public CartService $service;
+
+    public function __construct(CartRepoEloquentInterface $cartRepoEloquent, CartService $cartService)
+    {
+        $this->repo = $cartRepoEloquent;
+        $this->service = $cartService;
+    }
+
     /**
      * @return Application|Factory|View|RedirectResponse
      */

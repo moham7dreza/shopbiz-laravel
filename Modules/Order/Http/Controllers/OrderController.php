@@ -8,10 +8,53 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Order\Entities\Order;
+use Modules\Order\Repositories\OrderRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    private string $redirectRoute = 'order.index';
+
+    private string $class = Order::class;
+
+    public OrderRepoEloquentInterface $repo;
+
+    public function __construct(OrderRepoEloquentInterface $orderRepoEloquent)
+    {
+        $this->repo = $orderRepoEloquent;
+
+        $this->middleware('can:permission-product-new-orders')->only(['newOrders']);
+        $this->middleware('can:permission-product-sending-orders')->only(['sending']);
+        $this->middleware('can:permission-product-canceled-orders')->only(['canceled']);
+        $this->middleware('can:permission-product-all-orders')->only(['all']);
+        $this->middleware('can:permission-product-unpaid-orders')->only(['unpaid']);
+        $this->middleware('can:permission-product-returned-orders')->only(['returned']);
+        $this->middleware('can:permission-product-order-show,
+                                        permission-product-returned-order-show,
+                                        permission-product-canceled-order-show,
+                                        permission-product-sending-order-show,
+                                        permission-product-unpaid-order-show,
+                                        permission-product-new-order-show')->only(['show']);
+        $this->middleware('can:permission-product-order-detail
+                                        permission-product-returned-order-detail,
+                                        permission-product-canceled-order-detail,
+                                        permission-product-sending-order-detail,
+                                        permission-product-unpaid-order-detail,
+                                        permission-product-new-order-detail')->only(['detail']);
+        $this->middleware('can:permission-product-order-status
+                                        permission-product-returned-order-status,
+                                        permission-product-canceled-order-status,
+                                        permission-product-sending-order-status,
+                                        permission-product-unpaid-order-status,
+                                        permission-product-new-order-status')->only(['changeOrderStatus']);
+        $this->middleware('can:permission-product-order-send-status
+                                        permission-product-returned-order-send-status,
+                                        permission-product-canceled-order-send-status,
+                                        permission-product-sending-order-send-status,
+                                        permission-product-unpaid-order-send-status,
+                                        permission-product-new-order-send-status')->only(['changeSendStatus']);
+    }
+
     /**
      * @return Application|Factory|View
      */

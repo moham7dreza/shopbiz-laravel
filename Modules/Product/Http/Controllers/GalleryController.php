@@ -10,12 +10,29 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Product\Entities\Gallery;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Gallery\ProductGalleryRepoEloquentInterface;
+use Modules\Product\Services\Gallery\ProductGalleryService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class GalleryController extends Controller
 {
+    private string $redirectRoute = 'product-gallery.index';
 
+    private string $class = Gallery::class;
+
+    public ProductGalleryRepoEloquentInterface $repo;
+    public ProductGalleryService $service;
+
+    public function __construct(ProductGalleryRepoEloquentInterface $galleryRepoEloquent, ProductGalleryService $galleryService)
+    {
+        $this->repo = $galleryRepoEloquent;
+        $this->service = $galleryService;
+
+        $this->middleware('can:permission-product-gallery')->only(['index']);
+        $this->middleware('can:permission-product-gallery-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-gallery-delete')->only(['destroy']);
+    }
     /**
      * @param Product $product
      * @return Application|Factory|View

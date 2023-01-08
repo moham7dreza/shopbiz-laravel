@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Repositories;
+namespace Modules\Product\Repositories\Product;
 
 interface ProductRepoEloquentInterface
 {

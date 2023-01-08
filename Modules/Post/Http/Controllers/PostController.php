@@ -10,11 +10,35 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Category\Entities\PostCategory;
 use Modules\Post\Entities\Post;
 use Modules\Post\Http\Requests\PostRequest;
+use Modules\Post\Repositories\PostRepoEloquentInterface;
+use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class PostController extends Controller
 {
+
+    private string $redirectRoute = 'post.index';
+
+    private string $class = Post::class;
+
+    public PostRepoEloquentInterface $repo;
+    public PostService $service;
+
+    public function __construct(PostRepoEloquentInterface $postRepoEloquent, PostService $postService)
+    {
+        $this->repo = $postRepoEloquent;
+        $this->service = $postService;
+
+        $this->middleware('can:permission-posts')->only(['index']);
+        $this->middleware('can:permission-post-create')->only(['create', 'store']);
+        $this->middleware('can:permission-post-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-post-delete')->only(['destroy']);
+        $this->middleware('can:permission-post-status')->only(['status']);
+        $this->middleware('can:permission-post-status')->only(['status']);
+        $this->middleware('can:permission-post-set-tags')->only(['setTags']);
+        $this->middleware('can:permission-post-update-tags')->only(['updateTags']);
+    }
 
     // public function __construct()
     // {

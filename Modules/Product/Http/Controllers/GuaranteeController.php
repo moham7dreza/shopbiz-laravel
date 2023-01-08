@@ -10,11 +10,28 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface;
+use Modules\Product\Services\Guarantee\ProductGuaranteeService;
 use Modules\Share\Http\Controllers\Controller;
 
 class GuaranteeController extends Controller
 {
+    private string $redirectRoute = 'product-guarantee.index';
 
+    private string $class = Guarantee::class;
+
+    public ProductGuaranteeRepoEloquentInterface $repo;
+    public ProductGuaranteeService $service;
+
+    public function __construct(ProductGuaranteeRepoEloquentInterface $guaranteeRepoEloquent, ProductGuaranteeService $guaranteeService)
+    {
+        $this->repo = $guaranteeRepoEloquent;
+        $this->service = $guaranteeService;
+
+        $this->middleware('can:permission-product-guarantees')->only(['index']);
+        $this->middleware('can:permission-product-guarantee-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-guarantee-delete')->only(['destroy']);
+    }
     /**
      * @param Product $product
      * @return Application|Factory|View

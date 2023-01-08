@@ -8,12 +8,33 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\Product\Services\TicketPriority\TicketPriorityService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Ticket\Entities\TicketPriority;
 use Modules\Ticket\Http\Requests\TicketPriorityRequest;
+use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
 
 class TicketPriorityController extends Controller
 {
+
+    private string $redirectRoute = 'ticket-priority.index';
+
+    private string $class = TicketPriority::class;
+
+    public TicketPriorityRepoEloquentInterface $repo;
+    public TicketPriorityService $service;
+
+    public function __construct(TicketPriorityRepoEloquentInterface $ticketRepoEloquent, TicketPriorityService $ticketService)
+    {
+        $this->repo = $ticketRepoEloquent;
+        $this->service = $ticketService;
+
+        $this->middleware('can:permission-ticket-priorities')->only(['index']);
+        $this->middleware('can:permission-ticket-priority-create')->only(['create', 'store']);
+        $this->middleware('can:permission-ticket-priority-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-ticket-priority-delete')->only(['destroy']);
+        $this->middleware('can:permission-ticket-priority-status')->only(['status']);
+    }
     /**
      * @return Application|Factory|View
      */

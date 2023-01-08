@@ -16,9 +16,33 @@ use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\AdminUserRequest;
+use Modules\User\Repositories\UserRepoEloquentInterface;
+use Modules\User\Services\UserService;
 
 class AdminUserController extends Controller
 {
+
+    private string $redirectRoute = 'admin-user.index';
+
+    private string $class = User::class;
+
+    public UserRepoEloquentInterface $repo;
+    public UserService $service;
+
+    public function __construct(UserRepoEloquentInterface $userRepoEloquent, UserService $userService)
+    {
+        $this->repo = $userRepoEloquent;
+        $this->service = $userService;
+
+        $this->middleware('can:permission-admin-users')->only(['index']);
+        $this->middleware('can:permission-admin-user-create')->only(['create', 'store']);
+        $this->middleware('can:permission-admin-user-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-admin-user-delete')->only(['destroy']);
+        $this->middleware('can:permission-admin-user-status')->only(['status']);
+        $this->middleware('can:permission-admin-user-activation')->only(['activation']);
+        $this->middleware('can:permission-admin-user-roles')->only(['roleForm', 'roleUpdate']);
+    }
+
 
     /**
      * @return Application|Factory|View

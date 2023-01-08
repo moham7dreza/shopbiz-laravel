@@ -10,10 +10,31 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\Page\Entities\Page;
 use Modules\Page\Http\Requests\PageRequest;
+use Modules\Page\Repositories\PageRepoEloquentInterface;
+use Modules\Page\Services\PageService;
 use Modules\Share\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
+    private string $redirectRoute = 'page.index';
+
+    private string $class = Page::class;
+
+    public PageRepoEloquentInterface $repo;
+    public PageService $service;
+
+    public function __construct(PageRepoEloquentInterface $pageRepoEloquent, PageService $pageService)
+    {
+        $this->repo = $pageRepoEloquent;
+        $this->service = $pageService;
+
+        $this->middleware('can:permission-pages')->only(['index']);
+        $this->middleware('can:permission-page-create')->only(['create', 'store']);
+        $this->middleware('can:permission-page-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-page-delete')->only(['destroy']);
+        $this->middleware('can:permission-page-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

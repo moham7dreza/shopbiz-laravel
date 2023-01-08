@@ -2,8 +2,6 @@
 
 namespace Modules\Cart\Services;
 
-use Modules\Product\Repositories\ProductRepoEloquent;
-
 class CartService implements CartServiceInterface
 {
     /**

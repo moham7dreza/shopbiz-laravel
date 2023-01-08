@@ -1,18 +1,16 @@
 <?php
 
-namespace Modules\Product\Services;
+namespace Modules\Ticket\Services\TicketAdmin;
 
-use Modules\Media\Services\MediaFileService;
-use Modules\Product\Models\Product;
-use Modules\Share\Services\ShareService;
+use Illuminate\Database\Eloquent\Builder;
 
-class ProductService implements ProductServiceInterface
+class TicketAdminService implements TicketAdminServiceInterface
 {
     /**
      * Store product with request.
      *
      * @param  array $data
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @return Builder|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
     public function store(array $data)
@@ -127,9 +125,9 @@ class ProductService implements ProductServiceInterface
     /**
      * Get product query (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return Product::query();
     }

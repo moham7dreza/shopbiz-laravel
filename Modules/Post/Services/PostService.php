@@ -1,17 +1,18 @@
 <?php
 
-namespace Modules\Article\Services;
+namespace Modules\Post\Services;
 
-use Modules\Article\Models\Article;
-use Modules\Share\Services\ShareService;
 
-class ArticleService implements ArticleServiceInterface
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Post\Entities\Post;
+
+class PostService implements PostServiceInterface
 {
     /**
      * Store article by request.
      *
      * @param  $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @return Builder|\Illuminate\Database\Eloquent\Model
      */
     public function store($request)
     {
@@ -70,10 +71,10 @@ class ArticleService implements ArticleServiceInterface
     /**
      * Get query for article model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
-        return Article::query();
+        return Post::query();
     }
 }

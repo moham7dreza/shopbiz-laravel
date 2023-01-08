@@ -13,11 +13,32 @@ use Illuminate\Http\Response;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Entities\EmailFile;
 use Modules\Notify\Http\Requests\EmailFileRequest;
+use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquentInterface;
+use Modules\Notify\Services\EmailFile\EmailFileService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\File\FileService;
 
 class EmailFileController extends Controller
 {
+    private string $redirectRoute = 'email-file.index';
+
+    private string $class = EmailFile::class;
+
+    public EmailFileRepoEloquentInterface $repo;
+    public EmailFileService $service;
+
+    public function __construct(EmailFileRepoEloquentInterface $emailFileRepoEloquent, EmailFileService $emailFileService)
+    {
+        $this->repo = $emailFileRepoEloquent;
+        $this->service = $emailFileService;
+
+        $this->middleware('can:permission-email-notify-files')->only(['index']);
+        $this->middleware('can:permission-email-notify-file-create')->only(['create', 'store']);
+        $this->middleware('can:permission-email-notify-file-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-email-notify-file-delete')->only(['destroy']);
+        $this->middleware('can:permission-email-notify-file-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

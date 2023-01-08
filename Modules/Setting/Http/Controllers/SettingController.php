@@ -9,12 +9,29 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Setting\Database\Seeders\SettingSeeder;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Http\Requests\SettingRequest;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
+use Modules\Setting\Services\SettingService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class SettingController extends Controller
 {
 
+    private string $redirectRoute = 'setting.index';
+
+    private string $class = Setting::class;
+
+    public SettingRepoEloquentInterface $repo;
+    public SettingService $service;
+
+    public function __construct(SettingRepoEloquentInterface $settingRepoEloquent, SettingService $settingService)
+    {
+        $this->repo = $settingRepoEloquent;
+        $this->service = $settingService;
+
+        $this->middleware('can:permission-setting')->only(['index']);
+        $this->middleware('can:permission-setting-edit')->only(['edit', 'update']);
+    }
     /**
      * @return Application|Factory|View
      */

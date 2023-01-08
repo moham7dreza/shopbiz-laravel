@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Product\Repositories;
+namespace Modules\Ticket\Repositories\Ticket;
 
-use Modules\Product\Models\Product;
+use Modules\Ticket\Entities\Ticket;
 
-class ProductRepoEloquent implements ProductRepoEloquentInterface
+class TicketRepoEloquent implements TicketRepoEloquentInterface
 {
     /**
      * Get latest products.
@@ -43,8 +43,8 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    private function query()
+    private function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return Product::query();
+        return Ticket::query();
     }
 }

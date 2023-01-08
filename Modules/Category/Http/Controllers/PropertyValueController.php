@@ -28,6 +28,13 @@ class PropertyValueController extends Controller
         $this->propertyValueRepo = $propertyValueRepo;
         $this->propertyValueService = $propertyValueService;
 
+        $this->middleware('can:permission-product-property-values')->only(['index']);
+        $this->middleware('can:permission-product-property-value-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-property-value-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-product-property-value-delete')->only(['destroy']);
+        $this->middleware('can:permission-product-property-value-status')->only(['status']);
+
+
     }
     /**
      * Display a listing of the resource.

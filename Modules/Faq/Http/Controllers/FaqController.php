@@ -12,10 +12,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Faq\Entities\Faq;
 use Modules\Faq\Http\Requests\FaqRequest;
+use Modules\Faq\Repositories\FaqRepoEloquentInterface;
+use Modules\Faq\Services\FaqService;
 use Modules\Share\Http\Controllers\Controller;
 
 class FaqController extends Controller
 {
+    private string $redirectRoute = 'faq.index';
+
+    private string $class = Faq::class;
+
+    public FaqRepoEloquentInterface $repo;
+    public FaqService $service;
+
+    public function __construct(FaqRepoEloquentInterface $faqRepoEloquent, FaqService $faqService)
+    {
+        $this->repo = $faqRepoEloquent;
+        $this->service = $faqService;
+
+        $this->middleware('can:permission-faqs')->only(['index']);
+        $this->middleware('can:permission-faq-create')->only(['create', 'store']);
+        $this->middleware('can:permission-faq-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-faq-delete')->only(['destroy']);
+        $this->middleware('can:permission-faq-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *
