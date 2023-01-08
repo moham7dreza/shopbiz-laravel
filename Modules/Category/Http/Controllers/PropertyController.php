@@ -12,10 +12,31 @@ use Illuminate\Http\Response;
 use Modules\Category\Entities\CategoryAttribute;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Http\Requests\CategoryAttributeRequest;
+use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
+use Modules\Category\Services\Property\PropertyServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class PropertyController extends Controller
 {
+    private string $redirectRoute = 'property.index';
+
+    private string $class = CategoryAttribute::class;
+
+    public PropertyRepoEloquentInterface $propertyRepo;
+    public PropertyServiceInterface $propertyService;
+
+    public function __construct(PropertyRepoEloquentInterface $propertyRepo, PropertyServiceInterface $propertyService)
+    {
+        $this->propertyRepo = $propertyRepo;
+        $this->propertyService = $propertyService;
+
+        $this->middleware('can:permission-product-properties')->only(['index']);
+        $this->middleware('can:permission-product-property-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-property-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-product-property-delete')->only(['destroy']);
+        $this->middleware('can:permission-product-property-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

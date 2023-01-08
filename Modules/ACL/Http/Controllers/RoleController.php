@@ -10,6 +10,7 @@ use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
+use Modules\ACL\Services\BannerService;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 

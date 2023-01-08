@@ -1,17 +1,19 @@
 <?php
 
-namespace Modules\Category\Services;
+namespace Modules\Category\Services\Property;
 
 
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Category\Entities\CategoryAttribute;
 use Modules\Category\Entities\ProductCategory;
 
-class CategoryService implements CategoryServiceInterface
+class PropertyService implements PropertyServiceInterface
 {
     /**
      * Store category.
      *
      * @param  $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @return Builder|\Illuminate\Database\Eloquent\Model
      */
     public function store($request)
     {
@@ -48,10 +50,10 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Return category query.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
-        return ProductCategory::query();
+        return CategoryAttribute::query();
     }
 }

@@ -9,10 +9,26 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class PostCommentController extends Controller
 {
+    private string $redirectRoute = 'post-comment.index';
+
+    private string $class = Comment::class;
+
+    public CommentRepoEloquentInterface $repo;
+
+    public function __construct(CommentRepoEloquentInterface $commentRepoEloquent)
+    {
+        $this->repo = $commentRepoEloquent;
+
+        $this->middleware('can:permission-post-comments')->only(['index']);
+        $this->middleware('can:permission-post-comment-show')->only(['show']);
+        $this->middleware('can:permission-post-comment-status')->only(['status']);
+        $this->middleware('can:permission-post-comment-approve')->only(['approved']);
+    }
     /**
      * Display a listing of the resource.
      *

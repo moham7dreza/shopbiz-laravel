@@ -1,10 +1,11 @@
 <?php
 
-namespace Modules\Category\Repositories;
+namespace Modules\Category\Repositories\PropertyValue;
 
+use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Entities\ProductCategory;
 
-class CategoryRepoEloquent implements CategoryRepoEloquentInterface
+class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
 {
     /**
      * Get latest categories.
@@ -67,6 +68,6 @@ class CategoryRepoEloquent implements CategoryRepoEloquentInterface
      */
     private function query()
     {
-        return ProductCategory::query();
+        return CategoryValue::query();
     }
 }

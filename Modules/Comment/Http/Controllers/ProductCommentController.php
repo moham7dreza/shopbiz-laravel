@@ -10,10 +10,27 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class ProductCommentController extends Controller
 {
+    private string $redirectRoute = 'product-comment.index';
+
+    private string $class = Comment::class;
+
+    public CommentRepoEloquentInterface $repo;
+
+    public function __construct(CommentRepoEloquentInterface $commentRepoEloquent)
+    {
+        $this->repo = $commentRepoEloquent;
+
+        $this->middleware('can:permission-product-comments')->only(['index']);
+        $this->middleware('can:permission-product-comment-show')->only(['show']);
+        $this->middleware('can:permission-product-comment-status')->only(['status']);
+        $this->middleware('can:permission-product-comment-approve')->only(['approved']);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -9,11 +9,32 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Http\Requests\BrandRequest;
+use Modules\Brand\Repositories\BrandRepoEloquentInterface;
+use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class BrandController extends Controller
 {
+    private string $redirectRoute = 'brand.index';
+
+    private string $class = Brand::class;
+
+    public BrandRepoEloquentInterface $repo;
+    public BrandService $service;
+
+    public function __construct(BrandRepoEloquentInterface $brandRepoEloquent, BrandService $brandService)
+    {
+        $this->repo = $brandRepoEloquent;
+        $this->service = $brandService;
+
+        $this->middleware('can:permission-product-brands')->only(['index']);
+        $this->middleware('can:permission-product-brand-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-brand-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-product-brand-delete')->only(['destroy']);
+        $this->middleware('can:permission-product-brand-status')->only(['status']);
+
+    }
     /**
      * Display a listing of the resource.
      *

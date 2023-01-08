@@ -11,11 +11,33 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Banner\Entities\Banner;
 use Modules\Banner\Http\Requests\BannerRequest;
+use Modules\Banner\Repositories\BannerRepoEloquentInterface;
+use Modules\Banner\Services\BannerService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class BannerController extends Controller
 {
+    private string $redirectRoute = 'banner.index';
+
+    private string $class = Banner::class;
+
+    public BannerRepoEloquentInterface $repo;
+    public BannerService $service;
+
+    public function __construct(BannerRepoEloquentInterface $bannerRepoEloquent, BannerService $bannerService)
+    {
+        $this->repo = $bannerRepoEloquent;
+        $this->service = $bannerService;
+
+//        $this->middleware('can:role-admin')->only(['index']);
+        $this->middleware('can:permission-banners')->only(['index']);
+        $this->middleware('can:permission-banner-create')->only(['create', 'store']);
+        $this->middleware('can:permission-banner-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-banner-delete')->only(['destroy']);
+        $this->middleware('can:permission-banner-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

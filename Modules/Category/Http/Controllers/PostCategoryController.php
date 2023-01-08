@@ -12,21 +12,41 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\PostCategory;
 use Modules\Category\Http\Requests\PostCategoryRequest;
+use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
+use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class PostCategoryController extends Controller
 {
+    private string $redirectRoute = 'post-category.index';
 
-    function __construct()
+    private string $class = PostCategory::class;
+
+    public PostCategoryRepoEloquentInterface $categoryRepo;
+    public PostCategoryServiceInterface $categoryService;
+
+    public function __construct(PostCategoryRepoEloquentInterface $postCategoryRepo, PostCategoryServiceInterface $postCategoryService)
     {
+        $this->categoryRepo = $postCategoryRepo;
+        $this->categoryService = $postCategoryService;
+//        $this->authorizeResource(PostCategory::class, 'post');
+        $this->middleware('can:permission-post-categories')->only(['index']);
+        $this->middleware('can:permission-post-categories-create')->only(['create', 'store']);
+        $this->middleware('can:permission-post-categories-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-post-categories-delete')->only(['destroy']);
+        $this->middleware('can:permission-post-categories-status')->only(['status']);
+    }
+
+//    function __construct()
+//    {
         // $this->middleware('role:operator')->only(['edit']);
         // $this->middleware('role:operator')->only(['create']);
         // $this->middleware('role:accounting')->only(['store']);
         // $this->middleware('role:operator')->only(['edit']);
 //        $this->middleware('can:show-category')->only(['index']);
 //        $this->middleware('can:update-category')->only(['edit', 'update']);
-    }
+//    }
 
     /**
      * Display a listing of the resource.

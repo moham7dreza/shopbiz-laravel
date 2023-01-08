@@ -10,10 +10,31 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Delivery\Http\Requests\DeliveryRequest;
+use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
+use Modules\Delivery\Services\DeliveryService;
 use Modules\Share\Http\Controllers\Controller;
 
 class DeliveryController extends Controller
 {
+    private string $redirectRoute = 'delivery.index';
+
+    private string $class = Delivery::class;
+
+    public DeliveryRepoEloquentInterface $repo;
+    public DeliveryService $service;
+
+    public function __construct(DeliveryRepoEloquentInterface $deliveryRepoEloquent, DeliveryService $deliveryService)
+    {
+        $this->repo = $deliveryRepoEloquent;
+        $this->service = $deliveryService;
+
+        $this->middleware('can:permission-delivery-methods')->only(['index']);
+        $this->middleware('can:permission-delivery-method-create')->only(['create', 'store']);
+        $this->middleware('can:permission-delivery-method-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-delivery-method-delete')->only(['destroy']);
+        $this->middleware('can:permission-delivery-method-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

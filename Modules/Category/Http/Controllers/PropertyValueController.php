@@ -6,15 +6,29 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\CategoryAttribute;
 use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Http\Requests\CategoryValueRequest;
+use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
+use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class PropertyValueController extends Controller
 {
+    private string $redirectRoute = 'property-value.index';
+
+    private string $class = CategoryValue::class;
+
+    public PropertyValueRepoEloquentInterface $propertyValueRepo;
+    public PropertyValueServiceInterface $propertyValueService;
+
+    public function __construct(PropertyValueRepoEloquentInterface $propertyValueRepo, PropertyValueServiceInterface $propertyValueService)
+    {
+        $this->propertyValueRepo = $propertyValueRepo;
+        $this->propertyValueService = $propertyValueService;
+
+    }
     /**
      * Display a listing of the resource.
      *

@@ -1,12 +1,11 @@
 <?php
 
-namespace Modules\Discount\Services;
+namespace Modules\Discount\Services\AmazingSale;
 
-use Modules\Discount\Enums\DiscountTypeEnum;
-use Modules\Discount\Models\Discount;
-use Modules\Discount\Repositories\DiscountRepoEloquentInterface;
+use Modules\Discount\Entities\AmazingSale;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 
-class DiscountService
+class AmazingSaleDiscountService
 {
     /**
      * Store discount & sync discount to products by array of data.
@@ -66,7 +65,7 @@ class DiscountService
      */
     private function query()
     {
-        return Discount::query();
+        return AmazingSale::query();
     }
 
     /**

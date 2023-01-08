@@ -10,11 +10,32 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Http\Requests\ProductCategoryRequest;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
+use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 
 class ProductCategoryController extends Controller
 {
+    private string $redirectRoute = 'product-category.index';
+
+    private string $class = ProductCategory::class;
+
+    public ProductCategoryRepoEloquentInterface $categoryRepo;
+    public ProductCategoryServiceInterface $categoryService;
+
+    public function __construct(ProductCategoryRepoEloquentInterface $productCategoryRepo, ProductCategoryServiceInterface $productCategoryService)
+    {
+        $this->categoryRepo = $productCategoryRepo;
+        $this->categoryService = $productCategoryService;
+
+        $this->middleware('can:permission-product-categories')->only(['index']);
+        $this->middleware('can:permission-product-category-create')->only(['create', 'store']);
+        $this->middleware('can:permission-product-category-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission-product-category-delete')->only(['destroy']);
+        $this->middleware('can:permission-product-category-status')->only(['status']);
+    }
+
     /**
      * Display a listing of the resource.
      *

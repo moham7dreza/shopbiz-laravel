@@ -13,12 +13,59 @@ use Modules\Discount\Entities\Copan;
 use Modules\Discount\Http\Requests\AmazingSaleRequest;
 use Modules\Discount\Http\Requests\CommonDiscountRequest;
 use Modules\Discount\Http\Requests\CopanRequest;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
+use Modules\Discount\Services\AmazingSale\AmazingSaleDiscountService;
+use Modules\Discount\Services\Common\CommonDiscountService;
+use Modules\Discount\Services\Copan\CopanDiscountService;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\User\Entities\User;
 
 class DiscountController extends Controller
 {
+    public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
+    public CopanDiscountService $copanDiscountService;
+
+    public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
+    public CommonDiscountService $commonDiscountService;
+
+    public AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
+    public AmazingSaleDiscountService $amazingSaleDiscountService;
+
+    public function __construct(CopanDiscountRepoEloquentInterface $copanDiscountRepo, CopanDiscountService $copanDiscountService,
+                                CommonDiscountRepoEloquentInterface $commonDiscountRepo, CommonDiscountService $commonDiscountService,
+                                AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo,
+                                AmazingSaleDiscountService $amazingSaleDiscountService)
+    {
+        $this->copanDiscountRepo = $copanDiscountRepo;
+        $this->copanDiscountService = $copanDiscountService;
+
+        $this->commonDiscountRepo = $commonDiscountRepo;
+        $this->commonDiscountService = $commonDiscountService;
+
+        $this->amazingSaleDiscountRepo = $amazingSaleDiscountRepo;
+        $this->amazingSaleDiscountService = $amazingSaleDiscountService;
+
+        // set middlewares
+        $this->middleware('can:permission-product-coupon-discounts')->only(['copan']);
+        $this->middleware('can:permission-product-coupon-discount-create')->only(['copanCreate', 'copanStore']);
+        $this->middleware('can:permission-product-coupon-discount-edit')->only(['copanEdit', 'copanUpdate']);
+        $this->middleware('can:permission-product-coupon-discount-delete')->only(['copanDestroy']);
+
+        $this->middleware('can:permission-product-common-discounts')->only(['commonDiscount']);
+        $this->middleware('can:permission-product-common-discount-create')->only(['commonDiscountCreate', 'commonDiscountStore']);
+        $this->middleware('can:permission-product-common-discount-edit')->only(['commonDiscountEdit', 'commonDiscountUpdate']);
+        $this->middleware('can:permission-product-common-discount-delete')->only(['commonDiscountDestroy']);
+
+        $this->middleware('can:permission-product-amazing-sales')->only(['amazingSale']);
+        $this->middleware('can:permission-product-amazing-sale-create')->only(['amazingSaleCreate', 'amazingSaleStore']);
+        $this->middleware('can:permission-product-amazing-sale-edit')->only(['amazingSaleEdit', 'amazingSaleUpdate']);
+        $this->middleware('can:permission-product-amazing-sale-delete')->only(['amazingSaleDestroy']);
+
+    }
+
     /**
      * @return Application|Factory|View
      */
