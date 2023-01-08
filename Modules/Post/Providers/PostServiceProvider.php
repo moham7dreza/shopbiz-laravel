@@ -2,8 +2,11 @@
 
 namespace Modules\Post\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Post\Entities\Post;
+use Modules\Post\Policies\PostPolicy;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class PostServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class PostServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Post::class, PostPolicy::class);
     }
 
     /**

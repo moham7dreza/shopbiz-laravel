@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Product\Policies;
+namespace Modules\Notify\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\ACL\Entities\Permission;
 use Modules\User\Entities\User;
 
-class ProductPolicy
+class NotifyPolicy
 {
     use HandlesAuthorization;
 
@@ -28,8 +28,8 @@ class ProductPolicy
      */
     public function manage(User $user): bool
     {
-        $permission = Permission::query()->where([
-            ['name', Permission::PERMISSION_PRODUCTS['name']],
+        $permission = \Modules\ACL\Entities\Permission::query()->where([
+            ['name', Permission::PERMISSION_NOTIFY['name']],
             ['status', 1]
         ])->first();
         if (is_null($permission))

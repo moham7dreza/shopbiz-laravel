@@ -10,6 +10,8 @@ use Illuminate\Support\ServiceProvider;
 use Modules\ACL\Database\Seeders\PermissionSeeder;
 use Modules\ACL\Database\Seeders\PermissionTableSeeder;
 use Modules\ACL\Entities\Permission;
+use Modules\ACL\Entities\Role;
+use Modules\ACL\Policies\RolePermissionPolicy;
 use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\User\Entities\User;
@@ -68,7 +70,7 @@ class AclServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
 
         $this->bindSeeder();
         $this->bindRepository();
@@ -129,7 +131,7 @@ class AclServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Role::class, RolePermissionPolicy::class);
     }
 
     /**

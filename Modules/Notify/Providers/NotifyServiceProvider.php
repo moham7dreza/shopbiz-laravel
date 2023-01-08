@@ -2,8 +2,11 @@
 
 namespace Modules\Notify\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Notify\Entities\Email;
+use Modules\Notify\Policies\NotifyPolicy;
 
 class NotifyServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class NotifyServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class NotifyServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Email::class, NotifyPolicy::class);
     }
 
     /**

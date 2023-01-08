@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Product\Policies;
+namespace Modules\Delivery\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\ACL\Entities\Permission;
 use Modules\User\Entities\User;
 
-class ProductPolicy
+class DeliveryPolicy
 {
     use HandlesAuthorization;
 
@@ -21,15 +21,15 @@ class ProductPolicy
     }
 
     /**
-     * Check user have permission.
+     * Check user have permissions.
      *
      * @param  User $user
      * @return bool
      */
     public function manage(User $user): bool
     {
-        $permission = Permission::query()->where([
-            ['name', Permission::PERMISSION_PRODUCTS['name']],
+        $permission = \Modules\ACL\Entities\Permission::query()->where([
+            ['name', Permission::PERMISSION_DELIVERY_METHODS['name']],
             ['status', 1]
         ])->first();
         if (is_null($permission))

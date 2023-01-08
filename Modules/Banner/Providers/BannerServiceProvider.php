@@ -3,8 +3,11 @@
 namespace Modules\Banner\Providers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Banner\Entities\Banner;
+use Modules\Banner\Policies\BannerPolicy;
 
 class BannerServiceProvider extends ServiceProvider
 {
@@ -60,7 +63,7 @@ class BannerServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -114,7 +117,7 @@ class BannerServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Banner::class, BannerPolicy::class);
     }
 
     /**

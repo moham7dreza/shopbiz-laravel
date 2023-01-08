@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Product\Policies;
+namespace Modules\Page\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\ACL\Entities\Permission;
 use Modules\User\Entities\User;
 
-class ProductPolicy
+class PagePolicy
 {
     use HandlesAuthorization;
 
@@ -23,13 +23,13 @@ class ProductPolicy
     /**
      * Check user have permission.
      *
-     * @param  User $user
+     * @param User $user
      * @return bool
      */
     public function manage(User $user): bool
     {
         $permission = Permission::query()->where([
-            ['name', Permission::PERMISSION_PRODUCTS['name']],
+            ['name', Permission::PERMISSION_PAGES['name']],
             ['status', 1]
         ])->first();
         if (is_null($permission))

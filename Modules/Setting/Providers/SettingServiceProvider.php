@@ -2,8 +2,11 @@
 
 namespace Modules\Setting\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Setting\Entities\Setting;
+use Modules\Setting\Policies\SettingPolicy;
 
 class SettingServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class SettingServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Setting::class, SettingPolicy::class);
     }
 
     /**

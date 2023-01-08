@@ -2,8 +2,13 @@
 
 namespace Modules\Category\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Category\Entities\PostCategory;
+use Modules\Category\Entities\ProductCategory;
+use Modules\Category\Policies\PostCategoryPolicy;
+use Modules\Category\Policies\ProductCategoryPolicy;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -59,7 +64,7 @@ class CategoryServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +118,8 @@ class CategoryServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(ProductCategory::class, ProductCategoryPolicy::class);
+        Gate::policy(PostCategory::class, PostCategoryPolicy::class);
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace Modules\User\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\User\Entities\User;
+use Modules\User\Policies\UserPolicy;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class UserServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class UserServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
     }
 
     /**

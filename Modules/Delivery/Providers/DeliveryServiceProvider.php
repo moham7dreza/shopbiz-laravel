@@ -2,8 +2,11 @@
 
 namespace Modules\Delivery\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Delivery\Entities\Delivery;
+use Modules\Delivery\Policies\DeliveryPolicy;
 
 class DeliveryServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class DeliveryServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class DeliveryServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Delivery::class, DeliveryPolicy::class);
     }
 
     /**

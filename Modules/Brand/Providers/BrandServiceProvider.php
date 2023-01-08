@@ -2,8 +2,11 @@
 
 namespace Modules\Brand\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Brand\Entities\Brand;
+use Modules\Brand\Policies\BrandPolicy;
 
 class BrandServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class BrandServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class BrandServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Brand::class, BrandPolicy::class);
     }
 
     /**

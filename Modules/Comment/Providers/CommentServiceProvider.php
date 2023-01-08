@@ -2,8 +2,11 @@
 
 namespace Modules\Comment\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Comment\Entities\Comment;
+use Modules\Comment\Policies\PostCommentPolicy;
 
 class CommentServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class CommentServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Comment::class, PostCommentPolicy::class);
     }
 
     /**

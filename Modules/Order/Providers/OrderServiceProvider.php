@@ -2,8 +2,11 @@
 
 namespace Modules\Order\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Order\Entities\Order;
+use Modules\Order\Policies\OrderPolicy;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class OrderServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class OrderServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Order::class, OrderPolicy::class);
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace Modules\Menu\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Menu\Entities\Menu;
+use Modules\Menu\Policies\MenuPolicy;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class MenuServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Menu::class, MenuPolicy::class);
     }
 
     /**

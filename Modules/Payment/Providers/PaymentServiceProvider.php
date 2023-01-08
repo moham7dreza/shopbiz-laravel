@@ -2,8 +2,11 @@
 
 namespace Modules\Payment\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Payment\Entities\Payment;
+use Modules\Payment\Policies\PaymentPolicy;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class PaymentServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class PaymentServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Payment::class, PaymentPolicy::class);
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace Modules\Page\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Page\Entities\Page;
+use Modules\Page\Policies\PagePolicy;
 
 class PageServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class PageServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class PageServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Page::class, PagePolicy::class);
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace Modules\Discount\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Discount\Entities\CommonDiscount;
+use Modules\Discount\Policies\DiscountPolicy;
 
 class DiscountServiceProvider extends ServiceProvider
 {
@@ -59,7 +62,7 @@ class DiscountServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
     }
 
     /**
@@ -113,7 +116,7 @@ class DiscountServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(CommonDiscount::class, DiscountPolicy::class);
     }
 
     /**

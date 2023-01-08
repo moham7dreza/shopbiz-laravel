@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Product\Policies;
+namespace Modules\Order\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\ACL\Entities\Permission;
 use Modules\User\Entities\User;
 
-class ProductPolicy
+class OrderPolicy
 {
     use HandlesAuthorization;
 
@@ -29,7 +29,7 @@ class ProductPolicy
     public function manage(User $user): bool
     {
         $permission = Permission::query()->where([
-            ['name', Permission::PERMISSION_PRODUCTS['name']],
+            ['name', Permission::PERMISSION_ORDERS['name']],
             ['status', 1]
         ])->first();
         if (is_null($permission))

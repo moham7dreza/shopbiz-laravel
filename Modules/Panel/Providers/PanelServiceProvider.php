@@ -2,10 +2,13 @@
 
 namespace Modules\Panel\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Comment\Entities\Comment;
 use Modules\Notify\Entities\Notification;
+use Modules\Panel\Entities\Panel;
+use Modules\Panel\Policies\PanelPolicy;
 
 class PanelServiceProvider extends ServiceProvider
 {
@@ -64,7 +67,7 @@ class PanelServiceProvider extends ServiceProvider
         $this->loadViewFiles();
 //        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
+        $this->loadPolicyFiles();
         $this->sendVarsToViews();
     }
 
@@ -132,7 +135,7 @@ class PanelServiceProvider extends ServiceProvider
      */
     private function loadPolicyFiles(): void
     {
-//        Gate::policy(Panel::class, PanelPolicy::class);
+        Gate::policy(Panel::class, PanelPolicy::class);
     }
 
     /**
