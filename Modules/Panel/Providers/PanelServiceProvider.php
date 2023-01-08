@@ -65,10 +65,9 @@ class PanelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewFiles();
-//        $this->loadConfigFiles();
+        $this->loadConfigFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
-        $this->sendVarsToViews();
     }
 
     /**
@@ -79,7 +78,8 @@ class PanelServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-//            $this->setMenuForPanel();
+            $this->setMenuForPanel();
+            $this->sendVarsToViews();
         });
     }
 
@@ -148,7 +148,7 @@ class PanelServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.panel', [
             'title' => 'خانه',
             'icon' => 'home',
-            'url' => route('panel.index'),
+            'url' => route('panel.home'),
         ]);
     }
 

@@ -31,13 +31,6 @@ class HomeServiceProvider extends ServiceProvider
     public string $name = 'Home';
 
     /**
-     * Get config path.
-     *
-     * @var string
-     */
-    public string $configPath = '/../Config/config.php';
-
-    /**
      * Get middleware route.
      *
      * @var array|string[]
@@ -59,9 +52,7 @@ class HomeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewFiles();
-//        $this->loadConfigFiles();
         $this->loadRouteFiles();
-//        $this->loadPolicyFiles();
     }
 
     /**
@@ -71,9 +62,9 @@ class HomeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->sendVarsToViews();
         $this->app->booted(function () {
-//            $this->setMenuForPanel();
+            $this->setMenuForPanel();
+            $this->sendVarsToViews();
         });
     }
 
@@ -85,16 +76,6 @@ class HomeServiceProvider extends ServiceProvider
     private function loadViewFiles(): void
     {
         $this->loadViewsFrom(__DIR__ . $this->viewPath, $this->name);
-    }
-
-    /**
-     * Load panel config files.
-     *
-     * @return void
-     */
-    private function loadConfigFiles(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'panelConfig');
     }
 
     /**
@@ -110,16 +91,6 @@ class HomeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
-     *
-     * @return void
-     */
-    private function loadPolicyFiles(): void
-    {
-//        Gate::policy(Panel::class, PanelPolicy::class);
-    }
-
-    /**
      * Set menu for panel.
      *
      * @return void
@@ -129,7 +100,7 @@ class HomeServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.panel', [
             'title' => 'خانه',
             'icon' => 'home',
-            'url' => route('panel.index'),
+            'url' => route('panel.home'),
         ]);
     }
 

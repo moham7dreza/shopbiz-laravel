@@ -32,13 +32,6 @@ class CommentServiceProvider extends ServiceProvider
     public string $name = 'Comment';
 
     /**
-     * Get config path.
-     *
-     * @var string
-     */
-    public string $configPath = '/../Config/config.php';
-
-    /**
      * Get middleware route.
      *
      * @var array|string[]
@@ -60,7 +53,6 @@ class CommentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewFiles();
-//        $this->loadConfigFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
     }
@@ -73,7 +65,7 @@ class CommentServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-//            $this->setMenuForPanel();
+            $this->setMenuForPanel();
         });
     }
 
@@ -129,7 +121,7 @@ class CommentServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.panel', [
             'title' => 'خانه',
             'icon' => 'home',
-            'url' => route('panel.index'),
+            'url' => route('panel.home'),
         ]);
     }
 }

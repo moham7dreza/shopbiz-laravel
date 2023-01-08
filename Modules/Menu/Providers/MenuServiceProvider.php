@@ -32,13 +32,6 @@ class MenuServiceProvider extends ServiceProvider
     public string $name = 'Menu';
 
     /**
-     * Get config path.
-     *
-     * @var string
-     */
-    public string $configPath = '/../Config/config.php';
-
-    /**
      * Get middleware route.
      *
      * @var array|string[]
@@ -60,7 +53,6 @@ class MenuServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewFiles();
-//        $this->loadConfigFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
     }
@@ -73,7 +65,7 @@ class MenuServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-//            $this->setMenuForPanel();
+            $this->setMenuForPanel();
         });
     }
 
@@ -85,16 +77,6 @@ class MenuServiceProvider extends ServiceProvider
     private function loadViewFiles(): void
     {
         $this->loadViewsFrom(__DIR__ . $this->viewPath, $this->name);
-    }
-
-    /**
-     * Load panel config files.
-     *
-     * @return void
-     */
-    private function loadConfigFiles(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'panelConfig');
     }
 
     /**
@@ -129,7 +111,7 @@ class MenuServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.panel', [
             'title' => 'خانه',
             'icon' => 'home',
-            'url' => route('panel.index'),
+            'url' => route('panel.home'),
         ]);
     }
 }

@@ -40,13 +40,6 @@ class AclServiceProvider extends ServiceProvider
     public string $name = 'ACL';
 
     /**
-     * Get config path.
-     *
-     * @var string
-     */
-    public string $configPath = '/../Config/config.php';
-
-    /**
      * Get middleware route.
      *
      * @var array|string[]
@@ -68,7 +61,6 @@ class AclServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewFiles();
-//        $this->loadConfigFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
 
@@ -88,7 +80,7 @@ class AclServiceProvider extends ServiceProvider
         $this->app->booted(function () {
             $this->defineSystemPermissions();
             $this->setGateBefore();
-//            $this->setMenuForPanel();
+            $this->setMenuForPanel();
         });
     }
 
@@ -100,16 +92,6 @@ class AclServiceProvider extends ServiceProvider
     private function loadViewFiles(): void
     {
         $this->loadViewsFrom(__DIR__ . $this->viewPath, $this->name);
-    }
-
-    /**
-     * Load panel config files.
-     *
-     * @return void
-     */
-    private function loadConfigFiles(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'panelConfig');
     }
 
     /**
