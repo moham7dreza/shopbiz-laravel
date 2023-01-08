@@ -159,7 +159,7 @@ class PanelRepo
 
     public function customerHomeViewCount(): int
     {
-        return Setting::query()->findOrFail(1)->view_count;
+        return Setting::query()->findOrFail(1)->view_count ?? 0;
     }
 
     public function browser()
