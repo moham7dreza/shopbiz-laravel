@@ -152,18 +152,18 @@ class Comment extends Model
         if (is_null($modelObject)) {
             return '#';
         }
-        if ($this->commentable_type == 'App\Models\Market\Product')
+        if ($this->commentable_type == 'Modules\Product\Entities\Product')
             return route('customer.market.product', $modelObject);
-        else if ($this->commentable_type == 'App\Models\Content\Post')
+        else if ($this->commentable_type == 'Modules\Post\Entities\Post\Post')
             return route('digital-world.post.detail', $modelObject);
         else return '#';
     }
 
     public function commentAdminPath(): string
     {
-        if ($this->commentable_type == 'App\Models\Market\Product')
+        if ($this->commentable_type == 'Modules\Product\Entities\Product')
             return route('admin.market.comment.index');
-        else if ($this->commentable_type == 'App\Models\Content\Post')
+        else if ($this->commentable_type == 'Modules\Post\Entities\Post\Post')
             return route('admin.content.comment.index');
         else return '#';
     }

@@ -20,12 +20,12 @@ class PostCommentController extends Controller
      */
     public function index()
     {
-        $unSeenComments = Comment::query()->where('commentable_type', 'App\Models\Content\Post')->where('seen', 0)->get();
+        $unSeenComments = Comment::query()->where('commentable_type', 'Modules\Post\Entities\Post\Post')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment){
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Content\Post')->simplePaginate(15);
+        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Post\Entities\Post\Post')->simplePaginate(15);
         return view('Comment::post-comment.index', compact('comments'));
 
     }

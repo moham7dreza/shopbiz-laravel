@@ -25,7 +25,7 @@ class PaymentController extends Controller
      */
     public function offline()
     {
-        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\OfflinePayment')->get();
+        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\OfflinePayment')->get();
         return view('Payment::admin.index', compact('payments'));
     }
 
@@ -34,13 +34,13 @@ class PaymentController extends Controller
      */
     public function online()
     {
-        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\OnlinePayment')->get();
+        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\OnlinePayment')->get();
         return view('Payment::admin.index', compact('payments'));
     }
 
     public function cash()
     {
-        $payments = Payment::query()->where('paymentable_type', 'App\Models\Market\CashPayment')->get();
+        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\CashPayment')->get();
         return view('Payment::admin.index', compact('payments'));
     }
 

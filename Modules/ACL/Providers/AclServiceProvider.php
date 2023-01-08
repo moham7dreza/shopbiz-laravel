@@ -12,6 +12,7 @@ use Modules\ACL\Database\Seeders\PermissionTableSeeder;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
+use Modules\User\Entities\User;
 
 class AclServiceProvider extends ServiceProvider
 {
@@ -73,9 +74,6 @@ class AclServiceProvider extends ServiceProvider
         $this->bindRepository();
 
         $this->setDatabaseSeederWithPermissionSeeder();
-
-
-        $this->setGateBefore();
     }
 
     /**
@@ -87,6 +85,7 @@ class AclServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             $this->defineSystemPermissions();
+            $this->setGateBefore();
 //            $this->setMenuForPanel();
         });
     }
@@ -157,11 +156,11 @@ class AclServiceProvider extends ServiceProvider
         $this->app->bind(PermissionSeeder::class, PermissionTableSeeder::class);
     }
 
-    private function defineSystemPermissions()
+    private function defineSystemPermissions(): bool
     {
         try {
             Permission::query()->get()->map(function ($permission) {
-                Gate::define($permission->name, function ($user) use ($permission) {
+                Gate::define($permission->name, function (User $user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
             });
@@ -205,7 +204,7 @@ class AclServiceProvider extends ServiceProvider
 //            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
 //        });
 
-        Gate::before(function ($user) {
+        Gate::before(static function (User $user) {
             $permission = Permission::query()->where([
                 ['name', Permission::PERMISSION_SUPER_ADMIN['name']],
                 ['status', 1]

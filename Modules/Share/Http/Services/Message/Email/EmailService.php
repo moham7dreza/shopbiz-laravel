@@ -3,7 +3,7 @@
 namespace Modules\Share\Http\Services\Message\Email;
 
 use Illuminate\Support\Facades\Mail;
-use App\Http\Interfaces\MessageInterface;
+use Modules\Notify\Http\Interfaces\MessageInterface;
 
 
 class EmailService implements MessageInterface

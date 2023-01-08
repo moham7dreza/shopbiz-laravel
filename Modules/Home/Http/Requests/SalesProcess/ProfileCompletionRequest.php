@@ -2,8 +2,8 @@
 
 namespace Modules\Home\Http\Requests\SalesProcess;
 
-use App\Rules\NationalCode;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\User\Rules\NationalCode;
 
 class ProfileCompletionRequest extends FormRequest
 {

@@ -2,7 +2,7 @@
 
 namespace Modules\Share\Http\Services\Message;
 
-use App\Http\Interfaces\MessageInterface;
+use Modules\Notify\Http\Interfaces\MessageInterface;
 
 class MessageService
 {

@@ -2,8 +2,8 @@
 
 namespace Modules\Home\Http\Requests\SalesProcess;
 
-use App\Rules\PostalCode;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\User\Rules\PostalCode;
 
 class UpdateAddressRequest extends FormRequest
 {

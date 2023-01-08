@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Interfaces;
+namespace Modules\Notify\Http\Interfaces;
 
 
 interface MessageInterface

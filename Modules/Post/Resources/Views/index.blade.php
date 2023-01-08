@@ -79,7 +79,7 @@
                                     {{-- @can('update', $post) --}}
                                     <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary btn-sm"><i
                                             class="fa fa-edit"></i></a>
-                                    {{-- @elsecan('create', App\Models\Content\Post::class) --}}
+                                    {{-- @elsecan('create', Modules\Post\Entities\Post\Post::class) --}}
                                     {{-- @else --}}
                                     <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i
                                             class="fa fa-edit"></i> دسترسی ندارید</a>

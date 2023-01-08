@@ -21,12 +21,12 @@ class ProductCommentController extends Controller
      */
     public function index()
     {
-        $unSeenComments = Comment::query()->where('commentable_type', 'App\Models\Market\Product')->where('seen', 0)->get();
+        $unSeenComments = Comment::query()->where('commentable_type', 'Modules\Product\Entities\Product')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment) {
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Market\Product')->simplePaginate(15);
+        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Product\Entities\Product')->simplePaginate(15);
         return view('Comment::product-comment.index', compact('comments'));
     }
 

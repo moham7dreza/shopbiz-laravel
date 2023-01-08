@@ -2,8 +2,7 @@
 
 namespace Modules\Share\Http\Services\Message\SMS;
 
-use App\Http\Interfaces\MessageInterface;
-use App\Http\Services\Message\SMS\MeliPayamakService;
+use Modules\Notify\Http\Interfaces\MessageInterface;
 
 class SmsService implements MessageInterface{
 
