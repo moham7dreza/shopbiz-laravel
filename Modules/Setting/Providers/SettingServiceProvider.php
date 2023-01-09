@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Policies\SettingPolicy;
+use Modules\Setting\Repositories\SettingRepoEloquent;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
+use Modules\Setting\Services\SettingService;
+use Modules\Setting\Services\SettingServiceInterface;
 
 class SettingServiceProvider extends ServiceProvider
 {
@@ -55,6 +59,8 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindServices();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +119,21 @@ class SettingServiceProvider extends ServiceProvider
             'icon' => 'fa-tools',
 //            'url' => route('setting.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(SettingRepoEloquentInterface::class, SettingRepoEloquent::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(SettingServiceInterface::class, SettingService::class);
     }
 }

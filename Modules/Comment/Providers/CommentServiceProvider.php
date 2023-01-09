@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Policies\PostCommentPolicy;
+use Modules\Comment\Repositories\CommentRepoEloquent;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 
 class CommentServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -129,5 +132,15 @@ class CommentServiceProvider extends ServiceProvider
             'icon' => 'fa-comment',
 //            'url' => route('product-comment.index'),
         ]);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(CommentRepoEloquentInterface::class, CommentRepoEloquent::class);
     }
 }

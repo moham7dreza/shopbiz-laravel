@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Discount\Entities\CommonDiscount;
 use Modules\Discount\Policies\DiscountPolicy;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquent;
+use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquent;
+use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 
 class DiscountServiceProvider extends ServiceProvider
 {
@@ -56,6 +62,7 @@ class DiscountServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -115,4 +122,23 @@ class DiscountServiceProvider extends ServiceProvider
 //            'url' => route('discount.copan'),
         ]);
     }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(CopanDiscountRepoEloquentInterface::class, CopanDiscountRepoEloquent::class);
+        $this->app->bind(CommonDiscountRepoEloquentInterface::class, CommonDiscountRepoEloquent::class);
+        $this->app->bind(AmazingSaleDiscountRepoEloquentInterface::class, AmazingSaleDiscountRepoEloquent::class);
+    }
+
+//    private function bindServices()
+//    {
+//        $this->app->bind(CopanDiscountServiceInterface::class, CopanDiscountService::class);
+//        $this->app->bind(CommonDiscountServiceInterface::class, CommonDiscountService::class);
+//        $this->app->bind(AmazingSaleDiscountServiceInterface::class, AmazingSaleDiscountService::class);
+//    }
 }

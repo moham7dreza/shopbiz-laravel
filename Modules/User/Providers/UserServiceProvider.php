@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\User\Entities\User;
 use Modules\User\Policies\UserPolicy;
+use Modules\User\Repositories\UserRepoEloquent;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class UserServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -114,4 +117,20 @@ class UserServiceProvider extends ServiceProvider
             'url' => route('admin-user.index'),
         ]);
     }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(UserRepoEloquentInterface::class, UserRepoEloquent::class);
+    }
+
+//    /**
+//     * @return void
+//     */
+//    private function bindRepository()
+//    {
+//        $this->app->bind(SettingRepoEloquentInterface::class, SettingRepoEloquent::class);
+//    }
 }

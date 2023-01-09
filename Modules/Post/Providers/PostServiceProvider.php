@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Post\Entities\Post;
 use Modules\Post\Policies\PostPolicy;
+use Modules\Post\Repositories\PostRepoEloquent;
+use Modules\Post\Repositories\PostRepoEloquentInterface;
+use Modules\Post\Services\PostService;
+use Modules\Post\Services\PostServiceInterface;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -55,6 +59,8 @@ class PostServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindServices();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +119,21 @@ class PostServiceProvider extends ServiceProvider
             'icon' => 'fa-blog',
             'url' => route('post.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(PostRepoEloquentInterface::class, PostRepoEloquent::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(PostServiceInterface::class, PostService::class);
     }
 }

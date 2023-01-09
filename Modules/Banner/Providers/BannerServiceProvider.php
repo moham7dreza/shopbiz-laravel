@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Banner\Entities\Banner;
 use Modules\Banner\Policies\BannerPolicy;
+use Modules\Banner\Repositories\BrandRepoEloquent;
+use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 
 class BannerServiceProvider extends ServiceProvider
 {
@@ -56,6 +58,7 @@ class BannerServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -114,5 +117,15 @@ class BannerServiceProvider extends ServiceProvider
             'icon' => 'fa-ad',
             'url' => route('banner.index'),
         ]);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(BannerRepoEloquentInterface::class, BrandRepoEloquent::class);
     }
 }

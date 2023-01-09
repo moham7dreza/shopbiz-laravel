@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Page\Entities\Page;
 use Modules\Page\Policies\PagePolicy;
+use Modules\Page\Repositories\PageRepoEloquent;
+use Modules\Page\Repositories\PageRepoEloquentInterface;
 
 class PageServiceProvider extends ServiceProvider
 {
@@ -113,5 +115,13 @@ class PageServiceProvider extends ServiceProvider
             'icon' => 'fa-pager',
             'url' => route('page.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(PageRepoEloquentInterface::class, PageRepoEloquent::class);
     }
 }

@@ -7,6 +7,22 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Policies\NotifyPolicy;
+use Modules\Notify\Repositories\Email\EmailRepoEloquent;
+use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
+use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquent;
+use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquentInterface;
+use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
+use Modules\Notify\Repositories\Notification\NotificationRepoEloquentInterface;
+use Modules\Notify\Repositories\SMS\SMSRepoEloquent;
+use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
+use Modules\Notify\Services\Email\EmailService;
+use Modules\Notify\Services\Email\EmailServiceInterface;
+use Modules\Notify\Services\EmailFile\EmailFileService;
+use Modules\Notify\Services\EmailFile\EmailFileServiceInterface;
+use Modules\Notify\Services\Notification\NotificationService;
+use Modules\Notify\Services\Notification\NotificationServiceInterface;
+use Modules\Notify\Services\SMS\SMSService;
+use Modules\Notify\Services\SMS\SMSServiceInterface;
 
 class NotifyServiceProvider extends ServiceProvider
 {
@@ -55,6 +71,8 @@ class NotifyServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
+        $this->bindServices();
     }
 
     /**
@@ -113,5 +131,27 @@ class NotifyServiceProvider extends ServiceProvider
             'icon' => 'fa-mail-bulk',
             'url' => route('email-notify.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(EmailRepoEloquentInterface::class, EmailRepoEloquent::class);
+        $this->app->bind(SMSRepoEloquentInterface::class, SMSRepoEloquent::class);
+        $this->app->bind(EmailFileRepoEloquentInterface::class, EmailFileRepoEloquent::class);
+        $this->app->bind(NotificationRepoEloquentInterface::class, NotificationRepoEloquent::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(EmailServiceInterface::class, EmailService::class);
+        $this->app->bind(SMSServiceInterface::class, SMSService::class);
+        $this->app->bind(EmailFileServiceInterface::class, EmailFileService::class);
+        $this->app->bind(NotificationServiceInterface::class, NotificationService::class);
     }
 }

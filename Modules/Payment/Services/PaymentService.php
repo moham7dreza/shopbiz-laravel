@@ -3,10 +3,6 @@
 namespace Modules\Payment\Services;
 
 use Illuminate\Http\RedirectResponse;
-use Modules\Payment\Enums\PaymentStatusEnum;
-use Modules\Payment\Gateways\Gateway;
-use Modules\Payment\Models\Payment;
-use Modules\User\Models\User;
 
 class PaymentService
 {

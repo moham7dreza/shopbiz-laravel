@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 
-class BannerRepoEloquent implements BannerRepoEloquentInterface
+class BrandRepoEloquent implements BannerRepoEloquentInterface
 {
     /**
      * Get the latest roles with permissions.

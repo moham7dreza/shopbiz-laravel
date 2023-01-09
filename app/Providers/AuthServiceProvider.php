@@ -18,7 +18,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        Post::class => PostPolicy::class
     ];
 
     /**
@@ -33,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('update-post', function(User $user, Post $post) {
         //     return $user->id === $post->author_id;
         // });
-        Gate::define('update-post', [PostPolicy::class, 'update']);
+//        Gate::define('update-post', [PostPolicy::class, 'update']);
 
     }
 }

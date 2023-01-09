@@ -5,8 +5,24 @@ namespace Modules\Ticket\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Product\Services\TicketPriority\TicketPriorityService;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Policies\TicketPolicy;
+use Modules\Ticket\Repositories\Ticket\TicketRepoEloquent;
+use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
+use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquent;
+use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquentInterface;
+use Modules\Ticket\Repositories\TicketCategory\TicketCategoryRepoEloquent;
+use Modules\Ticket\Repositories\TicketCategory\TicketCategoryRepoEloquentInterface;
+use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquent;
+use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
+use Modules\Ticket\Services\Ticket\TicketService;
+use Modules\Ticket\Services\Ticket\TicketServiceInterface;
+use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
+use Modules\Ticket\Services\TicketAdmin\TicketAdminServiceInterface;
+use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
+use Modules\Ticket\Services\TicketCategory\TicketCategoryServiceInterface;
+use Modules\Ticket\Services\TicketPriority\TicketPriorityServiceInterface;
 
 class TicketServiceProvider extends ServiceProvider
 {
@@ -55,6 +71,8 @@ class TicketServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindServices();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +131,27 @@ class TicketServiceProvider extends ServiceProvider
             'icon' => 'fa-ticket-alt',
             'url' => route('panel.home'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(TicketRepoEloquentInterface::class, TicketRepoEloquent::class);
+        $this->app->bind(TicketAdminRepoEloquentInterface::class, TicketAdminRepoEloquent::class);
+        $this->app->bind(TicketCategoryRepoEloquentInterface::class, TicketCategoryRepoEloquent::class);
+        $this->app->bind(TicketPriorityRepoEloquentInterface::class, TicketPriorityRepoEloquent::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(TicketServiceInterface::class, TicketService::class);
+        $this->app->bind(TicketAdminServiceInterface::class, TicketAdminService::class);
+        $this->app->bind(TicketCategoryServiceInterface::class, TicketCategoryService::class);
+        $this->app->bind(TicketPriorityServiceInterface::class, TicketPriorityService::class);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Order\Entities\Order;
 use Modules\Order\Policies\OrderPolicy;
+use Modules\Order\Repositories\OrderRepoEloquent;
+use Modules\Order\Repositories\OrderRepoEloquentInterface;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class OrderServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,13 @@ class OrderServiceProvider extends ServiceProvider
             'icon' => 'fa-shopping-cart',
 //            'url' => route('order.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(OrderRepoEloquentInterface::class, OrderRepoEloquent::class);
     }
 }

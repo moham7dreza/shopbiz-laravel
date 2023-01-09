@@ -4,6 +4,10 @@ namespace Modules\Cart\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Cart\Repositories\CartRepoEloquent;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Cart\Services\CartService;
+use Modules\Cart\Services\CartServiceInterface;
 
 class CartServiceProvider extends ServiceProvider
 {
@@ -51,6 +55,8 @@ class CartServiceProvider extends ServiceProvider
     {
         $this->loadViewFiles();
         $this->loadRouteFiles();
+        $this->bindRepository();
+        $this->bindServices();
     }
 
     /**
@@ -73,5 +79,25 @@ class CartServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(CartRepoEloquentInterface::class, CartRepoEloquent::class);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(CartServiceInterface::class, CartService::class);
     }
 }

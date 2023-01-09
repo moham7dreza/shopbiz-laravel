@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Cart\Entities\CartItem;
+use Modules\Home\Repositories\HomeRepoEloquent;
+use Modules\Home\Repositories\HomeRepoEloquentInterface;
 
 class HomeServiceProvider extends ServiceProvider
 {
@@ -53,6 +55,7 @@ class HomeServiceProvider extends ServiceProvider
     {
         $this->loadViewFiles();
         $this->loadRouteFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -112,5 +115,13 @@ class HomeServiceProvider extends ServiceProvider
                 $view->with('cartItems', $cartItems);
             }
         });
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(HomeRepoEloquentInterface::class, HomeRepoEloquent::class);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Delivery\Policies\DeliveryPolicy;
+use Modules\Delivery\Repositories\DeliveryRepoEloquent;
+use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 
 class DeliveryServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class DeliveryServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,15 @@ class DeliveryServiceProvider extends ServiceProvider
             'icon' => 'fa-truck-loading',
             'url' => route('delivery.index'),
         ]);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(DeliveryRepoEloquentInterface::class, DeliveryRepoEloquent::class);
     }
 }

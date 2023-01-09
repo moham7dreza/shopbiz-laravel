@@ -5,8 +5,10 @@ namespace Modules\Brand\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Banner\Repositories\BrandRepoEloquent;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Policies\BrandPolicy;
+use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 
 class BrandServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class BrandServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,15 @@ class BrandServiceProvider extends ServiceProvider
             'icon' => 'fa-brand',
             'url' => route('brand.index'),
         ]);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(BrandRepoEloquentInterface::class, BrandRepoEloquent::class);
     }
 }

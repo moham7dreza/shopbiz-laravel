@@ -2,12 +2,17 @@
 
 namespace Modules\Home\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Banner\Entities\Banner;
 use Modules\Brand\Entities\Brand;
+use Modules\Comment\Entities\Comment;
+use Modules\Discount\Entities\AmazingSale;
+use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
+use Modules\Setting\Entities\Setting;
 
 class HomeRepoEloquent implements HomeRepoEloquentInterface
 {
@@ -52,6 +57,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
     }
 
     /**
+     *         // پربازدید ترین کالاها
      * @return Builder[]|Collection
      */
     public function mostVisitedProducts()
@@ -59,59 +65,80 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
         return Product::query()->latest()->take(10)->get();
     }
 
+    /**
+     *         // کالاهای پیشنهادی
+     * @return Builder[]|Collection
+     */
     public function offerProducts()
     {
         return Product::query()->latest()->take(10)->get();
     }
+
     /**
-     * Get the latest roles with permissions.
-     *
-     * @return Builder
+     * فروش ویژه هفته
+     * @return Builder[]|Collection
      */
-    public function index(): Builder
+    public function weeklyAmazingSales()
     {
-        return $this->query()->with('permissions')->latest();
+        return AmazingSale::query()->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now())->where('status', 1)->
+            where('percentage', '>=', 5)->take(10)->get();
     }
 
     /**
-     * Find role by id.
-     *
-     * @param  $id
-     * @return Builder|Builder[]|Collection|Model|null
+     *         // جدید ترین کالاها
+     * @return Builder[]|Collection
      */
-    public function findById($id)
+    public function newestProducts()
     {
-        return $this->query()->findOrFail($id);
+        return Product::query()->latest()->take(10)->get();
     }
 
     /**
-     * Delete role by id.
-     *
-     * @param $id
-     * @return mixed
+     *         // نظرات کاربران
+     * @return Builder[]|Collection
      */
-    public function delete($id)
+    public function latestComments()
     {
-        return $this->query()->where('id', $id)->delete();
+        return Comment::query()->where('parent_id', null)->where('status', 1)->latest()->take(10)->get();
     }
 
     /**
-     * Get all permissions.
-     *
-     * @return Collection
+     *         // جدید ترین مقالات
+     * @return Builder[]|Collection
      */
-    public function getAllPermissions(): Collection
+    public function posts()
     {
-        return Permission::all();
+        return Post::query()->where('status', 1)->take(5)->get();
     }
 
     /**
-     * Builder for queue model.
-     *
-     * @return Builder
+     *         // محصولات فروش ویژه
+     * @return Builder[]|Collection
      */
-    private function query(): Builder
+    public function productsWithActiveAmazingSales()
     {
-        return Faq::query();
+        return AmazingSale::query()->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now())->where('status', 1)->
+            where('percentage', '>=', 1)->take(10)->get();
+    }
+
+    /**
+     *         // تنطیمات سایت
+     * @return Builder|Collection|Model|null
+     */
+    public function siteSetting()
+    {
+        return Setting::query()->find(1);
+    }
+
+    /**
+     *
+     *         // پرفروش ترین محصولات
+     * @return Builder[]|Collection
+     */
+    public function bestSellerProducts()
+    {
+        return Product::query()->where('sold_number', '>=', 100)->take(10)->get();
     }
 }

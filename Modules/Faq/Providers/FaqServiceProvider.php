@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Faq\Entities\Faq;
 use Modules\Faq\Policies\FaqPolicy;
+use Modules\Faq\Repositories\FaqRepoEloquent;
+use Modules\Faq\Repositories\FaqRepoEloquentInterface;
 
 class FaqServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class FaqServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,10 @@ class FaqServiceProvider extends ServiceProvider
             'icon' => 'fa-question',
             'url' => route('faq.index'),
         ]);
+    }
+
+    private function bindRepository()
+    {
+        $this->app->bind(FaqRepoEloquentInterface::class, FaqRepoEloquent::class);
     }
 }

@@ -9,6 +9,22 @@ use Modules\Category\Entities\PostCategory;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Policies\PostCategoryPolicy;
 use Modules\Category\Policies\ProductCategoryPolicy;
+use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquent;
+use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquent;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
+use Modules\Category\Repositories\Property\PropertyRepoEloquent;
+use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
+use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquent;
+use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
+use Modules\Category\Services\PostCategory\PostCategoryService;
+use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
+use Modules\Category\Services\ProductCategory\ProductCategoryService;
+use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
+use Modules\Category\Services\Property\PropertyService;
+use Modules\Category\Services\Property\PropertyServiceInterface;
+use Modules\Category\Services\PropertyValue\PropertyValueService;
+use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -57,6 +73,8 @@ class CategoryServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindServices();
+        $this->bindRepository();
     }
 
     /**
@@ -122,5 +140,31 @@ class CategoryServiceProvider extends ServiceProvider
             'icon' => 'fa-leaf',
             'url' => route('post-category.index'),
         ]);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(PostCategoryRepoEloquentInterface::class, PostCategoryRepoEloquent::class);
+        $this->app->bind(ProductCategoryRepoEloquentInterface::class, ProductCategoryRepoEloquent::class);
+        $this->app->bind(PropertyRepoEloquentInterface::class, PropertyRepoEloquent::class);
+        $this->app->bind(PropertyValueRepoEloquentInterface::class, PropertyValueRepoEloquent::class);
+    }
+
+    /**
+     * Bind permission repository.
+     *
+     * @return void
+     */
+    private function bindServices()
+    {
+        $this->app->bind(PostCategoryServiceInterface::class, PostCategoryService::class);
+        $this->app->bind(ProductCategoryServiceInterface::class, ProductCategoryService::class);
+        $this->app->bind(PropertyServiceInterface::class, PropertyService::class);
+        $this->app->bind(PropertyValueServiceInterface::class, PropertyValueService::class);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Payment\Entities\Payment;
 use Modules\Payment\Policies\PaymentPolicy;
+use Modules\Payment\Repositories\PaymentRepoEloquent;
+use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class PaymentServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,13 @@ class PaymentServiceProvider extends ServiceProvider
             'icon' => 'fa-cash-register',
 //            'url' => route('payment.index'),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository()
+    {
+        $this->app->bind(PaymentRepoEloquentInterface::class, PaymentRepoEloquent::class);
     }
 }

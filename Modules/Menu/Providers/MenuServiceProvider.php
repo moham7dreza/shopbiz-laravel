@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Policies\MenuPolicy;
+use Modules\Menu\Repositories\MenuRepoEloquent;
+use Modules\Menu\Repositories\MenuRepoEloquentInterface;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -55,6 +57,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
+        $this->bindRepository();
     }
 
     /**
@@ -113,5 +116,10 @@ class MenuServiceProvider extends ServiceProvider
             'icon' => 'fa-link',
             'url' => route('menu.index'),
         ]);
+    }
+
+    private function bindRepository()
+    {
+        $this->app->bind(MenuRepoEloquentInterface::class, MenuRepoEloquent::class);
     }
 }
