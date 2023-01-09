@@ -109,10 +109,10 @@ class DiscountServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.mark.discount', [
+            'title' => 'تخفیفات',
+            'icon' => 'fa-dollar-sign',
+//            'url' => route('discount.copan'),
         ]);
     }
 }

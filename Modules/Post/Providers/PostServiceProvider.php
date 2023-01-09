@@ -108,10 +108,10 @@ class PostServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.content.post', [
+            'title' => 'پست ها',
+            'icon' => 'fa-blog',
+            'url' => route('post.index'),
         ]);
     }
 }

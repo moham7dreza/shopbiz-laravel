@@ -111,10 +111,16 @@ class CategoryServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.market.vitrine.category', [
+            'title' => 'دسته بندی',
+            'icon' => 'fa-leaf',
+            'url' => route('product-category.index'),
+        ]);
+
+        config()->set('panelConfig.menus.content.category', [
+            'title' => 'دسته بندی',
+            'icon' => 'fa-leaf',
+            'url' => route('post-category.index'),
         ]);
     }
 }

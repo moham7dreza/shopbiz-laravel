@@ -108,10 +108,10 @@ class MenuServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.panel.content.menu', [
+            'title' => 'منوها',
+            'icon' => 'fa-link',
+            'url' => route('menu.index'),
         ]);
     }
 }

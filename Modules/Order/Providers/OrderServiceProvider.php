@@ -108,10 +108,10 @@ class OrderServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.market.orders', [
+            'title' => 'سفارشات',
+            'icon' => 'fa-shopping-cart',
+//            'url' => route('order.index'),
         ]);
     }
 }

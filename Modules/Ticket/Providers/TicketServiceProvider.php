@@ -108,9 +108,9 @@ class TicketServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
+        config()->set('panelConfig.menus.tickets.all', [
+            'title' => 'تیکت ها',
+            'icon' => 'fa-ticket-alt',
             'url' => route('panel.home'),
         ]);
     }

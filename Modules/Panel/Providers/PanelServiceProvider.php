@@ -147,7 +147,7 @@ class PanelServiceProvider extends ServiceProvider
     {
         config()->set('panelConfig.menus.panel', [
             'title' => 'خانه',
-            'icon' => 'home',
+            'icon' => 'fa-home',
             'url' => route('panel.home'),
         ]);
     }

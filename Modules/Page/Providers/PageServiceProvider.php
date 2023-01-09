@@ -108,10 +108,10 @@ class PageServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.content.page', [
+            'title' => 'پیج ساز',
+            'icon' => 'fa-pager',
+            'url' => route('page.index'),
         ]);
     }
 }

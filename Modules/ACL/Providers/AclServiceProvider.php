@@ -123,9 +123,9 @@ class AclServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.role-permissions', [
-            'title' => 'Role & Permissions',
-            'icon' => 'alert-triangle',
+        config()->set('panelConfig.menus.users.role-permissions', [
+            'title' => 'سطوح دسترسی',
+            'icon' => 'fa-user-graduate',
             'url' => route('role.index'),
         ]);
     }

@@ -108,10 +108,10 @@ class BrandServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
+        config()->set('panelConfig.menus.market.vitrine.brand', [
             'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+            'icon' => 'fa-brand',
+            'url' => route('brand.index'),
         ]);
     }
 }

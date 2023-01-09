@@ -108,10 +108,10 @@ class PaymentServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.market.payments', [
+            'title' => 'پرداخت ها',
+            'icon' => 'fa-cash-register',
+//            'url' => route('payment.index'),
         ]);
     }
 }

@@ -109,10 +109,10 @@ class BannerServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.content.banner', [
+            'title' => 'بنر تبلیغاتی',
+            'icon' => 'fa-ad',
+            'url' => route('banner.index'),
         ]);
     }
 }

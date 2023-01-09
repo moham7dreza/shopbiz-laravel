@@ -108,10 +108,10 @@ class DeliveryServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.market.delivery', [
+            'title' => 'روش های ارسال',
+            'icon' => 'fa-truck-loading',
+            'url' => route('delivery.index'),
         ]);
     }
 }

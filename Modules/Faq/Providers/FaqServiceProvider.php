@@ -108,10 +108,10 @@ class FaqServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.content.faq', [
+            'title' => 'سوالات متداول',
+            'icon' => 'fa-question',
+            'url' => route('faq.index'),
         ]);
     }
 }

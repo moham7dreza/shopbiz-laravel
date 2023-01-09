@@ -108,10 +108,10 @@ class UserServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.users.admins', [
+            'title' => 'کاربران ادمین',
+            'icon' => 'fa-user-secret',
+            'url' => route('admin-user.index'),
         ]);
     }
 }

@@ -97,10 +97,10 @@ class HomeServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.home', [
+            'title' => 'فروشگاه',
+            'icon' => 'fa-store',
+//            'url' => route('customer.home'),
         ]);
     }
 

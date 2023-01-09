@@ -118,10 +118,16 @@ class CommentServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.content.comment', [
+            'title' => 'نظرات',
+            'icon' => 'fa-comment',
+//            'url' => route('post-comment.index'),
+        ]);
+
+        config()->set('panelConfig.menus.market.vitrine.comment', [
+            'title' => 'نظرات',
+            'icon' => 'fa-comment',
+//            'url' => route('product-comment.index'),
         ]);
     }
 }

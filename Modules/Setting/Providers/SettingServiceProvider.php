@@ -108,10 +108,10 @@ class SettingServiceProvider extends ServiceProvider
      */
     private function setMenuForPanel(): void
     {
-        config()->set('panelConfig.menus.panel', [
-            'title' => 'خانه',
-            'icon' => 'home',
-            'url' => route('panel.home'),
+        config()->set('panelConfig.menus.settings.setting', [
+            'title' => 'تنظیمات',
+            'icon' => 'fa-tools',
+//            'url' => route('setting.index'),
         ]);
     }
 }
