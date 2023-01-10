@@ -8,16 +8,19 @@
 
 @include('Home::layouts.header')
 
-<section class="container-xxl body-container">
-    @yield('Home::layouts.sidebar')
+<section id="main-body-two-col" class="container-xxl body-container">
+    <section class="row">
+
+        @include('Home::layouts.sidebar')
+
+        @include('Panel::alerts.alert-section.success')
+
+        <main id="main-body" class="main-body col-md-9">
+            @yield('content')
+        </main>
+
+    </section>
 </section>
-
-@include('Panel::alerts.alert-section.success')
-<main id="main-body-one-col" class="main-body">
-
-    @yield('content')
-
-</main>
 
 
 @include('Home::layouts.footer')

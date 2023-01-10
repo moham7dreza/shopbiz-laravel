@@ -41,11 +41,34 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
     }
 
     /**
+     * @return Builder[]|Collection
+     */
+    public function bottomMiddleBanners()
+    {
+        return Banner::query()->where('position', 3)->where('status', 1)->take(2)->get();
+    }
+    /**
      * @return Builder|Model|object|null
      */
     public function bottomBanner()
     {
-        return Banner::query()->where('position', 3)->where('status', 1)->first();
+        return Banner::query()->where('position', 4)->where('status', 1)->first();
+    }
+
+    /**
+     * @return Builder|Model|object|null
+     */
+    public function brandsBanner()
+    {
+        return Banner::query()->where('position', 5)->where('status', 1)->first();
+    }
+
+    /**
+     * @return Builder[]|Collection
+     */
+    public function fourColumnBanners()
+    {
+        return Banner::query()->where('position', 6)->where('status', 1)->take(4)->get();
     }
 
     /**

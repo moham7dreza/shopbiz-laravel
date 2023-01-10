@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Category\Http\Controllers\Home\CategoryController;
 use Modules\Category\Http\Controllers\ProductCategoryController;
 use Modules\Category\Http\Controllers\PropertyValueController;
 
@@ -27,3 +28,9 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
         Route::delete('/value/destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('property-value.destroy');
     });
 });
+
+// products of special category
+Route::get('/category/{productCategory:slug}/products', [CategoryController::class, 'categoryProducts'])->name('customer.market.category.products');
+// Products selected for special sale.
+Route::get('/products/special-sale', [CategoryController::class, 'bestOffers'])->name('customer.market.products.offers');
+Route::get('/products/query', [CategoryController::class, 'queryProducts'])->name('customer.market.query-products');
