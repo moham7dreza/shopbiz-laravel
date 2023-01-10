@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Services\TicketPriority;
+namespace Modules\Ticket\Services\TicketPriority;
 
 use Modules\Product\Entities\Guarantee;
 

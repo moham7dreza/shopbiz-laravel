@@ -8,11 +8,11 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Modules\Product\Services\TicketPriority\TicketPriorityService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Ticket\Entities\TicketPriority;
 use Modules\Ticket\Http\Requests\TicketPriorityRequest;
 use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
+use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 
 class TicketPriorityController extends Controller
 {

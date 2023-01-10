@@ -5,7 +5,6 @@ namespace Modules\Ticket\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Product\Services\TicketPriority\TicketPriorityService;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Policies\TicketPolicy;
 use Modules\Ticket\Repositories\Ticket\TicketRepoEloquent;
@@ -22,6 +21,7 @@ use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
 use Modules\Ticket\Services\TicketAdmin\TicketAdminServiceInterface;
 use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 use Modules\Ticket\Services\TicketCategory\TicketCategoryServiceInterface;
+use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 use Modules\Ticket\Services\TicketPriority\TicketPriorityServiceInterface;
 
 class TicketServiceProvider extends ServiceProvider

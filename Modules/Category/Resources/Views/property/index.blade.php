@@ -51,7 +51,7 @@
                                 <td>{{ $category_attribute->unit }}</td>
                                 <td>{{ $category_attribute->category->name }}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('product-category.property.value.index', $category_attribute->id) }}"
+                                    <a href="{{ route('property-value.index', ['categoryAttribute' => $category_attribute->id]) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('category-property.edit', $category_attribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>

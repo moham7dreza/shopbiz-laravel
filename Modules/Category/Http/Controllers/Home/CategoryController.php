@@ -39,7 +39,8 @@ class CategoryController extends Controller
         $brands = Brand::all();
         $productsWithActiveAmazingSales = AmazingSale::query()->where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->where('status', 1)->
         where('percentage', '>=', 1)->get();
-        return view('Category::home.best-offers', compact('productsWithActiveAmazingSales', 'brands'));
+        $productCategory = $productsWithActiveAmazingSales[0]->category;
+        return view('Category::home.best-offers', compact('productsWithActiveAmazingSales', 'brands', 'productCategory'));
     }
 
     /**

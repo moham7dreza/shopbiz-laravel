@@ -1,4 +1,4 @@
-@extends('Home::layouts.master-two-col')
+@extends('Home::layouts.master-one-col')
 
 @section('head-tag')
     <title>سبد خرید شما</title>

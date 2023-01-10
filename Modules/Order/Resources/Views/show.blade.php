@@ -41,7 +41,7 @@
                                     <i class="fa fa-print"></i>
                                     چاپ
                                 </a>
-                                <a href="{{ route('show.detail', $order->id) }}"
+                                <a href="{{ route('order.show.detail', $order->id) }}"
                                    class="btn btn-warning btn-sm">
                                     <i class="fa fa-book"></i>
                                     جزئیات

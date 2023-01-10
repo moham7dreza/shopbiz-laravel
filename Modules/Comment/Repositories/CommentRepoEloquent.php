@@ -2,8 +2,7 @@
 
 namespace Modules\Comment\Repositories;
 
-use Modules\Comment\Enums\CommentStatusEnum;
-use Modules\Comment\Models\Comment;
+use Modules\Comment\Entities\Comment;
 
 class CommentRepoEloquent implements CommentRepoEloquentInterface
 {
@@ -34,13 +33,13 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
      * @param  $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function findActiveCommentById($id)
-    {
-        return $this->query()
-            ->where('id' , $id)
-            ->where('status' , CommentStatusEnum::STATUS_ACTIVE->value)
-            ->first();
-    }
+//    public function findActiveCommentById($id)
+//    {
+//        return $this->query()
+//            ->where('id' , $id)
+//            ->where('status' , CommentStatusEnum::STATUS_ACTIVE->value)
+//            ->first();
+//    }
 
     /**
      * Get query model(builder).

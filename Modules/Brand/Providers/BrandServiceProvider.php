@@ -5,9 +5,9 @@ namespace Modules\Brand\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Banner\Repositories\BrandRepoEloquent;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Policies\BrandPolicy;
+use Modules\Brand\Repositories\BrandRepoEloquent;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 
 class BrandServiceProvider extends ServiceProvider

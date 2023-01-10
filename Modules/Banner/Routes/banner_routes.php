@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Banner\Http\Controllers\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
     $router->resource('banner', 'BannerController', ['except' => 'show']);
+    Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
 });

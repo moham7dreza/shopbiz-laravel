@@ -5,10 +5,7 @@ namespace Modules\Banner\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
-
-class BrandRepoEloquent implements BannerRepoEloquentInterface
+class BannerRepoEloquent implements BannerRepoEloquentInterface
 {
     /**
      * Get the latest roles with permissions.

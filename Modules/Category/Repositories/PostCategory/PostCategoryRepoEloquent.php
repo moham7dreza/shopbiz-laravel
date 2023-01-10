@@ -3,7 +3,6 @@
 namespace Modules\Category\Repositories\PostCategory;
 
 use Modules\Category\Entities\ProductCategory;
-use Modules\Category\Repositories\PostCategoryRepoEloquentInterface;
 
 class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
 {

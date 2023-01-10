@@ -69,7 +69,7 @@ class MenuController extends Controller
     {
         $inputs = $request->all();
         $menu = Menu::query()->create($inputs);
-        return redirect()->route('Menu::index')->with('swal-success', 'منوی  جدید شما با موفقیت ثبت شد');
+        return redirect()->route('menu.index')->with('swal-success', 'منوی  جدید شما با موفقیت ثبت شد');
     }
 
     /**

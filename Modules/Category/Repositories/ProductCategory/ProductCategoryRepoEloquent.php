@@ -3,7 +3,6 @@
 namespace Modules\Category\Repositories\ProductCategory;
 
 use Modules\Category\Entities\ProductCategory;
-use Modules\Category\Repositories\ProductCategoryRepoEloquentInterface;
 
 class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterface
 {

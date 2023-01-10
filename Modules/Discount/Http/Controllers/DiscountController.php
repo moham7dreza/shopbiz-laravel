@@ -99,7 +99,7 @@ class DiscountController extends Controller
         if ($inputs['type'] == 0) {
             $inputs['user_id'] = null;
         }
-        $amazingSale = Copan::query()->create($inputs);
+        Copan::query()->create($inputs);
         return redirect()->route('discount.copan')->with('swal-success', ' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 

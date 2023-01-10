@@ -22,7 +22,7 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
      * @param  int|string $id
      * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
-    public function findById(int|string $id)
+    public function findById(int $id)
     {
         return $this->query()->findOrFail($id);
     }

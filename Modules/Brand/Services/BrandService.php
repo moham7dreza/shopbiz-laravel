@@ -3,8 +3,6 @@
 namespace Modules\Brand\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 
 class BrandService
 {

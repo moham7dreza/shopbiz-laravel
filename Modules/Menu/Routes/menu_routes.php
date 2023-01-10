@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Menu\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
     $router->resource('menu', 'MenuController', ['except' => 'show']);
+    Route::get('menu/status/{menu}', [MenuController::class, 'status'])->name('menu.status');
 });

@@ -3,8 +3,10 @@
 namespace Modules\Discount\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
 
 class AmazingSale extends Model
@@ -18,7 +20,10 @@ class AmazingSale extends Model
 
     protected $fillable = ['product_id', 'percentage', 'start_date', 'end_date', 'status'];
 
-    public function product()
+    /**
+     * @return BelongsTo
+     */
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

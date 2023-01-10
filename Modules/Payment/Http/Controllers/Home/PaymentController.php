@@ -13,6 +13,7 @@ use Modules\Payment\Entities\OfflinePayment;
 use Modules\Payment\Entities\OnlinePayment;
 use Modules\Payment\Entities\Payment;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Http\Services\Payment\PaymentService;
 
 class PaymentController extends Controller
 {

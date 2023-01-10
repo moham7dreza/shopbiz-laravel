@@ -3,8 +3,6 @@
 namespace Modules\Banner\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 
 class BannerService
 {

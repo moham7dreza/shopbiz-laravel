@@ -17,7 +17,7 @@ use Modules\Category\Http\Controllers\PropertyValueController;
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
     $router->resource('product-category', 'ProductCategoryController', ['except' => 'show']);
     $router->resource('post-category', 'PostCategoryController', ['except' => 'show']);
-    $router->resource('category-property', 'PropertyController');
+    $router->resource('category-property', 'PropertyController', ['except' => 'show']);
 
     Route::prefix('property')->group(static function () {
         Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('property-value.index');

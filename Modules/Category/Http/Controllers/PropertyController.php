@@ -69,7 +69,7 @@ class PropertyController extends Controller
     {
         $inputs = $request->all();
         $attribute = CategoryAttribute::query()->create($inputs);
-        return redirect()->route('property-value.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
+        return redirect()->route('category-property.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -86,38 +86,38 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param CategoryAttribute $categoryAttribute
+     * @param CategoryAttribute $category_property
      * @return Application|Factory|View
      */
-    public function edit(CategoryAttribute $categoryAttribute)
+    public function edit(CategoryAttribute $category_property)
     {
         $productCategories = ProductCategory::all();
-        return view('Category::property.edit', compact('categoryAttribute', 'productCategories'));
+        return view('Category::property.edit', compact('category_property', 'productCategories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param CategoryAttributeRequest $request
-     * @param CategoryAttribute $categoryAttribute
+     * @param CategoryAttribute $category_property
      * @return RedirectResponse
      */
-    public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
+    public function update(CategoryAttributeRequest $request, CategoryAttribute $category_property): RedirectResponse
     {
         $inputs = $request->all();
-        $categoryAttribute->update($inputs);
-        return redirect()->route('property-value.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
+        $category_property->update($inputs);
+        return redirect()->route('category-property.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param CategoryAttribute $categoryAttribute
+     * @param CategoryAttribute $category_property
      * @return RedirectResponse
      */
-    public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
+    public function destroy(CategoryAttribute $category_property): RedirectResponse
     {
-        $result = $categoryAttribute->delete();
-        return redirect()->route('property-value.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
+        $result = $category_property->delete();
+        return redirect()->route('category-property.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Modules\Banner\Providers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Banner\Entities\Banner;
 use Modules\Banner\Policies\BannerPolicy;
-use Modules\Banner\Repositories\BrandRepoEloquent;
+use Modules\Banner\Repositories\BannerRepoEloquent;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 
 class BannerServiceProvider extends ServiceProvider
@@ -126,6 +125,6 @@ class BannerServiceProvider extends ServiceProvider
      */
     private function bindRepository()
     {
-        $this->app->bind(BannerRepoEloquentInterface::class, BrandRepoEloquent::class);
+        $this->app->bind(BannerRepoEloquentInterface::class, BannerRepoEloquent::class);
     }
 }
