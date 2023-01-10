@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Cart\Entities\CartItem;
+use Modules\Category\Entities\ProductCategory;
 use Modules\Home\Repositories\HomeRepoEloquent;
 use Modules\Home\Repositories\HomeRepoEloquentInterface;
+use Modules\Menu\Entities\Menu;
+use Modules\Setting\Entities\Setting;
 
 class HomeServiceProvider extends ServiceProvider
 {
@@ -114,6 +117,9 @@ class HomeServiceProvider extends ServiceProvider
                 $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();
                 $view->with('cartItems', $cartItems);
             }
+            $view->with('menus', Menu::query()->where([['status', 1], ['parent_id', NULL]])->orderBy('created_at')->get());
+            $view->with('categories', ProductCategory::query()->where([['status', 1], ['show_in_menu', 1], ['parent_id', NULL]])->orderBy('created_at')->get());
+            $view->with('logo', Setting::query()->where('id', 1)->pluck('logo')->first());
         });
     }
 
