@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Comment\Entities\Comment;
 use Modules\Order\Entities\Order;
@@ -25,9 +23,7 @@ class User extends Authenticatable
 {
     use HasApiTokens
         , HasFactory
-        , HasProfilePhoto
-        , Notifiable
-        , TwoFactorAuthenticatable, HasPermission, HasFaDate;
+        , Notifiable, HasPermission, HasFaDate;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;

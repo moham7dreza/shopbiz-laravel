@@ -113,14 +113,17 @@
 
                     </span>
                 <span class="ml-3 ml-md-5 position-relative">
+                     @php
+                         $user = auth()->user();
+                     @endphp
                         <span id="header-profile-toggle" class="pointer">
-                            <img class="header-avatar" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="">
-                            <span class="header-username">کامران محمدی</span>
+                            <img class="header-avatar" src="{{ $user->image() }}" alt="">
+                            <span class="header-username">{{ $user->fullName }}</span>
                     <i class="fas fa-angle-down"></i>
                     </span>
                     <section id="header-profile" class="header-profile rounded">
                         <section class="list-group rounded">
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('setting.index') }}" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-cog"></i>تنظیمات
                             </a>
                             <a href="#" class="list-group-item list-group-item-action header-profile-link">
