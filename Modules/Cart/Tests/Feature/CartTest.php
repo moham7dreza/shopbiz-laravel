@@ -3,8 +3,8 @@
 namespace Modules\Cart\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Modules\Product\Models\Product;
-use Modules\User\Models\User;
+use Modules\Product\Entities\Product;
+use Modules\User\Entities\User;
 use Tests\TestCase;
 
 class CartTest extends TestCase
@@ -23,8 +23,9 @@ class CartTest extends TestCase
         $this->createUserWithLogin();
 
         $product = $this->createProduct();
-        $response = $this->get(route('cart.add', ['id' => $product->id]));
-        $response->assertSessionHas('cart');
+        $response = $this->post(route('customer.sales-process.add-to-cart', ['product' => $product
+        , 'number' => 1]));
+        $response->assertSessionHas('alert-section-success');
         $response->assertRedirect();
     }
 
@@ -38,7 +39,8 @@ class CartTest extends TestCase
     public function guest_user_can_not_add_product_into_cart()
     {
         $product = $this->createProduct();
-        $this->get(route('cart.add', ['id' => $product->id]))->assertRedirect();
+        $this->get(route('customer.sales-process.add-to-cart', ['product' => $product
+            , 'number' => 1]))->assertRedirect();
         $this->assertNull(auth()->user());
     }
 
@@ -55,9 +57,9 @@ class CartTest extends TestCase
 
         $product = $this->createProduct();
 
-        $this->get(route('cart.add', ['id' => $product->id]))->assertRedirect();
+        $this->get(route('customer.sales-process.remove-from-cart', ['id' => $product->id]))->assertRedirect();
 
-        $response = $this->get(route('cart.delete', ['id' => $product->id]));
+        $response = $this->get(route('customer.sales-process.remove-from-cart', ['id' => $product->id]));
         $response->assertSessionHas('cart');
         $response->assertSessionMissing("cart.$product->id");
         $response->assertRedirect();
@@ -143,6 +145,6 @@ class CartTest extends TestCase
      */
     private function createProduct(string $slug = "product"): mixed
     {
-        return Product::factory()->create(['slug' => $slug, 'title' => 'product title ' . random_int(1, 99)]);
+        return Product::factory()->create(['slug' => $slug, 'name' => 'product title ' . random_int(1, 99)]);
     }
 }

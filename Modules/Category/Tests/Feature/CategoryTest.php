@@ -4,12 +4,6 @@ namespace Modules\Category\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Category\Enums\CategoryStatusEnum;
-use Modules\Category\Models\Category;
-use Modules\RolePermission\Database\Seeds\PermissionSeeder;
-use Modules\RolePermission\Models\Permission;
-use Modules\Share\Services\ShareService;
-use Modules\User\Models\User;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -25,9 +19,9 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('categories.index'));
-        $response->assertViewIs('Category::index');
-        $response->assertViewHas('categories');
+        $response = $this->get(route('product-category.index'));
+        $response->assertViewIs('Category::product-category.index');
+        $response->assertViewHas('productCategories');
     }
 
     /**

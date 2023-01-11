@@ -5,24 +5,93 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+<!--        <testsuite name="Unit">-->
+<!--            <directory suffix="Test.php">./tests/Unit</directory>-->
+<!--        </testsuite>-->
+<!--        <testsuite name="Feature">-->
+<!--            <directory suffix="Test.php">./tests/Feature</directory>-->
+<!--        </testsuite>-->
+        <!-- Feature tests -->
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Home/Tests/Feature</directory>
         </testsuite>
         <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
+            <directory suffix="Test.php">./Modules/Auth/Tests/Feature</directory>
         </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/User/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Category/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/ACL/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Product/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Post/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Panel/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Brand/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Banner/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Comment/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Delivery/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Cart/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Discount/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Notify/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Payment/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Faq/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Menu/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Order/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Page/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Setting/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./Modules/Ticket/Tests/Feature</directory>
+        </testsuite>
+        <!-- Unit tests -->
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./Modules</directory>
         </include>
     </coverage>
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
-        <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <server name="DB_DATABASE" value=":memory:"/> -->
+         <server name="DB_CONNECTION" value="sqlite"/>
+         <server name="DB_DATABASE" value=":memory:"/>
         <server name="MAIL_MAILER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>

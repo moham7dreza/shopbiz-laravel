@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\RolePermission\Tests\Feature;
+namespace Modules\ACL\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\RolePermission\Database\Seeds\PermissionSeeder;
-use Modules\RolePermission\Models\Permission;
-use Modules\User\Models\User;
-use Spatie\Permission\Models\Role;
+use Modules\ACL\Database\Seeders\PermissionSeeder;
+use Modules\ACL\Entities\Permission;
+use Modules\ACL\Entities\Role;
+use Modules\User\Entities\User;
 use Tests\TestCase;
 
 class RolePermissionTest extends TestCase
@@ -23,9 +23,9 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('role-permissions.index'));
+        $response = $this->get(route('role.index'));
         $response->assertViewHas('roles');
-        $response->assertViewIs('RolePermission::index');
+        $response->assertViewIs('ACL::index');
     }
 
     /**
@@ -37,7 +37,7 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission(false);
 
-        $response = $this->get(route('role-permissions.index'));
+        $response = $this->get(route('role.index'));
         $response->assertStatus(403);
     }
 
@@ -50,9 +50,9 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('role-permissions.create'));
+        $response = $this->get(route('role.create'));
         $response->assertViewHas('permissions');
-        $response->assertViewIs('RolePermission::create');
+        $response->assertViewIs('ACL::create');
     }
 
     /**
@@ -64,7 +64,7 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission(false);
 
-        $response = $this->get(route('role-permissions.create'));
+        $response = $this->get(route('role.create'));
         $response->assertStatus(403);
     }
 
@@ -77,7 +77,7 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('role-permissions.store'), []);
+        $response = $this->post(route('role.store'), []);
         $response->assertSessionHasErrors(['name', 'permissions']);
         $response->assertRedirect();
     }
@@ -91,12 +91,14 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('role-permissions.store'), [
+        $response = $this->post(route('role.store'), [
             'name' => $this->faker->title,
-            'permissions' => [Permission::PERMISSION_SUPER_ADMIN, Permission::PERMISSION_CATEGORIES]
+            'description' => $this->faker->text(),
+            'status' => 1,
+            'permissions' => [Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get()]
         ]);
         $response->assertSessionHas('alert');
-        $response->assertRedirect(route('role-permissions.index'));
+        $response->assertRedirect(route('role.index'));
 
         $this->assertEquals(1, Role::query()->count());
     }
@@ -110,9 +112,11 @@ class RolePermissionTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission(false);
 
-        $response = $this->post(route('role-permissions.store'), [
+        $response = $this->post(route('role.store'), [
             'name' => $this->faker->title,
-            'permissions' => [Permission::PERMISSION_SUPER_ADMIN, Permission::PERMISSION_CATEGORIES]
+            'description' => $this->faker->text(),
+            'status' => 1,
+            'permissions' => [Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get()]
         ]);
         $response->assertStatus(403);
 
@@ -129,9 +133,9 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
         $role = $this->createRole();
 
-        $response = $this->get(route('role-permissions.edit', $role->id));
+        $response = $this->get(route('role.edit', $role->id));
         $response->assertViewHas(['role', 'permissions']);
-        $response->assertViewIs('RolePermission::edit');
+        $response->assertViewIs('ACL::edit');
     }
 
     /**
@@ -144,7 +148,7 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission(false);
 
         $role = $this->createRole();
-        $response = $this->get(route('role-permissions.edit', $role->id));
+        $response = $this->get(route('role.edit', $role->id));
         $response->assertStatus(403);
     }
 
@@ -158,13 +162,15 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $role = $this->createRole();
-        $response = $this->patch(route('role-permissions.update', $role->id), [
+        $response = $this->patch(route('role.update', $role->id), [
             'id' => $role->id,
-            'name' => 'Milwad',
-            'permissions' => [Permission::PERMISSION_USERS, Permission::PERMISSION_PANEL]
+            'name' => 'codex',
+            'description' => $this->faker->text(),
+            'status' => 1,
+            'permissions' => [Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get()]
         ]);
         $response->assertSessionHas('alert');
-        $response->assertRedirect(route('role-permissions.index'));
+        $response->assertRedirect(route('role.index'));
 
         $this->assertEquals(1, Role::query()->count());
     }
@@ -179,10 +185,12 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission(false);
 
         $role = $this->createRole();
-        $response = $this->patch(route('role-permissions.update', $role->id), [
+        $response = $this->patch(route('role.update', $role->id), [
             'id' => $role->id,
-            'name' => 'Milwad',
-            'permissions' => [Permission::PERMISSION_USERS, Permission::PERMISSION_PANEL]
+            'name' => 'codex',
+            'description' => $this->faker->text(),
+            'status' => 1,
+            'permissions' => [Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get()]
         ]);
         $response->assertStatus(403);
     }
@@ -197,7 +205,7 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
         $role = $this->createRole();
 
-        $this->delete(route('role-permissions.destroy', $role->id))->assertOk();
+        $this->delete(route('role.destroy', $role->id))->assertOk();
         $this->assertEquals(0, Role::query()->count());
     }
 
@@ -211,7 +219,7 @@ class RolePermissionTest extends TestCase
         $this->createUserWithLoginWithAssignPermission(false);
         $role = $this->createRole();
 
-        $response = $this->delete(route('role-permissions.destroy', $role->id));
+        $response = $this->delete(route('role.destroy', $role->id));
         $response->assertStatus(403);
     }
 
@@ -224,7 +232,9 @@ class RolePermissionTest extends TestCase
     {
         return Role::query()->create([
             'name' => $this->faker->name,
-        ])->syncPermissions(Permission::PERMISSION_SUPER_ADMIN);
+            'description' => $this->faker->text(),
+            'status' => 1,
+        ])->permissions()->sync(Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get());
     }
 
     /**
@@ -250,7 +260,7 @@ class RolePermissionTest extends TestCase
 
         $this->callPermissionSeeder();
         if ($permission) {
-            $user->givePermissionTo(Permission::PERMISSION_ROLE_PERMISSIONS);
+            $user->permissions()->sync(Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN['name'])->get());
         }
     }
 }
