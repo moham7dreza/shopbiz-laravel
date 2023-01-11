@@ -4,6 +4,8 @@ namespace Modules\Category\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Modules\Category\Entities\ProductCategory;
+use Modules\User\Entities\User;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -33,9 +35,9 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('categories.create'));
-        $response->assertViewIs('Category::create');
-        $response->assertViewHas('parents');
+        $response = $this->get(route('product-category.create'));
+        $response->assertViewIs('Category::product-category.create');
+        $response->assertViewHas('categories');
     }
 
     /**
@@ -47,7 +49,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('categories.store'), [])->assertSessionHasErrors([
+        $response = $this->post(route('product-category.store'), [])->assertSessionHasErrors([
             'title',
             'status',
         ]);
@@ -64,7 +66,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('categories.store'), [
+        $response = $this->post(route('product-category.store'), [
             'parent_id' => random_int(1, 10)
         ])->assertSessionHasErrors([
             'title',
@@ -84,21 +86,21 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $title = $this->faker->unique()->title;
-        $response = $this->post(route('categories.store'), [
+        $response = $this->post(route('product-category.store'), [
             'parent_id' => null,
             'title' => $title,
             'keywords' => $this->faker->text(),
-            'status' => CategoryStatusEnum::STATUS_ACTIVE->value,
+            'status' => 1,
             'description' => null,
         ]);
-        $response->assertRedirect(route('categories.index'));
+        $response->assertRedirect(route('product-category.index'));
         $response->assertSessionHas('alert');
 
-        $this->assertDatabaseHas('categories', [
+        $this->assertDatabaseHas('product_categories', [
             'title' => $title,
         ]);
-        $this->assertDatabaseCount('categories', 1);
-        $this->assertEquals(1, Category::query()->count());
+        $this->assertDatabaseCount('product_categories', 1);
+        $this->assertEquals(1, ProductCategory::query()->count());
     }
 
     /**
@@ -111,9 +113,9 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $category = $this->createCategory();
-        $response = $this->get(route('categories.edit', $category->id));
-        $response->assertViewIs('Category::edit');
-        $response->assertViewHas(['category', 'parents']);
+        $response = $this->get(route('product-category.edit', $category->id));
+        $response->assertViewIs('Category::product-category.edit');
+        $response->assertViewHas(['parent_categories', 'productCategory']);
     }
 
     /**
@@ -126,7 +128,7 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $category = $this->createCategory();
-        $response = $this->patch(route('categories.update', $category->id), [
+        $response = $this->patch(route('product-category.update', $category->id), [
             'id' => $category->id,
         ]);
         $response->assertSessionHasErrors([
@@ -148,23 +150,23 @@ class CategoryTest extends TestCase
 
         $title = 'milwad dev';
         $category = $this->createCategory();
-        $response = $this->patch(route('categories.update', $category->id), [
+        $response = $this->patch(route('product-category.update', $category->id), [
             'id' => $category->id,
             'title' => $title,
             'description' => 'shopline category',
-            'status' => CategoryStatusEnum::STATUS_INACTIVE->value,
+            'status' => 1,
         ]);
-        $response->assertRedirect(route('categories.index'));
-        $response->assertSessionHas('alert');
+        $response->assertRedirect(route('product-category.index'));
+        $response->assertSessionHas('swal-success');
 
-        $this->assertDatabaseHas('categories', [
+        $this->assertDatabaseHas('product_categories', [
             'id' => $category->id,
             'title' => $title,
-            'status' => CategoryStatusEnum::STATUS_INACTIVE->value,
+            'status' => 1,
             'description' => 'shopline category',
         ]);
-        $this->assertDatabaseCount('categories', 1);
-        $this->assertEquals(1, Category::query()->count());
+        $this->assertDatabaseCount('product_categories', 1);
+        $this->assertEquals(1, ProductCategory::query()->count());
     }
 
     /**
@@ -177,9 +179,9 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
         $category = $this->createCategory();
 
-        $this->delete(route('categories.destroy', $category->id))->assertOk();
-        $this->assertDatabaseCount('categories', 0);
-        $this->assertEquals(0, Category::query()->count());
+        $this->delete(route('product-category.destroy', $category->id))->assertOk();
+        $this->assertDatabaseCount('product_categories', 0);
+        $this->assertEquals(0, ProductCategory::query()->count());
     }
 
     /**
@@ -194,7 +196,7 @@ class CategoryTest extends TestCase
 
         $this->patch(route('categories.change.status.active', $category->id))->assertOk();
         $this->assertDatabaseHas('categories', [
-            'status' => CategoryStatusEnum::STATUS_ACTIVE->value,
+            'status' => 1,
         ]);
         $this->assertDatabaseCount('categories', 1);
     }
@@ -237,7 +239,7 @@ class CategoryTest extends TestCase
      */
     private function createCategory()
     {
-        return Category::factory()->create([
+        return ProductCategory::factory()->create([
             'user_id' => auth()->id(),
             'parent_id' => null,
             'title' => $this->faker->title,
