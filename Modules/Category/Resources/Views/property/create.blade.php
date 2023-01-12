@@ -26,11 +26,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('category-property.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('categoryAttribute.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('category-property.store') }}" method="POST">
+                    <form action="{{ route('categoryAttribute.store') }}" method="POST">
                         @csrf
                         <section class="row">
 

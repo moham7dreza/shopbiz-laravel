@@ -41,7 +41,7 @@ class ProductController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $products = Product::query()->orderBy('created_at', 'desc')->simplePaginate(15);
         return view('Product::admin.index', compact('products'));
@@ -52,7 +52,7 @@ class ProductController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $productCategories = ProductCategory::all();
         $brands = Brand::all();
@@ -117,7 +117,7 @@ class ProductController extends Controller
      * @param Product $product
      * @return Application|Factory|View
      */
-    public function edit(Product $product)
+    public function edit(Product $product): View|Factory|Application
     {
         $productCategories = ProductCategory::all();
         $brands = Brand::all();

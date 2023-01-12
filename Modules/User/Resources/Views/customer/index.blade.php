@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('customer-user.create') }}" class="btn btn-info btn-sm">ایجاد مشتری جدید</a>
+                    <a href="{{ route('customerUser.create') }}" class="btn btn-info btn-sm">ایجاد مشتری جدید</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -57,7 +57,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $user->id }}-active" onchange="changeActive({{ $user->id }})"
-                                               data-url="{{ route('customer-user.activation', $user->id) }}"
+                                               data-url="{{ route('customerUser.activation', $user->id) }}"
                                                type="checkbox" @if ($user->activation === 1)
                                                    checked
                                             @endif>
@@ -66,16 +66,16 @@
                                 <td>
                                     <label>
                                         <input id="{{ $user->id }}" onchange="changeStatus({{ $user->id }})"
-                                               data-url="{{ route('customer-user.status', $user->id) }}" type="checkbox"
+                                               data-url="{{ route('customerUser.status', $user->id) }}" type="checkbox"
                                                @if ($user->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('customer-user.edit', $user->id) }}"
+                                    <a href="{{ route('customerUser.edit', $user->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('customer-user.destroy', $user->id) }}"
+                                    <form class="d-inline" action="{{ route('customerUser.destroy', $user->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

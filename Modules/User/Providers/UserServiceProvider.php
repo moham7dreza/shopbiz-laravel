@@ -114,7 +114,7 @@ class UserServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.users.admins', [
             'title' => 'کاربران ادمین',
             'icon' => 'fa-user-secret',
-            'url' => route('admin-user.index'),
+            'url' => route('adminUser.index'),
         ]);
     }
 

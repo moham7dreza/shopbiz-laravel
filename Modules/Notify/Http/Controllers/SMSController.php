@@ -18,7 +18,7 @@ use Modules\Share\Http\Controllers\Controller;
 
 class SMSController extends Controller
 {
-    private string $redirectRoute = 'sms-notify.index';
+    private string $redirectRoute = 'sms.index';
 
     private string $class = SMS::class;
 
@@ -42,7 +42,7 @@ class SMSController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $sms = SMS::query()->orderBy('created_at', 'desc')->simplePaginate(15);
         return view('Notify::sms.index', compact('sms'));
@@ -53,7 +53,7 @@ class SMSController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Notify::sms.create');
 
@@ -73,7 +73,7 @@ class SMSController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $sms = SMS::query()->create($inputs);
-        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
+        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
     }
 
     /**
@@ -93,7 +93,7 @@ class SMSController extends Controller
      * @param SMS $sms
      * @return Application|Factory|View
      */
-    public function edit(SMS $sms)
+    public function edit(SMS $sms): View|Factory|Application
     {
         return view('Notify::sms.edit', compact('sms'));
     }
@@ -112,7 +112,7 @@ class SMSController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $sms->update($inputs);
-        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت ویرایش شد');
+        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class SMSController extends Controller
     public function destroy(SMS $sms): RedirectResponse
     {
         $result = $sms->delete();
-        return redirect()->route('sms-notify.index')->with('swal-success', 'پیامک شما با موفقیت حذف شد');
+        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت حذف شد');
     }
 
 

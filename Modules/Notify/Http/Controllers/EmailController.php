@@ -16,7 +16,7 @@ use Modules\Share\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
-    private string $redirectRoute = 'email-notify.index';
+    private string $redirectRoute = 'email.index';
 
     private string $class = Email::class;
 
@@ -52,7 +52,7 @@ class EmailController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Notify::email.create');
 
@@ -71,13 +71,13 @@ class EmailController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $email = Email::query()->create($inputs);
-        return redirect()->route('email-notify.index')->with('swal-success', 'ایمیل شما با موفقیت ثبت شد');
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -91,7 +91,7 @@ class EmailController extends Controller
      * @param Email $email
      * @return Application|Factory|View
      */
-    public function edit(Email $email)
+    public function edit(Email $email): View|Factory|Application
     {
         return view('Notify::email.edit', compact('email'));
 
@@ -111,7 +111,7 @@ class EmailController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
         $email->update($inputs);
-        return redirect()->route('email-notify.index')->with('swal-success', 'ایمیل شما با موفقیت ویرایش شد');
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -123,7 +123,7 @@ class EmailController extends Controller
     public function destroy(Email $email): RedirectResponse
     {
         $result = $email->delete();
-        return redirect()->route('email-notify.index')->with('swal-success', 'ایمیل شما با موفقیت حذف شد');
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت حذف شد');
     }
 
 
@@ -136,19 +136,14 @@ class EmailController extends Controller
 
         $email->status = $email->status == 0 ? 1 : 0;
         $result = $email->save();
-        if($result){
-                if($email->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($email->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
-
-
 }

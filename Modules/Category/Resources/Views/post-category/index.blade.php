@@ -27,7 +27,7 @@
                 @include('Panel::alerts.alert-section.success')
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('post-category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                    <a href="{{ route('postCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -66,17 +66,17 @@
                                     <label>
                                         <input id="{{ $postCategory->id }}"
                                                onchange="changeStatus({{ $postCategory->id }})"
-                                               data-url="{{ route('post-category.status', $postCategory->id) }}"
+                                               data-url="{{ route('postCategory.status', $postCategory->id) }}"
                                                type="checkbox" @if ($postCategory->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('post-category.edit', $postCategory->id) }}"
+                                    <a href="{{ route('postCategory.edit', $postCategory->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <form class="d-inline"
-                                          action="{{ route('post-category.destroy', $postCategory->id) }}"
+                                          action="{{ route('postCategory.destroy', $postCategory->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

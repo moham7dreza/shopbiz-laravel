@@ -16,19 +16,19 @@ use Modules\Ticket\Http\Controllers\TicketPriorityController;
 */
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('ticket-category', 'TicketCategoryController', ['except' => 'show']);
+    $router->resource('ticketCategory', 'TicketCategoryController', ['except' => 'show']);
     //category
-    Route::prefix('ticket-category')->group(function () {
-        Route::get('/status/{ticketCategory}', [TicketCategoryController::class, 'status'])->name('ticket-category.status');
+    Route::prefix('ticketCategory')->group(function () {
+        Route::get('/status/{ticketCategory}', [TicketCategoryController::class, 'status'])->name('ticketCategory.status');
     });
 
-    $router->resource('ticket-priority', 'TicketPriorityController', ['except' => 'show']);
-    Route::prefix('ticket-priority')->group(function () {
-        Route::get('/status/{ticketPriority}', [TicketPriorityController::class, 'status'])->name('ticket-priority.status');
+    $router->resource('ticketPriority', 'TicketPriorityController', ['except' => 'show']);
+    Route::prefix('ticketPriority')->group(function () {
+        Route::get('/status/{ticketPriority}', [TicketPriorityController::class, 'status'])->name('ticketPriority.status');
     });
 
     //admin
-    Route::prefix('admin-ticket')->group(function () {
+    Route::prefix('adminTicket')->group(function () {
         Route::get('/', [TicketAdminController::class, 'index'])->name('ticket-admin.index');
         Route::get('/set/{admin}', [TicketAdminController::class, 'set'])->name('ticket-admin.set');
     });

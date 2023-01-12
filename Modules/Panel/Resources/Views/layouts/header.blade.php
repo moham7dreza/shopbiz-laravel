@@ -126,10 +126,10 @@
                             <a href="{{ route('setting.index') }}" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-cog"></i>تنظیمات
                             </a>
-                            <a href="{{ route('admin-user.index') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('adminUser.index') }}" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-user"></i>کاربر
                             </a>
-                            <a href="{{ route('product-comment.index') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('productComment.index') }}" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="far fa-envelope"></i>پیام ها
                             </a>
                             <a href="#" class="list-group-item list-group-item-action header-profile-link">

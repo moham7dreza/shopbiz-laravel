@@ -13,18 +13,18 @@ use Modules\Comment\Http\Controllers\PostCommentController;
 */
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('product-comment', 'ProductCommentController', ['except' => 'create']);
-    Route::get('product-comment/approved/{comment}', 'ProductCommentController@approved')->name('product-comment.approved');
-    Route::get('product-comment/status/{comment}', 'ProductCommentController@status')->name('product-comment.status');
-    Route::post('product-comment/answer/{comment}', 'ProductCommentController@answer')->name('product-comment.answer');
+    $router->resource('productComment', 'ProductCommentController', ['except' => 'create']);
+    Route::get('productComment/approved/{productComment}', 'ProductCommentController@approved')->name('productComment.approved');
+    Route::get('productComment/status/{productComment}', 'ProductCommentController@status')->name('productComment.status');
+    Route::post('productComment/answer/{productComment}', 'ProductCommentController@answer')->name('productComment.answer');
 
     //comment
-    Route::prefix('post-comment')->group(function () {
-        Route::get('/', [PostCommentController::class, 'index'])->name('post-comment.index');
-        Route::get('/show/{comment}', [PostCommentController::class, 'show'])->name('post-comment.show');
-        Route::delete('/destroy/{comment}', [PostCommentController::class, 'destroy'])->name('post-comment.destroy');
-        Route::get('/approved/{comment}', [PostCommentController::class, 'approved'])->name('post-comment.approved');
-        Route::get('/status/{comment}', [PostCommentController::class, 'status'])->name('post-comment.status');
-        Route::post('/answer/{comment}', [PostCommentController::class, 'answer'])->name('post-comment.answer');
+    Route::prefix('postComment')->group(function () {
+        Route::get('/', [PostCommentController::class, 'index'])->name('postComment.index');
+        Route::get('/show/{postComment}', [PostCommentController::class, 'show'])->name('postComment.show');
+        Route::delete('/destroy/{postComment}', [PostCommentController::class, 'destroy'])->name('postComment.destroy');
+        Route::get('/approved/{postComment}', [PostCommentController::class, 'approved'])->name('postComment.approved');
+        Route::get('/status/{postComment}', [PostCommentController::class, 'status'])->name('postComment.status');
+        Route::post('/answer/{postComment}', [PostCommentController::class, 'answer'])->name('postComment.answer');
     });
 });

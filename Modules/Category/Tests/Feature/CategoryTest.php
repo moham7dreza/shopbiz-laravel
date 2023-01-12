@@ -21,7 +21,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('product-category.index'));
+        $response = $this->get(route('productCategory.index'));
         $response->assertViewIs('Category::product-category.index');
         $response->assertViewHas('productCategories');
     }
@@ -35,7 +35,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->get(route('product-category.create'));
+        $response = $this->get(route('productCategory.create'));
         $response->assertViewIs('Category::product-category.create');
         $response->assertViewHas('categories');
     }
@@ -49,7 +49,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('product-category.store'), [])->assertSessionHasErrors([
+        $response = $this->post(route('productCategory.store'), [])->assertSessionHasErrors([
             'title',
             'status',
         ]);
@@ -66,7 +66,7 @@ class CategoryTest extends TestCase
     {
         $this->createUserWithLoginWithAssignPermission();
 
-        $response = $this->post(route('product-category.store'), [
+        $response = $this->post(route('productCategory.store'), [
             'parent_id' => random_int(1, 10)
         ])->assertSessionHasErrors([
             'title',
@@ -86,14 +86,14 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $title = $this->faker->unique()->title;
-        $response = $this->post(route('product-category.store'), [
+        $response = $this->post(route('productCategory.store'), [
             'parent_id' => null,
             'title' => $title,
             'keywords' => $this->faker->text(),
             'status' => 1,
             'description' => null,
         ]);
-        $response->assertRedirect(route('product-category.index'));
+        $response->assertRedirect(route('productCategory.index'));
         $response->assertSessionHas('alert');
 
         $this->assertDatabaseHas('product_categories', [
@@ -113,7 +113,7 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $category = $this->createCategory();
-        $response = $this->get(route('product-category.edit', $category->id));
+        $response = $this->get(route('productCategory.edit', $category->id));
         $response->assertViewIs('Category::product-category.edit');
         $response->assertViewHas(['parent_categories', 'productCategory']);
     }
@@ -128,7 +128,7 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
 
         $category = $this->createCategory();
-        $response = $this->patch(route('product-category.update', $category->id), [
+        $response = $this->patch(route('productCategory.update', $category->id), [
             'id' => $category->id,
         ]);
         $response->assertSessionHasErrors([
@@ -150,13 +150,13 @@ class CategoryTest extends TestCase
 
         $title = 'milwad dev';
         $category = $this->createCategory();
-        $response = $this->patch(route('product-category.update', $category->id), [
+        $response = $this->patch(route('productCategory.update', $category->id), [
             'id' => $category->id,
             'title' => $title,
             'description' => 'shopline category',
             'status' => 1,
         ]);
-        $response->assertRedirect(route('product-category.index'));
+        $response->assertRedirect(route('productCategory.index'));
         $response->assertSessionHas('swal-success');
 
         $this->assertDatabaseHas('product_categories', [
@@ -179,7 +179,7 @@ class CategoryTest extends TestCase
         $this->createUserWithLoginWithAssignPermission();
         $category = $this->createCategory();
 
-        $this->delete(route('product-category.destroy', $category->id))->assertOk();
+        $this->delete(route('productCategory.destroy', $category->id))->assertOk();
         $this->assertDatabaseCount('product_categories', 0);
         $this->assertEquals(0, ProductCategory::query()->count());
     }

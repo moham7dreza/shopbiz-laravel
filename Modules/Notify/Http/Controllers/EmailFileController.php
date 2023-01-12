@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Entities\EmailFile;
@@ -44,9 +43,9 @@ class EmailFileController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index(Email $email)
+    public function index(Email $email): View|Factory|Application
     {
-       return view('Notify::email-file.index', compact('email'));
+        return view('Notify::email-file.index', compact('email'));
     }
 
     /**
@@ -54,7 +53,7 @@ class EmailFileController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create(Email $email)
+    public function create(Email $email): View|Factory|Application
     {
         return view('Notify::email-file.create', compact('email'));
 
@@ -71,32 +70,30 @@ class EmailFileController extends Controller
     public function store(EmailFileRequest $request, Email $email, FileService $fileService): RedirectResponse
     {
         $inputs = $request->all();
-        if($request->hasFile('file'))
-        {
+        if ($request->hasFile('file')) {
             $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'email-files');
             $fileService->setFileSize($request->file('file'));
             $fileSize = $fileService->getFileSize();
             $result = $fileService->moveToPublic($request->file('file'));
             // $result = $fileService->moveToStorage($request->file('file'));
             $fileFormat = $fileService->getFileFormat();
-            if($result === false)
-            {
-                return redirect()->route('notify.email-file.index', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+            if ($result === false) {
+                return redirect()->route('email-file.index', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
         }
 
-         $inputs['public_mail_id'] = $email->id;
-         $inputs['file_path'] = $result;
-         $inputs['file_size'] = $fileSize;
-         $inputs['file_type'] = $fileFormat;
-         $file = EmailFile::query()->create($inputs);
-         return redirect()->route('notify.email-file.index', $email->id)->with('swal-success', 'فایل جدید شما با موفقیت ثبت شد');
+        $inputs['public_mail_id'] = $email->id;
+        $inputs['file_path'] = $result;
+        $inputs['file_size'] = $fileSize;
+        $inputs['file_type'] = $fileFormat;
+        $file = EmailFile::query()->create($inputs);
+        return redirect()->route('email-file.index', $email->id)->with('swal-success', 'فایل جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -110,7 +107,7 @@ class EmailFileController extends Controller
      * @param EmailFile $file
      * @return Application|Factory|View
      */
-    public function edit(EmailFile $file)
+    public function edit(EmailFile $file): View|Factory|Application
     {
         return view('Notify::email-file.edit', compact('file'));
     }
@@ -126,10 +123,8 @@ class EmailFileController extends Controller
     public function update(EmailFileRequest $request, EmailFile $file, FileService $fileService): RedirectResponse
     {
         $inputs = $request->all();
-        if($request->hasFile('file'))
-        {
-            if(!empty($file->file_path))
-            {
+        if ($request->hasFile('file')) {
+            if (!empty($file->file_path)) {
                 // $fileService->deleteFile($file->file_path, true);
                 $fileService->deleteFile($file->file_path);
             }
@@ -139,16 +134,15 @@ class EmailFileController extends Controller
             $result = $fileService->moveToPublic($request->file('file'));
             // $result = $fileService->moveToStorage($request->file('file'));
             $fileFormat = $fileService->getFileFormat();
-            if($result === false)
-            {
-                return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+            if ($result === false) {
+                return redirect()->route('email-file.index', $file->email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
             $inputs['file_path'] = $result;
             $inputs['file_size'] = $fileSize;
             $inputs['file_type'] = $fileFormat;
         }
-         $file->update($inputs);
-         return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-success', 'فایل  شما با موفقیت ویرایش شد');
+        $file->update($inputs);
+        return redirect()->route('email-file.index', $file->email->id)->with('swal-success', 'فایل  شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -160,26 +154,25 @@ class EmailFileController extends Controller
     public function destroy(EmailFile $file): RedirectResponse
     {
         $result = $file->delete();
-        return redirect()->route('notify.email-file.index', $file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
+        return redirect()->route('email-file.index', $file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
     }
 
     /**
      * @param EmailFile $file
      * @return JsonResponse
      */
-    public function status(EmailFile $file){
+    public function status(EmailFile $file): JsonResponse
+    {
 
         $file->status = $file->status == 0 ? 1 : 0;
         $result = $file->save();
-        if($result){
-                if($file->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($file->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
 

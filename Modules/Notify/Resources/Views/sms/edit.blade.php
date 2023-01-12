@@ -27,11 +27,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('sms-notify.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('sms.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('sms-notify.update', $sms->id) }}" method="post">
+                    <form action="{{ route('sms.update', $sms->id) }}" method="post">
                         @csrf
                         {{ method_field('put') }}
                         <section class="row">

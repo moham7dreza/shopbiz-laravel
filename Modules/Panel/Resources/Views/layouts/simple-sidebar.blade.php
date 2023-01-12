@@ -16,12 +16,12 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="{{ route('product-category.index') }}">دسته بندی</a>
-                    <a href="{{ route('category-property.index') }}">فرم کالا</a>
+                    <a href="{{ route('productCategory.index') }}">دسته بندی</a>
+                    <a href="{{ route('categoryAttribute.index') }}">فرم کالا</a>
                     <a href="{{ route('brand.index') }}">برندها</a>
                     <a href="{{ route('product.index') }}">کالاها</a>
                     <a href="{{ route('product.store.index') }}">انبار</a>
-                    <a href="{{ route('product-comment.index') }}">نظرات</a>
+                    <a href="{{ route('productComment.index') }}">نظرات</a>
                 </section>
             </section>
 
@@ -77,7 +77,7 @@
 
             <section class="sidebar-part-title">بخش محتوی</section>
 {{--            @role('operator')--}}
-            <a href="{{ route('post-category.index') }}" class="sidebar-link">
+            <a href="{{ route('postCategory.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
             </a>
@@ -87,7 +87,7 @@
                 <i class="fas fa-bars"></i>
                 <span>پست ها</span>
             </a>
-            <a href="{{ route('post-comment.index') }}" class="sidebar-link">
+            <a href="{{ route('postComment.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>نظرات</span>
             </a>
@@ -111,11 +111,11 @@
 
 
             <section class="sidebar-part-title">بخش کاربران</section>
-            <a href="{{ route('admin-user.index') }}" class="sidebar-link">
+            <a href="{{ route('adminUser.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>کاربران ادمین</span>
             </a>
-            <a href="{{ route('customer-user.index') }}" class="sidebar-link">
+            <a href="{{ route('customerUser.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>مشتریان</span>
             </a>
@@ -134,11 +134,11 @@
 
 
             <section class="sidebar-part-title">تیکت ها</section>
-            <a href="{{ route('ticket-category.index') }}" class="sidebar-link">
+            <a href="{{ route('ticketCategory.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span> دسته بندی تیکت ها </span>
             </a>
-            <a href="{{ route('ticket-priority.index') }}" class="sidebar-link">
+            <a href="{{ route('ticketPriority.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span> اولویت تیکت ها </span>
             </a>
@@ -167,11 +167,11 @@
 
 
             <section class="sidebar-part-title">اطلاع رسانی</section>
-            <a href="{{ route('email-notify.index') }}" class="sidebar-link">
+            <a href="{{ route('email.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>اعلامیه ایمیلی</span>
             </a>
-            <a href="{{ route('sms-notify.index') }}" class="sidebar-link">
+            <a href="{{ route('sms.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>اعلامیه پیامکی</span>
             </a>

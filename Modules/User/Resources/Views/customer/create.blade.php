@@ -26,11 +26,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('customer-user.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('customerUser.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('customer-user.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('customerUser.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <section class="row">
 

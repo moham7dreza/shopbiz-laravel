@@ -132,13 +132,13 @@ class CategoryServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.market.vitrine.category', [
             'title' => 'دسته بندی',
             'icon' => 'fa-leaf',
-            'url' => route('product-category.index'),
+            'url' => route('productCategory.index'),
         ]);
 
         config()->set('panelConfig.menus.content.category', [
             'title' => 'دسته بندی',
             'icon' => 'fa-leaf',
-            'url' => route('post-category.index'),
+            'url' => route('postCategory.index'),
         ]);
     }
 

@@ -27,11 +27,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('email-notify.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('email.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('email-notify.store') }}" method="post">
+                    <form action="{{ route('email.store') }}" method="post">
                         @csrf
                         <section class="row">
 

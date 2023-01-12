@@ -22,7 +22,7 @@ class PermissionController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $permissions = Permission::all();
         return view('ACL::permission.index', compact('permissions'));
@@ -33,7 +33,7 @@ class PermissionController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): Factory|View|Application
     {
         return view('ACL::permission.create');
     }
@@ -68,7 +68,7 @@ class PermissionController extends Controller
      * @param Permission $permission
      * @return Application|Factory|View
      */
-    public function edit(Permission $permission)
+    public function edit(Permission $permission): View|Factory|Application
     {
         return view('ACL::permission.edit', compact('permission'));
 

@@ -14,15 +14,15 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PostCommentController extends Controller
 {
-    private string $redirectRoute = 'post-comment.index';
+    private string $redirectRoute = 'postComment.index';
 
     private string $class = Comment::class;
 
     public CommentRepoEloquentInterface $repo;
 
-    public function __construct(CommentRepoEloquentInterface $commentRepoEloquent)
+    public function __construct(CommentRepoEloquentInterface $postCommentRepoEloquent)
     {
-        $this->repo = $commentRepoEloquent;
+        $this->repo = $postCommentRepoEloquent;
 
         $this->middleware('can:permission-post-comments')->only(['index']);
         $this->middleware('can:permission-post-comment-show')->only(['show']);
@@ -41,7 +41,7 @@ class PostCommentController extends Controller
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Post\Entities\Post\Post')->simplePaginate(15);
+        $postComments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Post\Entities\Post\Post')->simplePaginate(15);
         return view('Comment::post-comment.index', compact('comments'));
 
     }
@@ -70,10 +70,10 @@ class PostCommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Comment $comment
+     * @param Comment $postComment
      * @return Application|Factory|View
      */
-    public function show(Comment $comment)
+    public function show(Comment $postComment)
     {
         return view('Comment::post-comment.show', compact('comment'));
     }
@@ -114,16 +114,16 @@ class PostCommentController extends Controller
 
 
     /**
-     * @param Comment $comment
+     * @param Comment $postComment
      * @return JsonResponse
      */
-    public function status(Comment $comment): JsonResponse
+    public function status(Comment $postComment): JsonResponse
     {
 
-        $comment->status = $comment->status == 0 ? 1 : 0;
-        $result = $comment->save();
+        $postComment->status = $postComment->status == 0 ? 1 : 0;
+        $result = $postComment->save();
         if($result){
-                if($comment->status == 0){
+                if($postComment->status == 0){
                     return response()->json(['status' => true, 'checked' => false]);
                 }
                 else{
@@ -137,18 +137,18 @@ class PostCommentController extends Controller
     }
 
     /**
-     * @param Comment $comment
+     * @param Comment $postComment
      * @return RedirectResponse
      */
-    public function approved(Comment $comment){
+    public function approved(Comment $postComment){
 
-        $comment->approved = $comment->approved == 0 ? 1 : 0;
-        $result = $comment->save();
+        $postComment->approved = $postComment->approved == 0 ? 1 : 0;
+        $result = $postComment->save();
         if($result){
-            return redirect()->route('post-comment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
+            return redirect()->route('postComment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
         }
         else{
-            return redirect()->route('post-comment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
+            return redirect()->route('postComment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
         }
 
     }
@@ -156,24 +156,24 @@ class PostCommentController extends Controller
 
     /**
      * @param CommentRequest $request
-     * @param Comment $comment
+     * @param Comment $postComment
      * @return RedirectResponse
      */
-    public function answer(CommentRequest $request, Comment $comment): RedirectResponse
+    public function answer(CommentRequest $request, Comment $postComment): RedirectResponse
     {
-        if ($comment->parent == null) {
+        if ($postComment->parent == null) {
             $inputs = $request->all();
             $inputs['author_id'] = 1;
-            $inputs['parent_id'] = $comment->id;
-            $inputs['commentable_id'] = $comment->commentable_id;
-            $inputs['commentable_type'] = $comment->commentable_type;
+            $inputs['parent_id'] = $postComment->id;
+            $inputs['commentable_id'] = $postComment->commentable_id;
+            $inputs['commentable_type'] = $postComment->commentable_type;
             $inputs['approved'] = 1;
             $inputs['status'] = 1;
-            $comment = Comment::query()->create($inputs);
-            return redirect()->route('post-comment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
+            $postComment = Comment::query()->create($inputs);
+            return redirect()->route('postComment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
         }
         else{
-            return redirect()->route('post-comment.index')->with('swal-error', 'خطا');
+            return redirect()->route('postComment.index')->with('swal-error', 'خطا');
 
         }
     }

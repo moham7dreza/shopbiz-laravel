@@ -62,21 +62,21 @@
                                 <td>
                                     <label>
                                         <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }})"
-                                               data-url="{{ route('post-comment.status', $comment->id) }}"
+                                               data-url="{{ route('postComment.status', $comment->id) }}"
                                                type="checkbox" @if ($comment->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('post-comment.show', $comment->id) }}"
+                                    <a href="{{ route('postComment.show', $comment->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
 
                                     @if($comment->approved == 1)
-                                        <a href="{{ route('post-comment.approved', $comment->id)}} "
+                                        <a href="{{ route('postComment.approved', $comment->id)}} "
                                            class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i></a>
                                     @else
-                                        <a href="{{ route('post-comment.approved', $comment->id)}}"
+                                        <a href="{{ route('postComment.approved', $comment->id)}}"
                                            class="btn btn-success btn-sm text-white" type="submit"><i
                                                 class="fa fa-check"></i></a>
                                     @endif

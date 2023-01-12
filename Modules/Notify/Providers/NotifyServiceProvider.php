@@ -66,7 +66,7 @@ class NotifyServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->loadViewFiles();
         $this->loadRouteFiles();
@@ -80,7 +80,7 @@ class NotifyServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();
@@ -129,14 +129,14 @@ class NotifyServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.notify.email', [
             'title' => 'اطلاعیه',
             'icon' => 'fa-mail-bulk',
-            'url' => route('email-notify.index'),
+            'url' => route('email.index'),
         ]);
     }
 
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(EmailRepoEloquentInterface::class, EmailRepoEloquent::class);
         $this->app->bind(SMSRepoEloquentInterface::class, SMSRepoEloquent::class);
@@ -147,7 +147,7 @@ class NotifyServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(EmailServiceInterface::class, EmailService::class);
         $this->app->bind(SMSServiceInterface::class, SMSService::class);

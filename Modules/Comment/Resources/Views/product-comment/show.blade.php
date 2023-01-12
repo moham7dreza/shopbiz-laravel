@@ -26,7 +26,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('product-comment.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('productComment.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section class="card mb-3">
@@ -42,7 +42,7 @@
 
                 @if($comment->parent_id == null)
                     <section>
-                        <form action="{{ route('product-comment.answer', $comment->id) }}" method="post">
+                        <form action="{{ route('productComment.answer', $comment->id) }}" method="post">
                             @csrf
                             <section class="row">
                                 <section class="col-12">

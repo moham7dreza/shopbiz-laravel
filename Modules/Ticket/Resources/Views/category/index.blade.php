@@ -27,7 +27,7 @@
                 @include('Panel::alerts.alert-section.success')
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('ticket-category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                    <a href="{{ route('ticketCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -54,17 +54,17 @@
                                     <label>
                                         <input id="{{ $ticketCategory->id }}"
                                                onchange="changeStatus({{ $ticketCategory->id }})"
-                                               data-url="{{ route('ticket-category.status', $ticketCategory->id) }}"
+                                               data-url="{{ route('ticketCategory.status', $ticketCategory->id) }}"
                                                type="checkbox" @if ($ticketCategory->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('ticket-category.edit', $ticketCategory->id) }}"
+                                    <a href="{{ route('ticketCategory.edit', $ticketCategory->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('ticket-category.destroy', $ticketCategory->id) }}"
+                                          action="{{ route('ticketCategory.destroy', $ticketCategory->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

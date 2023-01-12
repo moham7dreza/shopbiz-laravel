@@ -1,7 +1,7 @@
 <!-- Counters cards --->
 <section class="row">
     <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('customer-user.index') }}" class="text-decoration-none d-block mb-4">
+        <a href="{{ route('customerUser.index') }}" class="text-decoration-none d-block mb-4">
             <section class="card bg-custom-yellow text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
@@ -41,7 +41,7 @@
         </a>
     </section>
     <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('product-comment.index') }}" class="text-decoration-none d-block mb-4">
+        <a href="{{ route('productComment.index') }}" class="text-decoration-none d-block mb-4">
             <section class="card bg-custom-pink text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
@@ -121,7 +121,7 @@
         </a>
     </section>
     <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('admin-user.index') }}" class="text-decoration-none d-block mb-4">
+        <a href="{{ route('adminUser.index') }}" class="text-decoration-none d-block mb-4">
             <section class="card bg-warning text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">

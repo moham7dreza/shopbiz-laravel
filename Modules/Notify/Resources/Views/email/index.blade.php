@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('email-notify.create') }}" class="btn btn-info btn-sm">ایجاد اطلاعیه
+                    <a href="{{ route('email.create') }}" class="btn btn-info btn-sm">ایجاد اطلاعیه
                         ایمیلی</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
@@ -55,7 +55,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }})"
-                                               data-url="{{ route('email-notify.status', $email->id) }}"
+                                               data-url="{{ route('email.status', $email->id) }}"
                                                type="checkbox" @if ($email->status === 1)
                                                    checked
                                             @endif>
@@ -64,10 +64,10 @@
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('admin.notify.email-file.index', $email->id) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-file"></i></a>
-                                    <a href="{{ route('email-notify.edit', $email->id) }}"
+                                    <a href="{{ route('email.edit', $email->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('email-notify.destroy', $email->id) }}" method="post">
+                                          action="{{ route('email.destroy', $email->id) }}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i

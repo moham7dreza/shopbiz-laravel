@@ -26,11 +26,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('admin-user.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('adminUser.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('admin-user.update', $admin->id) }}" method="post"
+                    <form action="{{ route('adminUser.update', $admin->id) }}" method="post"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

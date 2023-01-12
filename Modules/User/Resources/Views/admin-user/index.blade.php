@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('admin-user.create') }}" class="btn btn-info btn-sm">ایجاد ادمین جدید</a>
+                    <a href="{{ route('adminUser.create') }}" class="btn btn-info btn-sm">ایجاد ادمین جدید</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -60,7 +60,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $admin->id }}-active" onchange="changeActive({{ $admin->id }})"
-                                               data-url="{{ route('admin-user.activation', $admin->id) }}"
+                                               data-url="{{ route('adminUser.activation', $admin->id) }}"
                                                type="checkbox" @if ($admin->activation === 1)
                                                    checked
                                             @endif>
@@ -69,7 +69,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $admin->id }}" onchange="changeStatus({{ $admin->id }})"
-                                               data-url="{{ route('admin-user.status', $admin->id) }}"
+                                               data-url="{{ route('adminUser.status', $admin->id) }}"
                                                type="checkbox" @if ($admin->status === 1)
                                                    checked
                                             @endif>
@@ -98,13 +98,13 @@
                                     @endforelse
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('admin-user.permissions', $admin->id) }}"
+                                    <a href="{{ route('adminUser.permissions', $admin->id) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-user-shield"></i></a>
-                                    <a href="{{ route('admin-user.roles', $admin->id) }}"
+                                    <a href="{{ route('adminUser.roles', $admin->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-user-check"></i></a>
-                                    <a href="{{ route('admin-user.edit', $admin->id) }}"
+                                    <a href="{{ route('adminUser.edit', $admin->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('admin-user.destroy', $admin->id) }}"
+                                    <form class="d-inline" action="{{ route('adminUser.destroy', $admin->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

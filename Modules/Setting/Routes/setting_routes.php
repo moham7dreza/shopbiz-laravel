@@ -14,7 +14,6 @@ use Modules\Setting\Http\Controllers\SettingController;
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
     Route::prefix('setting')->group(function () {
-
         Route::get('/', [SettingController::class, 'index'])->name('setting.index');
         Route::get('/edit/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
         Route::put('/update/{setting}', [SettingController::class, 'update'])->name('setting.update');

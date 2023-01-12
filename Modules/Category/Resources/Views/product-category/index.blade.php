@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('product-category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                    <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -49,10 +49,10 @@
                                 <td>{{ $productCategory->name }}</td>
                                 <td>{{ $productCategory->parent_id ? $productCategory->parent->name : 'دسته اصلی' }}</td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('product-category.edit', $productCategory->id) }}"
+                                    <a href="{{ route('productCategory.edit', $productCategory->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <form class="d-inline"
-                                          action="{{ route('product-category.destroy', $productCategory->id) }}"
+                                          action="{{ route('productCategory.destroy', $productCategory->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

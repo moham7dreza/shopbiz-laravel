@@ -15,15 +15,15 @@ use Modules\Share\Http\Controllers\Controller;
 
 class ProductCommentController extends Controller
 {
-    private string $redirectRoute = 'product-comment.index';
+    private string $redirectRoute = 'productComment.index';
 
     private string $class = Comment::class;
 
     public CommentRepoEloquentInterface $repo;
 
-    public function __construct(CommentRepoEloquentInterface $commentRepoEloquent)
+    public function __construct(CommentRepoEloquentInterface $productCommentRepoEloquent)
     {
-        $this->repo = $commentRepoEloquent;
+        $this->repo = $productCommentRepoEloquent;
 
         $this->middleware('can:permission-product-comments')->only(['index']);
         $this->middleware('can:permission-product-comment-show')->only(['show']);
@@ -43,7 +43,7 @@ class ProductCommentController extends Controller
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Product\Entities\Product')->simplePaginate(15);
+        $productComments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Product\Entities\Product')->simplePaginate(15);
         return view('Comment::product-comment.index', compact('comments'));
     }
 
@@ -71,10 +71,10 @@ class ProductCommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Comment $comment
+     * @param Comment $productComment
      * @return Application|Factory|View
      */
-    public function show(Comment $comment)
+    public function show(Comment $productComment)
     {
         return view('Comment::product-comment.show', compact('comment'));
     }
@@ -114,16 +114,16 @@ class ProductCommentController extends Controller
     }
 
     /**
-     * @param Comment $comment
+     * @param Comment $productComment
      * @return JsonResponse
      */
-    public function status(Comment $comment): JsonResponse
+    public function status(Comment $productComment): JsonResponse
     {
 
-        $comment->status = $comment->status == 0 ? 1 : 0;
-        $result = $comment->save();
+        $productComment->status = $productComment->status == 0 ? 1 : 0;
+        $result = $productComment->save();
         if ($result) {
-            if ($comment->status == 0) {
+            if ($productComment->status == 0) {
                 return response()->json(['status' => true, 'checked' => false]);
             } else {
                 return response()->json(['status' => true, 'checked' => true]);
@@ -135,18 +135,18 @@ class ProductCommentController extends Controller
     }
 
     /**
-     * @param Comment $comment
+     * @param Comment $productComment
      * @return RedirectResponse
      */
-    public function approved(Comment $comment): RedirectResponse
+    public function approved(Comment $productComment): RedirectResponse
     {
 
-        $comment->approved = $comment->approved == 0 ? 1 : 0;
-        $result = $comment->save();
+        $productComment->approved = $productComment->approved == 0 ? 1 : 0;
+        $result = $productComment->save();
         if ($result) {
-            return redirect()->route('product-comment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
+            return redirect()->route('productComment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return redirect()->route('product-comment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
+            return redirect()->route('productComment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
         }
 
     }
@@ -154,23 +154,23 @@ class ProductCommentController extends Controller
 
     /**
      * @param CommentRequest $request
-     * @param Comment $comment
+     * @param Comment $productComment
      * @return RedirectResponse
      */
-    public function answer(CommentRequest $request, Comment $comment)
+    public function answer(CommentRequest $request, Comment $productComment)
     {
-        if ($comment->parent == null) {
+        if ($productComment->parent == null) {
             $inputs = $request->all();
             $inputs['author_id'] = 1;
-            $inputs['parent_id'] = $comment->id;
-            $inputs['commentable_id'] = $comment->commentable_id;
-            $inputs['commentable_type'] = $comment->commentable_type;
+            $inputs['parent_id'] = $productComment->id;
+            $inputs['commentable_id'] = $productComment->commentable_id;
+            $inputs['commentable_type'] = $productComment->commentable_type;
             $inputs['approved'] = 1;
             $inputs['status'] = 1;
-            $comment = Comment::query()->create($inputs);
-            return redirect()->route('product-comment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
+            $productComment = Comment::query()->create($inputs);
+            return redirect()->route('productComment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
         } else {
-            return redirect()->route('product-comment.index')->with('swal-error', 'خطا');
+            return redirect()->route('productComment.index')->with('swal-error', 'خطا');
 
         }
     }

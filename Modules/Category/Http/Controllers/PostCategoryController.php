@@ -19,7 +19,7 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class PostCategoryController extends Controller
 {
-    private string $redirectRoute = 'post-category.index';
+    private string $redirectRoute = 'postCategory.index';
 
     private string $class = PostCategory::class;
 
@@ -53,7 +53,7 @@ class PostCategoryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $user = auth()->user();
         // if ($user->can('show-category')) {
@@ -95,13 +95,13 @@ class PostCategoryController extends Controller
             // exit;
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('postCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
 
         $postCategory = PostCategory::query()->create($inputs);
-        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        return redirect()->route('postCategory.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -121,7 +121,7 @@ class PostCategoryController extends Controller
      * @param PostCategory $postCategory
      * @return Application|Factory|View
      */
-    public function edit(PostCategory $postCategory)
+    public function edit(PostCategory $postCategory): View|Factory|Application
     {
         return view('Category::post-category.edit', compact('postCategory'));
     }
@@ -134,7 +134,7 @@ class PostCategoryController extends Controller
      * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService)
+    public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -145,7 +145,7 @@ class PostCategoryController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('post-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('postCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -157,7 +157,7 @@ class PostCategoryController extends Controller
         }
         // $inputs['slug'] = null;
         $postCategory->update($inputs);
-        return redirect()->route('post-category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        return redirect()->route('postCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -169,7 +169,7 @@ class PostCategoryController extends Controller
     public function destroy(PostCategory $postCategory): RedirectResponse
     {
         $result = $postCategory->delete();
-        return redirect()->route('post-category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        return redirect()->route('postCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 
     /**

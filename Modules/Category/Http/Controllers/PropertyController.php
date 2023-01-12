@@ -42,7 +42,7 @@ class PropertyController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $category_attributes = CategoryAttribute::all();
         return view('Category::property.index', compact('category_attributes'));
@@ -53,7 +53,7 @@ class PropertyController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $productCategories = ProductCategory::all();
         return view('Category::property.create', compact('productCategories'));
@@ -69,7 +69,7 @@ class PropertyController extends Controller
     {
         $inputs = $request->all();
         $attribute = CategoryAttribute::query()->create($inputs);
-        return redirect()->route('category-property.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
+        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -86,38 +86,38 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param CategoryAttribute $category_property
+     * @param CategoryAttribute $categoryAttribute
      * @return Application|Factory|View
      */
-    public function edit(CategoryAttribute $category_property)
+    public function edit(CategoryAttribute $categoryAttribute): View|Factory|Application
     {
         $productCategories = ProductCategory::all();
-        return view('Category::property.edit', compact('category_property', 'productCategories'));
+        return view('Category::property.edit', compact('categoryAttribute', 'productCategories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param CategoryAttributeRequest $request
-     * @param CategoryAttribute $category_property
+     * @param CategoryAttribute $categoryAttribute
      * @return RedirectResponse
      */
-    public function update(CategoryAttributeRequest $request, CategoryAttribute $category_property): RedirectResponse
+    public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $inputs = $request->all();
-        $category_property->update($inputs);
-        return redirect()->route('category-property.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
+        $categoryAttribute->update($inputs);
+        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param CategoryAttribute $category_property
+     * @param CategoryAttribute $categoryAttribute
      * @return RedirectResponse
      */
-    public function destroy(CategoryAttribute $category_property): RedirectResponse
+    public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
     {
-        $result = $category_property->delete();
-        return redirect()->route('category-property.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
+        $result = $categoryAttribute->delete();
+        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
     }
 }

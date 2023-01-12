@@ -20,10 +20,10 @@
                         </section>
                         <section class="sidebar-dropdown">
                             @can('permission-super-admin','permission-product-categories')
-                                <a href="{{ route('product-category.index') }}">دسته بندی</a>
+                                <a href="{{ route('productCategory.index') }}">دسته بندی</a>
                             @endcan
                             @can('permission-super-admin','permission-product-properties')
-                                <a href="{{ route('category-property.index') }}">فرم کالا</a>
+                                <a href="{{ route('categoryAttribute.index') }}">فرم کالا</a>
                             @endcan
                             @can('permission-super-admin','permission-product-brands')
                                 <a href="{{ route('brand.index') }}">برندها</a>
@@ -35,7 +35,7 @@
                                 <a href="{{ route('product.store.index') }}">انبار</a>
                             @endcan
                             @can('permission-super-admin','permission-product-comments')
-                                <a href="{{ route('product-comment.index') }}">نظرات</a>
+                                <a href="{{ route('productComment.index') }}">نظرات</a>
                             @endcan
                         </section>
                     </section>
@@ -122,7 +122,7 @@
             @can('permission-super-admin','permission-content')
                 <section class="sidebar-part-title">بخش محتوی</section>
                 @can('permission-super-admin','permission-post-categories')
-                    <a href="{{ route('post-category.index') }}" class="sidebar-link">
+                    <a href="{{ route('postCategory.index') }}" class="sidebar-link">
                         <i class="fas fa-leaf"></i>
                         <span>دسته بندی</span>
                     </a>
@@ -134,7 +134,7 @@
                     </a>
                 @endcan
                 @can('permission-super-admin','permission-post-comments')
-                    <a href="{{ route('post-comment.index') }}" class="sidebar-link">
+                    <a href="{{ route('postComment.index') }}" class="sidebar-link">
                         <i class="fas fa-comment"></i>
                         <span>نظرات</span>
                     </a>
@@ -173,13 +173,13 @@
             @canany(['permission-super-admin','permission-users'])
                 <section class="sidebar-part-title">بخش کاربران</section>
                 @can('permission-super-admin','permission-admin-users')
-                    <a href="{{ route('admin-user.index') }}" class="sidebar-link">
+                    <a href="{{ route('adminUser.index') }}" class="sidebar-link">
                         <i class="fas fa-user-secret"></i>
                         <span>کاربران ادمین</span>
                     </a>
                 @endcan
                 @can('permission-super-admin','permission-customer-users')
-                    <a href="{{ route('customer-user.index') }}" class="sidebar-link">
+                    <a href="{{ route('customerUser.index') }}" class="sidebar-link">
                         <i class="fas fa-user"></i>
                         <span>مشتریان</span>
                     </a>
@@ -201,13 +201,13 @@
             @can('permission-super-admin','permission-tickets')
                 <section class="sidebar-part-title">تیکت ها</section>
                 @can('permission-super-admin','permission-ticket-categories')
-                    <a href="{{ route('ticket-category.index') }}" class="sidebar-link">
+                    <a href="{{ route('ticketCategory.index') }}" class="sidebar-link">
                         <i class="fas fa-leaf"></i>
                         <span> دسته بندی تیکت ها </span>
                     </a>
                 @endcan
                 @can('permission-super-admin','permission-ticket-priorities')
-                    <a href="{{ route('ticket-priority.index') }}" class="sidebar-link">
+                    <a href="{{ route('ticketPriority.index') }}" class="sidebar-link">
                         <i class="fas fa-toolbox"></i>
                         <span> اولویت تیکت ها </span>
                     </a>
@@ -246,13 +246,13 @@
             @can('permission-super-admin','permission-notify')
                 <section class="sidebar-part-title">اطلاع رسانی</section>
                 @can('permission-super-admin','permission-email-notify')
-                    <a href="{{ route('email-notify.index') }}" class="sidebar-link">
+                    <a href="{{ route('email.index') }}" class="sidebar-link">
                         <i class="fas fa-mail-bulk"></i>
                         <span>اعلامیه ایمیلی</span>
                     </a>
                 @endcan
                 @can('permission-super-admin','permission-sms-notify')
-                    <a href="{{ route('sms-notify.index') }}" class="sidebar-link">
+                    <a href="{{ route('sms.index') }}" class="sidebar-link">
                         <i class="fas fa-sms"></i>
                         <span>اعلامیه پیامکی</span>
                     </a>

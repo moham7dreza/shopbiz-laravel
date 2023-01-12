@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('category-property.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                    <a href="{{ route('categoryAttribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -53,10 +53,10 @@
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('property-value.index', ['categoryAttribute' => $category_attribute->id]) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('category-property.edit', $category_attribute->id) }}"
+                                    <a href="{{ route('categoryAttribute.edit', $category_attribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('category-property.destroy', $category_attribute->id) }}"
+                                          action="{{ route('categoryAttribute.destroy', $category_attribute->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

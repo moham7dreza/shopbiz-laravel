@@ -63,7 +63,7 @@ class TicketCategoryController extends Controller
     {
         $inputs = $request->all();
         $ticketCategory = TicketCategory::query()->create($inputs);
-        return redirect()->route('ticket-category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -100,7 +100,7 @@ class TicketCategoryController extends Controller
     {
         $inputs = $request->all();
         $ticketCategory->update($inputs);
-        return redirect()->route('ticket-category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -112,7 +112,7 @@ class TicketCategoryController extends Controller
     public function destroy(TicketCategory $ticketCategory): RedirectResponse
     {
         $result = $ticketCategory->delete();
-        return redirect()->route('ticket-category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 
 

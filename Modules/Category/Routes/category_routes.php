@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Category\Http\Controllers\Home\CategoryController;
+use Modules\Category\Http\Controllers\PostCategoryController;
 use Modules\Category\Http\Controllers\ProductCategoryController;
+use Modules\Category\Http\Controllers\PropertyController;
 use Modules\Category\Http\Controllers\PropertyValueController;
 
 /*
@@ -15,9 +17,15 @@ use Modules\Category\Http\Controllers\PropertyValueController;
 */
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('product-category', 'ProductCategoryController', ['except' => 'show']);
-    $router->resource('post-category', 'PostCategoryController', ['except' => 'show']);
-    $router->resource('category-property', 'PropertyController', ['except' => 'show']);
+
+    $router->resource('productCategory', 'ProductCategoryController', ['except' => 'show']);
+    Route::get('productCategory/status/{productCategory}', [ProductCategoryController::class, 'status'])->name('productCategory.status');
+
+    $router->resource('postCategory', 'PostCategoryController', ['except' => 'show']);
+    Route::get('postCategory/status/{postCategory}', [PostCategoryController::class, 'status'])->name('postCategory.status');
+
+    $router->resource('categoryAttribute', 'PropertyController', ['except' => 'show']);
+    Route::get('categoryAttribute/status/{categoryAttribute}', [PropertyController::class, 'status'])->name('categoryAttribute.status');
 
     Route::prefix('property')->group(static function () {
         Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('property-value.index');

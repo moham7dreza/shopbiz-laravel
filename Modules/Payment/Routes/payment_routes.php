@@ -14,7 +14,6 @@ use Modules\Payment\Http\Controllers\Home\PaymentController as CustomerPaymentCo
 */
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
-//    $router->resource('discount', 'DiscountController');
     //payment
     Route::prefix('payment')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('payment.index');
@@ -26,6 +25,7 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('payment.show');
     });
 });
+
 Route::middleware('profile.completion')->group(function () {
     //payment
     Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('customer.sales-process.payment');

@@ -16,7 +16,7 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class ProductCategoryController extends Controller
 {
-    private string $redirectRoute = 'product-category.index';
+    private string $redirectRoute = 'productCategory.index';
 
     private string $class = ProductCategory::class;
 
@@ -40,7 +40,7 @@ class ProductCategoryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $productCategories = ProductCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
         return view('Category::product-category.index', compact(['productCategories']));
@@ -50,7 +50,7 @@ class ProductCategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $categories = ProductCategory::query()->where('parent_id', null)->get();
         return view('Category::product-category.create', compact('categories'));
@@ -72,13 +72,13 @@ class ProductCategoryController extends Controller
             $result = $imageService->createIndexAndSave($request->file('image'));
             if($result === false)
             {
-                return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
 
         $productCategory = ProductCategory::query()->create($inputs);
-        return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class ProductCategoryController extends Controller
             $result = $imageService->createIndexAndSave($request->file('image'));
             if($result === false)
             {
-                return redirect()->route('product-category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -139,7 +139,7 @@ class ProductCategoryController extends Controller
             }
         }
         $productCategory->update($inputs);
-        return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -151,6 +151,6 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory): RedirectResponse
     {
        $result = $productCategory->delete();
-       return redirect()->route('product-category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+       return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 }

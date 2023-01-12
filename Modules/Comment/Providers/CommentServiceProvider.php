@@ -124,13 +124,13 @@ class CommentServiceProvider extends ServiceProvider
         config()->set('panelConfig.menus.content.comment', [
             'title' => 'نظرات',
             'icon' => 'fa-comment',
-//            'url' => route('post-comment.index'),
+//            'url' => route('postComment.index'),
         ]);
 
         config()->set('panelConfig.menus.market.vitrine.comment', [
             'title' => 'نظرات',
             'icon' => 'fa-comment',
-//            'url' => route('product-comment.index'),
+//            'url' => route('productComment.index'),
         ]);
     }
 

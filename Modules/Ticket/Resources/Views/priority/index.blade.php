@@ -27,7 +27,7 @@
                 @include('Panel::alerts.alert-section.success')
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('ticket-priority.create') }}" class="btn btn-info btn-sm">ایجاد اولویت</a>
+                    <a href="{{ route('ticketPriority.create') }}" class="btn btn-info btn-sm">ایجاد اولویت</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                     </div>
@@ -54,17 +54,17 @@
                                     <label>
                                         <input id="{{ $ticketPriority->id }}"
                                                onchange="changeStatus({{ $ticketPriority->id }})"
-                                               data-url="{{ route('ticket-priority.status', $ticketPriority->id) }}"
+                                               data-url="{{ route('ticketPriority.status', $ticketPriority->id) }}"
                                                type="checkbox" @if ($ticketPriority->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('ticket-priority.edit', $ticketPriority->id) }}"
+                                    <a href="{{ route('ticketPriority.edit', $ticketPriority->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('ticket-priority.destroy', $ticketPriority->id) }}"
+                                          action="{{ route('ticketPriority.destroy', $ticketPriority->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

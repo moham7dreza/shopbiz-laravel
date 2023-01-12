@@ -65,7 +65,7 @@ class TicketPriorityController extends Controller
     {
         $inputs = $request->all();
         $ticketPriority = TicketPriority::query()->create($inputs);
-        return redirect()->route('ticket-priority.index')->with('swal-success', 'اولویت  جدید شما با موفقیت ثبت شد');
+        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -102,7 +102,7 @@ class TicketPriorityController extends Controller
     {
         $inputs = $request->all();
         $ticketPriority->update($inputs);
-        return redirect()->route('ticket-priority.index')->with('swal-success', 'اولویت شما با موفقیت ویرایش شد');
+        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -114,7 +114,7 @@ class TicketPriorityController extends Controller
     public function destroy(TicketPriority $ticketPriority)
     {
         $result = $ticketPriority->delete();
-        return redirect()->route('ticket-priority.index')->with('swal-success', 'اولویت شما با موفقیت حذف شد');
+        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت شما با موفقیت حذف شد');
     }
 
 

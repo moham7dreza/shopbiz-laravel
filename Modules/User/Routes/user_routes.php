@@ -18,23 +18,22 @@ use Modules\User\Http\Controllers\Home\Profile\ProfileController;
 */
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
-    $router->resource('admin-user', 'AdminUserController', ['except' => 'show']);
+    $router->resource('adminUser', 'AdminUserController', ['except' => 'show']);
     //admin-user
-    Route::prefix('admin-user')->group(function () {
-        Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('admin-user.status');
-        Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('admin-user.activation');
-        Route::get('/roles/{admin}', [AdminUserController::class, 'roles'])->name('admin-user.roles');
-        Route::post('/roles/{admin}/store', [AdminUserController::class, 'rolesStore'])->name('admin-user.roles.store');
-        Route::get('/permissions/{admin}', [AdminUserController::class, 'permissions'])->name('admin-user.permissions');
-        Route::post('/permissions/{admin}/store', [AdminUserController::class, 'permissionsStore'])->name('admin-user.permissions.store');
+    Route::prefix('adminUser')->group(function () {
+        Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('adminUser.status');
+        Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('adminUser.activation');
+        Route::get('/roles/{admin}', [AdminUserController::class, 'roles'])->name('adminUser.roles');
+        Route::post('/roles/{admin}/store', [AdminUserController::class, 'rolesStore'])->name('adminUser.roles.store');
+        Route::get('/permissions/{admin}', [AdminUserController::class, 'permissions'])->name('adminUser.permissions');
+        Route::post('/permissions/{admin}/store', [AdminUserController::class, 'permissionsStore'])->name('adminUser.permissions.store');
     });
 
-    $router->resource('customer-user', 'CustomerController', ['except' => 'show']);
-
+    $router->resource('customerUser', 'CustomerController', ['except' => 'show']);
     //customer
-    Route::prefix('customer')->group(function () {
-        Route::get('/status/{user}', [CustomerController::class, 'status'])->name('customer-user.status');
-        Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('customer-user.activation');
+    Route::prefix('customerUser')->group(function () {
+        Route::get('/status/{user}', [CustomerController::class, 'status'])->name('customerUser.status');
+        Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('customerUser.activation');
     });
 });
 Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');
