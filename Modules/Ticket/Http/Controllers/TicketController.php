@@ -22,6 +22,10 @@ class TicketController extends Controller
     public TicketRepoEloquentInterface $repo;
     public TicketService $service;
 
+    /**
+     * @param TicketRepoEloquentInterface $ticketRepoEloquent
+     * @param TicketService $ticketService
+     */
     public function __construct(TicketRepoEloquentInterface $ticketRepoEloquent, TicketService $ticketService)
     {
         $this->repo = $ticketRepoEloquent;
@@ -37,9 +41,9 @@ class TicketController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function newTickets()
+    public function newTickets(): View|Factory|Application
     {
-        $tickets = Ticket::query()->where('seen', 0)->get();
+        $tickets = $this->repo->newTickets()->paginate(10);
         foreach ($tickets as $newTicket) {
             $newTicket->seen = 1;
             $result = $newTicket->save();
@@ -50,24 +54,27 @@ class TicketController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function openTickets()
+    public function openTickets(): View|Factory|Application
     {
-        $tickets = Ticket::query()->where('status', 0)->get();
+        $tickets = $this->repo->openTickets()->paginate(10);
         return view('Ticket::index', compact('tickets'));
     }
 
-    public function closeTickets()
+    /**
+     * @return Factory|View|Application
+     */
+    public function closeTickets(): Factory|View|Application
     {
-        $tickets = Ticket::query()->where('status', 1)->get();
+        $tickets = $this->repo->closeTickets()->paginate(10);
         return view('Ticket::index', compact('tickets'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $tickets = Ticket::all();
+        $tickets = $this->repo->index()->paginate(10);
         return view('Ticket::index', compact('tickets'));
     }
 
@@ -98,7 +105,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return Application|Factory|View
      */
-    public function show(Ticket $ticket)
+    public function show(Ticket $ticket): View|Factory|Application
     {
         return view('Ticket::show', compact('ticket'));
     }

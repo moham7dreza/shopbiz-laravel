@@ -40,9 +40,9 @@ class DeliveryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $delivery_methods = Delivery::all();
+        $delivery_methods = $this->repo->index()->paginate(10);
         return view('Delivery::index', compact('delivery_methods'));
     }
 
@@ -51,7 +51,7 @@ class DeliveryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Delivery::create');
     }

@@ -5,6 +5,8 @@ namespace Modules\Banner\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Banner\Entities\Banner;
+
 class BannerRepoEloquent implements BannerRepoEloquentInterface
 {
     /**
@@ -14,7 +16,15 @@ class BannerRepoEloquent implements BannerRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function positions(): array
+    {
+        return Banner::$positions;
     }
 
     /**
@@ -23,7 +33,7 @@ class BannerRepoEloquent implements BannerRepoEloquentInterface
      * @param  $id
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findById($id)
+    public function findById($id): Model|Collection|Builder|array|null
     {
         return $this->query()->findOrFail($id);
     }
@@ -34,19 +44,18 @@ class BannerRepoEloquent implements BannerRepoEloquentInterface
      * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function delete($id): mixed
     {
         return $this->query()->where('id', $id)->delete();
     }
 
     /**
-     * Get all permissions.
-     *
-     * @return Collection
+     * @param int $position
+     * @return Builder
      */
-    public function getAllPermissions(): Collection
+    public function getBannerByPosition(int $position): Builder
     {
-        return Permission::all();
+        return $this->query()->where('position', $position);
     }
 
     /**
@@ -56,6 +65,6 @@ class BannerRepoEloquent implements BannerRepoEloquentInterface
      */
     private function query(): Builder
     {
-        return Role::query();
+        return Banner::query();
     }
 }

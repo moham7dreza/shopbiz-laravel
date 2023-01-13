@@ -2,6 +2,8 @@
 
 namespace Modules\Notify\Repositories\Notification;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Entities\Notification;
 
@@ -10,18 +12,26 @@ class NotificationRepoEloquent implements NotificationRepoEloquentInterface
     /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function index(): Builder
     {
         return $this->query()->latest();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function all(): Collection
+    {
+        return Notification::all();
     }
 
     /**
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -42,9 +52,9 @@ class NotificationRepoEloquent implements NotificationRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return Notification::query();
     }

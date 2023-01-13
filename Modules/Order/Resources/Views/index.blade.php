@@ -95,6 +95,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $orders->links() }}</section>
                 </section>
 
             </section>

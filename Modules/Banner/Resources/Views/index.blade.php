@@ -87,6 +87,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $banners->links() }}</section>
                 </section>
 
             </section>

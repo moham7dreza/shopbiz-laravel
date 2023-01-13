@@ -40,9 +40,9 @@ class EmailController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $emails = Email::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $emails = $this->repo->index()->paginate(10);
         return view('Notify::email.index', compact('emails'));
 
     }

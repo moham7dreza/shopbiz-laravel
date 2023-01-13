@@ -12,7 +12,7 @@ class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquent
      *
      * @return Builder
      */
-    public function getLatest()
+    public function getLatest(): Builder
     {
         return $this->query()->latest();
     }

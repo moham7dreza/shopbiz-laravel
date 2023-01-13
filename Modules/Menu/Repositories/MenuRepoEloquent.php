@@ -5,8 +5,6 @@ namespace Modules\Menu\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
 use Modules\Menu\Entities\Menu;
 
 class MenuRepoEloquent implements MenuRepoEloquentInterface
@@ -18,7 +16,7 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
     }
 
     /**
@@ -41,16 +39,6 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
     public function delete($id)
     {
         return $this->query()->where('id', $id)->delete();
-    }
-
-    /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
     }
 
     /**

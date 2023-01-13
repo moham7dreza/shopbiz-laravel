@@ -2,16 +2,41 @@
 
 namespace Modules\Ticket\Repositories\Ticket;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Ticket\Entities\Ticket;
 
 class TicketRepoEloquent implements TicketRepoEloquentInterface
 {
     /**
+     * @return Builder
+     */
+    public function newTickets(): Builder
+    {
+        return $this->query()->where('seen', 0)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function openTickets(): Builder
+    {
+        return $this->query()->where('status', 0)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function closeTickets(): Builder
+    {
+        return $this->query()->where('status', 1)->latest();
+    }
+
+    /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,7 +45,7 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -41,9 +66,9 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return Ticket::query();
     }

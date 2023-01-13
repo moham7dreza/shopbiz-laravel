@@ -5,6 +5,7 @@ namespace Modules\Brand\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Brand\Entities\Brand;
 
 class BrandRepoEloquent implements BrandRepoEloquentInterface
 {
@@ -15,7 +16,7 @@ class BrandRepoEloquent implements BrandRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
     }
 
     /**
@@ -41,22 +42,12 @@ class BrandRepoEloquent implements BrandRepoEloquentInterface
     }
 
     /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
-    }
-
-    /**
      * Builder for queue model.
      *
      * @return Builder
      */
     private function query(): Builder
     {
-        return Role::query();
+        return Brand::query();
     }
 }

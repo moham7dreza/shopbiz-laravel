@@ -44,9 +44,9 @@ class BannerController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $banners = Banner::query()->orderBy('created_at', 'desc')->simplePaginate(15);
-        $positions = Banner::$positions;
-        return view('Banner::index', compact('banners', 'positions'));
+        $banners = $this->repo->index()->paginate(10);
+        $positions = $this->repo->positions();
+        return view('Banner::index', compact(['banners', 'positions']));
     }
 
     /**

@@ -2,15 +2,38 @@
 
 namespace Modules\User\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
 {
     /**
+     * @return Builder
+     */
+    public function adminUsers(): Builder
+    {
+        return $this->query()->where([
+//            ['id', '!=', auth()->id()],
+            ['user_type', 1]
+        ])->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function customerUsers(): Builder
+    {
+        return $this->query()->where([
+//            ['id', '!=', auth()->id()],
+            ['user_type', 0]
+        ])->latest();
+    }
+
+    /**
      * Get the latest users without id.
      *
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getLatestWithoutId(int $id)
     {
@@ -21,7 +44,7 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      * Find user by email address.
      *
      * @param string $email
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @return Builder|\Illuminate\Database\Eloquent\Model|object|null
      *
      */
     public function findByEmail(string $email)
@@ -33,7 +56,7 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      * Find user by id.
      *
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById(int $id)
     {
@@ -54,9 +77,9 @@ class UserRepoEloquent implements UserRepoEloquentInterface
     /**
      * Get model(User) query, builder.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return User::query();
     }

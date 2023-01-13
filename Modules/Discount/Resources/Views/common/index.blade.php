@@ -85,6 +85,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $commonDiscounts->links() }}</section>
                 </section>
 
             </section>

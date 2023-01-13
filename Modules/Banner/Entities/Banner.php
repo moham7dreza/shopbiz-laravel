@@ -48,13 +48,19 @@ class Banner extends Model
         else return 'warning';
     }
 
+    /**
+     * @return string
+     */
     public function textStatus(): string
     {
         return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
     }
 
-    public function textPosition()
+    /**
+     * @return mixed|string
+     */
+    public function textPosition(): mixed
     {
-        return self::$positions[$this->position] ?? self::$postBannersPositions[$this->position] ?? 'مکان بنر مشخص نیست.';
+        return self::$positions[$this->position] ?? 'مکان بنر مشخص نیست.';
     }
 }

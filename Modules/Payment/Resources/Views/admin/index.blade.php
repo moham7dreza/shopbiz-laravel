@@ -82,12 +82,13 @@
                         @endforeach
 
 
-                    </tbody>
-                </table>
-            </section>
+                        </tbody>
+                    </table>
+                    <section class="border-top pt-3">{{ $payments->links() }}</section>
+                </section>
 
+            </section>
         </section>
     </section>
-</section>
 
 @endsection

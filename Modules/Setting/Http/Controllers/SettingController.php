@@ -35,13 +35,13 @@ class SettingController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $setting = Setting::query()->first();
+        $setting = $this->repo->getSystemSetting();
         if($setting === null){
             $default = new SettingSeeder();
             $default->run();
-            $setting = Setting::query()->first();
+            $setting = $this->repo->getSystemSetting();
         }
         return view('Setting::index', compact('setting'));
     }
@@ -84,7 +84,7 @@ class SettingController extends Controller
      * @param Setting $setting
      * @return Application|Factory|View
      */
-    public function edit(Setting $setting)
+    public function edit(Setting $setting): View|Factory|Application
     {
         return view('Setting::edit', compact('setting'));
     }

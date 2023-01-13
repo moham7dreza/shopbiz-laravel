@@ -49,9 +49,9 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $posts = Post::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $posts = $this->repo->index()->paginate(10);
         return view('Post::index', compact('posts'));
     }
 
@@ -60,7 +60,7 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $postCategories = PostCategory::all();
         return view('Post::create', compact('postCategories'));

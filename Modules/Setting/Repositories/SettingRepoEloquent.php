@@ -18,7 +18,15 @@ class SettingRepoEloquent implements SettingRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
+    }
+
+    /**
+     * @return Builder|Model|object|null
+     */
+    public function getSystemSetting()
+    {
+        return $this->query()->first();
     }
 
     /**
@@ -41,16 +49,6 @@ class SettingRepoEloquent implements SettingRepoEloquentInterface
     public function delete($id)
     {
         return $this->query()->where('id', $id)->delete();
-    }
-
-    /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
     }
 
     /**

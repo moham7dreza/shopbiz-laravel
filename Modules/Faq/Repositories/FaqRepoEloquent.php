@@ -5,8 +5,6 @@ namespace Modules\Faq\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
 use Modules\Faq\Entities\Faq;
 
 class FaqRepoEloquent implements FaqRepoEloquentInterface
@@ -18,7 +16,7 @@ class FaqRepoEloquent implements FaqRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
     }
 
     /**
@@ -41,16 +39,6 @@ class FaqRepoEloquent implements FaqRepoEloquentInterface
     public function delete($id)
     {
         return $this->query()->where('id', $id)->delete();
-    }
-
-    /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
     }
 
     /**

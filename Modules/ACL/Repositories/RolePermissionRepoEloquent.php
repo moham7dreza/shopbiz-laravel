@@ -21,6 +21,14 @@ class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
     }
 
     /**
+     * @return Builder
+     */
+    public function permissions(): Builder
+    {
+        return Permission::query()->latest();
+    }
+
+    /**
      * Find role by id.
      *
      * @param  $id

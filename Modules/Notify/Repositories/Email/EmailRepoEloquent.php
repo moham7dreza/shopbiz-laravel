@@ -2,6 +2,7 @@
 
 namespace Modules\Notify\Repositories\Email;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Notify\Entities\Email;
 
 class EmailRepoEloquent implements EmailRepoEloquentInterface
@@ -9,9 +10,9 @@ class EmailRepoEloquent implements EmailRepoEloquentInterface
     /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,7 +21,7 @@ class EmailRepoEloquent implements EmailRepoEloquentInterface
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -41,9 +42,9 @@ class EmailRepoEloquent implements EmailRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return Email::query();
     }

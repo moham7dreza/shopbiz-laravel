@@ -38,12 +38,12 @@ class ProductCommentController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $unSeenComments = Comment::query()->where('commentable_type', 'Modules\Product\Entities\Product')->where('seen', 0)->get();
+        $unSeenComments = $this->repo->getUnseenProductComments();
         foreach ($unSeenComments as $unSeenComment) {
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $productComments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Product\Entities\Product')->simplePaginate(15);
+        $productComments = $this->repo->getLatestProductComments()->paginate(10);
         return view('Comment::product-comment.index', compact('productComments'));
     }
 

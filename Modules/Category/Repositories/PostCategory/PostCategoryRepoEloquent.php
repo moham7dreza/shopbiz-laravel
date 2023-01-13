@@ -2,16 +2,20 @@
 
 namespace Modules\Category\Repositories\PostCategory;
 
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Category\Entities\PostCategory;
 use Modules\Category\Entities\ProductCategory;
 
 class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
 {
+    private string $class = PostCategory::class;
+
     /**
      * Get latest categories.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatestCategories()
+    public function getLatestCategories(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,7 +24,7 @@ class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
      * Find category by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -53,20 +57,20 @@ class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
     /**
      * Get active categories.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getActiveCategories()
     {
-        return $this->query()->where('status', ProductCategory::STATUS_ACTIVE);
+        return $this->query()->where('status', $this->class::STATUS_ACTIVE);
     }
 
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
-        return ProductCategory::query();
+        return $this->class::query();
     }
 }

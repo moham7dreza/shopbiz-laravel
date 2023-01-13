@@ -40,9 +40,9 @@ class PageController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $pages = Page::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $pages = $this->repo->index()->paginate(10);
         return view('Page::index', compact('pages'));
     }
 
@@ -51,7 +51,7 @@ class PageController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Page::create');
     }
@@ -86,7 +86,7 @@ class PageController extends Controller
      * @param Page $page
      * @return Application|Factory|View
      */
-    public function edit(Page $page)
+    public function edit(Page $page): View|Factory|Application
     {
         return view('Page::edit', compact('page'));
     }

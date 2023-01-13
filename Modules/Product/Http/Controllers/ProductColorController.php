@@ -37,9 +37,10 @@ class ProductColorController extends Controller
      * @param Product $product
      * @return Application|Factory|View
      */
-    public function index(Product $product)
+    public function index(Product $product): Factory|View|Application
     {
-        return view('Product::admin.color.index', compact('product'));
+        $colors = $product->colors()->paginate(10);
+        return view('Product::admin.color.index', compact(['product', 'colors']));
     }
 
     /**

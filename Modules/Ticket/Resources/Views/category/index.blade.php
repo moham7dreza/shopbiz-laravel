@@ -80,6 +80,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $ticketCategories->links() }}</section>
                 </section>
 
             </section>

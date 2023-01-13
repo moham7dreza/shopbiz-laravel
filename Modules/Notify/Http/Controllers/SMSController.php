@@ -44,7 +44,7 @@ class SMSController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $sms = SMS::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $sms = $this->repo->index()->paginate(10);
         return view('Notify::sms.index', compact('sms'));
     }
 

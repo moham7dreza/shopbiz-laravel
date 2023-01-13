@@ -3,7 +3,6 @@
     top: 0;
     right: 0;
     width: 100%;
-    background-color: sandybrown;
     line-height: 3.5rem;
     display: flex;
     justify-content: space-around;
@@ -299,6 +298,9 @@ button:hover {
     .main-body {
         width: 100%;
         z-index: 1;
+    }
+    .header-main {
+        background-color: #404E67;
     }
 }
 

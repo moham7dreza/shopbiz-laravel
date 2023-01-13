@@ -87,6 +87,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $permissions->links() }}</section>
                 </section>
 
             </section>

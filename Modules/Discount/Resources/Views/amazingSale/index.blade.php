@@ -82,6 +82,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $amazingSales->links() }}</section>
                 </section>
 
             </section>

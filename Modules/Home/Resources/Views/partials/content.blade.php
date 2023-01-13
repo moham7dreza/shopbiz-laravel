@@ -71,12 +71,12 @@
                                                    href="{{ route('customer.market.product', $activeAmazingSaleProduct) }}">
                                                     <section class="product-image">
                                                         <img class=""
-                                                             src="{{ asset($activeAmazingSaleProduct->image['indexArray']['medium']) }}"
+                                                             src="{{ asset($activeAmazingSaleProduct->image['indexArray']['large']) }}"
                                                              alt="{{ $activeAmazingSaleProduct->name }}">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">
-                                                        <h3>{{ Str::limit($activeAmazingSaleProduct->name, 30) }}</h3>
+                                                        <h3>{{ Str::limit($activeAmazingSaleProduct->name) }}</h3>
                                                     </section>
                                                     <section class="product-price-wrapper">
                                                         <section class="product-discount">

@@ -5,8 +5,6 @@ namespace Modules\Order\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
 use Modules\Order\Entities\Order;
 
 class OrderRepoEloquent implements OrderRepoEloquentInterface
@@ -18,7 +16,47 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function newOrders(): Builder
+    {
+        return $this->query()->where('order_status', 0)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function sending(): Builder
+    {
+        return $this->query()->where('delivery_status', 1)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function unpaid(): Builder
+    {
+        return $this->query()->where('payment_status', 0)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function canceled(): Builder
+    {
+        return $this->query()->where('order_status', 4)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function returned(): Builder
+    {
+        return $this->query()->where('order_status', 5)->latest();
     }
 
     /**
@@ -43,15 +81,6 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
         return $this->query()->where('id', $id)->delete();
     }
 
-    /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
-    }
 
     /**
      * Builder for queue model.

@@ -92,6 +92,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $postCategories->links() }}</section>
                 </section>
 
             </section>

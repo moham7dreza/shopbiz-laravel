@@ -13,7 +13,7 @@ class PropertyRepoEloquent implements PropertyRepoEloquentInterface
      *
      * @return Builder
      */
-    public function getLatestCategories()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -52,15 +52,6 @@ class PropertyRepoEloquent implements PropertyRepoEloquentInterface
         return $this->query()->where('id', $id)->update(['status' => $status]);
     }
 
-    /**
-     * Get active categories.
-     *
-     * @return Builder
-     */
-    public function getActiveCategories()
-    {
-        return $this->query()->where('status', ProductCategory::STATUS_ACTIVE);
-    }
 
     /**
      * Get query model (builder).

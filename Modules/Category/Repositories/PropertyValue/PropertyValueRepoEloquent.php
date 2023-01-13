@@ -2,6 +2,7 @@
 
 namespace Modules\Category\Repositories\PropertyValue;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Entities\ProductCategory;
 
@@ -10,9 +11,9 @@ class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
     /**
      * Get latest categories.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatestCategories()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -21,7 +22,7 @@ class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
      * Find category by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -52,21 +53,11 @@ class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
     }
 
     /**
-     * Get active categories.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function getActiveCategories()
-    {
-        return $this->query()->where('status', ProductCategory::STATUS_ACTIVE);
-    }
-
-    /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return CategoryValue::query();
     }

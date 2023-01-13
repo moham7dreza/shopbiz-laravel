@@ -45,7 +45,8 @@ class PropertyValueController extends Controller
      */
     public function index(CategoryAttribute $categoryAttribute): Factory|View|Application
     {
-        return view('Category::property.value.index', compact('categoryAttribute'));
+        $values = $categoryAttribute->values()->paginate(10);
+        return view('Category::property.value.index', compact(['categoryAttribute', 'values']));
     }
 
     /**
@@ -56,7 +57,7 @@ class PropertyValueController extends Controller
      */
     public function create(CategoryAttribute $categoryAttribute): View|Factory|Application
     {
-        return view('Category::property.value.create', compact('categoryAttribute'));
+        return view('Category::property.value.create', compact(['categoryAttribute']));
     }
 
     /**

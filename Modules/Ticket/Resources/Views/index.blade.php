@@ -72,6 +72,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $tickets->links() }}</section>
                 </section>
 
             </section>

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreRequest;
 use Modules\Product\Http\Requests\StoreUpdateRequest;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class StoreController extends Controller
@@ -28,11 +29,12 @@ class StoreController extends Controller
     }
 
     /**
+     * @param ProductRepoEloquentInterface $productRepo
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(ProductRepoEloquentInterface $productRepo): Factory|View|Application
     {
-        $products = Product::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $products = $productRepo->index()->paginate(10);
         return view('Product::admin.store.index', compact('products'));
     }
 
@@ -41,7 +43,7 @@ class StoreController extends Controller
      * @param Product $product
      * @return Application|Factory|View
      */
-    public function addToStore(Product $product)
+    public function addToStore(Product $product): View|Factory|Application
     {
         return view('Product::admin.store.add-to-store', compact('product'));
     }

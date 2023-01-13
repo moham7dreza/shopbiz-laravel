@@ -43,7 +43,7 @@ class ProductCategoryController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $productCategories = ProductCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         return view('Category::product-category.index', compact(['productCategories']));
     }
 

@@ -88,6 +88,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $copans->links() }}</section>
                 </section>
 
             </section>

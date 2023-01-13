@@ -12,7 +12,7 @@ class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
      *
      * @return Builder
      */
-    public function getLatest()
+    public function getLatest(): Builder
     {
         return $this->query()->latest();
     }

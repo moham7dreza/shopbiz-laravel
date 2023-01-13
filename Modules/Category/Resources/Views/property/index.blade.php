@@ -71,6 +71,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $categoryAttributes->links() }}</section>
                 </section>
 
             </section>

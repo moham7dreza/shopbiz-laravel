@@ -3,8 +3,7 @@
 namespace Modules\Ticket\Repositories\TicketCategory;
 
 
-use Modules\Product\Entities\Gallery;
-use Modules\Product\Entities\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Ticket\Entities\TicketCategory;
 
 class TicketCategoryRepoEloquent implements TicketCategoryRepoEloquentInterface
@@ -12,9 +11,9 @@ class TicketCategoryRepoEloquent implements TicketCategoryRepoEloquentInterface
     /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -23,7 +22,7 @@ class TicketCategoryRepoEloquent implements TicketCategoryRepoEloquentInterface
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -44,9 +43,9 @@ class TicketCategoryRepoEloquent implements TicketCategoryRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return TicketCategory::query();
     }

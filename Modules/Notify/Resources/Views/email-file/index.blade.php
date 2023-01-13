@@ -46,7 +46,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($email->files as $key => $file)
+                        @foreach ($files as $key => $file)
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
@@ -81,6 +81,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $files->links() }}</section>
                 </section>
 
             </section>

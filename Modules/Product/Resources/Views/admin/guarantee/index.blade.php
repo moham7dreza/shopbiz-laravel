@@ -44,7 +44,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($product->guarantees as $guarantee)
+                        @foreach ($guarantees as $guarantee)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
@@ -75,6 +75,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $guarantees->links() }}</section>
                 </section>
 
             </section>

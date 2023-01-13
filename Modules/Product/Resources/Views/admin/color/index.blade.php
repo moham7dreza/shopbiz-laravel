@@ -44,7 +44,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($product->colors as $color)
+                        @foreach ($colors as $color)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
@@ -75,6 +75,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $colors->links() }}</section>
                 </section>
 
             </section>

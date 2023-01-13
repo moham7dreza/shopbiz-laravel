@@ -43,9 +43,8 @@ class CustomerController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $users = User::query()->where('user_type', 0)->get();
+        $users = $this->repo->customerUsers()->paginate(10);
         return view('User::customer.index', compact('users'));
-
     }
 
     /**
@@ -56,7 +55,6 @@ class CustomerController extends Controller
     public function create(): View|Factory|Application
     {
         return view('User::customer.create');
-
     }
 
     /**

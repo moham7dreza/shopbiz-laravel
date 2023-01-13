@@ -39,12 +39,14 @@ class GuaranteeController extends Controller
      */
     public function index(Product $product): Factory|View|Application
     {
-        return view('Product::admin.guarantee.index', compact('product'));
+        $guarantees = $product->guarantees()->paginate(10);
+        return view('Product::admin.guarantee.index', compact(['product', 'guarantees']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Product $product
      * @return Application|Factory|View
      */
     public function create(Product $product): View|Factory|Application

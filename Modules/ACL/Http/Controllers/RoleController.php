@@ -11,7 +11,6 @@ use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
-use Modules\ACL\Services\BannerService;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 
@@ -24,9 +23,9 @@ class RoleController extends Controller
     public RolePermissionRepoEloquentInterface $repo;
     public RolePermissionService $service;
 
-    public function __construct(RolePermissionService $rolePermissionService, RolePermissionRepoEloquentInterface $permissionRepo)
+    public function __construct(RolePermissionService $rolePermissionService, RolePermissionRepoEloquentInterface $rolePermissionRepo)
     {
-        $this->repo = $permissionRepo;
+        $this->repo = $rolePermissionRepo;
         $this->service = $rolePermissionService;
 
         $this->middleware('can:permission-user-roles')->only(['index']);
@@ -48,7 +47,7 @@ class RoleController extends Controller
     public function index(): View|Factory|Application
     {
         $roles = $this->repo->index()->paginate(10);
-        return view('ACL::role.index', compact('roles'));
+        return view('ACL::role.index', compact(['roles']));
     }
 
     /**

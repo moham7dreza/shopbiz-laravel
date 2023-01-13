@@ -37,9 +37,10 @@ class GalleryController extends Controller
      * @param Product $product
      * @return Application|Factory|View
      */
-    public function index(Product $product)
+    public function index(Product $product): Factory|View|Application
     {
-        return view('Product::admin.gallery.index', compact('product'));
+        $images = $product->images()->paginate(10);
+        return view('Product::admin.gallery.index', compact(['product', 'images']));
     }
 
     /**

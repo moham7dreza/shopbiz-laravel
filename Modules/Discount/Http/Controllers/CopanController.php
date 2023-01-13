@@ -39,7 +39,7 @@ class CopanController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $copans = Copan::all();
+        $copans = $this->copanDiscountRepo->getLatest()->paginate(10);
         return view('Discount::copan.index', compact('copans'));
     }
 

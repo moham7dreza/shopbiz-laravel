@@ -162,9 +162,9 @@ class Comment extends Model
     public function commentAdminPath(): string
     {
         if ($this->commentable_type == 'Modules\Product\Entities\Product')
-            return route('admin.market.comment.index');
-        else if ($this->commentable_type == 'Modules\Post\Entities\Post\Post')
-            return route('admin.content.comment.index');
+            return route('productComment.index');
+        else if ($this->commentable_type == 'Modules\Post\Entities\Post')
+            return route('postComment.index');
         else return '#';
     }
 

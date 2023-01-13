@@ -39,7 +39,7 @@ class CommonController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $commonDiscounts = CommonDiscount::all();
+        $commonDiscounts = $this->commonDiscountRepo->getLatest()->paginate(10);
         return view('Discount::common.index', compact('commonDiscounts'));
     }
 

@@ -42,9 +42,9 @@ class MenuController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $menus = Menu::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $menus = $this->repo->index()->paginate(10);
         return view('Menu::index', compact('menus'));
     }
 
@@ -53,7 +53,7 @@ class MenuController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $menus = Menu::query()->where('parent_id', null)->get();
         return view('Menu::create', compact('menus'));

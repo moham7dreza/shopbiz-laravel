@@ -37,9 +37,9 @@ class TicketCategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $ticketCategories = TicketCategory::all();
+        $ticketCategories = $this->repo->index()->paginate(10);
         return view('Ticket::category.index', compact('ticketCategories'));
     }
 
@@ -48,7 +48,7 @@ class TicketCategoryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Ticket::category.create');
     }

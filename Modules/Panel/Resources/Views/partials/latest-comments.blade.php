@@ -46,7 +46,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                                            <a href="{{ $comment->getCommentablePath() }}"
+                                            <a href="#"
                                                class="dropdown-item text-right"><i class="fa fa-eye"></i> نمایش
                                             </a>
 

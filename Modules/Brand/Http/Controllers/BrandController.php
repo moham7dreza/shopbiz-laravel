@@ -41,9 +41,9 @@ class BrandController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $brands = Brand::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $brands = $this->repo->index()->paginate(10);
         return view('Brand::index', compact('brands'));
     }
 
@@ -52,7 +52,7 @@ class BrandController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Brand::create');
     }

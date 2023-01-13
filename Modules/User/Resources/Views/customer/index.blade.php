@@ -91,6 +91,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $users->links() }}</section>
                 </section>
 
             </section>

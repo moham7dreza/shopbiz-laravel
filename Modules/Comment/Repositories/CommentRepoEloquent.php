@@ -2,16 +2,63 @@
 
 namespace Modules\Comment\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Comment\Entities\Comment;
 
 class CommentRepoEloquent implements CommentRepoEloquentInterface
 {
+    private string $class = Comment::class;
+
+    /**
+     * @return Builder
+     */
+    public function getLatestPostComments(): Builder
+    {
+        return $this->query()->where([
+            ['commentable_type', 'Modules\Post\Entities\Post']
+        ])->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function getLatestProductComments(): Builder
+    {
+        return $this->query()->where([
+            ['commentable_type', 'Modules\Product\Entities\Product']
+        ])->latest();
+    }
+
+    /**
+     * @return Collection|Builder[]
+     */
+    public function getUnseenPostComments(): array|Collection
+    {
+        return $this->query()->where([
+            ['seen', 0],
+            ['commentable_type', 'Modules\Post\Entities\Post']
+        ])->get();
+    }
+
+    /**
+     * @return Builder[]|Collection
+     */
+    public function getUnseenProductComments(): array|Collection
+    {
+        return $this->query()->where([
+            ['seen', 0],
+            ['commentable_type', 'Modules\Product\Entities\Product']
+        ])->get();
+    }
+
     /**
      * Get latest comments.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function getLatest(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,33 +67,49 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
      * Find comment by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|Collection|Model|null
      */
     public function findById($id)
     {
         return $this->query()->findOrFail($id);
     }
 
+    public function findActivePostComments(): Builder
+    {
+        return $this->query()->where([
+            ['status', $this->class::STATUS_ACTIVE],
+            ['commentable_type', 'Modules\Post\Entities\Post']
+        ])->latest();
+    }
+
+    public function findActiveProductComments(): Builder
+    {
+        return $this->query()->where([
+            ['status', $this->class::STATUS_ACTIVE],
+            ['commentable_type', 'Modules\Product\Entities\Product']
+        ])->latest();
+    }
+
     /**
      * Get active comment by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @return Builder|Model|object|null
      */
-//    public function findActiveCommentById($id)
-//    {
-//        return $this->query()
-//            ->where('id' , $id)
-//            ->where('status' , CommentStatusEnum::STATUS_ACTIVE->value)
-//            ->first();
-//    }
+    public function findActiveCommentById($id)
+    {
+        return $this->query()
+            ->where('id' , $id)
+            ->where('status' , Comment::STATUS_ACTIVE)
+            ->first();
+    }
 
     /**
      * Get query model(builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return Comment::query();
     }

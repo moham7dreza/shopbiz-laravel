@@ -11,7 +11,7 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
      *
      * @return Builder
      */
-    public function getLatest()
+    public function getLatest(): Builder
     {
         return $this->query()->latest();
     }

@@ -44,7 +44,7 @@ class PropertyController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $categoryAttributes = CategoryAttribute::all();
+        $categoryAttributes = $this->propertyRepo->index()->paginate(10);
         return view('Category::property.index', compact('categoryAttributes'));
     }
 

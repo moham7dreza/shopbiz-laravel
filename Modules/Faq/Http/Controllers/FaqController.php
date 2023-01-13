@@ -42,9 +42,9 @@ class FaqController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $faqs = Faq::query()->orderBy('created_at')->simplePaginate(15);
+        $faqs = $this->repo->index()->paginate(10);
         return view('Faq::index', compact('faqs'));
     }
 
@@ -53,7 +53,7 @@ class FaqController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Faq::create');
     }

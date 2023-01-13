@@ -49,7 +49,7 @@ class AdminUserController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $adminUsers = User::query()->where('user_type', 1)->get();
+        $adminUsers = $this->repo->adminUsers()->paginate(10);
         return view('User::admin-user.index', compact('adminUsers'));
     }
 

@@ -58,7 +58,7 @@ class PostCategoryController extends Controller
         $user = auth()->user();
         // if ($user->can('show-category')) {
 
-        $postCategories = PostCategory::query()->orderBy('created_at', 'desc')->simplePaginate(15);
+        $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         return view('Category::post-category.index', compact('postCategories'));
         // } else {
         //     abort(403);
@@ -71,7 +71,7 @@ class PostCategoryController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         // $imageCache = new ImageCacheService();
         // return $imageCache->cache('1.png');

@@ -43,33 +43,36 @@ class PaymentController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
-        $payments = Payment::all();
+        $payments = $this->repo->index()->paginate(10);
         return view('Payment::admin.index', compact('payments'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function offline()
+    public function offline(): View|Factory|Application
     {
-        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\OfflinePayment')->get();
+        $payments = $this->repo->offline()->paginate(10);
         return view('Payment::admin.index', compact('payments'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function online()
+    public function online(): View|Factory|Application
     {
-        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\OnlinePayment')->get();
+        $payments = $this->repo->online()->paginate(10);
         return view('Payment::admin.index', compact('payments'));
     }
 
-    public function cash()
+    /**
+     * @return Factory|View|Application
+     */
+    public function cash(): Factory|View|Application
     {
-        $payments = Payment::query()->where('paymentable_type', 'Modules\Payment\Entities\CashPayment')->get();
+        $payments = $this->repo->cash()->paginate(10);
         return view('Payment::admin.index', compact('payments'));
     }
 
@@ -99,7 +102,7 @@ class PaymentController extends Controller
      * @param Payment $payment
      * @return Application|Factory|View
      */
-    public function show(Payment $payment)
+    public function show(Payment $payment): View|Factory|Application
     {
         return view('Payment::admin.show', compact('payment'));
     }

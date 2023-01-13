@@ -3,7 +3,7 @@
 namespace Modules\Ticket\Repositories\TicketPriority;
 
 
-use Modules\Product\Entities\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Ticket\Entities\TicketPriority;
 
 class TicketPriorityRepoEloquent implements TicketPriorityRepoEloquentInterface
@@ -11,9 +11,9 @@ class TicketPriorityRepoEloquent implements TicketPriorityRepoEloquentInterface
     /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function index(): Builder
     {
         return $this->query()->latest();
     }
@@ -22,7 +22,7 @@ class TicketPriorityRepoEloquent implements TicketPriorityRepoEloquentInterface
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -43,9 +43,9 @@ class TicketPriorityRepoEloquent implements TicketPriorityRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return TicketPriority::query();
     }

@@ -12,6 +12,7 @@ use Modules\Ticket\Entities\TicketAdmin;
 use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquentInterface;
 use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
 use Modules\User\Entities\User;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class TicketAdminController extends Controller
 {
@@ -31,12 +32,14 @@ class TicketAdminController extends Controller
         $this->middleware('can:permission-admin-tickets')->only(['index']);
         $this->middleware('can:permission-admin-ticket-add')->only(['set']);
     }
+
     /**
+     * @param UserRepoEloquentInterface $userRepo
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(UserRepoEloquentInterface $userRepo): View|Factory|Application
     {
-        $admins = User::query()->where('user_type', 1)->get();
+        $admins = $userRepo->adminUsers()->paginate(10);
         return view('Ticket::admin.index', compact('admins'));
     }
 

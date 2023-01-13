@@ -5,8 +5,7 @@ namespace Modules\Delivery\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
+use Modules\Delivery\Entities\Delivery;
 
 class DeliveryRepoEloquent implements DeliveryRepoEloquentInterface
 {
@@ -17,7 +16,7 @@ class DeliveryRepoEloquent implements DeliveryRepoEloquentInterface
      */
     public function index(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->latest();
     }
 
     /**
@@ -43,22 +42,12 @@ class DeliveryRepoEloquent implements DeliveryRepoEloquentInterface
     }
 
     /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
-    }
-
-    /**
      * Builder for queue model.
      *
      * @return Builder
      */
     private function query(): Builder
     {
-        return Role::query();
+        return Delivery::query();
     }
 }

@@ -39,7 +39,7 @@ class AmazingSaleController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $amazingSales = AmazingSale::all();
+        $amazingSales = $this->amazingSaleDiscountRepo->getLatest()->paginate(10);
         return view('Discount::amazingSale.index', compact('amazingSales'));
     }
 

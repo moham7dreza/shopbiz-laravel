@@ -43,7 +43,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($product->images as $image)
+                        @foreach ($images as $image)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
@@ -60,7 +60,7 @@
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
 
@@ -72,6 +72,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $images->links() }}</section>
                 </section>
 
             </section>

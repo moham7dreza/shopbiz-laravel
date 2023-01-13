@@ -119,6 +119,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $adminUsers->links() }}</section>
                 </section>
 
             </section>

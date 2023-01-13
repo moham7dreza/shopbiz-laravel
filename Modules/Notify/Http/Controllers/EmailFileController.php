@@ -46,7 +46,8 @@ class EmailFileController extends Controller
      */
     public function index(Email $email): View|Factory|Application
     {
-        return view('Notify::email-file.index', compact('email'));
+        $files = $email->files()->paginate(10);
+        return view('Notify::email-file.index', compact(['email', 'files']));
     }
 
     /**

@@ -46,7 +46,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($categoryAttribute->values as $value)
+                        @foreach ($values as $value)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
@@ -75,7 +75,7 @@
                         </tbody>
                     </table>
                 </section>
-
+                <section class="border-top pt-3">{{ $values->links() }}</section>
             </section>
         </section>
     </section>

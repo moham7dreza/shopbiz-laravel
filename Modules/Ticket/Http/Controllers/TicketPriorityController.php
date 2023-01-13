@@ -38,9 +38,9 @@ class TicketPriorityController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
-        $ticketPriorities = TicketPriority::all();
+        $ticketPriorities = $this->repo->index()->paginate(10);
         return view('Ticket::priority.index', compact('ticketPriorities'));
     }
 
@@ -49,7 +49,7 @@ class TicketPriorityController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('Ticket::priority.create');
 

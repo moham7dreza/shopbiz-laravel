@@ -58,9 +58,9 @@ class OrderController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function newOrders()
+    public function newOrders(): Factory|View|Application
     {
-        $orders = Order::query()->where('order_status', 0)->get();
+        $orders = $this->repo->newOrders()->paginate(10);
         foreach ($orders as $order) {
             $order->order_status = 1;
             $result = $order->save();
@@ -71,45 +71,45 @@ class OrderController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function sending()
+    public function sending(): View|Factory|Application
     {
-        $orders = Order::query()->where('delivery_status', 1)->get();
+        $orders = $this->repo->sending()->paginate(10);
         return view('Order::index', compact('orders'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function unpaid()
+    public function unpaid(): View|Factory|Application
     {
-        $orders = Order::query()->where('payment_status', 0)->get();
+        $orders = $this->repo->unpaid()->paginate(10);
         return view('Order::index', compact('orders'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function canceled()
+    public function canceled(): View|Factory|Application
     {
-        $orders = Order::query()->where('order_status', 4)->get();
+        $orders = $this->repo->canceled()->paginate(10);
         return view('Order::index', compact('orders'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function returned()
+    public function returned(): View|Factory|Application
     {
-        $orders = Order::query()->where('order_status', 5)->get();
+        $orders = $this->repo->returned()->paginate(10);
         return view('Order::index', compact('orders'));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function all()
+    public function all(): View|Factory|Application
     {
-        $orders = Order::all();
+        $orders = $this->repo->index()->paginate(10);
         return view('Order::index', compact('orders'));
     }
 
@@ -117,7 +117,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return Application|Factory|View
      */
-    public function show(Order $order)
+    public function show(Order $order): View|Factory|Application
     {
         return view('Order::show', compact('order'));
     }
@@ -126,7 +126,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return Application|Factory|View
      */
-    public function detail(Order $order)
+    public function detail(Order $order): View|Factory|Application
     {
         return view('Order::detail', compact('order'));
     }
@@ -137,18 +137,18 @@ class OrderController extends Controller
      */
     public function changeSendStatus(Order $order): RedirectResponse
     {
-        switch ($order->delivery_status){
+        switch ($order->delivery_status) {
             case 0:
                 $order->delivery_status = 1;
                 break;
-                case 1:
-                    $order->delivery_status = 2;
-                    break;
-                    case 2:
-                        $order->delivery_status = 3;
-                        break;
-                        default :
-                        $order->delivery_status = 0;
+            case 1:
+                $order->delivery_status = 2;
+                break;
+            case 2:
+                $order->delivery_status = 3;
+                break;
+            default :
+                $order->delivery_status = 0;
         }
         $order->save();
         return back();
@@ -160,24 +160,24 @@ class OrderController extends Controller
      */
     public function changeOrderStatus(Order $order): RedirectResponse
     {
-        switch ($order->order_status){
+        switch ($order->order_status) {
             case 1:
                 $order->order_status = 2;
                 break;
-                case 2:
-                    $order->order_status = 3;
-                    break;
-                    case 3:
-                        $order->order_status = 4;
-                        break;
-                         case 4:
-                        $order->order_status = 5;
-                        break;
-                         case 5:
-                        $order->order_status = 6;
-                        break;
-                        default :
-                        $order->order_status = 1;
+            case 2:
+                $order->order_status = 3;
+                break;
+            case 3:
+                $order->order_status = 4;
+                break;
+            case 4:
+                $order->order_status = 5;
+                break;
+            case 5:
+                $order->order_status = 6;
+                break;
+            default :
+                $order->order_status = 1;
         }
         $order->save();
         return back();

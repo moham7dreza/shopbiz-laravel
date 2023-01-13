@@ -2,7 +2,7 @@
 <section class="row">
     <section class="col-12">
         <section class="main-body-container d-flex justify-content-center align-items-center">
-            <section class="col-md-6">
+            <section class="col-12 col-md-6">
                 <figure class="highcharts-figure">
                     <div id="monthly-sales-chart"></div>
                     <p class="highcharts-description">
@@ -10,7 +10,7 @@
                     </p>
                 </figure>
             </section>
-            <section class="col-md-6">
+            <section class="col-12 col-md-6">
                 <figure class="highcharts-figure">
                     <div id="weekly-sales-chart"></div>
                     <p class="highcharts-description">

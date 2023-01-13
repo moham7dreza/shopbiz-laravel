@@ -2,16 +2,20 @@
 
 namespace Modules\Category\Repositories\ProductCategory;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\ProductCategory;
 
 class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterface
 {
+    private string $class = ProductCategory::class;
+
     /**
      * Get latest categories.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatestCategories()
+    public function getLatestCategories(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,7 +24,7 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
      * Find category by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id)
     {
@@ -53,20 +57,32 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     /**
      * Get active categories.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getActiveCategories()
+    public function getActiveCategories(): Builder
     {
-        return $this->query()->where('status', ProductCategory::STATUS_ACTIVE);
+        return $this->query()->where('status', $this->class::STATUS_ACTIVE);
+    }
+
+    /**
+     * @param $slug
+     * @return Builder|Model|object|null
+     */
+    public function findBySlug($slug)
+    {
+        return $this->query()->where([
+            ['status', $this->class::STATUS_ACTIVE],
+            ['slug', $slug]
+        ])->first();
     }
 
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
-        return ProductCategory::query();
+        return $this->class::query();
     }
 }

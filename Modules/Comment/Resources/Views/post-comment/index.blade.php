@@ -87,6 +87,7 @@
 
                         </tbody>
                     </table>
+                    <section class="border-top pt-3">{{ $postComments->links() }}</section>
                 </section>
 
             </section>
