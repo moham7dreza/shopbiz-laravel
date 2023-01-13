@@ -5,6 +5,7 @@ namespace Modules\Category\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\ProductCategory;
@@ -98,10 +99,10 @@ class ProductCategoryController extends Controller
      * @param ProductCategory $productCategory
      * @return Application|Factory|View
      */
-    public function edit(ProductCategory $productCategory)
+    public function edit(ProductCategory $productCategory): View|Factory|Application
     {
         $parent_categories = ProductCategory::query()->where('parent_id', null)->get()->except($productCategory->id);
-        return view('Category::product-category.index', compact('productCategory', 'parent_categories'));
+        return view('Category::product-category.edit', compact(['productCategory', 'parent_categories']));
     }
 
     /**
@@ -152,5 +153,24 @@ class ProductCategoryController extends Controller
     {
        $result = $productCategory->delete();
        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+    }
+
+    /**
+     * @param ProductCategory $productCategory
+     * @return JsonResponse
+     */
+    public function status(ProductCategory $productCategory): JsonResponse
+    {
+        $productCategory->status = $productCategory->status == 0 ? 1 : 0;
+        $result = $productCategory->save();
+        if ($result) {
+            if ($productCategory->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json(['status' => false]);
+        }
     }
 }

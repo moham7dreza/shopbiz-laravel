@@ -44,8 +44,8 @@ class PropertyController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $category_attributes = CategoryAttribute::all();
-        return view('Category::property.index', compact('category_attributes'));
+        $categoryAttributes = CategoryAttribute::all();
+        return view('Category::property.index', compact('categoryAttributes'));
     }
 
     /**
@@ -92,7 +92,7 @@ class PropertyController extends Controller
     public function edit(CategoryAttribute $categoryAttribute): View|Factory|Application
     {
         $productCategories = ProductCategory::all();
-        return view('Category::property.edit', compact('categoryAttribute', 'productCategories'));
+        return view('Category::property.edit', compact(['categoryAttribute', 'productCategories']));
     }
 
     /**

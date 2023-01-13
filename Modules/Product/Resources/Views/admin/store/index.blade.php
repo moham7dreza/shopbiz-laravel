@@ -62,7 +62,7 @@
                                     <a href="{{ route('product.store.add-to-store', $product->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> افزایش موجودی</a>
                                     <a href="{{ route('product.store.edit', $product->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-trash-alt"></i> اصلاح موجودی</a>
+                                       class="btn btn-warning btn-sm"><i class="fa fa-warehouse"></i> اصلاح موجودی</a>
                                 </td>
                             </tr>
 

@@ -27,7 +27,7 @@ class CategoryAttribute extends Model
     /**
      * @return HasMany
      */
-    public function valxues(): HasMany
+    public function values(): HasMany
     {
         return $this->hasMany(CategoryValue::class);
     }

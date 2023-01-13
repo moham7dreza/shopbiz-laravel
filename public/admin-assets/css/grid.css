@@ -340,3 +340,23 @@ button:hover {
 .body-content p {
     font-size: .8rem;
 }
+
+.max-width-16-rem {
+    max-width: 16rem;
+}
+
+.width-22-rem {
+    width: 22rem;
+}
+
+.width-16-rem {
+    width: 16rem;
+}
+
+.width-8-rem {
+    width: 8rem;
+}
+
+.width-12-rem {
+    width: 12rem;
+}

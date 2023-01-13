@@ -32,11 +32,12 @@ class GuaranteeController extends Controller
         $this->middleware('can:permission-product-guarantee-create')->only(['create', 'store']);
         $this->middleware('can:permission-product-guarantee-delete')->only(['destroy']);
     }
+
     /**
      * @param Product $product
      * @return Application|Factory|View
      */
-    public function index(Product $product)
+    public function index(Product $product): Factory|View|Application
     {
         return view('Product::admin.guarantee.index', compact('product'));
     }
@@ -46,7 +47,7 @@ class GuaranteeController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create(Product $product)
+    public function create(Product $product): View|Factory|Application
     {
         return view('Product::admin.guarantee.create', compact('product'));
     }
@@ -58,11 +59,11 @@ class GuaranteeController extends Controller
      * @param Product $product
      * @return RedirectResponse
      */
-    public function store(Request $request, Product $product): \Illuminate\Http\RedirectResponse
+    public function store(Request $request, Product $product): RedirectResponse
     {
         $validated = $request->validate([
-                'name'              =>  'required',
-                'price_increase'    =>  'required|numeric'
+            'name' => 'required',
+            'price_increase' => 'required|numeric'
         ]);
         $inputs = $request->all();
         $inputs['product_id'] = $product->id;
@@ -73,7 +74,7 @@ class GuaranteeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -84,7 +85,7 @@ class GuaranteeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,8 +96,8 @@ class GuaranteeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

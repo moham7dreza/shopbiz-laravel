@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Post\Entities\Post;
+use Modules\Share\Traits\HasFaDate;
 
 
 class PostCategory extends Model

@@ -38,6 +38,7 @@
                             <th>#</th>
                             <th>نام نقش</th>
                             <th>دسترسی ها</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -55,6 +56,15 @@
                                             {{ $permission->name }} <br>
                                         @endforeach
                                     @endif
+                                </td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $role->id }}" onchange="changeStatus({{ $role->id }})"
+                                               data-url="{{ route('role.status', $role->id) }}" type="checkbox"
+                                               @if ($role->status === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
                                 </td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('role.permission-form', $role->id) }}"
@@ -82,5 +92,77 @@
             </section>
         </section>
     </section>
+
+@endsection
+
+@section('script')
+
+    <script type="text/javascript">
+
+        function changeStatus(id) {
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('نقش  با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('نقش  با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+
+    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
 @endsection

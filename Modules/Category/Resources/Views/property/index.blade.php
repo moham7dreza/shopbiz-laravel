@@ -43,20 +43,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($category_attributes as $category_attribute)
+                        @foreach ($categoryAttributes as $categoryAttribute)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $category_attribute->name }}</td>
-                                <td>{{ $category_attribute->unit }}</td>
-                                <td>{{ $category_attribute->category->name }}</td>
+                                <td>{{ $categoryAttribute->name }}</td>
+                                <td>{{ $categoryAttribute->unit }}</td>
+                                <td>{{ $categoryAttribute->category->name }}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('property-value.index', ['categoryAttribute' => $category_attribute->id]) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('categoryAttribute.edit', $category_attribute->id) }}"
+                                    <a href="{{ route('property-value.index', $categoryAttribute->id) }}"
+                                       class="btn btn-warning btn-sm"><i class="fa fa-weight"></i></a>
+                                    <a href="{{ route('categoryAttribute.edit', $categoryAttribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('categoryAttribute.destroy', $category_attribute->id) }}"
+                                          action="{{ route('categoryAttribute.destroy', $categoryAttribute->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

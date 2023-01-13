@@ -5,6 +5,7 @@ namespace Modules\Brand\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Modules\Brand\Entities\Brand;
@@ -145,5 +146,24 @@ class BrandController extends Controller
     {
         $result = $brand->delete();
         return redirect()->route('brand.index')->with('swal-success', 'برند شما با موفقیت حذف شد');
+    }
+
+    /**
+     * @param Brand $brand
+     * @return JsonResponse
+     */
+    public function status(Brand $brand): JsonResponse
+    {
+        $brand->status = $brand->status == 0 ? 1 : 0;
+        $result = $brand->save();
+        if ($result) {
+            if ($brand->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json(['status' => false]);
+        }
     }
 }

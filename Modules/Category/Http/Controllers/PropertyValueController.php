@@ -36,12 +36,14 @@ class PropertyValueController extends Controller
 
 
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param CategoryAttribute $categoryAttribute
      * @return Application|Factory|View
      */
-    public function index(CategoryAttribute $categoryAttribute)
+    public function index(CategoryAttribute $categoryAttribute): Factory|View|Application
     {
         return view('Category::property.value.index', compact('categoryAttribute'));
     }
@@ -49,9 +51,10 @@ class PropertyValueController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param CategoryAttribute $categoryAttribute
      * @return Application|Factory|View
      */
-    public function create(CategoryAttribute $categoryAttribute)
+    public function create(CategoryAttribute $categoryAttribute): View|Factory|Application
     {
         return view('Category::property.value.create', compact('categoryAttribute'));
     }
@@ -90,7 +93,7 @@ class PropertyValueController extends Controller
      * @param CategoryValue $value
      * @return Application|Factory|View
      */
-    public function edit(CategoryAttribute $categoryAttribute, CategoryValue $value)
+    public function edit(CategoryAttribute $categoryAttribute, CategoryValue $value): View|Factory|Application
     {
         return view('Category::property.value.edit', compact('categoryAttribute', 'value'));
     }

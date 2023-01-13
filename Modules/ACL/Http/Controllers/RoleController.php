@@ -5,6 +5,7 @@ namespace Modules\ACL\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
@@ -44,7 +45,7 @@ class RoleController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $roles = $this->repo->index()->paginate(10);
         return view('ACL::role.index', compact('roles'));
@@ -55,7 +56,7 @@ class RoleController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $permissions = $this->repo->getAllPermissions();
         return view('ACL::role.create', compact('permissions'));
@@ -93,7 +94,7 @@ class RoleController extends Controller
      * @param Role $role
      * @return Application|Factory|View
      */
-    public function edit(Role $role)
+    public function edit(Role $role): View|Factory|Application
     {
         return view('ACL::role.edit', compact('role'));
     }
@@ -129,7 +130,7 @@ class RoleController extends Controller
      * @param Role $role
      * @return Application|Factory|View
      */
-    public function permissionForm(Role $role)
+    public function permissionForm(Role $role): Factory|View|Application
     {
         $permissions = Permission::all();
         return view('ACL::role.set-permission', compact('role', 'permissions'));
@@ -148,5 +149,24 @@ class RoleController extends Controller
         $inputs['permissions'] = $inputs['permissions'] ?? [];
         $role->permissions()->sync($inputs['permissions']);
         return redirect()->route('role.index')->with('swal-success', 'نقش جدید با موفقیت ویرایش شد');
+    }
+
+    /**
+     * @param Role $role
+     * @return JsonResponse
+     */
+    public function status(Role $role): JsonResponse
+    {
+        $role->status = $role->status == 0 ? 1 : 0;
+        $result = $role->save();
+        if ($result) {
+            if ($role->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json(['status' => false]);
+        }
     }
 }

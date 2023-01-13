@@ -48,7 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($comments as $key => $comment)
+                        @foreach ($productComments as $key => $comment)
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>

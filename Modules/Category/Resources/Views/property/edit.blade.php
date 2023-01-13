@@ -30,7 +30,7 @@
                 </section>
 
                 <section>
-                    <form action="{{ route('categoryAttribute.update', $category_property->id) }}" method="POST">
+                    <form action="{{ route('categoryAttribute.update', $categoryAttribute->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <section class="row">
@@ -38,7 +38,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">نام فرم</label>
-                                    <input type="text" name="name" value="{{ old('name', $category_property->name) }}"
+                                    <input type="text" name="name" value="{{ old('name', $categoryAttribute->name) }}"
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('name')
@@ -53,7 +53,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">واحد اندازه گیری</label>
-                                    <input type="text" name="unit" value="{{ old('unit', $category_property->unit) }}"
+                                    <input type="text" name="unit" value="{{ old('unit', $categoryAttribute->unit) }}"
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('unit')
@@ -72,7 +72,7 @@
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"
-                                                    @if(old('category_id', $category_property->category_id) == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
+                                                    @if(old('category_id', $categoryAttribute->category_id) == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
                                         @endforeach
 
                                     </select>

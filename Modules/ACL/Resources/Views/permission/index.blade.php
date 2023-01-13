@@ -39,6 +39,7 @@
                             <th>نام دسترسی</th>
                             <th>نام نقش ها</th>
                             <th>توضیحات دسترسی</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -58,7 +59,17 @@
                                     @endif
                                 </td>
                                 <td>{{ $permission->description }}</td>
-                                <td class="width-22-rem text-left">
+                                <td>
+                                    <label>
+                                        <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }})"
+                                               data-url="{{ route('permission.status', $permission->id) }}"
+                                               type="checkbox"
+                                               @if ($permission->status === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
+                                </td>
+                                <td class="width-12-rem text-left">
                                     <a href="{{ route('permission.edit', $permission->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
@@ -87,7 +98,72 @@
 
 @section('script')
 
-    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+    <script type="text/javascript">
 
+        function changeStatus(id) {
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('دسترسی  با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('دسترسی  با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+
+    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
 @endsection

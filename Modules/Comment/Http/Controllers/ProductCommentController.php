@@ -36,7 +36,7 @@ class ProductCommentController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $unSeenComments = Comment::query()->where('commentable_type', 'Modules\Product\Entities\Product')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment) {
@@ -44,7 +44,7 @@ class ProductCommentController extends Controller
             $result = $unSeenComment->save();
         }
         $productComments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Product\Entities\Product')->simplePaginate(15);
-        return view('Comment::product-comment.index', compact('comments'));
+        return view('Comment::product-comment.index', compact('productComments'));
     }
 
     /**
@@ -74,9 +74,9 @@ class ProductCommentController extends Controller
      * @param Comment $productComment
      * @return Application|Factory|View
      */
-    public function show(Comment $productComment)
+    public function show(Comment $productComment): View|Factory|Application
     {
-        return view('Comment::product-comment.show', compact('comment'));
+        return view('Comment::product-comment.show', compact('productComment'));
     }
 
     /**
@@ -157,7 +157,7 @@ class ProductCommentController extends Controller
      * @param Comment $productComment
      * @return RedirectResponse
      */
-    public function answer(CommentRequest $request, Comment $productComment)
+    public function answer(CommentRequest $request, Comment $productComment): RedirectResponse
     {
         if ($productComment->parent == null) {
             $inputs = $request->all();

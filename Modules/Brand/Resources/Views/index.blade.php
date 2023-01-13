@@ -39,6 +39,7 @@
                             <th>نام فارسی برند</th>
                             <th>نام اصلی برند</th>
                             <th>لوگو</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -53,15 +54,25 @@
                                     <img src="{{ asset($brand->logo['indexArray'][$brand->logo['currentImage']] ) }}"
                                          alt="" width="100" height="50">
                                 </td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $brand->id }}" onchange="changeStatus({{ $brand->id }})"
+                                               data-url="{{ route('permission.status', $brand->id) }}"
+                                               type="checkbox"
+                                               @if ($brand->status === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
+                                </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('brand.edit', $brand->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i> ویرایش</a>
+                                            class="fa fa-edit"></i></a>
                                     <form class="d-inline" action="{{ route('brand.destroy', $brand->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> حذف
+                                                class="fa fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -81,6 +92,72 @@
 
 
 @section('script')
+
+    <script type="text/javascript">
+
+        function changeStatus(id) {
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('برند با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('برند با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
 
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
