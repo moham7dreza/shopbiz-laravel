@@ -50,7 +50,7 @@
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $email->subject }}</td>
-                                <td>{{ $email->body }}</td>
+                                <td>{!! $email->body !!}</td>
                                 <td>{{ jalaliDate($email->published_at, 'H:i:s Y-m-d') }}</td>
                                 <td>
                                     <label>
@@ -62,7 +62,7 @@
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('admin.notify.email-file.index', $email->id) }}"
+                                    <a href="{{ route('email-file.index', $email->id) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-file"></i></a>
                                     <a href="{{ route('email.edit', $email->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>

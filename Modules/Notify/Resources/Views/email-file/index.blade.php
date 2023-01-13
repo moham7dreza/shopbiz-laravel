@@ -26,7 +26,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('notify.email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
+                    <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
                         فایل اطلاعیه ایمیلی</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
@@ -56,17 +56,17 @@
                                 <td>
                                     <label>
                                         <input id="{{ $file->id }}" onchange="changeStatus({{ $file->id }})"
-                                               data-url="{{ route('notify.email-file.status', $file->id) }}"
+                                               data-url="{{ route('email-file.status', $file->id) }}"
                                                type="checkbox" @if ($file->status === 1)
                                                    checked
                                             @endif>
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('notify.email-file.edit', $file->id) }}"
+                                    <a href="{{ route('email-file.edit', $file->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('notify.email-file.destroy', $file->id) }}"
+                                          action="{{ route('email-file.destroy', $file->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

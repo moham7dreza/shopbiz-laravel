@@ -36,7 +36,7 @@
 
                         <tr class="table-primary">
                             <th>{{ $order->id }}</th>
-                            <td class="width-8-rem text-left">
+                            <td class="width-24-rem text-left">
                                 <a href="" class="btn btn-dark btn-sm text-white" id="print">
                                     <i class="fa fa-print"></i>
                                     چاپ

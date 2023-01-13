@@ -37,18 +37,19 @@
 
                             <section class="col-12">
                                 <div class="form-group">
-                                    <label for="tags">سطح دسترسی ها</label>
+                                    <label for="select_roles">سطح دسترسی ها</label>
                                     <select multiple class="form-control form-control-sm" id="select_roles"
                                             name="permissions[]">
 
                                         @foreach ($permissions as $permission)
-                                            <option value="{{ $permission->id }}" @foreach ($admin->permissions as
-                                        $user_permission)
-
-                                                @if($user_permission->id === $permission->id)
-                                                    selected
+                                            <option value="{{ $permission->id }}"
+                                                    @foreach ($admin->permissions as $user_permission)
+                                                        @if($user_permission->id === $permission->id)
+                                                            selected
                                                 @endif
-                                                @endforeach>{{ $permission->name }}</option>
+                                                @endforeach>
+                                                {{ $permission->name }}
+                                            </option>
                                         @endforeach
 
                                     </select>

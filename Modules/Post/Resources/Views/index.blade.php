@@ -81,8 +81,8 @@
                                             class="fa fa-edit"></i></a>
                                     {{-- @elsecan('create', Modules\Post\Entities\Post\Post::class) --}}
                                     {{-- @else --}}
-                                    <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i
-                                            class="fa fa-edit"></i> دسترسی ندارید</a>
+{{--                                    <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i--}}
+{{--                                            class="fa fa-edit"></i> دسترسی ندارید</a>--}}
                                     {{-- @endcan --}}
                                     {{-- @cannot('update', $post)
                                         <h1>برو بیرون</h1>

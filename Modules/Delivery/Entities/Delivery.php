@@ -20,4 +20,11 @@ class Delivery extends Model
 
 
     protected $fillable = ['name', 'amount', 'delivery_time', 'delivery_time_unit', 'status'];
+
+    // methods
+
+    public function faAmount(): string|int
+    {
+        return priceFormat($this->amount) ?? 0;
+    }
 }

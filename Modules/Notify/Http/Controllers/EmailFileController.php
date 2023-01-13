@@ -41,6 +41,7 @@ class EmailFileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Email $email
      * @return Application|Factory|View
      */
     public function index(Email $email): View|Factory|Application
@@ -51,6 +52,7 @@ class EmailFileController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Email $email
      * @return Application|Factory|View
      */
     public function create(Email $email): View|Factory|Application

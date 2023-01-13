@@ -49,8 +49,8 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $delivery_method->name }}</td>
-                                <td>{{ $delivery_method->amount }} تومان</td>
-                                <td>{{ $delivery_method->delivery_time . ' - ' . $delivery_method->delivery_time_unit }}</td>
+                                <td>{{ $delivery_method->faAmount() }} تومان</td>
+                                <td>{{ convertEnglishToPersian($delivery_method->delivery_time) . ' - ' . $delivery_method->delivery_time_unit }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $delivery_method->id }}"
@@ -102,10 +102,10 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('دسته بندی با موفقیت فعال شد')
+                            successToast('روش ارسال با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('دسته بندی با موفقیت غیر فعال شد')
+                            successToast('روش ارسال با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);

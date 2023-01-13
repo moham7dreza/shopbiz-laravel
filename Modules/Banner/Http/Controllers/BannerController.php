@@ -42,7 +42,7 @@ class BannerController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $banners = Banner::query()->orderBy('created_at', 'desc')->simplePaginate(15);
         $positions = Banner::$positions;
@@ -54,7 +54,7 @@ class BannerController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $positions = Banner::$positions;
         return view('Banner::create', compact('positions'));
@@ -101,10 +101,10 @@ class BannerController extends Controller
      * @param Banner $banner
      * @return Application|Factory|View
      */
-    public function edit(Banner $banner)
+    public function edit(Banner $banner): View|Factory|Application
     {
         $positions = Banner::$positions;
-        return view('banner.edit', compact('banner', 'positions'));
+        return view('Banner::edit', compact('banner', 'positions'));
 
     }
 

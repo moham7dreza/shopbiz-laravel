@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>دسته بندی</title>
+    <title>اولویت</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">دسته بندی</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد دسته بندی</li>
+            <li class="breadcrumb-item font-size-12"><a href="#">اولویت</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد اولویت</li>
         </ol>
     </nav>
 
@@ -21,7 +21,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        ایجاد دسته بندی
+                        ایجاد اولویت
                     </h5>
                 </section>
 
@@ -37,7 +37,7 @@
 
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="name">نام دسته</label>
+                                    <label for="name">نام اولویت</label>
                                     <input type="text" class="form-control form-control-sm" name="name" id="name"
                                            value="{{ old('name') }}">
                                 </div>

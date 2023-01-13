@@ -34,7 +34,7 @@ class PostCommentController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $unSeenComments = Comment::query()->where('commentable_type', 'Modules\Post\Entities\Post\Post')->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment){
@@ -42,7 +42,7 @@ class PostCommentController extends Controller
             $result = $unSeenComment->save();
         }
         $postComments = Comment::query()->orderBy('created_at', 'desc')->where('commentable_type', 'Modules\Post\Entities\Post\Post')->simplePaginate(15);
-        return view('Comment::post-comment.index', compact('comments'));
+        return view('Comment::post-comment.index', compact('postComments'));
 
     }
 
@@ -73,9 +73,9 @@ class PostCommentController extends Controller
      * @param Comment $postComment
      * @return Application|Factory|View
      */
-    public function show(Comment $postComment)
+    public function show(Comment $postComment): View|Factory|Application
     {
-        return view('Comment::post-comment.show', compact('comment'));
+        return view('Comment::post-comment.show', compact('postComment'));
     }
 
     /**
@@ -119,7 +119,6 @@ class PostCommentController extends Controller
      */
     public function status(Comment $postComment): JsonResponse
     {
-
         $postComment->status = $postComment->status == 0 ? 1 : 0;
         $result = $postComment->save();
         if($result){
@@ -140,7 +139,8 @@ class PostCommentController extends Controller
      * @param Comment $postComment
      * @return RedirectResponse
      */
-    public function approved(Comment $postComment){
+    public function approved(Comment $postComment): RedirectResponse
+    {
 
         $postComment->approved = $postComment->approved == 0 ? 1 : 0;
         $result = $postComment->save();

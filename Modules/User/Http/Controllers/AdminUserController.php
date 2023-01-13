@@ -50,7 +50,7 @@ class AdminUserController extends Controller
     public function index(): View|Factory|Application
     {
         $adminUsers = User::query()->where('user_type', 1)->get();
-        return view('User::admin-user.index', compact('admins'));
+        return view('User::admin-user.index', compact('adminUsers'));
     }
 
     /**
@@ -190,53 +190,53 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @param User $adminUser
+     * @param User $admin
      * @return Application|Factory|View
      */
-    public function roles(User $adminUser): View|Factory|Application
+    public function roles(User $admin): View|Factory|Application
     {
         $roles = Role::all();
-        return view('admin.user.admin-user.roles', compact('adminUser', 'roles'));
+        return view('User::admin-user.roles', compact('admin', 'roles'));
     }
 
     /**
      * @param Request $request
-     * @param User $adminUser
+     * @param User $admin
      * @return RedirectResponse
      */
-    public function rolesStore(Request $request, User $adminUser): RedirectResponse
+    public function rolesStore(Request $request, User $admin): RedirectResponse
     {
         $validated = $request->validate([
             'roles' => 'required|exists:roles,id|array'
         ]);
 
-        $adminUser->roles()->sync($request->roles);
+        $admin->roles()->sync($request->roles);
         return redirect()->route('adminUser.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
     }
 
 
     /**
-     * @param User $adminUser
+     * @param User $admin
      * @return Application|Factory|View
      */
-    public function permissions(User $adminUser): View|Factory|Application
+    public function permissions(User $admin): View|Factory|Application
     {
         $permissions = Permission::all();
-        return view('admin-user.permissions', compact('adminUser', 'permissions'));
+        return view('User::admin-user.permissions', compact(['admin', 'permissions']));
     }
 
     /**
      * @param Request $request
-     * @param User $adminUser
+     * @param User $admin
      * @return RedirectResponse
      */
-    public function permissionsStore(Request $request, User $adminUser): RedirectResponse
+    public function permissionsStore(Request $request, User $admin): RedirectResponse
     {
         $validated = $request->validate([
             'permissions' => 'required|exists:permissions,id|array'
         ]);
 
-        $adminUser->permissions()->sync($request->permissions);
+        $admin->permissions()->sync($request->permissions);
         return redirect()->route('adminUser.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
 
     }

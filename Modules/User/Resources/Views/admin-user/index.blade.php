@@ -49,7 +49,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach ($admins as $key => $admin)
+                        @foreach ($adminUsers as $key => $admin)
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
@@ -97,7 +97,7 @@
                                         </div>
                                     @endforelse
                                 </td>
-                                <td class="width-22-rem text-left">
+                                <td class="width-16-rem text-left">
                                     <a href="{{ route('adminUser.permissions', $admin->id) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-user-shield"></i></a>
                                     <a href="{{ route('adminUser.roles', $admin->id) }}"

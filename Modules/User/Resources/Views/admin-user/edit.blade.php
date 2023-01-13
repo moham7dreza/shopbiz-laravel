@@ -30,7 +30,7 @@
                 </section>
 
                 <section>
-                    <form action="{{ route('adminUser.update', $admin->id) }}" method="post"
+                    <form action="{{ route('adminUser.update', $adminUser->id) }}" method="post"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label for="">نام</label>
                                     <input type="text" name="first_name" class="form-control form-control-sm"
-                                           value="{{ old('first_name', $admin->first_name) }}">
+                                           value="{{ old('first_name', $adminUser->first_name) }}">
                                 </div>
                                 @error('first_name')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                     <label for="">نام خانوادگی</label>
                                     <input type="text" name="last_name" class="form-control form-control-sm"
-                                           value="{{ old('last_name', $admin->last_name) }}">
+                                           value="{{ old('last_name', $adminUser->last_name) }}">
                                 </div>
                                 @error('last_name')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -69,7 +69,7 @@
                                 <div class="form-group">
                                     <label for="">تصویر</label>
                                     <input type="file" name="profile_photo_path" class="form-control form-control-sm">
-                                    <img src="{{ asset($admin->profile_photo_path) }}" alt="" width="100" height="50"
+                                    <img src="{{ asset($adminUser->profile_photo_path) }}" alt="" width="100" height="50"
                                          class="mt-3">
                                 </div>
                                 @error('profile_photo_path')

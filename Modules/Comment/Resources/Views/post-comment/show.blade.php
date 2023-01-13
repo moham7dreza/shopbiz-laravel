@@ -31,18 +31,18 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        {{ $comment->user->fullName  }} - {{ $comment->user->id  }}
+                        {{ $postComment->user->fullName  }} - {{ $postComment->user->id  }}
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title">مشخصات کالا : {{ $comment->commentable->title }} کد کالا
-                            : {{ $comment->commentable->id }}</h5>
-                        <p class="card-text">{{ $comment->body }}</p>
+                        <h5 class="card-title">مشخصات کالا : {{ $postComment->commentable->title }} کد کالا
+                            : {{ $postComment->commentable->id }}</h5>
+                        <p class="card-text">{{ $postComment->body }}</p>
                     </section>
                 </section>
 
-                @if($comment->parent_id == null)
+                @if($postComment->parent_id == null)
                     <section>
-                        <form action="{{ route('postComment.answer', $comment->id) }}" method="post">
+                        <form action="{{ route('postComment.answer', $postComment->id) }}" method="post">
                             @csrf
                             <section class="row">
                                 <section class="col-12">

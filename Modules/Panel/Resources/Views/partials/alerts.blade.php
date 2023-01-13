@@ -9,13 +9,13 @@
                 یک تخفیف عمومی <strong>{{ $discount->percentage }}</strong>درصدی با عنوان
                 <strong>{{ $discount->title }}</strong> تا تاریخ
                 <strong>{{ jalaliDate($discount->end_date) }}</strong> فعال است. برای<a
-                    href="{{ route('discount.commonDiscount.edit', $discount) }}"
+                    href="{{ route('commonDiscount.edit', $discount) }}"
                     class="alert-link"> ویرایش </a>کلیک کن
             </div>
         @else
             <div class="alert alert-primary" role="alert">
                 هیچ تخفیف عمومی فعال نیست. برای افزودن <a
-                    href="{{ route('discount.commonDiscount.create') }}"
+                    href="{{ route('commonDiscount.create') }}"
                     class="alert-link">تخفیف</a> کلیک کن
             </div>
         @endif

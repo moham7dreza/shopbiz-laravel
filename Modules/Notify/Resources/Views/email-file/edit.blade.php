@@ -27,12 +27,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('notify.email-file.index', $file->email->id) }}"
+                    <a href="{{ route('email-file.index', $file->email->id) }}"
                        class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('notify.email-file.update', $file->id) }}" method="post"
+                    <form action="{{ route('email-file.update', $file->id) }}" method="post"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

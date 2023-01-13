@@ -27,11 +27,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('discount.copan') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('copanDiscount.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
-                    <form action="{{ route('discount.copan.store') }}" method="POST">
+                    <form action="{{ route('copanDiscount.store') }}" method="POST">
                         @csrf
 
                         <section class="row">

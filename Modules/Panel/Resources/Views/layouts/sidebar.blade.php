@@ -101,13 +101,13 @@
                         </section>
                         <section class="sidebar-dropdown">
                             @can('permission-super-admin','permission-product-coupon-discounts')
-                                <a href="{{ route('discount.copan') }}">کپن تخفیف</a>
+                                <a href="{{ route('copanDiscount.index') }}">کپن تخفیف</a>
                             @endcan
-                            @can('permission-super-admin','permission-product-common-discounts')
-                                <a href="{{ route('discount.commonDiscount') }}">تخفیف عمومی</a>
+                            @can('permission-super-admin','permission-product-common-')
+                                <a href="{{ route('commonDiscount.index') }}">تخفیف عمومی</a>
                             @endcan
                             @can('permission-super-admin','permission-product-amazing-sales')
-                                <a href="{{ route('discount.amazingSale') }}">فروش شگفت انگیز</a>
+                                <a href="{{ route('amazingSale.index') }}">فروش شگفت انگیز</a>
                             @endcan
                         </section>
                     </section>
