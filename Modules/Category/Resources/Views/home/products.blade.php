@@ -103,6 +103,8 @@
                 </section>
             @endforeach
 
+            <section class="pt-3">{{ $products->links() }}</section>
+
             @if(count($products) > 20)
                 <section class="col-12">
                     <section class="my-4 d-flex justify-content-center">

@@ -10,13 +10,23 @@ use Modules\Cart\Entities\CartItem;
 class CartRepoEloquent implements CartRepoEloquentInterface
 {
     /**
-     * Get the latest roles with permissions.
-     *
      * @return Builder
      */
-    public function index(): Builder
+    public function findUserCartItems(): Builder
     {
-        return $this->query()->with('permissions')->latest();
+        return $this->query()->where('user_id', auth()->id())->latest();
+    }
+
+    /**
+     * @param $id
+     * @return Builder
+     */
+    public function findUserCartItemsWithRelatedProduct($id): Builder
+    {
+        return $this->query()->where([
+            ['user_id', auth()->id()],
+            ['product_id', $id],
+        ])->latest();
     }
 
     /**
@@ -39,16 +49,6 @@ class CartRepoEloquent implements CartRepoEloquentInterface
     public function delete($id)
     {
         return $this->query()->where('id', $id)->delete();
-    }
-
-    /**
-     * Get all permissions.
-     *
-     * @return Collection
-     */
-    public function getAllPermissions(): Collection
-    {
-        return Permission::all();
     }
 
     /**

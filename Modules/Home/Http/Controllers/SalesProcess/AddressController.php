@@ -16,9 +16,9 @@ use Modules\Home\Http\Requests\SalesProcess\ChooseAddressAndDeliveryRequest;
 use Modules\Home\Http\Requests\SalesProcess\StoreAddressRequest;
 use Modules\Home\Http\Requests\SalesProcess\UpdateAddressRequest;
 use Modules\Order\Entities\Order;
+use Modules\Share\Entities\Province;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\User\Entities\Address;
-use Modules\User\Entities\Province;
 
 class AddressController extends Controller
 {

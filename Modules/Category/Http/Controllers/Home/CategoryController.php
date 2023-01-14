@@ -2,18 +2,40 @@
 
 namespace Modules\Category\Http\Controllers\Home;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Modules\Brand\Entities\Brand;
+use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Category\Entities\ProductCategory;
-use Modules\Discount\Entities\AmazingSale;
-use Modules\Product\Entities\Product;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+    public BrandRepoEloquentInterface $brandRepo;
+    public ProductRepoEloquentInterface $productRepo;
+    public ProductCategoryRepoEloquentInterface $productCategoryRepo;
+    public AmazingSaleDiscountRepoEloquentInterface $amazingSaleRepo;
+
+    /**
+     * @param BrandRepoEloquentInterface $brandRepoEloquent
+     * @param AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent
+     * @param ProductRepoEloquentInterface $productRepoEloquent
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepoEloquent
+     */
+    public function __construct(BrandRepoEloquentInterface               $brandRepoEloquent,
+                                AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,
+                                ProductRepoEloquentInterface             $productRepoEloquent,
+                                ProductCategoryRepoEloquentInterface     $productCategoryRepoEloquent)
+    {
+        $this->brandRepo = $brandRepoEloquent;
+        $this->amazingSaleRepo = $amazingSaleDiscountRepoEloquent;
+        $this->productRepo = $productRepoEloquent;
+        $this->productCategoryRepo = $productCategoryRepoEloquent;
+    }
+
     /**
      * @param ProductCategory $productCategory
      * @return Application|Factory|View
@@ -25,8 +47,8 @@ class CategoryController extends Controller
 //            return view('customer.market.product.category-products', compact('categoryChilds'));
 //        }
         // برندها
-        $brands = Brand::all();
-        $products = $productCategory->products()->orderBy('id', 'desc')->get();
+        $brands = $this->brandRepo->index()->get();
+        $products = $productCategory->products()->latest()->paginate(9);
         return view('Category::home.products', compact(['productCategory', 'products', 'brands']));
     }
 
@@ -36,11 +58,10 @@ class CategoryController extends Controller
     public function bestOffers(): View|Factory|Application
     {
         // برندها
-        $brands = Brand::all();
-        $productsWithActiveAmazingSales = AmazingSale::query()->where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->where('status', 1)->
-        where('percentage', '>=', 1)->get();
+        $brands = $this->brandRepo->index()->get();
+        $productsWithActiveAmazingSales = $this->amazingSaleRepo->bestOffers()->get();
         $productCategory = $productsWithActiveAmazingSales[0]->category;
-        return view('Category::home.best-offers', compact('productsWithActiveAmazingSales', 'brands', 'productCategory'));
+        return view('Category::home.best-offers', compact(['productsWithActiveAmazingSales', 'brands', 'productCategory']));
     }
 
     /**
@@ -49,18 +70,13 @@ class CategoryController extends Controller
     public function queryProducts(): View|Factory|Application
     {
         // برندها
-        $brands = Brand::all();
+        $brands = $this->brandRepo->index()->get();
         $queryResult = $queryTitle = null;
         if (isset(request()->inputQuery)) {
             switch (request()->inputQuery) {
                 case 'productsWithActiveAmazingSales':
                     $queryTitle = 'محصولات فروش ویژه';
-                    $amazingSales = AmazingSale::query()->where([
-                        ['start_date', '<', Carbon::now()],
-                        ['end_date', '>', Carbon::now()],
-                        ['status', 1],
-                        ['percentage', '>=', 1]
-                    ])->get();
+                    $amazingSales = $this->amazingSaleRepo->bestOffers()->get();
                     $queryResult = collect();
                     foreach ($amazingSales as $amazingSale) {
                         $queryResult->push($amazingSale->product);
@@ -69,26 +85,26 @@ class CategoryController extends Controller
                 case 'mostVisitedProducts':
                     $queryTitle = 'پربازدبدترین کالاها';
                     // پربازدید ترین کالاها
-                    $queryResult = Product::query()->latest()->take(10)->get();
+                    $queryResult = $this->productRepo->index()->take(10)->get();
                     break;
                 case 'offerProducts':
                     $queryTitle = 'محصولات پیشنهادی';
                     // کالاهای پیشنهادی
-                    $queryResult = Product::query()->latest()->take(10)->get();
+                    $queryResult = $this->productRepo->index()->take(10)->get();
                     break;
                 case 'newestProducts':
                     $queryTitle = 'جدیدترین محصولات';
-                    $queryResult = Product::query()->latest()->take(10)->get();
+                    $queryResult = $this->productRepo->index()->take(10)->get();
                     break;
                 default:
 
             }
         }
         $productCategory = count($queryResult) == 0 ?
-            ProductCategory::query()->findOrFail(1) :
+            $this->productCategoryRepo->findById(1) :
             $queryResult[0]->category;
 
-        return view('Category::home.query-products', compact('queryResult', 'queryTitle',
-            'brands', 'productCategory'));
+        return view('Category::home.query-products',
+            compact(['queryResult', 'queryTitle', 'brands', 'productCategory']));
     }
 }

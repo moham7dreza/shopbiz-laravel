@@ -62,7 +62,7 @@ class PanelServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->loadViewFiles();
         $this->loadConfigFiles();
@@ -75,7 +75,7 @@ class PanelServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();

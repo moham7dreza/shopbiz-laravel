@@ -55,6 +55,13 @@ class NotifyServiceProvider extends ServiceProvider
     public array $middlewareRoute = ['web'];
 
     /**
+     * Get config path.
+     *
+     * @var string
+     */
+    public string $configPath = '/../Config/sms.php';
+
+    /**
      * Get route path.
      *
      * @var string
@@ -95,6 +102,16 @@ class NotifyServiceProvider extends ServiceProvider
     private function loadViewFiles(): void
     {
         $this->loadViewsFrom(__DIR__ . $this->viewPath, $this->name);
+    }
+
+    /**
+     * Load config files.
+     *
+     * @return void
+     */
+    private function loadConfigFiles(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'smsConfig');
     }
 
     /**

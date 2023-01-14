@@ -1,10 +1,11 @@
 <?php
 
-namespace Modules\User\Entities;
+namespace Modules\Auth\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\User\Entities\User;
 
 class Otp extends Model
 {

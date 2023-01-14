@@ -71,7 +71,7 @@
             </section>
 
             <section class="sidebar-brand-wrapper">
-                @foreach($productCategory->brands as $brand)
+                @foreach($brands as $brand)
                     <section class="form-check sidebar-brand-item">
                         <input class="form-check-input" type="checkbox" value="1" id="1">
                         <label class="form-check-label d-flex justify-content-between" for="1">

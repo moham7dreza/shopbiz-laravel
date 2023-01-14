@@ -3,6 +3,7 @@
 namespace Modules\User\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
@@ -63,7 +64,7 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      * @param int $id
      * @return Builder
      */
-    public function getLatestWithoutId(int $id)
+    public function getLatestWithoutId(int $id): Builder
     {
         return $this->query()->where('id', '!=', $id)->latest();
     }
@@ -72,19 +73,28 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      * Find user by email address.
      *
      * @param string $email
-     * @return Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @return Builder|Model|null
      *
      */
-    public function findByEmail(string $email)
+    public function findByEmail(string $email): Model|Builder|null
     {
         return $this->query()->where('email', $email)->first();
+    }
+
+    /**
+     * @param string $mobile
+     * @return Model|Builder|null
+     */
+    public function findByMobile(string $mobile): Model|Builder|null
+    {
+        return $this->query()->where('mobile', $mobile)->first();
     }
 
     /**
      * Find user by id.
      *
      * @param int $id
-     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
      */
     public function findById(int $id)
     {

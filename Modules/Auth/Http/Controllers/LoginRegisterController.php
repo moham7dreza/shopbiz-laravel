@@ -10,16 +10,28 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Modules\Auth\Entities\Otp;
 use Modules\Auth\Http\Requests\LoginRegisterRequest;
+use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Message\Email\EmailService;
 use Modules\Share\Http\Services\Message\MessageService;
 use Modules\Share\Http\Services\Message\SMS\SmsService;
-use Modules\User\Entities\Otp;
 use Modules\User\Entities\User;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class LoginRegisterController extends Controller
 {
+    public AuthRepoEloquentInterface $repo;
+
+    /**
+     * @param AuthRepoEloquentInterface $authRepoEloquent
+     */
+    public function __construct(AuthRepoEloquentInterface $authRepoEloquent)
+    {
+        $this->repo = $authRepoEloquent;
+    }
+
     /**
      * @return Application|Factory|View
      */
@@ -32,14 +44,14 @@ class LoginRegisterController extends Controller
      * @param LoginRegisterRequest $request
      * @return RedirectResponse
      */
-    public function loginRegister(LoginRegisterRequest $request): RedirectResponse
+    public function loginRegister(LoginRegisterRequest $request, UserRepoEloquentInterface $userRepo): RedirectResponse
     {
         $inputs = $request->all();
 
         //check id is email or not
         if (filter_var($inputs['id'], FILTER_VALIDATE_EMAIL)) {
             $type = 1; // 1 => email
-            $user = User::query()->where('email', $inputs['id'])->first();
+            $user = $userRepo->findByEmail($inputs['id']);
             if (empty($user)) {
                 $newUser['email'] = $inputs['id'];
             }
@@ -53,7 +65,7 @@ class LoginRegisterController extends Controller
             $inputs['id'] = substr($inputs['id'], 0, 2) === '98' ? substr($inputs['id'], 2) : $inputs['id'];
             $inputs['id'] = str_replace('+98', '', $inputs['id']);
 
-            $user = User::query()->where('mobile', $inputs['id'])->first();
+            $user = $userRepo->findByMobile($inputs['id']);
             if (empty($user)) {
                 $newUser['mobile'] = $inputs['id'];
             }
@@ -86,7 +98,7 @@ class LoginRegisterController extends Controller
         if ($type == 0) {
             //send sms
             $smsService = new SmsService();
-            $smsService->setFrom(Config::get('sms.otp_from'));
+            $smsService->setFrom(Config::get('smsConfig.otp_from'));
             $smsService->setTo(['0' . $user->mobile]);
             $smsService->setText("مجموعه آمازون \n  کد تایید : $otpCode");
             $smsService->setIsFlash(true);
@@ -120,7 +132,7 @@ class LoginRegisterController extends Controller
      */
     public function loginConfirmForm($token): View|Factory|RedirectResponse|Application
     {
-        $otp = Otp::query()->where('token', $token)->first();
+        $otp = $this->repo->findByToken($token);
         if (empty($otp)) {
             return redirect()->route('auth.customer.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
         }
@@ -137,8 +149,7 @@ class LoginRegisterController extends Controller
     {
         $inputs = $request->all();
 
-
-        $otp = Otp::query()->where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(5)->toDateTimeString())->first();
+        $otp = $this->repo->findValidOtp($token);
         if (empty($otp)) {
             return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
         }
@@ -167,7 +178,7 @@ class LoginRegisterController extends Controller
      */
     public function loginResendOtp($token): RedirectResponse
     {
-        $otp = Otp::query()->where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+        $otp = $this->repo->findExpiredOtp($token);
 
         if (empty($otp)) {
             return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
