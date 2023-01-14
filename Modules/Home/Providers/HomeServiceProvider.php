@@ -54,7 +54,7 @@ class HomeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->loadViewFiles();
         $this->loadRouteFiles();
@@ -66,7 +66,7 @@ class HomeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();

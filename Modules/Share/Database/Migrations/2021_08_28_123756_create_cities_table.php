@@ -11,12 +11,15 @@ class CreateCitiesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignId('province_id')->constrained('provinces')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name');
+            $table->string('name_en')->nullable();;
+            $table->decimal('latitude', 10, 8)->nullable();;
+            $table->decimal('longitude', 11, 8)->nullable();;
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,7 +30,7 @@ class CreateCitiesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('cities');
     }

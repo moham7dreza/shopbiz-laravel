@@ -24,6 +24,13 @@ class DiscountServiceProvider extends ServiceProvider
     public string $namespace = 'Modules\Discount\Http\Controllers';
 
     /**
+     * Get migration path.
+     *
+     * @var string
+     */
+    private string $migrationPath = '/../Database/Migrations';
+
+    /**
      * Get view path.
      *
      * @var string
@@ -57,8 +64,9 @@ class DiscountServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
@@ -70,11 +78,21 @@ class DiscountServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();
         });
+    }
+
+    /**
+     * Load product migration files.
+     *
+     * @return void
+     */
+    private function loadMigrationFiles(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
 
     /**

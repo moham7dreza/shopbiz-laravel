@@ -20,6 +20,13 @@ class BannerServiceProvider extends ServiceProvider
     public string $namespace = 'Modules\Banner\Http\Controllers';
 
     /**
+     * Get migration path.
+     *
+     * @var string
+     */
+    private string $migrationPath = '/../Database/Migrations';
+
+    /**
      * Get view path.
      *
      * @var string
@@ -52,8 +59,9 @@ class BannerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
@@ -65,11 +73,21 @@ class BannerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();
         });
+    }
+
+    /**
+     * Load product migration files.
+     *
+     * @return void
+     */
+    private function loadMigrationFiles(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
 
     /**
@@ -123,7 +141,7 @@ class BannerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(BannerRepoEloquentInterface::class, BannerRepoEloquent::class);
     }

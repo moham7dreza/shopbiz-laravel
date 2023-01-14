@@ -4,6 +4,8 @@ namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Repositories\AuthRepoEloquent;
+use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var string
      */
     public string $namespace = 'Modules\Auth\Http\Controllers';
+
+    /**
+     * Get migration path.
+     *
+     * @var string
+     */
+    private string $migrationPath = '/../Database/Migrations';
 
     /**
      * Get view path.
@@ -47,10 +56,22 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadRouteFiles();
+        $this->bindRepository();
+    }
+
+    /**
+     * Load product migration files.
+     *
+     * @return void
+     */
+    private function loadMigrationFiles(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
 
     /**
@@ -73,5 +94,13 @@ class AuthServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindRepository(): void
+    {
+        $this->app->bind(AuthRepoEloquentInterface::class, AuthRepoEloquent::class);
     }
 }

@@ -20,6 +20,13 @@ class PageServiceProvider extends ServiceProvider
     public string $namespace = 'Modules\Page\Http\Controllers';
 
     /**
+     * Get migration path.
+     *
+     * @var string
+     */
+    private string $migrationPath = '/../Database/Migrations';
+
+    /**
      * Get view path.
      *
      * @var string
@@ -52,8 +59,9 @@ class PageServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
@@ -65,11 +73,21 @@ class PageServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->setMenuForPanel();
         });
+    }
+
+    /**
+     * Load product migration files.
+     *
+     * @return void
+     */
+    private function loadMigrationFiles(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
 
     /**

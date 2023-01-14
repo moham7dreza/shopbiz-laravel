@@ -26,6 +26,13 @@ class AclServiceProvider extends ServiceProvider
     public string $namespace = 'Modules\ACL\Http\Controllers';
 
     /**
+     * Get migration path.
+     *
+     * @var string
+     */
+    private string $migrationPath = '/../Database/Migrations';
+
+    /**
      * Get view path.
      *
      * @var string
@@ -58,8 +65,9 @@ class AclServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
@@ -75,13 +83,23 @@ class AclServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->booted(function () {
             $this->defineSystemPermissions();
             $this->setGateBefore();
             $this->setMenuForPanel();
         });
+    }
+
+    /**
+     * Load product migration files.
+     *
+     * @return void
+     */
+    private function loadMigrationFiles(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
 
     /**
@@ -140,6 +158,9 @@ class AclServiceProvider extends ServiceProvider
         $this->app->bind(PermissionSeeder::class, PermissionTableSeeder::class);
     }
 
+    /**
+     * @return bool
+     */
     private function defineSystemPermissions(): bool
     {
         try {
@@ -206,7 +227,7 @@ class AclServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(RolePermissionRepoEloquentInterface::class, RolePermissionRepoEloquent::class);
     }

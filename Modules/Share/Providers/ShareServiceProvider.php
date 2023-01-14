@@ -31,8 +31,9 @@ class ShareServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->loadMigrationFiles();
         $this->loadViewFiles();
         $this->loadMigrationFiles();
         $this->loadFactoriesFiles();
@@ -56,7 +57,7 @@ class ShareServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function loadMigrationFiles()
+    private function loadMigrationFiles(): void
     {
         $this->loadMigrationsFrom(__DIR__ . $this->migrationPath);
     }
@@ -76,7 +77,7 @@ class ShareServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function loadConfigFiles()
+    private function loadConfigFiles(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../Config/config.php', 'shareConfig');
     }
