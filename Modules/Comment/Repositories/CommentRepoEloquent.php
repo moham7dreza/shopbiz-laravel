@@ -99,9 +99,25 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     public function findActiveCommentById($id)
     {
         return $this->query()
-            ->where('id' , $id)
-            ->where('status' , Comment::STATUS_ACTIVE)
+            ->where('id', $id)
+            ->where('status', Comment::STATUS_ACTIVE)
             ->first();
+    }
+
+    /**
+     * @return int
+     */
+    public function commentsCount(): int
+    {
+        return $this->query()->count();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function latestCommentWithoutAdmin(): Builder
+    {
+        return $this->query()->where('author_id', '!=', auth()->id())->latest();
     }
 
     /**

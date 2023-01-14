@@ -77,6 +77,14 @@ class PostRepoEloquent implements PostRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function postsCount(): int
+    {
+        return $this->query()->count();
+    }
+
+    /**
      * Get builder query.
      *
      * @return Builder

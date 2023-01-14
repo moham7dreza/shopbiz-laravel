@@ -81,6 +81,21 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
         return $this->query()->where('id', $id)->delete();
     }
 
+    /**
+     * @return int
+     */
+    public function ordersCount(): int
+    {
+        return $this->query()->count();
+    }
+
+    /**
+     * @return Builder|Model|null
+     */
+    public function getLastOrder(): Model|Builder|null
+    {
+        return $this->query()->orderBy('updated_at', 'desc')->first();
+    }
 
     /**
      * Builder for queue model.

@@ -16,6 +16,14 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function newTicketsCount(): int
+    {
+        return $this->query()->where('seen', 0)->count();
+    }
+
+    /**
      * @return Builder
      */
     public function openTickets(): Builder

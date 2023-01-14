@@ -2,7 +2,9 @@
 
 namespace Modules\Discount\Repositories\Common;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\CommonDiscount;
 
 class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
@@ -26,6 +28,18 @@ class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
     public function findById(int $id)
     {
         return $this->query()->findOrFail($id);
+    }
+
+    /**
+     * @return Model|Builder|null
+     */
+    public function activeCommonDiscount(): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['start_date', '<', Carbon::now()],
+            ['end_date', '>', Carbon::now()],
+            ['status', 1]
+        ])->first();
     }
 
     /**

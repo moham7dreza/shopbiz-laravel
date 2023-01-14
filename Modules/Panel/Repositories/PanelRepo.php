@@ -4,69 +4,124 @@ namespace Modules\Panel\Repositories;
 
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Entities\CommonDiscount;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Order\Entities\Order;
+use Modules\Order\Repositories\OrderRepoEloquentInterface;
 use Modules\Payment\Entities\Payment;
+use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
+use Modules\Payment\Traits\SaleCalculator;
 use Modules\Post\Entities\Post;
+use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Setting\Entities\Setting;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Ticket\Entities\Ticket;
-use Modules\User\Entities\User;
+use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class PanelRepo
 {
-    public function customersCount(): int
+    use SaleCalculator;
+
+    public UserRepoEloquentInterface $userRepo;
+    public PostRepoEloquentInterface $postRepo;
+    public CommentRepoEloquentInterface $commentRepo;
+    public OrderRepoEloquentInterface $orderRepo;
+    public PaymentRepoEloquentInterface $paymentRepo;
+    public AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
+    public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
+    public TicketRepoEloquentInterface $ticketRepo;
+    public SettingRepoEloquentInterface $settingRepo;
+
+    public function __construct(UserRepoEloquentInterface                $userRepoEloquent,
+                                PostRepoEloquentInterface                $postRepoEloquent,
+                                CommentRepoEloquentInterface             $commentRepoEloquent,
+                                OrderRepoEloquentInterface               $orderRepoEloquent,
+                                PaymentRepoEloquentInterface             $paymentRepoEloquent,
+                                AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,
+                                CommonDiscountRepoEloquentInterface      $commonDiscountRepoEloquent,
+                                TicketRepoEloquentInterface              $ticketRepoEloquent,
+                                SettingRepoEloquentInterface             $settingRepoEloquent)
     {
-        return User::query()->where('user_type', 0)->count();
+        $this->userRepo = $userRepoEloquent;
+        $this->postRepo = $postRepoEloquent;
+        $this->commentRepo = $commentRepoEloquent;
+        $this->orderRepo = $orderRepoEloquent;
+        $this->paymentRepo = $paymentRepoEloquent;
+        $this->amazingSaleDiscountRepo = $amazingSaleDiscountRepoEloquent;
+        $this->commonDiscountRepo = $commonDiscountRepoEloquent;
+        $this->ticketRepo = $ticketRepoEloquent;
+        $this->settingRepo = $settingRepoEloquent;
     }
 
+    /**
+     * @return int
+     */
+    public function customersCount(): int
+    {
+        return $this->userRepo->customerUsersCount();
+    }
+
+    /**
+     * @return int
+     */
     public function adminUsersCount(): int
     {
-        return User::query()->where('user_type', 1)->count();
+        return $this->userRepo->adminUsersCount();
     }
 
     public function postsCount(): int
     {
-        return Post::query()->count();
+        return $this->postRepo->postsCount();
     }
 
+    /**
+     * @return int
+     */
     public function commentsCount(): int
     {
-        return Comment::query()->count();
+        return $this->commentRepo->commentsCount();
     }
 
+    /**
+     * @return int
+     */
     public function ordersCount(): int
     {
-        return Order::query()->count();
+        return $this->orderRepo->ordersCount();
     }
 
     public function paymentsCount(): int
     {
-        return Payment::query()->count();
+        return $this->paymentRepo->paymentsCount();
     }
 
     public function activeAmazingSalesCount(): int
     {
-        return AmazingSale::query()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', 1]
-        ])->count();
+        return $this->amazingSaleDiscountRepo->activeAmazingSalesCount();
     }
 
+    /**
+     * @return int
+     */
     public function newTicketsCount(): int
     {
-        return Ticket::query()->where('seen', 0)->count();
+        return $this->ticketRepo->newTicketsCount();
     }
 
-    public function activeCommonDiscount()
+    /**
+     * @return Model|Builder|null
+     */
+    public function activeCommonDiscount(): Model|Builder|null
     {
-        return CommonDiscount::query()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', 1]
-        ])->first();
+        return $this->commonDiscountRepo->activeCommonDiscount();
     }
 
     public function logs()
@@ -74,9 +129,12 @@ class PanelRepo
 //        return Log::query()->where([['causer_id', '!=', auth()->id()]])->latest()->paginate(2);
     }
 
-    public function latestComments()
+    /**
+     * @return LengthAwarePaginator
+     */
+    public function latestComments(): LengthAwarePaginator
     {
-        return Comment::query()->where('author_id', '!=', auth()->id())->latest()->paginate(3);
+        return $this->commentRepo->latestCommentWithoutAdmin()->paginate(3);
     }
 
     public function lavaColumChart()
@@ -109,57 +167,38 @@ class PanelRepo
         return $chart;
     }
 
-    public function lastMonthlySalesAmount()
+    /**
+     * @return array|string|string[]
+     */
+    public function lastMonthlySalesAmount(): array|string
     {
-        $payments = Payment::query()->latest()->get();
-        $start_date = new Carbon('first day of ' . Carbon::now()->format('M') . ' ' . Carbon::now()->format('Y'));
-        $end_date = Carbon::now();
-        $amount = 0;
-        foreach ($payments as $payment) {
-            if ($payment->updated_at >= $start_date && $payment->updated_at <= $end_date) {
-                $amount += $payment->amount;
-            }
-        }
-        return priceFormat($amount);
+        $payments = $this->paymentRepo->index()->get();
+        return $this->lastMonthSalesAmount($payments);
     }
 
-    public function lastWeeklySalesAmount()
+    /**
+     * @return array|string
+     */
+    public function lastWeeklySalesAmount(): array|string
     {
-        $payments = Payment::query()->latest()->get();
-        $amount = 0;
-        $week = [];
-        for ($i = 0; $i < 7; $i++) {
-            $week[] = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDay($i)->format('Y-m-d');//push the current day and plus the mount of $i
-        }
-        foreach ($payments as $payment) {
-
-            if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[0]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[1]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[2]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[3]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[4]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[5]) {
-                $amount += $payment->amount;
-            } else if (Carbon::parse($payment->updated_at)->format('Y-m-d') == $week[6]) {
-                $amount += $payment->amount;
-            }
-        }
-        return priceFormat($amount);
+        $payments = $this->paymentRepo->index()->get();
+        return $this->lastWeekSalesAmount($payments);
     }
 
-    public function lastOrder()
+    /**
+     * @return Builder|Model|null
+     */
+    public function lastOrder(): Model|Builder|null
     {
-        return Order::query()->orderBy('updated_at', 'desc')->take(1)->first();
+        return $this->orderRepo->getLastOrder();
     }
 
+    /**
+     * @return int
+     */
     public function customerHomeViewCount(): int
     {
-        return Setting::query()->findOrFail(1)->view_count ?? 0;
+        return $this->settingRepo->findById(1)->view_count ?? 0;
     }
 
     public function browser()

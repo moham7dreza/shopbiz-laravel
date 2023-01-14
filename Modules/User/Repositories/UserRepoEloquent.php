@@ -30,6 +30,26 @@ class UserRepoEloquent implements UserRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function customerUsersCount(): int
+    {
+        return $this->query()->where([
+            ['user_type', 0]
+        ])->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function adminUsersCount(): int
+    {
+        return $this->query()->where([
+            ['user_type', 1]
+        ])->count();
+    }
+
+    /**
      * Get the latest users without id.
      *
      * @param int $id
