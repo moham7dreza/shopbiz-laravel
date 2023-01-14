@@ -2,6 +2,9 @@
 
 namespace Modules\Home\Http\Controllers\SalesProcess;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
@@ -10,7 +13,10 @@ use Modules\Share\Http\Controllers\Controller;
 
 class ProfileCompletionController extends Controller
 {
-    public function profileCompletion()
+    /**
+     * @return Factory|View|Application
+     */
+    public function profileCompletion(): Factory|View|Application
     {
         $user = Auth::user();
 

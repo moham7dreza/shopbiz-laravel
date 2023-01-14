@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Category\Entities\PostCategory;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Post\Entities\Post;
 use Modules\Post\Http\Requests\PostRequest;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
@@ -18,13 +19,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 class PostController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'post.index';
 
+    /**
+     * @var string
+     */
     private string $class = Post::class;
 
     public PostRepoEloquentInterface $repo;
     public PostService $service;
 
+    /**
+     * @param PostRepoEloquentInterface $postRepoEloquent
+     * @param PostService $postService
+     */
     public function __construct(PostRepoEloquentInterface $postRepoEloquent, PostService $postService)
     {
         $this->repo = $postRepoEloquent;
@@ -52,18 +63,19 @@ class PostController extends Controller
     public function index(): Factory|View|Application
     {
         $posts = $this->repo->index()->paginate(10);
-        return view('Post::index', compact('posts'));
+        return view('Post::index', compact(['posts']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
      * @return Application|Factory|View
      */
-    public function create(): View|Factory|Application
+    public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
-        $postCategories = PostCategory::all();
-        return view('Post::create', compact('postCategories'));
+        $postCategories = $productCategoryRepo->getLatestCategories()->get();
+        return view('Post::create', compact(['postCategories']));
     }
 
     /**
@@ -119,10 +131,10 @@ class PostController extends Controller
      * @param Post $post
      * @return Application|Factory|View
      */
-    public function edit(Post $post)
+    public function edit(Post $post, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
-        $postCategories = PostCategory::all();
-        return view('Post::edit', compact('post', 'postCategories'));
+        $postCategories = $productCategoryRepo->getLatestCategories()->get();
+        return view('Post::edit', compact(['post', 'postCategories']));
     }
 
     /**
@@ -196,7 +208,6 @@ class PostController extends Controller
      */
     public function status(Post $post): JsonResponse
     {
-
         $post->status = $post->status == 0 ? 1 : 0;
         $result = $post->save();
         if ($result) {
@@ -216,7 +227,6 @@ class PostController extends Controller
      */
     public function commentable(Post $post): JsonResponse
     {
-
         $post->commentable = $post->commentable == 0 ? 1 : 0;
         $result = $post->save();
         if ($result) {

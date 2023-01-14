@@ -19,13 +19,23 @@ use Modules\Share\Http\Services\File\FileService;
 
 class EmailFileController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'email-file.index';
 
+    /**
+     * @var string
+     */
     private string $class = EmailFile::class;
 
     public EmailFileRepoEloquentInterface $repo;
     public EmailFileService $service;
 
+    /**
+     * @param EmailFileRepoEloquentInterface $emailFileRepoEloquent
+     * @param EmailFileService $emailFileService
+     */
     public function __construct(EmailFileRepoEloquentInterface $emailFileRepoEloquent, EmailFileService $emailFileService)
     {
         $this->repo = $emailFileRepoEloquent;
@@ -58,7 +68,7 @@ class EmailFileController extends Controller
      */
     public function create(Email $email): View|Factory|Application
     {
-        return view('Notify::email-file.create', compact('email'));
+        return view('Notify::email-file.create', compact(['email']));
 
     }
 

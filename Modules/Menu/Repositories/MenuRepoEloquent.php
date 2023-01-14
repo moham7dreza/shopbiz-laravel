@@ -20,6 +20,14 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
     }
 
     /**
+     * @return Builder
+     */
+    public function getParentMenus(): Builder
+    {
+        return $this->query()->where('parent_id', null)->latest();
+    }
+
+    /**
      * Find role by id.
      *
      * @param  $id

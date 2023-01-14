@@ -16,11 +16,18 @@ use Modules\Share\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $class = CartItem::class;
 
     public CartRepoEloquentInterface $repo;
     public CartService $service;
 
+    /**
+     * @param CartRepoEloquentInterface $cartRepoEloquent
+     * @param CartService $cartService
+     */
     public function __construct(CartRepoEloquentInterface $cartRepoEloquent, CartService $cartService)
     {
         $this->repo = $cartRepoEloquent;
@@ -30,7 +37,7 @@ class CartController extends Controller
     /**
      * @return Application|Factory|View|RedirectResponse
      */
-    public function cart()
+    public function cart(): View|Factory|RedirectResponse|Application
     {
         if (Auth::check()) {
             $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();

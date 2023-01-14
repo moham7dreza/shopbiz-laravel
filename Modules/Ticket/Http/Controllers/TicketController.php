@@ -15,8 +15,14 @@ use Modules\Ticket\Services\Ticket\TicketService;
 
 class TicketController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'ticket.index';
 
+    /**
+     * @var string
+     */
     private string $class = Ticket::class;
 
     public TicketRepoEloquentInterface $repo;
@@ -38,6 +44,7 @@ class TicketController extends Controller
         $this->middleware('can:permission-all-ticket-show')->only(['show']);
         $this->middleware('can:permission-all-ticket-change')->only(['change']);
     }
+
     /**
      * @return Application|Factory|View
      */
@@ -48,7 +55,7 @@ class TicketController extends Controller
             $newTicket->seen = 1;
             $result = $newTicket->save();
         }
-        return view('Ticket::index', compact('tickets'));
+        return view('Ticket::index', compact(['tickets']));
     }
 
     /**
@@ -57,7 +64,7 @@ class TicketController extends Controller
     public function openTickets(): View|Factory|Application
     {
         $tickets = $this->repo->openTickets()->paginate(10);
-        return view('Ticket::index', compact('tickets'));
+        return view('Ticket::index', compact(['tickets']));
     }
 
     /**
@@ -66,7 +73,7 @@ class TicketController extends Controller
     public function closeTickets(): Factory|View|Application
     {
         $tickets = $this->repo->closeTickets()->paginate(10);
-        return view('Ticket::index', compact('tickets'));
+        return view('Ticket::index', compact(['tickets']));
     }
 
     /**
@@ -75,7 +82,7 @@ class TicketController extends Controller
     public function index(): View|Factory|Application
     {
         $tickets = $this->repo->index()->paginate(10);
-        return view('Ticket::index', compact('tickets'));
+        return view('Ticket::index', compact(['tickets']));
     }
 
     /**
@@ -107,7 +114,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket): View|Factory|Application
     {
-        return view('Ticket::show', compact('ticket'));
+        return view('Ticket::show', compact(['ticket']));
     }
 
     /**
@@ -152,7 +159,6 @@ class TicketController extends Controller
      */
     public function answer(TicketRequest $request, Ticket $ticket): RedirectResponse
     {
-
         $inputs = $request->all();
         $inputs['subject'] = $ticket->subject;
         $inputs['description'] = $request->description;

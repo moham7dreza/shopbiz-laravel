@@ -17,13 +17,23 @@ use Modules\User\Repositories\UserRepoEloquentInterface;
 class TicketAdminController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'ticket-admin.index';
 
+    /**
+     * @var string
+     */
     private string $class = TicketAdmin::class;
 
     public TicketAdminRepoEloquentInterface $repo;
     public TicketAdminService $service;
 
+    /**
+     * @param TicketAdminRepoEloquentInterface $ticketRepoEloquent
+     * @param TicketAdminService $ticketService
+     */
     public function __construct(TicketAdminRepoEloquentInterface $ticketRepoEloquent, TicketAdminService $ticketService)
     {
         $this->repo = $ticketRepoEloquent;
@@ -40,7 +50,7 @@ class TicketAdminController extends Controller
     public function index(UserRepoEloquentInterface $userRepo): View|Factory|Application
     {
         $admins = $userRepo->adminUsers()->paginate(10);
-        return view('Ticket::admin.index', compact('admins'));
+        return view('Ticket::admin.index', compact(['admins']));
     }
 
 

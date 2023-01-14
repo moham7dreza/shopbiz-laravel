@@ -10,21 +10,32 @@ use Modules\Share\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $class = Notification::class;
 
     public NotificationRepoEloquentInterface $repo;
     public NotificationService $service;
 
+    /**
+     * @param NotificationRepoEloquentInterface $faqRepoEloquent
+     * @param NotificationService $faqService
+     */
     public function __construct(NotificationRepoEloquentInterface $faqRepoEloquent, NotificationService $faqService)
     {
         $this->repo = $faqRepoEloquent;
         $this->service = $faqService;
     }
 
-    public function readAll(){
-       $notifications = $this->repo->all();
-       foreach($notifications as $notification){
-           $notification->update(['read_at' => now()]);
-       }
+    /**
+     * @return void
+     */
+    public function readAll(): void
+    {
+        $notifications = $this->repo->all();
+        foreach ($notifications as $notification) {
+            $notification->update(['read_at' => now()]);
+        }
     }
 }

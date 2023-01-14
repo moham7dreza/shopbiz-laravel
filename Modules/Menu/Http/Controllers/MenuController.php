@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Http\Requests\MenuRequest;
@@ -18,13 +17,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'menu.index';
 
+    /**
+     * @var string
+     */
     private string $class = Menu::class;
 
     public MenuRepoEloquentInterface $repo;
     public MenuService $service;
 
+    /**
+     * @param MenuRepoEloquentInterface $menuRepoEloquent
+     * @param MenuService $menuService
+     */
     public function __construct(MenuRepoEloquentInterface $menuRepoEloquent, MenuService $menuService)
     {
         $this->repo = $menuRepoEloquent;
@@ -45,7 +54,7 @@ class MenuController extends Controller
     public function index(): View|Factory|Application
     {
         $menus = $this->repo->index()->paginate(10);
-        return view('Menu::index', compact('menus'));
+        return view('Menu::index', compact(['menus']));
     }
 
     /**
@@ -55,8 +64,8 @@ class MenuController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $menus = Menu::query()->where('parent_id', null)->get();
-        return view('Menu::create', compact('menus'));
+        $menus = $this->repo->getParentMenus()->get();
+        return view('Menu::create', compact(['menus']));
     }
 
     /**
@@ -75,7 +84,7 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -89,10 +98,10 @@ class MenuController extends Controller
      * @param Menu $menu
      * @return Application|Factory|View
      */
-    public function edit(Menu $menu)
+    public function edit(Menu $menu): View|Factory|Application
     {
-        $parent_menus = Menu::query()->where('parent_id', null)->get()->except($menu->id);
-        return view('Menu::edit', compact('menu' ,'parent_menus'));
+        $parent_menus = $this->repo->getParentMenus()->get()->except($menu->id);
+        return view('Menu::edit', compact(['menu', 'parent_menus']));
     }
 
     /**
@@ -128,20 +137,16 @@ class MenuController extends Controller
      */
     public function status(Menu $menu): JsonResponse
     {
-
         $menu->status = $menu->status == 0 ? 1 : 0;
         $result = $menu->save();
-        if($result){
-                if($menu->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($menu->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
 }

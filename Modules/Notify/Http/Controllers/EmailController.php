@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'email.index';
 
+    /**
+     * @var string
+     */
     private string $class = Email::class;
 
     public EmailRepoEloquentInterface $repo;
     public EmailService $service;
 
+    /**
+     * @param EmailRepoEloquentInterface $emailRepoEloquent
+     * @param EmailService $emailService
+     */
     public function __construct(EmailRepoEloquentInterface $emailRepoEloquent, EmailService $emailService)
     {
         $this->repo = $emailRepoEloquent;
@@ -43,7 +53,7 @@ class EmailController extends Controller
     public function index(): View|Factory|Application
     {
         $emails = $this->repo->index()->paginate(10);
-        return view('Notify::email.index', compact('emails'));
+        return view('Notify::email.index', compact(['emails']));
 
     }
 
@@ -93,7 +103,7 @@ class EmailController extends Controller
      */
     public function edit(Email $email): View|Factory|Application
     {
-        return view('Notify::email.edit', compact('email'));
+        return view('Notify::email.edit', compact(['email']));
 
     }
 
@@ -133,7 +143,6 @@ class EmailController extends Controller
      */
     public function status(Email $email): JsonResponse
     {
-
         $email->status = $email->status == 0 ? 1 : 0;
         $result = $email->save();
         if ($result) {

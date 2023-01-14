@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class GuaranteeController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'product-guarantee.index';
 
+    /**
+     * @var string
+     */
     private string $class = Guarantee::class;
 
     public ProductGuaranteeRepoEloquentInterface $repo;
     public ProductGuaranteeService $service;
 
+    /**
+     * @param ProductGuaranteeRepoEloquentInterface $guaranteeRepoEloquent
+     * @param ProductGuaranteeService $guaranteeService
+     */
     public function __construct(ProductGuaranteeRepoEloquentInterface $guaranteeRepoEloquent, ProductGuaranteeService $guaranteeService)
     {
         $this->repo = $guaranteeRepoEloquent;
@@ -51,7 +61,7 @@ class GuaranteeController extends Controller
      */
     public function create(Product $product): View|Factory|Application
     {
-        return view('Product::admin.guarantee.create', compact('product'));
+        return view('Product::admin.guarantee.create', compact(['product']));
     }
 
     /**

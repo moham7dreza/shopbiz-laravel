@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PropertyValueController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'property-value.index';
 
+    /**
+     * @var string
+     */
     private string $class = CategoryValue::class;
 
     public PropertyValueRepoEloquentInterface $propertyValueRepo;
     public PropertyValueServiceInterface $propertyValueService;
 
+    /**
+     * @param PropertyValueRepoEloquentInterface $propertyValueRepo
+     * @param PropertyValueServiceInterface $propertyValueService
+     */
     public function __construct(PropertyValueRepoEloquentInterface $propertyValueRepo, PropertyValueServiceInterface $propertyValueService)
     {
         $this->propertyValueRepo = $propertyValueRepo;
@@ -96,7 +106,7 @@ class PropertyValueController extends Controller
      */
     public function edit(CategoryAttribute $categoryAttribute, CategoryValue $value): View|Factory|Application
     {
-        return view('Category::property.value.edit', compact('categoryAttribute', 'value'));
+        return view('Category::property.value.edit', compact(['categoryAttribute', 'value']));
     }
 
     /**

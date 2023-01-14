@@ -19,13 +19,23 @@ use Modules\User\Services\UserService;
 class CustomerController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'customerUser.index';
 
+    /**
+     * @var string
+     */
     private string $class = User::class;
 
     public UserRepoEloquentInterface $repo;
     public UserService $service;
 
+    /**
+     * @param UserRepoEloquentInterface $userRepoEloquent
+     * @param UserService $userService
+     */
     public function __construct(UserRepoEloquentInterface $userRepoEloquent, UserService $userService)
     {
         $this->repo = $userRepoEloquent;
@@ -38,13 +48,14 @@ class CustomerController extends Controller
         $this->middleware('can:permission-customer-user-status')->only(['status']);
         $this->middleware('can:permission-customer-user-activation')->only(['activation']);
     }
+
     /**
      * @return Application|Factory|View
      */
     public function index(): View|Factory|Application
     {
         $users = $this->repo->customerUsers()->paginate(10);
-        return view('User::customer.index', compact('users'));
+        return view('User::customer.index', compact(['users']));
     }
 
     /**
@@ -82,7 +93,7 @@ class CustomerController extends Controller
         $details = [
             'message' => 'یک کاربر جدید در سایت ثبت نام کرد'
         ];
-        $adminUser = User::query()->find(1);
+        $adminUser = $this->repo->findById(1);
         $adminUser->notify(new NewUserRegistered($details));
         return redirect()->route('customerUser.index')->with('swal-success', 'مشتری جدید با موفقیت ثبت شد');
     }
@@ -106,7 +117,7 @@ class CustomerController extends Controller
      */
     public function edit(User $customerUser): View|Factory|Application
     {
-        return view('User::customer.edit', compact('customerUser'));
+        return view('User::customer.edit', compact(['customerUser']));
     }
 
     /**
@@ -186,6 +197,5 @@ class CustomerController extends Controller
         } else {
             return response()->json(['status' => false]);
         }
-
     }
 }

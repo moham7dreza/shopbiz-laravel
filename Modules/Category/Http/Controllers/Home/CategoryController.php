@@ -18,7 +18,7 @@ class CategoryController extends Controller
      * @param ProductCategory $productCategory
      * @return Application|Factory|View
      */
-    public function categoryProducts(ProductCategory $productCategory)
+    public function categoryProducts(ProductCategory $productCategory): Factory|View|Application
     {
 //        if ($productCategory->children()) {
 //            $categoryChilds = $productCategory->children()->orderBy('id', 'desc')->get();
@@ -27,13 +27,13 @@ class CategoryController extends Controller
         // برندها
         $brands = Brand::all();
         $products = $productCategory->products()->orderBy('id', 'desc')->get();
-        return view('Category::home.products', compact('productCategory', 'products', 'brands'));
+        return view('Category::home.products', compact(['productCategory', 'products', 'brands']));
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function bestOffers()
+    public function bestOffers(): View|Factory|Application
     {
         // برندها
         $brands = Brand::all();
@@ -46,7 +46,7 @@ class CategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function queryProducts()
+    public function queryProducts(): View|Factory|Application
     {
         // برندها
         $brands = Brand::all();

@@ -13,15 +13,28 @@ use Modules\Discount\Http\Requests\AmazingSaleRequest;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Discount\Services\AmazingSale\AmazingSaleDiscountService;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class AmazingSaleController extends Controller
 {
+    /**
+     * @var string
+     */
     public string $redirectRoute = 'amazingSale.index';
+
+    /**
+     * @var string
+     */
+    private string $class = AmazingSale::class;
 
     public AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
     public AmazingSaleDiscountService $amazingSaleDiscountService;
 
+    /**
+     * @param AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo
+     * @param AmazingSaleDiscountService $amazingSaleDiscountService
+     */
     public function __construct(AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo, AmazingSaleDiscountService $amazingSaleDiscountService)
     {
         $this->amazingSaleDiscountRepo = $amazingSaleDiscountRepo;
@@ -40,16 +53,17 @@ class AmazingSaleController extends Controller
     public function index(): View|Factory|Application
     {
         $amazingSales = $this->amazingSaleDiscountRepo->getLatest()->paginate(10);
-        return view('Discount::amazingSale.index', compact('amazingSales'));
+        return view('Discount::amazingSale.index', compact(['amazingSales']));
     }
 
     /**
+     * @param ProductRepoEloquentInterface $productRepo
      * @return Application|Factory|View
      */
-    public function create(): View|Factory|Application
+    public function create(ProductRepoEloquentInterface $productRepo): View|Factory|Application
     {
-        $products = Product::all();
-        return view('Discount::amazingSale.create', compact('products'));
+        $products = $productRepo->index()->get();
+        return view('Discount::amazingSale.create', compact(['products']));
     }
 
     /**
@@ -70,12 +84,13 @@ class AmazingSaleController extends Controller
 
     /**
      * @param AmazingSale $amazingSale
+     * @param ProductRepoEloquentInterface $productRepo
      * @return View|Factory|Application
      */
-    public function edit(AmazingSale $amazingSale): View|Factory|Application
+    public function edit(AmazingSale $amazingSale, ProductRepoEloquentInterface $productRepo): View|Factory|Application
     {
-        $products = Product::all();
-        return view('Discount::amazingSale.edit', compact('amazingSale', 'products'));
+        $products = $productRepo->index()->get();
+        return view('Discount::amazingSale.edit', compact(['amazingSale', 'products']));
     }
 
     /**

@@ -77,6 +77,14 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     }
 
     /**
+     * @return Builder
+     */
+    public function getParentCategories(): Builder
+    {
+        $this->query()->where('parent_id', null)->latest();
+    }
+
+    /**
      * Get query model (builder).
      *
      * @return Builder

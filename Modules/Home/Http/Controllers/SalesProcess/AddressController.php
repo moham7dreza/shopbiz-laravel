@@ -25,7 +25,7 @@ class AddressController extends Controller
     /**
      * @return Application|Factory|View|RedirectResponse
      */
-    public function addressAndDelivery()
+    public function addressAndDelivery(): View|Factory|RedirectResponse|Application
     {
         //check profile
         $user = Auth::user();

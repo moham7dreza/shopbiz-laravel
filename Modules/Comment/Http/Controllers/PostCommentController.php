@@ -14,12 +14,21 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PostCommentController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'postComment.index';
 
+    /**
+     * @var string
+     */
     private string $class = Comment::class;
 
     public CommentRepoEloquentInterface $repo;
 
+    /**
+     * @param CommentRepoEloquentInterface $postCommentRepoEloquent
+     */
     public function __construct(CommentRepoEloquentInterface $postCommentRepoEloquent)
     {
         $this->repo = $postCommentRepoEloquent;
@@ -42,7 +51,7 @@ class PostCommentController extends Controller
             $result = $unSeenComment->save();
         }
         $postComments = $this->repo->getLatestPostComments()->paginate(10);
-        return view('Comment::post-comment.index', compact('postComments'));
+        return view('Comment::post-comment.index', compact(['postComments']));
 
     }
 
@@ -75,7 +84,7 @@ class PostCommentController extends Controller
      */
     public function show(Comment $postComment): View|Factory|Application
     {
-        return view('Comment::post-comment.show', compact('postComment'));
+        return view('Comment::post-comment.show', compact(['postComment']));
     }
 
     /**
@@ -163,7 +172,7 @@ class PostCommentController extends Controller
     {
         if ($postComment->parent == null) {
             $inputs = $request->all();
-            $inputs['author_id'] = 1;
+            $inputs['author_id'] = auth()->id();
             $inputs['parent_id'] = $postComment->id;
             $inputs['commentable_id'] = $postComment->commentable_id;
             $inputs['commentable_type'] = $postComment->commentable_type;

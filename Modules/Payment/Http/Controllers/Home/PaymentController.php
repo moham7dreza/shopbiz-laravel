@@ -2,6 +2,10 @@
 
 namespace Modules\Payment\Http\Controllers\Home;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
@@ -17,7 +21,10 @@ use Modules\Share\Http\Services\Payment\PaymentService;
 
 class PaymentController extends Controller
 {
-    public function payment()
+    /**
+     * @return Application|Factory|View
+     */
+    public function payment(): View|Factory|Application
     {
         $user = auth()->user();
         $cartItems = CartItem::query()->where('user_id', $user->id)->get();
@@ -25,7 +32,11 @@ class PaymentController extends Controller
         return view('Payment::home.payment', compact('cartItems', 'order'));
     }
 
-    public function copanDiscount(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function copanDiscount(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate(
             ['copan' => 'required']
@@ -69,7 +80,12 @@ class PaymentController extends Controller
         }
     }
 
-    public function paymentSubmit(Request $request, PaymentService $paymentService)
+    /**
+     * @param Request $request
+     * @param PaymentService $paymentService
+     * @return RedirectResponse
+     */
+    public function paymentSubmit(Request $request, PaymentService $paymentService): RedirectResponse
     {
         $request->validate(
             ['payment_type' => 'required']
@@ -148,7 +164,13 @@ class PaymentController extends Controller
 
     }
 
-    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService)
+    /**
+     * @param Order $order
+     * @param OnlinePayment $onlinePayment
+     * @param PaymentService $paymentService
+     * @return RedirectResponse
+     */
+    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService): RedirectResponse
     {
         $amount = $onlinePayment->amount * 10;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
@@ -183,7 +205,5 @@ class PaymentController extends Controller
             );
             return redirect()->route('customer.home')->with('danger', 'سفارش شما با  خطا مواجه شد');
         }
-
     }
-
 }

@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Notify\Entities\SMS;
 use Modules\Notify\Http\Requests\SMSRequest;
@@ -18,13 +17,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class SMSController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'sms.index';
 
+    /**
+     * @var string
+     */
     private string $class = SMS::class;
 
     public SMSRepoEloquentInterface $repo;
     public SMSService $service;
 
+    /**
+     * @param SMSRepoEloquentInterface $smsRepoEloquent
+     * @param SMSService $smsService
+     */
     public function __construct(SMSRepoEloquentInterface $smsRepoEloquent, SMSService $smsService)
     {
         $this->repo = $smsRepoEloquent;
@@ -45,7 +54,7 @@ class SMSController extends Controller
     public function index(): View|Factory|Application
     {
         $sms = $this->repo->index()->paginate(10);
-        return view('Notify::sms.index', compact('sms'));
+        return view('Notify::sms.index', compact(['sms']));
     }
 
     /**
@@ -56,7 +65,6 @@ class SMSController extends Controller
     public function create(): View|Factory|Application
     {
         return view('Notify::sms.create');
-
     }
 
     /**
@@ -79,7 +87,7 @@ class SMSController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -95,7 +103,7 @@ class SMSController extends Controller
      */
     public function edit(SMS $sms): View|Factory|Application
     {
-        return view('Notify::sms.edit', compact('sms'));
+        return view('Notify::sms.edit', compact(['sms']));
     }
 
     /**
@@ -134,20 +142,16 @@ class SMSController extends Controller
      */
     public function status(SMS $sms): JsonResponse
     {
-
         $sms->status = $sms->status == 0 ? 1 : 0;
         $result = $sms->save();
-        if($result){
-                if($sms->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($sms->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
 }

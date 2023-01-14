@@ -16,13 +16,23 @@ use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 class TicketCategoryController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'ticket-category.index';
 
+    /**
+     * @var string
+     */
     private string $class = TicketCategory::class;
 
     public TicketCategoryRepoEloquentInterface $repo;
     public TicketCategoryService $service;
 
+    /**
+     * @param TicketCategoryRepoEloquentInterface $ticketRepoEloquent
+     * @param TicketCategoryService $ticketService
+     */
     public function __construct(TicketCategoryRepoEloquentInterface $ticketRepoEloquent, TicketCategoryService $ticketService)
     {
         $this->repo = $ticketRepoEloquent;
@@ -34,13 +44,14 @@ class TicketCategoryController extends Controller
         $this->middleware('can:permission-ticket-category-delete')->only(['destroy']);
         $this->middleware('can:permission-ticket-category-status')->only(['status']);
     }
+
     /**
      * @return Application|Factory|View
      */
     public function index(): Factory|View|Application
     {
         $ticketCategories = $this->repo->index()->paginate(10);
-        return view('Ticket::category.index', compact('ticketCategories'));
+        return view('Ticket::category.index', compact(['ticketCategories']));
     }
 
     /**
@@ -83,9 +94,9 @@ class TicketCategoryController extends Controller
      * @param TicketCategory $ticketCategory
      * @return Application|Factory|View
      */
-    public function edit(TicketCategory $ticketCategory)
+    public function edit(TicketCategory $ticketCategory): View|Factory|Application
     {
-        return view('Ticket::category.edit', compact('ticketCategory'));
+        return view('Ticket::category.edit', compact(['ticketCategory']));
 
     }
 
@@ -122,7 +133,6 @@ class TicketCategoryController extends Controller
      */
     public function status(TicketCategory $ticketCategory): JsonResponse
     {
-
         $ticketCategory->status = $ticketCategory->status == 0 ? 1 : 0;
         $result = $ticketCategory->save();
         if ($result) {

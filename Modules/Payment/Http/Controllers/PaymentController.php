@@ -12,12 +12,21 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'payment.index';
 
+    /**
+     * @var string
+     */
     private string $class = Payment::class;
 
     public PaymentRepoEloquentInterface $repo;
 
+    /**
+     * @param PaymentRepoEloquentInterface $paymentRepoEloquent
+     */
     public function __construct(PaymentRepoEloquentInterface $paymentRepoEloquent)
     {
         $this->repo = $paymentRepoEloquent;
@@ -46,7 +55,7 @@ class PaymentController extends Controller
     public function index(): Factory|View|Application
     {
         $payments = $this->repo->index()->paginate(10);
-        return view('Payment::admin.index', compact('payments'));
+        return view('Payment::admin.index', compact(['payments']));
     }
 
     /**
@@ -55,7 +64,7 @@ class PaymentController extends Controller
     public function offline(): View|Factory|Application
     {
         $payments = $this->repo->offline()->paginate(10);
-        return view('Payment::admin.index', compact('payments'));
+        return view('Payment::admin.index', compact(['payments']));
     }
 
     /**
@@ -64,7 +73,7 @@ class PaymentController extends Controller
     public function online(): View|Factory|Application
     {
         $payments = $this->repo->online()->paginate(10);
-        return view('Payment::admin.index', compact('payments'));
+        return view('Payment::admin.index', compact(['payments']));
     }
 
     /**
@@ -73,7 +82,7 @@ class PaymentController extends Controller
     public function cash(): Factory|View|Application
     {
         $payments = $this->repo->cash()->paginate(10);
-        return view('Payment::admin.index', compact('payments'));
+        return view('Payment::admin.index', compact(['payments']));
     }
 
     /**
@@ -104,6 +113,6 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment): View|Factory|Application
     {
-        return view('Payment::admin.show', compact('payment'));
+        return view('Payment::admin.show', compact(['payment']));
     }
 }

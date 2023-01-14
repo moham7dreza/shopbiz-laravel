@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\PostCategory;
 use Modules\Category\Http\Requests\PostCategoryRequest;
@@ -19,13 +18,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class PostCategoryController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'postCategory.index';
 
+    /**
+     * @var string
+     */
     private string $class = PostCategory::class;
 
     public PostCategoryRepoEloquentInterface $categoryRepo;
     public PostCategoryServiceInterface $categoryService;
 
+    /**
+     * @param PostCategoryRepoEloquentInterface $postCategoryRepo
+     * @param PostCategoryServiceInterface $postCategoryService
+     */
     public function __construct(PostCategoryRepoEloquentInterface $postCategoryRepo, PostCategoryServiceInterface $postCategoryService)
     {
         $this->categoryRepo = $postCategoryRepo;
@@ -40,10 +49,10 @@ class PostCategoryController extends Controller
 
 //    function __construct()
 //    {
-        // $this->middleware('role:operator')->only(['edit']);
-        // $this->middleware('role:operator')->only(['create']);
-        // $this->middleware('role:accounting')->only(['store']);
-        // $this->middleware('role:operator')->only(['edit']);
+    // $this->middleware('role:operator')->only(['edit']);
+    // $this->middleware('role:operator')->only(['create']);
+    // $this->middleware('role:accounting')->only(['store']);
+    // $this->middleware('role:operator')->only(['edit']);
 //        $this->middleware('can:show-category')->only(['index']);
 //        $this->middleware('can:update-category')->only(['edit', 'update']);
 //    }
@@ -59,7 +68,7 @@ class PostCategoryController extends Controller
         // if ($user->can('show-category')) {
 
         $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
-        return view('Category::post-category.index', compact('postCategories'));
+        return view('Category::post-category.index', compact(['postCategories']));
         // } else {
         //     abort(403);
         // }
@@ -123,7 +132,7 @@ class PostCategoryController extends Controller
      */
     public function edit(PostCategory $postCategory): View|Factory|Application
     {
-        return view('Category::post-category.edit', compact('postCategory'));
+        return view('Category::post-category.edit', compact(['postCategory']));
     }
 
     /**

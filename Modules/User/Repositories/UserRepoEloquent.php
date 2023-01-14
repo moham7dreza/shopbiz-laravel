@@ -10,6 +10,14 @@ class UserRepoEloquent implements UserRepoEloquentInterface
     /**
      * @return Builder
      */
+    public function index(): Builder
+    {
+        return $this->query()->latest();
+    }
+
+    /**
+     * @return Builder
+     */
     public function adminUsers(): Builder
     {
         return $this->query()->where([

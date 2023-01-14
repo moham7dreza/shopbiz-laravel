@@ -17,13 +17,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class BrandController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'brand.index';
 
+    /**
+     * @var string
+     */
     private string $class = Brand::class;
 
     public BrandRepoEloquentInterface $repo;
     public BrandService $service;
 
+    /**
+     * @param BrandRepoEloquentInterface $brandRepoEloquent
+     * @param BrandService $brandService
+     */
     public function __construct(BrandRepoEloquentInterface $brandRepoEloquent, BrandService $brandService)
     {
         $this->repo = $brandRepoEloquent;
@@ -36,6 +46,7 @@ class BrandController extends Controller
         $this->middleware('can:permission-product-brand-status')->only(['status']);
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +55,7 @@ class BrandController extends Controller
     public function index(): View|Factory|Application
     {
         $brands = $this->repo->index()->paginate(10);
-        return view('Brand::index', compact('brands'));
+        return view('Brand::index', compact(['brands']));
     }
 
     /**
@@ -97,9 +108,9 @@ class BrandController extends Controller
      * @param Brand $brand
      * @return Application|Factory|View
      */
-    public function edit(Brand $brand)
+    public function edit(Brand $brand): View|Factory|Application
     {
-        return view('Brand::edit', compact('brand'));
+        return view('Brand::edit', compact(['brand']));
 
     }
 

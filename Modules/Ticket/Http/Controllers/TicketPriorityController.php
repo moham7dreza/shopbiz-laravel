@@ -17,13 +17,23 @@ use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 class TicketPriorityController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'ticket-priority.index';
 
+    /**
+     * @var string
+     */
     private string $class = TicketPriority::class;
 
     public TicketPriorityRepoEloquentInterface $repo;
     public TicketPriorityService $service;
 
+    /**
+     * @param TicketPriorityRepoEloquentInterface $ticketRepoEloquent
+     * @param TicketPriorityService $ticketService
+     */
     public function __construct(TicketPriorityRepoEloquentInterface $ticketRepoEloquent, TicketPriorityService $ticketService)
     {
         $this->repo = $ticketRepoEloquent;
@@ -35,13 +45,14 @@ class TicketPriorityController extends Controller
         $this->middleware('can:permission-ticket-priority-delete')->only(['destroy']);
         $this->middleware('can:permission-ticket-priority-status')->only(['status']);
     }
+
     /**
      * @return Application|Factory|View
      */
     public function index(): View|Factory|Application
     {
         $ticketPriorities = $this->repo->index()->paginate(10);
-        return view('Ticket::priority.index', compact('ticketPriorities'));
+        return view('Ticket::priority.index', compact(['ticketPriorities']));
     }
 
     /**
@@ -85,9 +96,9 @@ class TicketPriorityController extends Controller
      * @param TicketPriority $ticketPriority
      * @return Application|Factory|View
      */
-    public function edit(TicketPriority $ticketPriority)
+    public function edit(TicketPriority $ticketPriority): View|Factory|Application
     {
-        return view('Ticket::priority.edit', compact('ticketPriority'));
+        return view('Ticket::priority.edit', compact(['ticketPriority']));
 
     }
 
@@ -111,7 +122,7 @@ class TicketPriorityController extends Controller
      * @param TicketPriority $ticketPriority
      * @return RedirectResponse
      */
-    public function destroy(TicketPriority $ticketPriority)
+    public function destroy(TicketPriority $ticketPriority): RedirectResponse
     {
         $result = $ticketPriority->delete();
         return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت شما با موفقیت حذف شد');

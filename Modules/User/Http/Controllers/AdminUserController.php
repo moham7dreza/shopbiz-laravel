@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
+use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 use Modules\User\Entities\User;
@@ -22,13 +22,23 @@ use Modules\User\Services\UserService;
 class AdminUserController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'adminUser.index';
 
+    /**
+     * @var string
+     */
     private string $class = User::class;
 
     public UserRepoEloquentInterface $repo;
     public UserService $service;
 
+    /**
+     * @param UserRepoEloquentInterface $userRepoEloquent
+     * @param UserService $userService
+     */
     public function __construct(UserRepoEloquentInterface $userRepoEloquent, UserService $userService)
     {
         $this->repo = $userRepoEloquent;
@@ -50,7 +60,7 @@ class AdminUserController extends Controller
     public function index(): View|Factory|Application
     {
         $adminUsers = $this->repo->adminUsers()->paginate(10);
-        return view('User::admin-user.index', compact('adminUsers'));
+        return view('User::admin-user.index', compact(['adminUsers']));
     }
 
     /**
@@ -61,7 +71,6 @@ class AdminUserController extends Controller
     public function create(): View|Factory|Application
     {
         return view('User::admin-user.create');
-
     }
 
     /**
@@ -108,7 +117,7 @@ class AdminUserController extends Controller
      */
     public function edit(User $adminUser): View|Factory|Application
     {
-        return view('User::admin-user.edit', compact('adminUser'));
+        return view('User::admin-user.edit', compact(['adminUser']));
     }
 
     /**
@@ -156,7 +165,6 @@ class AdminUserController extends Controller
      */
     public function status(User $user): JsonResponse
     {
-
         $user->status = $user->status == 0 ? 1 : 0;
         $result = $user->save();
         if ($result) {
@@ -191,12 +199,13 @@ class AdminUserController extends Controller
 
     /**
      * @param User $admin
+     * @param RolePermissionRepoEloquentInterface $rolePermissionRepo
      * @return Application|Factory|View
      */
-    public function roles(User $admin): View|Factory|Application
+    public function roles(User $admin, RolePermissionRepoEloquentInterface $rolePermissionRepo): View|Factory|Application
     {
-        $roles = Role::all();
-        return view('User::admin-user.roles', compact('admin', 'roles'));
+        $roles = $rolePermissionRepo->index()->get();
+        return view('User::admin-user.roles', compact(['admin', 'roles']));
     }
 
     /**
@@ -217,11 +226,12 @@ class AdminUserController extends Controller
 
     /**
      * @param User $admin
+     * @param RolePermissionRepoEloquentInterface $rolePermissionRepo
      * @return Application|Factory|View
      */
-    public function permissions(User $admin): View|Factory|Application
+    public function permissions(User $admin, RolePermissionRepoEloquentInterface $rolePermissionRepo): View|Factory|Application
     {
-        $permissions = Permission::all();
+        $permissions = $rolePermissionRepo->permissions()->get();
         return view('User::admin-user.permissions', compact(['admin', 'permissions']));
     }
 
@@ -238,6 +248,5 @@ class AdminUserController extends Controller
 
         $admin->permissions()->sync($request->permissions);
         return redirect()->route('adminUser.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
-
     }
 }

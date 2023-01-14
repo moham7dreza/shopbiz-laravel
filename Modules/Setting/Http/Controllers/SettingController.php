@@ -17,13 +17,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 class SettingController extends Controller
 {
 
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'setting.index';
 
+    /**
+     * @var string
+     */
     private string $class = Setting::class;
 
     public SettingRepoEloquentInterface $repo;
     public SettingService $service;
 
+    /**
+     * @param SettingRepoEloquentInterface $settingRepoEloquent
+     * @param SettingService $settingService
+     */
     public function __construct(SettingRepoEloquentInterface $settingRepoEloquent, SettingService $settingService)
     {
         $this->repo = $settingRepoEloquent;
@@ -43,7 +53,7 @@ class SettingController extends Controller
             $default->run();
             $setting = $this->repo->getSystemSetting();
         }
-        return view('Setting::index', compact('setting'));
+        return view('Setting::index', compact(['setting']));
     }
 
     /**
@@ -86,7 +96,7 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting): View|Factory|Application
     {
-        return view('Setting::edit', compact('setting'));
+        return view('Setting::edit', compact(['setting']));
     }
 
     /**

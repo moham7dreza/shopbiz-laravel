@@ -17,13 +17,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class ProductCategoryController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'productCategory.index';
 
+    /**
+     * @var string
+     */
     private string $class = ProductCategory::class;
 
     public ProductCategoryRepoEloquentInterface $categoryRepo;
     public ProductCategoryServiceInterface $categoryService;
 
+    /**
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
+     * @param ProductCategoryServiceInterface $productCategoryService
+     */
     public function __construct(ProductCategoryRepoEloquentInterface $productCategoryRepo, ProductCategoryServiceInterface $productCategoryService)
     {
         $this->categoryRepo = $productCategoryRepo;
@@ -53,8 +63,8 @@ class ProductCategoryController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $categories = ProductCategory::query()->where('parent_id', null)->get();
-        return view('Category::product-category.create', compact('categories'));
+        $categories = $this->categoryRepo->getParentCategories()->get();
+        return view('Category::product-category.create', compact(['categories']));
     }
 
     /**
@@ -67,12 +77,10 @@ class ProductCategoryController extends Controller
     public function store(ProductCategoryRequest $request, ImageService $imageService): RedirectResponse
     {
         $inputs = $request->all();
-        if($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
-            if($result === false)
-            {
+            if ($result === false) {
                 return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
@@ -85,7 +93,7 @@ class ProductCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -101,7 +109,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory): View|Factory|Application
     {
-        $parent_categories = ProductCategory::query()->where('parent_id', null)->get()->except($productCategory->id);
+        $parent_categories = $this->categoryRepo->getParentCategories()->get()->except($productCategory->id);
         return view('Category::product-category.edit', compact(['productCategory', 'parent_categories']));
     }
 
@@ -117,23 +125,18 @@ class ProductCategoryController extends Controller
     {
         $inputs = $request->all();
 
-        if($request->hasFile('image'))
-        {
-            if(!empty($productCategory->image))
-            {
+        if ($request->hasFile('image')) {
+            if (!empty($productCategory->image)) {
                 $imageService->deleteDirectoryAndFiles($productCategory->image['directory']);
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
-            if($result === false)
-            {
+            if ($result === false) {
                 return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
-        }
-        else{
-            if(isset($inputs['currentImage']) && !empty($productCategory->image))
-            {
+        } else {
+            if (isset($inputs['currentImage']) && !empty($productCategory->image)) {
                 $image = $productCategory->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image'] = $image;
@@ -151,8 +154,8 @@ class ProductCategoryController extends Controller
      */
     public function destroy(ProductCategory $productCategory): RedirectResponse
     {
-       $result = $productCategory->delete();
-       return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        $result = $productCategory->delete();
+        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 
     /**

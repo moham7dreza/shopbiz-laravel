@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Faq\Entities\Faq;
 use Modules\Faq\Http\Requests\FaqRequest;
@@ -18,13 +17,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class FaqController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'faq.index';
 
+    /**
+     * @var string
+     */
     private string $class = Faq::class;
 
     public FaqRepoEloquentInterface $repo;
     public FaqService $service;
 
+    /**
+     * @param FaqRepoEloquentInterface $faqRepoEloquent
+     * @param FaqService $faqService
+     */
     public function __construct(FaqRepoEloquentInterface $faqRepoEloquent, FaqService $faqService)
     {
         $this->repo = $faqRepoEloquent;
@@ -45,7 +54,7 @@ class FaqController extends Controller
     public function index(): View|Factory|Application
     {
         $faqs = $this->repo->index()->paginate(10);
-        return view('Faq::index', compact('faqs'));
+        return view('Faq::index', compact(['faqs']));
     }
 
     /**
@@ -74,7 +83,7 @@ class FaqController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -88,9 +97,9 @@ class FaqController extends Controller
      * @param Faq $faq
      * @return Application|Factory|View
      */
-    public function edit(Faq $faq)
+    public function edit(Faq $faq): View|Factory|Application
     {
-        return view('Faq::edit', compact('faq'));
+        return view('Faq::edit', compact(['faq']));
     }
 
     /**
@@ -126,22 +135,16 @@ class FaqController extends Controller
      */
     public function status(Faq $faq): JsonResponse
     {
-
         $faq->status = $faq->status == 0 ? 1 : 0;
         $result = $faq->save();
-        if($result){
-                if($faq->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($faq->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
-
-
 }

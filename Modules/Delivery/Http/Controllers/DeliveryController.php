@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class DeliveryController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'delivery.index';
 
+    /**
+     * @var string
+     */
     private string $class = Delivery::class;
 
     public DeliveryRepoEloquentInterface $repo;
     public DeliveryService $service;
 
+    /**
+     * @param DeliveryRepoEloquentInterface $deliveryRepoEloquent
+     * @param DeliveryService $deliveryService
+     */
     public function __construct(DeliveryRepoEloquentInterface $deliveryRepoEloquent, DeliveryService $deliveryService)
     {
         $this->repo = $deliveryRepoEloquent;
@@ -43,7 +53,7 @@ class DeliveryController extends Controller
     public function index(): Factory|View|Application
     {
         $delivery_methods = $this->repo->index()->paginate(10);
-        return view('Delivery::index', compact('delivery_methods'));
+        return view('Delivery::index', compact(['delivery_methods']));
     }
 
     /**
@@ -86,9 +96,9 @@ class DeliveryController extends Controller
      * @param Delivery $delivery
      * @return Application|Factory|View
      */
-    public function edit(Delivery $delivery)
+    public function edit(Delivery $delivery): View|Factory|Application
     {
-        return view('Delivery::edit', compact('delivery'));
+        return view('Delivery::edit', compact(['delivery']));
     }
 
     /**

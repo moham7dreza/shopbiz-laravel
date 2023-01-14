@@ -13,12 +13,21 @@ use Modules\Share\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'order.index';
 
+    /**
+     * @var string
+     */
     private string $class = Order::class;
 
     public OrderRepoEloquentInterface $repo;
 
+    /**
+     * @param OrderRepoEloquentInterface $orderRepoEloquent
+     */
     public function __construct(OrderRepoEloquentInterface $orderRepoEloquent)
     {
         $this->repo = $orderRepoEloquent;
@@ -65,7 +74,7 @@ class OrderController extends Controller
             $order->order_status = 1;
             $result = $order->save();
         }
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -74,7 +83,7 @@ class OrderController extends Controller
     public function sending(): View|Factory|Application
     {
         $orders = $this->repo->sending()->paginate(10);
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -83,7 +92,7 @@ class OrderController extends Controller
     public function unpaid(): View|Factory|Application
     {
         $orders = $this->repo->unpaid()->paginate(10);
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -92,7 +101,7 @@ class OrderController extends Controller
     public function canceled(): View|Factory|Application
     {
         $orders = $this->repo->canceled()->paginate(10);
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -101,7 +110,7 @@ class OrderController extends Controller
     public function returned(): View|Factory|Application
     {
         $orders = $this->repo->returned()->paginate(10);
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -110,7 +119,7 @@ class OrderController extends Controller
     public function all(): View|Factory|Application
     {
         $orders = $this->repo->index()->paginate(10);
-        return view('Order::index', compact('orders'));
+        return view('Order::index', compact(['orders']));
     }
 
     /**
@@ -119,7 +128,7 @@ class OrderController extends Controller
      */
     public function show(Order $order): View|Factory|Application
     {
-        return view('Order::show', compact('order'));
+        return view('Order::show', compact(['order']));
     }
 
     /**
@@ -128,7 +137,7 @@ class OrderController extends Controller
      */
     public function detail(Order $order): View|Factory|Application
     {
-        return view('Order::detail', compact('order'));
+        return view('Order::detail', compact(['order']));
     }
 
     /**

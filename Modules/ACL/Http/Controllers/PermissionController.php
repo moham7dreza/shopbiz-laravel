@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PermissionController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'permission.index';
 
+    /**
+     * @var string
+     */
     private string $class = Permission::class;
 
     public RolePermissionRepoEloquentInterface $repo;
     public RolePermissionService $service;
 
+    /**
+     * @param RolePermissionService $rolePermissionService
+     * @param RolePermissionRepoEloquentInterface $rolePermissionRepo
+     */
     public function __construct(RolePermissionService $rolePermissionService, RolePermissionRepoEloquentInterface $rolePermissionRepo)
     {
         $this->repo = $rolePermissionRepo;
@@ -37,7 +47,7 @@ class PermissionController extends Controller
     public function index(): View|Factory|Application
     {
         $permissions = $this->repo->permissions()->paginate(10);
-        return view('ACL::permission.index', compact('permissions'));
+        return view('ACL::permission.index', compact(['permissions']));
     }
 
     /**
@@ -82,7 +92,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission): View|Factory|Application
     {
-        return view('ACL::permission.edit', compact('permission'));
+        return view('ACL::permission.edit', compact(['permission']));
 
     }
 

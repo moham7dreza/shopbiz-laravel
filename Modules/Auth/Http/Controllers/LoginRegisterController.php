@@ -23,7 +23,7 @@ class LoginRegisterController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function loginRegisterForm()
+    public function loginRegisterForm(): Factory|View|Application
     {
         return view('Auth::home.login-register');
     }
@@ -118,7 +118,7 @@ class LoginRegisterController extends Controller
      * @param $token
      * @return Application|Factory|View|RedirectResponse
      */
-    public function loginConfirmForm($token)
+    public function loginConfirmForm($token): View|Factory|RedirectResponse|Application
     {
         $otp = Otp::query()->where('token', $token)->first();
         if (empty($otp)) {
@@ -133,7 +133,7 @@ class LoginRegisterController extends Controller
      * @param LoginRegisterRequest $request
      * @return RedirectResponse
      */
-    public function loginConfirm($token, LoginRegisterRequest $request)
+    public function loginConfirm($token, LoginRegisterRequest $request): RedirectResponse
     {
         $inputs = $request->all();
 
@@ -225,7 +225,7 @@ class LoginRegisterController extends Controller
     /**
      * @return RedirectResponse
      */
-    public function logout()
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         return redirect()->route('customer.home');

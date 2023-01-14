@@ -14,14 +14,27 @@ use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Copan\CopanDiscountService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\User\Entities\User;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class CopanController extends Controller
 {
 
+    /**
+     * @var string
+     */
     public string $redirectRoute = 'copanDiscount.index';
+
+    /**
+     * @var string
+     */
+    private string $class = Copan::class;
     public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public CopanDiscountService $copanDiscountService;
 
+    /**
+     * @param CopanDiscountRepoEloquentInterface $copanDiscountRepo
+     * @param CopanDiscountService $copanDiscountService
+     */
     public function __construct(CopanDiscountRepoEloquentInterface $copanDiscountRepo, CopanDiscountService $copanDiscountService,)
     {
         $this->copanDiscountRepo = $copanDiscountRepo;
@@ -40,16 +53,17 @@ class CopanController extends Controller
     public function index(): Factory|View|Application
     {
         $copans = $this->copanDiscountRepo->getLatest()->paginate(10);
-        return view('Discount::copan.index', compact('copans'));
+        return view('Discount::copan.index', compact(['copans']));
     }
 
     /**
+     * @param UserRepoEloquentInterface $userRepo
      * @return Application|Factory|View
      */
-    public function create(): View|Factory|Application
+    public function create(UserRepoEloquentInterface $userRepo): View|Factory|Application
     {
-        $users = User::all();
-        return view('Discount::copan.create', compact('users'));
+        $users = $userRepo->index()->get();
+        return view('Discount::copan.create', compact(['users']));
     }
 
     /**
@@ -74,12 +88,13 @@ class CopanController extends Controller
 
     /**
      * @param Copan $copanDiscount
+     * @param UserRepoEloquentInterface $userRepo
      * @return Application|Factory|View
      */
-    public function edit(Copan $copanDiscount): View|Factory|Application
+    public function edit(Copan $copanDiscount, UserRepoEloquentInterface $userRepo): View|Factory|Application
     {
-        $users = User::all();
-        return view('Discount::copan.edit', compact('copanDiscount', 'users'));
+        $users = $userRepo->index()->get();
+        return view('Discount::copan.edit', compact(['copanDiscount', 'users']));
     }
 
     /**

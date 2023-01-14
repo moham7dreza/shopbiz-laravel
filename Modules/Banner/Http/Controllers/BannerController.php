@@ -17,13 +17,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class BannerController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'banner.index';
 
+    /**
+     * @var string
+     */
     private string $class = Banner::class;
 
     public BannerRepoEloquentInterface $repo;
     public BannerService $service;
 
+    /**
+     * @param BannerRepoEloquentInterface $bannerRepoEloquent
+     * @param BannerService $bannerService
+     */
     public function __construct(BannerRepoEloquentInterface $bannerRepoEloquent, BannerService $bannerService)
     {
         $this->repo = $bannerRepoEloquent;
@@ -56,8 +66,8 @@ class BannerController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $positions = Banner::$positions;
-        return view('Banner::create', compact('positions'));
+        $positions = $this->repo->positions();
+        return view('Banner::create', compact(['positions']));
     }
 
     /**
@@ -103,8 +113,8 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner): View|Factory|Application
     {
-        $positions = Banner::$positions;
-        return view('Banner::edit', compact('banner', 'positions'));
+        $positions = $this->repo->positions();
+        return view('Banner::edit', compact(['banner', 'positions']));
 
     }
 
@@ -172,5 +182,4 @@ class BannerController extends Controller
             return response()->json(['status' => false]);
         }
     }
-
 }

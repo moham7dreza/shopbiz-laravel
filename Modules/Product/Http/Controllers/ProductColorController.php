@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
 use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
@@ -17,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class ProductColorController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'product-color.index';
 
+    /**
+     * @var string
+     */
     private string $class = ProductColor::class;
 
     public ProductColorRepoEloquentInterface $repo;
     public ProductColorService $service;
 
+    /**
+     * @param ProductColorRepoEloquentInterface $colorRepoEloquent
+     * @param ProductColorService $colorService
+     */
     public function __construct(ProductColorRepoEloquentInterface $colorRepoEloquent, ProductColorService $colorService)
     {
         $this->repo = $colorRepoEloquent;
@@ -33,6 +42,7 @@ class ProductColorController extends Controller
         $this->middleware('can:permission-product-color-create')->only(['create', 'store']);
         $this->middleware('can:permission-product-color-delete')->only(['destroy']);
     }
+
     /**
      * @param Product $product
      * @return Application|Factory|View
@@ -46,11 +56,12 @@ class ProductColorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Product $product
      * @return Application|Factory|View
      */
-    public function create(Product $product)
+    public function create(Product $product): View|Factory|Application
     {
-        return view('Product::admin.color.create', compact('product'));
+        return view('Product::admin.color.create', compact(['product']));
     }
 
     /**
@@ -68,15 +79,15 @@ class ProductColorController extends Controller
             'price_increase' => 'required|numeric',
         ]);
         $inputs = $request->all();
-            $inputs['product_id'] = $product->id;
-            $color = ProductColor::query()->create($inputs);
-            return redirect()->route('product.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
+        $inputs['product_id'] = $product->id;
+        $color = ProductColor::query()->create($inputs);
+        return redirect()->route('product.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -87,7 +98,7 @@ class ProductColorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -98,8 +109,8 @@ class ProductColorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

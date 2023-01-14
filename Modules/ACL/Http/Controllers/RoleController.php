@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'role.index';
 
+    /**
+     * @var string
+     */
     private string $class = Role::class;
 
     public RolePermissionRepoEloquentInterface $repo;
     public RolePermissionService $service;
 
+    /**
+     * @param RolePermissionService $rolePermissionService
+     * @param RolePermissionRepoEloquentInterface $rolePermissionRepo
+     */
     public function __construct(RolePermissionService $rolePermissionService, RolePermissionRepoEloquentInterface $rolePermissionRepo)
     {
         $this->repo = $rolePermissionRepo;
@@ -58,7 +68,7 @@ class RoleController extends Controller
     public function create(): View|Factory|Application
     {
         $permissions = $this->repo->getAllPermissions();
-        return view('ACL::role.create', compact('permissions'));
+        return view('ACL::role.create', compact(['permissions']));
     }
 
     /**
@@ -95,7 +105,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role): View|Factory|Application
     {
-        return view('ACL::role.edit', compact('role'));
+        return view('ACL::role.edit', compact(['role']));
     }
 
     /**
@@ -131,7 +141,7 @@ class RoleController extends Controller
      */
     public function permissionForm(Role $role): Factory|View|Application
     {
-        $permissions = Permission::all();
+        $permissions =  $this->repo->getAllPermissions();
         return view('ACL::role.set-permission', compact('role', 'permissions'));
 
     }

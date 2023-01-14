@@ -16,13 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'page.index';
 
+    /**
+     * @var string
+     */
     private string $class = Page::class;
 
     public PageRepoEloquentInterface $repo;
     public PageService $service;
 
+    /**
+     * @param PageRepoEloquentInterface $pageRepoEloquent
+     * @param PageService $pageService
+     */
     public function __construct(PageRepoEloquentInterface $pageRepoEloquent, PageService $pageService)
     {
         $this->repo = $pageRepoEloquent;
@@ -43,7 +53,7 @@ class PageController extends Controller
     public function index(): Factory|View|Application
     {
         $pages = $this->repo->index()->paginate(10);
-        return view('Page::index', compact('pages'));
+        return view('Page::index', compact(['pages']));
     }
 
     /**
@@ -88,7 +98,7 @@ class PageController extends Controller
      */
     public function edit(Page $page): View|Factory|Application
     {
-        return view('Page::edit', compact('page'));
+        return view('Page::edit', compact(['page']));
     }
 
     /**
@@ -125,7 +135,6 @@ class PageController extends Controller
      */
     public function status(Page $page): JsonResponse
     {
-
         $page->status = $page->status == 0 ? 1 : 0;
         $result = $page->save();
         if ($result) {
@@ -137,8 +146,5 @@ class PageController extends Controller
         } else {
             return response()->json(['status' => false]);
         }
-
     }
-
-
 }

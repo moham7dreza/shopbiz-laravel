@@ -7,24 +7,33 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Http\Requests\CategoryAttributeRequest;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
 use Modules\Category\Services\Property\PropertyServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 
 class PropertyController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'property.index';
 
+    /**
+     * @var string
+     */
     private string $class = CategoryAttribute::class;
 
     public PropertyRepoEloquentInterface $propertyRepo;
     public PropertyServiceInterface $propertyService;
 
+    /**
+     * @param PropertyRepoEloquentInterface $propertyRepo
+     * @param PropertyServiceInterface $propertyService
+     */
     public function __construct(PropertyRepoEloquentInterface $propertyRepo, PropertyServiceInterface $propertyService)
     {
         $this->propertyRepo = $propertyRepo;
@@ -45,18 +54,19 @@ class PropertyController extends Controller
     public function index(): Factory|View|Application
     {
         $categoryAttributes = $this->propertyRepo->index()->paginate(10);
-        return view('Category::property.index', compact('categoryAttributes'));
+        return view('Category::property.index', compact(['categoryAttributes']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
      * @return Application|Factory|View
      */
-    public function create(): View|Factory|Application
+    public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
-        $productCategories = ProductCategory::all();
-        return view('Category::property.create', compact('productCategories'));
+        $productCategories = $productCategoryRepo->getLatestCategories()->get();
+        return view('Category::property.create', compact(['productCategories']));
     }
 
     /**
@@ -75,7 +85,7 @@ class PropertyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id): Response
@@ -87,11 +97,12 @@ class PropertyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param CategoryAttribute $categoryAttribute
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
      * @return Application|Factory|View
      */
-    public function edit(CategoryAttribute $categoryAttribute): View|Factory|Application
+    public function edit(CategoryAttribute $categoryAttribute, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
-        $productCategories = ProductCategory::all();
+        $productCategories = $productCategoryRepo->getLatestCategories()->get();
         return view('Category::property.edit', compact(['categoryAttribute', 'productCategories']));
     }
 

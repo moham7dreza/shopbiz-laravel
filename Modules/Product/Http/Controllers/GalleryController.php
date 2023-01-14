@@ -17,13 +17,23 @@ use Modules\Share\Http\Services\Image\ImageService;
 
 class GalleryController extends Controller
 {
+    /**
+     * @var string
+     */
     private string $redirectRoute = 'product-gallery.index';
 
+    /**
+     * @var string
+     */
     private string $class = Gallery::class;
 
     public ProductGalleryRepoEloquentInterface $repo;
     public ProductGalleryService $service;
 
+    /**
+     * @param ProductGalleryRepoEloquentInterface $galleryRepoEloquent
+     * @param ProductGalleryService $galleryService
+     */
     public function __construct(ProductGalleryRepoEloquentInterface $galleryRepoEloquent, ProductGalleryService $galleryService)
     {
         $this->repo = $galleryRepoEloquent;
@@ -46,9 +56,10 @@ class GalleryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Product $product
      * @return Application|Factory|View
      */
-    public function create(Product $product)
+    public function create(Product $product): View|Factory|Application
     {
         return view('Product::admin.gallery.create', compact('product'));
     }

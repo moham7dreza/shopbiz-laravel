@@ -16,11 +16,23 @@ use Modules\Share\Http\Controllers\Controller;
 
 class CommonController extends Controller
 {
+    /**
+     * @var string
+     */
     public string $redirectRoute = 'commonDiscount.index';
+
+    /**
+     * @var string
+     */
+    private string $class = CommonDiscount::class;
 
     public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
     public CommonDiscountService $commonDiscountService;
 
+    /**
+     * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
+     * @param CommonDiscountService $commonDiscountService
+     */
     public function __construct(CommonDiscountRepoEloquentInterface $commonDiscountRepo, CommonDiscountService $commonDiscountService)
     {
         $this->commonDiscountRepo = $commonDiscountRepo;
@@ -40,7 +52,7 @@ class CommonController extends Controller
     public function index(): View|Factory|Application
     {
         $commonDiscounts = $this->commonDiscountRepo->getLatest()->paginate(10);
-        return view('Discount::common.index', compact('commonDiscounts'));
+        return view('Discount::common.index', compact(['commonDiscounts']));
     }
 
     /**
@@ -74,7 +86,7 @@ class CommonController extends Controller
      */
     public function edit(CommonDiscount $commonDiscount): View|Factory|Application
     {
-        return view('Discount::common.edit', compact('commonDiscount'));
+        return view('Discount::common.edit', compact(['commonDiscount']));
     }
 
     /**
