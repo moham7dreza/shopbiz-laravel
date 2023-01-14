@@ -123,19 +123,23 @@
                     </span>
                     <section id="header-profile" class="header-profile rounded">
                         <section class="list-group rounded">
-                            <a href="{{ route('setting.index') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('setting.index') }}"
+                               class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-cog"></i>تنظیمات
                             </a>
-                            <a href="{{ route('adminUser.index') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('adminUser.index') }}"
+                               class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-user"></i>کاربر
                             </a>
-                            <a href="{{ route('productComment.index') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('productComment.index') }}"
+                               class="list-group-item list-group-item-action header-profile-link">
                                 <i class="far fa-envelope"></i>پیام ها
                             </a>
                             <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-lock"></i>قفل صفحه
                             </a>
-                            <a href="{{ route('auth.customer.logout') }}" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('auth.customer.logout') }}"
+                               class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-sign-out-alt"></i>خروج
                             </a>
                         </section>

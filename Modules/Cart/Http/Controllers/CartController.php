@@ -126,8 +126,12 @@ class CartController extends Controller
      */
     public function removeFromCart(CartItem $cartItem): RedirectResponse
     {
-        if ($cartItem->user_id === Auth::user()->id) {
+        if ($cartItem->user_id === auth()->id()) {
             $cartItem->delete();
+            $cartItems = $this->repo->findUserCartItems()->get();
+            if ($cartItems->count() == 0) {
+                return to_route('customer.home');
+            }
         }
         return back();
     }

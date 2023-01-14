@@ -12,7 +12,7 @@
 
             $.ajax({
                 type : "POST",
-                url : '/admin/notification/read-all',
+                url : '/panel/notify/notification/read-all',
                 data : {_token: "{{ csrf_token() }}" },
                 success : function(){
                     console.log('yes');
