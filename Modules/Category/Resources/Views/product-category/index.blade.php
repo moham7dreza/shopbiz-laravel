@@ -48,10 +48,11 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $productCategory->name }}</td>
-                                <td>{{ $productCategory->parent_id ? $productCategory->parent->name : 'دسته اصلی' }}</td>
+                                <td>{{ $productCategory->textParentName() }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $productCategory->id }}" onchange="changeStatus({{ $productCategory->id }})"
+                                        <input id="{{ $productCategory->id }}"
+                                               onchange="changeStatus({{ $productCategory->id }})"
                                                data-url="{{ route('productCategory.status', $productCategory->id) }}"
                                                type="checkbox"
                                                @if ($productCategory->status === 1)

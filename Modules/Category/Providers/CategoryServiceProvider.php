@@ -29,7 +29,7 @@ use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
 class CategoryServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for category controller.
      *
      * @var string
      */
@@ -71,7 +71,7 @@ class CategoryServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/category_routes.php';
 
     /**
-     * Register panel files.
+     * Register category files.
      *
      * @return void
      */
@@ -86,7 +86,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot category service provider.
      *
      * @return void
      */
@@ -98,7 +98,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load category migration files.
      *
      * @return void
      */
@@ -108,7 +108,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load category view files.
      *
      * @return void
      */
@@ -118,7 +118,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load category route files.
      *
      * @return void
      */
@@ -130,7 +130,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load category policy files.
      *
      * @return void
      */
@@ -141,7 +141,7 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for category.
      *
      * @return void
      */
@@ -161,11 +161,11 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind category repository.
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(PostCategoryRepoEloquentInterface::class, PostCategoryRepoEloquent::class);
         $this->app->bind(ProductCategoryRepoEloquentInterface::class, ProductCategoryRepoEloquent::class);
@@ -174,11 +174,11 @@ class CategoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind category repository.
      *
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(PostCategoryServiceInterface::class, PostCategoryService::class);
         $this->app->bind(ProductCategoryServiceInterface::class, ProductCategoryService::class);

@@ -46,7 +46,7 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
      * Change status by id.
      *
      * @param  $id
-     * @param  string $status
+     * @param string $status
      * @return int
      */
     public function changeStatus($id, string $status)
@@ -81,7 +81,7 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
      */
     public function getParentCategories(): Builder
     {
-        $this->query()->where('parent_id', null)->latest();
+        return $this->query()->where('parent_id', null)->latest();
     }
 
     /**

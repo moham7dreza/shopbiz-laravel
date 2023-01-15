@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('property-value.create', $categoryAttribute->id) }}"
+                    <a href="{{ route('CategoryValue.create', $categoryAttribute->id) }}"
                        class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
                     <div class="max-width-16-rem">
                         <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
@@ -51,15 +51,15 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $categoryAttribute->name }}</td>
-                                <td>{{ $value->product->name }}</td>
-                                <td>{{ json_decode($value->value)->value }}</td>
-                                <td>{{ json_decode($value->value)->price_increase }}</td>
-                                <td>{{ $value->type == 0 ? 'ساده' : 'انتخابی'}}</td>
+                                <td>{{ $value->textProductName() }}</td>
+                                <td>{{ $value->getValue() }}</td>
+                                <td>{{ $value->getFaPrice() }}</td>
+                                <td>{{ $value->getTextType() }}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('property-value.edit', ['categoryAttribute' => $categoryAttribute->id , 'value' => $value->id] ) }}"
+                                    <a href="{{ route('CategoryValue.edit', ['categoryAttribute' => $categoryAttribute->id , 'value' => $value->id] ) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('property-value.destroy', ['categoryAttribute' => $categoryAttribute->id , 'value' => $value->id] ) }}"
+                                          action="{{ route('CategoryValue.destroy', ['categoryAttribute' => $categoryAttribute->id , 'value' => $value->id] ) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}

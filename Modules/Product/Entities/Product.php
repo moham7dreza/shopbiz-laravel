@@ -108,4 +108,9 @@ class Product extends Model
     {
         return route('customer.market.product', $this->slug) ?? '#';
     }
+
+    public function getFaPrice(): string
+    {
+        return priceFormat($this->price) . ' تومان ';
+    }
 }

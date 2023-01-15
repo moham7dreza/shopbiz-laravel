@@ -40,7 +40,7 @@
                             <th>#</th>
                             <th>نام دسته بندی</th>
                             <th>توضیحات</th>
-{{--                            <th>اسلاگ</th>--}}
+                            {{--                            <th>اسلاگ</th>--}}
                             <th>عکس</th>
                             <th>تگ ها</th>
                             <th>وضعیت</th>
@@ -54,11 +54,11 @@
                             <tr>
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $postCategory->name }}</td>
-                                <td>{!! $postCategory->description !!}</td>
-{{--                                <td>{{ $postCategory->slug }}</td>--}}
+                                <td>{!! $postCategory->limitedDescription() !!}</td>
+                                {{--                                <td>{{ $postCategory->slug }}</td>--}}
                                 <td>
                                     <img
-                                        src="{{ asset($postCategory->image['indexArray'][$postCategory->image['currentImage']] ) }}"
+                                        src="{{ $postCategory->imagePath() }}"
                                         alt="" width="100" height="50">
                                 </td>
                                 <td>{{ $postCategory->tags }}</td>

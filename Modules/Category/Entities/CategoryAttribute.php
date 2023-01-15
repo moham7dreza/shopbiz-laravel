@@ -13,8 +13,13 @@ class CategoryAttribute extends Model
 
     use HasFactory, SoftDeletes;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['name', 'type', 'unit', 'category_id'];
 
+
+    // Relations
 
     /**
      * @return BelongsTo
@@ -32,4 +37,13 @@ class CategoryAttribute extends Model
         return $this->hasMany(CategoryValue::class);
     }
 
+    // Methods
+
+    /**
+     * @return string
+     */
+    public function textCategoryName(): string
+    {
+        return $this->category->name ?? 'دسته ندارد';
+    }
 }

@@ -9,7 +9,7 @@ use Modules\Menu\Entities\Menu;
 class MenuService
 {
     /**
-     * Store role with assign permissions.
+     * Store menu.
      *
      * @param  $request
      * @return Builder|Model
@@ -25,7 +25,7 @@ class MenuService
     }
 
     /**
-     * Update role with sync permissions.
+     * Update menu.
      *
      * @param  $request
      * @param $menu

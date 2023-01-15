@@ -83,6 +83,9 @@ class Post extends Model
         return Str::limit($this->body, 150);
     }
 
+    /**
+     * @return string
+     */
     public function textCategoryName(): string
     {
         return $this->category->name ?? 'دسته ندارد';

@@ -4,46 +4,43 @@ namespace Modules\Category\Services\PropertyValue;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\CategoryValue;
-use Modules\Category\Entities\ProductCategory;
 
 class PropertyValueService implements PropertyValueServiceInterface
 {
     /**
-     * Store category.
+     * Store menu.
      *
      * @param  $request
-     * @return Builder|\Illuminate\Database\Eloquent\Model
+     * @param $categoryAttribute
+     * @return Builder|Model
      */
-    public function store($request)
+    public function store($request, $categoryAttribute): Model|Builder
     {
         return $this->query()->create([
-            'user_id' => auth()->id(),
-            'parent_id' => $request->parent_id,
-            'title' => $request->title,
-            'slug' => ShareService::makeSlug($request->title),
-            'keywords' => $request->keywords,
-            'status' => $request->status,
-            'description' => $request->description,
+            'product_id' => $request->product_id,
+            'type' => $request->type,
+            'category_attribute_id' => $categoryAttribute->id,
+            'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
         ]);
     }
 
     /**
-     * Update category by id.
+     * Update menu.
      *
      * @param  $request
-     * @param  $id
-     * @return int
+     * @param $categoryAttribute
+     * @param $value
+     * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $categoryAttribute, $value): mixed
     {
-        return $this->query()->where('id', $id)->update([
-            'parent_id' => $request->parent_id,
-            'title' => $request->title,
-            'slug' => ShareService::makeSlug($request->title),
-            'keywords' => $request->keywords,
-            'status' => $request->status,
-            'description' => $request->description,
+        return $value->update([
+            'product_id' => $request->product_id,
+            'type' => $request->type,
+            'category_attribute_id' => $categoryAttribute->id,
+            'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
         ]);
     }
 

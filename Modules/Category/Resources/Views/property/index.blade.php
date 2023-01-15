@@ -49,9 +49,9 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $categoryAttribute->name }}</td>
                                 <td>{{ $categoryAttribute->unit }}</td>
-                                <td>{{ $categoryAttribute->category->name }}</td>
+                                <td>{{ $categoryAttribute->textCategoryName() }}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('property-value.index', $categoryAttribute->id) }}"
+                                    <a href="{{ route('CategoryValue.index', $categoryAttribute->id) }}"
                                        class="btn btn-warning btn-sm"><i class="fa fa-weight"></i></a>
                                     <a href="{{ route('categoryAttribute.edit', $categoryAttribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>

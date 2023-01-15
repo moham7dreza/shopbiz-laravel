@@ -28,12 +28,12 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
     Route::get('categoryAttribute/status/{categoryAttribute}', [PropertyController::class, 'status'])->name('categoryAttribute.status');
 
     Route::prefix('property')->group(static function () {
-        Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('property-value.index');
-        Route::get('/value/create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('property-value.create');
-        Route::post('/value/store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('property-value.store');
-        Route::get('/value/edit/{categoryAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('property-value.edit');
-        Route::put('/value/update/{categoryAttribute}/{value}', [PropertyValueController::class, 'update'])->name('property-value.update');
-        Route::delete('/value/destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('property-value.destroy');
+        Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('CategoryValue.index');
+        Route::get('/value/create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('CategoryValue.create');
+        Route::post('/value/store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('CategoryValue.store');
+        Route::get('/value/edit/{categoryAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('CategoryValue.edit');
+        Route::put('/value/update/{categoryAttribute}/{value}', [PropertyValueController::class, 'update'])->name('CategoryValue.update');
+        Route::delete('/value/destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('CategoryValue.destroy');
     });
 });
 

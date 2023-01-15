@@ -13,11 +13,13 @@ use Modules\Category\Http\Requests\ProductCategoryRequest;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class ProductCategoryController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -72,23 +74,12 @@ class ProductCategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductCategoryRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(ProductCategoryRequest $request, ImageService $imageService): RedirectResponse
+    public function store(ProductCategoryRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        }
-
-        $productCategory = ProductCategory::query()->create($inputs);
-        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        $this->categoryService->store($request);
+        return $this->successMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -119,32 +110,12 @@ class ProductCategoryController extends Controller
      *
      * @param ProductCategoryRequest $request
      * @param ProductCategory $productCategory
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(ProductCategoryRequest $request, ProductCategory $productCategory, ImageService $imageService): RedirectResponse
+    public function update(ProductCategoryRequest $request, ProductCategory $productCategory): RedirectResponse
     {
-        $inputs = $request->all();
-
-        if ($request->hasFile('image')) {
-            if (!empty($productCategory->image)) {
-                $imageService->deleteDirectoryAndFiles($productCategory->image['directory']);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('productCategory.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && !empty($productCategory->image)) {
-                $image = $productCategory->image;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
-            }
-        }
-        $productCategory->update($inputs);
-        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        $this->categoryService->update($request, $productCategory);
+        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -156,7 +127,7 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory): RedirectResponse
     {
         $result = $productCategory->delete();
-        return redirect()->route('productCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
     }
 
     /**

@@ -4,46 +4,43 @@ namespace Modules\Category\Services\Property;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\CategoryAttribute;
 use Modules\Category\Entities\ProductCategory;
 
 class PropertyService implements PropertyServiceInterface
 {
+
     /**
-     * Store category.
+     * Store menu.
      *
      * @param  $request
-     * @return Builder|\Illuminate\Database\Eloquent\Model
+     * @return Builder|Model
      */
-    public function store($request)
+    public function store($request): Model|Builder
     {
         return $this->query()->create([
-            'user_id' => auth()->id(),
-            'parent_id' => $request->parent_id,
-            'title' => $request->title,
-            'slug' => ShareService::makeSlug($request->title),
-            'keywords' => $request->keywords,
-            'status' => $request->status,
-            'description' => $request->description,
+            'name' => $request->name,
+//            'type' => $request->type,
+            'unit' => $request->unit,
+            'category_id' => $request->category_id,
         ]);
     }
 
     /**
-     * Update category by id.
+     * Update menu.
      *
      * @param  $request
-     * @param  $id
-     * @return int
+     * @param $categoryAttribute
+     * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $categoryAttribute): mixed
     {
-        return $this->query()->where('id', $id)->update([
-            'parent_id' => $request->parent_id,
-            'title' => $request->title,
-            'slug' => ShareService::makeSlug($request->title),
-            'keywords' => $request->keywords,
-            'status' => $request->status,
-            'description' => $request->description,
+        return $categoryAttribute->update([
+            'name' => $request->name,
+//            'type' => $request->type,
+            'unit' => $request->unit,
+            'category_id' => $request->category_id,
         ]);
     }
 

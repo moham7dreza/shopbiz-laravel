@@ -21,6 +21,32 @@ class ShareService
     }
 
     /**
+     * @param string $directoryName
+     * @param $imageFile
+     * @param $imageService
+     * @return mixed
+     */
+    public static function createIndexAndSaveImage(string $directoryName, $imageFile, $imageService): mixed
+    {
+        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+        return $imageService->createIndexAndSave($imageFile);
+    }
+
+    /**
+     * @param string $directoryName
+     * @param $imageFile
+     * @param $width
+     * @param $height
+     * @param $imageService
+     * @return mixed
+     */
+    public static function fitAndSaveImage(string $directoryName, $imageFile, $width, $height, $imageService): mixed
+    {
+        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+        return $imageService->fitAndSave($imageFile, $width, $height);
+    }
+
+    /**
      * @param Model $model
      * @return JsonResponse
      */

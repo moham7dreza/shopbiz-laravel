@@ -13,13 +13,16 @@ use Modules\Category\Http\Requests\CategoryValueRequest;
 use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
 use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PropertyValueController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'property-value.index';
+    private string $redirectRoute = 'CategoryValue.index';
 
     /**
      * @var string
@@ -79,11 +82,8 @@ class PropertyValueController extends Controller
      */
     public function store(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['value'] = json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]);
-        $inputs['category_attribute_id'] = $categoryAttribute->id;
-        $value = CategoryValue::query()->create($inputs);
-        return redirect()->route('property-value.index', $categoryAttribute->id)->with('swal-success', 'مقدار فرم کالای جدید شما با موفقیت ثبت شد');
+        $this->propertyValueService->store($request, $categoryAttribute);
+        return $this->successMessageWithRedirect(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -119,11 +119,8 @@ class PropertyValueController extends Controller
      */
     public function update(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['value'] = json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]);
-        $inputs['category_attribute_id'] = $categoryAttribute->id;
-        $value->update($inputs);
-        return redirect()->route('property-value.index', $categoryAttribute->id)->with('swal-success', 'مقدار فرم کالای  شما با موفقیت ویرایش شد');
+        $this->propertyValueService->update($request, $categoryAttribute, $value);
+        return $this->successMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -136,6 +133,6 @@ class PropertyValueController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $result = $value->delete();
-        return redirect()->route('property-value.index', $categoryAttribute->id)->with('swal-success', 'مقدار فرم کالای  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
     }
 }

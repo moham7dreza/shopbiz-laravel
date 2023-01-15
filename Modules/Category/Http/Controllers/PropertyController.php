@@ -14,13 +14,16 @@ use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInt
 use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
 use Modules\Category\Services\Property\PropertyServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PropertyController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'property.index';
+    private string $redirectRoute = 'categoryAttribute.index';
 
     /**
      * @var string
@@ -77,9 +80,8 @@ class PropertyController extends Controller
      */
     public function store(CategoryAttributeRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $attribute = CategoryAttribute::query()->create($inputs);
-        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم جدید شما با موفقیت ثبت شد');
+        $this->propertyService->store($request);
+        return $this->successMessageWithRedirect('فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -115,9 +117,8 @@ class PropertyController extends Controller
      */
     public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
     {
-        $inputs = $request->all();
-        $categoryAttribute->update($inputs);
-        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم شما با موفقیت ویرایش شد');
+        $this->propertyService->update($request, $categoryAttribute);
+        return $this->successMessageWithRedirect('فرم شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -129,6 +130,6 @@ class PropertyController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $result = $categoryAttribute->delete();
-        return redirect()->route('categoryAttribute.index')->with('swal-success', 'فرم شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('فرم شما با موفقیت حذف شد');
     }
 }
