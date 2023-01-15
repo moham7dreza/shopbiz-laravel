@@ -35,7 +35,7 @@
                         @csrf
                         <section class="row">
 
-                            <section class="col-12 col-md-5">
+                            <section class="col-12 col-md-10">
                                 <div class="form-group">
                                     <label for="">عنوان نقش</label>
                                     <input type="text" name="name" value="{{ old('name', $role->name) }}"
@@ -49,7 +49,7 @@
                             </span>
                                 @enderror
                             </section>
-                            <section class="col-12 col-md-5">
+                            <section class="col-12 col-md-10">
                                 <div class="form-group">
                                     <label for="">توضیح نقش</label>
                                     <input type="text" name="description"
@@ -65,7 +65,28 @@
                                 @enderror
                             </section>
 
-                            <section class="col-12 col-md-2">
+                            <section class="col-12 col-md-10">
+                                <div class="form-group">
+                                    <label for="status">وضعیت</label>
+                                    <select name="status" class="form-control form-control-sm" id="status">
+                                        <option value="0" @if (old('status', $role->status) == 0) selected @endif>
+                                            غیرفعال
+                                        </option>
+                                        <option value="1" @if (old('status', $role->status) == 1) selected @endif>
+                                            فعال
+                                        </option>
+                                    </select>
+                                </div>
+                                @error('status')
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
+                            </section>
+
+                            <section class="col-12 col-md-12">
                                 <button class="btn btn-primary btn-sm mt-md-4">ثبت</button>
                             </section>
 

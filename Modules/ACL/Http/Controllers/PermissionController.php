@@ -14,9 +14,12 @@ use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PermissionController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -64,14 +67,13 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param PermissionRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(PermissionRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $permission = Permission::query()->create($inputs);
-        return redirect()->route('permission.index')->with('swal-success', 'دسترسی جدید با موفقیت ثبت شد');
+        $this->service->permissionStore($request);
+        return $this->successMessageWithRedirect('دسترسی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -106,9 +108,8 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, Permission $permission): RedirectResponse
     {
-        $inputs = $request->all();
-        $permission->update($inputs);
-        return redirect()->route('permission.index')->with('swal-success', 'دسترسی شما با موفقیت ویرایش شد');
+        $this->service->permissionUpdate($request, $permission);
+        return $this->successMessageWithRedirect('دسترسی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -120,7 +121,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $result = $permission->delete();
-        return redirect()->route('permission.index')->with('swal-success', 'دسترسی شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('دسترسی شما با موفقیت حذف شد');
     }
 
     /**

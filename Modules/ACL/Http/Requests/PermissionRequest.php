@@ -3,6 +3,7 @@
 namespace Modules\ACL\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\ACL\Entities\Permission;
 
 class PermissionRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class PermissionRequest extends FormRequest
         return [
             'name' => 'required|max:120|min:1',
             'description' => 'required|max:200|min:1',
+            'status' => 'required|in:0,1'
         ];
     }
 }

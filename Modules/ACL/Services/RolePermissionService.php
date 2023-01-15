@@ -3,6 +3,8 @@
 namespace Modules\ACL\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 
@@ -12,30 +14,65 @@ class RolePermissionService
      * Store role with assign permissions.
      *
      * @param  $request
+     * @return Builder|Model
+     */
+    public function permissionStore($request): Model|Builder
+    {
+        return Permission::query()->create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $permission
      * @return mixed
      */
-    public function store($request)
+    public function permissionUpdate($request, $permission): mixed
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        return $permission->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+    }
+
+    /**
+     * Store role with assign permissions.
+     *
+     * @param  $request
+     * @return mixed
+     */
+    public function store($request): mixed
+    {
+        return $this->query()->create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $request->status,
+        ])->permissions()->sync($request->permissions ?? []);
     }
 
     /**
      * Update role with sync permissions.
      *
      * @param  $request
-     * @param  $id
+     * @param $role
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $role): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
+        return $role->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+    }
 
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+    public function rolePermissionsUpdate($request, $role)
+    {
+        return $role->permissions()->sync($request->permissions ?? []);
     }
 
     /**

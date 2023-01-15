@@ -29,12 +29,14 @@ class RoleRequest extends FormRequest
             return [
                 'name' => 'required|max:120|min:1',
                 'description' => 'required|max:200|min:1',
+                'status' => 'required|in:0,1',
                 'permissions.*' => 'exists:permissions,id'
             ];
         } elseif ($route->getName() === 'role.update') {
             return [
                 'name' => 'required|max:120|min:1',
                 'description' => 'required|max:200|min:1',
+                'status' => 'required|in:0,1',
             ];
         } elseif ($route->getName() === 'role.permission-update') {
             return [

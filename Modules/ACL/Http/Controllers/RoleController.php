@@ -7,16 +7,18 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class RoleController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -80,11 +82,9 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $role = Role::query()->create($inputs);
-        $inputs['permissions'] = $inputs['permissions'] ?? [];
-        $role->permissions()->sync($inputs['permissions']);
-        return redirect()->route('role.index')->with('swal-success', 'نقش جدید با موفقیت ثبت شد');
+
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('نقش جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -118,9 +118,8 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
-        $inputs = $request->all();
-        $role->update($inputs);
-        return redirect()->route('role.index')->with('swal-success', 'نقش شما با موفقیت ویرایش شد');
+        $this->service->update($request, $role);
+        return $this->successMessageWithRedirect('نقش شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -132,7 +131,7 @@ class RoleController extends Controller
     public function destroy(Role $role): RedirectResponse
     {
         $result = $role->delete();
-        return redirect()->route('role.index')->with('swal-success', 'نقش شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('نقش شما با موفقیت حذف شد');
     }
 
 
@@ -142,8 +141,8 @@ class RoleController extends Controller
      */
     public function permissionForm(Role $role): Factory|View|Application
     {
-        $permissions =  $this->repo->getAllPermissions();
-        return view('ACL::role.set-permission', compact('role', 'permissions'));
+        $permissions = $this->repo->getAllPermissions();
+        return view('ACL::role.set-permission', compact(['role', 'permissions']));
 
     }
 
@@ -155,10 +154,8 @@ class RoleController extends Controller
      */
     public function permissionUpdate(RoleRequest $request, Role $role): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['permissions'] = $inputs['permissions'] ?? [];
-        $role->permissions()->sync($inputs['permissions']);
-        return redirect()->route('role.index')->with('swal-success', 'نقش جدید با موفقیت ویرایش شد');
+        $this->service->rolePermissionsUpdate($request, $role);
+        return $this->successMessageWithRedirect('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
     }
 
     /**
