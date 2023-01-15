@@ -54,7 +54,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">منو والد</label>
-                                    <select name="parent_id" id="" class="form-control form-control-sm">
+                                    <select name="parent_id" class="form-control form-control-sm">
                                         <option value="">منوی اصلی</option>
                                         @foreach ($parent_menus as $parent_menu)
 
@@ -89,10 +89,10 @@
                                 @enderror
                             </section>
 
-                            <section class="col-12 col-md-6 my-2">
+                            <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if (old('status', $menu->status) == 0) selected @endif>
                                             غیرفعال
                                         </option>

@@ -13,7 +13,7 @@ use Modules\Menu\Repositories\MenuRepoEloquentInterface;
 class MenuServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for menu controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class MenuServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/menu_routes.php';
 
     /**
-     * Register panel files.
+     * Register menu files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot menu service provider.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load menu migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load menu view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load menu route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load menu policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for menu.
      *
      * @return void
      */
@@ -136,7 +136,10 @@ class MenuServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function bindRepository()
+    /**
+     * @return void
+     */
+    private function bindRepository(): void
     {
         $this->app->bind(MenuRepoEloquentInterface::class, MenuRepoEloquent::class);
     }

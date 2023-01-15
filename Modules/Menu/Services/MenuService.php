@@ -3,8 +3,7 @@
 namespace Modules\Menu\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Menu\Entities\Menu;
 
 class MenuService
@@ -13,30 +12,33 @@ class MenuService
      * Store role with assign permissions.
      *
      * @param  $request
-     * @return mixed
+     * @return Builder|Model
      */
-    public function store($request)
+    public function store($request): Model|Builder
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        return $this->query()->create([
+            'name' => $request->name,
+            'url' => $request->url,
+            'status' => $request->status,
+            'parent_id' => $request->parent_id,
+        ]);
     }
 
     /**
      * Update role with sync permissions.
      *
      * @param  $request
-     * @param  $id
+     * @param $menu
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $menu): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
-
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+        return $menu->update([
+            'name' => $request->name,
+            'url' => $request->url,
+            'status' => $request->status,
+            'parent_id' => $request->parent_id,
+        ]);
     }
 
     /**

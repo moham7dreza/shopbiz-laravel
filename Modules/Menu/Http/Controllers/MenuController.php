@@ -15,9 +15,12 @@ use Modules\Menu\Repositories\MenuRepoEloquentInterface;
 use Modules\Menu\Services\MenuService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class MenuController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -77,9 +80,8 @@ class MenuController extends Controller
      */
     public function store(MenuRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $menu = Menu::query()->create($inputs);
-        return redirect()->route('menu.index')->with('swal-success', 'منوی  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('منوی  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -114,9 +116,8 @@ class MenuController extends Controller
      */
     public function update(MenuRequest $request, Menu $menu): RedirectResponse
     {
-        $inputs = $request->all();
-        $menu->update($inputs);
-        return redirect()->route('menu.index')->with('swal-success', 'منوی  شما با موفقیت ویرایش شد');
+        $this->service->update($request, $menu);
+        return $this->successMessageWithRedirect('منوی  شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -128,7 +129,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu): RedirectResponse
     {
         $result = $menu->delete();
-        return redirect()->route('menu.index')->with('swal-success', ' منو شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect(' منو شما با موفقیت حذف شد');
     }
 
 

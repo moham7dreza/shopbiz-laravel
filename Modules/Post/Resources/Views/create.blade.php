@@ -54,7 +54,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب دسته</label>
-                                    <select name="category_id" id="" class="form-control form-control-sm">
+                                    <select name="category_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($postCategories as $postCategory)
                                             <option value="{{ $postCategory->id }}"
@@ -89,7 +89,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
                                         <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
                                     </select>
@@ -107,7 +107,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="commentable">امکان درج کامنت</label>
-                                    <select name="commentable" id="" class="form-control form-control-sm"
+                                    <select name="commentable" class="form-control form-control-sm"
                                             id="commentable">
                                         <option value="0" @if(old('commentable') == 0) selected @endif>غیرفعال</option>
                                         <option value="1" @if(old('commentable') == 1) selected @endif>فعال</option>

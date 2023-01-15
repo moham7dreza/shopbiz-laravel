@@ -68,7 +68,7 @@
                             <section class="col-12">
                                 <div class="form-group">
                                     <label for="">انتخاب دسته</label>
-                                    <select name="category_id" id="" class="form-control form-control-sm">
+                                    <select name="category_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"

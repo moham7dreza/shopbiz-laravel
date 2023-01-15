@@ -55,7 +55,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب دسته</label>
-                                    <select name="category_id" id="" class="form-control form-control-sm">
+                                    <select name="category_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"
@@ -77,7 +77,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب برند</label>
-                                    <select name="brand_id" id="" class="form-control form-control-sm">
+                                    <select name="brand_id" class="form-control form-control-sm">
                                         <option value="">برند را انتخاب کنید</option>
                                         @foreach ($brands as $brand)
                                             <option value="{{ $brand->id }}"
@@ -241,7 +241,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="marketable">قابل فروش بودن</label>
-                                    <select name="marketable" id="" class="form-control form-control-sm"
+                                    <select name="marketable" class="form-control form-control-sm"
                                             id="marketable">
                                         <option value="0" @if(old('marketable') == 0) selected @endif>غیرفعال</option>
                                         <option value="1" @if(old('marketable') == 1) selected @endif>فعال</option>

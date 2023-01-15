@@ -13,7 +13,7 @@ use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 class BannerServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for banner controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class BannerServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/banner_routes.php';
 
     /**
-     * Register panel files.
+     * Register banner files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot banner service provider.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load banner migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load banner view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load banner route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load banner policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for banner.
      *
      * @return void
      */
@@ -137,7 +137,7 @@ class BannerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind banner repository.
      *
      * @return void
      */

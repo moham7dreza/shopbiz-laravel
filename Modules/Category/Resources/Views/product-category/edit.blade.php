@@ -54,7 +54,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">منو والد</label>
-                                    <select name="parent_id" id="" class="form-control form-control-sm">
+                                    <select name="parent_id" class="form-control form-control-sm">
                                         <option value="">منوی اصلی</option>
                                         @foreach ($parent_categories as $parent_category)
 
@@ -131,7 +131,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0"
                                                 @if (old('status', $productCategory->status) == 0) selected @endif>
                                             غیرفعال
@@ -153,7 +153,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="show_in_menu">وضعیت نمایش در منو</label>
-                                    <select name="show_in_menu" id="" class="form-control form-control-sm"
+                                    <select name="show_in_menu" class="form-control form-control-sm"
                                             id="show_in_menu">
                                         <option value="0"
                                                 @if (old('show_in_menu', $productCategory->status) == 0) selected @endif>

@@ -41,7 +41,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب محصول</label>
-                                    <select name="product_id" id="" class="form-control form-control-sm">
+                                    <select name="product_id" class="form-control form-control-sm">
                                         <option value="">محصول را انتخاب کنید</option>
                                         @foreach ($categoryAttribute->category->products as $product)
                                             <option value="{{ $product->id }}"
@@ -96,7 +96,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="type">نوع</label>
-                                    <select name="type" id="" class="form-control form-control-sm" id="type">
+                                    <select name="type" class="form-control form-control-sm" id="type">
                                         <option value="0" @if (old('type', $value->status) == 0) selected @endif>ساده
                                         </option>
                                         <option value="1" @if (old('type', $value->status) == 1) selected @endif>

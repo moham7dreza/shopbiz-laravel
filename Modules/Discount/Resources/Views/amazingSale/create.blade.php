@@ -39,7 +39,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب کالا</label>
-                                    <select name="product_id" id="" class="form-control form-control-sm">
+                                    <select name="product_id" class="form-control form-control-sm">
                                         <option value="">کالا را انتخاب کنید</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
@@ -108,7 +108,7 @@
                             <section class="col-12">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
                                         <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
                                     </select>

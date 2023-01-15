@@ -41,7 +41,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب دسته</label>
-                                    <select name="product_id" id="" class="form-control form-control-sm">
+                                    <select name="product_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
@@ -110,7 +110,7 @@
                             <section class="col-12">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0"
                                                 @if (old('status', $amazingSale->status) == 0) selected @endif>غیرفعال
                                         </option>

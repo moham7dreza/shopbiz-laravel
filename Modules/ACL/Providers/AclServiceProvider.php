@@ -19,7 +19,7 @@ use Modules\User\Entities\User;
 class AclServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for acl controller.
      *
      * @var string
      */
@@ -61,7 +61,7 @@ class AclServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/acl_routes.php';
 
     /**
-     * Register panel files.
+     * Register acl files.
      *
      * @return void
      */
@@ -79,7 +79,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot acl service provider.
      *
      * @return void
      */
@@ -93,7 +93,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load acl migration files.
      *
      * @return void
      */
@@ -103,7 +103,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load acl view files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load acl route files.
      *
      * @return void
      */
@@ -125,7 +125,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load acl policy files.
      *
      * @return void
      */
@@ -135,7 +135,7 @@ class AclServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for acl.
      *
      * @return void
      */

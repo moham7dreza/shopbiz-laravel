@@ -55,7 +55,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب دسته</label>
-                                    <select name="category_id" id="" class="form-control form-control-sm">
+                                    <select name="category_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($postCategories as $postCategory)
                                             <option value="{{ $postCategory->id }}"
@@ -113,7 +113,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if (old('status', $post->status) == 0) selected @endif>
                                             غیرفعال
                                         </option>
@@ -134,7 +134,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="commentable">امکان درج کامنت</label>
-                                    <select name="commentable" id="" class="form-control form-control-sm"
+                                    <select name="commentable" class="form-control form-control-sm"
                                             id="commentable">
                                         <option value="0"
                                                 @if (old('commentable', $post->commentable) == 0) selected @endif>

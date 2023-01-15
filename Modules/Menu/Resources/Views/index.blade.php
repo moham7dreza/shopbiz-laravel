@@ -48,7 +48,7 @@
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $menu->name }}</td>
-                                <td>{{ $menu->parent_id ? $menu->parent->name : 'منوی اصلی' }}</td>
+                                <td>{{ $menu->textParentName() }}</td>
                                 <td>{{ $menu->url }}</td>
                                 <td>
                                     <label>

@@ -56,7 +56,7 @@
                             <section class="col-12">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                    <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if (old('status', $file->status) == 0) selected @endif>
                                             غیرفعال
                                         </option>
