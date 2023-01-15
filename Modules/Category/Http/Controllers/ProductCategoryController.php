@@ -14,6 +14,7 @@ use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInt
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 
 class ProductCategoryController extends Controller
 {
@@ -164,16 +165,6 @@ class ProductCategoryController extends Controller
      */
     public function status(ProductCategory $productCategory): JsonResponse
     {
-        $productCategory->status = $productCategory->status == 0 ? 1 : 0;
-        $result = $productCategory->save();
-        if ($result) {
-            if ($productCategory->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($productCategory);
     }
 }

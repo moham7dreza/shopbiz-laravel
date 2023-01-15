@@ -14,6 +14,7 @@ use Modules\Notify\Http\Requests\SMSRequest;
 use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
 use Modules\Notify\Services\SMS\SMSService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class SMSController extends Controller
 {
@@ -142,16 +143,6 @@ class SMSController extends Controller
      */
     public function status(SMS $sms): JsonResponse
     {
-        $sms->status = $sms->status == 0 ? 1 : 0;
-        $result = $sms->save();
-        if ($result) {
-            if ($sms->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($sms);
     }
 }

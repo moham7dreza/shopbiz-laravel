@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 use Modules\Ticket\Entities\TicketPriority;
 use Modules\Ticket\Http\Requests\TicketPriorityRequest;
 use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
@@ -135,16 +136,6 @@ class TicketPriorityController extends Controller
      */
     public function status(TicketPriority $ticketPriority): JsonResponse
     {
-        $ticketPriority->status = $ticketPriority->status == 0 ? 1 : 0;
-        $result = $ticketPriority->save();
-        if ($result) {
-            if ($ticketPriority->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($ticketPriority);
     }
 }

@@ -13,6 +13,7 @@ use Modules\Delivery\Http\Requests\DeliveryRequest;
 use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Delivery\Services\DeliveryService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class DeliveryController extends Controller
 {
@@ -134,19 +135,7 @@ class DeliveryController extends Controller
      */
     public function status(Delivery $delivery): JsonResponse
     {
-
-        $delivery->status = $delivery->status == 0 ? 1 : 0;
-        $result = $delivery->save();
-        if ($result) {
-            if ($delivery->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
-
+        return ShareService::changeStatus($delivery);
     }
 
 }

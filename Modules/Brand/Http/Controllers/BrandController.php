@@ -14,6 +14,7 @@ use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 
 class BrandController extends Controller
 {
@@ -165,16 +166,6 @@ class BrandController extends Controller
      */
     public function status(Brand $brand): JsonResponse
     {
-        $brand->status = $brand->status == 0 ? 1 : 0;
-        $result = $brand->save();
-        if ($result) {
-            if ($brand->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($brand);
     }
 }

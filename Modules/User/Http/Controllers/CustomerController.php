@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\CustomerRequest;
 use Modules\User\Notifications\NewUserRegistered;
@@ -166,17 +167,7 @@ class CustomerController extends Controller
      */
     public function status(User $user): JsonResponse
     {
-        $user->status = $user->status == 0 ? 1 : 0;
-        $result = $user->save();
-        if ($result) {
-            if ($user->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($user);
     }
 
 

@@ -15,6 +15,7 @@ use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface
 use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 
 class PostCategoryController extends Controller
 {
@@ -187,17 +188,6 @@ class PostCategoryController extends Controller
      */
     public function status(PostCategory $postCategory): JsonResponse
     {
-        $postCategory->status = $postCategory->status == 0 ? 1 : 0;
-        $result = $postCategory->save();
-        if ($result) {
-            if ($postCategory->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
-
+        return ShareService::changeStatus($postCategory);
     }
 }

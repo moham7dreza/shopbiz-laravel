@@ -13,6 +13,7 @@ use Modules\Page\Http\Requests\PageRequest;
 use Modules\Page\Repositories\PageRepoEloquentInterface;
 use Modules\Page\Services\PageService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class PageController extends Controller
 {
@@ -135,16 +136,6 @@ class PageController extends Controller
      */
     public function status(Page $page): JsonResponse
     {
-        $page->status = $page->status == 0 ? 1 : 0;
-        $result = $page->save();
-        if ($result) {
-            if ($page->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($page);
     }
 }

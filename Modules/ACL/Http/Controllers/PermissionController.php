@@ -13,6 +13,7 @@ use Modules\ACL\Http\Requests\PermissionRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class PermissionController extends Controller
 {
@@ -128,16 +129,6 @@ class PermissionController extends Controller
      */
     public function status(Permission $permission): JsonResponse
     {
-        $permission->status = $permission->status == 0 ? 1 : 0;
-        $result = $permission->save();
-        if ($result) {
-            if ($permission->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($permission);
     }
 }

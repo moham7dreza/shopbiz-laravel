@@ -14,6 +14,7 @@ use Modules\Menu\Http\Requests\MenuRequest;
 use Modules\Menu\Repositories\MenuRepoEloquentInterface;
 use Modules\Menu\Services\MenuService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class MenuController extends Controller
 {
@@ -137,16 +138,6 @@ class MenuController extends Controller
      */
     public function status(Menu $menu): JsonResponse
     {
-        $menu->status = $menu->status == 0 ? 1 : 0;
-        $result = $menu->save();
-        if ($result) {
-            if ($menu->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($menu);
     }
 }

@@ -15,6 +15,7 @@ use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 
 class PostController extends Controller
 {
@@ -208,17 +209,7 @@ class PostController extends Controller
      */
     public function status(Post $post): JsonResponse
     {
-        $post->status = $post->status == 0 ? 1 : 0;
-        $result = $post->save();
-        if ($result) {
-            if ($post->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($post);
     }
 
     /**

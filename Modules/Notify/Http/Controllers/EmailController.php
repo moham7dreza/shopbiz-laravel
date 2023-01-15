@@ -13,6 +13,7 @@ use Modules\Notify\Http\Requests\EmailRequest;
 use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
 use Modules\Notify\Services\Email\EmailService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class EmailController extends Controller
 {
@@ -143,16 +144,6 @@ class EmailController extends Controller
      */
     public function status(Email $email): JsonResponse
     {
-        $email->status = $email->status == 0 ? 1 : 0;
-        $result = $email->save();
-        if ($result) {
-            if ($email->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($email);
     }
 }

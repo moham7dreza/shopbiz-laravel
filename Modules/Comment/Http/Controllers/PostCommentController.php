@@ -11,6 +11,7 @@ use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class PostCommentController extends Controller
 {
@@ -128,20 +129,7 @@ class PostCommentController extends Controller
      */
     public function status(Comment $postComment): JsonResponse
     {
-        $postComment->status = $postComment->status == 0 ? 1 : 0;
-        $result = $postComment->save();
-        if($result){
-                if($postComment->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
-            return response()->json(['status' => false]);
-        }
-
+        return ShareService::changeStatus($postComment);
     }
 
     /**

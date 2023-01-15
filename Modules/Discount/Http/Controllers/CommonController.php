@@ -13,6 +13,7 @@ use Modules\Discount\Http\Requests\CommonDiscountRequest;
 use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Common\CommonDiscountService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class CommonController extends Controller
 {
@@ -122,16 +123,6 @@ class CommonController extends Controller
      */
     public function status(CommonDiscount $commonDiscount): JsonResponse
     {
-        $commonDiscount->status = $commonDiscount->status == 0 ? 1 : 0;
-        $result = $commonDiscount->save();
-        if ($result) {
-            if ($commonDiscount->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($commonDiscount);
     }
 }

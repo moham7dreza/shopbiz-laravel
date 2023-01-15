@@ -15,6 +15,7 @@ use Modules\Discount\Services\AmazingSale\AmazingSaleDiscountService;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class AmazingSaleController extends Controller
 {
@@ -127,16 +128,6 @@ class AmazingSaleController extends Controller
      */
     public function status(AmazingSale $amazingSale): JsonResponse
     {
-        $amazingSale->status = $amazingSale->status == 0 ? 1 : 0;
-        $result = $amazingSale->save();
-        if ($result) {
-            if ($amazingSale->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($amazingSale);
     }
 }

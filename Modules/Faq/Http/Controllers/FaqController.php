@@ -14,6 +14,7 @@ use Modules\Faq\Http\Requests\FaqRequest;
 use Modules\Faq\Repositories\FaqRepoEloquentInterface;
 use Modules\Faq\Services\FaqService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class FaqController extends Controller
 {
@@ -135,16 +136,6 @@ class FaqController extends Controller
      */
     public function status(Faq $faq): JsonResponse
     {
-        $faq->status = $faq->status == 0 ? 1 : 0;
-        $result = $faq->save();
-        if ($result) {
-            if ($faq->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($faq);
     }
 }

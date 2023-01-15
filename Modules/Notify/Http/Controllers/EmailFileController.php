@@ -16,6 +16,7 @@ use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquentInterface;
 use Modules\Notify\Services\EmailFile\EmailFileService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\File\FileService;
+use Modules\Share\Services\ShareService;
 
 class EmailFileController extends Controller
 {
@@ -176,18 +177,6 @@ class EmailFileController extends Controller
      */
     public function status(EmailFile $file): JsonResponse
     {
-
-        $file->status = $file->status == 0 ? 1 : 0;
-        $result = $file->save();
-        if ($result) {
-            if ($file->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
-
+        return ShareService::changeStatus($file);
     }
 }

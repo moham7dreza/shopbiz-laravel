@@ -14,6 +14,7 @@ use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 use Modules\Banner\Services\BannerService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 
 class BannerController extends Controller
 {
@@ -170,16 +171,6 @@ class BannerController extends Controller
      */
     public function status(Banner $banner): JsonResponse
     {
-        $banner->status = $banner->status == 0 ? 1 : 0;
-        $result = $banner->save();
-        if ($result) {
-            if ($banner->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($banner);
     }
 }

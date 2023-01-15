@@ -14,6 +14,7 @@ use Modules\ACL\Entities\Permission;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\AdminUserRequest;
 use Modules\User\Repositories\UserRepoEloquentInterface;
@@ -165,17 +166,7 @@ class AdminUserController extends Controller
      */
     public function status(User $user): JsonResponse
     {
-        $user->status = $user->status == 0 ? 1 : 0;
-        $result = $user->save();
-        if ($result) {
-            if ($user->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($user);
     }
 
     /**

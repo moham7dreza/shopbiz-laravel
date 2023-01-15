@@ -12,6 +12,7 @@ use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class ProductCommentController extends Controller
 {
@@ -128,19 +129,7 @@ class ProductCommentController extends Controller
      */
     public function status(Comment $productComment): JsonResponse
     {
-
-        $productComment->status = $productComment->status == 0 ? 1 : 0;
-        $result = $productComment->save();
-        if ($result) {
-            if ($productComment->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
-
+        return ShareService::changeStatus($productComment);
     }
 
     /**

@@ -13,6 +13,7 @@ use Modules\Discount\Http\Requests\CopanRequest;
 use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Copan\CopanDiscountService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 use Modules\User\Entities\User;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 
@@ -134,16 +135,6 @@ class CopanController extends Controller
      */
     public function status(Copan $copanDiscount): JsonResponse
     {
-        $copanDiscount->status = $copanDiscount->status == 0 ? 1 : 0;
-        $result = $copanDiscount->save();
-        if ($result) {
-            if ($copanDiscount->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::changeStatus($copanDiscount);
     }
 }
