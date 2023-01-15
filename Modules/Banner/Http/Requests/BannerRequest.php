@@ -34,7 +34,7 @@ class BannerRequest extends FormRequest
         } else {
             return [
                 'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-                'url' => 'required|max:500|min:5',
+                'url' => 'required|max:500|min:1',
                 'status' => 'required|numeric|in:0,1',
                 'position' => 'required|numeric',
                 'image' => 'mimes:png,jpg,jpeg,gif',

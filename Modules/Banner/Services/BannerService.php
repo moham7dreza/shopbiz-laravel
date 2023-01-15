@@ -3,37 +3,88 @@
 namespace Modules\Banner\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Modules\Banner\Entities\Banner;
+use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class BannerService
 {
+    use SuccessToastMessageWithRedirectTrait;
+
+    public ImageService $imageService;
+
+    /**
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Store role with assign permissions.
      *
      * @param  $request
-     * @return mixed
+     * @return Builder|Model|RedirectResponse
      */
-    public function store($request)
+    public function store($request): Model|Builder|RedirectResponse
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        if ($request->hasFile('image')) {
+            $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);
+            if (!$result) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->image = $result;
+        } else {
+            $request->image = null;
+        }
+        return $this->query()->create([
+            'title' => $request->title,
+            'image' => $request->image,
+            'url' => $request->url,
+            'position' => $request->position,
+            'status' => $request->status,
+        ]);
     }
 
     /**
      * Update role with sync permissions.
      *
      * @param  $request
-     * @param  $id
+     * @param $banner
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $banner): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
+        if ($request->hasFile('image')) {
+            if (!empty($banner->image)) {
+                $this->imageService->deleteImage($banner->image);
+            }
+            $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);
 
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+            if ($result === false) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->image = $result;
+        } else {
+            if (isset($request->currentImage) && !empty($banner->image)) {
+                $image = $banner->image;
+                $image['currentImage'] = $request->currentImage;
+                $request->image = $image;
+            } else {
+                $request->image = $banner->image;
+            }
+        }
+        return $banner->update([
+            'title' => $request->title,
+            'image' => $request->image,
+            'url' => $request->url,
+            'position' => $request->position,
+            'status' => $request->status,
+        ]);
     }
 
     /**
@@ -43,6 +94,6 @@ class BannerService
      */
     private function query(): Builder
     {
-        return Role::query();
+        return Banner::query();
     }
 }

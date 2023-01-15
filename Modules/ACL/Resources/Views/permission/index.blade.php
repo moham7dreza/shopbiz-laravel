@@ -58,7 +58,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td>{{ $permission->description }}</td>
+                                <td>{{ $permission->limitedDescription() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }})"

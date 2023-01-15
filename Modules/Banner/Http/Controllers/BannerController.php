@@ -15,9 +15,12 @@ use Modules\Banner\Services\BannerService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class BannerController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -75,31 +78,18 @@ class BannerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param BannerRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(BannerRequest $request, ImageService $imageService): RedirectResponse
+    public function store(BannerRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-
-
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'banner');
-            $result = $imageService->save($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        }
-        $banner = Banner::query()->create($inputs);
-        return redirect()->route('banner.index')->with('swal-success', 'بنر  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('بنر جدید شما با موفقیت ثبت شد');
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -124,32 +114,12 @@ class BannerController extends Controller
      *
      * @param BannerRequest $request
      * @param Banner $banner
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(BannerRequest $request, Banner $banner, ImageService $imageService): RedirectResponse
+    public function update(BannerRequest $request, Banner $banner): RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            if (!empty($banner->image)) {
-                $imageService->deleteImage($banner->image);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'banner');
-            $result = $imageService->save($request->file('image'));
-
-            if ($result === false) {
-                return redirect()->route('banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && !empty($banner->image)) {
-                $image = $banner->image;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
-            }
-        }
-        $banner->update($inputs);
-        return redirect()->route('banner.index')->with('swal-success', 'بنر  شما با موفقیت ویرایش شد');
+        $this->service->update($request, $banner);
+        return $this->successMessageWithRedirect('بنر شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -161,7 +131,7 @@ class BannerController extends Controller
     public function destroy(Banner $banner): RedirectResponse
     {
         $result = $banner->delete();
-        return redirect()->route('banner.index')->with('swal-success', 'بنر  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('بنر شما با موفقیت حذف شد');
     }
 
 

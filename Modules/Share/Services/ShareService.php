@@ -4,9 +4,22 @@ namespace Modules\Share\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Modules\Share\Http\Services\Image\ImageService;
 
 class ShareService
 {
+    /**
+     * @param string $directoryName
+     * @param $imageFile
+     * @param $imageService
+     * @return mixed
+     */
+    public static function saveImage(string $directoryName, $imageFile, $imageService): mixed
+    {
+        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+        return $imageService->save($imageFile);
+    }
+
     /**
      * @param Model $model
      * @return JsonResponse

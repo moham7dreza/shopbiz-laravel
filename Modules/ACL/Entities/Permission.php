@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
 
@@ -16,8 +17,14 @@ class Permission extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['name', 'description', 'status'];
 
     // access everywhere
@@ -395,6 +402,9 @@ class Permission extends Model
     public const PERMISSION_SERVICE_COMMENT_APPROVE = ['name' => 'permission-service-comment-approve', 'description' => 'دسترسی به بخش تایید نظر سرویس'];
     //******************************************************************************************************************
 
+    /**
+     * @var array|array[]
+     */
     public static array $permissions = [
         self::PERMISSION_SUPER_ADMIN
         , self::PERMISSION_ADMIN_PANEL
@@ -648,12 +658,19 @@ class Permission extends Model
         , self::PERMISSION_SERVICE_COMMENT_APPROVE
     ];
 
-    //relations
+    // Relations
+
+    /**
+     * @return BelongsToMany
+     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
@@ -661,23 +678,27 @@ class Permission extends Model
 
     // methods
 
+    /**
+     * @return string
+     */
+    public function limitedDescription(): string
+    {
+        return Str::limit($this->description, 50);
+    }
+
+    /**
+     * @return int
+     */
     public function rolesCount(): int
     {
         return $this->roles->count() ?? 0;
     }
 
+    /**
+     * @return int
+     */
     public function usersCount(): int
     {
         return $this->users->count() ?? 0;
-    }
-
-    public function textName()
-    {
-        foreach (self::$permissions as $permission) {
-            if ($this->name == $permission['name']) {
-                return $permission['description'];
-            }
-        }
-        return 'سطح دسترسی یافت نشد.';
     }
 }

@@ -51,10 +51,10 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $banner->title }}</td>
+                                <td>{{ $banner->limitedTitle() }}</td>
                                 <td>{{ $banner->url }}</td>
                                 <td>
-                                    <img src="{{ asset($banner->image ) }}" alt="" width="100" height="50">
+                                    <img src="{{ $banner->imagePath() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
                                     <label>
@@ -67,7 +67,7 @@
                                 </td>
 
                                 <td>
-                                    {{ $positions[$banner->position] }}
+                                    {{ $banner->textPosition() }}
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-primary btn-sm"><i
