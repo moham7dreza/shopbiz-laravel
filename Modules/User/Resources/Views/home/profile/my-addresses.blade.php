@@ -1,4 +1,4 @@
-@extends('Home::layouts.master-two-col')
+@extends('Home::layouts.master-profile')
 
 @section('head-tag')
     <title>لیست آدرس های شما</title>
@@ -358,18 +358,18 @@
             // edit
             var addresses = {!! auth()->user()->addresses !!}
             // console.log(addresses);
-            addresses.map(function(address) {
+            addresses.map(function (address) {
                 var id = address.id;
                 var target = `#province-${id}`;
                 var selected = `${target} option:selected`
-                $(target).change(function() {
+                $(target).change(function () {
                     var element = $(selected);
                     var url = element.attr('data-url');
 
                     $.ajax({
                         url: url,
                         type: "GET",
-                        success: function(response) {
+                        success: function (response) {
                             if (response.status) {
                                 let cities = response.cities;
                                 $(`#city-${id}`).empty();
@@ -382,7 +382,7 @@
                                 errorToast('خطا پیش آمده است')
                             }
                         },
-                        error: function() {
+                        error: function () {
                             errorToast('خطا پیش آمده است')
                         }
                     })

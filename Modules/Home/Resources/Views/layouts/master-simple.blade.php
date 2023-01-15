@@ -6,13 +6,11 @@
 </head>
 <body>
 
-
 <main id="main-body-one-col" class="main-body">
 
     @yield('content')
 
 </main>
-
 
 @include('Home::layouts.script')
 @yield('script')

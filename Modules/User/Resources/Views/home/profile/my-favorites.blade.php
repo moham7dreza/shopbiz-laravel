@@ -1,4 +1,4 @@
-@extends('Home::layouts.master-two-col')
+@extends('Home::layouts.master-profile')
 
 @section('head-tag')
     <title>لیست علاقه مندی های شما</title>
@@ -44,12 +44,13 @@
                                 <section class="align-self-end w-100">
                                     <section>
                                         <a class="text-decoration-none cart-delete"
-                                            href="{{ route('customer.profile.my-favorites.delete', $product) }}"><i
+                                           href="{{ route('customer.profile.my-favorites.delete', $product) }}"><i
                                                 class="fa fa-trash-alt"></i> حذف از لیست علاقه ها</a>
                                     </section>
                                 </section>
                                 <section class="align-self-end flex-shrink-1">
-                                    <section class="text-nowrap fw-bold">{{ priceFormat($product->price) }} تومان</section>
+                                    <section class="text-nowrap fw-bold">{{ priceFormat($product->price) }}تومان
+                                    </section>
                                 </section>
                             </section>
                         @empty
@@ -59,7 +60,6 @@
                                 </section>
                             </section>
                         @endforelse
-
 
 
                     </section>

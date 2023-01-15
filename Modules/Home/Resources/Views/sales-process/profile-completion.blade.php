@@ -9,9 +9,18 @@
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <section class="row">
                 <section class="col">
-                    <!-- start vontent header -->
+                    <!-- start content header -->
                     <section class="content-header">
                         <section class="d-flex justify-content-between align-items-center">
                             <h2 class="content-header-title">
@@ -198,5 +207,3 @@
     <!-- end cart -->
 
 @endsection
-
-

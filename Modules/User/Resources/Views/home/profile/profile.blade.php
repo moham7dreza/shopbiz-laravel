@@ -1,4 +1,4 @@
-@extends('Home::layouts.master-two-col')
+@extends('Home::layouts.master-profile')
 
 @section('head-tag')
     <title>حساب کاربری</title>
@@ -28,7 +28,7 @@
                     @endif
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
-                        <!-- start vontent header -->
+                        <!-- start content header -->
                         <section class="content-header mb-4">
                             <section class="d-flex justify-content-between align-items-center">
                                 <h2 class="content-header-title">
@@ -39,23 +39,25 @@
                                 </section>
                             </section>
                         </section>
-                        <!-- end vontent header -->
+                        <!-- end content header -->
 
                         <section class="d-flex justify-content-end my-4">
                             <a class="btn btn-link btn-sm text-info text-decoration-none mx-1" data-bs-toggle="modal"
-                                data-bs-target="#edit-profile"><i class="fa fa-edit px-1"></i>ویرایش حساب</a>
+                               data-bs-target="#edit-profile"><i class="fa fa-edit px-1"></i>ویرایش حساب</a>
                         </section>
 
 
                         <section class="row">
                             <section class="col-6 border-bottom mb-2 py-2">
                                 <section class="field-title">نام</section>
-                                <section class="field-value overflow-auto">{{ auth()->user()->first_name ?? '-' }}</section>
+                                <section
+                                    class="field-value overflow-auto">{{ auth()->user()->first_name ?? '-' }}</section>
                             </section>
 
                             <section class="col-6 border-bottom my-2 py-2">
                                 <section class="field-title">نام خانوادگی</section>
-                                <section class="field-value overflow-auto">{{ auth()->user()->last_name ?? '-' }}</section>
+                                <section
+                                    class="field-value overflow-auto">{{ auth()->user()->last_name ?? '-' }}</section>
                             </section>
 
                             <section class="col-6 border-bottom my-2 py-2">
@@ -77,27 +79,28 @@
                         </section>
 
 
-
                         <section class="modal fade" id="edit-profile" tabindex="-1" aria-labelledby="edit-profile-label"
-                            aria-hidden="true">
+                                 aria-hidden="true">
                             <section class="modal-dialog">
                                 <section class="modal-content">
                                     <section class="modal-header">
-                                        <h5 class="modal-title" id="edit-profile-label"><i class="fa fa-plus"></i> ویرایش
+                                        <h5 class="modal-title" id="edit-profile-label"><i class="fa fa-plus"></i>
+                                            ویرایش
                                             حساب </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                                aria-label="Close"></button>
                                     </section>
                                     <section class="modal-body">
                                         <form class="row" method="post"
-                                            action="{{ route('customer.profile.profile.update') }}">
+                                              action="{{ route('customer.profile.profile.update') }}">
                                             @csrf
                                             @method('PUT')
 
                                             <section class="col-6 mb-2">
                                                 <label for="first_name" class="form-label mb-1">نام
                                                     گیرنده</label>
-                                                <input value="{{ auth()->user()->first_name ?? auth()->user()->first_name }}"
+                                                <input
+                                                    value="{{ auth()->user()->first_name ?? auth()->user()->first_name }}"
                                                     type="text" name="first_name" class="form-control form-control-sm"
                                                     id="first_name" placeholder="نام">
                                             </section>
@@ -105,7 +108,8 @@
                                             <section class="col-6 mb-2">
                                                 <label for="last_name" class="form-label mb-1">نام
                                                     خانوادگی گیرنده</label>
-                                                <input value="{{ auth()->user()->last_name ?? auth()->user()->last_name }}"
+                                                <input
+                                                    value="{{ auth()->user()->last_name ?? auth()->user()->last_name }}"
                                                     type="text" name="last_name" class="form-control form-control-sm"
                                                     id="last_name" placeholder="نام خانوادگی ">
                                             </section>
@@ -113,8 +117,10 @@
                                             <section class="col-6 mb-2">
                                                 <label for="national_code" class="form-label mb-1">کد ملی
                                                 </label>
-                                                <input value="{{ auth()->user()->national_code ?? auth()->user()->national_code }}"
-                                                    type="text" name="national_code" class="form-control form-control-sm"
+                                                <input
+                                                    value="{{ auth()->user()->national_code ?? auth()->user()->national_code }}"
+                                                    type="text" name="national_code"
+                                                    class="form-control form-control-sm"
                                                     id="national_code" placeholder="کد ملی">
                                             </section>
 
@@ -122,17 +128,17 @@
                                     </section>
                                     <section class="modal-footer py-1">
                                         <button type="submit" class="btn btn-sm btn-primary">ویرایش
-                                            حساب</button>
+                                            حساب
+                                        </button>
                                         <button type="button" class="btn btn-sm btn-danger"
-                                            data-bs-dismiss="modal">بستن</button>
+                                                data-bs-dismiss="modal">بستن
+                                        </button>
                                     </section>
                                     </form>
 
                                 </section>
                             </section>
                         </section>
-
-
 
 
                     </section>
