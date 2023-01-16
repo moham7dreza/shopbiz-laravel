@@ -7,6 +7,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
 
 class Page extends Model
@@ -16,8 +17,14 @@ class Page extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @return array[]
+     */
     public function sluggable(): array
     {
         return[
@@ -27,9 +34,16 @@ class Page extends Model
         ];
     }
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['title', 'body', 'slug', 'status', 'tags'];
 
     //methods
+
+    /**
+     * @return string
+     */
     public function cssStatus(): string
     {
         if ($this->status === self::STATUS_ACTIVE) return 'success';
@@ -37,8 +51,19 @@ class Page extends Model
         else return 'warning';
     }
 
+    /**
+     * @return string
+     */
     public function textStatus(): string
     {
         return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
+    }
+
+    /**
+     * @return string
+     */
+    public function limitedTitle(): string
+    {
+        return Str::limit($this->title, 50);
     }
 }

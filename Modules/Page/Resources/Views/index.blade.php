@@ -47,7 +47,7 @@
                         @foreach ($pages as $key => $page)
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $page->title }}</td>
+                                <td>{{ $page->limitedTitle() }}</td>
                                 <td>{{ $page->tags }}</td>
                                 <td>{{ $page->slug }}</td>
                                 <td>

@@ -14,9 +14,12 @@ use Modules\Page\Repositories\PageRepoEloquentInterface;
 use Modules\Page\Services\PageService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PageController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -75,9 +78,8 @@ class PageController extends Controller
      */
     public function store(PageRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $page = Page::query()->create($inputs);
-        return redirect()->route('page.index')->with('swal-success', 'صفحه  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('صفحه جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -111,10 +113,8 @@ class PageController extends Controller
      */
     public function update(PageRequest $request, Page $page): RedirectResponse
     {
-        $inputs = $request->all();
-        // $inputs['slug'] = null;
-        $page->update($inputs);
-        return redirect()->route('page.index')->with('swal-success', 'صفحه  شما با موفقیت ویرایش شد');
+        $this->service->update($request, $page);
+        return $this->successMessageWithRedirect('صفحه شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class PageController extends Controller
     public function destroy(Page $page): \Illuminate\Http\RedirectResponse
     {
         $result = $page->delete();
-        return redirect()->route('page.index')->with('swal-success', 'صفحه  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('صفحه شما با موفقیت حذف شد');
     }
 
 

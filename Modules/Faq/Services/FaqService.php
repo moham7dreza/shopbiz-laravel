@@ -19,7 +19,6 @@ class FaqService
         return $this->query()->create([
             'question' => $request->question,
             'answer' => $request->answer,
-            'slug' => $request->slug,
             'status' => $request->status,
             'tags' => $request->tags,
         ]);
@@ -37,7 +36,6 @@ class FaqService
         return $faq->update([
             'question' => $request->question,
             'answer' => $request->answer,
-            'slug' => $request->slug,
             'status' => $request->status,
             'tags' => $request->tags,
         ]);

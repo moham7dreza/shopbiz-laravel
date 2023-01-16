@@ -3,40 +3,42 @@
 namespace Modules\Page\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Page\Entities\Page;
 
 class PageService
 {
     /**
-     * Store role with assign permissions.
+     * Store faq.
      *
      * @param  $request
-     * @return mixed
+     * @return Model|Builder
      */
-    public function store($request)
+    public function store($request): Model|Builder
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        return $this->query()->create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
     }
 
     /**
-     * Update role with sync permissions.
+     * Update faq
      *
      * @param  $request
-     * @param  $id
+     * @param $page
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $page): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
-
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+        return $page->update([
+            'title' => $request->title,
+            'body' => $request->body,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
     }
 
     /**
