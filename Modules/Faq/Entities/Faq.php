@@ -17,8 +17,14 @@ class Faq extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @return array[]
+     */
     public function sluggable(): array
     {
         return[
@@ -28,9 +34,16 @@ class Faq extends Model
         ];
     }
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['question', 'answer', 'slug', 'status', 'tags'];
 
     // methods
+
+    /**
+     * @return string
+     */
     public function cssStatus(): string
     {
         if ($this->status === self::STATUS_ACTIVE) return 'success';
@@ -38,13 +51,27 @@ class Faq extends Model
         else return 'warning';
     }
 
+    /**
+     * @return string
+     */
     public function textStatus(): string
     {
         return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
     }
 
-    public function limitedShow($obj): string
+    /**
+     * @return string
+     */
+    public function limitedQuestion(): string
     {
-        return Str::limit($obj, 50);
+        return Str::limit($this->question, 50);
+    }
+
+    /**
+     * @return string
+     */
+    public function limitedAnswer(): string
+    {
+        return Str::limit($this->answer, 50);
     }
 }

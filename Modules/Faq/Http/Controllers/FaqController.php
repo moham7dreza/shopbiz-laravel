@@ -15,9 +15,12 @@ use Modules\Faq\Repositories\FaqRepoEloquentInterface;
 use Modules\Faq\Services\FaqService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class FaqController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -76,9 +79,9 @@ class FaqController extends Controller
      */
     public function store(FaqRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $faq = Faq::query()->create($inputs);
-        return redirect()->route('faq.index')->with('swal-success', 'پرسش  جدید شما با موفقیت ثبت شد');
+
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('پرسش  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -112,9 +115,8 @@ class FaqController extends Controller
      */
     public function update(FaqRequest $request, Faq $faq): RedirectResponse
     {
-        $inputs = $request->all();
-        $faq->update($inputs);
-        return redirect()->route('faq.index')->with('swal-success', 'پرسش شما با موفقیت ویرایش شد');;
+        $this->service->update($request, $faq);
+        return $this->successMessageWithRedirect('پرسش شما با موفقیت ویرایش شد');;
     }
 
     /**
@@ -126,7 +128,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq): RedirectResponse
     {
         $result = $faq->delete();
-        return redirect()->route('faq.index')->with('swal-success', 'پرسش  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('پرسش  شما با موفقیت حذف شد');
     }
 
 

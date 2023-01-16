@@ -3,40 +3,44 @@
 namespace Modules\Faq\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Faq\Entities\Faq;
 
 class FaqService
 {
     /**
-     * Store role with assign permissions.
+     * Store faq.
      *
      * @param  $request
-     * @return mixed
+     * @return Model|Builder
      */
-    public function store($request)
+    public function store($request): Model|Builder
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        return $this->query()->create([
+            'question' => $request->question,
+            'answer' => $request->answer,
+            'slug' => $request->slug,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
     }
 
     /**
-     * Update role with sync permissions.
+     * Update faq
      *
      * @param  $request
-     * @param  $id
+     * @param $faq
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $faq): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
-
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+        return $faq->update([
+            'question' => $request->question,
+            'answer' => $request->answer,
+            'slug' => $request->slug,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
     }
 
     /**

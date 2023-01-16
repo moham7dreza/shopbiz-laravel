@@ -47,8 +47,8 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $faq->question }}</td>
-                                <td>{!! $faq->answer !!}</td>
+                                <td>{{ $faq->limitedQuestion() }}</td>
+                                <td>{!! $faq->limitedAnswer() !!}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $faq->id }}" onchange="changeStatus({{ $faq->id }})"

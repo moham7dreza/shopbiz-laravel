@@ -13,7 +13,7 @@ use Modules\Faq\Repositories\FaqRepoEloquentInterface;
 class FaqServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for faq controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class FaqServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/faq_routes.php';
 
     /**
-     * Register panel files.
+     * Register faq files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot faq service provider.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load faq migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load faq view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load faq route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load faq policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class FaqServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for faq.
      *
      * @return void
      */
@@ -136,7 +136,10 @@ class FaqServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function bindRepository()
+    /**
+     * @return void
+     */
+    private function bindRepository(): void
     {
         $this->app->bind(FaqRepoEloquentInterface::class, FaqRepoEloquent::class);
     }

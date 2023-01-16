@@ -25,7 +25,7 @@ class FaqRepoEloquent implements FaqRepoEloquentInterface
      * @param  $id
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findById($id)
+    public function findById($id): Model|Collection|Builder|array|null
     {
         return $this->query()->findOrFail($id);
     }
