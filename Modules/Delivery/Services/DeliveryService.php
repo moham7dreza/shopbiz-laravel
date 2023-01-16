@@ -3,40 +3,44 @@
 namespace Modules\Delivery\Services;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\ACL\Entities\Role;
-use Modules\ACL\Repositories\RolePermissionRepoEloquent;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Delivery\Entities\Delivery;
 
 class DeliveryService
 {
     /**
-     * Store role with assign permissions.
+     * Store delivery.
      *
      * @param  $request
-     * @return mixed
+     * @return Builder|Model
      */
-    public function store($request)
+    public function store($request): Model|Builder
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        return $this->query()->create([
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'delivery_time' => $request->delivery_time,
+            'delivery_time_unit' => $request->delivery_time_unit,
+            'status' => $request->status,
+        ]);
     }
 
     /**
-     * Update role with sync permissions.
+     * Update delivery.
      *
      * @param  $request
-     * @param  $id
+     * @param $delivery
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $delivery): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
-
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+        return $delivery->update([
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'delivery_time' => $request->delivery_time,
+            'delivery_time_unit' => $request->delivery_time_unit,
+            'status' => $request->status,
+        ]);
     }
 
     /**

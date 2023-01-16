@@ -14,17 +14,37 @@ class Delivery extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @var string
+     */
     protected $table = 'delivery';
 
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['name', 'amount', 'delivery_time', 'delivery_time_unit', 'status'];
 
     // methods
 
+    /**
+     * @return string|int
+     */
     public function faAmount(): string|int
     {
-        return priceFormat($this->amount) ?? 0;
+        return priceFormat($this->amount). ' تومان' ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function deliveryTime(): string
+    {
+        return convertEnglishToPersian($this->delivery_time) . ' - ' . $this->delivery_time_unit . ' کاری'?? 'روز کاری تعریف نشده.';
     }
 }

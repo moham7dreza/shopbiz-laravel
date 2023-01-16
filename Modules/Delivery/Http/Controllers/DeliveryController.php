@@ -14,9 +14,12 @@ use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Delivery\Services\DeliveryService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class DeliveryController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -75,9 +78,8 @@ class DeliveryController extends Controller
      */
     public function store(DeliveryRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $delivery = Delivery::query()->create($inputs);
-        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('روش ارسال جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -111,9 +113,8 @@ class DeliveryController extends Controller
      */
     public function update(DeliveryRequest $request, Delivery $delivery): RedirectResponse
     {
-        $inputs = $request->all();
-        $delivery->update($inputs);
-        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت ویرایش شد');
+        $this->service->update($request, $delivery);
+        return $this->successMessageWithRedirect('روش ارسال شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -125,7 +126,7 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery): RedirectResponse
     {
         $result = $delivery->delete();
-        return redirect()->route('delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('روش ارسال شما با موفقیت حذف شد');
     }
 
 
@@ -137,5 +138,4 @@ class DeliveryController extends Controller
     {
         return ShareService::changeStatus($delivery);
     }
-
 }

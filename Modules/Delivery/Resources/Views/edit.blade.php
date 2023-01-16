@@ -52,7 +52,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">هزینه روش ارسال</label>
-                                    <input type="text" name="amount" value="{{ old('amount', $delivery->amount) }}"
+                                    <input type="text" name="amount" value="{{ old('amount', intval($delivery->amount)) }}"
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('amount')
@@ -92,6 +92,27 @@
                                     {{ $message }}
                                 </strong>
                             </span>
+                                @enderror
+                            </section>
+
+                            <section class="col-12 col-md-6 my-2">
+                                <div class="form-group">
+                                    <label for="status">وضعیت</label>
+                                    <select name="status" class="form-control form-control-sm" id="status">
+                                        <option value="0" @if (old('status', $delivery->status) == 0) selected @endif>
+                                            غیرفعال
+                                        </option>
+                                        <option value="1" @if (old('status', $delivery->status) == 1) selected @endif>
+                                            فعال
+                                        </option>
+                                    </select>
+                                </div>
+                                @error('status')
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </section>
 

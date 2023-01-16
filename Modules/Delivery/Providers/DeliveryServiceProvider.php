@@ -13,7 +13,7 @@ use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 class DeliveryServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for delivery controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class DeliveryServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/delivery_routes.php';
 
     /**
-     * Register panel files.
+     * Register delivery files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot delivery service provider.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load delivery view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load delivery route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load delivery policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for delivery.
      *
      * @return void
      */
@@ -137,11 +137,11 @@ class DeliveryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind delivery repository.
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(DeliveryRepoEloquentInterface::class, DeliveryRepoEloquent::class);
     }

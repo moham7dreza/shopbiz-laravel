@@ -28,6 +28,7 @@ class DeliveryRequest extends FormRequest
             'amount' => 'required|regex:/^[0-9]+$/u',
             'delivery_time' => 'required|integer',
             'delivery_time_unit' => 'required|regex:/^[ا-یa-zA-Zء-ي., ]+$/u',
+            'status' => 'required|in:0,1'
         ];
     }
 }

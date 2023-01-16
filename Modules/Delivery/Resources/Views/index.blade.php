@@ -49,8 +49,8 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $delivery_method->name }}</td>
-                                <td>{{ $delivery_method->faAmount() }} تومان</td>
-                                <td>{{ convertEnglishToPersian($delivery_method->delivery_time) . ' - ' . $delivery_method->delivery_time_unit }}</td>
+                                <td>{{ $delivery_method->faAmount() }}</td>
+                                <td>{{ $delivery_method->deliveryTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $delivery_method->id }}"
