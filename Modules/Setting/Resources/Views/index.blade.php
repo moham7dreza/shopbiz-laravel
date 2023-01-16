@@ -40,18 +40,18 @@
                             <th>کلمات کلیدی سایت</th>
                             <th>لوگو سایت</th>
                             <th>آیکون سایت</th>
-                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
+                            <th class="max-width-8-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <th>1</th>
                             <td>{{ $setting->title }}</td>
-                            <td>{{ $setting->description }}</td>
-                            <td>{{ $setting->keywords }}</td>
-                            <td><img src="{{ asset($setting->logo ) }}" alt="" width="100" height="50"></td>
-                            <td><img src="{{ asset($setting->icon ) }}" alt="" width="100" height="50"></td>
-                            <td class="width-22-rem text-left">
+                            <td>{{ $setting->limitedDescription() }}</td>
+                            <td>{{ $setting->limitedKeywords() }}</td>
+                            <td><img src="{{ $setting->logo() }}" alt="" width="100" height="50"></td>
+                            <td><img src="{{ $setting->icon() }}" alt="" width="100" height="50"></td>
+                            <td class="width-8-rem text-left">
                                 <a href="{{ route('setting.edit', $setting->id) }}"
                                    class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                             </td>

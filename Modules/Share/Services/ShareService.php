@@ -47,6 +47,20 @@ class ShareService
     }
 
     /**
+     * @param string $directoryName
+     * @param $imageFile
+     * @param $imageName
+     * @param $imageService
+     * @return mixed
+     */
+    public static function saveImageWithName(string $directoryName, $imageFile, $imageName, $imageService): mixed
+    {
+        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+        $imageService->setImageName($imageName);
+        return $imageService->save($imageFile);
+    }
+
+    /**
      * @param Model $model
      * @return JsonResponse
      */

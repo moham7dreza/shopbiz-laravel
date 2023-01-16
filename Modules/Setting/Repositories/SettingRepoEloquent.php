@@ -5,8 +5,6 @@ namespace Modules\Setting\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Entities\Role;
 use Modules\Setting\Entities\Setting;
 
 class SettingRepoEloquent implements SettingRepoEloquentInterface
@@ -22,9 +20,9 @@ class SettingRepoEloquent implements SettingRepoEloquentInterface
     }
 
     /**
-     * @return Builder|Model|object|null
+     * @return Model|Builder|null
      */
-    public function getSystemSetting()
+    public function getSystemSetting(): Model|Builder|null
     {
         return $this->query()->first();
     }
