@@ -31,12 +31,14 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        {{ $postComment->user->fullName  }} - {{ $postComment->user->id  }}
+                        {{ $postComment->textAuthorName()  }} - {{ $postComment->authorId()  }}
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title">مشخصات کالا : {{ $postComment->commentable->title }} کد کالا
-                            : {{ $postComment->commentable->id }}</h5>
-                        <p class="card-text">{{ $postComment->body }}</p>
+                        <h5 class="card-title">مشخصات پست : {{ $postComment->getCommentableName() }}
+                            -  کد پست : {{ $postComment->commentableId() }}
+                        </h5>
+
+                        <p class="card-text border-top p-4">{{ $postComment->body }}</p>
                     </section>
                 </section>
 

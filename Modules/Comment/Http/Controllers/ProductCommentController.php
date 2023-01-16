@@ -11,11 +11,15 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
+use Modules\Comment\Services\CommentService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class ProductCommentController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -25,15 +29,17 @@ class ProductCommentController extends Controller
      * @var string
      */
     private string $class = Comment::class;
-
     public CommentRepoEloquentInterface $repo;
+    public CommentService $service;
 
     /**
-     * @param CommentRepoEloquentInterface $productCommentRepoEloquent
+     * @param CommentRepoEloquentInterface $postCommentRepoEloquent
+     * @param CommentService $commentService
      */
-    public function __construct(CommentRepoEloquentInterface $productCommentRepoEloquent)
+    public function __construct(CommentRepoEloquentInterface $postCommentRepoEloquent, CommentService $commentService)
     {
-        $this->repo = $productCommentRepoEloquent;
+        $this->repo = $postCommentRepoEloquent;
+        $this->service = $commentService;
 
         $this->middleware('can:permission-product-comments')->only(['index']);
         $this->middleware('can:permission-product-comment-show')->only(['show']);
@@ -49,10 +55,7 @@ class ProductCommentController extends Controller
     public function index(): Factory|View|Application
     {
         $unSeenComments = $this->repo->getUnseenProductComments();
-        foreach ($unSeenComments as $unSeenComment) {
-            $unSeenComment->seen = 1;
-            $result = $unSeenComment->save();
-        }
+        $this->service->makeSeenComments($unSeenComments);
         $productComments = $this->repo->getLatestProductComments()->paginate(10);
         return view('Comment::product-comment.index', compact(['productComments']));
     }
@@ -138,15 +141,12 @@ class ProductCommentController extends Controller
      */
     public function approved(Comment $productComment): RedirectResponse
     {
-
-        $productComment->approved = $productComment->approved == 0 ? 1 : 0;
-        $result = $productComment->save();
+        $result = $this->service->approveComment($productComment);
         if ($result) {
-            return redirect()->route('productComment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
+            return $this->successMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return redirect()->route('productComment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
+            return $this->successMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
         }
-
     }
 
 
@@ -158,19 +158,10 @@ class ProductCommentController extends Controller
     public function answer(CommentRequest $request, Comment $productComment): RedirectResponse
     {
         if ($productComment->parent == null) {
-            $inputs = $request->all();
-            $inputs['author_id'] = auth()->id();
-            $inputs['parent_id'] = $productComment->id;
-            $inputs['commentable_id'] = $productComment->commentable_id;
-            $inputs['commentable_type'] = $productComment->commentable_type;
-            $inputs['approved'] = 1;
-            $inputs['status'] = 1;
-            $productComment = Comment::query()->create($inputs);
-            return redirect()->route('productComment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
+            $this->service->replyComment($request, $productComment);
+            return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return redirect()->route('productComment.index')->with('swal-error', 'خطا');
-
+            return $this->successMessageWithRedirect('خطا', 'swal-error');
         }
     }
-
 }

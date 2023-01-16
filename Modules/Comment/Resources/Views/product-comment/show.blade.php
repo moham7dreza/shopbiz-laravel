@@ -31,12 +31,12 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        {{ $productComment->user->fullName  }} - {{ $productComment->user->id  }}
+                        {{ $productComment->textAuthorName() }} - {{ $productComment->authorId()  }}
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title">مشخصات کالا : {{ $productComment->commentable->title }} کد کالا
-                            : {{ $productComment->commentable->id }}</h5>
-                        <p class="card-text">{{ $productComment->body }}</p>
+                        <h5 class="card-title">مشخصات کالا : {{ $productComment->getCommentableName() }}
+                            - کد کالا : {{ $productComment->commentableId() }}</h5>
+                        <p class="card-text border-top p-4">{{ $productComment->body }}</p>
                     </section>
                 </section>
 

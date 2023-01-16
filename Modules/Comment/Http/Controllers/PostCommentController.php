@@ -10,11 +10,15 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
+use Modules\Comment\Services\CommentService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PostCommentController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -26,19 +30,23 @@ class PostCommentController extends Controller
     private string $class = Comment::class;
 
     public CommentRepoEloquentInterface $repo;
+    public CommentService $service;
 
     /**
      * @param CommentRepoEloquentInterface $postCommentRepoEloquent
+     * @param CommentService $commentService
      */
-    public function __construct(CommentRepoEloquentInterface $postCommentRepoEloquent)
+    public function __construct(CommentRepoEloquentInterface $postCommentRepoEloquent, CommentService $commentService)
     {
         $this->repo = $postCommentRepoEloquent;
+        $this->service = $commentService;
 
         $this->middleware('can:permission-post-comments')->only(['index']);
         $this->middleware('can:permission-post-comment-show')->only(['show']);
         $this->middleware('can:permission-post-comment-status')->only(['status']);
         $this->middleware('can:permission-post-comment-approve')->only(['approved']);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,10 +55,7 @@ class PostCommentController extends Controller
     public function index(): Factory|View|Application
     {
         $unSeenComments = $this->repo->getUnseenPostComments();
-        foreach ($unSeenComments as $unSeenComment){
-            $unSeenComment->seen = 1;
-            $result = $unSeenComment->save();
-        }
+        $this->service->makeSeenComments($unSeenComments);
         $postComments = $this->repo->getLatestPostComments()->paginate(10);
         return view('Comment::post-comment.index', compact(['postComments']));
 
@@ -69,7 +74,7 @@ class PostCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -91,7 +96,7 @@ class PostCommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -102,8 +107,8 @@ class PostCommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -114,7 +119,7 @@ class PostCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -138,16 +143,12 @@ class PostCommentController extends Controller
      */
     public function approved(Comment $postComment): RedirectResponse
     {
-
-        $postComment->approved = $postComment->approved == 0 ? 1 : 0;
-        $result = $postComment->save();
-        if($result){
-            return redirect()->route('postComment.index')->with('swal-success', '  وضعیت نظر با موفقیت تغییر کرد');
+        $result = $this->service->approveComment($postComment);
+        if ($result) {
+            return $this->successMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
+        } else {
+            return $this->successMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
         }
-        else{
-            return redirect()->route('postComment.index')->with('swal-error', '  وضعیت نظر با خطا مواجه شد');
-        }
-
     }
 
 
@@ -159,19 +160,10 @@ class PostCommentController extends Controller
     public function answer(CommentRequest $request, Comment $postComment): RedirectResponse
     {
         if ($postComment->parent == null) {
-            $inputs = $request->all();
-            $inputs['author_id'] = auth()->id();
-            $inputs['parent_id'] = $postComment->id;
-            $inputs['commentable_id'] = $postComment->commentable_id;
-            $inputs['commentable_type'] = $postComment->commentable_type;
-            $inputs['approved'] = 1;
-            $inputs['status'] = 1;
-            $postComment = Comment::query()->create($inputs);
-            return redirect()->route('postComment.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
-        }
-        else{
-            return redirect()->route('postComment.index')->with('swal-error', 'خطا');
-
+            $this->service->replyComment($request, $postComment);
+            return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+        } else {
+            return $this->successMessageWithRedirect('خطا', 'swal-error');
         }
     }
 }

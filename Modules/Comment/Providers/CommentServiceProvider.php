@@ -13,7 +13,7 @@ use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 class CommentServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for comment controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class CommentServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/comment_routes.php';
 
     /**
-     * Register panel files.
+     * Register comment files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot comment service provider.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load comment view files.
      *
      * @return void
      */
@@ -101,17 +101,7 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel config files.
-     *
-     * @return void
-     */
-    private function loadConfigFiles(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'panelConfig');
-    }
-
-    /**
-     * Load panel route files.
+     * Load comment route files.
      *
      * @return void
      */
@@ -123,7 +113,7 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load comment policy files.
      *
      * @return void
      */
@@ -133,7 +123,7 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for comment.
      *
      * @return void
      */
@@ -153,11 +143,11 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind comment repository.
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(CommentRepoEloquentInterface::class, CommentRepoEloquent::class);
     }
