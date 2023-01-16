@@ -51,11 +51,11 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <th>{{ $commonDiscount->percentage }}%</th>
-                                <th>{{ $commonDiscount->discount_ceiling }} تومان</th>
-                                <th>{{ $commonDiscount->title }}</th>
-                                <td>{{ jalaliDate($commonDiscount->start_date) }}</td>
-                                <td>{{ jalaliDate($commonDiscount->end_date) }}</td>
+                                <th>{{ $commonDiscount->getFaPercentage() }}</th>
+                                <th>{{ $commonDiscount->getFaDiscountCeiling() }}</th>
+                                <th>{{ $commonDiscount->limitedTitle() }}</th>
+                                <td>{{ $commonDiscount->getFaStartDate() }}</td>
+                                <td>{{ $commonDiscount->getFaEndDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $commonDiscount->id }}" onchange="changeStatus({{ $commonDiscount->id }})"

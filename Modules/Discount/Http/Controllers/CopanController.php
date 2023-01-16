@@ -14,11 +14,12 @@ use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Copan\CopanDiscountService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\User\Entities\User;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class CopanController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -73,17 +74,8 @@ class CopanController extends Controller
      */
     public function store(CopanRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        if ($inputs['type'] == 0) {
-            $inputs['user_id'] = null;
-        }
-        Copan::query()->create($inputs);
-        return redirect()->route('copanDiscount.index')->with('swal-success', ' کد تخفیف جدید شما با موفقیت ثبت شد');
+        $this->copanDiscountService->store($request);
+        return $this->successMessageWithRedirect(' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -105,17 +97,8 @@ class CopanController extends Controller
      */
     public function update(CopanRequest $request, Copan $copanDiscount): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        if ($inputs['type'] == 0) {
-            $inputs['user_id'] = null;
-        }
-        $copanDiscount->update($inputs);
-        return redirect()->route('copanDiscount.index')->with('swal-success', 'کد تخفیف  شما با موفقیت ویرایش شد');
+        $this->copanDiscountService->update($request, $copanDiscount);
+        return $this->successMessageWithRedirect('کد تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -126,7 +109,7 @@ class CopanController extends Controller
     public function destroy(Copan $copanDiscount): RedirectResponse
     {
         $result = $copanDiscount->delete();
-        return redirect()->route('copanDiscount.index')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

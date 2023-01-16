@@ -49,10 +49,10 @@
                         @foreach ($amazingSales as $amazingSale)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <th>{{ $amazingSale->product->name }}</th>
-                                <th>{{ $amazingSale->percentage }}%</th>
-                                <td>{{ jalaliDate($amazingSale->start_date) }}</td>
-                                <td>{{ jalaliDate($amazingSale->end_date) }}</td>
+                                <th>{{ $amazingSale->textProductName() }}</th>
+                                <th>{{ $amazingSale->getFaPercentage() }}</th>
+                                <td>{{ $amazingSale->getFaStartDate() }}</td>
+                                <td>{{ $amazingSale->getFaEndDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $amazingSale->id }}" onchange="changeStatus({{ $amazingSale->id }})"

@@ -54,12 +54,12 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <th>{{ $copan->code }}</th>
-                                <th>{{ $copan->amount }}</th>
-                                <th>{{ $copan->amount_type == 0 ? 'درصدی' : 'عددی' }}</th>
-                                <th>{{ $copan->discount_ceiling ?? '-' }} </th>
-                                <th>{{ $copan->type == 0 ? 'عمومی' : 'خصوصی' }}</th>
-                                <td>{{ jalaliDate($copan->start_date) }}</td>
-                                <td>{{ jalaliDate($copan->end_date) }}</td>
+                                <th>{{ $copan->getFaAmount() }}</th>
+                                <th>{{ $copan->textAmountType() }}</th>
+                                <th>{{ $copan->getFaDiscountCeiling() }} </th>
+                                <th>{{ $copan->textDiscountType() }}</th>
+                                <td>{{ $copan->getFaStartDate() }}</td>
+                                <td>{{ $copan->getFaEndDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $copan->id }}" onchange="changeStatus({{ $copan->id }})"

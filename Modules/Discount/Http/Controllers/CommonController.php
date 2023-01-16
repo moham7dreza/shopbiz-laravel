@@ -14,9 +14,12 @@ use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Common\CommonDiscountService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class CommonController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -70,14 +73,8 @@ class CommonController extends Controller
      */
     public function store(CommonDiscountRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $commonDiscount = CommonDiscount::query()->create($inputs);
-        return redirect()->route('commonDiscount.index')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ثبت شد');
+        $this->commonDiscountService->store($request);
+        return $this->successMessageWithRedirect('کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -97,14 +94,8 @@ class CommonController extends Controller
      */
     public function update(CommonDiscountRequest $request, CommonDiscount $commonDiscount): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $commonDiscount->update($inputs);
-        return redirect()->route('commonDiscount.index')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ویرایش شد');
+        $this->commonDiscountService->update($request, $commonDiscount);
+        return $this->successMessageWithRedirect('کد تخفیف جدید شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -114,7 +105,7 @@ class CommonController extends Controller
     public function destroy(CommonDiscount $commonDiscount): RedirectResponse
     {
         $result = $commonDiscount->delete();
-        return redirect()->route('commonDiscount.index')->with('swal-success', 'کد تخفیف  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('کد تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

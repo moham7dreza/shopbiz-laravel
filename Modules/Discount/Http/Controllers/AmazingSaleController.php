@@ -16,9 +16,12 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class AmazingSaleController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -73,14 +76,8 @@ class AmazingSaleController extends Controller
      */
     public function store(AmazingSaleRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $amazingSale = AmazingSale::query()->create($inputs);
-        return redirect()->route('amazingSale.index')->with('swal-success', ' تخفیف جدید شما با موفقیت ثبت شد');
+        $this->amazingSaleDiscountService->store($request);
+        return $this->successMessageWithRedirect(' تخفیف جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -101,14 +98,8 @@ class AmazingSaleController extends Controller
      */
     public function update(AmazingSaleRequest $request, AmazingSale $amazingSale): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->start_date, 0, 10);
-        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $realTimestampEnd = substr($request->end_date, 0, 10);
-        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
-        $amazingSale->update($inputs);
-        return redirect()->route('amazingSale.index')->with('swal-success', ' تخفیف  شما با موفقیت ویرایش شد');
+        $this->amazingSaleDiscountService->update($request, $amazingSale);
+        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -119,7 +110,7 @@ class AmazingSaleController extends Controller
     public function destroy(AmazingSale $amazingSale): RedirectResponse
     {
         $result = $amazingSale->delete();
-        return redirect()->route('amazingSale.index')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

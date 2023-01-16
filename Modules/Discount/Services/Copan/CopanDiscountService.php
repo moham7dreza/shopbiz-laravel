@@ -2,11 +2,64 @@
 
 namespace Modules\Discount\Services\Copan;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\Copan;
-use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 
 class CopanDiscountService
 {
+
+    /**
+     * @param $request
+     * @return Builder|Model
+     */
+    public function store($request): Model|Builder
+    {
+        return $this->query()->create([
+            'code' => $request->code,
+            'amount' => $request->amount,
+            'amount_type' => $request->amount_type,
+            'discount_ceiling' => $request->discount_ceiling,
+            'type' => $request->type,
+            'percentage' => $request->percentage,
+            'start_date' => $this->realTimestampDateFormat($request->start_date),
+            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'status' => $request->status,
+            'user_id' => $request->type == 0 ? null : $request->user_id,
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $copanDiscount
+     * @return mixed
+     */
+    public function update($request, $copanDiscount): mixed
+    {
+        return $copanDiscount->update([
+            'code' => $request->code,
+            'amount' => $request->amount,
+            'amount_type' => $request->amount_type,
+            'discount_ceiling' => $request->discount_ceiling,
+            'type' => $request->type,
+            'percentage' => $request->percentage,
+            'start_date' => $this->realTimestampDateFormat($request->start_date),
+            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'status' => $request->status,
+            'user_id' => $request->type == 0 ? null : $request->user_id,
+        ]);
+    }
+
+    /**
+     * the primary timestamp is in ms - we should convert this to second then to date
+     *
+     * @param $date
+     * @return string
+     */
+    private function realTimestampDateFormat($date): string
+    {
+        return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
+    }
 //    /**
 //     * Store discount & sync discount to products by array of data.
 //     *
@@ -58,15 +111,15 @@ class CopanDiscountService
 //
 //    # Private methods
 //
-//    /**
-//     * Get query for article model.
-//     *
-//     * @return \Illuminate\Database\Eloquent\Builder
-//     */
-//    private function query()
-//    {
-//        return Copan::query();
-//    }
+    /**
+     * Get query for article model.
+     *
+     * @return Builder
+     */
+    private function query(): Builder
+    {
+        return Copan::query();
+    }
 //
 //    /**
 //     * Sync discount & products.

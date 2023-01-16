@@ -16,11 +16,11 @@ trait HasFaDate
 
     public function getFaCreatedDate(): string
     {
-        return jalaliDate($this->created_at);
+        return jalaliDate($this->created_at) ?? $this->created_at;
     }
 
     public function getFaUpdatedDate(): string
     {
-        return jalaliDate($this->updated_at);
+        return jalaliDate($this->updated_at) ?? $this->updated_at;
     }
 }

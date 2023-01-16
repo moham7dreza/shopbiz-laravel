@@ -17,7 +17,7 @@ use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 class DiscountServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for discount controller.
      *
      * @var string
      */
@@ -60,7 +60,7 @@ class DiscountServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/discount_routes.php';
 
     /**
-     * Register panel files.
+     * Register discount files.
      *
      * @return void
      */
@@ -74,7 +74,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot discount service provider.
      *
      * @return void
      */
@@ -86,7 +86,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load discount migration files.
      *
      * @return void
      */
@@ -96,7 +96,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load discount view files.
      *
      * @return void
      */
@@ -106,7 +106,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load discount route files.
      *
      * @return void
      */
@@ -118,7 +118,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load discount policy files.
      *
      * @return void
      */
@@ -128,7 +128,7 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for discount.
      *
      * @return void
      */
@@ -142,11 +142,11 @@ class DiscountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind discount repository.
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(CopanDiscountRepoEloquentInterface::class, CopanDiscountRepoEloquent::class);
         $this->app->bind(CommonDiscountRepoEloquentInterface::class, CommonDiscountRepoEloquent::class);
