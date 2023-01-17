@@ -19,6 +19,25 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, HasFaDate;
 
+    public const PAYMENT_STATUS_NOT_PAID = 0;
+    public const PAYMENT_STATUS_PAID = 1;
+    public const PAYMENT_STATUS_CANCELED = 2;
+    public const PAYMENT_STATUS_RETURNED = 3;
+    public const PAYMENT_TYPE_ONLINE = 0;
+    public const PAYMENT_TYPE_OFFLINE = 1;
+    public const PAYMENT_TYPE_CASH = 2;
+    public const DELIVERY_STATUS_NOT_SEND = 0;
+    public const DELIVERY_STATUS_SENDING = 1;
+    public const DELIVERY_STATUS_SEND = 2;
+    public const DELIVERY_STATUS_DELIVERED = 3;
+    public const ORDER_STATUS_AWAIT_CONFIRM = 1;
+    public const ORDER_STATUS_NOT_CONFIRMED = 2;
+    public const ORDER_STATUS_CONFIRMED = 3;
+    public const ORDER_STATUS_CANCELED = 4;
+    public const ORDER_STATUS_RETURNED = 5;
+    public const ORDER_STATUS_NOT_CHECKED = 0;
+
+
     protected $guarded = ['id'];
 
 
@@ -89,9 +108,9 @@ class Order extends Model
     public function getPaymentStatusValueAttribute(): string
     {
         return match ($this->payment_status) {
-            0 => 'پرداخت نشده',
-            1 => 'پرداخت شده',
-            2 => 'باطل شده',
+            self::PAYMENT_STATUS_NOT_PAID => 'پرداخت نشده',
+            self::PAYMENT_STATUS_PAID => 'پرداخت شده',
+            self::PAYMENT_STATUS_CANCELED => 'باطل شده',
             default => 'برگشت داده شده',
         };
     }
@@ -102,8 +121,8 @@ class Order extends Model
     public function getPaymentTypeValueAttribute(): string
     {
         return match ($this->payment_type) {
-            0 => 'آنلاین',
-            1 => 'آفلاین',
+            self::PAYMENT_TYPE_ONLINE => 'آنلاین',
+            self::PAYMENT_TYPE_OFFLINE => 'آفلاین',
             default => 'در محل',
         };
     }
@@ -114,9 +133,9 @@ class Order extends Model
     public function getDeliveryStatusValueAttribute(): string
     {
         return match ($this->delivery_status) {
-            0 => 'ارسال نشده',
-            1 => 'در حال ارسال',
-            2 => 'ارسال شده',
+            self::DELIVERY_STATUS_NOT_SEND => 'ارسال نشده',
+            self::DELIVERY_STATUS_SENDING => 'در حال ارسال',
+            self::DELIVERY_STATUS_SEND => 'ارسال شده',
             default => 'تحویل شده',
         };
     }
@@ -128,11 +147,11 @@ class Order extends Model
     public function getOrderStatusValueAttribute(): string
     {
         return match ($this->order_status) {
-            1 => 'در انتظار تایید',
-            2 => 'تاییده نشده',
-            3 => 'تایید شده',
-            4 => 'باطل شده',
-            5 => 'مرجوع شده',
+            self::ORDER_STATUS_AWAIT_CONFIRM => 'در انتظار تایید',
+            self::ORDER_STATUS_NOT_CONFIRMED => 'تاییده نشده',
+            self::ORDER_STATUS_CONFIRMED => 'تایید شده',
+            self::ORDER_STATUS_CANCELED => 'باطل شده',
+            self::ORDER_STATUS_RETURNED => 'مرجوع شده',
             default => 'بررسی نشده',
         };
     }

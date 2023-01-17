@@ -3,6 +3,8 @@
 namespace Modules\Address\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Address\Entities\Address;
 use Modules\Address\Entities\City;
 use Modules\Address\Entities\Country;
@@ -16,6 +18,17 @@ class AddressRepoEloquent implements AddressRepoEloquentInterface
     public function userAddresses(): mixed
     {
         return auth()->user()->addresses()->latest();
+    }
+
+    /**
+     * Find delivery method by id.
+     *
+     * @param  $id
+     * @return Builder|Builder[]|Collection|Model|null
+     */
+    public function findById($id): Model|Collection|Builder|array|null
+    {
+        return $this->query()->findOrFail($id);
     }
 
     /**

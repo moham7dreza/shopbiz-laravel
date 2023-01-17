@@ -99,12 +99,14 @@
                                 </p>
                             </section>
 
-                            <section class="d-flex justify-content-between align-items-center">
-                                <p class="text-muted">تخفیف کالاها</p>
-                                <p class="text-danger fw-bolder"
-                                   id="total_discount">{{ $cartItem->faPrice($totalDiscount) }}
-                                </p>
-                            </section>
+                            @if ($totalDiscount != 0)
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <p class="text-muted">تخفیف کالاها</p>
+                                    <p class="text-danger fw-bolder"
+                                       id="total_discount">{{ $cartItem->faPrice($totalDiscount) }}
+                                    </p>
+                                </section>
+                            @endif
                             <section class="border-bottom mb-3"></section>
                             <section class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted">جمع سبد خرید</p>
@@ -125,7 +127,7 @@
 
                             <section class="">
                                 <button onclick="document.getElementById('cart_items').submit();"
-                                        class="btn btn-danger d-block">
+                                        class="btn btn-danger d-block w-100">
                                     انتخاب آدرس و روش ارسال کالا
 {{--                                    تکمیل فرآیند خرید--}}
                                 </button>

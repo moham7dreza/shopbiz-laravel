@@ -20,12 +20,12 @@ class DeliveryRepoEloquent implements DeliveryRepoEloquentInterface
     }
 
     /**
-     * Find role by id.
+     * Find delivery method by id.
      *
      * @param  $id
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findById($id)
+    public function findById($id): Model|Collection|Builder|array|null
     {
         return $this->query()->findOrFail($id);
     }

@@ -13,25 +13,25 @@
         @endforeach
 
         <section class="d-flex justify-content-between align-items-center">
-            <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
-            <p class="text-muted"><span
-                    id="total_product_price">{{ priceFormat($totalProductPrice) }}</span> تومان
+            <p class="text-muted">قیمت کالاها ({{ $cartItem->faItemsCount() }})</p>
+            <p class="text-muted" id="total_product_price">
+                {{ $cartItem->faPrice($totalProductPrice) }}
             </p>
         </section>
 
         @if ($totalDiscount != 0)
             <section class="d-flex justify-content-between align-items-center">
                 <p class="text-muted">تخفیف کالاها</p>
-                <p class="text-danger fw-bolder"><span
-                        id="total_discount">{{ priceFormat($totalDiscount) }}</span> تومان</p>
+                <p class="text-danger fw-bolder"
+                   id="total_discount">{{ $cartItem->faPrice($totalDiscount) }}
+                </p>
             </section>
         @endif
         <section class="border-bottom mb-3"></section>
         <section class="d-flex justify-content-between align-items-center">
             <p class="text-muted">جمع سبد خرید</p>
-            <p class="fw-bolder"><span
-                    id="total_price">{{ priceFormat($totalProductPrice - $totalDiscount) }}</span>
-                تومان</p>
+            <p class="fw-bolder" id="total_price">
+                {{ $cartItem->faPrice($totalProductPrice - $totalDiscount) }}</p>
         </section>
 
         <p class="my-3">

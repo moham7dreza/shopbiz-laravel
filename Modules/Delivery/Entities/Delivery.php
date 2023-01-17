@@ -47,4 +47,12 @@ class Delivery extends Model
     {
         return convertEnglishToPersian($this->delivery_time) . ' - ' . $this->delivery_time_unit . ' کاری'?? 'روز کاری تعریف نشده.';
     }
+
+    /**
+     * @return string
+     */
+    public function explainDeliveryTime(): string
+    {
+        return 'تامین کالا از ' . convertEnglishToPersian($this->delivery_time) . $this->delivery_time_unit . ' کاری آینده';
+    }
 }

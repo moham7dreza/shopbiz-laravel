@@ -38,7 +38,7 @@ class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
         return $this->query()->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', 1]
+            ['status', CommonDiscount::STATUS_ACTIVE]
         ])->first();
     }
 

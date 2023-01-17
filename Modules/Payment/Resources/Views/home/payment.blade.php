@@ -11,6 +11,11 @@
     <section class="mb-4">
         <section class="container-xxl">
             <section class="row">
+                @if(session('info'))
+                    <div class="alert alert-info">
+                        {{ session('info') }}
+                    </div>
+                @endif
                 @if(session('copan'))
                     <div class="alert alert-success">
                         {{ session('copan') }}

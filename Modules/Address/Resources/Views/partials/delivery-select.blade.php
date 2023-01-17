@@ -34,9 +34,7 @@
                 </section>
                 <section class="mb-2">
                     <i class="fa fa-calendar-alt mx-1"></i>
-                    تامین کالا
-                    از {{ $deliveryMethod->delivery_time }} {{ $deliveryMethod->delivery_time_unit }}
-                    کاری آینده
+                    {{ $deliveryMethod->explainDeliveryTime() }}
                 </section>
             </label>
 
