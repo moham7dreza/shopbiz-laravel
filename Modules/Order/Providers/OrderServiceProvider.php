@@ -13,7 +13,7 @@ use Modules\Order\Repositories\OrderRepoEloquentInterface;
 class OrderServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for order controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class OrderServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/order_routes.php';
 
     /**
-     * Register panel files.
+     * Register order files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot order service provider.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load order migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load order view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load order route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load order policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class OrderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for order.
      *
      * @return void
      */
@@ -139,7 +139,7 @@ class OrderServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(OrderRepoEloquentInterface::class, OrderRepoEloquent::class);
     }

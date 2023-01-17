@@ -9,11 +9,13 @@ use Modules\Payment\Entities\Payment;
 use Modules\Payment\Policies\PaymentPolicy;
 use Modules\Payment\Repositories\PaymentRepoEloquent;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
+use Modules\Payment\Services\PaymentService;
+use Modules\Payment\Services\PaymentServiceInterface;
 
 class PaymentServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for payment controller.
      *
      * @var string
      */
@@ -55,7 +57,7 @@ class PaymentServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/payment_routes.php';
 
     /**
-     * Register panel files.
+     * Register payment files.
      *
      * @return void
      */
@@ -66,10 +68,11 @@ class PaymentServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
+        $this->bindService();
     }
 
     /**
-     * Boot panel service provider.
+     * Boot payment service provider.
      *
      * @return void
      */
@@ -81,7 +84,7 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load payment migration files.
      *
      * @return void
      */
@@ -91,7 +94,7 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load payment view files.
      *
      * @return void
      */
@@ -101,7 +104,7 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load payment route files.
      *
      * @return void
      */
@@ -113,7 +116,7 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load payment policy files.
      *
      * @return void
      */
@@ -123,7 +126,7 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for payment.
      *
      * @return void
      */
@@ -139,8 +142,16 @@ class PaymentServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(PaymentRepoEloquentInterface::class, PaymentRepoEloquent::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function bindService(): void
+    {
+        $this->app->bind(PaymentServiceInterface::class, PaymentService::class);
     }
 }

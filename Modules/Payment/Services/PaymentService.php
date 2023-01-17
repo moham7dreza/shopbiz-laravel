@@ -2,13 +2,98 @@
 
 namespace Modules\Payment\Services;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
+use Modules\Order\Entities\Order;
+use Modules\Payment\Entities\CashPayment;
+use Modules\Payment\Entities\OfflinePayment;
+use Modules\Payment\Entities\OnlinePayment;
+use Modules\Payment\Entities\Payment;
 
-class PaymentService
+class PaymentService implements PaymentServiceInterface
 {
+    /**
+     * @param $targetModel
+     * @param $orderFinalAmount
+     * @param $cash_receiver
+     * @return mixed
+     */
+    public function storeTargetModel($targetModel, $orderFinalAmount, $cash_receiver): mixed
+    {
+        return $targetModel::query()->create([
+            'amount' => $orderFinalAmount,
+            'user_id' => auth()->id(),
+            'pay_date' => now(),
+            'cash_receiver' => $cash_receiver,
+            'status' => $targetModel::STATUS_ACTIVE,
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @return array|RedirectResponse
+     */
+    public function findTargetModel($request): array|RedirectResponse
+    {
+        // only for cash payments -> whose receive cash
+        $cash_receiver = null;
+
+        switch ($request->payment_type) {
+            case '1':
+                $targetModel = OnlinePayment::class;
+                $type = 0;
+                break;
+            case '2':
+                $targetModel = OfflinePayment::class;
+                $type = 1;
+                break;
+            case '3':
+                $targetModel = CashPayment::class;
+                $type = 2;
+                $cash_receiver = $request->cash_receiver ? $request->cash_receiver : null;
+                break;
+            default:
+                return redirect()->back()->withErrors(['error' => 'خطا']);
+        }
+        return [
+            'targetModel' => $targetModel,
+            'type' => $type,
+            'cashReceiver' => $cash_receiver
+        ];
+    }
+
+    /**
+     * @param $orderFinalAmount
+     * @param $type
+     * @param $paymentedId
+     * @param $targetModel
+     * @return Model|Builder
+     */
+    public function store($orderFinalAmount, $type, $paymentedId, $targetModel): Model|Builder
+    {
+        return $this->query()->create([
+            'amount' => $orderFinalAmount,
+            'user_id' => auth()->id(),
+            'pay_date' => now(),
+            'type' => $type,
+            'paymentable_id' => $paymentedId,
+            'paymentable_type' => $targetModel,
+            'status' => Order::PAYMENT_STATUS_PAID,
+        ]);
+    }
+
     public function makePaymentCanceled($payment)
     {
         $payment->status = 2;
+    }
+
+    /**
+     * @return Builder
+     */
+    private function query(): Builder
+    {
+        return Payment::query();
     }
 //    /**
 //     * Generate payments.

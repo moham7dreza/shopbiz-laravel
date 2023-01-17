@@ -1,7 +1,9 @@
 <?php
 
 namespace Modules\Discount\Repositories\Copan;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\Copan;
 
 class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
@@ -14,6 +16,37 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
     public function getLatest(): Builder
     {
         return $this->query()->latest();
+    }
+
+    // home
+
+    /**
+     * @param $code
+     * @return Model|Builder|null
+     */
+    public function findActiveCopanDiscountWithCode($code): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['code', $code],
+            ['status', Copan::STATUS_ACTIVE],
+            ['end_date', '>', Carbon::now()],
+            ['start_date', '<', Carbon::now()]
+        ])->first();
+    }
+
+    /**
+     * @param $code
+     * @return Model|Builder|null
+     */
+    public function findActiveCopanDiscountWithCodeAssignedForUser($code): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['code', $code],
+            ['status', Copan::STATUS_ACTIVE],
+            ['end_date', '>', Carbon::now()],
+            ['start_date', '<', Carbon::now()],
+            ['user_id', auth()->id()]
+        ])->first();
     }
 
     /**

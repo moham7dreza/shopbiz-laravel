@@ -20,6 +20,29 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * @return Model|Builder|null
+     */
+    public function findUserUncheckedOrder(): Model|Builder|null
+    {
+        return $this->query()->where([
+           ['user_id', auth()->id()],
+           ['order_status', Order::ORDER_STATUS_NOT_CHECKED]
+        ])->first();
+    }
+
+    /**
+     * @return Model|Builder|null
+     */
+    public function findUserUncheckedOrderWithEmptyCopan(): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['user_id', auth()->id()],
+            ['order_status', Order::ORDER_STATUS_NOT_CHECKED],
+            ['copan_id', null]
+        ])->first();
+    }
+
+    /**
      * @return Builder
      */
     public function newOrders(): Builder

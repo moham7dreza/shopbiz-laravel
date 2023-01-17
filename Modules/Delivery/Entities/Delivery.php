@@ -53,6 +53,6 @@ class Delivery extends Model
      */
     public function explainDeliveryTime(): string
     {
-        return 'تامین کالا از ' . convertEnglishToPersian($this->delivery_time) . $this->delivery_time_unit . ' کاری آینده';
+        return 'تامین کالا از ' . convertEnglishToPersian($this->delivery_time) . ' ' . $this->delivery_time_unit . ' کاری آینده';
     }
 }

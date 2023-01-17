@@ -38,9 +38,11 @@ class Order extends Model
     public const ORDER_STATUS_NOT_CHECKED = 0;
 
 
-    protected $guarded = ['id'];
-
-
+    protected $fillable = ['order_status', 'user_id', 'address_id', 'payment_id', 'payment_type', 'payment_status',
+        'delivery_id', 'delivery_amount', 'delivery_status', 'delivery_date', 'order_final_amount',
+        'order_discount_amount', 'copan_id', 'order_copan_discount_amount', 'common_discount_id',
+        'order_common_discount_amount', 'order_total_products_discount_amount', 'order_status'
+    ];
     // Relations
 
     /**

@@ -6,71 +6,98 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Modules\Cart\Entities\CartItem;
-use Modules\Discount\Entities\Copan;
+use Modules\Address\Repositories\AddressRepoEloquentInterface;
+use Modules\Address\Services\AddressService;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
+use Modules\Discount\Http\Requests\Home\CopanDiscountRequest;
+use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderItem;
-use Modules\Payment\Entities\CashPayment;
-use Modules\Payment\Entities\OfflinePayment;
+use Modules\Order\Repositories\OrderRepoEloquentInterface;
+use Modules\Order\Services\OrderService;
 use Modules\Payment\Entities\OnlinePayment;
-use Modules\Payment\Entities\Payment;
+use Modules\Payment\Http\Requests\Home\PaymentRequest;
+use Modules\Payment\Services\PaymentServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Http\Services\Payment\PaymentService;
 
+
 class PaymentController extends Controller
 {
+    public AddressRepoEloquentInterface $addressRepo;
+    public AddressService $addressService;
+
+    public CartRepoEloquentInterface $cartRepo;
+    public DeliveryRepoEloquentInterface $deliveryRepo;
+    public OrderService $orderService;
+    public OrderRepoEloquentInterface $orderRepo;
+    public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
+
+    public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
+    public PaymentServiceInterface $paymentService;
+
+    /**
+     * @param AddressRepoEloquentInterface $addressRepoEloquent
+     * @param AddressService $addressService
+     * @param CartRepoEloquentInterface $cartRepo
+     * @param DeliveryRepoEloquentInterface $deliveryRepo
+     * @param OrderService $orderService
+     * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
+     * @param OrderRepoEloquentInterface $orderRepo
+     * @param CopanDiscountRepoEloquentInterface $copanDiscountRepo
+     */
+    public function __construct(AddressRepoEloquentInterface        $addressRepoEloquent,
+                                AddressService                      $addressService,
+                                CartRepoEloquentInterface           $cartRepo,
+                                DeliveryRepoEloquentInterface       $deliveryRepo,
+                                OrderService                        $orderService,
+                                CommonDiscountRepoEloquentInterface $commonDiscountRepo,
+                                OrderRepoEloquentInterface          $orderRepo,
+                                CopanDiscountRepoEloquentInterface  $copanDiscountRepo,
+                                PaymentServiceInterface             $paymentService)
+    {
+        $this->addressRepo = $addressRepoEloquent;
+        $this->addressService = $addressService;
+        $this->deliveryRepo = $deliveryRepo;
+        $this->cartRepo = $cartRepo;
+        $this->orderService = $orderService;
+        $this->commonDiscountRepo = $commonDiscountRepo;
+        $this->orderRepo = $orderRepo;
+        $this->copanDiscountRepo = $copanDiscountRepo;
+        $this->paymentService = $paymentService;
+    }
+
     /**
      * @return Application|Factory|View
      */
     public function payment(): View|Factory|Application
     {
-        $user = auth()->user();
-        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
-        $order = Order::query()->where('user_id', Auth::user()->id)->where('order_status', 0)->first();
-        return view('Payment::home.payment', compact('cartItems', 'order'));
+        $cartItems = $this->cartRepo->findUserCartItems()->get();
+        $order = $this->orderRepo->findUserUncheckedOrder();
+        return view('Payment::home.payment', compact(['cartItems', 'order']));
     }
 
     /**
-     * @param Request $request
+     * @param CopanDiscountRequest $request
      * @return RedirectResponse
      */
-    public function copanDiscount(Request $request): \Illuminate\Http\RedirectResponse
+    public function copanDiscount(CopanDiscountRequest $request): RedirectResponse
     {
-        $request->validate(
-            ['copan' => 'required']
-        );
-
-        $copan = Copan::query()->where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
-        if ($copan != null) {
-            if ($copan->user_id != null) {
-                $copan = Copan::query()->where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()], ['user_id', auth()->user()->id]])->first();
-                if ($copan == null) {
+        $copan = $this->copanDiscountRepo->findActiveCopanDiscountWithCode($request->copan);
+        if (!is_null($copan)) {
+            // special user copan discount
+            if (!is_null($copan->user_id)) {
+                $copan = $this->copanDiscountRepo->findActiveCopanDiscountWithCodeAssignedForUser($request->copan);
+                if (is_null($copan)) {
                     return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
                 }
             }
-
-            $order = Order::query()->where('user_id', Auth::user()->id)->where('order_status', 0)->where('copan_id', null)->first();
-
+            // find user submitted order have empty copan record - if not empty that means user is used copan before
+            $order = $this->orderRepo->findUserUncheckedOrderWithEmptyCopan();
             if ($order) {
-                if ($copan->amount_type == 0) {
-                    $copanDiscountAmount = $order->order_final_amount * ($copan->amount / 100);
-                    if ($copanDiscountAmount > $copan->discount_ceiling) {
-                        $copanDiscountAmount = $copan->discount_ceiling;
-                    }
-                } else {
-                    $copanDiscountAmount = $copan->amount;
-                }
-
-                $order->order_final_amount = $order->order_final_amount - $copanDiscountAmount;
-
-                $finalDiscount = $order->order_total_products_discount_amount + $copanDiscountAmount;
-
-                $order->update(
-                    ['copan_id' => $copan->id, 'order_copan_discount_amount' => $copanDiscountAmount, 'order_total_products_discount_amount' => $finalDiscount]
-                );
-
+                $copanDiscountAmount = $this->orderService->calcCopanDiscountAmount($copan, $order->order_final_amount);
+                $this->orderService->update($order, $copanDiscountAmount, $copan->id);
                 return redirect()->back()->with(['copan' => 'کد تخفیف با موفقیت اعمال شد']);
             } else {
                 return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
@@ -81,87 +108,33 @@ class PaymentController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PaymentRequest $request
      * @param PaymentService $paymentService
      * @return RedirectResponse
      */
-    public function paymentSubmit(Request $request, PaymentService $paymentService): RedirectResponse
+    public function paymentSubmit(PaymentRequest $request, PaymentService $paymentService): RedirectResponse
     {
-        $request->validate(
-            ['payment_type' => 'required']
-        );
+        $order = $this->orderRepo->findUserUncheckedOrder();
+        $orderFinalAmount = $order->order_final_amount;
+        $cartItems = $this->cartRepo->findUserCartItems()->get();
 
-        $order = Order::where('user_id', Auth::user()->id)->where('order_status', 0)->first();
-        $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
-        $cash_receiver = null;
+        $model = $this->paymentService->findTargetModel($request);
+        $paymented = $this->paymentService->storeTargetModel($model['targetModel'],
+            $orderFinalAmount, $model['cashReceiver']);
 
-        switch ($request->payment_type) {
-            case '1':
-                $targetModel = OnlinePayment::class;
-                $type = 0;
-                break;
-            case '2':
-                $targetModel = OfflinePayment::class;
-                $type = 1;
-                break;
-            case '3':
-                $targetModel = CashPayment::class;
-                $type = 2;
-                $cash_receiver = $request->cash_receiver ? $request->cash_receiver : null;
-                break;
-            default:
-                return redirect()->back()->withErrors(['error' => 'خطا']);
-        }
+        $payment = $this->paymentService->store($orderFinalAmount, $model['type'],
+            $paymented->id, $model['targetModel']);
 
-        $paymented = $targetModel::query()->create([
-            'amount' => $order->order_final_amount,
-            'user_id' => auth()->user()->id,
-            'pay_date' => now(),
-            'cash_receiver' => $cash_receiver,
-            'status' => 1,
-        ]);
-
-        $payment = Payment::query()->create(
-            [
-                'amount' => $order->order_final_amount,
-                'user_id' => auth()->user()->id,
-                'pay_date' => now(),
-                'type' => $type,
-                'paymentable_id' => $paymented->id,
-                'paymentable_type' => $targetModel,
-                'staus' => 1,
-            ]
-        );
-
+        // online payment
         if ($request->payment_type == 1) {
-            $paymentService->zarinpal($order->order_final_amount, $order, $paymented);
+            $order->update(['payment_type' => $model['type']]);
+            $paymentService->zarinpal($orderFinalAmount, $order, $paymented);
         }
-
-        $order->update(
-            ['order_status' => 3]
-        );
-
-        foreach ($cartItems as $cartItem) {
-
-            OrderItem::query()->create([
-                'order_id' => $order->id,
-                'product_id' => $cartItem->product_id,
-                'product' => $cartItem->product,
-                'amazing_sale_id' => $cartItem->product->activeAmazingSales()->id ?? null,
-                'amazing_sale_object' => $cartItem->product->activeAmazingSales() ?? null,
-                'amazing_sale_discount_amount' => empty($cartItem->product->activeAmazingSales()) ? 0 : $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100),
-                'number' => $cartItem->number,
-                'final_product_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)),
-                'final_total_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() * ($cartItem->number) : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)) * ($cartItem->number),
-                'color_id' => $cartItem->color_id,
-                'guarantee_id' => $cartItem->guarantee_id,
-            ]);
-
-            $cartItem->delete();
-        }
-
+        // offline pay or cash pay
+        $this->orderService->lastStepUpdate($order, $model['type'], $payment->id);
+        //
+        $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
         return redirect()->route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
-
     }
 
     /**
@@ -174,36 +147,14 @@ class PaymentController extends Controller
     {
         $amount = $onlinePayment->amount * 10;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
-        $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();
-
-        foreach ($cartItems as $cartItem) {
-            OrderItem::query()->create([
-                'order_id' => $order->id,
-                'product_id' => $cartItem->product_id,
-                'product' => $cartItem->product,
-                'amazing_sale_id' => $cartItem->product->activeAmazingSales()->id ?? null,
-                'amazing_sale_object' => $cartItem->product->activeAmazingSales() ?? null,
-                'amazing_sale_discount_amount' => empty($cartItem->product->activeAmazingSales()) ? 0 : $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100),
-                'number' => $cartItem->number,
-                'final_product_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)),
-                'final_total_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() * ($cartItem->number) : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)) * ($cartItem->number),
-                'color_id' => $cartItem->color_id,
-                'guarantee_id' => $cartItem->guarantee_id,
-            ]);
-
-            $cartItem->delete();
-        }
+        $cartItems = $this->cartRepo->findUserCartItems()->get();
+        $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
         if ($result['success']) {
-            $order->update(
-                ['order_status' => 3]
-            );
-
+            $order->update(['order_status' => Order::ORDER_STATUS_CONFIRMED]);
             return redirect()->route('customer.home')->with('success', 'پرداخت شما با موفقیت انجام شد');
         } else {
-            $order->update(
-                ['order_status' => 2]
-            );
-            return redirect()->route('customer.home')->with('danger', 'سفارش شما با  خطا مواجه شد');
+            $order->update(['order_status' => Order::ORDER_STATUS_NOT_CONFIRMED]);
+            return redirect()->route('customer.home')->with('danger', 'سفارش شما با خطا مواجه شد');
         }
     }
 }

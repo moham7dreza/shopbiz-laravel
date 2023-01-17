@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function product(Product $product, ProductRepoEloquentInterface $productRepo): View|Factory|Application
     {
         $relatedProducts = $productRepo->index()->get();
-        return view('Product::home.product', compact('product', 'relatedProducts'));
+        return view('Product::home.product', compact(['product', 'relatedProducts']));
     }
 
     /**

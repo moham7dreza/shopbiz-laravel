@@ -22,9 +22,9 @@
                     </div>
                 @endif
                 @if ($errors->any())
-                    <ul>
+                    <ul class="list-group">
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="alert alert-danger list-group-item-danger" style="list-style: none;">{{ $error }}</li>
                         @endforeach
                     </ul>
                 @endif
