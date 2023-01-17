@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="vh-100 d-flex justify-content-center align-items-center pb-5">
-        <form action="{{ route('auth.customer.login-register') }}" method="post">
+        <form action="{{ route('auth.login-register') }}" method="post">
             @csrf
             <section class="login-wrapper mb-5">
                 <section class="login-logo">

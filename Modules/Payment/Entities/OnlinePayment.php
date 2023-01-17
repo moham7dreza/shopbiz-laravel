@@ -13,6 +13,9 @@ class OnlinePayment extends Model
     protected $guarded = ['id'];
 
 
+    /**
+     * @return MorphMany
+     */
     public function payments(): MorphMany
     {
         return $this->morphMany('Modules\Payment\Entities\Payment', 'paymentable');

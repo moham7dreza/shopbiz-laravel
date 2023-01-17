@@ -13,14 +13,14 @@
 @section('content')
 
     <section class="vh-100 d-flex justify-content-center align-items-center pb-5">
-        <form action="{{ route('auth.customer.login-confirm', $token) }}" method="post">
+        <form action="{{ route('auth.login-confirm', $token) }}" method="post">
             @csrf
             <section class="login-wrapper mb-5">
                 <section class="login-logo">
                     <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="">
                 </section>
                 <section class="login-title mb-2">
-                    <a href="{{ route('auth.customer.login-register-form') }}">
+                    <a href="{{ route('auth.login-register-form') }}">
                         <i class="fa fa-arrow-right"></i>
                     </a>
                 </section>
@@ -52,7 +52,7 @@
                 </section>
 
                 <section id="resend-otp" class="d-none">
-                    <a href="{{ route('auth.customer.login-resend-otp', $token) }}"
+                    <a href="{{ route('auth.login-resend-otp', $token) }}"
                        class="text-decoration-none text-primary">دریافت مجدد کد تایید</a>
                 </section>
                 <section id="timer"></section>

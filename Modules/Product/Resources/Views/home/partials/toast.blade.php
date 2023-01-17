@@ -8,7 +8,7 @@
             <strong class="ml-auto">
                 برای افزودن کالا به لیست علاقه مندی ها باید ابتدا وارد حساب کاربری خود شوید
                 <br>
-                <a href="{{ route('auth.customer.login-register-form') }}" class="text-dark">
+                <a href="{{ route('auth.login-register-form') }}" class="text-dark">
                     ثبت نام / ورود
                 </a>
             </strong>

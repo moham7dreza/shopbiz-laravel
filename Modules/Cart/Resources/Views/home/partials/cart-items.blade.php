@@ -33,16 +33,16 @@
 
                                 <section class="cart-item d-md-flex py-3">
                                     <section class="cart-img align-self-start flex-shrink-1">
-                                        <img src="{{ asset($cartItem->product->image['indexArray']['medium']) }}"
+                                        <img src="{{ $cartItem->productImage() }}"
                                              alt="">
                                     </section>
                                     <section class="align-self-start w-100">
-                                        <p class="fw-bold">{{ $cartItem->product->name }}</p>
+                                        <p class="fw-bold">{{ $cartItem->productName() }}</p>
                                         <p>
                                             @if (!empty($cartItem->color))
                                                 <span style="background-color: {{ $cartItem->color->color }};"
                                                       class="cart-product-selected-color me-1"></span> <span>
-                                                        {{ $cartItem->color->color_name }}</span>
+                                                        {{ $cartItem->colorName() }}</span>
                                             @else
                                                 <span>رنگ منتخب وجود ندارد</span>
                                             @endif
@@ -50,7 +50,7 @@
                                         <p>
                                             @if (!empty($cartItem->guarantee))
                                                 <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                                <span> {{ $cartItem->guarantee->name }}</span>
+                                                <span> {{ $cartItem->guaranteeName() }}</span>
                                             @else
                                                 <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
                                                 <span> گارانتی ندارد</span>
@@ -75,12 +75,12 @@
                                         </section>
                                     </section>
                                     <section class="align-self-end flex-shrink-1">
-                                        @if (!empty($cartItem->product->activeAmazingSales()))
-                                            <section class="cart-item-discount text-danger text-nowrap mb-1">تخفیف
-                                                {{ priceFormat($cartItem->cartItemProductDiscount()) }}</section>
+                                        @if ($cartItem->hasActiveAmazingSale())
+                                            <section class="cart-item-discount text-danger text-nowrap mb-1">تخفیف :
+                                                {{ $cartItem->productDiscount() }}</section>
                                         @endif
                                         <section class="text-nowrap fw-bold">
-                                            {{ priceFormat($cartItem->cartItemProductPrice()) }} تومان
+                                            {{ $cartItem->faProductPrice() }}
                                         </section>
                                     </section>
                                 </section>
@@ -93,22 +93,23 @@
                     <section class="col-md-3">
                         <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
                             <section class="d-flex justify-content-between align-items-center">
-                                <p class="text-muted">قیمت کالاها ({{ $cartItem->count() }})</p>
-                                <p class="text-muted" id="total_product_price">{{ priceFormat($totalProductPrice) }}
-                                    تومان</p>
+                                <p class="text-muted">قیمت کالاها ({{ $cartItem->faItemsCount() }})</p>
+                                <p class="text-muted" id="total_product_price">
+                                    {{ $cartItem->faPrice($totalProductPrice) }}
+                                </p>
                             </section>
 
                             <section class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted">تخفیف کالاها</p>
                                 <p class="text-danger fw-bolder"
-                                   id="total_discount">{{ priceFormat($totalDiscount) }}
-                                    تومان</p>
+                                   id="total_discount">{{ $cartItem->faPrice($totalDiscount) }}
+                                </p>
                             </section>
                             <section class="border-bottom mb-3"></section>
                             <section class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted">جمع سبد خرید</p>
                                 <p class="fw-bolder" id="total_price">
-                                    {{ priceFormat($totalProductPrice - $totalDiscount) }} تومان</p>
+                                    {{ $cartItem->faPrice($totalProductPrice - $totalDiscount) }}</p>
                             </section>
 
                             <p class="my-3">
@@ -124,7 +125,9 @@
 
                             <section class="">
                                 <button onclick="document.getElementById('cart_items').submit();"
-                                        class="btn btn-danger d-block">تکمیل فرآیند خرید
+                                        class="btn btn-danger d-block">
+                                    انتخاب آدرس و روش ارسال کالا
+{{--                                    تکمیل فرآیند خرید--}}
                                 </button>
                             </section>
 

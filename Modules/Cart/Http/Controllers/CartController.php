@@ -7,8 +7,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Entities\CartItem;
+use Modules\Cart\Http\Requests\CartRequest;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Cart\Services\CartService;
 use Modules\Product\Entities\Product;
@@ -33,6 +33,12 @@ class CartController extends Controller
     {
         $this->repo = $cartRepoEloquent;
         $this->service = $cartService;
+
+        $this->middleware('can:auth');
+
+        if (!auth()->check()) {
+            return to_route('auth.login-register-form');
+        }
     }
 
     /**
@@ -41,17 +47,12 @@ class CartController extends Controller
      */
     public function cart(ProductRepoEloquentInterface $productRepo): View|Factory|RedirectResponse|Application
     {
-        if (Auth::check()) {
-            $cartItems = $this->repo->findUserCartItems()->get();
-            if ($cartItems->count() > 0) {
-                $relatedProducts = $productRepo->index()->get();
-                return view('Cart::home.cart', compact(['cartItems', 'relatedProducts']));
-            } else {
-                return redirect()->back();
-            }
-
+        $cartItems = $this->repo->findUserCartItems()->get();
+        if ($cartItems->count() > 0) {
+            $relatedProducts = $productRepo->index()->get();
+            return view('Cart::home.cart', compact(['cartItems', 'relatedProducts']));
         } else {
-            return redirect()->route('auth.customer.login-register-form');
+            return redirect()->back()->with('danger', 'سبد خرید شما خالی است.');
         }
     }
 
@@ -61,62 +62,22 @@ class CartController extends Controller
      */
     public function updateCart(Request $request): RedirectResponse
     {
-        $inputs = $request->all();
         $cartItems = $this->repo->findUserCartItems()->get();
-        foreach ($cartItems as $cartItem) {
-            if (isset($inputs['number'][$cartItem->id])) {
-                $cartItem->update(['number' => $inputs['number'][$cartItem->id]]);
-            }
-        }
+        $this->service->updateCartItems($request, $cartItems);
         return redirect()->route('customer.sales-process.address-and-delivery');
     }
 
 
     /**
      * @param Product $product
-     * @param Request $request
+     * @param CartRequest $request
      * @return RedirectResponse
      */
-    public function addToCart(Product $product, Request $request): RedirectResponse
+    public function addToCart(Product $product, CartRequest $request): RedirectResponse
     {
-        if (Auth::check()) {
-            $request->validate([
-                'color' => 'nullable|exists:product_colors,id',
-                'guarantee' => 'nullable|exists:guarantees,id',
-                'number' => 'numeric|min:1|max:5'
-            ]);
-
-            $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
-
-            if (!isset($request->color)) {
-                $request->color = null;
-            }
-            if (!isset($request->guarantee)) {
-                $request->guarantee = null;
-            }
-
-            foreach ($cartItems as $cartItem) {
-                if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
-                    if ($cartItem->number != $request->number) {
-                        $cartItem->update(['number' => $request->number]);
-                    }
-                    return back();
-                }
-            }
-
-            $inputs = [];
-            $inputs['color_id'] = $request->color;
-            $inputs['guarantee_id'] = $request->guarantee;
-            $inputs['user_id'] = auth()->user()->id;
-            $inputs['product_id'] = $product->id;
-
-            CartItem::query()->create($inputs);
-
-            return back()->with('alert-section-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
-
-        } else {
-            return redirect()->route('auth.customer.login-register-form');
-        }
+        $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
+        $this->service->store($request, $product, $cartItems);
+        return back()->with('alert-section-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
 

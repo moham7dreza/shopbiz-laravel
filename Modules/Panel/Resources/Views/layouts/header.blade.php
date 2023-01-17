@@ -138,7 +138,7 @@
                             <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-lock"></i>قفل صفحه
                             </a>
-                            <a href="{{ route('auth.customer.logout') }}"
+                            <a href="{{ route('auth.logout') }}"
                                class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-sign-out-alt"></i>خروج
                             </a>

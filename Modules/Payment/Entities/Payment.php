@@ -22,6 +22,9 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return MorphTo
+     */
     public function paymentable(): MorphTo
     {
         return $this->morphTo();

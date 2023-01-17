@@ -3,6 +3,7 @@
     <section class="container-xxl" >
 
         @include('Panel::alerts.alert-section.success')
+        @include('Panel::alerts.alert-section.error')
 
         <section class="row">
             <section class="col">

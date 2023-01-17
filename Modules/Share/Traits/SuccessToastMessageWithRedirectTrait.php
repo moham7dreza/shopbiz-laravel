@@ -22,4 +22,9 @@ trait SuccessToastMessageWithRedirectTrait
 
         return to_route($this->redirectRoute, $params)->with($status, $title);
     }
+
+    private function onlyRedirect(array $params = array())
+    {
+        return to_route($this->redirectRoute, $params);
+    }
 }

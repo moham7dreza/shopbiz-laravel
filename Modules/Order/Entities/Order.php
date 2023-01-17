@@ -23,36 +23,58 @@ class Order extends Model
 
 
     // Relations
+
+    /**
+     * @return BelongsTo
+     */
     public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function delivery(): BelongsTo
     {
         return $this->belongsTo(Delivery::class);
     }
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function copan(): BelongsTo
     {
         return $this->belongsTo(Copan::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function commonDiscount(): BelongsTo
     {
         return $this->belongsTo(CommonDiscount::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -60,81 +82,58 @@ class Order extends Model
 
 
     // Methods
+
+    /**
+     * @return string
+     */
     public function getPaymentStatusValueAttribute(): string
     {
-        switch ($this->payment_status) {
-            case 0:
-                $result = 'پرداخت نشده';
-                break;
-            case 1:
-                $result = 'پرداخت شده';
-                break;
-            case 2:
-                $result = 'باطل شده';
-                break;
-            default :
-                $result = 'برگشت داده شده';
-        }
-        return $result;
+        return match ($this->payment_status) {
+            0 => 'پرداخت نشده',
+            1 => 'پرداخت شده',
+            2 => 'باطل شده',
+            default => 'برگشت داده شده',
+        };
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentTypeValueAttribute(): string
     {
-        switch ($this->payment_type) {
-            case 0:
-                $result = 'آنلاین';
-                break;
-            case 1:
-                $result = 'آفلاین';
-                break;
-            default :
-                $result = 'در محل';
-        }
-        return $result;
+        return match ($this->payment_type) {
+            0 => 'آنلاین',
+            1 => 'آفلاین',
+            default => 'در محل',
+        };
     }
 
+    /**
+     * @return string
+     */
     public function getDeliveryStatusValueAttribute(): string
     {
-        switch ($this->delivery_status) {
-            case 0:
-                $result = 'ارسال نشده';
-                break;
-            case 1:
-                $result = 'در حال ارسال';
-                break;
-            case 2:
-                $result = 'ارسال شده';
-                break;
-            default :
-                $result = 'تحویل شده';
-        }
-        return $result;
+        return match ($this->delivery_status) {
+            0 => 'ارسال نشده',
+            1 => 'در حال ارسال',
+            2 => 'ارسال شده',
+            default => 'تحویل شده',
+        };
     }
 
 
+    /**
+     * @return string
+     */
     public function getOrderStatusValueAttribute(): string
     {
-        switch ($this->order_status) {
-            case 1:
-                $result = 'در انتظار تایید';
-                break;
-            case 2:
-                $result = 'تاییده نشده';
-                break;
-            case 3:
-                $result = 'تایید شده';
-                break;
-            case 4:
-                $result = 'باطل شده';
-                break;
-            case 5:
-                $result = 'مرجوع شده';
-                break;
-            default :
-                $result = 'بررسی نشده';
-        }
-        return $result;
+        return match ($this->order_status) {
+            1 => 'در انتظار تایید',
+            2 => 'تاییده نشده',
+            3 => 'تایید شده',
+            4 => 'باطل شده',
+            5 => 'مرجوع شده',
+            default => 'بررسی نشده',
+        };
     }
-
-
 }

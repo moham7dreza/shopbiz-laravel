@@ -12,7 +12,7 @@ use Modules\Cart\Services\CartServiceInterface;
 class CartServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for cart controller.
      *
      * @var string
      */
@@ -54,7 +54,7 @@ class CartServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/cart_routes.php';
 
     /**
-     * Register panel files.
+     * Register cart files.
      *
      * @return void
      */
@@ -78,7 +78,7 @@ class CartServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load cart view files.
      *
      * @return void
      */
@@ -88,7 +88,7 @@ class CartServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load cart route files.
      *
      * @return void
      */
@@ -100,21 +100,21 @@ class CartServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind permission repository.
+     * Bind cart repository.
      *
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(CartRepoEloquentInterface::class, CartRepoEloquent::class);
     }
 
     /**
-     * Bind permission repository.
+     * Bind cart repository.
      *
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(CartServiceInterface::class, CartService::class);
     }

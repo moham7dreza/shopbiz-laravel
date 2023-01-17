@@ -71,7 +71,7 @@
                         @endauth
 
                         @guest
-                            <a href="{{ route('auth.customer.login-register-form') }}"
+                            <a href="{{ route('auth.login-register-form') }}"
                                class="btn btn-link text-decoration-none text-dark profile-button">
                                 <i class="fa fa-user-lock"></i>
                             </a>

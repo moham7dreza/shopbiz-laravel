@@ -2,12 +2,21 @@
 
 use Morilog\Jalali\Jalalian;
 
-function jalaliDate($date, $format = '%A, %d %B %Y')
+/**
+ * @param $date
+ * @param string $format
+ * @return string
+ */
+function jalaliDate($date, string $format = '%A, %d %B %Y'): string
 {
     return Jalalian::forge($date)->format($format);
 }
 
-function convertPersianToEnglish($number)
+/**
+ * @param $number
+ * @return array|string
+ */
+function convertPersianToEnglish($number): array|string
 {
     $number = str_replace('۰', '0', $number);
     $number = str_replace('۱', '1', $number);
@@ -18,13 +27,15 @@ function convertPersianToEnglish($number)
     $number = str_replace('۶', '6', $number);
     $number = str_replace('۷', '7', $number);
     $number = str_replace('۸', '8', $number);
-    $number = str_replace('۹', '9', $number);
-
-    return $number;
+    return str_replace('۹', '9', $number);
 }
 
 
-function convertArabicToEnglish($number)
+/**
+ * @param $number
+ * @return array|string
+ */
+function convertArabicToEnglish($number): array|string
 {
     $number = str_replace('۰', '0', $number);
     $number = str_replace('۱', '1', $number);
@@ -35,14 +46,15 @@ function convertArabicToEnglish($number)
     $number = str_replace('۶', '6', $number);
     $number = str_replace('۷', '7', $number);
     $number = str_replace('۸', '8', $number);
-    $number = str_replace('۹', '9', $number);
-
-    return $number;
+    return str_replace('۹', '9', $number);
 }
 
 
-
-function convertEnglishToPersian($number)
+/**
+ * @param $number
+ * @return array|string
+ */
+function convertEnglishToPersian($number): array|string
 {
     $number = str_replace('0', '۰', $number);
     $number = str_replace('1', '۱', $number);
@@ -53,65 +65,58 @@ function convertEnglishToPersian($number)
     $number = str_replace('6', '۶', $number);
     $number = str_replace('7', '۷', $number);
     $number = str_replace('8', '۸', $number);
-    $number = str_replace('9', '۹', $number);
-
-    return $number;
+    return str_replace('9', '۹', $number);
 }
 
 
-
-function priceFormat($price)
+/**
+ * @param $price
+ * @return array|string|string[]
+ */
+function priceFormat($price): array|string
 {
     $price = number_format($price, 0, '/', '،');
-    $price = convertEnglishToPersian($price);
-    return $price;
+    return convertEnglishToPersian($price);
 }
 
 
-function validateNationalCode($nationalCode)
+/**
+ * @param $nationalCode
+ * @return bool
+ */
+function validateNationalCode($nationalCode): bool
 {
     $nationalCode = trim($nationalCode, ' .');
     $nationalCode = convertArabicToEnglish($nationalCode);
     $nationalCode = convertPersianToEnglish($nationalCode);
     $bannedArray = ['0000000000', '1111111111', '2222222222', '3333333333', '4444444444', '5555555555', '6666666666', '7777777777', '8888888888', '9999999999'];
 
-    if(empty($nationalCode))
-    {
+    if (empty($nationalCode)) {
         return false;
-    }
-    else if(count(str_split($nationalCode)) != 10)
-    {
+    } else if (count(str_split($nationalCode)) != 10) {
         return false;
-    }
-    else if(in_array($nationalCode, $bannedArray))
-    {
+    } else if (in_array($nationalCode, $bannedArray)) {
         return false;
-    }
-    else{
+    } else {
 
         $sum = 0;
 
-        for($i = 0; $i < 9; $i++)
-        {
+        for ($i = 0; $i < 9; $i++) {
             // 1234567890
-            $sum += (int) $nationalCode[$i] * (10 - $i);
+            $sum += (int)$nationalCode[$i] * (10 - $i);
         }
 
         $divideRemaining = $sum % 11;
 
-        if($divideRemaining < 2)
-        {
+        if ($divideRemaining < 2) {
             $lastDigit = $divideRemaining;
-        }
-        else{
+        } else {
             $lastDigit = 11 - ($divideRemaining);
         }
 
-        if((int) $nationalCode[9] == $lastDigit)
-        {
+        if ((int)$nationalCode[9] == $lastDigit) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
 

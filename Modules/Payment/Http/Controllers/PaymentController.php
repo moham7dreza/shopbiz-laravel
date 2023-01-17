@@ -8,10 +8,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Payment\Entities\Payment;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
+use Modules\Payment\Services\PaymentService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PaymentController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -23,13 +27,16 @@ class PaymentController extends Controller
     private string $class = Payment::class;
 
     public PaymentRepoEloquentInterface $repo;
+    public PaymentService $service;
 
     /**
      * @param PaymentRepoEloquentInterface $paymentRepoEloquent
+     * @param PaymentService $paymentService
      */
-    public function __construct(PaymentRepoEloquentInterface $paymentRepoEloquent)
+    public function __construct(PaymentRepoEloquentInterface $paymentRepoEloquent, PaymentService $paymentService)
     {
         $this->repo = $paymentRepoEloquent;
+        $this->service = $paymentService;
 
         $this->middleware('can:permission-product-all-payments')->only(['index']);
         $this->middleware('can:permission-product-online-payments')->only(['online']);
@@ -93,7 +100,7 @@ class PaymentController extends Controller
     {
         $payment->status = 2;
         $payment->save();
-        return redirect()->route('payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
+        return $this->successMessageWithRedirect('تغییر شما با موفقیت انجام شد');
     }
 
     /**
@@ -104,7 +111,7 @@ class PaymentController extends Controller
     {
         $payment->status = 3;
         $payment->save();
-        return redirect()->route('payment.index')->with('swal-success', 'تغییر شما با موفقیت انجام شد');
+        return $this->successMessageWithRedirect('تغییر شما با موفقیت انجام شد');
     }
 
     /**

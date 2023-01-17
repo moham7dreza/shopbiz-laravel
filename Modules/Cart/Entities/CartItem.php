@@ -4,6 +4,7 @@ namespace Modules\Cart\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
@@ -15,36 +16,54 @@ class CartItem extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['color_id', 'number', 'product_id', 'user_id', 'guarantee_id'];
 
 
-    public function product()
+    // Relations
+
+    /**
+     * @return BelongsTo
+     */
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
 
-    public function guarantee()
+    /**
+     * @return BelongsTo
+     */
+    public function guarantee(): BelongsTo
     {
         return $this->belongsTo(Guarantee::class);
     }
 
 
-    public function color()
+    public function color(): BelongsTo
     {
         return $this->belongsTo(ProductColor::class);
     }
 
 
+    // Methods
 
-    //productPrice + colorPrice + guranateePrice
-    public function cartItemProductPrice()
+    //productPrice + colorPrice + guaranteePrice
+    /**
+     * @return int
+     */
+    public function cartItemProductPrice(): int
     {
         $guaranteePriceIncrease = empty($this->guarantee_id) ? 0 : $this->guarantee->price_increase;
         $colorPriceIncrease = empty($this->color_id) ? 0 : $this->color->price_increase;
@@ -52,17 +71,24 @@ class CartItem extends Model
     }
 
 
-    // productPrice * (discountPerecentage / 100)
-    public function cartItemProductDiscount()
+    // productPrice * (discountPercentage / 100)
+
+    /**
+     * @return float|int
+     */
+    public function cartItemProductDiscount(): float|int
     {
         $cartItemProductPrice = $this->cartItemProductPrice();
-        $productDiscount = empty($this->product->activeAmazingSales()) ? 0 : $cartItemProductPrice * ($this->product->activeAmazingSales()->percentage / 100);
-        return $productDiscount;
+        return empty($this->product->activeAmazingSales()) ? 0 : $cartItemProductPrice * ($this->product->activeAmazingSales()->percentage / 100);
     }
 
 
     //number * (productPrice + colorPrice + guranateePrice - discountPrice)
-    public function cartItemFinalPrice()
+
+    /**
+     * @return float|int
+     */
+    public function cartItemFinalPrice(): float|int
     {
         $cartItemProductPrice = $this->cartItemProductPrice();
         $productDiscount = $this->cartItemProductDiscount();
@@ -71,10 +97,87 @@ class CartItem extends Model
 
 
     //number * productDiscount
-    public function cartItemFinalDiscount()
+
+    /**
+     * @return float|int
+     */
+    public function cartItemFinalDiscount(): float|int
     {
         $productDiscount = $this->cartItemProductDiscount();
         return $this->number * $productDiscount;
     }
 
+
+    /**
+     * @return string
+     */
+    public function productImage(): string
+    {
+        return asset($this->product->image['indexArray']['medium']);
+    }
+
+    /**
+     * @return string
+     */
+    public function productName(): string
+    {
+        return $this->product->name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function colorName(): string
+    {
+        return $this->color->color_name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function guaranteeName(): string
+    {
+        return $this->guarantee->name ?? '-';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function productDiscount(): int|string
+    {
+        return priceFormat($this->cartItemProductDiscount()) . ' تومان ' ?? 0;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function hasActiveAmazingSale(): bool|string
+    {
+        return !empty($this->product->activeAmazingSales()) ?? false;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function faProductPrice(): int|string
+    {
+        return priceFormat($this->cartItemProductPrice()) . ' تومان ' ?? 0;
+    }
+
+    /**
+     * @param $price
+     * @return int|string
+     */
+    public function faPrice($price): int|string
+    {
+        return priceFormat($price) . ' تومان ' ?? 0;
+    }
+
+    /**
+     * @return array|int|string|string[]
+     */
+    public function faItemsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->count()) ?? 0;
+    }
 }
