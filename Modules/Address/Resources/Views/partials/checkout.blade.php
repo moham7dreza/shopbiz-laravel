@@ -51,7 +51,7 @@
         <section class="">
             <button type="button"
                     onclick="document.getElementById('myForm').submit();"
-                    class="btn btn-danger d-block w-100">تکمیل فرآیند خرید
+                    class="btn btn-danger d-block w-100">پرداخت و تکمیل فرآیند خرید
             </button>
         </section>
 

@@ -10,6 +10,26 @@
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
+
+{{--            notifs--}}
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('danger'))
+                <div class="alert alert-danger">
+                    {{ session('danger') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div class="alert alert-info">
+                    {{ session('info') }}
+                </div>
+            @endif
+
             <section class="row">
                 <section class="col">
                     <!-- start content header -->
@@ -29,19 +49,19 @@
                         @if ($errors->any())
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                    <li class="alert alert-danger">{{ $error }}</li>
                                 @endforeach
                             </ul>
                         @endif
 
                         <section class="col-md-9">
-                            @include('Home::sales-process.partials.address-select')
+                            @include('Address::partials.address-select')
 
-                            @include('Home::sales-process.partials.delivery-select')
+                            @include('Address::partials.delivery-select')
 
                         </section>
 
-                        @include('Home::sales-process.partials.checkout')
+                        @include('Address::partials.checkout')
                     </section>
                 </section>
             </section>
@@ -54,5 +74,5 @@
 
 
 @section('script')
-    @include('Home::sales-process.partials.scripts')
+    @include('Address::partials.scripts')
 @endsection

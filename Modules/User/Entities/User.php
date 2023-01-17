@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Address\Entities\Address;
 use Modules\Comment\Entities\Comment;
 use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
@@ -21,13 +22,14 @@ use Modules\Ticket\Entities\TicketAdmin;
 
 class User extends Authenticatable
 {
-    use HasApiTokens
-        , HasFactory
-        , Notifiable, HasPermission, HasFaDate;
+    use HasApiTokens, HasFactory, Notifiable, HasPermission, HasFaDate;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
     /**
@@ -81,46 +83,74 @@ class User extends Authenticatable
     ];
 
     // Relations
+
+    /**
+     * @return HasOne
+     */
     public function ticketAdmin(): HasOne
     {
         return $this->hasOne(TicketAdmin::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'commentable_id');
     }
 
+    /**
+     * @return HasMany
+     */
     public function hasPosts(): HasMany
     {
         return $this->HasMany(Post::class, 'author_id');

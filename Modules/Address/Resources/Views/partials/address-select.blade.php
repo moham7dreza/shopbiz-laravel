@@ -23,9 +23,9 @@
 
     <section class="address-select">
 
-        @include('Home::sales-process.partials.user-addresses')
+        @include('Address::partials.user-addresses')
 
-        @include('Home::sales-process.partials.add-address')
+        @include('Address::partials.add-address')
 
     </section>
 </section>

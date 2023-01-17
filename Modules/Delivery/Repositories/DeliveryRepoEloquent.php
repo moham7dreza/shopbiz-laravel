@@ -41,6 +41,16 @@ class DeliveryRepoEloquent implements DeliveryRepoEloquentInterface
         return $this->query()->where('id', $id)->delete();
     }
 
+    // home queries
+
+    /**
+     * @return Builder
+     */
+    public function activeMethods(): Builder
+    {
+        return $this->query()->where('status', Delivery::STATUS_ACTIVE);
+    }
+
     /**
      * Builder for queue model.
      *

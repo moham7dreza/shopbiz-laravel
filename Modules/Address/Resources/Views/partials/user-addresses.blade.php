@@ -1,4 +1,4 @@
-@foreach (auth()->user()->addresses as $address)
+@foreach ($addresses as $address)
     <input type="radio" form="myForm" name="address_id" value="{{ $address->id }}"
            id="a-{{ $address->id }}"/>
     <!--checked="checked"-->

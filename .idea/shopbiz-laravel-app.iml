@@ -32,6 +32,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Modules/Setting" isTestSource="false" packagePrefix="Modules\Setting\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Ticket" isTestSource="false" packagePrefix="Modules\Ticket\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/User" isTestSource="false" packagePrefix="Modules\User\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Address" isTestSource="false" packagePrefix="Modules\Address\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />

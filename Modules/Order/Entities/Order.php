@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Address\Entities\Address;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Discount\Entities\CommonDiscount;
 use Modules\Discount\Entities\Copan;
 use Modules\Payment\Entities\Payment;
 use Modules\Share\Traits\HasFaDate;
-use Modules\User\Entities\Address;
 use Modules\User\Entities\User;
 
 class Order extends Model

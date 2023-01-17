@@ -1,43 +1,53 @@
 <?php
 
-namespace Modules\Home\Http\Controllers\SalesProcess;
-
+namespace Modules\Address\Http\Controllers\Home;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+use Modules\Address\Entities\Address;
+use Modules\Address\Entities\Province;
+use Modules\Address\Http\Requests\StoreAddressRequest;
+use Modules\Address\Http\Requests\UpdateAddressRequest;
+use Modules\Address\Repositories\AddressRepoEloquentInterface;
+use Modules\Address\Services\AddressService;
 use Modules\Cart\Entities\CartItem;
-use Modules\Delivery\Entities\Delivery;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Discount\Entities\CommonDiscount;
-use Modules\Home\Http\Requests\SalesProcess\ChooseAddressAndDeliveryRequest;
-use Modules\Home\Http\Requests\SalesProcess\StoreAddressRequest;
-use Modules\Home\Http\Requests\SalesProcess\UpdateAddressRequest;
 use Modules\Order\Entities\Order;
-use Modules\Share\Entities\Province;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\User\Entities\Address;
+use Requests\ChooseAddressAndDeliveryRequest;
 
 class AddressController extends Controller
 {
+
+    public AddressRepoEloquentInterface $repo;
+    public AddressService $service;
+
+    public function __construct(AddressRepoEloquentInterface $addressRepoEloquent, AddressService $addressService)
+    {
+        $this->repo = $addressRepoEloquent;
+        $this->service = $addressService;
+    }
+
     /**
+     * @param CartRepoEloquentInterface $cartRepo
+     * @param DeliveryRepoEloquentInterface $deliveryRepo
      * @return Application|Factory|View|RedirectResponse
      */
-    public function addressAndDelivery(): View|Factory|RedirectResponse|Application
+    public function addressAndDelivery(CartRepoEloquentInterface $cartRepo, DeliveryRepoEloquentInterface $deliveryRepo): View|Factory|RedirectResponse|Application
     {
-        //check profile
-        $user = Auth::user();
-        $provinces = Province::all();
-        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
-        $deliveryMethods = Delivery::query()->where('status', 1)->get();
-
-        if (empty(CartItem::query()->where('user_id', $user->id)->count())) {
+        $provinces = $this->repo->provinces()->get();
+        $cartItems = $cartRepo->findUserCartItems()->get();
+        $deliveryMethods = $deliveryRepo->activeMethods()->get();
+        $addresses = $this->repo->userAddresses()->get();
+        if (empty($cartRepo->findUserCartItems()->count())) {
             return redirect()->route('customer.sales-process.cart');
         }
-
-        return view('Home::sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods'));
+        return view('Address::address-and-delivery', compact(['cartItems', 'provinces', 'deliveryMethods', 'addresses']));
     }
 
 
@@ -48,7 +58,7 @@ class AddressController extends Controller
     public function getCities(Province $province): JsonResponse
     {
         $cities = $province->cities;
-        if ($cities != null) {
+        if (!is_null($cities)) {
             return response()->json(['status' => true, 'cities' => $cities]);
         } else {
             return response()->json(['status' => false, 'cities' => null]);
@@ -61,12 +71,8 @@ class AddressController extends Controller
      */
     public function addAddress(StoreAddressRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['user_id'] = auth()->user()->id;
-        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
-        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
-        $address = Address::query()->create($inputs);
-        return redirect()->back();
+        $this->service->store($request);
+        return redirect()->back()->with('success', 'آدرس جدید با موفقیت ثبت شد.');
     }
 
     /**
@@ -76,12 +82,8 @@ class AddressController extends Controller
      */
     public function updateAddress(Address $address, UpdateAddressRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['user_id'] = auth()->user()->id;
-        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
-        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
-        $address->update($inputs);
-        return redirect()->back();
+        $this->service->update($request, $address);
+        return redirect()->back()->with('info', 'آدرس با موفقیت ویرایش شد.');
     }
 
     /**

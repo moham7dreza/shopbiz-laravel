@@ -189,7 +189,7 @@ return [
         Modules\User\Providers\UserServiceProvider::class,
         Modules\Category\Providers\CategoryServiceProvider::class,
         Modules\Comment\Providers\CommentServiceProvider::class,
-
+        Modules\Address\Providers\AddressServiceProvider::class,
         /*
          * Package Service Providers...
          */

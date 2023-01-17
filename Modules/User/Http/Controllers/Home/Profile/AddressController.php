@@ -3,7 +3,7 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
-use Modules\Share\Entities\Province;
+use Modules\Address\Entities\Province;
 use Modules\Share\Http\Controllers\Controller;
 
 class AddressController extends Controller

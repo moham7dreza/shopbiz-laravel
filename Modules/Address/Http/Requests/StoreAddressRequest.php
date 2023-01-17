@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Home\Http\Requests\SalesProcess;
+namespace Modules\Address\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\User\Rules\PostalCode;
@@ -38,6 +38,9 @@ class StoreAddressRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public function attributes(): array
     {
         return [

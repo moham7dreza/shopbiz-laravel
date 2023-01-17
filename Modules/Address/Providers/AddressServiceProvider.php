@@ -1,23 +1,23 @@
 <?php
 
-namespace Modules\Brand\Providers;
+namespace Modules\Address\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Brand\Entities\Brand;
-use Modules\Brand\Policies\BrandPolicy;
-use Modules\Brand\Repositories\BrandRepoEloquent;
-use Modules\Brand\Repositories\BrandRepoEloquentInterface;
+use Modules\Address\Entities\Address;
+use Modules\Address\Repositories\AddressRepoEloquent;
+use Modules\Address\Repositories\AddressRepoEloquentInterface;
+use Policies\AddressPolicy;
 
-class BrandServiceProvider extends ServiceProvider
+class AddressServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for brand controller.
+     * Get namespace for address controller.
      *
      * @var string
      */
-    public string $namespace = 'Modules\Brand\Http\Controllers';
+    public string $namespace = 'Modules\Address\Http\Controllers';
 
     /**
      * Get migration path.
@@ -38,7 +38,7 @@ class BrandServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public string $name = 'Brand';
+    public string $name = 'Address';
 
     /**
      * Get middleware route.
@@ -52,10 +52,10 @@ class BrandServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public string $routePath = '/../Routes/brand_routes.php';
+    public string $routePath = '/../Routes/address_routes.php';
 
     /**
-     * Register brand files.
+     * Register address files.
      *
      * @return void
      */
@@ -69,19 +69,19 @@ class BrandServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot brand service provider.
+     * Boot address service provider.
      *
      * @return void
      */
     public function boot(): void
     {
         $this->app->booted(function () {
-            $this->setMenuForPanel();
+//            $this->setMenuForPanel();
         });
     }
 
     /**
-     * Load brand migration files.
+     * Load address migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class BrandServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load brand view files.
+     * Load address view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class BrandServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load brand route files.
+     * Load address route files.
      *
      * @return void
      */
@@ -113,36 +113,36 @@ class BrandServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load brand policy files.
+     * Load address policy files.
      *
      * @return void
      */
     private function loadPolicyFiles(): void
     {
-        Gate::policy(Brand::class, BrandPolicy::class);
+        Gate::policy(Address::class, AddressPolicy::class);
     }
 
-    /**
-     * Set menu for brand.
-     *
-     * @return void
-     */
-    private function setMenuForPanel(): void
-    {
-        config()->set('panelConfig.menus.market.vitrine.brand', [
-            'title' => 'خانه',
-            'icon' => 'fa-brand',
-            'url' => route('brand.index'),
-        ]);
-    }
+//    /**
+//     * Set menu for address.
+//     *
+//     * @return void
+//     */
+//    private function setMenuForPanel(): void
+//    {
+//        config()->set('panelConfig.menus.market.vitrine.brand', [
+//            'title' => 'خانه',
+//            'icon' => 'fa-brand',
+//            'url' => route('brand.index'),
+//        ]);
+//    }
 
     /**
-     * Bind brand repository.
+     * Bind address repository.
      *
      * @return void
      */
     private function bindRepository(): void
     {
-        $this->app->bind(BrandRepoEloquentInterface::class, BrandRepoEloquent::class);
+        $this->app->bind(AddressRepoEloquentInterface::class, AddressRepoEloquent::class);
     }
 }
