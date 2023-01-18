@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 use Modules\Payment\Services\PaymentService;
@@ -98,9 +99,8 @@ class PaymentController extends Controller
      */
     public function canceled(Payment $payment): RedirectResponse
     {
-        $payment->status = 2;
-        $payment->save();
-        return $this->successMessageWithRedirect('تغییر شما با موفقیت انجام شد');
+        $this->service->makePaymentReturned($payment);
+        return $this->successMessageWithRedirect('سفارش شما با موفقیت باطل شد');
     }
 
     /**
@@ -109,9 +109,8 @@ class PaymentController extends Controller
      */
     public function returned(Payment $payment): RedirectResponse
     {
-        $payment->status = 3;
-        $payment->save();
-        return $this->successMessageWithRedirect('تغییر شما با موفقیت انجام شد');
+        $this->service->makePaymentCanceled($payment);
+        return $this->successMessageWithRedirect('سفارش شما با موفقیت بازگردانده شد');
     }
 
     /**

@@ -78,13 +78,28 @@ class PaymentService implements PaymentServiceInterface
             'type' => $type,
             'paymentable_id' => $paymentedId,
             'paymentable_type' => $targetModel,
-            'status' => Order::PAYMENT_STATUS_PAID,
+            'status' => Payment::PAYMENT_STATUS_PAID,
         ]);
     }
 
-    public function makePaymentCanceled($payment)
+    /**
+     * @param $payment
+     * @return void
+     */
+    public function makePaymentCanceled($payment): void
     {
-        $payment->status = 2;
+        $payment->status = Payment::PAYMENT_STATUS_CANCELED;
+        $payment->save();
+    }
+
+    /**
+     * @param $payment
+     * @return void
+     */
+    public function makePaymentReturned($payment): void
+    {
+        $payment->status = Payment::PAYMENT_STATUS_RETURNED;
+        $payment->save();
     }
 
     /**

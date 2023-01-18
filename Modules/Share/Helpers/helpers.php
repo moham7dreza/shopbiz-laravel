@@ -9,7 +9,7 @@ use Morilog\Jalali\Jalalian;
  */
 function jalaliDate($date, string $format = '%A, %d %B %Y'): string
 {
-    return Jalalian::forge($date)->format($format);
+    return convertEnglishToPersian(Jalalian::forge($date)->format($format));
 }
 
 /**

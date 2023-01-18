@@ -236,10 +236,10 @@ class OrderService
     public function changeSendStatus($order): void
     {
         $order->delivery_status = match ($order->delivery_status) {
-            0 => Delivery::DELIVERY_STATUS_SENDING,
-            1 => Delivery::DELIVERY_STATUS_SEND,
-            2 => Delivery::DELIVERY_STATUS_DELIVERED,
-            default => Delivery::DELIVERY_STATUS_NOT_SEND,
+            0 => Order::DELIVERY_STATUS_SENDING,
+            1 => Order::DELIVERY_STATUS_SEND,
+            2 => Order::DELIVERY_STATUS_DELIVERED,
+            default => Order::DELIVERY_STATUS_NOT_SEND,
         };
         $order->save();
     }

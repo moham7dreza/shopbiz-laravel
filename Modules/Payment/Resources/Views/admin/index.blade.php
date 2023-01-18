@@ -50,38 +50,21 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $payment->paymentable->transaction_id ?? '-' }}</td>
-                                <td>{{ $payment->paymentable->gateway ?? '-' }}</td>
-                                <td>{{ $payment->user->fullname }}</td>
-                                <td>@if($payment->status == 0)
-                                        پرداخت نشده
-                                    @elseif ($payment->status == 1)
-                                        پرداخت شده
-                                    @elseif ($payment->status == 2)
-                                        باطل شده
-                                    @else
-                                        برگشت داده شده
-                                    @endif</td>
-                                <td> @if($payment->type == 0)
-                                        آنلاین
-                                    @elseif ($payment->type == 1)
-                                        آفلاین
-                                    @else
-                                        در محل
-                                    @endif  </td>
-                                <td class="width-22-rem text-left">
+                                <td>{{ $payment->transactionId() }}</td>
+                                <td>{{ $payment->paymentGateway() }}</td>
+                                <td>{{ $payment->customerName() }}</td>
+                                <td>{{ $payment->paymentStatusValue() }}</td>
+                                <td>{{ $payment->paymentTypeValue() }}</td>
+                                <td class="width-16-rem text-left">
                                     <a href="{{ route('payment.show', $payment->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-edit"></i> مشاهده</a>
+                                       class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     <a href="{{ route('payment.canceled', $payment->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-close"></i> باطل کردن</a>
+                                       class="btn btn-warning btn-sm"><i class="fa fa-times"></i></a>
                                     <a href="{{ route('payment.returned', $payment->id) }}"
-                                       class="btn btn-danger btn-sm"><i class="fa fa-reply"></i> برگرداندن</a>
+                                       class="btn btn-danger btn-sm"><i class="fa fa-reply"></i></a>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $payments->links() }}</section>
