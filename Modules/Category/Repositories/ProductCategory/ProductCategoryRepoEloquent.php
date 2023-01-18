@@ -21,6 +21,16 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     }
 
     /**
+     * @param $field
+     * @param $value
+     * @return Builder
+     */
+    public function searchByCol($field, $value): Builder
+    {
+        return $this->query()->where($field, 'like', '%' . $value . '%')->latest();
+    }
+
+    /**
      * Find category by id.
      *
      * @param  $id
@@ -82,6 +92,18 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     public function getParentCategories(): Builder
     {
         return $this->query()->where('parent_id', null)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function getShowInMenuActiveParentCategories(): Builder
+    {
+        return $this->query()->where([
+            ['status', $this->class::SHOW_IN_MENU],
+            ['show_in_menu', $this->class::STATUS_ACTIVE],
+            ['parent_id', NULL]
+        ])->latest();
     }
 
     /**

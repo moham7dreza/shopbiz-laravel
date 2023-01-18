@@ -19,18 +19,16 @@ class ProfileCompletion
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!empty(Auth::user()->email) && empty(Auth::user()->mobile) && empty(Auth::user()->email_verified_at))
-        {
+        $user = auth()->user();
+        if (!empty($user->email) && empty($user->mobile) && empty($user->email_verified_at)) {
             return redirect()->route('customer.sales-process.profile-completion');
         }
 
-        if(empty(Auth::user()->first_name) || empty(Auth::user()->last_name) || empty(Auth::user()->national_code))
-        {
+        if (empty($user->first_name) || empty($user->last_name) || empty($user->national_code)) {
             return redirect()->route('customer.sales-process.profile-completion');
         }
 
-        if(!empty(Auth::user()->mobile) && empty(Auth::user()->email) && empty(Auth::user()->mobile_verified_at))
-        {
+        if (!empty($user->mobile) && empty($user->email) && empty($user->mobile_verified_at)) {
             return redirect()->route('customer.sales-process.profile-completion');
         }
 

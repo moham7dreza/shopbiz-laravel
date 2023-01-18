@@ -49,6 +49,19 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
         return $this->query()->where('id', $id)->delete();
     }
 
+    // home queries
+
+    /**
+     * @return Builder
+     */
+    public function getActiveParentMenus(): Builder
+    {
+        return $this->query()->where([
+            ['parent_id', null],
+            ['status', Menu::STATUS_ACTIVE],
+        ])->latest();
+    }
+
     /**
      * Builder for queue model.
      *

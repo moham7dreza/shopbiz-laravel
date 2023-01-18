@@ -20,6 +20,25 @@ class BrandRepoEloquent implements BrandRepoEloquentInterface
     }
 
     /**
+     * @return Builder
+     */
+    public function getActiveBrands(): Builder
+    {
+        return $this->query()->where([
+            ['status', Brand::STATUS_ACTIVE],
+        ])->latest();
+    }
+
+    /**
+     * @param $field
+     * @param $value
+     * @return Builder
+     */
+    public function searchByCol($field, $value): Builder
+    {
+        return $this->query()->where($field, 'like', '%' . $value . '%')->latest();
+    }
+    /**
      * Find role by id.
      *
      * @param  $id

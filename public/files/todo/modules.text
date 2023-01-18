@@ -1,5 +1,5 @@
 Modules\Panel\Providers\PanelServiceProvider::class,
-Modules\Share\Providers\ShareServiceProvider::class,
+Modules\Share\Providers\ShareServiceProvider::class,1
 Modules\Brand\Providers\BrandServiceProvider::class,
 Modules\Banner\Providers\BannerServiceProvider::class,1
 Modules\Faq\Providers\FaqServiceProvider::class,1
@@ -9,7 +9,7 @@ Modules\Post\Providers\PostServiceProvider::class,
 Modules\Product\Providers\ProductServiceProvider::class,
 Modules\Discount\Providers\DiscountServiceProvider::class,1
 Modules\Auth\Providers\AuthServiceProvider::class,
-Modules\Home\Providers\HomeServiceProvider::class,
+Modules\Home\Providers\HomeServiceProvider::class,1
 Modules\Notify\Providers\NotifyServiceProvider::class,
 Modules\Setting\Providers\SettingServiceProvider::class,1
 Modules\Ticket\Providers\TicketServiceProvider::class,

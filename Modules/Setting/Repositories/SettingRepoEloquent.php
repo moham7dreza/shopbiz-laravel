@@ -28,6 +28,14 @@ class SettingRepoEloquent implements SettingRepoEloquentInterface
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function findSystemLogo(): \Illuminate\Support\Collection
+    {
+        return $this->getSystemSetting()->pluck('logo');
+    }
+
+    /**
      * Find role by id.
      *
      * @param  $id

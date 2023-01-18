@@ -37,20 +37,21 @@ class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquent
         return AmazingSale::query()->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', 1]
+            ['status', AmazingSale::STATUS_ACTIVE]
         ])->count();
     }
 
     /**
+     * @param $percentage
      * @return Builder
      */
-    public function bestOffers(): Builder
+    public function bestOffers($percentage): Builder
     {
         return AmazingSale::query()->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', 1],
-            ['percentage', '>=', 5]
+            ['status', AmazingSale::STATUS_ACTIVE],
+            ['percentage', '>=', $percentage]
         ])->latest();
     }
 

@@ -11,11 +11,19 @@ use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Home\Repositories\HomeRepoEloquent;
 use Modules\Home\Repositories\HomeRepoEloquentInterface;
+use Modules\Home\Services\HomeService;
 use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
+    private HomeService $service;
+
+    public function __construct(HomeService $homeService)
+    {
+        $this->service = $homeService;
+    }
+
     /**
      * @param HomeRepoEloquentInterface $repo
      * @return Application|Factory|View
@@ -25,35 +33,15 @@ class HomeController extends Controller
         return view('Home::home', compact(['repo']));
     }
 
+
     /**
      * @param Request $request
-     * @return JsonResponse|void
+     * @return JsonResponse|void|null
      */
     public function liveSearch(Request $request)
     {
         if ($request->ajax()) {
-            $name = $request->search;
-            if (isset($name) && strlen($name) > 0) {
-                $results = collect();
-                $productResults = Product::query()->where('name', 'like', '%' . $name . '%')->get();
-                if (count($productResults) > 0) {
-                    $results->put('products', $productResults);
-                }
-                $productCategoryResults = ProductCategory::query()->where('name', 'like', '%' . $name . '%')->get();
-                if (count($productCategoryResults) > 0) {
-                    $results->put('categories', $productCategoryResults);
-                }
-                $brandResults = Brand::query()->where('persian_name', 'like', '%' . $name . '%')->get();
-                if (count($brandResults) > 0) {
-                    $results->put('brands', $brandResults);
-                }
-                $results = $results->unique();
-                if (count($results) > 0) {
-                    return response()->json(['status' => true, 'results' => $results, 'key' => $name]);
-                } else {
-                    return response()->json(['status' => false, 'results' => null, 'key' => $name]);
-                }
-            }
+            return $this->service->search($request->search);
         }
     }
 }

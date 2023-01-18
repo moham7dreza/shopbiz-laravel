@@ -7,152 +7,181 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Banner\Entities\Banner;
+use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 use Modules\Brand\Entities\Brand;
+use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Discount\Entities\AmazingSale;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Post\Entities\Post;
+use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Setting\Entities\Setting;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 
 class HomeRepoEloquent implements HomeRepoEloquentInterface
 {
-    /**
-     * @return Builder[]|Collection
-     */
-    public function slideShowImages()
+    private BannerRepoEloquentInterface $bannerRepo;
+    private BrandRepoEloquentInterface $brandRepo;
+    private ProductRepoEloquentInterface $productRepo;
+    private AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
+    private CommentRepoEloquentInterface $commentRepo;
+    private PostRepoEloquentInterface $postRepo;
+    private SettingRepoEloquentInterface $settingRepo;
+
+    public function __construct(BannerRepoEloquentInterface              $bannerRepo,
+                                BrandRepoEloquentInterface               $brandRepo,
+                                ProductRepoEloquentInterface             $productRepo,
+                                AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo,
+                                CommentRepoEloquentInterface             $commentRepo,
+                                PostRepoEloquentInterface                $postRepo,
+                                SettingRepoEloquentInterface             $settingRepo)
     {
-        return Banner::query()->where('position', 0)->where('status', 1)->get();
+        $this->bannerRepo = $bannerRepo;
+        $this->brandRepo = $brandRepo;
+        $this->productRepo = $productRepo;
+        $this->amazingSaleDiscountRepo = $amazingSaleDiscountRepo;
+        $this->commentRepo = $commentRepo;
+        $this->postRepo = $postRepo;
+        $this->settingRepo = $settingRepo;
     }
 
     /**
      * @return Builder[]|Collection
      */
-    public function topBanners()
+    public function slideShowImages(): Collection|array
     {
-        return Banner::query()->where('position', 1)->where('status', 1)->take(2)->get();
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_SLIDE_SHOW)->get();
     }
 
     /**
      * @return Builder[]|Collection
      */
-    public function middleBanners()
+    public function topBanners(): Collection|array
     {
-        return Banner::query()->where('position', 2)->where('status', 1)->take(2)->get();
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_INSIDE_SLIDE_SHOW)->take(2)->get();
     }
 
     /**
      * @return Builder[]|Collection
      */
-    public function bottomMiddleBanners()
+    public function middleBanners(): Collection|array
     {
-        return Banner::query()->where('position', 3)->where('status', 1)->take(2)->get();
-    }
-    /**
-     * @return Builder|Model|object|null
-     */
-    public function bottomBanner()
-    {
-        return Banner::query()->where('position', 4)->where('status', 1)->first();
-    }
-
-    /**
-     * @return Builder|Model|object|null
-     */
-    public function brandsBanner()
-    {
-        return Banner::query()->where('position', 5)->where('status', 1)->first();
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_2_MIDDLE_BANNERS)->take(2)->get();
     }
 
     /**
      * @return Builder[]|Collection
      */
-    public function fourColumnBanners()
+    public function bottomMiddleBanners(): Collection|array
     {
-        return Banner::query()->where('position', 6)->where('status', 1)->take(4)->get();
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_2_BOTTOM_BANNERS)->take(2)->get();
+    }
+
+    /**
+     * @return Model|Builder|null
+     */
+    public function bottomBanner(): Model|Builder|null
+    {
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_BIG_BOTTOM_BANNER)->first();
+    }
+
+    /**
+     * @return Model|Builder|null
+     */
+    public function brandsBanner(): Model|Builder|null
+    {
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_BIG_BRANDS_BANNER)->first();
     }
 
     /**
      * @return Builder[]|Collection
      */
-    public function brands()
+    public function fourColumnBanners(): Collection|array
     {
-        return Brand::query()->latest()->get();
+        return $this->bannerRepo->getActiveBannerByPosition(Banner::POSITION_4_MIDDLE_BANNERS)->take(4)->get();
+    }
+
+    /**
+     * @return Builder[]|Collection
+     */
+    public function brands(): Collection|array
+    {
+        return $this->brandRepo->getActiveBrands()->get();
     }
 
     /**
      *         // پربازدید ترین کالاها
      * @return Builder[]|Collection
      */
-    public function mostVisitedProducts()
+    public function mostVisitedProducts(): Collection|array
     {
-        return Product::query()->latest()->take(10)->get();
+        return $this->productRepo->index()->take(10)->get();
     }
 
     /**
      *         // کالاهای پیشنهادی
      * @return Builder[]|Collection
      */
-    public function offerProducts()
+    public function offerProducts(): Collection|array
     {
-        return Product::query()->latest()->take(10)->get();
+        return $this->productRepo->index()->take(10)->get();
     }
 
     /**
      * فروش ویژه هفته
      * @return Builder[]|Collection
      */
-    public function weeklyAmazingSales()
+    public function weeklyAmazingSales(): Collection|array
     {
-        return AmazingSale::query()->where('start_date', '<', Carbon::now())
-            ->where('end_date', '>', Carbon::now())->where('status', 1)->
-            where('percentage', '>=', 5)->take(10)->get();
+        return $this->amazingSaleDiscountRepo->bestOffers(5)->take(10)->get();
     }
 
     /**
      *         // جدید ترین کالاها
      * @return Builder[]|Collection
      */
-    public function newestProducts()
+    public function newestProducts(): Collection|array
     {
-        return Product::query()->latest()->take(10)->get();
+        return $this->productRepo->index()->take(10)->get();
     }
 
     /**
      *         // نظرات کاربران
      * @return Builder[]|Collection
      */
-    public function latestComments()
+    public function latestComments(): Collection|array
     {
-        return Comment::query()->where('parent_id', null)->where('status', 1)->latest()->take(10)->get();
+        return $this->commentRepo->latestActiveParentComments()->take(10)->get();
     }
 
     /**
      *         // جدید ترین مقالات
      * @return Builder[]|Collection
      */
-    public function posts()
+    public function posts(): Collection|array
     {
-        return Post::query()->where('status', 1)->take(5)->get();
+        return $this->postRepo->home()->take(5)->get();
     }
 
     /**
      *         // محصولات فروش ویژه
      * @return Builder[]|Collection
      */
-    public function productsWithActiveAmazingSales()
+    public function productsWithActiveAmazingSales(): Collection|array
     {
-        return AmazingSale::query()->where('start_date', '<', Carbon::now())
-            ->where('end_date', '>', Carbon::now())->where('status', 1)->
-            where('percentage', '>=', 1)->take(10)->get();
+        return $this->amazingSaleDiscountRepo->bestOffers(1)->take(10)->get();
     }
 
     /**
      *         // تنطیمات سایت
      * @return Builder|Collection|Model|null
      */
-    public function siteSetting()
+    public function siteSetting(): Model|Collection|Builder|null
     {
-        return Setting::query()->find(1);
+        return $this->settingRepo->findById(1);
     }
 
     /**
@@ -160,8 +189,8 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      *         // پرفروش ترین محصولات
      * @return Builder[]|Collection
      */
-    public function bestSellerProducts()
+    public function bestSellerProducts(): Collection|array
     {
-        return Product::query()->where('sold_number', '>=', 100)->take(10)->get();
+        return $this->productRepo->bestSeller(100)->take(10)->get();
     }
 }

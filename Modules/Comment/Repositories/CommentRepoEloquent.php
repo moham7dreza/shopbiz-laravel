@@ -94,9 +94,9 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
      * Get active comment by id.
      *
      * @param  $id
-     * @return Builder|Model|object|null
+     * @return Builder|Model|null
      */
-    public function findActiveCommentById($id)
+    public function findActiveCommentById($id): Model|Builder|null
     {
         return $this->query()
             ->where('id', $id)
@@ -120,6 +120,19 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
         return $this->query()->where('author_id', '!=', auth()->id())->latest();
     }
 
+
+    // home
+
+    /**
+     * @return Builder
+     */
+    public function latestActiveParentComments(): Builder
+    {
+        return $this->query()->where([
+            ['status', $this->class::STATUS_ACTIVE],
+            ['parent_id', null]
+        ])->latest();
+    }
     /**
      * Get query model(builder).
      *

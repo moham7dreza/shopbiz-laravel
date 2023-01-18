@@ -19,6 +19,10 @@ class ProductCategory extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    public const SHOW_IN_MENU = 1;
+    public const SHOW_NOT_IN_MENU = 0;
+
+
     /**
      * @var array|int[]
      */

@@ -19,6 +19,16 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * @param $field
+     * @param $value
+     * @return Builder
+     */
+    public function searchByCol($field, $value): Builder
+    {
+        return $this->query()->where($field, 'like', '%' . $value . '%')->latest();
+    }
+
+    /**
      * Find product by id.
      *
      * @param  $id
@@ -38,6 +48,20 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     public function delete($id)
     {
         return $this->query()->where('id', $id)->delete();
+    }
+
+    // home
+
+    /**
+     * @param $soldNumber
+     * @return Builder
+     */
+    public function bestSeller($soldNumber): Builder
+    {
+        return $this->query()->where([
+            ['status', Product::STATUS_ACTIVE],
+            ['sold_number', '>=', $soldNumber],
+        ])->latest();
     }
 
     /**

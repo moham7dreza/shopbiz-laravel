@@ -5,17 +5,17 @@ namespace Modules\Home\Providers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Cart\Entities\CartItem;
-use Modules\Category\Entities\ProductCategory;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Home\Repositories\HomeRepoEloquent;
 use Modules\Home\Repositories\HomeRepoEloquentInterface;
-use Modules\Menu\Entities\Menu;
-use Modules\Setting\Entities\Setting;
+use Modules\Menu\Repositories\MenuRepoEloquentInterface;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 
 class HomeServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for home controller.
      *
      * @var string
      */
@@ -50,7 +50,7 @@ class HomeServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/home_routes.php';
 
     /**
-     * Register panel files.
+     * Register home files.
      *
      * @return void
      */
@@ -62,20 +62,25 @@ class HomeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot home service provider.
      *
+     * @param CartRepoEloquentInterface $cartRepo
+     * @param MenuRepoEloquentInterface $menuRepo
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
+     * @param SettingRepoEloquentInterface $settingRepo
      * @return void
      */
-    public function boot(): void
+    public function boot(CartRepoEloquentInterface $cartRepo, MenuRepoEloquentInterface $menuRepo,
+    ProductCategoryRepoEloquentInterface $productCategoryRepo, SettingRepoEloquentInterface $settingRepo): void
     {
-        $this->app->booted(function () {
+        $this->app->booted(function () use ($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo) {
             $this->setMenuForPanel();
-            $this->sendVarsToViews();
+            $this->sendVarsToViews($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo);
         });
     }
 
     /**
-     * Load panel view files.
+     * Load home view files.
      *
      * @return void
      */
@@ -85,7 +90,7 @@ class HomeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load home route files.
      *
      * @return void
      */
@@ -97,7 +102,7 @@ class HomeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for home.
      *
      * @return void
      */
@@ -110,23 +115,22 @@ class HomeServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function sendVarsToViews()
+    private function sendVarsToViews($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo)
     {
-        view()->composer('Home::layouts.header', function ($view) {
+        view()->composer('Home::layouts.header', function ($view) use ($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo) {
             if (Auth::check()) {
-                $cartItems = CartItem::query()->where('user_id', Auth::user()->id)->get();
-                $view->with('cartItems', $cartItems);
+                $view->with('cartItems', $cartRepo->findUserCartItems()->get());
             }
-            $view->with('menus', Menu::query()->where([['status', 1], ['parent_id', NULL]])->orderBy('created_at')->get());
-            $view->with('categories', ProductCategory::query()->where([['status', 1], ['show_in_menu', 1], ['parent_id', NULL]])->orderBy('created_at')->get());
-            $view->with('logo', Setting::query()->where('id', 1)->pluck('logo')->first());
+            $view->with('menus', $menuRepo->getActiveParentMenus()->get());
+            $view->with('categories', $productCategoryRepo->getShowInMenuActiveParentCategories()->get());
+            $view->with('logo', $settingRepo->findSystemLogo());
         });
     }
 
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(HomeRepoEloquentInterface::class, HomeRepoEloquent::class);
     }
