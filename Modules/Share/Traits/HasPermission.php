@@ -11,27 +11,46 @@ trait HasPermission
 {
     use HasRelationships;
 
+    /**
+     * @return BelongsToMany
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
     // new functions
+
+    /**
+     * @param $permission
+     * @return bool
+     */
     protected function hasPermission($permission): bool
     {
         return (bool)$this->permissions->where('name', $permission->name)->count();
     }
 
+    /**
+     * @param $permission
+     * @return bool
+     */
     public function hasPermissionTo($permission): bool
     {
         return $this->hasPermission($permission) || $this->hasPermissionThroughRole($permission);
     }
 
+    /**
+     * @param $permission
+     * @return bool
+     */
     public function hasPermissionThroughRole($permission): bool
     {
         foreach ($permission->roles as $role) {
@@ -42,6 +61,10 @@ trait HasPermission
         return false;
     }
 
+    /**
+     * @param ...$roles
+     * @return bool
+     */
     public function hasRole(...$roles): bool
     {
         foreach ($roles as $role) {
@@ -53,6 +76,11 @@ trait HasPermission
     }
 
     // old functions
+
+    /**
+     * @param $permission
+     * @return bool
+     */
     public function isPermission($permission): bool
     {
         return $this->permissions->contains('name', $permission->name) || $this->isRole($permission->roles);

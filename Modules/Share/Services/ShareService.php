@@ -4,7 +4,6 @@ namespace Modules\Share\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Modules\Share\Http\Services\Image\ImageService;
 
 class ShareService
 {

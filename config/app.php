@@ -165,31 +165,30 @@ return [
         /*
          * Module Service Providers...
          */
-        Modules\Panel\Providers\PanelServiceProvider::class,
-        Modules\Share\Providers\ShareServiceProvider::class,
-        Modules\Brand\Providers\BrandServiceProvider::class,
-        Modules\Banner\Providers\BannerServiceProvider::class,
-        Modules\Faq\Providers\FaqServiceProvider::class,
-        Modules\Menu\Providers\MenuServiceProvider::class,
-        Modules\Page\Providers\PageServiceProvider::class,
-        Modules\Post\Providers\PostServiceProvider::class,
-        Modules\Product\Providers\ProductServiceProvider::class,
-        Modules\Discount\Providers\DiscountServiceProvider::class,
-        Modules\Auth\Providers\AuthServiceProvider::class,
-        Modules\Home\Providers\HomeServiceProvider::class,
-        Modules\Notify\Providers\NotifyServiceProvider::class,
-        Modules\Setting\Providers\SettingServiceProvider::class,
-        Modules\Ticket\Providers\TicketServiceProvider::class,
-        Modules\Order\Providers\OrderServiceProvider::class,
-        Modules\Payment\Providers\PaymentServiceProvider::class,
-        Modules\Cart\Providers\CartServiceProvider::class,
-        Modules\Delivery\Providers\DeliveryServiceProvider::class,
-        Modules\Faq\Providers\FaqServiceProvider::class,
         Modules\ACL\Providers\AclServiceProvider::class,
-        Modules\User\Providers\UserServiceProvider::class,
+        Modules\Address\Providers\AddressServiceProvider::class,
+        Modules\Auth\Providers\AuthServiceProvider::class,
+        Modules\Banner\Providers\BannerServiceProvider::class,
+        Modules\Brand\Providers\BrandServiceProvider::class,
+        Modules\Cart\Providers\CartServiceProvider::class,
         Modules\Category\Providers\CategoryServiceProvider::class,
         Modules\Comment\Providers\CommentServiceProvider::class,
-        Modules\Address\Providers\AddressServiceProvider::class,
+        Modules\Delivery\Providers\DeliveryServiceProvider::class,
+        Modules\Discount\Providers\DiscountServiceProvider::class,
+        Modules\Faq\Providers\FaqServiceProvider::class,
+        Modules\Home\Providers\HomeServiceProvider::class,
+        Modules\Menu\Providers\MenuServiceProvider::class,
+        Modules\Notify\Providers\NotifyServiceProvider::class,
+        Modules\Order\Providers\OrderServiceProvider::class,
+        Modules\Page\Providers\PageServiceProvider::class,
+        Modules\Panel\Providers\PanelServiceProvider::class,
+        Modules\Payment\Providers\PaymentServiceProvider::class,
+        Modules\Post\Providers\PostServiceProvider::class,
+        Modules\Product\Providers\ProductServiceProvider::class,
+        Modules\Setting\Providers\SettingServiceProvider::class,
+        Modules\Share\Providers\ShareServiceProvider::class,
+        Modules\Ticket\Providers\TicketServiceProvider::class,
+        Modules\User\Providers\UserServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -216,7 +215,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -254,7 +252,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
-
 ];

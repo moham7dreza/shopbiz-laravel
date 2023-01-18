@@ -11,43 +11,73 @@ class EmailService implements MessageInterface
 
     private $details;
     private $subject;
-    private $from = [
+    /**
+     * @var array[]
+     */
+    private array $from = [
         ['address' => null, 'name' => null,]
     ];
     private $to;
 
-    public function fire(){
-
+    /**
+     * @return true
+     */
+    public function fire(): true
+    {
         Mail::to($this->to)->send(new MailViewProvider($this->details, $this->subject, $this->from));
         return true;
-
     }
 
-    public function getDetails(){
+    /**
+     * @return mixed
+     */
+    public function getDetails(): mixed
+    {
         return $this->details;
     }
 
-    public function setDetails($details)
+    /**
+     * @param $details
+     * @return void
+     */
+    public function setDetails($details): void
     {
         $this->details = $details;
     }
 
 
-  public function getSubject(){
+    /**
+     * @return mixed
+     */
+    public function getSubject(): mixed
+    {
         return $this->subject;
     }
 
-    public function setSubject($subject)
+    /**
+     * @param $subject
+     * @return void
+     */
+    public function setSubject($subject): void
     {
         $this->subject = $subject;
     }
 
 
-  public function getFrom(){
+    /**
+     * @return array[]
+     */
+    public function getFrom(): array
+    {
         return $this->from;
     }
 
-    public function setFrom($address, $name)
+    /**
+     * @param $address
+     * @param $name
+     * @return void
+     */
+    public function setFrom($address, $name): void
     {
         $this->from = [
             [
@@ -57,17 +87,20 @@ class EmailService implements MessageInterface
         ];
     }
 
-    public function getTo(){
+    /**
+     * @return mixed
+     */
+    public function getTo(): mixed
+    {
         return $this->to;
     }
 
-    public function setTo($to)
+    /**
+     * @param $to
+     * @return void
+     */
+    public function setTo($to): void
     {
         $this->to = $to;
     }
-
-
-
-
-
 }

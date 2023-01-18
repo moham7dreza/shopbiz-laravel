@@ -2,11 +2,13 @@
 
 namespace Modules\Share\Http\Services\File;
 
-
 class FileService extends FileToolsService
 {
-
-    public function moveToPublic($file)
+    /**
+     * @param $file
+     * @return false|string
+     */
+    public function moveToPublic($file): false|string
     {
         //set File
         $this->setFile($file);
@@ -17,8 +19,11 @@ class FileService extends FileToolsService
         return $result ? $this->getFileAddress() : false;
     }
 
-
-  public function moveToStorage($file)
+    /**
+     * @param $file
+     * @return false|string
+     */
+    public function moveToStorage($file): false|string
     {
         //set File
         $this->setFile($file);
@@ -29,37 +34,34 @@ class FileService extends FileToolsService
         return $result ? $this->getFileAddress() : false;
     }
 
-
-    public function deleteFile($filePath)
+    /**
+     * @param $filePath
+     * @return void
+     */
+    public function deleteFile($filePath): void
     {
-        if(file_exists($filePath))
-        {
+        if (file_exists($filePath)) {
             unlink($filePath);
         }
     }
 
-
-    public function deleteDirectoryAndFiles($directory)
+    /**
+     * @param $directory
+     * @return bool
+     */
+    public function deleteDirectoryAndFiles($directory): bool
     {
-        if(!is_dir($directory))
-        {
+        if (!is_dir($directory)) {
             return false;
         }
-
         $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
-        foreach($files as $file)
-        {
-            if(is_dir($file))
-            {
+        foreach ($files as $file) {
+            if (is_dir($file)) {
                 $this->deleteDirectoryAndFiles($file);
-            }
-            else{
+            } else {
                 unlink($file);
             }
         }
-        $result = rmdir($directory);
-        return $result;
+        return rmdir($directory);
     }
-
-
 }

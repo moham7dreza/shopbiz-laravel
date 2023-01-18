@@ -6,14 +6,21 @@ use Modules\Notify\Http\Interfaces\MessageInterface;
 
 class MessageService
 {
-    private $message;
+    private MessageInterface $message;
 
+    /**
+     * @param MessageInterface $message
+     */
     public function __construct(MessageInterface $message)
     {
         $this->message = $message;
     }
 
-    public function send(){
+    /**
+     * @return mixed
+     */
+    public function send(): mixed
+    {
         return $this->message->fire();
     }
 }

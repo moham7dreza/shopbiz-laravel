@@ -10,14 +10,22 @@ trait HasComment
 {
     use HasRelationships;
 
+    /**
+     * @return MorphMany
+     */
     public function comments(): MorphMany
     {
         return $this->morphMany('Modules\Comment\Entities\Comment', 'commentable');
     }
 
+    /**
+     * @return MorphMany
+     */
     public function activeComments(): MorphMany
     {
-        return $this->comments()->where([['approved', Comment::APPROVED]
-            , ['status', Comment::STATUS_ACTIVE]])->whereNull('parent_id');
+        return $this->comments()->where([
+            ['approved', Comment::APPROVED],
+            ['status', Comment::STATUS_ACTIVE]
+        ])->whereNull('parent_id');
     }
 }

@@ -45,7 +45,7 @@ class ShareServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function loadFactoriesFiles()
+    private function loadFactoriesFiles(): void
     {
         Factory::guessFactoryNamesUsing(static function (string $modelName) {
             return 'Modules\Share\Database\\Factories\\' . class_basename($modelName) . 'Factory';

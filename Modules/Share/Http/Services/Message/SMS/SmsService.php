@@ -4,65 +4,90 @@ namespace Modules\Share\Http\Services\Message\SMS;
 
 use Modules\Notify\Http\Interfaces\MessageInterface;
 
-class SmsService implements MessageInterface{
+class SmsService implements MessageInterface
+{
 
     private $from;
     private $text;
     private $to;
     private $isFlash = true;
 
-
-
-    public function fire()
+    /**
+     * @return bool|null
+     */
+    public function fire(): ?bool
     {
         $meliPayamak = new MeliPayamakService();
         return $meliPayamak->sendSmsSoapClient($this->from, $this->to, $this->text, $this->isFlash);
     }
 
-    public function getFrom()
+    /**
+     * @return mixed
+     */
+    public function getFrom(): mixed
     {
         return $this->from;
     }
 
-    public function setFrom($from)
+    /**
+     * @param $from
+     * @return void
+     */
+    public function setFrom($from): void
     {
         $this->from = $from;
     }
 
 
-  public function getText()
+    /**
+     * @return mixed
+     */
+    public function getText(): mixed
     {
         return $this->text;
     }
 
-    public function setText($text)
+    /**
+     * @param $text
+     * @return void
+     */
+    public function setText($text): void
     {
         $this->text = $text;
     }
 
 
-public function getTo()
+    /**
+     * @return mixed
+     */
+    public function getTo(): mixed
     {
         return $this->to;
     }
 
-    public function setTo($to)
+    /**
+     * @param $to
+     * @return void
+     */
+    public function setTo($to): void
     {
         $this->to = $to;
     }
 
-    public function getIsFlash()
+    /**
+     * @return mixed
+     */
+    public function getIsFlash(): mixed
     {
         return $this->to;
     }
 
-    public function setIsFlash($flash)
+    /**
+     * @param $flash
+     * @return void
+     */
+    public function setIsFlash($flash): void
     {
         $this->isFlash = $flash;
     }
-
-
-
-
-
 }

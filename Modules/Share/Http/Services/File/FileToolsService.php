@@ -4,7 +4,6 @@ namespace Modules\Share\Http\Services\File;
 
 class FileToolsService
 {
-
     protected $file;
     protected $exclusiveDirectory;
     protected $fileDirectory;
@@ -14,126 +13,180 @@ class FileToolsService
     protected $finalFileName;
     protected $fileSize;
 
-    public function setFile($file)
+    /**
+     * @param $file
+     * @return void
+     */
+    public function setFile($file): void
     {
         $this->file = $file;
     }
 
-    public function getExclusiveDirectory()
+    /**
+     * @return mixed
+     */
+    public function getExclusiveDirectory(): mixed
     {
         return $this->exclusiveDirectory;
     }
 
-    public function setExclusiveDirectory($exclusiveDirectory)
+    /**
+     * @param $exclusiveDirectory
+     * @return void
+     */
+    public function setExclusiveDirectory($exclusiveDirectory): void
     {
         $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
     }
 
-    public function getFileDirectory()
+    /**
+     * @return mixed
+     */
+    public function getFileDirectory(): mixed
     {
         return $this->fileDirectory;
     }
-    public function setFileDirectory($fileDirectory)
+
+    /**
+     * @param $fileDirectory
+     * @return void
+     */
+    public function setFileDirectory($fileDirectory): void
     {
         $this->fileDirectory = trim($fileDirectory, '/\\');
     }
 
-    public function getFileSize()
+    /**
+     * @return mixed
+     */
+    public function getFileSize(): mixed
     {
         return $this->fileSize;
     }
-    public function setFileSize($file)
+
+    /**
+     * @param $file
+     * @return void
+     */
+    public function setFileSize($file): void
     {
         $this->fileSize = $file->getSize();
     }
 
-    public function getFileName()
+    /**
+     * @return mixed
+     */
+    public function getFileName(): mixed
     {
         return $this->fileName;
     }
 
-     public function setFileName($fileName)
+    /**
+     * @param $fileName
+     * @return void
+     */
+    public function setFileName($fileName): void
     {
         $this->fileName = $fileName;
     }
 
-    public function setCurrentFileName()
+    /**
+     * @return false|null
+     */
+    public function setCurrentFileName(): ?false
     {
-            return !empty($this->file) ? $this->setFileName(pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME)) : false;
-            // $_FILES['file']['name']
+        return !empty($this->file) ? $this->setFileName(pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME)) : false;
+        // $_FILES['file']['name']
     }
 
-    public function getFileFormat()
+    /**
+     * @return mixed
+     */
+    public function getFileFormat(): mixed
     {
         return $this->fileFormat;
     }
 
-   public function setFileFormat($fileFormat)
+    /**
+     * @param $fileFormat
+     * @return void
+     */
+    public function setFileFormat($fileFormat): void
     {
         $this->fileFormat = $fileFormat;
     }
 
-    public function getFinalFileDirectory()
+    /**
+     * @return mixed
+     */
+    public function getFinalFileDirectory(): mixed
     {
         return $this->finalFileDirectory;
     }
 
-    public function setFinalFileDirectory($finalFileDirectory)
+    /**
+     * @param $finalFileDirectory
+     * @return void
+     */
+    public function setFinalFileDirectory($finalFileDirectory): void
     {
         $this->finalFileDirectory = $finalFileDirectory;
     }
 
-   public function getFinalFileName()
+    /**
+     * @return mixed
+     */
+    public function getFinalFileName(): mixed
     {
         return $this->finalFileName;
     }
 
-    public function setFinalFileName($finalFileName)
+    /**
+     * @param $finalFileName
+     * @return void
+     */
+    public function setFinalFileName($finalFileName): void
     {
         $this->finalFileName = $finalFileName;
     }
 
-    protected function checkDirectory($fileDirectory)
+    /**
+     * @param $fileDirectory
+     * @return void
+     */
+    protected function checkDirectory($fileDirectory): void
     {
-        if(!file_exists($fileDirectory))
-        {
+        if (!file_exists($fileDirectory)) {
             mkdir($fileDirectory, 0755, true);
         }
     }
 
-    public function getFileAddress()
+    /**
+     * @return string
+     */
+    public function getFileAddress(): string
     {
         return $this->finalFileDirectory . DIRECTORY_SEPARATOR . $this->finalFileName;
     }
 
-    protected function provider()
+    /**
+     * @return void
+     */
+    protected function provider(): void
     {
         //set properties
-        $this->getFileDirectory() ?? $this->setFileDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
-        $this->getFileName() ?? $this->setFileName(time());
+            $this->getFileDirectory() ?? $this->setFileDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+            $this->getFileName() ?? $this->setFileName(time());
         $this->setFileFormat(pathinfo($this->file->getClientOriginalName(), PATHINFO_EXTENSION));
-
 
         //set final File Directory
         $finalFileDirectory = empty($this->getExclusiveDirectory()) ? $this->getFileDirectory() : $this->getExclusiveDirectory() . DIRECTORY_SEPARATOR . $this->getFileDirectory();
         $this->setFinalFileDirectory($finalFileDirectory);
 
-
         //set final File name
         $this->setFinalFileName($this->getFileName() . '.' . $this->getFileFormat());
-
 
         //check adn create final File directory
         $this->checkDirectory($this->getFinalFileDirectory());
     }
-
-
-
-
-
-
-
-
-
-
 }

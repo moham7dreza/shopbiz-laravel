@@ -2,16 +2,20 @@
 
 namespace Modules\Share\Http\Services\Payment;
 
-use Request;
-use Zarinpal\Zarinpal;
-use Zarinpal\Clients\GuzzleClient;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Config;
+use Request;
+use Zarinpal\Clients\GuzzleClient;
+use Zarinpal\Zarinpal;
 
-class PaymentService{
-
-
-
+class PaymentService
+{
+    /**
+     * @param $amount
+     * @param $order
+     * @param $onlinePayment
+     * @return false|void
+     */
     public function zarinpal($amount, $order, $onlinePayment)
     {
         $merchentID = Config::get('payment.zarinpal_api_key');
@@ -26,28 +30,27 @@ class PaymentService{
             'amount' => (int)$amount * 10,
             'description' => 'the order',
         ];
-        try{
+        try {
             $response = $zarinpal->request($payment);
             $code = $response['data']['code'];
             $message = $zarinpal->getCodeMessage($code);
-            if($code === 100)
-            {
+            if ($code === 100) {
                 $onlinePayment->update(['bank_first_response' => ($response)]);
                 $authority = $response['data']['authority'];
                 return $zarinpal->redirect($authority);
             }
-
-        }
-        catch(RequestException $exception){
-
+        } catch (RequestException $exception) {
             return false;
-
         }
     }
 
 
-
-    public function zarinpalVerify($amount, $onlinePayment)
+    /**
+     * @param $amount
+     * @param $onlinePayment
+     * @return false[]|true[]
+     */
+    public function zarinpalVerify($amount, $onlinePayment): array
     {
         $authority = $_GET['Authority'];
         $data = ['merchant_id' => Config::get('payment.zarinpal_api_key'), 'authority' => $authority, 'amount' => (int)$amount];
@@ -65,67 +68,37 @@ class PaymentService{
         curl_close($ch);
         $result = json_decode($result, true);
         $onlinePayment->update(['bank_second_response' => $result]);
-        if(count($result['errors']) === 0)
-        {
-            if($result['data']['code'] == 100)
-            {
+        if (count($result['errors']) === 0) {
+            if ($result['data']['code'] == 100) {
                 return ['success' => true];
-            }
-            else{
+            } else {
                 return ['success' => false];
             }
-        }
-
-        else{
+        } else {
             return ['success' => false];
         }
-
-
     }
 
 
-
-
-
-    function resultCodes($code)
+    /**
+     * @param $code
+     * @return string
+     */
+    function resultCodes($code): string
     {
-        switch ($code) {
-            case 100:
-                return "با موفقیت تایید شد";
-
-            case 102:
-                return "merchant یافت نشد";
-
-            case 103:
-                return "merchant غیرفعال";
-
-            case 104:
-                return "merchant نامعتبر";
-
-            case 201:
-                return "قبلا تایید شده";
-
-            case 105:
-                return "amount بایستی بزرگتر از 1,000 ریال باشد";
-
-            case 106:
-                return "callbackUrl نامعتبر می‌باشد. (شروع با http و یا https)";
-
-            case 113:
-                return "amount مبلغ تراکنش از سقف میزان تراکنش بیشتر است.";
-
-            case 201:
-                return "قبلا تایید شده";
-
-            case 202:
-                return "سفارش پرداخت نشده یا ناموفق بوده است";
-
-            case 203:
-                return "trackId نامعتبر می‌باشد";
-
-            default:
-                return "وضعیت مشخص شده معتبر نیست";
-        }
+        return match ($code) {
+            100 => "با موفقیت تایید شد",
+            102 => "merchant یافت نشد",
+            103 => "merchant غیرفعال",
+            104 => "merchant نامعتبر",
+            105 => "amount بایستی بزرگتر از 1,000 ریال باشد",
+            106 => "callbackUrl نامعتبر می‌باشد. (شروع با http و یا https)",
+            113 => "amount مبلغ تراکنش از سقف میزان تراکنش بیشتر است.",
+            201 => "قبلا تایید شده",
+            202 => "سفارش پرداخت نشده یا ناموفق بوده است",
+            203 => "trackId نامعتبر می‌باشد",
+            default => "وضعیت مشخص شده معتبر نیست",
+        };
     }
 
     /**
@@ -133,61 +106,24 @@ class PaymentService{
      * @param $code
      * @return String
      */
-    function statusCodes($code)
+    function statusCodes($code): string
     {
-        switch ($code) {
-            case -1:
-                return "در انتظار پردخت";
-
-            case -2:
-                return "خطای داخلی";
-
-            case 1:
-                return "پرداخت شده - تاییدشده";
-
-            case 2:
-                return "پرداخت شده - تاییدنشده";
-
-            case 3:
-                return "لغوشده توسط کاربر";
-
-            case 4:
-                return "‌شماره کارت نامعتبر می‌باشد";
-
-            case 5:
-                return "‌موجودی حساب کافی نمی‌باشد";
-
-            case 6:
-                return "رمز واردشده اشتباه می‌باشد";
-
-            case 7:
-                return "‌تعداد درخواست‌ها بیش از حد مجاز می‌باشد";
-
-            case 8:
-                return "‌تعداد پرداخت اینترنتی روزانه بیش از حد مجاز می‌باشد";
-
-            case 9:
-                return "مبلغ پرداخت اینترنتی روزانه بیش از حد مجاز می‌باشد";
-
-            case 10:
-                return "‌صادرکننده‌ی کارت نامعتبر می‌باشد";
-
-            case 11:
-                return "خطای سوییچ";
-
-            case 12:
-                return "کارت قابل دسترسی نمی‌باشد";
-
-            default:
-                return "وضعیت مشخص شده معتبر نیست";
-        }
+        return match ($code) {
+            -1 => "در انتظار پردخت",
+            -2 => "خطای داخلی",
+            1 => "پرداخت شده - تاییدشده",
+            2 => "پرداخت شده - تاییدنشده",
+            3 => "لغوشده توسط کاربر",
+            4 => "‌شماره کارت نامعتبر می‌باشد",
+            5 => "‌موجودی حساب کافی نمی‌باشد",
+            6 => "رمز واردشده اشتباه می‌باشد",
+            7 => "‌تعداد درخواست‌ها بیش از حد مجاز می‌باشد",
+            8 => "‌تعداد پرداخت اینترنتی روزانه بیش از حد مجاز می‌باشد",
+            9 => "مبلغ پرداخت اینترنتی روزانه بیش از حد مجاز می‌باشد",
+            10 => "‌صادرکننده‌ی کارت نامعتبر می‌باشد",
+            11 => "خطای سوییچ",
+            12 => "کارت قابل دسترسی نمی‌باشد",
+            default => "وضعیت مشخص شده معتبر نیست",
+        };
     }
-
-
-
-
-
-
 }
-
-
