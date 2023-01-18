@@ -81,7 +81,7 @@ class MenuController extends Controller
     public function store(MenuRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('منوی  جدید شما با موفقیت ثبت شد');
+        return $this->successMessageWithRedirect('منوی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -117,7 +117,7 @@ class MenuController extends Controller
     public function update(MenuRequest $request, Menu $menu): RedirectResponse
     {
         $this->service->update($request, $menu);
-        return $this->successMessageWithRedirect('منوی  شما با موفقیت ویرایش شد');
+        return $this->successMessageWithRedirect('منوی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -129,7 +129,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu): RedirectResponse
     {
         $result = $menu->delete();
-        return $this->successMessageWithRedirect(' منو شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('منو شما با موفقیت حذف شد');
     }
 
 

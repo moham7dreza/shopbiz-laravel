@@ -35,7 +35,7 @@
                         <tbody>
 
                         <tr class="table-primary">
-                            <th>{{ $order->id }}</th>
+                            <th>{{ $order->faOrderId() }}</th>
                             <td class="width-24-rem text-left">
                                 <a href="" class="btn btn-dark btn-sm text-white" id="print">
                                     <i class="fa fa-print"></i>
@@ -52,146 +52,146 @@
                         <tr class="border-bottom">
                             <th>نام مشتری</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->user->fullName ?? '-' }}
+                                {{ $order->customerName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>آدرس</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->address ?? '-' }}
+                                {{ $order->textCustomerAddress() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>شهر</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->city->name ?? '-' }}
+                                {{ $order->textCustomerCity() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>کد پستی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->postal_code ?? '-' }}
+                                {{ $order->customerPostalCode() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>پلاک</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->no ?? '-' }}
+                                {{ $order->customerNo() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>واحد</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->unit ?? '-' }}
+                                {{ $order->customerUnit() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>نام گیرنده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->recipient_first_name ?? '-' }}
+                                {{ $order->recipientFName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>نام خانوادگی گیرنده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->recipient_last_name ?? '-' }}
+                                {{ $order->recipientLName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>موبایل</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->address->mobile ?? '-' }}
+                                {{ $order->customerFaMobile() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>نوع پرداخت</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->payment_type_value }}
+                                {{ $order->paymentTypeValue() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>وضعیت پرداخت</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->payment_status_value }}
+                                {{ $order->paymentStatusValue() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مبلغ ارسال</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->delivery_amount ?? '-' }}
+                                {{ $order->orderDeliveryAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>وضعیت ارسال</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->delivery_status_value }}
+                                {{ $order->deliveryStatusValue() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>تاریخ ارسال</th>
                             <td class="text-left font-weight-bolder">
-                                {{ jalaliDate($order->delivery_time) }}
+                                {{ $order->orderSendDate() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مجموع مبلغ سفارش (بدون تخفیف)</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_final_amount ?? '-' }}
+                                {{ $order->orderFinalAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مجموع تمامی مبلغ تخفیفات</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_discount_amount ?? '-' }}
+                                {{ $order->orderDiscountAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مبلغ تخفیف همه محصولات</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_total_products_discount_amount ?? '-' }}
+                                {{ $order->orderTotalProductsDiscountAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مبلغ نهایی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_final_amount -  $order->order_discount_amount }}
+                                {{ $order->orderFinalFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>بانک</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->payment->paymentable->gateway ?? '-' }}
+                                {{ $order->paymentGateway() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>کوپن استفاده شده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->copan->code ?? '-' }}
+                                {{ $order->customerUsedCopan() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>تخفیف کد تخفیف</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_copan_discount_amount ?? '-' }}
+                                {{ $order->orderCopanDiscountAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>تخفیف عمومی استفاده شده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->commonDiscount->title ?? '-' }}
+                                {{ $order->usedCommonDiscountTitle() }}
                             </td>
                         </tr>
 
                         <tr class="border-bottom">
                             <th>مبلغ تخفیف عمومی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_common_discount_amount ?? '-' }}
+                                {{ $order->orderCommonDiscountAmountFaPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>وضعیت سفارش</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->order_status_value }}
+                                {{ $order->orderStatusValue() }}
                             </td>
                         </tr>
 

@@ -4,8 +4,10 @@ namespace Modules\Order\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Delivery\Entities\Delivery;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderItem;
+use Modules\Payment\Entities\Payment;
 
 class OrderService
 {
@@ -184,6 +186,65 @@ class OrderService
             'order_common_discount_amount' => $commonPercentageDiscountAmount
         ];
     }
+
+    // admin queries
+    /*****************************************************************************************************************/
+
+    /**
+     * @param $orders
+     * @return void
+     */
+    public function setOrderStatusToAwaitConfirm($orders): void
+    {
+        foreach ($orders as $order) {
+            $order->order_status = Order::ORDER_STATUS_AWAIT_CONFIRM;
+            $order->save();
+        }
+    }
+
+    /**
+     * @param $order
+     * @return void
+     */
+    public function changeOrderStatus($order): void
+    {
+        $order->order_status = match ($order->order_status) {
+            1 => Order::ORDER_STATUS_NOT_CONFIRMED,
+            2 => Order::ORDER_STATUS_CONFIRMED,
+            3 => Order::ORDER_STATUS_CANCELED,
+            4 => Order::ORDER_STATUS_RETURNED,
+            5 => Order::ORDER_STATUS_NOT_CHECKED,
+            default => Order::ORDER_STATUS_AWAIT_CONFIRM,
+        };
+        $order->save();
+    }
+
+    /**
+     * @param $order
+     * @return void
+     */
+    public function makeOrderStatusCanceled($order): void
+    {
+        $order->order_status = Order::ORDER_STATUS_CANCELED;
+        $order->save();
+    }
+
+    /**
+     * @param $order
+     * @return void
+     */
+    public function changeSendStatus($order): void
+    {
+        $order->delivery_status = match ($order->delivery_status) {
+            0 => Delivery::DELIVERY_STATUS_SENDING,
+            1 => Delivery::DELIVERY_STATUS_SEND,
+            2 => Delivery::DELIVERY_STATUS_DELIVERED,
+            default => Delivery::DELIVERY_STATUS_NOT_SEND,
+        };
+        $order->save();
+    }
+
+    /*****************************************************************************************************************/
 
     /**
      * @return Builder

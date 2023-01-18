@@ -75,7 +75,6 @@ class PaymentService implements PaymentServiceInterface
         return $this->query()->create([
             'amount' => $orderFinalAmount,
             'user_id' => auth()->id(),
-            'pay_date' => now(),
             'type' => $type,
             'paymentable_id' => $paymentedId,
             'paymentable_type' => $targetModel,

@@ -46,20 +46,19 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $item->singleProduct->name ?? '-' }}</td>
-                                <td>{{ $item->amazingSale->percentage ?? '-' }}</td>
-                                <td>{{ $item->amazing_sale_discount_amount ?? '-' }} تومان</td>
-                                <td>{{ $item->number }} </td>
-                                <td>{{ $item->final_product_price ?? '-' }}</td>
-                                تومان</td>
-                                <td>{{ $item->final_total_price ?? '-'}}</td>
-                                <td>{{ $item->color->color_name ?? '-' }}</td>
-                                <td>{{ $item->guarantee->name ?? '-' }}</td>
+                                <td>{{ $item->textProductName() }}</td>
+                                <td>{{ $item->amazingSaleFaPercentage() }}</td>
+                                <td>{{ $item->orderItemAmazingSaleDiscountAmountFaPrice() }} تومان</td>
+                                <td>{{ $item->orderItemFaNumber() }} </td>
+                                <td>{{ $item->orderItemFinalProductFaPrice() }}</td>
+                                <td>{{ $item->orderItemFinalTotalFaPrice() }}</td>
+                                <td>{{ $item->orderItemProductColorName() }}</td>
+                                <td>{{ $item->orderItemProductGuaranteeName() }}</td>
                                 <td>
                                     @forelse($item->orderItemAttributes as $attribute)
-                                        {{ $attribute->categoryAttribute->name ?? '-' }}
+                                        {{ $attribute->textAttributeName() }}
                                         :
-                                        {{ $attribute->categoryAttributeValue->value ?? '-' }}
+                                        {{ $attribute->attributeValue() }}
                                     @empty
                                         -
                                     @endforelse

@@ -14,17 +14,13 @@ class Payment extends Model
 {
     use HasFactory, SoftDeletes, HasFaDate;
 
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    protected $fillable = ['amount', 'user_id', 'pay_date', 'type', 'paymentable_id', 'paymentable_type', 'status',];
+
+    // Relations
 
     /**
-     * @var array|int[]
+     * @return BelongsTo
      */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
-
-    protected $guarded = ['id'];
-
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -37,4 +33,7 @@ class Payment extends Model
     {
         return $this->morphTo();
     }
+
+    // Methods
+
 }

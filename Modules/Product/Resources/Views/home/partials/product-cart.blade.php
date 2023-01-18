@@ -2,8 +2,15 @@
 <section class="mb-4">
     <section class="container-xxl">
 
-        @include('Panel::alerts.alert-section.success')
-        @include('Panel::alerts.alert-section.error')
+        @if(session('error') && session('info'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @elseif(session('info'))
+            <div class="alert alert-info">
+                {{ session('info') }} - برای نمایش سبد خرید <a href="{{ route('customer.sales-process.cart') }}">کلیک</a> کنید.
+            </div>
+        @endif
 
         <section class="row">
             <section class="col">

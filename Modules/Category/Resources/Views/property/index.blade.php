@@ -52,7 +52,7 @@
                                 <td>{{ $categoryAttribute->textCategoryName() }}</td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('CategoryValue.index', $categoryAttribute->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-weight"></i></a>
+                                       class="btn btn-warning btn-sm" target="_blank"><i class="fa fa-weight"></i></a>
                                     <a href="{{ route('categoryAttribute.edit', $categoryAttribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"

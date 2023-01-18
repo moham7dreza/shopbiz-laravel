@@ -77,7 +77,7 @@ class CartController extends Controller
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
         $this->service->store($request, $product, $cartItems);
-        return back()->with('alert-section-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+        return back()->with('info', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
 

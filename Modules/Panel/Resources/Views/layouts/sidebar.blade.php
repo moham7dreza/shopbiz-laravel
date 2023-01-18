@@ -64,7 +64,7 @@
                                 <a href="{{ route('order.returned') }}">مرجوعی</a>
                             @endcan
                             @can('permission-super-admin','permission-product-all-orders')
-                                <a href="{{ route('order.all') }}">تمام سفارشات</a>
+                                <a href="{{ route('order.index') }}">تمام سفارشات</a>
                             @endcan
                         </section>
                     </section>

@@ -7,12 +7,17 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\Delivery\Entities\Delivery;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepoEloquentInterface;
+use Modules\Order\Services\OrderService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class OrderController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -24,13 +29,16 @@ class OrderController extends Controller
     private string $class = Order::class;
 
     public OrderRepoEloquentInterface $repo;
+    public OrderService $service;
 
     /**
      * @param OrderRepoEloquentInterface $orderRepoEloquent
+     * @param OrderService $orderService
      */
-    public function __construct(OrderRepoEloquentInterface $orderRepoEloquent)
+    public function __construct(OrderRepoEloquentInterface $orderRepoEloquent, OrderService $orderService)
     {
         $this->repo = $orderRepoEloquent;
+        $this->service = $orderService;
 
         $this->middleware('can:permission-product-new-orders')->only(['newOrders']);
         $this->middleware('can:permission-product-sending-orders')->only(['sending']);
@@ -70,10 +78,7 @@ class OrderController extends Controller
     public function newOrders(): Factory|View|Application
     {
         $orders = $this->repo->newOrders()->paginate(10);
-        foreach ($orders as $order) {
-            $order->order_status = 1;
-            $result = $order->save();
-        }
+        $this->service->setOrderStatusToAwaitConfirm($orders);
         return view('Order::index', compact(['orders']));
     }
 
@@ -146,21 +151,8 @@ class OrderController extends Controller
      */
     public function changeSendStatus(Order $order): RedirectResponse
     {
-        switch ($order->delivery_status) {
-            case 0:
-                $order->delivery_status = 1;
-                break;
-            case 1:
-                $order->delivery_status = 2;
-                break;
-            case 2:
-                $order->delivery_status = 3;
-                break;
-            default :
-                $order->delivery_status = 0;
-        }
-        $order->save();
-        return back();
+        $this->service->changeSendStatus($order);
+        return $this->successMessageWithRedirect('وضعیت ارسال کالا با موفقیت تغییر کرد.');
     }
 
     /**
@@ -169,27 +161,8 @@ class OrderController extends Controller
      */
     public function changeOrderStatus(Order $order): RedirectResponse
     {
-        switch ($order->order_status) {
-            case 1:
-                $order->order_status = 2;
-                break;
-            case 2:
-                $order->order_status = 3;
-                break;
-            case 3:
-                $order->order_status = 4;
-                break;
-            case 4:
-                $order->order_status = 5;
-                break;
-            case 5:
-                $order->order_status = 6;
-                break;
-            default :
-                $order->order_status = 1;
-        }
-        $order->save();
-        return back();
+        $this->service->changeOrderStatus($order);
+        return $this->successMessageWithRedirect('وضعیت سفارش با موفقیت تغییر کرد.');
     }
 
     /**
@@ -198,8 +171,7 @@ class OrderController extends Controller
      */
     public function cancelOrder(Order $order): RedirectResponse
     {
-        $order->order_status = 4;
-        $order->save();
-        return back();
+       $this->service->makeOrderStatusCanceled($order);
+        return $this->successMessageWithRedirect('وضعیت سفارش به باطل شده تغییر کرد.');
     }
 }

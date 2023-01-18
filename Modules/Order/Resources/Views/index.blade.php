@@ -55,17 +55,17 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ $order->order_final_amount }} تومان</td>
-                                <td>{{ $order->order_discount_amount }} تومان</td>
-                                <td>{{ $order->order_total_products_discount_amount }} تومان</td>
-                                <td>{{ $order->order_final_amount -  $order->order_discount_amount }} تومان</td>
-                                <td>{{ $order->payment_status_value }}</td>
-                                <td>{{ $order->payment_type_value }}</td>
-                                <td>{{ $order->payment->paymentable->gateway ?? '-' }}</td>
-                                <td>{{ $order->delivery_status_value }}</td>
-                                <td>{{ $order->delivery->name }}</td>
-                                <td>{{ $order->order_status_value }}</td>
+                                <td>{{ $order->faOrderId() }}</td>
+                                <td>{{ $order->orderFinalAmountFaPrice() }}</td>
+                                <td>{{ $order->orderDiscountAmountFaPrice() }}</td>
+                                <td>{{ $order->orderTotalProductsDiscountAmountFaPrice() }}</td>
+                                <td>{{ $order->orderFinalFaPrice() }}</td>
+                                <td>{{ $order->paymentStatusValue() }}</td>
+                                <td>{{ $order->paymentTypeValue() }}</td>
+                                <td>{{ $order->paymentGateway() }}</td>
+                                <td>{{ $order->deliveryStatusValue() }}</td>
+                                <td>{{ $order->deliveryMethodName() }}</td>
+                                <td>{{ $order->orderStatusValue() }}</td>
                                 <td class="width-8-rem text-left">
                                     <div class="dropdown">
                                         <a href="#" class="btn btn-success btn-sm btn-block dorpdown-toggle"

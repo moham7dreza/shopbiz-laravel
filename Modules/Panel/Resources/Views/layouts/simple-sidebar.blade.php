@@ -37,7 +37,7 @@
                     <a href="{{ route('order.unpaid') }}">پرداخت نشده</a>
                     <a href="{{ route('order.canceled') }}">باطل شده</a>
                     <a href="{{ route('order.returned') }}">مرجوعی</a>
-                    <a href="{{ route('order.all') }}">تمام سفارشات</a>
+                    <a href="{{ route('order.index') }}">تمام سفارشات</a>
                 </section>
             </section>
 

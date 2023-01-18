@@ -49,7 +49,7 @@ class CartService implements CartServiceInterface
                 if ($cartItem->number != $request->number) {
                     $cartItem->update(['number' => $request->number]);
                 }
-                return back()->with('alert-section-error', 'محصول قبلا به سبد خرید اضافه شده است.');
+                return back()->with('error', 'محصول قبلا به سبد خرید اضافه شده است.');
             }
         }
 

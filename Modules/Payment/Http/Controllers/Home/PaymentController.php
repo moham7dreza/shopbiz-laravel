@@ -6,12 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Modules\Address\Repositories\AddressRepoEloquentInterface;
-use Modules\Address\Services\AddressService;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
-use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Discount\Http\Requests\Home\CopanDiscountRequest;
-use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepoEloquentInterface;
@@ -25,44 +21,20 @@ use Modules\Share\Http\Services\Payment\PaymentService;
 
 class PaymentController extends Controller
 {
-    public AddressRepoEloquentInterface $addressRepo;
-    public AddressService $addressService;
-
     public CartRepoEloquentInterface $cartRepo;
-    public DeliveryRepoEloquentInterface $deliveryRepo;
     public OrderService $orderService;
     public OrderRepoEloquentInterface $orderRepo;
-    public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
-
     public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public PaymentServiceInterface $paymentService;
 
-    /**
-     * @param AddressRepoEloquentInterface $addressRepoEloquent
-     * @param AddressService $addressService
-     * @param CartRepoEloquentInterface $cartRepo
-     * @param DeliveryRepoEloquentInterface $deliveryRepo
-     * @param OrderService $orderService
-     * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
-     * @param OrderRepoEloquentInterface $orderRepo
-     * @param CopanDiscountRepoEloquentInterface $copanDiscountRepo
-     */
-    public function __construct(AddressRepoEloquentInterface        $addressRepoEloquent,
-                                AddressService                      $addressService,
-                                CartRepoEloquentInterface           $cartRepo,
-                                DeliveryRepoEloquentInterface       $deliveryRepo,
-                                OrderService                        $orderService,
-                                CommonDiscountRepoEloquentInterface $commonDiscountRepo,
-                                OrderRepoEloquentInterface          $orderRepo,
-                                CopanDiscountRepoEloquentInterface  $copanDiscountRepo,
-                                PaymentServiceInterface             $paymentService)
+    public function __construct(CartRepoEloquentInterface          $cartRepo,
+                                OrderService                       $orderService,
+                                OrderRepoEloquentInterface         $orderRepo,
+                                CopanDiscountRepoEloquentInterface $copanDiscountRepo,
+                                PaymentServiceInterface            $paymentService)
     {
-        $this->addressRepo = $addressRepoEloquent;
-        $this->addressService = $addressService;
-        $this->deliveryRepo = $deliveryRepo;
         $this->cartRepo = $cartRepo;
         $this->orderService = $orderService;
-        $this->commonDiscountRepo = $commonDiscountRepo;
         $this->orderRepo = $orderRepo;
         $this->copanDiscountRepo = $copanDiscountRepo;
         $this->paymentService = $paymentService;

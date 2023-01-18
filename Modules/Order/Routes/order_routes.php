@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Discount\Http\Controllers\DiscountController;
 use Modules\Order\Http\Controllers\OrderController;
 
 /*
@@ -16,7 +15,7 @@ use Modules\Order\Http\Controllers\OrderController;
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
 //order
     Route::prefix('order')->group(function () {
-        Route::get('/', [OrderController::class, 'all'])->name('order.all');
+        Route::get('/', [OrderController::class, 'all'])->name('order.index');
         Route::get('/new-order', [OrderController::class, 'newOrders'])->name('order.newOrders');
         Route::get('/sending', [OrderController::class, 'sending'])->name('order.sending');
         Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('order.unpaid');
