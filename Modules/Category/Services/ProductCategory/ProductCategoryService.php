@@ -63,9 +63,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
     {
         if ($request->hasFile('image')) {
             if (!empty($productCategory->image)) {
-                $this->imageService->deleteImage($productCategory->image['indexArray']['small']);
-                $this->imageService->deleteImage($productCategory->image['indexArray']['medium']);
-                $this->imageService->deleteImage($productCategory->image['indexArray']['large']);
+                $this->imageService->deleteDirectoryAndFiles($productCategory->image['directory']);
             }
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
 

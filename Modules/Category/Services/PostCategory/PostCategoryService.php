@@ -61,9 +61,7 @@ class PostCategoryService implements PostCategoryServiceInterface
     {
         if ($request->hasFile('image')) {
             if (!empty($postCategory->image)) {
-                $this->imageService->deleteImage($postCategory->image['indexArray']['small']);
-                $this->imageService->deleteImage($postCategory->image['indexArray']['medium']);
-                $this->imageService->deleteImage($postCategory->image['indexArray']['large']);
+                $this->imageService->deleteDirectoryAndFiles($postCategory->image['directory']);
             }
             $result = ShareService::createIndexAndSaveImage('post-category', $request->file('image'), $this->imageService);
 

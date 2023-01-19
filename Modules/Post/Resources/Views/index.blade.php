@@ -39,6 +39,7 @@
                             <th>عنوان پست</th>
                             <th>دسته</th>
                             <th>تصویر</th>
+                            <th>تاریخ انتشار</th>
                             <th>وضعیت</th>
                             <th>امکان درج کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -50,12 +51,12 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $post->title }}</td>
-                                <td>{{ $post->postCategory->name }}</td>
+                                <td>{{ $post->limitedTitle() }}</td>
+                                <td>{{ $post->textCategoryName() }}</td>
                                 <td>
-                                    <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']] ) }}"
-                                         alt="" width="100" height="50">
+                                    <img class="admin-table-image" src="{{ $post->imagePath() }}" alt="">
                                 </td>
+                                <td>{{ $post->publishFaDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }})"
@@ -81,8 +82,8 @@
                                             class="fa fa-edit"></i></a>
                                     {{-- @elsecan('create', Modules\Post\Entities\Post\Post::class) --}}
                                     {{-- @else --}}
-{{--                                    <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i--}}
-{{--                                            class="fa fa-edit"></i> دسترسی ندارید</a>--}}
+                                    {{--                                    <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i--}}
+                                    {{--                                            class="fa fa-edit"></i> دسترسی ندارید</a>--}}
                                     {{-- @endcan --}}
                                     {{-- @cannot('update', $post)
                                         <h1>برو بیرون</h1>

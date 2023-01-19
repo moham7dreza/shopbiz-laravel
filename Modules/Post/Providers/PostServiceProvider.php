@@ -15,7 +15,7 @@ use Modules\Post\Services\PostServiceInterface;
 class PostServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for post controller.
      *
      * @var string
      */
@@ -57,7 +57,7 @@ class PostServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/post_routes.php';
 
     /**
-     * Register panel files.
+     * Register post files.
      *
      * @return void
      */
@@ -72,7 +72,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot post service provider.
      *
      * @return void
      */
@@ -84,7 +84,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load post migration files.
      *
      * @return void
      */
@@ -94,7 +94,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load post view files.
      *
      * @return void
      */
@@ -104,7 +104,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load post route files.
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load post policy files.
      *
      * @return void
      */
@@ -126,7 +126,7 @@ class PostServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for post.
      *
      * @return void
      */
@@ -142,7 +142,7 @@ class PostServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(PostRepoEloquentInterface::class, PostRepoEloquent::class);
     }
@@ -150,7 +150,7 @@ class PostServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(PostServiceInterface::class, PostService::class);
     }

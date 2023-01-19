@@ -5,6 +5,7 @@ namespace Modules\Discount\Services\Common;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\CommonDiscount;
+use Modules\Share\Services\ShareService;
 
 class CommonDiscountService
 {
@@ -19,8 +20,8 @@ class CommonDiscountService
             'discount_ceiling' => $request->discount_ceiling,
             'minimal_order_amount' => $request->minimal_order_amount,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
         ]);
     }
@@ -37,22 +38,12 @@ class CommonDiscountService
             'discount_ceiling' => $request->discount_ceiling,
             'minimal_order_amount' => $request->minimal_order_amount,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
         ]);
     }
 
-    /**
-     * the primary timestamp is in ms - we should convert this to second then to date
-     *
-     * @param $date
-     * @return string
-     */
-    private function realTimestampDateFormat($date): string
-    {
-        return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
-    }
 //    /**
 //     * Store discount & sync discount to products by array of data.
 //     *

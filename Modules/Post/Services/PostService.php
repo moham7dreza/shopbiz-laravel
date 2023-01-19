@@ -4,57 +4,147 @@ namespace Modules\Post\Services;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Modules\Post\Entities\Post;
+use Modules\Share\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PostService implements PostServiceInterface
 {
+
+    use SuccessToastMessageWithRedirectTrait;
+
+    public ImageService $imageService;
+
     /**
-     * Store article by request.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
+    /**
+     * Store category.
      *
      * @param  $request
-     * @return Builder|\Illuminate\Database\Eloquent\Model
+     * @return Builder|Model|RedirectResponse
      */
-    public function store($request)
+    public function store($request): Model|Builder|RedirectResponse
     {
-        $title = $request->title;
-        $body = $request->body;
+        if ($request->hasFile('image')) {
+            $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
+            if (!$result) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->image = $result;
+        } else {
+            $request->image = null;
+        }
 
         return $this->query()->create([
-            'user_id'       => auth()->id(),
-            'media_id'      => $request->media_id,
-            'title'         => $title,
-            'slug'          => ShareService::makeSlug($title),
-            'min_read'      => ShareService::convertTextToReadMinute($body),
-            'body'          => $body,
-            'keywords'      => $request->keywords,
-            'description'   => $request->description,
-            'status'        => $request->status,
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'image' => $request->image,
+            'status' => $request->status,
+            'tags' => $request->tags,
+            'body' => $request->body,
+            'published_at' => ShareService::realTimestampDateFormat($request->published_at),
+            'author_id' => auth()->id(),
+            'category_id' => $request->category_id,
+            'commentable' => $request->commentable,
         ]);
     }
 
     /**
-     * Update article by id & request.
-     *
-     * @param  $request
-     * @param  $id
+     * @param $request
+     * @param $post
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $post): mixed
     {
-        $title = $request->title;
-        $body = $request->body;
+        if ($request->hasFile('image')) {
+            if (!empty($post->image)) {
+                $this->imageService->deleteDirectoryAndFiles($post->image['directory']);
+            }
+            $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
 
-        return $this->query()->whereId($id)->update([
-            'media_id' => $request->media_id,
-            'title' => $title,
-            'slug' => ShareService::makeSlug($title),
-            'min_read' => ShareService::convertTextToReadMinute($body),
-            'body' => $body,
-            'keywords' => $request->keywords,
-            'description' => $request->description,
+            if ($result === false) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->image = $result;
+        } else {
+            if (isset($request->currentImage) && !empty($post->image)) {
+                $image = $post->image;
+                $image['currentImage'] = $request->currentImage;
+                $request->image = $image;
+            } else {
+                $request->image = $post->image;
+            }
+        }
+
+        return $post->update([
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'image' => $request->image,
             'status' => $request->status,
+            'tags' => $request->tags,
+            'body' => $request->body,
+            'published_at' => ShareService::realTimestampDateFormat($request->published_at),
+            'author_id' => auth()->id(),
+            'category_id' => $request->category_id,
+            'commentable' => $request->commentable,
         ]);
     }
+//    /**
+//     * Store article by request.
+//     *
+//     * @param  $request
+//     * @return Builder|\Illuminate\Database\Eloquent\Model
+//     */
+//    public function store($request)
+//    {
+//        $title = $request->title;
+//        $body = $request->body;
+//
+//        return $this->query()->create([
+//            'user_id'       => auth()->id(),
+//            'media_id'      => $request->media_id,
+//            'title'         => $title,
+//            'slug'          => ShareService::makeSlug($title),
+//            'min_read'      => ShareService::convertTextToReadMinute($body),
+//            'body'          => $body,
+//            'keywords'      => $request->keywords,
+//            'description'   => $request->description,
+//            'status'        => $request->status,
+//        ]);
+//    }
+//
+//    /**
+//     * Update article by id & request.
+//     *
+//     * @param  $request
+//     * @param  $id
+//     * @return mixed
+//     */
+//    public function update($request, $id)
+//    {
+//        $title = $request->title;
+//        $body = $request->body;
+//
+//        return $this->query()->whereId($id)->update([
+//            'media_id' => $request->media_id,
+//            'title' => $title,
+//            'slug' => ShareService::makeSlug($title),
+//            'min_read' => ShareService::convertTextToReadMinute($body),
+//            'body' => $body,
+//            'keywords' => $request->keywords,
+//            'description' => $request->description,
+//            'status' => $request->status,
+//        ]);
+//    }
 
     /**
      * Change status article by id.

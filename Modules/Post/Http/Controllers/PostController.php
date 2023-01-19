@@ -7,17 +7,19 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Post\Entities\Post;
 use Modules\Post\Http\Requests\PostRequest;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class PostController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -69,12 +71,12 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
+     * @param PostCategoryRepoEloquentInterface $postCategoryRepo
      * @return Application|Factory|View
      */
-    public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
+    public function create(PostCategoryRepoEloquentInterface $postCategoryRepo): View|Factory|Application
     {
-        $postCategories = $productCategoryRepo->getLatestCategories()->get();
+        $postCategories = $postCategoryRepo->getLatestCategories()->get();
         return view('Post::create', compact(['postCategories']));
     }
 
@@ -82,10 +84,9 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param PostRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(PostRequest $request, ImageService $imageService): RedirectResponse
+    public function store(PostRequest $request): RedirectResponse
     {
         // if($request->user()->cannot('create'))
         // {
@@ -94,24 +95,8 @@ class PostController extends Controller
 
         // $this->authorize('create', Post::class);
 
-
-        $inputs = $request->all();
-
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        }
-        $inputs['author_id'] = auth()->user()->id;
-        $post = Post::query()->create($inputs);
-        return redirect()->route('post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('پست جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -129,11 +114,12 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Post $post
+     * @param PostCategoryRepoEloquentInterface $postCategoryRepo
      * @return Application|Factory|View
      */
-    public function edit(Post $post, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
+    public function edit(Post $post, PostCategoryRepoEloquentInterface $postCategoryRepo): View|Factory|Application
     {
-        $postCategories = $productCategoryRepo->getLatestCategories()->get();
+        $postCategories = $postCategoryRepo->getLatestCategories()->get();
         return view('Post::edit', compact(['post', 'postCategories']));
     }
 
@@ -142,10 +128,9 @@ class PostController extends Controller
      *
      * @param PostRequest $request
      * @param Post $post
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(PostRequest $request, Post $post, ImageService $imageService): RedirectResponse
+    public function update(PostRequest $request, Post $post): RedirectResponse
     {
 
         // if(!Gate::allows('update-post', $post))
@@ -164,30 +149,8 @@ class PostController extends Controller
 
         // $this->authorize('update', $post);
 
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
-        if ($request->hasFile('image')) {
-            if (!empty($post->image)) {
-                $imageService->deleteDirectoryAndFiles($post->image['directory']);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && !empty($post->image)) {
-                $image = $post->image;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
-            }
-        }
-        $post->update($inputs);
-        return redirect()->route('post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');
+        $this->service->update($request, $post);
+        return $this->successMessageWithRedirect('پست شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -199,7 +162,7 @@ class PostController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         $result = $post->delete();
-        return redirect()->route('post.index')->with('swal-success', 'پست  شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('پست شما با موفقیت حذف شد');
     }
 
     /**
@@ -208,7 +171,7 @@ class PostController extends Controller
      */
     public function status(Post $post): JsonResponse
     {
-        return ShareService::changeStatus($post);
+        return ShareService::ajaxChangeModelSpecialField($post);
     }
 
     /**
@@ -217,16 +180,6 @@ class PostController extends Controller
      */
     public function commentable(Post $post): JsonResponse
     {
-        $post->commentable = $post->commentable == 0 ? 1 : 0;
-        $result = $post->save();
-        if ($result) {
-            if ($post->commentable == 0) {
-                return response()->json(['commentable' => true, 'checked' => false]);
-            } else {
-                return response()->json(['commentable' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['commentable' => false]);
-        }
+        return ShareService::ajaxChangeModelSpecialField($post, 'commentable');
     }
 }

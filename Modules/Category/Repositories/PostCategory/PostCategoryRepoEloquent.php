@@ -4,7 +4,6 @@ namespace Modules\Category\Repositories\PostCategory;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Category\Entities\PostCategory;
-use Modules\Category\Entities\ProductCategory;
 
 class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
 {

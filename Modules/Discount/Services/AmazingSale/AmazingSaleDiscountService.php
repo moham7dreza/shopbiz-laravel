@@ -5,7 +5,7 @@ namespace Modules\Discount\Services\AmazingSale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\AmazingSale;
-use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Share\Services\ShareService;
 
 class AmazingSaleDiscountService
 {
@@ -18,8 +18,8 @@ class AmazingSaleDiscountService
         return $this->query()->create([
             'product_id' => $request->product_id,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
         ]);
     }
@@ -34,21 +34,10 @@ class AmazingSaleDiscountService
         return $amazingSale->update([
             'product_id' => $request->product_id,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
         ]);
-    }
-
-    /**
-     * the primary timestamp is in ms - we should convert this to second then to date
-     *
-     * @param $date
-     * @return string
-     */
-    private function realTimestampDateFormat($date): string
-    {
-        return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
     }
 
 //    /**

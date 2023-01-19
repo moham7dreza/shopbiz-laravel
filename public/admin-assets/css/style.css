@@ -225,6 +225,10 @@ input:checked + .slider:before {
     width: 22rem;
 }
 
+.width-24-rem {
+    width: 24rem;
+}
+
 .width-16-rem {
     width: 16rem;
 }

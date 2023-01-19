@@ -35,4 +35,22 @@ trait HasFaDate
     {
         return jalaliDate($this->updated_at) ?? $this->updated_at;
     }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getFaDate($date): string
+    {
+        return jalaliDate($date) ?? $date;
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getDiffDate($date): string
+    {
+        return $date->diffForHumans() ?? $this->getFaDate($date);
+    }
 }

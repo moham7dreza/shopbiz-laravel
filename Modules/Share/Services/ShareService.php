@@ -8,6 +8,17 @@ use Illuminate\Http\JsonResponse;
 class ShareService
 {
     /**
+     * the primary timestamp is in ms - we should convert this to second then to date
+     *
+     * @param $date
+     * @return string
+     */
+    public static function realTimestampDateFormat($date): string
+    {
+        return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
+    }
+
+    /**
      * @param string $directoryName
      * @param $imageFile
      * @param $imageService
@@ -75,6 +86,21 @@ class ShareService
             }
         } else {
             return response()->json(['status' => false]);
+        }
+    }
+
+    public static function ajaxChangeModelSpecialField(Model $model, string $fieldName = 'status'): JsonResponse
+    {
+        $model->$fieldName = $model->$fieldName == 0 ? 1 : 0;
+        $result = $model->save();
+        if ($result) {
+            if ($model->$fieldName == 0) {
+                return response()->json([$fieldName => true, 'checked' => false]);
+            } else {
+                return response()->json([$fieldName => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json([$fieldName => false]);
         }
     }
 

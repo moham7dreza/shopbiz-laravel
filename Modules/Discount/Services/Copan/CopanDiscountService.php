@@ -5,6 +5,7 @@ namespace Modules\Discount\Services\Copan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\Copan;
+use Modules\Share\Services\ShareService;
 
 class CopanDiscountService
 {
@@ -22,8 +23,8 @@ class CopanDiscountService
             'discount_ceiling' => $request->discount_ceiling,
             'type' => $request->type,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
             'user_id' => $request->type == 0 ? null : $request->user_id,
         ]);
@@ -43,22 +44,11 @@ class CopanDiscountService
             'discount_ceiling' => $request->discount_ceiling,
             'type' => $request->type,
             'percentage' => $request->percentage,
-            'start_date' => $this->realTimestampDateFormat($request->start_date),
-            'end_date' => $this->realTimestampDateFormat($request->end_date),
+            'start_date' => ShareService::realTimestampDateFormat($request->start_date),
+            'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
             'user_id' => $request->type == 0 ? null : $request->user_id,
         ]);
-    }
-
-    /**
-     * the primary timestamp is in ms - we should convert this to second then to date
-     *
-     * @param $date
-     * @return string
-     */
-    private function realTimestampDateFormat($date): string
-    {
-        return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
     }
 //    /**
 //     * Store discount & sync discount to products by array of data.
