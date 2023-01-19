@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Share\Http\Services\Image;
+namespace Modules\Share\Services\Image;
 
 use Illuminate\Support\Facades\Config;
 use Intervention\Image\Facades\Image;

@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\Share\Http\Services\Payment;
+namespace Modules\Share\Services\Payment;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Config;
-use Request;
 use Zarinpal\Clients\GuzzleClient;
 use Zarinpal\Zarinpal;
 

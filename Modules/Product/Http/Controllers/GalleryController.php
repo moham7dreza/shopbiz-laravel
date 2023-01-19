@@ -13,7 +13,7 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Gallery\ProductGalleryRepoEloquentInterface;
 use Modules\Product\Services\Gallery\ProductGalleryService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 
 class GalleryController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Share\Http\Services\Message;
+namespace Modules\Share\Services\Message;
 
 use Modules\Notify\Http\Interfaces\MessageInterface;
 

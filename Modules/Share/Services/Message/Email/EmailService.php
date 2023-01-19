@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Share\Http\Services\Message\Email;
+namespace Modules\Share\Services\Message\Email;
 
 use Illuminate\Support\Facades\Mail;
 use Modules\Notify\Http\Interfaces\MessageInterface;

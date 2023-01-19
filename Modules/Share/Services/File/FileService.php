@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Share\Http\Services\File;
+namespace Modules\Share\Services\File;
 
 class FileService extends FileToolsService
 {

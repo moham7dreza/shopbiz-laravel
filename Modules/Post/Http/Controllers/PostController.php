@@ -7,14 +7,13 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Modules\Category\Entities\PostCategory;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Post\Entities\Post;
 use Modules\Post\Http\Requests\PostRequest;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
 
 class PostController extends Controller

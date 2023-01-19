@@ -6,13 +6,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Modules\Setting\Database\Seeders\SettingSeeder;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Setting\Services\SettingService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
 use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class SettingController extends Controller

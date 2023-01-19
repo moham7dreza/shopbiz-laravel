@@ -14,9 +14,9 @@ use Modules\Auth\Entities\Otp;
 use Modules\Auth\Http\Requests\LoginRegisterRequest;
 use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Message\Email\EmailService;
-use Modules\Share\Http\Services\Message\MessageService;
-use Modules\Share\Http\Services\Message\SMS\SmsService;
+use Modules\Share\Services\Message\Email\EmailService;
+use Modules\Share\Services\Message\MessageService;
+use Modules\Share\Services\Message\SMS\SmsService;
 use Modules\User\Entities\User;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 

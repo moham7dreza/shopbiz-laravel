@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Setting\Database\Seeders\SettingSeeder;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Repositories\SettingRepoEloquent;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 

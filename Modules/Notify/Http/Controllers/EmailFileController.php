@@ -15,7 +15,7 @@ use Modules\Notify\Http\Requests\EmailFileRequest;
 use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquentInterface;
 use Modules\Notify\Services\EmailFile\EmailFileService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\File\FileService;
+use Modules\Share\Services\File\FileService;
 use Modules\Share\Services\ShareService;
 
 class EmailFileController extends Controller

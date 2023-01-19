@@ -16,7 +16,7 @@ use Modules\Payment\Entities\OnlinePayment;
 use Modules\Payment\Http\Requests\Home\PaymentRequest;
 use Modules\Payment\Services\PaymentServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Payment\PaymentService;
+use Modules\Share\Services\Payment\PaymentService;
 
 
 class PaymentController extends Controller

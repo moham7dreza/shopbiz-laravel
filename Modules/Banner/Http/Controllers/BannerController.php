@@ -13,7 +13,6 @@ use Modules\Banner\Http\Requests\BannerRequest;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 use Modules\Banner\Services\BannerService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 

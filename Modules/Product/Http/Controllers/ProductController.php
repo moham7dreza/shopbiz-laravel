@@ -16,7 +16,7 @@ use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 
 class ProductController extends Controller
 {

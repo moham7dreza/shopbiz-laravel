@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Modules\Category\Entities\ProductCategory;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Share\Http\Services\Message\Email;
+namespace Modules\Share\Services\Message\Email;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -29,6 +29,6 @@ class MailViewProvider extends Mailable
      */
     public function build(): MailViewProvider
     {
-        return $this->subject($this->subject)->view('emails.send-otp');
+        return $this->subject($this->subject)->view('Share::emails.send-otp');
     }
 }

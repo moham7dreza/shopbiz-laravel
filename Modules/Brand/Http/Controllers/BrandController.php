@@ -13,7 +13,7 @@ use Modules\Brand\Http\Requests\BrandRequest;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Http\Services\Image\ImageService;
+use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
 
 class BrandController extends Controller
