@@ -27,12 +27,13 @@ class SettingRepoEloquent implements SettingRepoEloquentInterface
         return $this->query()->first();
     }
 
+
     /**
-     * @return \Illuminate\Support\Collection
+     * @return mixed
      */
-    public function findSystemLogo(): \Illuminate\Support\Collection
+    public function findSystemLogo(): mixed
     {
-        return $this->getSystemSetting()->pluck('logo');
+        return $this->getSystemSetting()->pluck('logo')->first();
     }
 
     /**

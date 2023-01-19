@@ -115,6 +115,13 @@ class HomeServiceProvider extends ServiceProvider
         ]);
     }
 
+    /**
+     * @param $cartRepo
+     * @param $menuRepo
+     * @param $productCategoryRepo
+     * @param $settingRepo
+     * @return void
+     */
     private function sendVarsToViews($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo)
     {
         view()->composer('Home::layouts.header', function ($view) use ($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo) {

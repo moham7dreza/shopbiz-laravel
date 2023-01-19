@@ -6,17 +6,19 @@
         @endphp
         @if(!is_null($discount))
             <div class="alert alert-primary" role="alert">
-                یک تخفیف عمومی <strong>{{ $discount->percentage }}</strong>درصدی با عنوان
-                <strong>{{ $discount->title }}</strong> تا تاریخ
-                <strong>{{ jalaliDate($discount->end_date) }}</strong> فعال است. برای<a
+                یک تخفیف عمومی <strong>{{ $discount->getFaPercentage() }}</strong> با عنوان
+                <strong>{{ $discount->title }}</strong> با حداکثر تخفیف
+                <strong>{{ $discount->getFaDiscountCeiling() }}</strong>برای سبد خرید با حداقل مبلغ <strong>{{ $discount->minimalOrderAmountFaPrice() }}</strong>تا
+                تاریخ
+                <strong>{{ $discount->getFaEndDate() }}</strong> فعال است. برای<a
                     href="{{ route('commonDiscount.edit', $discount) }}"
-                    class="alert-link"> ویرایش </a>کلیک کن
+                    class="alert-link"> ویرایش </a>کلیک کن.
             </div>
         @else
             <div class="alert alert-primary" role="alert">
                 هیچ تخفیف عمومی فعال نیست. برای افزودن <a
                     href="{{ route('commonDiscount.create') }}"
-                    class="alert-link">تخفیف</a> کلیک کن
+                    class="alert-link">تخفیف</a> کلیک کن.
             </div>
         @endif
 
@@ -31,7 +33,7 @@
             <strong>{{ $panelRepo->lastMonthlySalesAmount() }} تومان</strong> است. برای مشاهده<a
                 @if(!is_null($panelRepo->lastOrder())) href="{{ route('order.show', $panelRepo->lastOrder()->id) }}"
                 @else href="#" @endif
-                class="alert-link"> جزئیات </a>آخرین سفارش کلیک کن
+                class="alert-link"> جزئیات </a>آخرین سفارش کلیک کن.
         </div>
     </section>
 </section>

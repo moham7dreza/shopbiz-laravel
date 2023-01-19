@@ -1,6 +1,6 @@
-Modules\Panel\Providers\PanelServiceProvider::class,
+Modules\Panel\Providers\PanelServiceProvider::class,1
 Modules\Share\Providers\ShareServiceProvider::class,1
-Modules\Brand\Providers\BrandServiceProvider::class,
+Modules\Brand\Providers\BrandServiceProvider::class,1
 Modules\Banner\Providers\BannerServiceProvider::class,1
 Modules\Faq\Providers\FaqServiceProvider::class,1
 Modules\Menu\Providers\MenuServiceProvider::class,1

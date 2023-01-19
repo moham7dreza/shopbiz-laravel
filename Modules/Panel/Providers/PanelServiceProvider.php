@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Notify\Entities\Notification;
+use Modules\Notify\Repositories\Notification\NotificationRepoEloquentInterface;
 use Modules\Panel\Entities\Panel;
 use Modules\Panel\Policies\PanelPolicy;
 
@@ -73,13 +75,15 @@ class PanelServiceProvider extends ServiceProvider
     /**
      * Boot panel service provider.
      *
+     * @param CommentRepoEloquentInterface $commentRepo
+     * @param NotificationRepoEloquentInterface $notificationRepo
      * @return void
      */
-    public function boot(): void
+    public function boot(CommentRepoEloquentInterface $commentRepo, NotificationRepoEloquentInterface $notificationRepo): void
     {
-        $this->app->booted(function () {
+        $this->app->booted(function () use ($commentRepo, $notificationRepo) {
             $this->setMenuForPanel();
-            $this->sendVarsToViews();
+            $this->sendVarsToViews($commentRepo, $notificationRepo);
         });
     }
 
@@ -152,11 +156,16 @@ class PanelServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function sendVarsToViews()
+    /**
+     * @param $commentRepo
+     * @param $notificationRepo
+     * @return void
+     */
+    private function sendVarsToViews($commentRepo, $notificationRepo): void
     {
-        view()->composer('Panel::layouts.header', function ($view) {
-            $view->with('unseenComments', Comment::query()->where('seen', 0)->get());
-            $view->with('notifications', Notification::query()->where('read_at', null)->get());
+        view()->composer('Panel::layouts.header', function ($view) use ($commentRepo, $notificationRepo) {
+            $view->with('unseenComments', $commentRepo->unseenComments()->get());
+            $view->with('notifications', $notificationRepo->newNotifications()->get());
         });
     }
 }

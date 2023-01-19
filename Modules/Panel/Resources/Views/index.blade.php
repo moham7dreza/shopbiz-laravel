@@ -9,6 +9,7 @@
         @include('Panel::partials.counter-cards')
         @include('Panel::partials.alerts')
         @include('Panel::partials.latest-comments')
+        @include('Panel::partials.users')
         @include('Panel::partials.sales-charts')
     @endcan
 @endsection

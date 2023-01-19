@@ -56,7 +56,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $brand->id }}" onchange="changeStatus({{ $brand->id }})"
-                                               data-url="{{ route('permission.status', $brand->id) }}"
+                                               data-url="{{ route('brand.status', $brand->id) }}"
                                                type="checkbox"
                                                @if ($brand->status === 1)
                                                    checked

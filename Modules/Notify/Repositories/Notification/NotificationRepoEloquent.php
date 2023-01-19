@@ -4,11 +4,19 @@ namespace Modules\Notify\Repositories\Notification;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Modules\Notify\Entities\Email;
 use Modules\Notify\Entities\Notification;
 
 class NotificationRepoEloquent implements NotificationRepoEloquentInterface
 {
+
+    /**
+     * @return Builder
+     */
+    public function newNotifications(): Builder
+    {
+        return $this->query()->where('read_at', null)->latest();
+    }
+
     /**
      * Get latest products.
      *

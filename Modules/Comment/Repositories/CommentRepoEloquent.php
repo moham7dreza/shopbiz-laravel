@@ -14,6 +14,14 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     /**
      * @return Builder
      */
+    public function unseenComments(): Builder
+    {
+        return $this->query()->where('seen', Comment::UNSEEN)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
     public function getLatestPostComments(): Builder
     {
         return $this->query()->where([

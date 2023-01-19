@@ -35,7 +35,7 @@ class CommonDiscount extends Model
      */
     public function getFaPercentage(): string
     {
-        return convertEnglishToPersian($this->percentage) . ' %' ?? $this->percentage . ' %';
+        return '%' . convertEnglishToPersian($this->percentage) ?? $this->percentage . ' %';
     }
 
     /**
@@ -52,6 +52,14 @@ class CommonDiscount extends Model
     public function getFaDiscountCeiling(): string
     {
         return priceFormat($this->discount_ceiling) . ' تومان ' ?? $this->discount_ceiling . ' تومان ';
+    }
+
+    /**
+     * @return string
+     */
+    public function minimalOrderAmountFaPrice(): string
+    {
+        return priceFormat($this->minimal_order_amount) . ' تومان ' ?? $this->minimal_order_amount . ' تومان ';
     }
 
     /**
