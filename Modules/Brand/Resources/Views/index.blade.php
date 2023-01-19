@@ -51,8 +51,7 @@
                                 <td>{{ $brand->persian_name }}</td>
                                 <td>{{ $brand->original_name }}</td>
                                 <td>
-                                    <img src="{{ asset($brand->logo['indexArray'][$brand->logo['currentImage']] ) }}"
-                                         alt="" width="100" height="50">
+                                    <img src="{{ $brand->logo() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
                                     <label>

@@ -13,11 +13,13 @@ use Modules\Brand\Http\Requests\BrandRequest;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class BrandController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -73,23 +75,12 @@ class BrandController extends Controller
      * Store a newly created resource in storage.
      *
      * @param BrandRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(BrandRequest $request, ImageService $imageService): RedirectResponse
+    public function store(BrandRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('logo')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
-            $result = $imageService->createIndexAndSave($request->file('logo'));
-            if ($result === false) {
-                return redirect()->route('brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            } else {
-                $inputs['logo'] = $result;
-            }
-        }
-        $brand = Brand::query()->create($inputs);
-        return redirect()->route('brand.index')->with('swal-success', 'برند جدید شما با موفقیت ثبت شد');
+       $this->service->store($request);
+        return $this->successMessageWithRedirect('برند جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -120,32 +111,12 @@ class BrandController extends Controller
      *
      * @param BrandRequest $request
      * @param Brand $brand
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(BrandRequest $request, Brand $brand, ImageService $imageService): RedirectResponse
+    public function update(BrandRequest $request, Brand $brand): RedirectResponse
     {
-        $inputs = $request->all();
-
-        if ($request->hasFile('logo')) {
-            if (!empty($brand->logo)) {
-                $imageService->deleteDirectoryAndFiles($brand->logo['directory']);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
-            $result = $imageService->createIndexAndSave($request->file('logo'));
-            if ($result === false) {
-                return redirect()->route('brand.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['logo'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && !empty($brand->logo)) {
-                $image = $brand->logo;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['logo'] = $image;
-            }
-        }
-        $brand->update($inputs);
-        return redirect()->route('brand.index')->with('swal-success', 'برند شما با موفقیت ویرایش شد');
+        $this->service->update($request, $brand);
+        return $this->successMessageWithRedirect('برند شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -157,7 +128,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand): RedirectResponse
     {
         $result = $brand->delete();
-        return redirect()->route('brand.index')->with('swal-success', 'برند شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('برند شما با موفقیت حذف شد');
     }
 
     /**

@@ -15,8 +15,14 @@ class Brand extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    /**
+     * @var array|int[]
+     */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @return array[]
+     */
     public function sluggable(): array
     {
         return[
@@ -26,18 +32,30 @@ class Brand extends Model
         ];
     }
 
+    /**
+     * @var string[]
+     */
     protected $casts = ['logo' => 'array'];
 
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['persian_name', 'original_name', 'slug', 'logo', 'status', 'tags'];
 
     // Methods
 
+    /**
+     * @return string
+     */
     public function logo(): string
     {
         return asset($this->logo['indexArray']['medium']);
     }
 
+    /**
+     * @return string
+     */
     public function cssStatus(): string
     {
         if ($this->status === self::STATUS_ACTIVE) return 'success';
@@ -45,6 +63,9 @@ class Brand extends Model
         else return 'warning';
     }
 
+    /**
+     * @return string
+     */
     public function textStatus(): string
     {
         return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';

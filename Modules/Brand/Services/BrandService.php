@@ -3,37 +3,90 @@
 namespace Modules\Brand\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Modules\Brand\Entities\Brand;
+use Modules\Share\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class BrandService
 {
+    use SuccessToastMessageWithRedirectTrait;
+
+    public ImageService $imageService;
+
     /**
-     * Store role with assign permissions.
-     *
-     * @param  $request
-     * @return mixed
+     * @param ImageService $imageService
      */
-    public function store($request)
+    public function __construct(ImageService $imageService)
     {
-        return $this->query()
-            ->create(['name' => $request->name])
-            ->syncPermissions($request->permissions);
+        $this->imageService = $imageService;
     }
 
     /**
-     * Update role with sync permissions.
+     * Store category.
      *
      * @param  $request
-     * @param  $id
+     * @return Builder|Model|RedirectResponse
+     */
+    public function store($request): Model|Builder|RedirectResponse
+    {
+        if ($request->hasFile('logo')) {
+            $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
+            if (!$result) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->logo = $result;
+        } else {
+            $request->logo = null;
+        }
+
+        return $this->query()->create([
+            'persian_name' => $request->persian_name,
+            'original_name' => $request->original_name,
+            'logo' => $request->logo,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $postCategory
      * @return mixed
      */
-    public function update($request, $id)
+    public function update($request, $brand): mixed
     {
-        $roleRepo = new RolePermissionRepoEloquent;
-        $role = $roleRepo->findById($id);
+        if ($request->hasFile('logo')) {
+            if (!empty($brand->logo)) {
+                $this->imageService->deleteImage($brand->logo['indexArray']['small']);
+                $this->imageService->deleteImage($brand->logo['indexArray']['medium']);
+                $this->imageService->deleteImage($brand->logo['indexArray']['large']);
+            }
+            $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
 
-        return $role
-            ->syncPermissions($request->permissions)
-            ->update(['name' => $request->name]);
+            if ($result === false) {
+                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            }
+            $request->logo = $result;
+        } else {
+            if (isset($request->currentImage) && !empty($brand->logo)) {
+                $logo = $brand->logo;
+                $logo['currentImage'] = $request->currentImage;
+                $request->logo = $logo;
+            } else {
+                $request->logo = $brand->logo;
+            }
+        }
+
+        return $brand->update([
+            'persian_name' => $request->persian_name,
+            'original_name' => $request->original_name,
+            'logo' => $request->logo,
+            'status' => $request->status,
+            'tags' => $request->tags,
+        ]);
     }
 
     /**
@@ -43,6 +96,6 @@ class BrandService
      */
     private function query(): Builder
     {
-        return Role::query();
+        return Brand::query();
     }
 }
