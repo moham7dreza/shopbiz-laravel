@@ -51,7 +51,7 @@
                                     </select>
                                 </div>
                                 @error('product_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -68,7 +68,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('value')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -84,7 +84,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('price_increase')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -105,7 +105,7 @@
                                     </select>
                                 </div>
                                 @error('type')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>

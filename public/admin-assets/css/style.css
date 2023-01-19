@@ -98,6 +98,7 @@
 }
 
 
+
 /*
  ********************************body container**********************************
 */
@@ -239,4 +240,9 @@ input:checked + .slider:before {
 
 .width-12-rem {
     width: 12rem;
+}
+
+.font-size-80 {
+    font-size: 80%;
+    text-align: center;
 }

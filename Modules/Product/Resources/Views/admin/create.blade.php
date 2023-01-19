@@ -43,7 +43,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -65,7 +65,7 @@
                                     </select>
                                 </div>
                                 @error('category_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -87,7 +87,7 @@
                                     </select>
                                 </div>
                                 @error('brand_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -102,7 +102,7 @@
                                     <input type="file" name="image" class="form-control form-control-sm">
                                 </div>
                                 @error('image')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -117,7 +117,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('weight')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -132,7 +132,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('length')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -147,7 +147,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('width')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -162,7 +162,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('height')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -177,7 +177,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('price')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -193,7 +193,7 @@
                                               rows="6">{{ old('introduction') }}</textarea>
                                 </div>
                                 @error('introduction')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -211,7 +211,7 @@
                                     </select>
                                 </div>
                                 @error('tags')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -229,7 +229,7 @@
                                     </select>
                                 </div>
                                 @error('status')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -248,7 +248,7 @@
                                     </select>
                                 </div>
                                 @error('marketable')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -265,7 +265,7 @@
                                     <input type="text" id="published_at_view" class="form-control form-control-sm">
                                 </div>
                                 @error('published_at')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -284,7 +284,7 @@
                                                    placeholder="ویژگی ...">
                                         </div>
                                         @error('meta_key.*')
-                                        <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                        <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -298,7 +298,7 @@
                                                    placeholder="مقدار ...">
                                         </div>
                                         @error('meta_value.*')
-                                        <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                        <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>

@@ -122,7 +122,7 @@ class HomeServiceProvider extends ServiceProvider
      * @param $settingRepo
      * @return void
      */
-    private function sendVarsToViews($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo)
+    private function sendVarsToViews($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo): void
     {
         view()->composer('Home::layouts.header', function ($view) use ($cartRepo, $menuRepo, $productCategoryRepo, $settingRepo) {
             if (Auth::check()) {

@@ -845,3 +845,8 @@ body {
     line-height: 2rem;
     font-size: 0.8rem;
 }
+
+.font-size-80 {
+    font-size: 80%;
+    text-align: center;
+}

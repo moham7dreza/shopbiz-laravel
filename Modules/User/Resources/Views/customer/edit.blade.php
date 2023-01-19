@@ -43,7 +43,7 @@
                                            value="{{ old('first_name', $customerUser->first_name) }}">
                                 </div>
                                 @error('first_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -57,7 +57,7 @@
                                            value="{{ old('last_name', $customerUser->last_name) }}">
                                 </div>
                                 @error('last_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -74,7 +74,7 @@
                                          class="mt-3">
                                 </div>
                                 @error('profile_photo_path')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>

@@ -40,7 +40,7 @@
                 <section class="login-input-text">
                     <input type="text" name="otp" value="{{ old('otp') }}">
                     @error('otp')
-                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                    <span class="alert alert-danger -p-1 my-3 d-block" role="alert">
                 <strong>
                     {{ $message }}
                 </strong>

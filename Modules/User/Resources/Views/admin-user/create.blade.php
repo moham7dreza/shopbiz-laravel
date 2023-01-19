@@ -42,7 +42,7 @@
                                            value="{{ old('first_name') }}">
                                 </div>
                                 @error('first_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -56,7 +56,7 @@
                                            value="{{ old('last_name') }}">
                                 </div>
                                 @error('last_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -70,7 +70,7 @@
                                            value="{{ old('email') }}">
                                 </div>
                                 @error('email')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -84,7 +84,7 @@
                                            value="{{ old('mobile') }}">
                                 </div>
                                 @error('mobile')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -97,7 +97,7 @@
                                     <input type="password" name="password" class="form-control form-control-sm">
                                 </div>
                                 @error('password')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -111,7 +111,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('password_confirmation')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -124,7 +124,7 @@
                                     <input type="file" name="profile_photo_path" class="form-control form-control-sm">
                                 </div>
                                 @error('profile_photo_path')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -142,7 +142,7 @@
                                     </select>
                                 </div>
                                 @error('activation')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>

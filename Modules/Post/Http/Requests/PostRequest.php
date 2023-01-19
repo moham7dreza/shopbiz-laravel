@@ -33,7 +33,7 @@ class PostRequest extends FormRequest
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
                 'body' => 'required|max:600|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
                 'published_at' => 'required|numeric',
-
+                'commentable' => 'required|numeric|in:0,1',
             ];
         } else {
             return [
@@ -45,7 +45,18 @@ class PostRequest extends FormRequest
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
                 'body' => 'required|max:600|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
                 'published_at' => 'required|numeric',
+                'commentable' => 'required|numeric|in:0,1',
             ];
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function attributes(): array
+    {
+        return [
+            'commentable' => 'امکان درج کامنت',
+        ];
     }
 }

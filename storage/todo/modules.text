@@ -8,7 +8,7 @@ Modules\Page\Providers\PageServiceProvider::class,1
 Modules\Post\Providers\PostServiceProvider::class,1
 Modules\Product\Providers\ProductServiceProvider::class,
 Modules\Discount\Providers\DiscountServiceProvider::class,1
-Modules\Auth\Providers\AuthServiceProvider::class,
+Modules\Auth\Providers\AuthServiceProvider::class,1
 Modules\Home\Providers\HomeServiceProvider::class,1
 Modules\Notify\Providers\NotifyServiceProvider::class,
 Modules\Setting\Providers\SettingServiceProvider::class,1

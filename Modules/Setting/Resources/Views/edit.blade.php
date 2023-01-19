@@ -42,7 +42,7 @@
                                            value="{{ old('title', $setting->title) }}">
                                 </div>
                                 @error('title')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -57,7 +57,7 @@
                                            value="{{ old('description', $setting->description) }}">
                                 </div>
                                 @error('description')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -72,7 +72,7 @@
                                            value="{{ old('keywords', $setting->keywords) }}">
                                 </div>
                                 @error('keywords')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -87,7 +87,7 @@
                                     <input type="file" class="form-control form-control-sm" name="logo" id="image">
                                 </div>
                                 @error('logo')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -102,7 +102,7 @@
                                     <input type="file" class="form-control form-control-sm" name="icon" id="icon">
                                 </div>
                                 @error('icon')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>

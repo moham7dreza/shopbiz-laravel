@@ -43,7 +43,7 @@
                                            value="{{ old('subject', $email->subject) }}">
                                 </div>
                                 @error('subject')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -62,7 +62,7 @@
                                            value="{{ $email->published_at }}">
                                 </div>
                                 @error('published_at')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -84,7 +84,7 @@
                                     </select>
                                 </div>
                                 @error('status')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -99,7 +99,7 @@
                                               rows="6">{{ old('body', $email->body) }}</textarea>
                                 </div>
                                 @error('body')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>

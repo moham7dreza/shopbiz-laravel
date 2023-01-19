@@ -43,7 +43,7 @@
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -66,7 +66,7 @@
                                     </select>
                                 </div>
                                 @error('parent_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -83,7 +83,7 @@
                                 </textarea>
                                 </div>
                                 @error('description')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -97,7 +97,7 @@
                                     <input type="file" class="form-control form-control-sm" name="image" id="image">
                                 </div>
                                 @error('image')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -142,7 +142,7 @@
                                     </select>
                                 </div>
                                 @error('status')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -166,7 +166,7 @@
                                     </select>
                                 </div>
                                 @error('show_in_menu')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -185,7 +185,7 @@
                                     </select>
                                 </div>
                                 @error('tags')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>

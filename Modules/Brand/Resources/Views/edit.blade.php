@@ -43,7 +43,7 @@
                                            value="{{ old('original_name', $brand->original_name) }}">
                                 </div>
                                 @error('original_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -58,7 +58,7 @@
                                            value="{{ old('persian_name', $brand->persian_name) }}">
                                 </div>
                                 @error('persian_name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
@@ -76,7 +76,7 @@
                                     </select>
                                 </div>
                                 @error('tags')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -98,7 +98,7 @@
                                     </select>
                                 </div>
                                 @error('status')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                     <strong>
                                         {{ $message }}
                                     </strong>
@@ -113,7 +113,7 @@
                                     <input type="file" class="form-control form-control-sm" name="logo">
                                 </div>
                                 @error('logo')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>

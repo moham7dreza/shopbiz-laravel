@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Repositories\AuthRepoEloquent;
@@ -10,7 +11,7 @@ use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for auth controller.
      *
      * @var string
      */
@@ -52,7 +53,7 @@ class AuthServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/auth_routes.php';
 
     /**
-     * Register panel files.
+     * Register auth files.
      *
      * @return void
      */
@@ -75,7 +76,7 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load auth view files.
      *
      * @return void
      */
@@ -85,7 +86,7 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load auth route files.
      *
      * @return void
      */
@@ -102,5 +103,16 @@ class AuthServiceProvider extends ServiceProvider
     private function bindRepository(): void
     {
         $this->app->bind(AuthRepoEloquentInterface::class, AuthRepoEloquent::class);
+    }
+
+    /**
+     * @param $settingRepo
+     * @return void
+     */
+    private function sendVarsToViews($settingRepo): void
+    {
+        view()->composer('Auth::home.login-register', function ($view) use ($settingRepo) {
+            $view->with('logo', $settingRepo->findLoginRegisterFormLogo());
+        });
     }
 }

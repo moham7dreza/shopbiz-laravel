@@ -59,7 +59,7 @@
                                                        value="{{ old('first_name') }}">
                                             </div>
                                             @error('first_name')
-                                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                             <strong>
                                                 {{ $message }}
                                             </strong>
@@ -77,7 +77,7 @@
                                                        id="last_name" value="{{ old('last_name') }}">
                                             </div>
                                             @error('last_name')
-                                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                             <strong>
                                                 {{ $message }}
                                             </strong>
@@ -95,7 +95,7 @@
                                                        id="mobile" value="{{ old('mobile') }}">
                                             </div>
                                             @error('mobile')
-                                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                             <strong>
                                                 {{ $message }}
                                             </strong>
@@ -114,7 +114,7 @@
                                                        value="{{ old('national_code') }}">
                                             </div>
                                             @error('national_code')
-                                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                             <strong>
                                                 {{ $message }}
                                             </strong>
@@ -131,7 +131,7 @@
                                                        id="email" value="{{ old('email') }}">
                                             </div>
                                             @error('email')
-                                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                                 <strong>
                                                     {{ $message }}
                                                 </strong>
