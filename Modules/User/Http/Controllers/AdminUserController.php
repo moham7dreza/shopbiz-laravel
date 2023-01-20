@@ -9,18 +9,21 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\AdminUserRequest;
+use Modules\User\Http\Requests\UserPermissionsRequest;
+use Modules\User\Http\Requests\UserRolesRequest;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 use Modules\User\Services\UserService;
 
 class AdminUserController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -77,25 +80,12 @@ class AdminUserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param AdminUserRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(AdminUserRequest $request, ImageService $imageService): \Illuminate\Http\RedirectResponse
+    public function store(AdminUserRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('profile_photo_path')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
-            $result = $imageService->save($request->file('profile_photo_path'));
-
-            if ($result === false) {
-                return redirect()->route('adminUser.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['profile_photo_path'] = $result;
-        }
-        $inputs['password'] = Hash::make($request->password);
-        $inputs['user_type'] = 1;
-        $user = User::query()->create($inputs);
-        return redirect()->route('adminUser.index')->with('swal-success', 'ادمین جدید با موفقیت ثبت شد');
+        $this->service->store($request, User::TYPE_ADMIN);
+        return $this->successMessageWithRedirect('ادمین جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -125,26 +115,12 @@ class AdminUserController extends Controller
      *
      * @param AdminUserRequest $request
      * @param User $adminUser
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(AdminUserRequest $request, User $adminUser, ImageService $imageService): RedirectResponse
+    public function update(AdminUserRequest $request, User $adminUser): RedirectResponse
     {
-        $inputs = $request->all();
-
-        if ($request->hasFile('profile_photo_path')) {
-            if (!empty($adminUser->profile_photo_path)) {
-                $imageService->deleteImage($adminUser->profile_photo_path);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
-            $result = $imageService->save($request->file('profile_photo_path'));
-            if ($result === false) {
-                return redirect()->route('adminUser.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['profile_photo_path'] = $result;
-        }
-        $adminUser->update($inputs);
-        return redirect()->route('adminUser.index')->with('swal-success', 'ادمین سایت شما با موفقیت ویرایش شد');
+        $this->service->update($request, $adminUser);
+        return $this->successMessageWithRedirect('ادمین سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -155,8 +131,8 @@ class AdminUserController extends Controller
      */
     public function destroy(User $adminUser): RedirectResponse
     {
-        $result = $adminUser->forceDelete();
-        return redirect()->route('adminUser.index')->with('swal-success', 'ادمین شما با موفقیت حذف شد');
+        $result = $adminUser->delete();
+        return $this->successMessageWithRedirect('ادمین شما با موفقیت حذف شد');
     }
 
     /**
@@ -174,17 +150,7 @@ class AdminUserController extends Controller
      */
     public function activation(User $user): JsonResponse
     {
-        $user->activation = $user->activation == 0 ? 1 : 0;
-        $result = $user->save();
-        if ($result) {
-            if ($user->activation == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::ajaxChangeModelSpecialField($user, 'activation');
     }
 
     /**
@@ -199,18 +165,14 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserRolesRequest $request
      * @param User $admin
      * @return RedirectResponse
      */
-    public function rolesStore(Request $request, User $admin): RedirectResponse
+    public function rolesStore(UserRolesRequest $request, User $admin): RedirectResponse
     {
-        $validated = $request->validate([
-            'roles' => 'required|exists:roles,id|array'
-        ]);
-
         $admin->roles()->sync($request->roles);
-        return redirect()->route('adminUser.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
+        return $this->successMessageWithRedirect('نقش با موفقیت ویرایش شد');
     }
 
 
@@ -226,17 +188,13 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserPermissionsRequest $request
      * @param User $admin
      * @return RedirectResponse
      */
-    public function permissionsStore(Request $request, User $admin): RedirectResponse
+    public function permissionsStore(UserPermissionsRequest $request, User $admin): RedirectResponse
     {
-        $validated = $request->validate([
-            'permissions' => 'required|exists:permissions,id|array'
-        ]);
-
         $admin->permissions()->sync($request->permissions);
-        return redirect()->route('adminUser.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
+        return $this->successMessageWithRedirect('سطح دسترسی با موفقیت ویرایش شد');
     }
 }

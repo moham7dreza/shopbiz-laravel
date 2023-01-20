@@ -27,6 +27,9 @@ class User extends Authenticatable
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
+    public const TYPE_USER = 0;
+    public const TYPE_ADMIN = 1;
+
     /**
      * @var array|int[]
      */
@@ -282,5 +285,13 @@ class User extends Authenticatable
     public function ticketIconStatus(): string
     {
         return is_null($this->ticketAdmin) ? 'check' : 'times';
+    }
+
+    /**
+     * @return string
+     */
+    public function faMobileNumber(): string
+    {
+        return '۰' . convertEnglishToPersian($this->mobile);
     }
 }

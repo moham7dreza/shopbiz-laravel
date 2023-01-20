@@ -7,19 +7,17 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\CustomerRequest;
-use Modules\User\Notifications\NewUserRegistered;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 use Modules\User\Services\UserService;
 
 class CustomerController extends Controller
 {
-
+    use SuccessToastMessageWithRedirectTrait;
     /**
      * @var string
      */
@@ -73,30 +71,14 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CustomerRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(CustomerRequest $request, ImageService $imageService): \Illuminate\Http\RedirectResponse
+    public function store(CustomerRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('profile_photo_path')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
-            $result = $imageService->save($request->file('profile_photo_path'));
-
-            if ($result === false) {
-                return redirect()->route('customerUser.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['profile_photo_path'] = $result;
-        }
-        $inputs['password'] = Hash::make($request->password);
-        $inputs['user_type'] = 0;
-        $user = User::query()->create($inputs);
-        $details = [
-            'message' => 'یک کاربر جدید در سایت ثبت نام کرد'
-        ];
+        $this->service->store($request);
         $adminUser = $this->repo->findById(1);
-        $adminUser->notify(new NewUserRegistered($details));
-        return redirect()->route('customerUser.index')->with('swal-success', 'مشتری جدید با موفقیت ثبت شد');
+        $this->service->sendUserCreatedNotificationToAdmin($adminUser);
+        return $this->successMessageWithRedirect('مشتری جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -126,26 +108,12 @@ class CustomerController extends Controller
      *
      * @param CustomerRequest $request
      * @param User $customerUser
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(CustomerRequest $request, User $customerUser, ImageService $imageService): RedirectResponse
+    public function update(CustomerRequest $request, User $customerUser): RedirectResponse
     {
-        $inputs = $request->all();
-
-        if ($request->hasFile('profile_photo_path')) {
-            if (!empty($customerUser->profile_photo_path)) {
-                $imageService->deleteImage($customerUser->profile_photo_path);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
-            $result = $imageService->save($request->file('profile_photo_path'));
-            if ($result === false) {
-                return redirect()->route('customerUser.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['profile_photo_path'] = $result;
-        }
-        $customerUser->update($inputs);
-        return redirect()->route('customerUser.index')->with('swal-success', 'مشتری سایت شما با موفقیت ویرایش شد');
+        $this->service->update($request, $customerUser);
+        return $this->successMessageWithRedirect('مشتری سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -156,8 +124,8 @@ class CustomerController extends Controller
      */
     public function destroy(User $customerUser): RedirectResponse
     {
-        $result = $customerUser->forceDelete();
-        return redirect()->route('customerUser.index')->with('swal-success', 'مشتری شما با موفقیت حذف شد');
+        $result = $customerUser->delete();
+        return $this->successMessageWithRedirect('مشتری شما با موفقیت حذف شد');
     }
 
 
@@ -177,16 +145,6 @@ class CustomerController extends Controller
      */
     public function activation(User $user): JsonResponse
     {
-        $user->activation = $user->activation == 0 ? 1 : 0;
-        $result = $user->save();
-        if ($result) {
-            if ($user->activation == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
+        return ShareService::ajaxChangeModelSpecialField($user, 'activation');
     }
 }

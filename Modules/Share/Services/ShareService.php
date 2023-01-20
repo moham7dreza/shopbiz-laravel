@@ -9,6 +9,26 @@ class ShareService
 {
 
     /**
+     * @param $mobileNumber
+     * @return array|string|string[]|null
+     */
+    public static function extractMobileNumber($mobileNumber): array|string|null
+    {
+        $mobile = convertArabicToEnglish($mobileNumber);
+        $mobile = convertPersianToEnglish($mobile);
+
+        if (preg_match('/^(\+98|98|0)9\d{9}$/', $mobile)) {
+            $type = 0; // 0 => mobile
+
+            //all mobile numbers in one format (9**********)
+            $mobile = ltrim($mobile, '0');
+            $mobile = substr($mobile, 0, 2) == '98' ? substr($mobile, 2) : $mobile;
+            return str_replace('+98', '', $mobile);
+        }
+        return null;
+    }
+
+    /**
      * @param string $directoryName
      * @param $file
      * @param $fileService

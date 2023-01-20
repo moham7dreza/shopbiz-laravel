@@ -6,22 +6,29 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Modules\Cart\Entities\CartItem;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Home\Http\Requests\SalesProcess\ProfileCompletionRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\User\Services\UserService;
 
 class ProfileCompletionController extends Controller
 {
+    public CartRepoEloquentInterface $cartRepo;
+    public UserService $userService;
+
+    public function __construct(CartRepoEloquentInterface $cartRepo, UserService $userService)
+    {
+        $this->cartRepo = $cartRepo;
+        $this->userService = $userService;
+    }
+
     /**
      * @return Factory|View|Application
      */
     public function profileCompletion(): Factory|View|Application
     {
-        $user = Auth::user();
-
-        $cartItems = CartItem::query()->where('user_id', $user->id)->get();
-        return view('Home::sales-process.profile-completion', compact('user', 'cartItems'));
+        $cartItems = $this->cartRepo->findUserCartItems()->get();
+        return view('Home::sales-process.profile-completion',compact(['cartItems']));
 
     }
 
@@ -31,48 +38,7 @@ class ProfileCompletionController extends Controller
      */
     public function update(ProfileCompletionRequest $request): RedirectResponse
     {
-        $user = Auth::user();
-        $national_code = convertArabicToEnglish($request->national_code);
-        $national_code = convertPersianToEnglish($national_code);
-
-        $inputs = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'national_code' => $request->national_code,
-        ];
-
-        if (isset($request->mobile) && empty($user->mobile)) {
-            $mobile = convertArabicToEnglish($request->mobile);
-            $mobile = convertPersianToEnglish($mobile);
-
-            if (preg_match('/^(\+98|98|0)9\d{9}$/', $mobile)) {
-                $type = 0; // 0 => mobile
-
-                //all mobile numbers in one format (9**********)
-                $mobile = ltrim($mobile, '0');
-                $mobile = substr($mobile, 0, 2) == '98' ? substr($mobile, 2) : $mobile;
-                $mobile = str_replace('+98', '', $mobile);
-
-                $inputs['mobile'] = $mobile;
-            }
-        } else {
-            $errorText = 'فرمت شماره موبایل معتبر نیست';
-            return redirect()->back()->withErrors(['mobile', $errorText]);
-        }
-
-        if (isset($request->email) && empty($user->email)) {
-            $email = convertArabicToEnglish($request->mobile);
-            $email = convertPersianToEnglish($email);
-
-            $inputs['email'] = $email;
-
-        }
-
-        $inputs = array_filter($inputs);
-
-        if (!empty($inputs)) {
-            $user->update($inputs);
-        }
-        return redirect()->route('customer.sales-process.address-and-delivery');
+        $this->userService->profileCompletion($request);
+        return to_route('customer.sales-process.address-and-delivery');
     }
 }

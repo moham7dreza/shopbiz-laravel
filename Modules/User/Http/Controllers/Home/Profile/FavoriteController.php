@@ -3,20 +3,32 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\User\Http\Controllers\Home\Product;
 
 class FavoriteController extends Controller
 {
-    public function index()
+    /**
+     * @return Application|Factory|View
+     */
+    public function index(): View|Factory|Application
     {
-        return view('User::home.profile.my-favorites');
+        $products = auth()->user()->products()->latest()->get();
+        return view('User::home.profile.my-favorites', compact(['products']));
     }
 
-    public function delete(Product $product)
+    /**
+     * @param Product $product
+     * @return RedirectResponse
+     */
+    public function delete(Product $product): RedirectResponse
     {
-        $user = auth()->user();
-        $user->products()->detach($product->id);
-        return redirect()->route('customer.profile.my-favorites')->with('success', 'محصول با موفقیت از علاقه مندی ها حذف شد');
+        auth()->user()->products()->detach($product->id);
+        return to_route('customer.profile.my-favorites')
+            ->with('success', 'محصول با موفقیت از علاقه مندی ها حذف شد');
     }
 }

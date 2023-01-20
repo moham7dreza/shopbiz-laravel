@@ -26,7 +26,6 @@ class HomeService
         $this->brandRepo = $brandRepo;
     }
 
-
     /**
      * @param $name
      * @return JsonResponse|void

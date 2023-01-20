@@ -62,7 +62,7 @@
 
                             <section class="col-6 border-bottom my-2 py-2">
                                 <section class="field-title">شماره تلفن همراه</section>
-                                <section class="field-value overflow-auto">{{ auth()->user()->mobile ?? '-' }}</section>
+                                <section class="field-value overflow-auto">{{ convertEnglishToPersian(auth()->user()->mobile) ?? '-' }}</section>
                             </section>
 
                             <section class="col-6 border-bottom my-2 py-2">
@@ -72,7 +72,7 @@
 
                             <section class="col-6 my-2 py-2">
                                 <section class="field-title">کد ملی</section>
-                                <section class="field-value overflow-auto">{{ auth()->user()->national_code ?? '-' }}
+                                <section class="field-value overflow-auto">{{ convertEnglishToPersian(auth()->user()->national_code) ?? '-' }}
                                 </section>
                             </section>
 

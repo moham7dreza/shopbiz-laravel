@@ -51,7 +51,7 @@
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->mobile }}</td>
+                                <td>{{ $user->faMobileNumber() }}</td>
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>
@@ -120,7 +120,7 @@
                             successToast('مشتری با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('مشتری با موفقیت غیر فعال شد')
+                            warningToast('مشتری با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);
@@ -133,39 +133,7 @@
                 }
             });
 
-            function successToast(message) {
-
-                var successToastTag = '<section class="toast" data-delay="5000">\n' +
-                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-
-                $('.toast-wrapper').append(successToastTag);
-                $('.toast').toast('show').delay(5500).queue(function () {
-                    $(this).remove();
-                })
-            }
-
-            function errorToast(message) {
-
-                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
-                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-
-                $('.toast-wrapper').append(errorToastTag);
-                $('.toast').toast('show').delay(5500).queue(function () {
-                    $(this).remove();
-                })
-            }
+            @include('Panel::alerts.toast.functions.toasts')
         }
     </script>
 
@@ -180,13 +148,13 @@
                 url: url,
                 type: "GET",
                 success: function (response) {
-                    if (response.status) {
+                    if (response.activation) {
                         if (response.checked) {
                             element.prop('checked', true);
                             successToast('فعال سازی مشتری با موفقیت انجام شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('غیر فعال سازی مشتری با موفقیت انجام شد')
+                            warningToast('غیر فعال سازی مشتری با موفقیت انجام شد')
                         }
                     } else {
                         element.prop('checked', elementValue);
@@ -199,39 +167,7 @@
                 }
             });
 
-            function successToast(message) {
-
-                var successToastTag = '<section class="toast" data-delay="5000">\n' +
-                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-
-                $('.toast-wrapper').append(successToastTag);
-                $('.toast').toast('show').delay(5500).queue(function () {
-                    $(this).remove();
-                })
-            }
-
-            function errorToast(message) {
-
-                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
-                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-
-                $('.toast-wrapper').append(errorToastTag);
-                $('.toast').toast('show').delay(5500).queue(function () {
-                    $(this).remove();
-                })
-            }
+            @include('Panel::alerts.toast.functions.toasts')
         }
     </script>
 

@@ -3,25 +3,33 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\User\Http\Controllers\Home\UpdateProfileRequest;
+use Modules\User\Http\Requests\Home\UpdateProfileRequest;
+use Modules\User\Services\UserService;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public UserService $userService;
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function index(): View|Factory|Application
     {
         return view('User::home.profile.profile');
     }
 
-    public function update(UpdateProfileRequest $request)
+    /**
+     * @param UpdateProfileRequest $request
+     * @return RedirectResponse
+     */
+    public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        $inputs = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'national_code' => $request->national_code
-        ];
-        $user = auth()->user();
-        $user->update($inputs);
-        return redirect()->route('customer.profile.profile')->with('success', 'حساب کاربری با موفقیت ویرایش شد');
+        $this->userService->updateUserProfile($request);
+        return to_route('customer.profile.profile')->with('success', 'حساب کاربری با موفقیت ویرایش شد');
     }
 }

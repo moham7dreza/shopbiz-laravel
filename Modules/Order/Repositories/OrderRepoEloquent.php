@@ -20,6 +20,15 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * @param $type
+     * @return mixed
+     */
+    public function findUserOrdersByStatus($type): mixed
+    {
+        return auth()->user()->orders()->where('order_status', $type)->latest();
+    }
+
+    /**
      * @return Model|Builder|null
      */
     public function findUserUncheckedOrder(): Model|Builder|null

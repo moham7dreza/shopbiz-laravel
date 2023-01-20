@@ -3,7 +3,7 @@
 @section('head-tag')
     <title>تکمیل اطلاعات حساب کاربری</title>
 @endsection
-
+@php $user = auth()->user(); @endphp
 @section('content')
 
     <!-- start cart -->

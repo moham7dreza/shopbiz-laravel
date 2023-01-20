@@ -13,7 +13,7 @@ use Modules\User\Repositories\UserRepoEloquentInterface;
 class UserServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for user controller.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class UserServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/user_routes.php';
 
     /**
-     * Register panel files.
+     * Register user files.
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot user service provider.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load user migration files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load user view files.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load user route files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load user policy files.
      *
      * @return void
      */
@@ -123,7 +123,7 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for user.
      *
      * @return void
      */
@@ -139,7 +139,7 @@ class UserServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(UserRepoEloquentInterface::class, UserRepoEloquent::class);
     }

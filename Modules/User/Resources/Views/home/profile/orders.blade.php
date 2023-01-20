@@ -76,7 +76,7 @@
                                                 {{ $order->id }}
                                             </section>
                                             <section class="order-item-status"><i class="fa fa-clock"></i>
-                                                {{ $order->paymentStatusValue }}
+                                                {{ $order->paymentStatusValue() }}
                                             </section>
                                             <section class="order-item-products">
                                                 <a href="#"><img src="assets/images/products/1.jpg"

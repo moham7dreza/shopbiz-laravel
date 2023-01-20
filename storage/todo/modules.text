@@ -12,13 +12,13 @@ Modules\Auth\Providers\AuthServiceProvider::class,1
 Modules\Home\Providers\HomeServiceProvider::class,1
 Modules\Notify\Providers\NotifyServiceProvider::class,1
 Modules\Setting\Providers\SettingServiceProvider::class,1
-Modules\Ticket\Providers\TicketServiceProvider::class,
+Modules\Ticket\Providers\TicketServiceProvider::class,1
 Modules\Order\Providers\OrderServiceProvider::class,1
 Modules\Payment\Providers\PaymentServiceProvider::class,1
 Modules\Cart\Providers\CartServiceProvider::class,1
 Modules\Delivery\Providers\DeliveryServiceProvider::class,1
 Modules\ACL\Providers\AclServiceProvider::class,1
-Modules\User\Providers\UserServiceProvider::class,
+Modules\User\Providers\UserServiceProvider::class,1
 Modules\Category\Providers\CategoryServiceProvider::class,1
 Modules\Comment\Providers\CommentServiceProvider::class,1
 Modules\Address\Providers\AddressServiceProvider::class,1
