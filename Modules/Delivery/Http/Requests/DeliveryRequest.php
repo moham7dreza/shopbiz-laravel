@@ -25,7 +25,8 @@ class DeliveryRequest extends FormRequest
     {
         return [
             'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'amount' => 'required|regex:/^[0-9]+$/u',
+//            'amount' => 'required|regex:/^[0-9]+$/u',
+            'amount' => 'required|numeric',
             'delivery_time' => 'required|integer',
             'delivery_time_unit' => 'required|regex:/^[ا-یa-zA-Zء-ي., ]+$/u',
             'status' => 'required|in:0,1'

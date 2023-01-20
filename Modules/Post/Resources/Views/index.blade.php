@@ -133,10 +133,10 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('پست  با موفقیت فعال شد')
+                            successToast('پست با موفقیت فعال شد')
                         } else {
                             element.prop('checked', false);
-                            successToast('پست  با موفقیت غیر فعال شد')
+                            successToast('پست با موفقیت غیر فعال شد')
                         }
                     } else {
                         element.prop('checked', elementValue);

@@ -10,17 +10,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Product\Entities\Gallery;
 use Modules\Product\Entities\Product;
+use Modules\Product\Http\Requests\ProductGalleryRequest;
 use Modules\Product\Repositories\Gallery\ProductGalleryRepoEloquentInterface;
 use Modules\Product\Services\Gallery\ProductGalleryService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\Image\ImageService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class GalleryController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'product-gallery.index';
+    private string $redirectRoute = 'product.gallery.index';
 
     /**
      * @var string
@@ -43,6 +46,7 @@ class GalleryController extends Controller
         $this->middleware('can:permission-product-gallery-create')->only(['create', 'store']);
         $this->middleware('can:permission-product-gallery-delete')->only(['destroy']);
     }
+
     /**
      * @param Product $product
      * @return Application|Factory|View
@@ -67,30 +71,14 @@ class GalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProductGalleryRequest $request
      * @param Product $product
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(Request $request, Product $product, ImageService $imageService): \Illuminate\Http\RedirectResponse
+    public function store(ProductGalleryRequest $request, Product $product): RedirectResponse
     {
-        $validated = $request->validate([
-            'image' => 'required|image|mimes:png,jpg,jpeg,gif',
-        ]);
-        $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-gallery');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('product.gallery.index', $product->id)->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-            $inputs['product_id'] = $product->id;
-            $gallery = Gallery::query()->create($inputs);
-            return redirect()->route('product.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت ثبت شد');
-        } else {
-            return back();
-        }
+        $this->service->store($request, $product->id);
+        return $this->successMessageWithRedirect('عکس شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -137,6 +125,6 @@ class GalleryController extends Controller
     public function destroy(Product $product, Gallery $gallery): RedirectResponse
     {
         $result = $gallery->delete();
-        return redirect()->route('product.gallery.index', $product->id)->with('swal-success', 'عکس شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('عکس شما با موفقیت حذف شد', params: [$product]);
     }
 }

@@ -2,24 +2,25 @@
 
 namespace Modules\Product\Http\Controllers;
 
-
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductMeta;
 use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\Image\ImageService;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class ProductController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -77,39 +78,12 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductRequest $request
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function store(ProductRequest $request, ImageService $imageService): \Illuminate\Http\RedirectResponse
+    public function store(ProductRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('product.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        }
-
-        DB::transaction(function () use ($request, $inputs) {
-
-            $product = Product::query()->create($inputs);
-            $metas = array_combine($request->meta_key, $request->meta_value);
-            foreach ($metas as $key => $value) {
-                $meta = ProductMeta::query()->create([
-                    'meta_key' => $key,
-                    'meta_value' => $value,
-                    'product_id' => $product->id
-                ]);
-            }
-        });
-
-        return redirect()->route('product.index')->with('swal-success', 'محصول  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('محصول جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -127,6 +101,8 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
+     * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
+     * @param BrandRepoEloquentInterface $brandRepo
      * @return Application|Factory|View
      */
     public function edit(Product                              $product,
@@ -135,7 +111,7 @@ class ProductController extends Controller
     {
         $productCategories = $productCategoryRepo->getLatestCategories()->get();
         $brands = $brandRepo->index()->get();
-        return view('Product::admin.edit', compact('product', 'productCategories', 'brands'));
+        return view('Product::admin.edit', compact(['product', 'productCategories', 'brands']));
     }
 
     /**
@@ -143,55 +119,12 @@ class ProductController extends Controller
      *
      * @param ProductRequest $request
      * @param Product $product
-     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function update(ProductRequest $request, Product $product, ImageService $imageService): RedirectResponse
+    public function update(ProductRequest $request, Product $product): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
-        if ($request->hasFile('image')) {
-            if (!empty($product->image)) {
-                $imageService->deleteDirectoryAndFiles($product->image['directory']);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-            if ($result === false) {
-                return redirect()->route('product.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
-            }
-            $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && !empty($product->image)) {
-                $image = $product->image;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
-            }
-        }
-
-        DB::transaction(function () use ($request, $inputs, $product) {
-            $product->update($inputs);
-            if ($request->meta_key != null) {
-                $meta_keys = $request->meta_key;
-                $meta_values = $request->meta_value;
-                $meta_ids = array_keys($request->meta_key);
-                $metas = array_map(function ($meta_id, $meta_key, $meta_value) {
-                    return array_combine(
-                        ['meta_id', 'meta_key', 'meta_value'],
-                        [$meta_id, $meta_key, $meta_value]
-                    );
-                }, $meta_ids, $meta_keys, $meta_values);
-                foreach ($metas as $meta) {
-                    ProductMeta::query()->where('id', $meta['meta_id'])->update(
-                        ['meta_key' => $meta['meta_key'], 'meta_value' => $meta['meta_value']]
-                    );
-                }
-            }
-        });
-
-        return redirect()->route('product.index')->with('swal-success', 'محصول  شما با موفقیت ویرایش شد');
+        $this->service->update($request, $product);
+        return $this->successMessageWithRedirect('محصول شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -203,6 +136,24 @@ class ProductController extends Controller
     public function destroy(Product $product): RedirectResponse
     {
         $result = $product->delete();
-        return redirect()->route('product.index')->with('swal-success', 'محصول شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('محصول ما با موفقیت حذف شد');
+    }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function status(Product $product): JsonResponse
+    {
+        return ShareService::ajaxChangeModelSpecialField($product);
+    }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function marketable(Product $product): JsonResponse
+    {
+        return ShareService::ajaxChangeModelSpecialField($product, 'marketable');
     }
 }

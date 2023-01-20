@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductMeta extends Model
 {
-    protected $table = 'product_meta';
     use HasFactory, SoftDeletes;
 
+    /**
+     * @var string
+     */
+    protected $table = 'product_meta';
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['meta_key', 'meta_value', 'product_id'];
 }

@@ -41,6 +41,18 @@ class ProductGuaranteeRepoEloquent implements ProductGuaranteeRepoEloquentInterf
     }
 
     /**
+     * Change status by id.
+     *
+     * @param  $id
+     * @param  string $status
+     * @return int
+     */
+    public function changeStatus($id, string $status)
+    {
+        return $this->query()->where('product_id', $id)->update(['status' => $status]);
+    }
+
+    /**
      * Get query model (builder).
      *
      * @return \Illuminate\Database\Eloquent\Builder

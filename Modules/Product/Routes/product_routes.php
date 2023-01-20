@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Product\Http\Controllers\GalleryController;
 use Modules\Product\Http\Controllers\GuaranteeController;
 use Modules\Product\Http\Controllers\ProductColorController;
+use Modules\Product\Http\Controllers\ProductController;
 use Modules\Product\Http\Controllers\StoreController;
 use Modules\Product\Http\Controllers\Home\ProductController as MarketProductController;
 
@@ -18,6 +19,8 @@ use Modules\Product\Http\Controllers\Home\ProductController as MarketProductCont
 
 Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($router) {
     $router->resource('product', 'ProductController', ['except' => 'show']);
+    Route::get('/product/status/{product}', [ProductController::class, 'status'])->name('product.status');
+    Route::get('/product/marketable/{product}', [ProductController::class, 'marketable'])->name('product.marketable');
 
     Route::prefix('product')->group(function () {
         //gallery
@@ -25,18 +28,23 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('product.gallery.create');
         Route::post('/gallery/store/{product}', [GalleryController::class, 'store'])->name('product.gallery.store');
         Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('product.gallery.destroy');
+        Route::get('/gallery/status/{gallery}', [GuaranteeController::class, 'status'])->name('product.gallery.status');
 
         //color
         Route::get('/color/{product}', [ProductColorController::class, 'index'])->name('product.color.index');
         Route::get('/color/create/{product}', [ProductColorController::class, 'create'])->name('product.color.create');
         Route::post('/color/store/{product}', [ProductColorController::class, 'store'])->name('product.color.store');
+        Route::get('/color/edit/{product}/{color}', [ProductColorController::class, 'edit'])->name('product.color.edit');
+        Route::post('/color/update/{product}/{color}', [ProductColorController::class, 'update'])->name('product.color.update');
         Route::delete('/color/destroy/{product}/{color}', [ProductColorController::class, 'destroy'])->name('product.color.destroy');
+        Route::get('/color/status/{color}', [ProductColorController::class, 'status'])->name('product.color.status');
 
         //guarantee
         Route::get('/guarantee/{product}', [GuaranteeController::class, 'index'])->name('product.guarantee.index');
         Route::get('/guarantee/create/{product}', [GuaranteeController::class, 'create'])->name('product.guarantee.create');
         Route::post('/guarantee/store/{product}', [GuaranteeController::class, 'store'])->name('product.guarantee.store');
         Route::delete('/guarantee/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('product.guarantee.destroy');
+        Route::get('/guarantee/status/{guarantee}', [GuaranteeController::class, 'status'])->name('product.guarantee.status');
 
         //store
         Route::prefix('store')->group(function () {
@@ -50,5 +58,5 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     });
 });
 Route::get('/product/{product:slug}', [MarketProductController::class, 'product'])->name('customer.market.product');
-Route::post('/add-comment/prodcut/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
-Route::get('/add-to-favorite/prodcut/{product:slug}', [MarketProductController::class, 'addToFavorite'])->name('customer.market.add-to-favorite');
+Route::post('/add-comment/product/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
+Route::get('/add-to-favorite/product/{product:slug}', [MarketProductController::class, 'addToFavorite'])->name('customer.market.add-to-favorite');

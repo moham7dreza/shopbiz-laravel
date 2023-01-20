@@ -2,6 +2,7 @@
 
 namespace Modules\Share\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Comment\Entities\Comment;
@@ -19,13 +20,14 @@ trait HasComment
     }
 
     /**
-     * @return MorphMany
+     * @return Collection
      */
-    public function activeComments(): MorphMany
+    public function activeComments(): Collection
     {
         return $this->comments()->where([
             ['approved', Comment::APPROVED],
-            ['status', Comment::STATUS_ACTIVE]
-        ])->whereNull('parent_id');
+            ['status', Comment::STATUS_ACTIVE],
+            ['parent_id', null]
+        ])->get();
     }
 }

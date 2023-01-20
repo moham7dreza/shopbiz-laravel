@@ -6,20 +6,27 @@ namespace Modules\Product\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
+use Modules\Product\Http\Requests\ProductColorRequest;
 use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Services\Color\ProductColorService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class ProductColorController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'product-color.index';
+    private string $redirectRoute = 'product.color.index';
 
     /**
      * @var string
@@ -67,28 +74,21 @@ class ProductColorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProductColorRequest $request
      * @param Product $product
      * @return RedirectResponse
      */
-    public function store(Request $request, Product $product): RedirectResponse
+    public function store(ProductColorRequest $request, Product $product): RedirectResponse
     {
-        $validated = $request->validate([
-            'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'color' => 'required|max:120',
-            'price_increase' => 'required|numeric',
-        ]);
-        $inputs = $request->all();
-        $inputs['product_id'] = $product->id;
-        $color = ProductColor::query()->create($inputs);
-        return redirect()->route('product.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
+        $this->service->store($request, $product->id);
+        return $this->successMessageWithRedirect('رنگ شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -98,24 +98,26 @@ class ProductColorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param ProductColor $color
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(Product $product, ProductColor $color): Application|Factory|View
     {
-        abort(403);
+        return view('Product::admin.color.edit', compact(['product', 'color']));
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param ProductColorRequest $request
+     * @param Product $product
+     * @param ProductColor $color
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
     {
-        abort(403);
+        $this->service->update($request, $product->id, $color);
+        return $this->successMessageWithRedirect('رنگ شما با موفقیت ویرایش شد', params: [$product]);
     }
 
     /**
@@ -128,6 +130,15 @@ class ProductColorController extends Controller
     public function destroy(Product $product, ProductColor $color): RedirectResponse
     {
         $color->delete();
-        return back();
+        return $this->successMessageWithRedirect('رنگ شما با موفقیت حذف شد', params: [$product]);
+    }
+
+    /**
+     * @param ProductColor $color
+     * @return JsonResponse
+     */
+    public function status(ProductColor $color): JsonResponse
+    {
+        return ShareService::ajaxChangeModelSpecialField($color);
     }
 }

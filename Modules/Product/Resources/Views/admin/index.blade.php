@@ -42,6 +42,8 @@
                             <th> قیمت</th>
                             <th>وزن</th>
                             <th>دسته</th>
+                            <th>وضعیت</th>
+                            <th>قابل فروش بودن</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -50,15 +52,35 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->limitedName() }}</td>
                                 <td>
                                     <img
-                                        src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}"
-                                        alt="" width="100" height="50">
+                                        src="{{ $product->imagePath() }}" alt="" width="100" height="50">
                                 </td>
-                                <td>{{ $product->price }} تومان</td>
-                                <td>{{ $product->weight }} کیلو</td>
-                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->getFaPrice() }}</td>
+                                <td>{{ $product->getFaWeight() }}</td>
+                                <td>{{ $product->textCategoryName() }}</td>
+
+                                <td>
+                                    <label>
+                                        <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }})"
+                                               data-url="{{ route('product.status', $product->id) }}" type="checkbox"
+                                               @if ($product->status === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
+                                </td>
+
+                                <td>
+                                    <label>
+                                        <input id="{{ $product->id }}-marketable" onchange="marketable({{ $product->id }})"
+                                               data-url="{{ route('product.marketable', $product->id) }}" type="checkbox"
+                                               @if ($product->marketable === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
+                                </td>
+
                                 <td class="width-8-rem text-left">
                                     <div class="dropdown">
                                         <a href="#" class="btn btn-success btn-sm btn-block dorpdown-toggle"
@@ -68,12 +90,15 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <a href="{{ route('product.gallery.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i class="fa fa-images"></i> گالری</a>
+                                               class="dropdown-item text-right" target="_blank"><i
+                                                    class="fa fa-images"></i> گالری</a>
                                             <a href="{{ route('product.color.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i class="fa fa-images"></i> مدیریت رنگ
+                                               class="dropdown-item text-right" target="_blank"><i
+                                                    class="fa fa-images"></i> مدیریت رنگ
                                                 ها</a>
                                             <a href="{{ route('product.guarantee.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i class="fa fa-shield-alt"></i> گارانتی</a>
+                                               class="dropdown-item text-right" target="_blank"><i
+                                                    class="fa fa-shield-alt"></i> گارانتی</a>
                                             <a href="{{ route('product.edit', $product->id) }}"
                                                class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
                                             <form class="d-inline"
@@ -106,6 +131,139 @@
 
 
 @section('script')
+
+    <script type="text/javascript">
+
+        function changeStatus(id) {
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('محصول با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('محصول با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+
+        function marketable(id) {
+            var element = $("#" + id + '-marketable')
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (response) {
+                    if (response.marketable) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('امکان فروش کالا با موفقیت فعال شد')
+                        } else {
+                            element.prop('checked', false);
+                            successToast('امکان فروش کالا با موفقیت غیر فعال شد')
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    }
+                },
+                error: function () {
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
+                }
+            });
+
+            function successToast(message) {
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function () {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
 
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 

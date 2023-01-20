@@ -52,7 +52,7 @@
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">هزینه روش ارسال</label>
-                                    <input type="text" name="amount" value="{{ old('amount', intval($delivery->amount)) }}"
+                                    <input type="text" name="amount" value="{{ old('amount', $delivery->amount) }}"
                                            class="form-control form-control-sm">
                                 </div>
                                 @error('amount')

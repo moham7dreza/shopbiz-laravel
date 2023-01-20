@@ -6,20 +6,27 @@ namespace Modules\Product\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
+use Modules\Product\Http\Requests\ProductGalleryRequest;
+use Modules\Product\Http\Requests\ProductGuaranteeRequest;
 use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface;
 use Modules\Product\Services\Guarantee\ProductGuaranteeService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class GuaranteeController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'product-guarantee.index';
+    private string $redirectRoute = 'product.guarantee.index';
 
     /**
      * @var string
@@ -67,20 +74,14 @@ class GuaranteeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProductGuaranteeRequest $request
      * @param Product $product
      * @return RedirectResponse
      */
-    public function store(Request $request, Product $product): RedirectResponse
+    public function store(ProductGuaranteeRequest $request, Product $product): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'price_increase' => 'required|numeric'
-        ]);
-        $inputs = $request->all();
-        $inputs['product_id'] = $product->id;
-        $guarantee = Guarantee::query()->create($inputs);
-        return redirect()->route('product.guarantee.index', $product->id)->with('swal-success', 'گارانتی شما با موفقیت ثبت شد');
+        $this->service->store($request, $product->id);
+        return $this->successMessageWithRedirect('گارانتی شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -127,6 +128,15 @@ class GuaranteeController extends Controller
     public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
-        return back();
+        return $this->successMessageWithRedirect('گارانتی شما با موفقیت حذف شد', params: [$product]);
+    }
+
+    /**
+     * @param Guarantee $guarantee
+     * @return JsonResponse
+     */
+    public function status(Guarantee $guarantee): JsonResponse
+    {
+        return ShareService::ajaxChangeModelSpecialField($guarantee);
     }
 }

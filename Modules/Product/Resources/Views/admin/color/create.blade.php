@@ -2,7 +2,6 @@
 
 @section('head-tag')
     <title>ایجاد رنگ</title>
-    <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
 @section('content')
@@ -80,6 +79,72 @@
                                 @enderror
                             </section>
 
+                            <section class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="status">وضعیت</label>
+                                    <select name="status" class="form-control form-control-sm" id="status">
+                                        <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
+                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
+                                    </select>
+                                </div>
+                                @error('status')
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                @enderror
+                            </section>
+
+
+                            <section class="col-12">
+                                <div class="form-group">
+                                    <label for="">تعداد قابل فروش</label>
+                                    <input type="text" name="marketable_number"
+                                           value="{{ old('marketable_number') }}"
+                                           class="form-control form-control-sm">
+                                </div>
+                                @error('marketable_number')
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                @enderror
+                            </section>
+
+                            <section class="col-12">
+                                <div class="form-group">
+                                    <label for="">تعداد فروخته شده</label>
+                                    <input type="text" name="sold_number"
+                                           value="{{ old('sold_number') }}"
+                                           class="form-control form-control-sm">
+                                </div>
+                                @error('sold_number')
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                @enderror
+                            </section>
+
+                            <section class="col-12">
+                                <div class="form-group">
+                                    <label for="">تعداد رزرو شده</label>
+                                    <input type="text" name="frozen_number"
+                                           value="{{ old('frozen_number') }}"
+                                           class="form-control form-control-sm">
+                                </div>
+                                @error('frozen_number')
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                @enderror
+                            </section>
+
 
                         </section>
 
@@ -92,63 +157,5 @@
             </section>
         </section>
     </section>
-
-@endsection
-
-
-@section('script')
-
-    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
-    <script>
-        CKEDITOR.replace('introduction');
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#published_at_view').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                altField: '#published_at'
-            })
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            var tags_input = $('#tags');
-            var select_tags = $('#select_tags');
-            var default_tags = tags_input.val();
-            var default_data = null;
-
-            if (tags_input.val() !== null && tags_input.val().length > 0) {
-                default_data = default_tags.split(',');
-            }
-
-            select_tags.select2({
-                placeholder: 'لطفا تگ های خود را وارد نمایید',
-                tags: true,
-                data: default_data
-            });
-            select_tags.children('option').attr('selected', true).trigger('change');
-
-
-            $('#form').submit(function (event) {
-                if (select_tags.val() !== null && select_tags.val().length > 0) {
-                    var selectedSource = select_tags.val().join(',');
-                    tags_input.val(selectedSource)
-                }
-            })
-        })
-    </script>
-
-    <script>
-        $(function () {
-            $("#btn-copy").on('click', function () {
-                var ele = $(this).parent().prev().clone(true);
-                $(this).before(ele);
-            })
-        })
-    </script>
 
 @endsection

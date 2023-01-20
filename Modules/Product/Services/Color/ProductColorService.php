@@ -2,132 +2,62 @@
 
 namespace Modules\Product\Services\Color;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Modules\Product\Entities\ProductColor;
 
 class ProductColorService implements ProductColorServiceInterface
 {
-    /**
-     * Store product with request.
-     *
-     * @param  array $data
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
-     * @throws \Exception
-     */
-    public function store(array $data)
-    {
-        return $this->query()->create([
-            'vendor_id'         => auth()->id(),
-            'slug'              => ShareService::makeSlug($data['title']),
-            'sku'               => ShareService::makeUniqueSku(Product::class),
-            'first_media_id'    => $data['first_media_id'],
-            'title'             => $data['title'],
-            'price'             => $data['price'],
-            'count'             => $data['count'],
-            'type'              => $data['type'],
-            'short_description' => $data['short_description'],
-            'body'              => $data['body'],
-            'status'            => $data['status'],
-            'is_popular'        => $data['is_popular'],
-        ]);
-    }
 
     /**
-     * Update product with request by id.
+     * Store category.
      *
      * @param  $request
-     * @param  $id
-     * @return mixed
+     * @param $productId
+     * @return Builder|Model|RedirectResponse
      */
-    public function update($request, $id)
+    public function store($request, $productId): Model|Builder|RedirectResponse
     {
-        return $this->query()->whereId($id)->update([
-            'first_media_id'    => $request->first_media_id,
-            'title'             => $request->title,
-            'slug'              => ShareService::makeSlug($request->title),
-            'price'             => $request->price,
-            'count'             => $request->count,
-            'type'              => $request->type,
-            'short_description' => $request->short_description,
-            'body'              => $request->body,
-            'status'            => $request->status,
-            'is_popular'        => $request->is_popular,
+        return $this->query()->create([
+            'color_name' => $request->color_name,
+            'color' => $request->color,
+            'product_id' => $productId,
+            'status' => $request->status,
+            'price_increase' => $request->price_increase,
+            'sold_number' => $request->sold_number,
+            'frozen_number' => $request->frozen_number,
+            'marketable_number' => $request->marketable_number,
         ]);
     }
 
-    /**
-     * Attach categories to product.
-     *
-     * @param  $categories
-     * @param  $product
-     * @return void
-     */
-    public function attachCategoriesToProduct($categories, $product)
-    {
-        foreach ($categories as $category) {
-            $product->categories()->attach($category);
-        }
-    }
 
     /**
-     * Attach categories to product.
-     *
-     * @param  $galleries
-     * @param  $product
-     * @return void
-     */
-    public function attachGalleriesToProduct($galleries, $product)
-    {
-        foreach ($galleries as $gallery) {
-            $product->galleries()->attach(MediaFileService::publicUpload($gallery)->id);
-        }
-    }
-
-    /**
-     * Attach attributes to product.
-     *
-     * @param  $attributes
-     * @param  $product
-     * @return void
-     */
-    public function attachAttributesToProduct($attributes, $product)
-    {
-        foreach ($attributes as $attribute) {
-            $product->attachAttribute($attribute['attributekeys'], $attribute['attributevalues']);
-        }
-    }
-
-    /**
-     * Attach tags to product.
-     *
-     * @param  array $tags
-     * @param  $product
+     * @param $request
+     * @param $productId
+     * @param $color
      * @return mixed
      */
-    public function attachTagsToProduct(array $tags, $product)
+    public function update($request, $productId, $color): mixed
     {
-        return $product->attachTags($tags);
-    }
-
-    /**
-     * First or create categories product.
-     *
-     * @param  array $categories
-     * @param  $product
-     * @return void
-     */
-    public function firstOrCreateCategoriesToProduct(array $categories, $product)
-    {
-        foreach ($categories as $category) {
-            $product->categories()->syncWithoutDetaching($category);
-        }
+        return $color->update([
+            'color_name' => $request->color_name,
+            'color' => $request->color,
+            'product_id' => $productId,
+            'status' => $request->status,
+            'price_increase' => $request->price_increase,
+            'sold_number' => $request->sold_number,
+            'frozen_number' => $request->frozen_number,
+            'marketable_number' => $request->marketable_number,
+        ]);
     }
 
     /**
      * Get product query (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return ProductColor::query();
     }

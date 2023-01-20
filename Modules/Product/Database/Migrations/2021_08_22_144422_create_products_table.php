@@ -27,9 +27,9 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('marketable')->default(1)->comment('1 => marketable, 0 => is not marketable');
             $table->string('tags');
-            $table->tinyInteger('sold_number')->default(0);
-            $table->tinyInteger('frozen_number')->default(0);
-            $table->tinyInteger('marketable_number')->default(0);
+            $table->smallInteger('sold_number')->default(0);
+            $table->smallInteger('frozen_number')->default(0);
+            $table->smallInteger('marketable_number')->default(0);
             $table->foreignId('brand_id')->constrained('brands')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamp('published_at');

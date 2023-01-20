@@ -55,14 +55,15 @@
                                         src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}"
                                         alt="" width="100" height="50">
                                 </td>
-                                <td>{{ $product->marketable_number }}</td>
-                                <td>{{ $product->frozen_number }}</td>
-                                <td>{{ $product->sold_number }}</td>
-                                <td class="width-22-rem text-left">
+                                <td>{{ $product->getFaMarketableNumber() }}</td>
+                                <td>{{ $product->getFaFrozenNumber() }}</td>
+                                <td>{{ $product->getFaSoldNumber() }}</td>
+
+                                <td class="width-22-rem text-center">
                                     <a href="{{ route('product.store.add-to-store', $product->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> افزایش موجودی</a>
+                                       class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                     <a href="{{ route('product.store.edit', $product->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-warehouse"></i> اصلاح موجودی</a>
+                                       class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                                 </td>
                             </tr>
 

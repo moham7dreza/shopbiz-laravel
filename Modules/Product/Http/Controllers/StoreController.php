@@ -13,21 +13,30 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreRequest;
 use Modules\Product\Http\Requests\StoreUpdateRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
+use Modules\Product\Services\Product\ProductServiceInterface;
+use Modules\Product\Services\Store\ProductStoreServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class StoreController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
-    private string $redirectRoute = 'product-store.index';
+    private string $redirectRoute = 'product.store.index';
+
+    public ProductServiceInterface $productService;
 
     /**
      * @var string
      */
     private string $class = Product::class;
-    public function __construct()
+    public function __construct(ProductServiceInterface $productService)
     {
+        $this->productService = $productService;
+
         $this->middleware('can:permission-product-warehouse')->only(['index']);
         $this->middleware('can:permission-product-warehouse-add')->only(['addToStore', 'store']);
         $this->middleware('can:permission-product-warehouse-modify')->only(['edit', 'update']);
@@ -62,10 +71,8 @@ class StoreController extends Controller
      */
     public function store(StoreRequest $request, Product $product): \Illuminate\Http\RedirectResponse
     {
-        $product->marketable_number += $request->marketable_number;
-        $product->save();
-        Log::info("receiver => {$request->receiver}, deliverer => {$request->deliverer}, description => {$request->description}, add => {$request->marketable_number}");
-        return redirect()->route('product.store.index')->with('swal-success', 'مجودی جدید با موفقیت ثبت شد');
+        $this->productService->productAddToStore($request, $product);
+        return $this->successMessageWithRedirect('موجودی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -99,9 +106,8 @@ class StoreController extends Controller
      */
     public function update(StoreUpdateRequest $request, Product $product): RedirectResponse
     {
-        $inputs = $request->all();
-        $product->update($inputs);
-        return redirect()->route('product.store.index')->with('swal-success', 'موجودی  با موفقیت ویرایش شد');
+        $this->productService->updateProductStore($request, $product);
+        return $this->successMessageWithRedirect('موجودی با موفقیت ویرایش شد');
     }
 
     /**

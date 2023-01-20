@@ -49,11 +49,11 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
                                 <td>
-                                    <img src="{{ asset($image->image['indexArray'][$image->image['currentImage']] ) }}"
+                                    <img src="{{ $image->imagePath() }}"
                                          alt="" width="100" height="50">
                                 </td>
 
-                                <td class="width-16-rem text-left">
+                                <td class="width-12-rem text-center">
                                     <form class="d-inline"
                                           action="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id] ) }}"
                                           method="post">
