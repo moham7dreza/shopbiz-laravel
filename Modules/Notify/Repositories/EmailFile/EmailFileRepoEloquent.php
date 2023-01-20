@@ -2,6 +2,9 @@
 
 namespace Modules\Notify\Repositories\EmailFile;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Notify\Entities\EmailFile;
 
 class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
@@ -9,9 +12,9 @@ class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
     /**
      * Get latest products.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function getLatest()
+    public function getLatest(): Builder
     {
         return $this->query()->latest();
     }
@@ -20,9 +23,9 @@ class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
      * Find product by id.
      *
      * @param  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findById($id)
+    public function findById($id): Model|Collection|Builder|array|null
     {
         return $this->query()->findOrFail($id);
     }
@@ -41,9 +44,9 @@ class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
     /**
      * Get query model (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query(): \Illuminate\Database\Eloquent\Builder
+    private function query(): Builder
     {
         return EmailFile::query();
     }

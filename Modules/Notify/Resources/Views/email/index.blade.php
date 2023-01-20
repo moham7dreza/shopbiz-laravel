@@ -49,9 +49,9 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $email->subject }}</td>
-                                <td>{!! $email->body !!}</td>
-                                <td>{{ jalaliDate($email->published_at, 'H:i:s Y-m-d') }}</td>
+                                <td>{{ $email->limitedSubject() }}</td>
+                                <td>{!! $email->limitedBody() !!}</td>
+                                <td>{{ $email->publishFaDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }})"

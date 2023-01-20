@@ -123,5 +123,40 @@ function validateNationalCode($nationalCode): bool
     }
 }
 
+/**
+ * @param $size
+ * @param $unit
+ * @return array|string
+ */
+function convert($size, $unit): array|string
+{
+    $fileSize = 0;
 
+    if ($unit == "Byte") {
+        $fileSize = round($size, 4);
+        if ($fileSize > 1024) {
+            convert($fileSize, "KB");
+        } else {
+            return convertEnglishToPersian($fileSize) . ' بایت ';
+        }
+    } elseif ($unit == "KB") {
+        $fileSize = round($size / 1024, 4);
+        if ($fileSize > 1024) {
+            convert($fileSize, "MB");
+        } else {
+            return convertEnglishToPersian($fileSize) . ' کیلوبایت ';
+        }
+    } elseif ($unit == "MB") {
+        $fileSize = round($size / 1024 / 1024, 4);
+        if ($fileSize > 1024) {
+            convert($fileSize, "GB");
+        } else {
+            return convertEnglishToPersian($fileSize) . ' مگابایت ';
+        }
+    } elseif ($unit == "GB") {
+        $fileSize = round($size / 1024 / 1024 / 1024, 4);
+        return convertEnglishToPersian($fileSize) . ' گیگابایت ';
+    }
+    return convertEnglishToPersian($fileSize);
+}
 

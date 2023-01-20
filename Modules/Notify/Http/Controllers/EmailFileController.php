@@ -17,9 +17,12 @@ use Modules\Notify\Services\EmailFile\EmailFileService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\File\FileService;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class EmailFileController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -78,30 +81,13 @@ class EmailFileController extends Controller
      *
      * @param EmailFileRequest $request
      * @param Email $email
-     * @param FileService $fileService
      * @return RedirectResponse
      */
-    public function store(EmailFileRequest $request, Email $email, FileService $fileService): RedirectResponse
+    public function store(EmailFileRequest $request, Email $email): RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('file')) {
-            $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'email-files');
-            $fileService->setFileSize($request->file('file'));
-            $fileSize = $fileService->getFileSize();
-            $result = $fileService->moveToPublic($request->file('file'));
-            // $result = $fileService->moveToStorage($request->file('file'));
-            $fileFormat = $fileService->getFileFormat();
-            if ($result === false) {
-                return redirect()->route('email-file.index', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
-            }
-        }
 
-        $inputs['public_mail_id'] = $email->id;
-        $inputs['file_path'] = $result;
-        $inputs['file_size'] = $fileSize;
-        $inputs['file_type'] = $fileFormat;
-        $file = EmailFile::query()->create($inputs);
-        return redirect()->route('email-file.index', $email->id)->with('swal-success', 'فایل جدید شما با موفقیت ثبت شد');
+        $this->service->store($request, $email->id);
+        return $this->successMessageWithRedirect('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
     }
 
     /**
@@ -131,32 +117,13 @@ class EmailFileController extends Controller
      *
      * @param EmailFileRequest $request
      * @param EmailFile $file
-     * @param FileService $fileService
      * @return RedirectResponse
      */
-    public function update(EmailFileRequest $request, EmailFile $file, FileService $fileService): RedirectResponse
+    public function update(EmailFileRequest $request, EmailFile $file): RedirectResponse
     {
-        $inputs = $request->all();
-        if ($request->hasFile('file')) {
-            if (!empty($file->file_path)) {
-                // $fileService->deleteFile($file->file_path, true);
-                $fileService->deleteFile($file->file_path);
-            }
-            $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'email-files');
-            $fileService->setFileSize($request->file('file'));
-            $fileSize = $fileService->getFileSize();
-            $result = $fileService->moveToPublic($request->file('file'));
-            // $result = $fileService->moveToStorage($request->file('file'));
-            $fileFormat = $fileService->getFileFormat();
-            if ($result === false) {
-                return redirect()->route('email-file.index', $file->email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
-            }
-            $inputs['file_path'] = $result;
-            $inputs['file_size'] = $fileSize;
-            $inputs['file_type'] = $fileFormat;
-        }
-        $file->update($inputs);
-        return redirect()->route('email-file.index', $file->email->id)->with('swal-success', 'فایل  شما با موفقیت ویرایش شد');
+        $emailId = $file->email->id;
+        $this->service->update($request, $emailId, $file);
+        return $this->successMessageWithRedirect('فایل شما با موفقیت ویرایش شد', params: [$emailId]);
     }
 
     /**
@@ -168,7 +135,7 @@ class EmailFileController extends Controller
     public function destroy(EmailFile $file): RedirectResponse
     {
         $result = $file->delete();
-        return redirect()->route('email-file.index', $file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('فایل شما با موفقیت حذف شد', params: [$file->email->id]);
     }
 
     /**

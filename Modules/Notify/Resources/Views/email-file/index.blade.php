@@ -50,8 +50,8 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $email->subject }}</td>
-                                <td>{{ $file->file_size }}</td>
+                                <td>{{ $email->limitedSubject() }}</td>
+                                <td>{{ $file->getFaFileSize() }}</td>
                                 <td>{{ $file->file_type }}</td>
                                 <td>
                                     <label>

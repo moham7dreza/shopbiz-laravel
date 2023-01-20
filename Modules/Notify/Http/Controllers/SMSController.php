@@ -15,9 +15,12 @@ use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
 use Modules\Notify\Services\SMS\SMSService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class SMSController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -76,13 +79,8 @@ class SMSController extends Controller
      */
     public function store(SMSRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $sms = SMS::query()->create($inputs);
-        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('پیامک شما با موفقیت ثبت شد');
     }
 
     /**
@@ -116,12 +114,8 @@ class SMSController extends Controller
      */
     public function update(SMSRequest $request, SMS $sms): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $sms->update($inputs);
-        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت ویرایش شد');
+        $this->service->update($request, $sms);
+        return $this->successMessageWithRedirect('پیامک شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -133,7 +127,7 @@ class SMSController extends Controller
     public function destroy(SMS $sms): RedirectResponse
     {
         $result = $sms->delete();
-        return redirect()->route('sms.index')->with('swal-success', 'پیامک شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('پیامک شما با موفقیت حذف شد');
     }
 
 

@@ -14,9 +14,12 @@ use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
 use Modules\Notify\Services\Email\EmailService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 
 class EmailController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -77,12 +80,8 @@ class EmailController extends Controller
      */
     public function store(EmailRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $email = Email::query()->create($inputs);
-        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('ایمیل شما با موفقیت ثبت شد');
     }
 
     /**
@@ -105,7 +104,6 @@ class EmailController extends Controller
     public function edit(Email $email): View|Factory|Application
     {
         return view('Notify::email.edit', compact(['email']));
-
     }
 
     /**
@@ -117,12 +115,8 @@ class EmailController extends Controller
      */
     public function update(EmailRequest $request, Email $email): RedirectResponse
     {
-        $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-        $email->update($inputs);
-        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت ویرایش شد');
+        $this->service->update($request, $email);
+        return $this->successMessageWithRedirect('ایمیل شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -134,7 +128,7 @@ class EmailController extends Controller
     public function destroy(Email $email): RedirectResponse
     {
         $result = $email->delete();
-        return redirect()->route('email.index')->with('swal-success', 'ایمیل شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('ایمیل شما با موفقیت حذف شد');
     }
 
 

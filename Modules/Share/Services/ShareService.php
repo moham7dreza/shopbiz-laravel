@@ -7,6 +7,30 @@ use Illuminate\Http\JsonResponse;
 
 class ShareService
 {
+
+    /**
+     * @param string $directoryName
+     * @param $file
+     * @param $fileService
+     * @param string $saveLocation
+     * @return array
+     */
+    public static function saveFileAndMove(string $directoryName, $file, $fileService, string $saveLocation = 'public'): array
+    {
+        $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . $directoryName);
+        $fileService->setFileSize($file);
+        $fileSize = $fileService->getFileSize();
+        if ($saveLocation = 'public') {
+            $result = $fileService->moveToPublic($file);
+        } elseif ($saveLocation = 'storage') {
+            $result = $fileService->moveToStorage($file);
+        } else {
+            $result = null;
+        }
+        $fileFormat = $fileService->getFileFormat();
+        return [$result, $fileSize , $fileFormat];
+    }
+
     /**
      * the primary timestamp is in ms - we should convert this to second then to date
      *
@@ -107,29 +131,29 @@ class ShareService
     /**
      * Show success toast.
      *
-     * @param  string $title
+     * @param string $title
      * @return mixed
      */
     public static function successToast(string $title)
     {
-        return toast($title,'success')->autoClose(5000);
+        return toast($title, 'success')->autoClose(5000);
     }
 
     /**
      * Show error toast.
      *
-     * @param  string $title
+     * @param string $title
      * @return mixed
      */
     public static function errorToast(string $title)
     {
-        return toast($title,'error')->autoClose(5000);
+        return toast($title, 'error')->autoClose(5000);
     }
 
     /**
      * Convert string to slug.
      *
-     * @param  string $title
+     * @param string $title
      * @return string
      */
     public static function makeSlug(string $title)
@@ -146,33 +170,33 @@ class ShareService
      */
     public static function makeUniqueSku($model)
     {
-        $number = random_int(10000 , 99999);
+        $number = random_int(10000, 99999);
 
         if ((new self)->checkSKU($model, $number)) {
             return self::makeUniqueSku($model);
         }
 
-        return (string) $number;
+        return (string)$number;
     }
 
     /**
      * Check sku is exists.
      *
      * @param  $model
-     * @param  int $number
+     * @param int $number
      * @return bool
      */
     private function checkSKU($model, int $number)
     {
-        return $model::query()->where('sku' , $number)->exists();
+        return $model::query()->where('sku', $number)->exists();
     }
 
     /**
      * Upload media with add in request.
      *
      * @param  $request
-     * @param  string $file
-     * @param  string $field
+     * @param string $file
+     * @param string $field
      * @return mixed
      */
     public static function uploadMediaWithAddInRequest($request, string $file = 'image', string $field = 'media_id')
@@ -183,7 +207,7 @@ class ShareService
     /**
      * Convert text to read minute.
      *
-     * @param  string $text
+     * @param string $text
      * @return float
      */
     public static function convertTextToReadMinute(string $text)

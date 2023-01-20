@@ -27,7 +27,7 @@ use Modules\Notify\Services\SMS\SMSServiceInterface;
 class NotifyServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for notify controller.
      *
      * @var string
      */
@@ -76,7 +76,7 @@ class NotifyServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/notify_routes.php';
 
     /**
-     * Register panel files.
+     * Register notify files.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot notify service provider.
      *
      * @return void
      */
@@ -103,7 +103,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load notify migration files.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load notify view files.
      *
      * @return void
      */
@@ -133,7 +133,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load notify route files.
      *
      * @return void
      */
@@ -145,7 +145,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load notify policy files.
      *
      * @return void
      */
@@ -155,7 +155,7 @@ class NotifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for notify.
      *
      * @return void
      */

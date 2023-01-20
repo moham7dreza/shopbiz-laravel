@@ -34,8 +34,6 @@ class NotificationController extends Controller
     public function readAll(): void
     {
         $notifications = $this->repo->all();
-        foreach ($notifications as $notification) {
-            $notification->update(['read_at' => now()]);
-        }
+        $this->service->readAllNotifications($notifications);
     }
 }

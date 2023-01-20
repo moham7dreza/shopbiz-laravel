@@ -49,9 +49,9 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $single_sms->title }}</td>
-                                <td>{{ $single_sms->body }}</td>
-                                <td>{{ jalaliDate($single_sms->published_at, 'H:i:s Y-m-d') }}</td>
+                                <td>{{ $single_sms->limitedTitle() }}</td>
+                                <td>{{ $single_sms->limitedBody() }}</td>
+                                <td>{{ $single_sms->publishFaDate() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $single_sms->id }}" onchange="changeStatus({{ $single_sms->id }})"
