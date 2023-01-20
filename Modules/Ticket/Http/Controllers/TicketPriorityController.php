@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketPriority;
 use Modules\Ticket\Http\Requests\TicketPriorityRequest;
 use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
@@ -17,11 +18,11 @@ use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 
 class TicketPriorityController extends Controller
 {
-
+    use SuccessToastMessageWithRedirectTrait;
     /**
      * @var string
      */
-    private string $redirectRoute = 'ticket-priority.index';
+    private string $redirectRoute = 'ticketPriority.index';
 
     /**
      * @var string
@@ -75,9 +76,8 @@ class TicketPriorityController extends Controller
      */
     public function store(TicketPriorityRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $ticketPriority = TicketPriority::query()->create($inputs);
-        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت  جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('اولویت  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -112,9 +112,8 @@ class TicketPriorityController extends Controller
      */
     public function update(TicketPriorityRequest $request, TicketPriority $ticketPriority): RedirectResponse
     {
-        $inputs = $request->all();
-        $ticketPriority->update($inputs);
-        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت شما با موفقیت ویرایش شد');
+        $this->service->update($request, $ticketPriority);
+        return $this->successMessageWithRedirect('اولویت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -126,7 +125,7 @@ class TicketPriorityController extends Controller
     public function destroy(TicketPriority $ticketPriority): RedirectResponse
     {
         $result = $ticketPriority->delete();
-        return redirect()->route('ticketPriority.index')->with('swal-success', 'اولویت شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('اولویت شما با موفقیت حذف شد');
     }
 
 

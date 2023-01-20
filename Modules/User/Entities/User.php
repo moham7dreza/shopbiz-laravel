@@ -267,4 +267,20 @@ class User extends Authenticatable
     //         return false;
     //     }
     // }
+
+    /**
+     * @return string
+     */
+    public function ticketCssStatus(): string
+    {
+        return is_null($this->ticketAdmin) ? 'success' : 'danger';
+    }
+
+    /**
+     * @return string
+     */
+    public function ticketIconStatus(): string
+    {
+        return is_null($this->ticketAdmin) ? 'check' : 'times';
+    }
 }

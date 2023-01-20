@@ -2,132 +2,59 @@
 
 namespace Modules\Ticket\Services\Ticket;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Ticket\Entities\Ticket;
 
 class TicketService implements TicketServiceInterface
 {
     /**
-     * Store product with request.
-     *
-     * @param  array $data
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
-     * @throws \Exception
+     * @param $tickets
+     * @return void
      */
-    public function store(array $data)
+    public function makeSeenTickets($tickets): void
+    {
+        foreach ($tickets as $newTicket) {
+            $newTicket->seen = 1;
+            $result = $newTicket->save();
+        }
+    }
+
+    /**
+     * @param $request
+     * @param $ticket
+     * @return Model|Builder
+     */
+    public function store($request, $ticket): Model|Builder
     {
         return $this->query()->create([
-            'vendor_id'         => auth()->id(),
-            'slug'              => ShareService::makeSlug($data['title']),
-            'sku'               => ShareService::makeUniqueSku(Product::class),
-            'first_media_id'    => $data['first_media_id'],
-            'title'             => $data['title'],
-            'price'             => $data['price'],
-            'count'             => $data['count'],
-            'type'              => $data['type'],
-            'short_description' => $data['short_description'],
-            'body'              => $data['body'],
-            'status'            => $data['status'],
-            'is_popular'        => $data['is_popular'],
+            'subject' => $ticket->subject,
+            'description' => $request->description,
+            'seen' => Ticket::STATUS_SEEN_TICKET,
+            'reference_id' => $ticket->reference_id,
+            'user_id' => auth()->id(),
+            'category_id' => $ticket->category_id,
+            'priority_id' => $ticket->priority_id,
+            'ticket_id' => $ticket->id,
         ]);
     }
 
     /**
-     * Update product with request by id.
-     *
-     * @param  $request
-     * @param  $id
-     * @return mixed
-     */
-    public function update($request, $id)
-    {
-        return $this->query()->whereId($id)->update([
-            'first_media_id'    => $request->first_media_id,
-            'title'             => $request->title,
-            'slug'              => ShareService::makeSlug($request->title),
-            'price'             => $request->price,
-            'count'             => $request->count,
-            'type'              => $request->type,
-            'short_description' => $request->short_description,
-            'body'              => $request->body,
-            'status'            => $request->status,
-            'is_popular'        => $request->is_popular,
-        ]);
-    }
-
-    /**
-     * Attach categories to product.
-     *
-     * @param  $categories
-     * @param  $product
+     * @param $ticket
      * @return void
      */
-    public function attachCategoriesToProduct($categories, $product)
+    public function changeTicketStatus($ticket): void
     {
-        foreach ($categories as $category) {
-            $product->categories()->attach($category);
-        }
-    }
-
-    /**
-     * Attach categories to product.
-     *
-     * @param  $galleries
-     * @param  $product
-     * @return void
-     */
-    public function attachGalleriesToProduct($galleries, $product)
-    {
-        foreach ($galleries as $gallery) {
-            $product->galleries()->attach(MediaFileService::publicUpload($gallery)->id);
-        }
-    }
-
-    /**
-     * Attach attributes to product.
-     *
-     * @param  $attributes
-     * @param  $product
-     * @return void
-     */
-    public function attachAttributesToProduct($attributes, $product)
-    {
-        foreach ($attributes as $attribute) {
-            $product->attachAttribute($attribute['attributekeys'], $attribute['attributevalues']);
-        }
-    }
-
-    /**
-     * Attach tags to product.
-     *
-     * @param  array $tags
-     * @param  $product
-     * @return mixed
-     */
-    public function attachTagsToProduct(array $tags, $product)
-    {
-        return $product->attachTags($tags);
-    }
-
-    /**
-     * First or create categories product.
-     *
-     * @param  array $categories
-     * @param  $product
-     * @return void
-     */
-    public function firstOrCreateCategoriesToProduct(array $categories, $product)
-    {
-        foreach ($categories as $category) {
-            $product->categories()->syncWithoutDetaching($category);
-        }
+        $ticket->status = $ticket->status == 0 ? 1 : 0;
+        $result = $ticket->save();
     }
 
     /**
      * Get product query (builder).
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return Ticket::query();
     }

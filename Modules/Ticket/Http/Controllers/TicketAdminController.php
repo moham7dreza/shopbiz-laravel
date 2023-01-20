@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketAdmin;
 use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquentInterface;
 use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
@@ -16,7 +17,7 @@ use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class TicketAdminController extends Controller
 {
-
+    use SuccessToastMessageWithRedirectTrait;
     /**
      * @var string
      */
@@ -60,9 +61,7 @@ class TicketAdminController extends Controller
      */
     public function set(User $admin): RedirectResponse
     {
-        TicketAdmin::query()->where('user_id', $admin->id)->first()
-            ? TicketAdmin::query()->where(['user_id' => $admin->id])->forceDelete()
-            : TicketAdmin::query()->create(['user_id' => $admin->id]);
-        return redirect()->route('ticket-admin.index')->with('swal-success', 'تغییر شما با موفقیت حذف شد');
+        $this->service->addOrRemoveFromTicketAdmin($admin);
+        return $this->successMessageWithRedirect('تغییر شما با موفقیت حذف شد');
     }
 }

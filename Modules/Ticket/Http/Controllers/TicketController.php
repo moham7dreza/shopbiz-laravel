@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Http\Requests\TicketRequest;
 use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
@@ -15,6 +16,8 @@ use Modules\Ticket\Services\Ticket\TicketService;
 
 class TicketController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -51,10 +54,7 @@ class TicketController extends Controller
     public function newTickets(): View|Factory|Application
     {
         $tickets = $this->repo->newTickets()->paginate(10);
-        foreach ($tickets as $newTicket) {
-            $newTicket->seen = 1;
-            $result = $newTicket->save();
-        }
+        $this->service->makeSeenTickets($tickets);
         return view('Ticket::index', compact(['tickets']));
     }
 
@@ -159,17 +159,8 @@ class TicketController extends Controller
      */
     public function answer(TicketRequest $request, Ticket $ticket): RedirectResponse
     {
-        $inputs = $request->all();
-        $inputs['subject'] = $ticket->subject;
-        $inputs['description'] = $request->description;
-        $inputs['seen'] = 1;
-        $inputs['reference_id'] = $ticket->reference_id;
-        $inputs['user_id'] = 1;
-        $inputs['category_id'] = $ticket->category_id;
-        $inputs['priority_id'] = $ticket->priority_id;
-        $inputs['ticket_id'] = $ticket->id;
-        $ticket = Ticket::query()->create($inputs);
-        return redirect()->route('ticket.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
+        $this->service->store($request, $ticket);
+        return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
     }
 
 
@@ -179,8 +170,7 @@ class TicketController extends Controller
      */
     public function change(Ticket $ticket): RedirectResponse
     {
-        $ticket->status = $ticket->status == 0 ? 1 : 0;
-        $result = $ticket->save();
-        return redirect()->route('ticket.index')->with('swal-success', 'تغییر شما با موفقیت حذف شد');
+        $this->service->changeTicketStatus($ticket);
+        return $this->successMessageWithRedirect('تغییر شما با موفقیت حذف شد');
     }
 }

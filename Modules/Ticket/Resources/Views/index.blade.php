@@ -51,18 +51,18 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $ticket->user->first_name . ' ' . $ticket->user->last_name }}</td>
-                                <td>{{ $ticket->subject }}</td>
-                                <td>{{ $ticket->category->name }}</td>
-                                <td>{{ $ticket->priority->name }}</td>
-                                <td>{{ $ticket->admin->user->first_name . ' ' . $ticket->admin->user->last_name }}</td>
-                                <td>{{ $ticket->parent->subject ?? '-' }}</td>
+                                <td>{{ $ticket->textUserName() }}</td>
+                                <td>{{ $ticket->limitedSubject() }}</td>
+                                <td>{{ $ticket->textCategoryName() }}</td>
+                                <td>{{ $ticket->textPriorityName() }}</td>
+                                <td>{{ $ticket->textReferenceName() }}</td>
+                                <td>{{ $ticket->textParentTitle() }}</td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-info btn-sm"><i
-                                            class="fa fa-eye"></i> مشاهده</a>
+                                            class="fa fa-eye"></i></a>
                                     <a href="{{ route('ticket.change', $ticket->id) }}"
-                                       class="btn btn-warning btn-sm"><i
-                                            class="fa fa-check"></i> {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
+                                       class="btn btn-{{ $ticket->cssStatus() }} btn-sm"><i
+                                            class="fa fa-{{ $ticket->iconStatus() }}"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketCategory;
 use Modules\Ticket\Http\Requests\TicketCategoryRequest;
 use Modules\Ticket\Repositories\TicketCategory\TicketCategoryRepoEloquentInterface;
@@ -16,11 +17,12 @@ use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 
 class TicketCategoryController extends Controller
 {
+    use SuccessToastMessageWithRedirectTrait;
 
     /**
      * @var string
      */
-    private string $redirectRoute = 'ticket-category.index';
+    private string $redirectRoute = 'ticketCategory.index';
 
     /**
      * @var string
@@ -73,9 +75,8 @@ class TicketCategoryController extends Controller
      */
     public function store(TicketCategoryRequest $request): RedirectResponse
     {
-        $inputs = $request->all();
-        $ticketCategory = TicketCategory::query()->create($inputs);
-        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
+        $this->service->store($request);
+        return $this->successMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -110,9 +111,8 @@ class TicketCategoryController extends Controller
      */
     public function update(TicketCategoryRequest $request, TicketCategory $ticketCategory): RedirectResponse
     {
-        $inputs = $request->all();
-        $ticketCategory->update($inputs);
-        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+        $this->service->update($request, $ticketCategory);
+        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class TicketCategoryController extends Controller
     public function destroy(TicketCategory $ticketCategory): RedirectResponse
     {
         $result = $ticketCategory->delete();
-        return redirect()->route('ticketCategory.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
     }
 
 

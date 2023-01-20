@@ -27,7 +27,7 @@ use Modules\Ticket\Services\TicketPriority\TicketPriorityServiceInterface;
 class TicketServiceProvider extends ServiceProvider
 {
     /**
-     * Get namespace for panel controller.
+     * Get namespace for ticket controller.
      *
      * @var string
      */
@@ -69,7 +69,7 @@ class TicketServiceProvider extends ServiceProvider
     public string $routePath = '/../Routes/ticket_routes.php';
 
     /**
-     * Register panel files.
+     * Register ticket files.
      *
      * @return void
      */
@@ -84,7 +84,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot panel service provider.
+     * Boot ticket service provider.
      *
      * @return void
      */
@@ -96,7 +96,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load product migration files.
+     * Load ticket migration files.
      *
      * @return void
      */
@@ -106,7 +106,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel view files.
+     * Load ticket view files.
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel route files.
+     * Load ticket route files.
      *
      * @return void
      */
@@ -128,7 +128,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load panel policy files.
+     * Load ticket policy files.
      *
      * @return void
      */
@@ -138,7 +138,7 @@ class TicketServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set menu for panel.
+     * Set menu for ticket.
      *
      * @return void
      */
@@ -154,7 +154,7 @@ class TicketServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(TicketRepoEloquentInterface::class, TicketRepoEloquent::class);
         $this->app->bind(TicketAdminRepoEloquentInterface::class, TicketAdminRepoEloquent::class);
@@ -165,7 +165,7 @@ class TicketServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(TicketServiceInterface::class, TicketService::class);
         $this->app->bind(TicketAdminServiceInterface::class, TicketAdminService::class);

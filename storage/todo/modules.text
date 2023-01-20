@@ -10,7 +10,7 @@ Modules\Product\Providers\ProductServiceProvider::class,1
 Modules\Discount\Providers\DiscountServiceProvider::class,1
 Modules\Auth\Providers\AuthServiceProvider::class,1
 Modules\Home\Providers\HomeServiceProvider::class,1
-Modules\Notify\Providers\NotifyServiceProvider::class,
+Modules\Notify\Providers\NotifyServiceProvider::class,1
 Modules\Setting\Providers\SettingServiceProvider::class,1
 Modules\Ticket\Providers\TicketServiceProvider::class,
 Modules\Order\Providers\OrderServiceProvider::class,1
