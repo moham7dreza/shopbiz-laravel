@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasStatus;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 
 class Otp extends Model
 {
-    use HasFactory, HasFaDate, HasStatus;
+    use HasFactory, HasFaDate, HasDefaultStatus;
 
     protected $fillable = ['token', 'user_id', 'otp_code', 'login_id', 'type', 'used', 'status'];
-
 
     /**
      * @return BelongsTo

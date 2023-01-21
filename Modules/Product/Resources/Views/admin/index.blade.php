@@ -63,7 +63,7 @@
 
                                 <td>
                                     <label>
-                                        <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }})"
+                                        <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }}, 'کالا')"
                                                data-url="{{ route('product.status', $product->id) }}" type="checkbox"
                                                @if ($product->status === 1)
                                                    checked
@@ -73,7 +73,7 @@
 
                                 <td>
                                     <label>
-                                        <input id="{{ $product->id }}-marketable" onchange="marketable({{ $product->id }})"
+                                        <input id="{{ $product->id }}-marketable" onchange="marketable({{ $product->id }}, 'کالا')"
                                                data-url="{{ route('product.marketable', $product->id) }}" type="checkbox"
                                                @if ($product->marketable === 1)
                                                    checked
@@ -133,74 +133,9 @@
 @section('script')
 
     <script type="text/javascript">
-
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('محصول با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('محصول با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.marketable')
+        @include('Panel::functions.toasts')
     </script>
-
-
-    <script type="text/javascript">
-
-        function marketable(id) {
-            var element = $("#" + id + '-marketable')
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.marketable) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('امکان فروش کالا با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('امکان فروش کالا با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
-    </script>
-
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection

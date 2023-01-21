@@ -59,7 +59,7 @@
                                 <td>{{ $post->publishFaDate() }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }})"
+                                        <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }}, 'پست')"
                                                data-url="{{ route('post.status', $post->id) }}" type="checkbox"
                                                @if ($post->status === 1)
                                                    checked
@@ -69,7 +69,7 @@
 
                                 <td>
                                     <label>
-                                        <input id="{{ $post->id }}-commentable" onchange="commentable({{ $post->id }})"
+                                        <input id="{{ $post->id }}-commentable" onchange="commentable({{ $post->id }}, 'پست')"
                                                data-url="{{ route('post.commentable', $post->id) }}" type="checkbox"
                                                @if ($post->commentable === 1)
                                                    checked
@@ -118,76 +118,10 @@
 
 @endsection
 @section('script')
-
     <script type="text/javascript">
-
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('پست با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('پست با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.commentable')
+        @include('Panel::functions.toasts')
     </script>
-
-
-    <script type="text/javascript">
-
-        function commentable(id) {
-            var element = $("#" + id + '-commentable')
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.commentable) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('امکان درج کامنت با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('امکان درج کامنت با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
-    </script>
-
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection

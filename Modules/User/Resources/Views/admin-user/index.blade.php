@@ -59,7 +59,7 @@
                                 <td>{{ $admin->last_name }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $admin->id }}-active" onchange="changeActive({{ $admin->id }})"
+                                        <input id="{{ $admin->id }}-active" onchange="changeActive({{ $admin->id }}, 'ادمین')"
                                                data-url="{{ route('adminUser.activation', $admin->id) }}"
                                                type="checkbox" @if ($admin->activation === 1)
                                                    checked
@@ -68,7 +68,7 @@
                                 </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $admin->id }}" onchange="changeStatus({{ $admin->id }})"
+                                        <input id="{{ $admin->id }}" onchange="changeStatus({{ $admin->id }}, 'ادمین')"
                                                data-url="{{ route('adminUser.status', $admin->id) }}"
                                                type="checkbox" @if ($admin->status === 1)
                                                    checked
@@ -131,70 +131,9 @@
 @section('script')
 
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('ادمین با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('ادمین با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
-    </script>
-
-
-    <script type="text/javascript">
-        function changeActive(id) {
-            var element = $("#" + id + '-active')
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.activation) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('فعال سازی ادمین با موفقیت انجام شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('غیر فعال سازی ادمین با موفقیت انجام شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.activation')
+        @include('Panel::functions.toasts')
     </script>
 
 

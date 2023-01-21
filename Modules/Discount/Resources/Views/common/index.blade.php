@@ -58,7 +58,7 @@
                                 <td>{{ $commonDiscount->getFaEndDate() }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $commonDiscount->id }}" onchange="changeStatus({{ $commonDiscount->id }})"
+                                        <input id="{{ $commonDiscount->id }}" onchange="changeStatus({{ $commonDiscount->id }}, 'تخفیف عمومی')"
                                                data-url="{{ route('commonDiscount.status', $commonDiscount->id) }}"
                                                type="checkbox"
                                                @if ($commonDiscount->status === 1)
@@ -97,37 +97,8 @@
 
 @section('script')
     <script type="text/javascript">
-
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('تخفیف عمومی با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('تخفیف عمومی با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 

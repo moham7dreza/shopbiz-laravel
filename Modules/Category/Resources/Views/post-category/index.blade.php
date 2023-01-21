@@ -65,7 +65,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $postCategory->id }}"
-                                               onchange="changeStatus({{ $postCategory->id }})"
+                                               onchange="changeStatus({{ $postCategory->id }}, 'دسته بندی')"
                                                data-url="{{ route('postCategory.status', $postCategory->id) }}"
                                                type="checkbox" @if ($postCategory->status === 1)
                                                    checked
@@ -103,36 +103,8 @@
 @section('script')
 
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('دسته بندی پست با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('دسته بندی پست با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
 
 

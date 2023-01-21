@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Modules\Category\Entities\PostCategory;
 use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasStatus;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 
 class Post extends Model

@@ -61,7 +61,7 @@
                                 <td>{{ $comment->textApprove() }} </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }})"
+                                        <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }}, 'نظر')"
                                                data-url="{{ route('productComment.status', $comment->id) }}"
                                                type="checkbox" @if ($comment->status === 1)
                                                    checked
@@ -99,36 +99,8 @@
 @section('script')
 
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('نظر با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('نظر با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
 
 @endsection

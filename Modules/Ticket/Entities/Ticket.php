@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasStatus;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 
 class Ticket extends Model

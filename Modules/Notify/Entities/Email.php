@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasStatus;
+use Modules\Share\Traits\HasDefaultStatus;
 
 class Email extends Model
 {
     protected $table = 'public_mail';
 
-    use HasFactory, SoftDeletes, HasStatus, HasFaDate;
+    use HasFactory, SoftDeletes, HasDefaultStatus, HasFaDate;
 
 
     /**

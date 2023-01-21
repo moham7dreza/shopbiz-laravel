@@ -1,7 +1,7 @@
 function successToast(message) {
 
 var successToastTag = '<section class="toast" data-delay="5000">\n' +
-    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+    '<section class="toast-body py-3 d-flex bg-success text-dark">\n' +
         '<strong class="ml-auto">' + message + '</strong>\n' +
         '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
             '<span aria-hidden="true">&times;</span>\n' +
@@ -18,7 +18,7 @@ $(this).remove();
 function errorToast(message) {
 
 var errorToastTag = '<section class="toast" data-delay="5000">\n' +
-    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+    '<section class="toast-body py-3 d-flex bg-danger text-dark">\n' +
         '<strong class="ml-auto">' + message + '</strong>\n' +
         '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
             '<span aria-hidden="true">&times;</span>\n' +

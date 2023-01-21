@@ -54,7 +54,7 @@
                                 <td>
                                     <label>
                                         <input id="{{ $delivery_method->id }}"
-                                               onchange="changeStatus({{ $delivery_method->id }})"
+                                               onchange="changeStatus({{ $delivery_method->id }}, 'روش ارسال')"
                                                data-url="{{ route('delivery.status', $delivery_method->id) }}"
                                                type="checkbox" @if ($delivery_method->status === 1)
                                                    checked
@@ -91,36 +91,8 @@
 @section('script')
 
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('روش ارسال با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('روش ارسال با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
 
 

@@ -56,7 +56,7 @@
                                 <td>{{ $user->last_name }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $user->id }}-active" onchange="changeActive({{ $user->id }})"
+                                        <input id="{{ $user->id }}-active" onchange="changeActive({{ $user->id }}, 'مشتری')"
                                                data-url="{{ route('customerUser.activation', $user->id) }}"
                                                type="checkbox" @if ($user->activation === 1)
                                                    checked
@@ -65,7 +65,7 @@
                                 </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $user->id }}" onchange="changeStatus({{ $user->id }})"
+                                        <input id="{{ $user->id }}" onchange="changeStatus({{ $user->id }}, 'مشتری')"
                                                data-url="{{ route('customerUser.status', $user->id) }}" type="checkbox"
                                                @if ($user->status === 1)
                                                    checked
@@ -103,75 +103,10 @@
 
 
 @section('script')
-
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('مشتری با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('مشتری با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.activation')
+        @include('Panel::functions.toasts')
     </script>
-
-
-    <script type="text/javascript">
-        function changeActive(id) {
-            var element = $("#" + id + '-active')
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.activation) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('فعال سازی مشتری با موفقیت انجام شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('غیر فعال سازی مشتری با موفقیت انجام شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
-    </script>
-
-
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection

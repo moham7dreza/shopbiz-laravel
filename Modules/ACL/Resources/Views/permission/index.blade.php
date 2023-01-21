@@ -61,7 +61,7 @@
                                 <td>{{ $permission->limitedDescription() }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }})"
+                                        <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }}, 'دسترسی')"
                                                data-url="{{ route('permission.status', $permission->id) }}"
                                                type="checkbox"
                                                @if ($permission->status === 1)
@@ -100,37 +100,8 @@
 @section('script')
 
     <script type="text/javascript">
-
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('دسترسی با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('دسترسی با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
 
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])

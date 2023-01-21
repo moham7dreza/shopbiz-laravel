@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasStatus;
+use Modules\Share\Traits\HasDefaultStatus;
 
 class SMS extends Model
 {
@@ -17,7 +17,7 @@ class SMS extends Model
      */
     protected $table = 'public_sms';
 
-    use HasFactory, SoftDeletes, HasFaDate, HasStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
 
     /**

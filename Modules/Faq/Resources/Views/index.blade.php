@@ -51,7 +51,7 @@
                                 <td>{!! $faq->limitedAnswer() !!}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $faq->id }}" onchange="changeStatus({{ $faq->id }})"
+                                        <input id="{{ $faq->id }}" onchange="changeStatus({{ $faq->id }}, 'پرسش')"
                                                data-url="{{ route('faq.status', $faq->id) }}" type="checkbox"
                                                @if ($faq->status === 1)
                                                    checked
@@ -87,39 +87,8 @@
 
 @section('script')
     <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('پرسش با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('پرسش با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
+        @include('Panel::functions.status')
+        @include('Panel::functions.toasts')
     </script>
-
-
     @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection

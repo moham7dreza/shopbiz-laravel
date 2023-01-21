@@ -3,7 +3,11 @@
 namespace Modules\ACL\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 use Modules\ACL\Entities\Permission;
+use Modules\ACL\Enums\DefineSystemPermissionsEnum;
+use Modules\ACL\Enums\PermissionStatusEnum;
+use Modules\ACL\Enums\Status;
 
 class PermissionRequest extends FormRequest
 {
@@ -27,7 +31,7 @@ class PermissionRequest extends FormRequest
         return [
             'name' => 'required|max:120|min:1',
             'description' => 'required|max:200|min:1',
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:0,1',
         ];
     }
 }
