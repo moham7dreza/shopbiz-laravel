@@ -260,5 +260,6 @@ $(document).ready(function() {
             s.removeClass("stick");
         }
     });
+    $('.preloader').delay(250).fadeOut('slow');
 });
 //end product introduction, features and comment

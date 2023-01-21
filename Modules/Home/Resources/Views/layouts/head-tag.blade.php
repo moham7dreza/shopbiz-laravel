@@ -1,6 +1,13 @@
 <!-- Required meta tags -->
-<meta charset="utf-8">
+<!-- Mobile Specific Meta -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Favicon-->
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset($setting->icon) }}">
+<!-- Author Meta -->
+<meta name="author" content="shopbiz">
+
+<!-- meta character set -->
+<meta charset="UTF-8">
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">

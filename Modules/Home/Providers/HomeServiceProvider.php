@@ -132,6 +132,10 @@ class HomeServiceProvider extends ServiceProvider
             $view->with('categories', $productCategoryRepo->getShowInMenuActiveParentCategories()->get());
             $view->with('logo', $settingRepo->findSystemLogo());
         });
+
+        view()->composer(['Home::layouts.head-tag', 'Home::layouts.footer'], function ($view) use($settingRepo) {
+            $view->with('setting', $settingRepo->getSystemSetting());
+        });
     }
 
     /**

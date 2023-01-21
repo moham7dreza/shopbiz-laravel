@@ -1,6 +1,11 @@
 @extends('Home::layouts.master-profile')
 
 @section('head-tag')
+    <!-- Meta Description -->
+    <meta name="description" content="لیست علاقه مندی های کاربر">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="لیست علاقه مندی های کاربر">
+
     <title>لیست علاقه مندی های شما</title>
 @endsection
 

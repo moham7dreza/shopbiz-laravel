@@ -4,6 +4,7 @@ namespace Modules\Discount\Services\AmazingSale;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Share\Services\ShareService;
 
@@ -38,6 +39,21 @@ class AmazingSaleDiscountService
             'end_date' => ShareService::realTimestampDateFormat($request->end_date),
             'status' => $request->status,
         ]);
+    }
+
+    /**
+     * @param $products
+     * @return Collection
+     */
+    public function findInActiveAmazingSalesProducts($products): Collection
+    {
+        $inActiveProducts = collect();
+        foreach ($products as $product) {
+            if (!$product->activeAmazingSales()) {
+                $inActiveProducts->push($product);
+            }
+        }
+        return $inActiveProducts;
     }
 
 //    /**

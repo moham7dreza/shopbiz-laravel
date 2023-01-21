@@ -64,7 +64,7 @@
                                 <section>
                                     <hr class="dropdown-divider">
                                 </section>
-                                <section><a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i>خروج</a>
+                                <section><a class="dropdown-item" href="{{ route('auth.logout') }}"><i class="fa fa-sign-out-alt"></i>خروج</a>
                                 </section>
 
                             </section>

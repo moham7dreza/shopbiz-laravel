@@ -215,4 +215,12 @@ class Product extends Model
     {
         return convertEnglishToPersian($this->frozen_number) . ' عدد' ?? 0;
     }
+
+    /**
+     * @return mixed|string
+     */
+    public function tagLessIntro(): mixed
+    {
+        return strip_tags($this->introduction) ?? $this->introduction ?? '-';
+    }
 }

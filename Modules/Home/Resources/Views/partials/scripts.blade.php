@@ -19,4 +19,8 @@
             }
         })
     })
+
+    $(document).ready(function() {
+        $('.preloader').delay(250).fadeOut('slow');
+    });
 </script>

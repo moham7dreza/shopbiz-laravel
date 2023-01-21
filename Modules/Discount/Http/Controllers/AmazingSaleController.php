@@ -67,6 +67,7 @@ class AmazingSaleController extends Controller
     public function create(ProductRepoEloquentInterface $productRepo): View|Factory|Application
     {
         $products = $productRepo->index()->get();
+        $products = $this->amazingSaleDiscountService->findInActiveAmazingSalesProducts($products);
         return view('Discount::amazingSale.create', compact(['products']));
     }
 
