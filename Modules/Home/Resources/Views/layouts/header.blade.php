@@ -21,25 +21,34 @@
                         <section class="search-textbox">
                             <span><i class="fa fa-search"></i></span>
                             <input id="search" type="text" class="" placeholder="جستجو ..." autocomplete="off">
+                            {{--                                   onkeyup="liveSearch(this.value)">--}}
                         </section>
-                        <section class="search-result visually-hidden">
-                            <section class="search-result-title">نتایج جستجو برای <span class="search-words">"موبایل شیا"</span><span
-                                    class="search-result-type">در دسته بندی ها</span></section>
-                            <section class="search-result-item"><a class="text-decoration-none" href="#"><i
-                                        class="fa fa-link"></i> دسته موبایل و وسایل جانبی</a></section>
+                        <section class="search-result visually-hidden" id="search-result">
+                            <section id="product-category-search-result" class="d-none">
+                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
+                                                                                            id="category-search-key"></span><span
+                                        class="search-result-type">در دسته بندی ها</span></section>
+                                <section class="search-result-item d-none" id="product-category-search-result-item">
+                                    <a class="text-decoration-none" href="#">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                </section>
+                            </section>
 
-                            <section class="search-result-title">نتایج جستجو برای <span class="search-words">"موبایل شیا"</span><span
-                                    class="search-result-type">در برندها</span></section>
-                            <section class="search-result-item"><a class="text-decoration-none" href="#"><i
-                                        class="fa fa-link"></i> برند شیائومی</a></section>
-                            <section class="search-result-item"><a class="text-decoration-none" href="#"><i
-                                        class="fa fa-link"></i> برند توشیبا</a></section>
-                            <section class="search-result-item"><a class="text-decoration-none" href="#"><i
-                                        class="fa fa-link"></i> برند شیانگ پینگ</a></section>
-
-                            <section class="search-result-title">نتایج جستجو برای <span class="search-words">"موبایل شیا"</span><span
-                                    class="search-result-type">در کالاها</span></section>
-                            <section class="search-result-item"><span class="search-no-result">موردی یافت نشد</span>
+                            <section id="brand-search-result" class="d-none">
+                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
+                                                                                            id="brand-search-key"></span><span
+                                        class="search-result-type">در برندها</span></section>
+                                <section class="search-result-item d-none"><a class="text-decoration-none" href="#"><i
+                                            class="fa fa-link"></i> برند شیائومی</a></section>
+                            </section>
+                            <section id="product-search-result" class="d-none">
+                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
+                                                                                            id="product-search-key"></span><span
+                                        class="search-result-type">در کالاها</span></section>
+                                <section class="search-result-item d-none"><span
+                                        class="search-no-result">موردی یافت نشد</span>
+                                </section>
                             </section>
                         </section>
                     </section>
@@ -64,7 +73,8 @@
                                 <section>
                                     <hr class="dropdown-divider">
                                 </section>
-                                <section><a class="dropdown-item" href="{{ route('auth.logout') }}"><i class="fa fa-sign-out-alt"></i>خروج</a>
+                                <section><a class="dropdown-item" href="{{ route('auth.logout') }}"><i
+                                            class="fa fa-sign-out-alt"></i>خروج</a>
                                 </section>
 
                             </section>
@@ -79,62 +89,65 @@
                     </section>
 
                     @auth
-                        <section class="header-cart d-inline ps-3 border-start position-relative">
-                            <a class="btn btn-link position-relative text-dark header-cart-link"
-                               href="{{ route('customer.sales-process.cart') }}">
-                                <i class="fa fa-shopping-cart"></i> <span style="top: 80%;"
-                                                                          class="position-absolute start-0 translate-middle badge rounded-pill bg-danger">{{ $cartItems->count() }}</span>
-                            </a>
-                            <section class="header-cart-dropdown">
-                                <section class="border-bottom d-flex justify-content-between p-2">
-                                    <span class="text-muted">{{ $cartItems->count() }} کالا</span>
-                                    <a class="text-decoration-none text-info"
-                                       href="{{ route('customer.sales-process.cart') }}">مشاهده سبد خرید </a>
-                                </section>
-                                <section class="header-cart-dropdown-body">
+                        @php
+                            $cartItemsFaCount = convertEnglishToPersian($cartItems->count());
+                        @endphp
+                        @if($cartItems->count() > 0)
+                            <section class="header-cart d-inline ps-3 border-start position-relative">
+                                <a class="btn btn-link position-relative text-dark header-cart-link"
+                                   href="{{ route('customer.sales-process.cart') }}">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span style="top: 80%;"
+                                          class="position-absolute start-0 translate-middle badge rounded-pill bg-danger">{{ $cartItemsFaCount }}</span>
+                                </a>
+                                <section class="header-cart-dropdown">
+                                    <section class="border-bottom d-flex justify-content-between p-2">
+                                        <span class="text-muted">{{ $cartItemsFaCount }} کالا</span>
+                                        <a class="text-decoration-none text-info"
+                                           href="{{ route('customer.sales-process.cart') }}">مشاهده سبد خرید </a>
+                                    </section>
+                                    <section class="header-cart-dropdown-body">
 
-                                    @php
-                                        $totalProductPrice = 0;
-                                        $totalDiscount = 0;
-                                    @endphp
-
-                                    @foreach ($cartItems as $cartItem)
                                         @php
-                                            $totalProductPrice += $cartItem->cartItemProductPrice();
-                                            $totalDiscount += $cartItem->cartItemProductDiscount();
+                                            $totalProductPrice = 0;
+                                            $totalDiscount = 0;
                                         @endphp
 
-
-                                        <section
-                                            class="header-cart-dropdown-body-item d-flex justify-content-start align-items-center">
-                                            <img class="flex-shrink-1"
-                                                 src="{{ asset($cartItem->product->image['indexArray']['medium']) }}"
-                                                 alt="">
-                                            <section class="w-100 text-truncate"><a
-                                                    class="text-decoration-none text-dark"
-                                                    href="{{ route('customer.market.product', $cartItem->product) }}">{{ $cartItem->product->name }}</a>
+                                        @foreach ($cartItems as $cartItem)
+                                            @php
+                                                $totalProductPrice += $cartItem->cartItemProductPrice();
+                                                $totalDiscount += $cartItem->cartItemProductDiscount();
+                                            @endphp
+                                            <section
+                                                class="header-cart-dropdown-body-item d-flex justify-content-start align-items-center">
+                                                <img class="flex-shrink-1"
+                                                     src="{{ asset($cartItem->product->imagePath()) }}"
+                                                     alt="">
+                                                <section class="w-100 text-truncate"><a
+                                                        class="text-decoration-none text-dark"
+                                                        href="{{ $cartItem->product->path() }}">{{ $cartItem->product->name }}</a>
+                                                </section>
+                                                <section class="flex-shrink-1"><a
+                                                        class="text-muted text-decoration-none p-1"
+                                                        href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i
+                                                            class="fa fa-trash-alt"></i></a></section>
                                             </section>
-                                            <section class="flex-shrink-1"><a
-                                                    class="text-muted text-decoration-none p-1"
-                                                    href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i
-                                                        class="fa fa-trash-alt"></i></a></section>
-                                        </section>
-
-                                    @endforeach
-
-
-                                </section>
-                                <section
-                                    class="header-cart-dropdown-footer border-top d-flex justify-content-between align-items-center p-2">
-                                    <section class="">
-                                        <section>مبلغ قابل پرداخت</section>
-                                        <section> {{ priceFormat($totalProductPrice - $totalDiscount) }}تومان</section>
+                                        @endforeach
                                     </section>
-                                    <section class=""><a class="btn btn-danger btn-sm d-block" href="cart.html">ثبت
-                                            سفارش</a></section>
+                                    <section
+                                        class="header-cart-dropdown-footer border-top d-flex justify-content-between align-items-center p-2">
+                                        <section class="">
+                                            <section>مبلغ قابل پرداخت</section>
+                                            <section> {{ priceFormat($totalProductPrice - $totalDiscount) }}تومان
+                                            </section>
+                                        </section>
+                                        <section class=""><a class="btn btn-danger btn-sm d-block"
+                                                             href="{{ route('customer.sales-process.address-and-delivery') }}">ثبت
+                                                سفارش</a></section>
+                                    </section>
                                 </section>
                             </section>
-                        </section>
+                        @endif
                     @endauth
                 </section>
             </section>
@@ -224,39 +237,44 @@
                     </section>
                     <section class="offcanvas-body">
 
-                        <section class="navbar-item"><a href="#">سوپرمارکت</a></section>
-                        <section class="navbar-item"><a href="#">تخفیف ها و پیشنهادها</a></section>
-                        <section class="navbar-item"><a href="#">آمازون من</a></section>
-                        <section class="navbar-item"><a href="#">آمازون پلاس</a></section>
-                        <section class="navbar-item"><a href="#">درباره ما</a></section>
-                        <section class="navbar-item"><a href="#">فروشنده شوید</a></section>
-                        <section class="navbar-item"><a href="#">فرصت های شغلی</a></section>
+                        @foreach($menus as $menu)
+                            <section class="navbar-item"><a href="{{ $menu->url }}">{{ $menu->name }}</a></section>
+                        @endforeach
 
 
                         <hr class="border-bottom">
                         <section class="navbar-item"><a href="javascript:void(0)">دسته بندی</a></section>
                         <!-- start sidebar nav-->
                         <section class="sidebar-nav mt-2 px-3">
-
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title">کالای دیجیتال <i
+                            @foreach($categories as $category)
+                                <section class="sidebar-nav-item">
+                                <span class="sidebar-nav-item-title">{{ $category->name }}<i
                                         class="fa fa-angle-left"></i></span>
-                                <section class="sidebar-nav-sub-wrapper">
+                                    <section class="sidebar-nav-sub-wrapper">
+                                        @foreach($category->children as $subCategory)
+                                            @if($subCategory->status == 1)
+                                                <section class="sidebar-nav-sub-item">
 
-                                    <section class="sidebar-nav-sub-item">
-
-                                        <span class="sidebar-nav-sub-item-title"><a href="#">لوازم جانبی موبایل</a><i
-                                                class="fa fa-angle-left"></i></span>
-                                        <section class="sidebar-nav-sub-sub-wrapper">
-
-                                            <section class="sidebar-nav-sub-sub-item"><a href="#">هندزفری</a></section>
-
-                                        </section>
+                                        <span class="sidebar-nav-sub-item-title">
+                                            <a href="{{ route('customer.market.category.products', $subCategory) }}">{{ $subCategory->name }}</a>
+                                            <i class="fa fa-angle-left"></i></span>
+                                                    <section class="sidebar-nav-sub-sub-wrapper">
+                                                        @if(count($subCategory->children) > 0)
+                                                            @foreach($subCategory->children as $child)
+                                                                @if($child->status == 1)
+                                                                    <section class="sidebar-nav-sub-sub-item"><a
+                                                                            href="{{ route('customer.market.category.products', $child) }}">{{ $child->name }}</a>
+                                                                    </section>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    </section>
+                                                </section>
+                                            @endif
+                                        @endforeach
                                     </section>
-
                                 </section>
-                            </section>
-
+                            @endforeach
                         </section>
                         <!--end sidebar nav-->
 
