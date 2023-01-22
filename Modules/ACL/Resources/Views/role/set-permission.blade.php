@@ -54,32 +54,61 @@
                                     <section class="col-12 border-bottom mb-3"></section>
 
 
-                                    @php
-                                        $rolePermissionsArray = $role->permissions->pluck('id')->toArray();
-                                    @endphp
-                                    @foreach ($permissions as $key => $permission)
+                                    <section class="col-12">
+                                        <div class="form-group">
+                                            <label for="select_roles">سطح دسترسی ها</label>
+                                            <select multiple class="form-control form-control-sm" id="select_roles"
+                                                    name="permissions[]">
 
-                                        <section class="col-md-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="permissions[]"
-                                                       value="{{ $permission->id }}" id="{{ $permission->id }}"
-                                                       @if(in_array($permission->id, $rolePermissionsArray)) checked @endif/>
-                                                <label for="{{ $permission->id }}"
-                                                       class="form-check-label mr-4 mt-1">{{ $permission->description }}</label>
-                                            </div>
-                                            <div class="mt-2">
-                                                @error('permissions.' . $key)
-                                                <span class="alert_required bg-danger text-white p-1 rounded"
-                                                      role="alert">
-                                            <strong>
-                                                {{ $message }}
-                                            </strong>
-                                        </span>
-                                                @enderror
-                                            </div>
-                                        </section>
+                                                @foreach ($permissions as $permission)
+                                                    <option value="{{ $permission->id }}"
+                                                            @foreach ($role->permissions as $role_permission)
+                                                                @if($role_permission->id === $permission->id)
+                                                                    selected
+                                                        @endif
+                                                        @endforeach>
+                                                        {{ $permission->name }}
+                                                    </option>
+                                                @endforeach
 
-                                    @endforeach
+                                            </select>
+                                        </div>
+                                        @error('permissions')
+                                        <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                        @enderror
+                                    </section>
+
+
+{{--                                    @php--}}
+{{--                                        $rolePermissionsArray = $role->permissions->pluck('id')->toArray();--}}
+{{--                                    @endphp--}}
+{{--                                    @foreach ($permissions as $key => $permission)--}}
+
+{{--                                        <section class="col-md-6">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input type="checkbox" class="form-check-input" name="permissions[]"--}}
+{{--                                                       value="{{ $permission->id }}" id="{{ $permission->id }}"--}}
+{{--                                                       @if(in_array($permission->id, $rolePermissionsArray)) checked @endif/>--}}
+{{--                                                <label for="{{ $permission->id }}"--}}
+{{--                                                       class="form-check-label mr-4 mt-1">{{ $permission->description }}</label>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="mt-2">--}}
+{{--                                                @error('permissions.' . $key)--}}
+{{--                                                <span class="alert_required bg-danger text-white p-1 rounded"--}}
+{{--                                                      role="alert">--}}
+{{--                                            <strong>--}}
+{{--                                                {{ $message }}--}}
+{{--                                            </strong>--}}
+{{--                                        </span>--}}
+{{--                                                @enderror--}}
+{{--                                            </div>--}}
+{{--                                        </section>--}}
+
+{{--                                    @endforeach--}}
 
 
                                     <section class="col-12 border-top">
@@ -96,5 +125,17 @@
             </section>
         </section>
     </section>
+
+@endsection
+@section('script')
+
+    <script>
+        var select_roles = $('#select_roles');
+        select_roles.select2({
+            placeholder: 'لطفا دسترسی ها را وارد نمایید',
+            multiple: true,
+            tags: true
+        })
+    </script>
 
 @endsection

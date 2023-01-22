@@ -6,6 +6,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\ACL\Entities\Permission;
+use Modules\Share\Services\ShareService;
 use Modules\User\Entities\User;
 
 class RolePermissionPolicy
@@ -20,10 +21,7 @@ class RolePermissionPolicy
      */
     public function __construct(Permission $permission)
     {
-        $this->permission = Permission::query()->where([
-            ['name', Permission::PERMISSION_USER_ROLES['name']],
-            ['status', 1]
-        ])->first();
+
     }
 
     /**
@@ -34,10 +32,13 @@ class RolePermissionPolicy
      */
     public function manage(User $user): bool
     {
-        if (is_null($this->permission))
-            return false;
-        if ($user->user_type == User::TYPE_ADMIN && $user->hasPermissionTo($this->permission))
-            return true;
+       if (ShareService::checkForUserHasSpecialPermissionsCount([
+           Permission::PERMISSION_ADMIN_PANEL,
+           Permission::PERMISSION_USER_ROLES,
+           Permission::PERMISSION_USER_ROLE_PERMISSIONS
+       ]) === 3) {
+           return true;
+       }
 
         return false;
     }

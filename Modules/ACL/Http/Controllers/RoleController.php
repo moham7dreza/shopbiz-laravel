@@ -70,8 +70,7 @@ class RoleController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $permissions = $this->repo->getAllPermissions();
-        return view('ACL::role.create', compact(['permissions']));
+        return view('ACL::role.create');
     }
 
     /**
@@ -82,7 +81,6 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request): RedirectResponse
     {
-
         $this->service->store($request);
         return $this->successMessageWithRedirect('نقش جدید با موفقیت ثبت شد');
     }

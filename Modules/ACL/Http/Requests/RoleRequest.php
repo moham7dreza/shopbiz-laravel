@@ -25,25 +25,17 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         $route = Route::current();
-        if ($route->getName() === 'role.store') {
+        if ($route->getName() === 'role.permission-update') {
+            return [
+                'permissions.*' => 'exists:permissions,id'
+            ];
+        } else {
             return [
                 'name' => 'required|max:120|min:1',
                 'description' => 'required|max:200|min:1',
                 'status' => 'required|in:0,1',
-                'permissions.*' => 'exists:permissions,id'
-            ];
-        } elseif ($route->getName() === 'role.update') {
-            return [
-                'name' => 'required|max:120|min:1',
-                'description' => 'required|max:200|min:1',
-                'status' => 'required|in:0,1',
-            ];
-        } elseif ($route->getName() === 'role.permission-update') {
-            return [
-                'permissions.*' => 'exists:permissions,id'
             ];
         }
-
     }
 
     public function attributes(): array

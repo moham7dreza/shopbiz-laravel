@@ -51,7 +51,7 @@ class RolePermissionService
             'name' => $request->name,
             'description' => $request->description,
             'status' => $request->status,
-        ])->permissions()->sync($request->permissions ?? []);
+        ]);
     }
 
     /**

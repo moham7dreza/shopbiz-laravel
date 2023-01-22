@@ -35,7 +35,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>کد کاربر</th>
                             <th>ایمیل</th>
                             <th>شماره موبایل</th>
                             <th>نام</th>
@@ -49,7 +49,7 @@
                         @foreach ($users as $key => $user)
 
                             <tr>
-                                <th>{{ $key + 1 }}</th>
+                                <th>{{ $user->faId() }}</th>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->faMobileNumber() }}</td>
                                 <td>{{ $user->first_name }}</td>

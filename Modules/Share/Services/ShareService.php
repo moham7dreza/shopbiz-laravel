@@ -4,9 +4,53 @@ namespace Modules\Share\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Modules\ACL\Entities\Permission;
+use Modules\User\Entities\User;
 
 class ShareService
 {
+    /**
+     * @param null $user
+     * @return bool
+     */
+    public static function checkForAdmin($user = null): bool
+    {
+        return self::checkForUserHasSpecialPermission(Permission::PERMISSION_SUPER_ADMIN, user: $user);
+    }
+
+    /**
+     * @param $permission
+     * @param null $user
+     * @param int $type
+     * @return bool
+     */
+    public static function checkForUserHasSpecialPermission($permission, $user = null, int $type = User::TYPE_ADMIN): bool
+    {
+        if (is_null($user)) {
+            $user = auth()->user();
+        }
+        return $user->hasPermissionTo($permission) && ($user->user_type === $type);
+    }
+
+    /**
+     * @param $permissions
+     * @param $user
+     * @param int $type
+     * @return int
+     */
+    public static function checkForUserHasSpecialPermissionsCount($permissions, $user = null, int $type = User::TYPE_ADMIN): int
+    {
+        if (is_null($user)) {
+            $user = auth()->user();
+        }
+        $result = [];
+        foreach ($permissions as $permission) {
+            if ($user->hasPermissionTo($permission)) {
+                $result[] = $permission;
+            }
+        }
+        return $user->user_type === $type ? count($result) : 0;
+    }
 
     /**
      * @param $mobileNumber
@@ -48,7 +92,7 @@ class ShareService
             $result = null;
         }
         $fileFormat = $fileService->getFileFormat();
-        return [$result, $fileSize , $fileFormat];
+        return [$result, $fileSize, $fileFormat];
     }
 
     /**

@@ -54,7 +54,7 @@
 
                                     </select>
                                 </div>
-                                @error('tags')
+                                @error('permissions')
                                 <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
                                 <strong>
                                     {{ $message }}

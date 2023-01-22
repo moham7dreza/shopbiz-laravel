@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
+use Modules\ACL\Repositories\RolePermissionRepoEloquent;
+use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 
 trait HasPermissionTrait
 {
@@ -33,7 +35,7 @@ trait HasPermissionTrait
      */
     protected function hasPermission($permission): bool
     {
-        return (bool) $this->permissions->where('name', $permission->name)->count();
+        return (bool)$this->permissions->where('name', $permission->name)->count();
     }
 
     /**
@@ -42,7 +44,16 @@ trait HasPermissionTrait
      */
     public function hasPermissionTo($permission): bool
     {
-        return $this->hasPermission($permission) || $this->hasPermissionThroughRole($permission);
+        $permissionRepo = new RolePermissionRepoEloquent();
+        if (is_null($permission)) {
+            return false;
+        }
+        if (is_array($permission)) {
+            $permissionObj = $permissionRepo->findByName(get_per_name($permission));
+        } else {
+            $permissionObj = $permission;
+        }
+        return $this->hasPermission($permissionObj) || $this->hasPermissionThroughRole($permissionObj);
     }
 
     /**
@@ -71,5 +82,25 @@ trait HasPermissionTrait
             }
         }
         return false;
+    }
+
+    // old functions
+
+    /**
+     * @param $permission
+     * @return bool
+     */
+    public function isPermission($permission): bool
+    {
+        return $this->permissions->contains('name', $permission->name) || $this->isRole($permission->roles);
+    }
+
+    /**
+     * @param $roles
+     * @return bool
+     */
+    public function isRole($roles): bool
+    {
+        return !!$roles->intersect($this->roles)->all();
     }
 }

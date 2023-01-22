@@ -167,11 +167,23 @@ class AdminUserController extends Controller
     /**
      * @param UserRolesRequest $request
      * @param User $admin
+     * @param RolePermissionRepoEloquentInterface $roleRepo
      * @return RedirectResponse
      */
-    public function rolesStore(UserRolesRequest $request, User $admin): RedirectResponse
+    public function rolesStore(UserRolesRequest $request, User $admin, RolePermissionRepoEloquentInterface $roleRepo): RedirectResponse
     {
-        $admin->roles()->sync($request->roles);
+        if (is_null($request->roles)) {
+            foreach ($admin->roles as $role) {
+                $admin->permissions()->detach($role->permissions);
+            }
+            $admin->roles()->sync($request->roles);
+        } else {
+            $admin->roles()->sync($request->roles);
+            foreach ($request->roles as $single_role) {
+                $role = $roleRepo->findById($single_role);
+                $admin->permissions()->attach($role->permissions);
+            }
+        }
         return $this->successMessageWithRedirect('نقش با موفقیت ویرایش شد');
     }
 

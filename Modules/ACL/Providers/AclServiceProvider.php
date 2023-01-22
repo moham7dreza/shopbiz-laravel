@@ -14,6 +14,7 @@ use Modules\ACL\Entities\Role;
 use Modules\ACL\Policies\RolePermissionPolicy;
 use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
+use Modules\Share\Services\ShareService;
 use Modules\User\Entities\User;
 
 class AclServiceProvider extends ServiceProvider
@@ -81,12 +82,13 @@ class AclServiceProvider extends ServiceProvider
     /**
      * Boot acl service provider.
      *
+     * @param RolePermissionRepoEloquentInterface $rolePermissionRepo
      * @return void
      */
-    public function boot(): void
+    public function boot(RolePermissionRepoEloquentInterface $rolePermissionRepo): void
     {
-        $this->app->booted(function () {
-            $this->defineSystemPermissions();
+        $this->app->booted(function () use ($rolePermissionRepo) {
+            $this->defineCurrentUserPermissionsInSystem($rolePermissionRepo);
             $this->setGateBefore();
             $this->setMenuForPanel();
         });
@@ -158,13 +160,11 @@ class AclServiceProvider extends ServiceProvider
         $this->app->bind(PermissionSeeder::class, PermissionTableSeeder::class);
     }
 
-    /**
-     * @return bool
-     */
-    private function defineSystemPermissions(): bool
+
+    private function defineCurrentUserPermissionsInSystem($rolePermissionRepo)
     {
         try {
-            Permission::query()->get()->map(function ($permission) {
+            $rolePermissionRepo->getAllPermissions()->map(function ($permission) {
                 Gate::define($permission->name, function (User $user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
@@ -199,26 +199,14 @@ class AclServiceProvider extends ServiceProvider
 
 
     /**
-     * Set gate before for super admin permission.
-     *
      * @return void
      */
     private function setGateBefore(): void
     {
-//        Gate::before(static function ($user) {
+        Gate::before(static function () {
 //            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
-//        });
-// TODO
-        Gate::before(static function (User $user) {
-            $permission = Permission::query()->where([
-                ['name', Permission::PERMISSION_SUPER_ADMIN['name']],
-                ['status', 1]
-            ])->first();
-            if (is_null($permission))
-                return false;
-            if ($user->user_type == 1 && $user->hasPermissionTo($permission))
-                return true;
-            return false;
+//            return ShareService::checkForAdmin($user);
+            return ShareService::checkForUserHasSpecialPermission(permission: Permission::PERMISSION_SUPER_ADMIN);
         });
     }
 

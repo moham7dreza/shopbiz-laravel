@@ -7,15 +7,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\ACL\Entities\Permission;
-use Modules\ACL\Enums\DefineSystemPermissionsEnum;
-use Modules\Brand\Entities\Brand;
-use Modules\Category\Entities\ProductCategory;
-use Modules\Home\Repositories\HomeRepoEloquent;
 use Modules\Home\Repositories\HomeRepoEloquentInterface;
 use Modules\Home\Services\HomeService;
-use Modules\Product\Entities\Product;
-use Modules\Share\Enums\DefaultStatusEnum;
 use Modules\Share\Http\Controllers\Controller;
 
 class HomeController extends Controller

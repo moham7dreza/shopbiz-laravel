@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\ACL\Traits\HasPermissionTrait;
 use Modules\Address\Entities\Address;
 use Modules\Comment\Entities\Comment;
 use Modules\Order\Entities\Order;
@@ -16,13 +17,12 @@ use Modules\Payment\Entities\Payment;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasPermission;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasPermission, HasFaDate;
+    use HasApiTokens, HasFactory, Notifiable, HasPermissionTrait, HasFaDate;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
@@ -293,5 +293,13 @@ class User extends Authenticatable
     public function faMobileNumber(): string
     {
         return '۰' . convertEnglishToPersian($this->mobile);
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function faId(): array|int|string
+    {
+        return convertEnglishToPersian($this->id) ?? $this->id;
     }
 }

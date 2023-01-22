@@ -34,18 +34,22 @@ class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
      * @param  $id
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findById($id)
+    public function findById($id): Model|Collection|Builder|array|null
     {
         return $this->query()->findOrFail($id);
     }
 
     /**
      * @param $name
+     * @param int $status
      * @return Model|Builder|null
      */
-    public function findByName($name): Model|Builder|null
+    public function findByName($name, int $status = Permission::STATUS_ACTIVE): Model|Builder|null
     {
-        return Permission::query()->where('name', $name)->first();
+        return Permission::query()->where([
+            ['name', $name],
+            ['status', $status]
+        ])->first();
     }
 
     /**
