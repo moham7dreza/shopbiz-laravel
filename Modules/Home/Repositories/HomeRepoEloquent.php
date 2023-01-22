@@ -163,7 +163,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function posts(): Collection|array
     {
-        return $this->postRepo->home()->take(5)->get();
+        return $this->postRepo->home()->take(3)->get();
     }
 
     /**

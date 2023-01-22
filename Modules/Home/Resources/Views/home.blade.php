@@ -27,6 +27,8 @@
 
     @include('Home::partials.newest-products')
 
+    @include('Home::partials.posts')
+
     @include('Home::partials.brands')
 
     @include('Home::partials.brand-banner')
