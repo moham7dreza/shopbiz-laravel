@@ -20,7 +20,7 @@
                     <section class="lazyload-wrapper">
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
-                            @foreach ($repo->newestProducts() as $offerProduct)
+                            @foreach ($repo->newestProducts() as $newProduct)
 
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
@@ -29,7 +29,7 @@
                                             @guest
                                                 <section class="product-add-to-favorite">
                                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $newProduct) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="اضافه از علاقه مندی">
                                                         <i class="fa fa-heart"></i>
@@ -37,15 +37,30 @@
                                                 </section>
                                             @endguest
                                             @auth
-                                                <section class="product-add-to-cart"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به سبد خرید"><i
-                                                            class="fa fa-cart-plus"></i></a></section>
-                                                @if ($offerProduct->user->contains(auth()->id()))
+                                                <section class="product-add-to-cart">
+                                                    @php
+                                                        $defaultSelectedColor = !empty($newProduct->colors[0]) ? $newProduct->colors[0]->id : null;
+                                                        $defaultSelectedGuarantee = !empty($newProduct->guarantees[0]) ? $newProduct->guarantees[0]->id : null;
+                                                    @endphp
+                                                    <form
+                                                        action="{{ route('customer.sales-process.add-to-cart', $newProduct) }}"
+                                                        method="post" data-bs-toggle="tooltip"
+                                                        data-bs-placement="left"
+                                                        title="افزودن به سبد خرید">
+                                                        @csrf
+                                                        <input type="hidden" name="color_id" value="{{ $defaultSelectedColor }}">
+                                                        <input type="hidden" name="guarantee_id" value="{{ $defaultSelectedGuarantee }}">
+                                                        <input type="hidden" name="number" value="1">
+                                                        <button type="submit"
+                                                                class="btn btn-light btn-sm add-to-cart-btn">
+                                                            <i class="fa fa-cart-plus"></i>
+                                                        </button>
+                                                    </form>
+                                                </section>
+                                                @if ($newProduct->user->contains(auth()->id()))
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}"
+                                                                data-url="{{ route('customer.market.add-to-favorite', $newProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
                                                             <i class="fa fa-heart text-danger"></i>
@@ -54,7 +69,7 @@
                                                 @else
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}"
+                                                                data-url="{{ route('customer.market.add-to-favorite', $newProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
                                                             <i class="fa fa-heart"></i>
@@ -63,26 +78,26 @@
                                                 @endif
                                             @endauth
                                             <a class="product-link"
-                                               href="{{ $offerProduct->path() }}">
+                                               href="{{ $newProduct->path() }}">
                                                 <section class="product-image">
                                                     <img class=""
-                                                         src="{{ $offerProduct->imagePath() }}"
-                                                         alt="{{ $offerProduct->name }}">
+                                                         src="{{ $newProduct->imagePath() }}"
+                                                         alt="{{ $newProduct->name }}">
                                                 </section>
                                                 <section class="product-colors"></section>
                                                 <section class="product-name">
-                                                    <h3>{{ $offerProduct->limitedName() }}</h3></section>
+                                                    <h3>{{ $newProduct->limitedName() }}</h3></section>
                                                 <section class="product-price-wrapper">
                                                     <section class="product-discount">
                                                         {{-- <span class="product-old-price">6,895,000 </span> --}}
                                                         {{-- <span class="product-discount-amount">10%</span> --}}
                                                     </section>
                                                     <section
-                                                        class="product-price">{{ $offerProduct->getFaPrice() }}
+                                                        class="product-price">{{ $newProduct->getFaPrice() }}
                                                     </section>
                                                 </section>
                                                 <section class="product-colors">
-                                                    @foreach ($offerProduct->colors()->get() as $color)
+                                                    @foreach ($newProduct->colors()->get() as $color)
                                                         <section class="product-colors-item"
                                                                  style="background-color: {{ $color->color }};"></section>
                                                     @endforeach

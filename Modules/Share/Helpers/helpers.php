@@ -192,3 +192,12 @@ if (!function_exists('startWith')) {
         return (str_starts_with($string, $startString));
     }
 }
+
+/**
+ * @param $permission
+ * @return mixed
+ */
+function get_per_name($permission): mixed
+{
+    return $permission['name'];
+}

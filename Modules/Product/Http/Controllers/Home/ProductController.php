@@ -7,10 +7,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Modules\Comment\Entities\Comment;
+use Modules\Comment\Services\CommentService;
 use Modules\Product\Entities\Product;
+use Modules\Product\Http\Requests\Home\AddCommentToProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 
@@ -29,21 +28,19 @@ class ProductController extends Controller
 
     /**
      * @param Product $product
-     * @param Request $request
+     * @param AddCommentToProductRequest $request
+     * @param CommentService $commentService
      * @return RedirectResponse
      */
-    public function addComment(Product $product, Request $request): RedirectResponse
+    public function addComment(Product $product, AddCommentToProductRequest $request, CommentService $commentService): RedirectResponse
     {
-        $request->validate([
-            'body' => 'required|max:2000'
-        ]);
-
-        $inputs['body'] = str_replace(PHP_EOL, '<br/>', $request->body);
-        $inputs['author_id'] = Auth::user()->id;
-        $inputs['commentable_id'] = $product->id;
-        $inputs['commentable_type'] = Product::class;
-        Comment::query()->create($inputs);
-        return back();
+        if (!auth()->check()) {
+            return back()->with('error', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
+        }
+        $commentService->store($request, $product);
+        if ($commentService->checkForAdmin())
+            return back()->with('success', 'نظر شما با موفقیت ثبت شد.');
+        return back()->with('success', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
     }
 
 
@@ -53,9 +50,9 @@ class ProductController extends Controller
      */
     public function addToFavorite(Product $product): JsonResponse
     {
-        if (Auth::check()) {
-            $product->user()->toggle([Auth::user()->id]);
-            if ($product->user->contains(Auth::user()->id)) {
+        if (auth()->check()) {
+            $product->user()->toggle([auth()->id()]);
+            if ($product->user->contains(auth()->id())) {
                 return response()->json(['status' => 1]);
             } else {
                 return response()->json(['status' => 2]);

@@ -76,7 +76,7 @@ class CartController extends Controller
     public function addToCart(Product $product, CartRequest $request): RedirectResponse
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
-        $this->service->store($request, $product, $cartItems);
+        $this->service->store($request, $product->id, $cartItems);
         return back()->with('info', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
@@ -91,9 +91,9 @@ class CartController extends Controller
             $cartItem->delete();
             $cartItems = $this->repo->findUserCartItems()->get();
             if ($cartItems->count() == 0) {
-                return to_route('customer.home');
+                return to_route('customer.home')->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
             }
         }
-        return back();
+        return back()->with('success', 'محصول مورد نظر با موفقیت از سبد خرید حذف شد');
     }
 }

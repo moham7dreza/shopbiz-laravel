@@ -208,7 +208,7 @@ class AclServiceProvider extends ServiceProvider
 //        Gate::before(static function ($user) {
 //            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
 //        });
-
+// TODO
         Gate::before(static function (User $user) {
             $permission = Permission::query()->where([
                 ['name', Permission::PERMISSION_SUPER_ADMIN['name']],

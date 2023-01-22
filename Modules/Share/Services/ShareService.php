@@ -234,4 +234,13 @@ class ShareService
     {
         return ceil(str_word_count(strip_tags($text)) / 250);
     }
+
+    /**
+     * @param $text
+     * @return array|string|string[]
+     */
+    public static function replaceNewLineWithTag($text): array|string
+    {
+        return str_replace(PHP_EOL, '<br/>', $text);
+    }
 }

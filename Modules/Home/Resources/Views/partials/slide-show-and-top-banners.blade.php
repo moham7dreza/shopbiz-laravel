@@ -12,6 +12,22 @@
         </div>
     @endif
 
+        @if(session('warning'))
+            <div class="alert alert-warning">
+                {{ session('warning') }}
+            </div>
+        @endif
+
+    @if(session('error') && session('info'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @elseif(session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}
+        </div>
+    @endif
+
 
     <section class="row">
         <section class="col-md-8 pe-md-1 ">

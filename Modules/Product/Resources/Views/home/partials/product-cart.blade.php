@@ -8,11 +8,25 @@
             </div>
         @elseif(session('info'))
             <div class="alert alert-info">
-                {{ session('info') }} - برای نمایش سبد خرید <a href="{{ route('customer.sales-process.cart') }}">کلیک</a> کنید.
+                {{ session('info') }} - برای نمایش سبد خرید <a class="text-decoration-none text-info pointer"
+                    href="{{ route('customer.sales-process.cart') }}">کلیک</a> کنید.
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
 
         <section class="row">
+            @if ($errors->any())
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="alert alert-danger list-style-none">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
             <section class="col">
                 <!-- start content header -->
                 <section class="content-header">

@@ -11,33 +11,12 @@ use Modules\Payment\Entities\Payment;
 
 class OrderService
 {
-
     /**
+     * @param $order
      * @param $cartItems
-     * @param $orderId
      * @return void
      */
-    public function addOrderItemsAndDeleteAllCartItems($cartItems, $orderId): void
-    {
-        foreach ($cartItems as $cartItem) {
-            OrderItem::query()->create([
-                'order_id' => $orderId,
-                'product_id' => $cartItem->product_id,
-                'product' => $cartItem->product,
-                'amazing_sale_id' => $cartItem->product->activeAmazingSales()->id ?? null,
-                'amazing_sale_object' => $cartItem->product->activeAmazingSales() ?? null,
-                'amazing_sale_discount_amount' => empty($cartItem->product->activeAmazingSales()) ? 0 : $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100),
-                'number' => $cartItem->number,
-                'final_product_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)),
-                'final_total_price' => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() * ($cartItem->number) : ($cartItem->cartItemProductPrice() - $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)) * ($cartItem->number),
-                'color_id' => $cartItem->color_id,
-                'guarantee_id' => $cartItem->guarantee_id,
-            ]);
-            $cartItem->delete();
-        }
-    }
-
-    public function addOrderItems($order, $cartItems)
+    public function addOrderItemsAndDeleteAllCartItems($order, $cartItems): void
     {
         global $inputs;
         foreach ($cartItems as $cartItem) {
@@ -49,12 +28,12 @@ class OrderService
 
             $inputs['order_id'] = $order->id;
             $inputs['product_id'] = $cartItem->product_id;
-            $inputs['product'] = $cartItem->product;
+//            $inputs['product'] = $cartItem->product;
             $inputs['number'] = $cartItem->number;
             $inputs['color_id'] = $cartItem->color_id ?? null;
             $inputs['guarantee_id'] = $cartItem->guarantee_id ?? null;
             $inputs['amazing_sale_id'] = $cartItemActiveAmazingSales->id ?? null;
-            $inputs['amazing_sale_object'] = $cartItemActiveAmazingSales ?? null;
+//            $inputs['amazing_sale_object'] = $cartItemActiveAmazingSales ?? null;
             $inputs['amazing_sale_discount_amount'] = $cartItemActiveAmazingSalesDiscountAmount ?? null;
             $inputs['final_product_price'] = $finalProductPrice;
             $inputs['final_total_price'] = $finalTotalPrice;

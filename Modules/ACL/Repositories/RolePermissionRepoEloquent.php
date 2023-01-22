@@ -40,6 +40,15 @@ class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
     }
 
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function findByName($name): Model|Builder|null
+    {
+        return Permission::query()->where('name', $name)->first();
+    }
+
+    /**
      * Delete role by id.
      *
      * @param $id

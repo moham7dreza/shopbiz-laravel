@@ -37,11 +37,26 @@
                                                 </section>
                                             @endguest
                                             @auth
-                                                <section class="product-add-to-cart"><a href="#"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="left"
-                                                                                        title="افزودن به سبد خرید"><i
-                                                            class="fa fa-cart-plus"></i></a></section>
+                                                <section class="product-add-to-cart">
+                                                    @php
+                                                        $defaultSelectedColor = !empty($mostVisitedProduct->colors[0]) ? $mostVisitedProduct->colors[0]->id : null;
+                                                        $defaultSelectedGuarantee = !empty($mostVisitedProduct->guarantees[0]) ? $mostVisitedProduct->guarantees[0]->id : null;
+                                                    @endphp
+                                                    <form
+                                                        action="{{ route('customer.sales-process.add-to-cart', $mostVisitedProduct) }}"
+                                                        method="post" data-bs-toggle="tooltip"
+                                                        data-bs-placement="left"
+                                                        title="افزودن به سبد خرید">
+                                                        @csrf
+                                                        <input type="hidden" name="color_id" value="{{ $defaultSelectedColor }}">
+                                                        <input type="hidden" name="guarantee_id" value="{{ $defaultSelectedGuarantee }}">
+                                                        <input type="hidden" name="number" value="1">
+                                                        <button type="submit"
+                                                                class="btn btn-light btn-sm add-to-cart-btn">
+                                                            <i class="fa fa-cart-plus"></i>
+                                                        </button>
+                                                    </form>
+                                                </section>
                                                 @if ($mostVisitedProduct->user->contains(auth()->id()))
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"

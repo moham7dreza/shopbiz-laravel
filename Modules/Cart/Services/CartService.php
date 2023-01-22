@@ -30,11 +30,11 @@ class CartService implements CartServiceInterface
 
     /**
      * @param $request
-     * @param $product
+     * @param $productId
      * @param $cartItems
      * @return Builder|Model|RedirectResponse
      */
-    public function store($request, $product, $cartItems): Model|Builder|RedirectResponse
+    public function store($request, $productId, $cartItems): Model|Builder|RedirectResponse
     {
         if (!isset($request->color)) {
             $request->color = null;
@@ -49,14 +49,14 @@ class CartService implements CartServiceInterface
                 if ($cartItem->number != $request->number) {
                     $cartItem->update(['number' => $request->number]);
                 }
-                return back()->with('error', 'محصول قبلا به سبد خرید اضافه شده است.');
+                return back()->with('error', "محصول قبلا به سبد خرید اضافه شده است. برای ویرایش وارد سبد خرید خود شوید.");
             }
         }
 
         return $this->query()->create([
             'color_id' => $request->color,
             'number' => $request->number,
-            'product_id' => $product->id,
+            'product_id' => $productId,
             'user_id' => auth()->id(),
             'guarantee_id' => $request->guarantee,
         ]);
