@@ -21,16 +21,12 @@ class PanelPolicy
         //
     }
 
-    /**
-     * Check user have permission.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function manage(User $user): bool
+
+    public function manage(User $user)
     {
 //        if (ShareService::checkForUserHasSpecialPermissionsCount([Permission::PERMISSION_ADMIN_PANEL]) === 1)
 //            return false;
-        return true;
+        $permission = Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first();dd($permission);
+        return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
     }
 }

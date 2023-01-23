@@ -30,7 +30,7 @@ class PermissionRequest extends FormRequest
     {
         return [
             'name' => 'required|max:120|min:1',
-            'description' => 'required|max:200|min:1',
+            'description' => 'nullable|max:200|min:1',
             'status' => 'required|in:0,1',
         ];
     }

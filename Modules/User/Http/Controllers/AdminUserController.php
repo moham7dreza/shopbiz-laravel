@@ -47,13 +47,13 @@ class AdminUserController extends Controller
         $this->repo = $userRepoEloquent;
         $this->service = $userService;
 
-        $this->middleware('can:permission-admin-users')->only(['index']);
-        $this->middleware('can:permission-admin-user-create')->only(['create', 'store']);
-        $this->middleware('can:permission-admin-user-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-admin-user-delete')->only(['destroy']);
-        $this->middleware('can:permission-admin-user-status')->only(['status']);
-        $this->middleware('can:permission-admin-user-activation')->only(['activation']);
-        $this->middleware('can:permission-admin-user-roles')->only(['roleForm', 'roleUpdate']);
+        $this->middleware('can:permission admin users')->only(['index']);
+        $this->middleware('can:permission admin user create')->only(['create', 'store']);
+        $this->middleware('can:permission admin user edit')->only(['edit', 'update']);
+        $this->middleware('can:permission admin user delete')->only(['destroy']);
+        $this->middleware('can:permission admin user status')->only(['status']);
+        $this->middleware('can:permission admin user activation')->only(['activation']);
+        $this->middleware('can:permission admin user roles')->only(['roleForm', 'roleUpdate']);
     }
 
 
@@ -172,18 +172,21 @@ class AdminUserController extends Controller
      */
     public function rolesStore(UserRolesRequest $request, User $admin, RolePermissionRepoEloquentInterface $roleRepo): RedirectResponse
     {
-        if (is_null($request->roles)) {
-            foreach ($admin->roles as $role) {
-                $admin->permissions()->detach($role->permissions);
-            }
-            $admin->roles()->sync($request->roles);
-        } else {
-            $admin->roles()->sync($request->roles);
-            foreach ($request->roles as $single_role) {
-                $role = $roleRepo->findById($single_role);
-                $admin->permissions()->attach($role->permissions);
-            }
-        }
+//        if (is_null($request->roles)) {
+//            foreach ($admin->roles as $role) {
+//                $admin->permissions()->detach($role->permissions);
+//            }
+////            $admin->roles()->sync($request->roles);
+//            $admin->syncRoles($request->roles);
+//        } else {
+////            $admin->roles()->sync($request->roles);
+//            $admin->syncRoles($request->roles);
+//            foreach ($request->roles as $single_role) {
+//                $role = $roleRepo->findById($single_role);
+//                $admin->permissions()->attach($role->permissions);
+//            }
+//        }
+        $admin->syncRoles($request->roles);
         return $this->successMessageWithRedirect('نقش با موفقیت ویرایش شد');
     }
 
@@ -206,7 +209,8 @@ class AdminUserController extends Controller
      */
     public function permissionsStore(UserPermissionsRequest $request, User $admin): RedirectResponse
     {
-        $admin->permissions()->sync($request->permissions);
+//        $admin->permissions()->sync($request->permissions);
+        $admin->syncPermissions($request->permissions);
         return $this->successMessageWithRedirect('سطح دسترسی با موفقیت ویرایش شد');
     }
 }

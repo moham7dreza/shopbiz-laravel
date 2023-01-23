@@ -46,11 +46,19 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return View|Factory|Application|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $permissions = $this->repo->permissions()->paginate(10);
+        if (isset(request()->search)) {
+            $permissions = $this->repo->search(request()->search)->paginate(10);
+            if (empty($permissions)) {
+                return back();
+            }
+        } else {
+            $permissions = $this->repo->permissions()->paginate(10);
+        }
+
         return view('ACL::permission.index', compact(['permissions']));
     }
 

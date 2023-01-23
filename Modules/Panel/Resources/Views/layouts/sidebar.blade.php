@@ -9,6 +9,40 @@
                 <i class="fas fa-store"></i>
                 <span>فروشگاه</span>
             </a>
+            @can('permission-super-admin','permission-setting')
+                <section class="sidebar-part-title">تنظیمات</section>
+                <a href="{{ route('setting.index') }}" class="sidebar-link">
+                    <i class="fas fa-tools"></i>
+                    <span>تنظیمات</span>
+                </a>
+            @endcan
+            @canany(['permission-super-admin','permission-users'])
+                <section class="sidebar-part-title">بخش کاربران</section>
+                @can('permission-super-admin','permission-admin-users')
+                    <a href="{{ route('adminUser.index') }}" class="sidebar-link">
+                        <i class="fas fa-user-secret"></i>
+                        <span>کاربران ادمین</span>
+                    </a>
+                @endcan
+                @can('permission-super-admin','permission-customer-users')
+                    <a href="{{ route('customerUser.index') }}" class="sidebar-link">
+                        <i class="fas fa-user"></i>
+                        <span>مشتریان</span>
+                    </a>
+                @endcan
+                @can('permission-super-admin','permission-user-roles')
+                    <a href="{{ route('role.index') }}" class="sidebar-link">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>نقش ها</span>
+                    </a>
+                @endcan
+                @can('permission-super-admin','permission-user-permissions')
+                    <a href="{{ route('permission.index') }}" class="sidebar-link">
+                        <i class="fas fa-user-secret"></i>
+                        <span>سطوح دسترسی</span>
+                    </a>
+                @endcan
+            @endcanany
             @can('permission-super-admin','permission-market')
                 <section class="sidebar-part-title">بخش فروش</section>
                 @can('permission-super-admin','permission-vitrine')
@@ -170,34 +204,7 @@
                     </a>
                 @endcan
             @endcan
-            @canany(['permission-super-admin','permission-users'])
-                <section class="sidebar-part-title">بخش کاربران</section>
-                @can('permission-super-admin','permission-admin-users')
-                    <a href="{{ route('adminUser.index') }}" class="sidebar-link">
-                        <i class="fas fa-user-secret"></i>
-                        <span>کاربران ادمین</span>
-                    </a>
-                @endcan
-                @can('permission-super-admin','permission-customer-users')
-                    <a href="{{ route('customerUser.index') }}" class="sidebar-link">
-                        <i class="fas fa-user"></i>
-                        <span>مشتریان</span>
-                    </a>
-                @endcan
-                @can('permission-super-admin','permission-user-roles')
-                    <section class="sidebar-group-link">
-                        <section class="sidebar-dropdown-toggle">
-                                <i class="fas fa-user-graduate icon"></i>
-                            <span>سطوح دسترسی</span>
-                            <i class="fas fa-angle-left angle"></i>
-                        </section>
-                        <section class="sidebar-dropdown">
-                            <a href="{{ route('role.index') }}">مدیریت نقش ها</a>
-                            <a href="{{ route('permission.index') }}">مدیریت دسترسی ها</a>
-                        </section>
-                    </section>
-                @endcan
-            @endcanany
+
             @can('permission-super-admin','permission-tickets')
                 <section class="sidebar-part-title">تیکت ها</section>
                 @can('permission-super-admin','permission-ticket-categories')
@@ -259,13 +266,7 @@
 
                 @endcan
             @endcan
-            @can('permission-super-admin','permission-setting')
-                <section class="sidebar-part-title">تنظیمات</section>
-                <a href="{{ route('setting.index') }}" class="sidebar-link">
-                    <i class="fas fa-tools"></i>
-                    <span>تنظیمات</span>
-                </a>
-            @endcan
+
         </section>
     </section>
 </aside>

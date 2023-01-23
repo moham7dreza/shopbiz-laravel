@@ -46,7 +46,7 @@
                         @foreach ($roles as $key => $role)
 
                             <tr>
-                                <th>{{ $key + 1 }}</th>
+                                <th>{{ $role->id }}</th>
                                 <td>{{ $role->name }}</td>
                                 <td>
                                     @if(empty($role->permissions()->get()->toArray()))

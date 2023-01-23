@@ -152,7 +152,8 @@ class RoleController extends Controller
      */
     public function permissionUpdate(RoleRequest $request, Role $role): RedirectResponse
     {
-        $this->service->rolePermissionsUpdate($request, $role);
+//        $this->service->rolePermissionsUpdate($request, $role);
+        $role->syncPermissions($request->permissions);
         return $this->successMessageWithRedirect('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
     }
 

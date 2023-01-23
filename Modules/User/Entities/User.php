@@ -19,11 +19,12 @@ use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles, HasPermissions;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;

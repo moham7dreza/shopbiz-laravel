@@ -166,7 +166,7 @@ class AclServiceProvider extends ServiceProvider
         try {
             $rolePermissionRepo->getAllPermissions()->map(function ($permission) {
                 Gate::define($permission->name, function (User $user) use ($permission) {
-                    return $user->hasPermissionTo($permission);
+                    return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
                 });
             });
 
@@ -203,10 +203,10 @@ class AclServiceProvider extends ServiceProvider
      */
     private function setGateBefore(): void
     {
-        Gate::before(static function () {
-//            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
+        Gate::before(static function (User $user) {
+            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN);
 //            return ShareService::checkForAdmin($user);
-            return ShareService::checkForUserHasSpecialPermission(permission: Permission::PERMISSION_SUPER_ADMIN);
+//            return ShareService::checkForUserHasSpecialPermission(permission: Permission::PERMISSION_SUPER_ADMIN);
         });
     }
 

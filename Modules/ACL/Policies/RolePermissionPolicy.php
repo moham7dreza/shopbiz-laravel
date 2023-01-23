@@ -39,7 +39,5 @@ class RolePermissionPolicy
        ]) === 3) {
            return true;
        }
-
-        return false;
     }
 }

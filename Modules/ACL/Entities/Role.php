@@ -48,13 +48,13 @@ class Role extends \Spatie\Permission\Models\Role
         return $this->belongsToMany(User::class);
     }
 
-    /**
-     * @return BelongsToMany
-     */
-    public function permissions(): BelongsToMany
-    {
-        return $this->belongsToMany(Permission::class);
-    }
+//    /**
+//     * @return BelongsToMany
+//     */
+//    public function permissions(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Permission::class);
+//    }
 
     // methods
 
@@ -106,7 +106,7 @@ class Role extends \Spatie\Permission\Models\Role
      */
     public function limitedDescription(): string
     {
-        return Str::limit($this->description, 50);
+        return Str::limit($this->description, 50) ?? '-';
     }
 
     /**

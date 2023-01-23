@@ -20,6 +20,7 @@ class RolePermissionService
     {
         return Permission::query()->create([
             'name' => $request->name,
+            'guard_name ' => 'web',
             'description' => $request->description,
             'status' => $request->status,
         ]);
@@ -39,16 +40,16 @@ class RolePermissionService
         ]);
     }
 
+
     /**
-     * Store role with assign permissions.
-     *
-     * @param  $request
-     * @return mixed
+     * @param $request
+     * @return Builder|Model
      */
-    public function store($request): mixed
+    public function store($request): Model|Builder
     {
         return $this->query()->create([
             'name' => $request->name,
+            'guard_name ' => 'web',
             'description' => $request->description,
             'status' => $request->status,
         ]);

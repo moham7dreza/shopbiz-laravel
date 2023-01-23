@@ -6,6 +6,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Modules\ACL\Entities\Permission;
 use Modules\Panel\Entities\Panel;
 use Modules\Panel\Repositories\PanelRepo;
 use Modules\Share\Http\Controllers\Controller;
@@ -17,7 +18,10 @@ class PanelController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('can:permission-admin-panel');
+//        dd(auth()->user()->hasPermissionTo(Permission::PERMISSION_ADMIN_PANEL));
+//        dd(auth()->user()->hasAnyRole(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles));
+//        dd(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles);
+//        $this->middleware('can:permission admin panel');
     }
 
     /**
