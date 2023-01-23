@@ -17,12 +17,12 @@
             });
 
             swalWithBootstrapButtons.fire({
-                title: 'آیا از حذف کردن داده مطمن هستید؟',
-                text: "شما میتوانید درخواست خود را لغو نمایید",
+                title: 'محصول مورد نظر از سبد خرید حذف شود؟',
+                // text: "شما میتوانید درخواست خود را لغو نمایید",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'بله داده حذف شود.',
-                cancelButtonText: 'خیر درخواست لغو شود.',
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر',
                 reverseButtons: true
             }).then((result) => {
 
@@ -31,7 +31,7 @@
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
                         title: 'لغو درخواست',
-                        text: "درخواست شما لغو شد",
+                        // text: "درخواست شما لغو شد",
                         icon: 'error',
                         confirmButtonText: 'باشه.'
                     })

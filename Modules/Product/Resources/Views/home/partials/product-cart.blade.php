@@ -2,9 +2,9 @@
 <section class="mb-4">
     <section class="container-xxl">
 
-        @if(session('error') && session('info'))
+        @if(session('danger') && session('info'))
             <div class="alert alert-danger">
-                {{ session('error') }}
+                {{ session('danger') }}
             </div>
         @elseif(session('info'))
             <div class="alert alert-info">

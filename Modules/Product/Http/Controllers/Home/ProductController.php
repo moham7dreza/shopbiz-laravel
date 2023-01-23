@@ -11,18 +11,32 @@ use Modules\Comment\Services\CommentService;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\Home\AddCommentToProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
+use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class ProductController extends Controller
 {
+    public ProductRepoEloquentInterface $repo;
+    public ProductService $service;
+
+    /**
+     * @param ProductRepoEloquentInterface $productRepoEloquent
+     * @param ProductService $productService
+     */
+    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductService $productService)
+    {
+        $this->repo = $productRepoEloquent;
+        $this->service = $productService;
+    }
+
     /**
      * @param Product $product
-     * @param ProductRepoEloquentInterface $productRepo
      * @return Application|Factory|View
      */
-    public function product(Product $product, ProductRepoEloquentInterface $productRepo): View|Factory|Application
+    public function product(Product $product): View|Factory|Application
     {
-        $relatedProducts = $productRepo->index()->get();
+        $relatedProducts = $this->repo->index()->get();
         return view('Product::home.product', compact(['product', 'relatedProducts']));
     }
 
@@ -35,12 +49,12 @@ class ProductController extends Controller
     public function addComment(Product $product, AddCommentToProductRequest $request, CommentService $commentService): RedirectResponse
     {
         if (!auth()->check()) {
-            return back()->with('error', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
+            return back()->with('swal-animate', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
         }
         $commentService->store($request, $product);
-        if ($commentService->checkForAdmin())
-            return back()->with('success', 'نظر شما با موفقیت ثبت شد.');
-        return back()->with('success', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
+        if (ShareService::checkForAdmin())
+            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
+        return back()->with('swal-animate', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
     }
 
 
@@ -50,15 +64,6 @@ class ProductController extends Controller
      */
     public function addToFavorite(Product $product): JsonResponse
     {
-        if (auth()->check()) {
-            $product->user()->toggle([auth()->id()]);
-            if ($product->user->contains(auth()->id())) {
-                return response()->json(['status' => 1]);
-            } else {
-                return response()->json(['status' => 2]);
-            }
-        } else {
-            return response()->json(['status' => 3]);
-        }
+        return $this->service->productAddToFavorite($product);
     }
 }

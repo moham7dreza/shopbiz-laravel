@@ -21,5 +21,9 @@
 
 @include('Home::layouts.script')
 @yield('script')
+
+@include('Home::alerts.dialog-timer')
+@include('Home::alerts.animate')
+@include('Home::alerts.delete-confirm', ['className' => 'delete'])
 </body>
 </html>

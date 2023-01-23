@@ -3,6 +3,7 @@
 namespace Modules\Product\Services\Product;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +28,24 @@ class ProductService implements ProductServiceInterface
     {
         $this->imageService = $imageService;
         $this->metaService = $metaService;
+    }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function productAddToFavorite(Product $product): JsonResponse
+    {
+        if (auth()->check()) {
+            $product->user()->toggle([auth()->id()]);
+            if ($product->user->contains(auth()->id())) {
+                return response()->json(['status' => 1]);
+            } else {
+                return response()->json(['status' => 2]);
+            }
+        } else {
+            return response()->json(['status' => 3]);
+        }
     }
 
     /**

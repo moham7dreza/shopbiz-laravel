@@ -42,14 +42,15 @@ class CartService implements CartServiceInterface
         if (!isset($request->guarantee)) {
             $request->guarantee = null;
         }
-
         // check if same options not selected for current product
         foreach ($cartItems as $cartItem) {
             if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
                 if ($cartItem->number != $request->number) {
                     $cartItem->update(['number' => $request->number]);
+                    return redirect()->back()->with('info', 'محصول مورد نظر با موفقیت بروزرسانی شد');
+                } else {
+                    return back()->with('swal-animate', "محصول قبلا به سبد خرید اضافه شده است. برای ویرایش وارد سبد خرید خود شوید.");
                 }
-                return back()->with('error', "محصول قبلا به سبد خرید اضافه شده است. برای ویرایش وارد سبد خرید خود شوید.");
             }
         }
 

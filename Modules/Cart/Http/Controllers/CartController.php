@@ -34,7 +34,7 @@ class CartController extends Controller
         $this->repo = $cartRepoEloquent;
         $this->service = $cartService;
 
-        $this->middleware('can:auth');
+//        $this->middleware('can:auth');
 
         if (!auth()->check()) {
             return to_route('auth.login-register-form');
@@ -77,7 +77,7 @@ class CartController extends Controller
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
         $this->service->store($request, $product->id, $cartItems);
-        return back()->with('info', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+        return back()->with('swal-timer', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
 

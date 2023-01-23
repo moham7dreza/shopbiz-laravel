@@ -127,10 +127,11 @@
                                                         class="text-decoration-none text-dark"
                                                         href="{{ $cartItem->product->path() }}">{{ $cartItem->product->name }}</a>
                                                 </section>
-                                                <section class="flex-shrink-1"><a
-                                                        class="text-muted text-decoration-none p-1"
-                                                        href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i
-                                                            class="fa fa-trash-alt"></i></a></section>
+                                                <section class="flex-shrink-1">
+                                                    <form action="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}">
+                                                        <button class="btn btn-light btn-sm text-muted p-1 delete" type="submit"><i class="fa fa-trash-alt"></i></button>
+                                                    </form>
+                                                </section>
                                             </section>
                                         @endforeach
                                     </section>
