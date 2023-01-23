@@ -11,7 +11,52 @@ class PermissionTableSeeder extends Seeder
 {
     public function run()
     {
-        $this->createPermissionFromModel();
+//        $this->createPermissionFromModel();
+        $this->implementPermissionsWithSpatie();
+    }
+
+    /**
+     * @return void
+     */
+    public function implementPermissionsWithSpatie(): void
+    {
+        // all system permissions
+        foreach (Permission::$permissions as $permission) {
+            Permission::query()->updateOrCreate(['name' => $permission, 'description' => null, 'status' => 1]);
+        }
+
+        // all system roles
+        foreach (Role::$roles as $role) {
+            Role::query()->updateOrCreate(['name' => $role, 'description' => null, 'status' => 1]);
+        }
+
+
+
+        // primary role and permission
+        $role_super_admin = Role::query()->where('name', Role::ROLE_SUPER_ADMIN)->first();
+        $permission_super_admin = Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN)->first();
+
+        // assign primary permission to role
+        $role_super_admin->syncPermissions($permission_super_admin);
+
+        // find admin
+        $super_admin = User::query()->first();
+        // if user not found then create
+        if (is_null($super_admin)) {
+            User::query()->create([
+                'first_name' => 'admin',
+                'last_name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('admin'),
+                'activation' => User::ACTIVATE,
+                'status' => User::STATUS_ACTIVE,
+                'user_type' => User::TYPE_ADMIN
+            ]);
+        }
+
+        // assign primary role and permission to super admin
+        $super_admin->syncRoles($role_super_admin);
+        $super_admin->syncPermissions($permission_super_admin);
     }
 
     /**
@@ -22,13 +67,13 @@ class PermissionTableSeeder extends Seeder
     private function createPermissionFromModel(): void
     {
         // all system permissions
-        foreach (\Modules\ACL\Entities\Permission::$permissions as $permission) {
+        foreach (Permission::$permissions as $permission) {
             Permission::query()->updateOrCreate(['name' => $permission['name'], 'description' => $permission['description'], 'status' => 1]);
         }
 
         // all system roles
         foreach (Role::$roles as $role) {
-            Role::query()->updateOrCreate(['name' => $role['name'], 'description' => $role['description'],'status' => 1]);
+            Role::query()->updateOrCreate(['name' => $role['name'], 'description' => $role['description'], 'status' => 1]);
         }
 
         // primary role and permission
@@ -41,7 +86,7 @@ class PermissionTableSeeder extends Seeder
         // find admin
         $super_admin = User::query()->first();
         // if user not found then create
-        if (is_null($super_admin)){
+        if (is_null($super_admin)) {
             User::query()->create([
                 'first_name' => 'admin',
                 'last_name' => 'admin',

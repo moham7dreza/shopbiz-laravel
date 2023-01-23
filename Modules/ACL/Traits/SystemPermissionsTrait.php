@@ -1,0 +1,637 @@
+<?php
+
+namespace Modules\ACL\Traits;
+
+trait SystemPermissionsTrait
+{
+// access everywhere
+    //******************************************************************************************************************
+     public const PERMISSION_SUPER_ADMIN = 'permission super admin';
+
+    // access to each panels
+    //******************************************************************************************************************
+     public const PERMISSION_ADMIN_PANEL = 'permission admin panel';
+
+    // Market section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_MARKET = 'permission market';
+
+    // A. Vitrine
+     public const PERMISSION_VITRINE = 'permission vitrine';
+
+    // 1  product category
+     public const PERMISSION_PRODUCT_CATEGORIES = 'permission product categories';
+     public const PERMISSION_PRODUCT_CATEGORY_CREATE = 'permission product category create';
+     public const PERMISSION_PRODUCT_CATEGORY_EDIT = 'permission product category edit';
+     public const PERMISSION_PRODUCT_CATEGORY_DELETE = 'permission product category delete';
+     public const PERMISSION_PRODUCT_CATEGORY_STATUS = 'permission product category status';
+
+    // 2  PRODUCT PROPERTY
+     public const PERMISSION_PRODUCT_PROPERTIES = 'permission product properties';
+     public const PERMISSION_PRODUCT_PROPERTY_CREATE = 'permission product property create';
+     public const PERMISSION_PRODUCT_PROPERTY_EDIT = 'permission product property edit';
+     public const PERMISSION_PRODUCT_PROPERTY_DELETE = 'permission product property delete';
+     public const PERMISSION_PRODUCT_PROPERTY_STATUS = 'permission product property status';
+     public const PERMISSION_PRODUCT_PROPERTY_VALUES = 'permission product property values';
+     public const PERMISSION_PRODUCT_PROPERTY_VALUE_CREATE = 'permission product property value create';
+     public const PERMISSION_PRODUCT_PROPERTY_VALUE_EDIT = 'permission product property value edit';
+     public const PERMISSION_PRODUCT_PROPERTY_VALUE_DELETE = 'permission product property value delete';
+     public const PERMISSION_PRODUCT_PROPERTY_VALUE_STATUS = 'permission product property value status';
+
+    // 3  PRODUCT BRAND
+     public const PERMISSION_PRODUCT_BRANDS = 'permission product brands';
+     public const PERMISSION_PRODUCT_BRAND_CREATE = 'permission product brand create';
+     public const PERMISSION_PRODUCT_BRAND_EDIT = 'permission product brand edit';
+     public const PERMISSION_PRODUCT_BRAND_DELETE = 'permission product brand delete';
+     public const PERMISSION_PRODUCT_BRAND_STATUS = 'permission product brand status';
+
+    // 4  PRODUCT
+     public const PERMISSION_PRODUCTS = 'permission products';
+     public const PERMISSION_PRODUCT_CREATE = 'permission product create';
+     public const PERMISSION_PRODUCT_EDIT = 'permission product edit';
+     public const PERMISSION_PRODUCT_DELETE = 'permission product delete';
+     public const PERMISSION_PRODUCT_STATUS = 'permission product status';
+     public const PERMISSION_PRODUCT_GALLERY = 'permission product gallery';
+     public const PERMISSION_PRODUCT_GALLERY_CREATE = 'permission product gallery create';
+     public const PERMISSION_PRODUCT_GALLERY_DELETE = 'permission product gallery delete';
+     public const PERMISSION_PRODUCT_GUARANTEES = 'permission product guarantees';
+     public const PERMISSION_PRODUCT_GUARANTEE_CREATE = 'permission product guarantee create';
+     public const PERMISSION_PRODUCT_GUARANTEE_DELETE = 'permission product guarantee delete';
+     public const PERMISSION_PRODUCT_COLORS = 'permission product colors';
+     public const PERMISSION_PRODUCT_COLOR_CREATE = 'permission product color create';
+     public const PERMISSION_PRODUCT_COLOR_DELETE = 'permission product color delete';
+
+    // 5  WAREHOUSE
+     public const PERMISSION_PRODUCT_WAREHOUSE = 'permission product warehouse';
+     public const PERMISSION_PRODUCT_WAREHOUSE_ADD = 'permission product warehouse add';
+     public const PERMISSION_PRODUCT_WAREHOUSE_MODIFY = 'permission product warehouse modify';
+
+    // 6  PRODUCT COMMENT
+     public const PERMISSION_PRODUCT_COMMENTS = 'permission product comments';
+     public const PERMISSION_PRODUCT_COMMENT_SHOW = 'permission product comment show';
+     public const PERMISSION_PRODUCT_COMMENT_STATUS = 'permission product comment status';
+     public const PERMISSION_PRODUCT_COMMENT_APPROVE = 'permission product comment approve';
+
+
+    // B. ORDER
+     public const PERMISSION_ORDERS = 'permission product orders';
+    // 1  NEW ORDER
+     public const PERMISSION_NEW_ORDERS = 'permission product new orders';
+     public const PERMISSION_NEW_ORDER_SHOW = 'permission product new order show';
+     public const PERMISSION_NEW_ORDER_DETAIL = 'permission product new order detail';
+     public const PERMISSION_NEW_ORDER_PRINT = 'permission product new order print';
+     public const PERMISSION_NEW_ORDER_CANCEL = 'permission product new order cancel';
+     public const PERMISSION_NEW_ORDER_CHANGE_STATUS = 'permission product new order status';
+     public const PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS = 'permission product new order send status';
+
+    // 2  SENDING ORDER
+     public const PERMISSION_SENDING_ORDERS = 'permission product sending orders';
+     public const PERMISSION_SENDING_ORDER_SHOW = 'permission product sending order show';
+     public const PERMISSION_SENDING_ORDER_DETAIL = 'permission product sending order detail';
+     public const PERMISSION_SENDING_ORDER_PRINT = 'permission product sending order print';
+     public const PERMISSION_SENDING_ORDER_CANCEL = 'permission product sending order cancel';
+     public const PERMISSION_SENDING_ORDER_CHANGE_STATUS = 'permission product sending order status';
+     public const PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS = 'permission product sending order send status';
+
+    // 3  UNPAID ORDER
+     public const PERMISSION_UNPAID_ORDERS = 'permission product unpaid orders';
+     public const PERMISSION_UNPAID_ORDER_SHOW = 'permission product unpaid order show';
+     public const PERMISSION_UNPAID_ORDER_SHOW_DETAIL = 'permission product unpaid order detail';
+     public const PERMISSION_UNPAID_ORDER_SHOW_PRINT = 'permission product unpaid order print';
+     public const PERMISSION_UNPAID_ORDER_CANCEL = 'permission product unpaid order cancel';
+     public const PERMISSION_UNPAID_ORDER_CHANGE_STATUS = 'permission product unpaid order status';
+     public const PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS = 'permission product unpaid order send status';
+
+    // 4  CANCELED ORDER
+     public const PERMISSION_CANCELED_ORDERS = 'permission product canceled orders';
+     public const PERMISSION_CANCELED_ORDER_SHOW = 'permission product canceled order show';
+     public const PERMISSION_CANCELED_ORDER_SHOW_DETAIL = 'permission product canceled order detail';
+     public const PERMISSION_CANCELED_ORDER_SHOW_PRINT = 'permission product canceled order print';
+     public const PERMISSION_CANCELED_ORDER_CANCEL = 'permission product canceled order cancel';
+     public const PERMISSION_CANCELED_ORDER_CHANGE_STATUS = 'permission product canceled order status';
+     public const PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS = 'permission product canceled order send status';
+
+    // 5  RETURNED ORDER
+     public const PERMISSION_RETURNED_ORDERS = 'permission product returned orders';
+     public const PERMISSION_RETURNED_ORDER_SHOW = 'permission product returned order show';
+     public const PERMISSION_RETURNED_ORDER_SHOW_DETAIL = 'permission product returned order detail';
+     public const PERMISSION_RETURNED_ORDER_SHOW_PRINT = 'permission product returned order print';
+     public const PERMISSION_RETURNED_ORDER_CANCEL = 'permission product returned order cancel';
+     public const PERMISSION_RETURNED_ORDER_CHANGE_STATUS = 'permission product returned order status';
+     public const PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS = 'permission product returned order send status';
+
+    // 6  ALL ORDER
+     public const PERMISSION_ALL_ORDERS = 'permission product all orders';
+     public const PERMISSION_ORDER_SHOW = 'permission product order show';
+     public const PERMISSION_ORDER_SHOW_DETAIL = 'permission product order detail';
+     public const PERMISSION_ORDER_SHOW_PRINT = 'permission product order print';
+     public const PERMISSION_ORDER_CANCEL = 'permission product order cancel';
+     public const PERMISSION_ORDER_CHANGE_STATUS = 'permission product order status';
+     public const PERMISSION_ORDER_CHANGE_SEND_STATUS = 'permission product order send status';
+
+    // C. PAYMENT
+     public const PERMISSION_PAYMENTS = 'permission product payments';
+
+    // 1  ALL PAYMENT
+     public const PERMISSION_ALL_PAYMENTS = 'permission product all payments';
+     public const PERMISSION_PAYMENT_SHOW = 'permission product payment show';
+     public const PERMISSION_PAYMENT_CANCEL = 'permission product payment cancel';
+     public const PERMISSION_PAYMENT_RETURN = 'permission product payment return';
+
+    // 2  ONLINE PAYMENT
+     public const PERMISSION_ONLINE_PAYMENTS = 'permission product online payments';
+     public const PERMISSION_ONLINE_PAYMENT_SHOW = 'permission product online payment show';
+     public const PERMISSION_ONLINE_PAYMENT_CANCEL = 'permission product online payment cancel';
+     public const PERMISSION_ONLINE_PAYMENT_RETURN = 'permission product online payment return';
+
+    // 3  OFFLINE PAYMENT
+     public const PERMISSION_OFFLINE_PAYMENTS = 'permission product offline payments';
+     public const PERMISSION_OFFLINE_PAYMENT_SHOW = 'permission product offline payment show';
+     public const PERMISSION_OFFLINE_PAYMENT_CANCEL = 'permission product offline payment cancel';
+     public const PERMISSION_OFFLINE_PAYMENT_RETURN = 'permission product offline payment return';
+
+    // 4  CASH PAYMENT
+     public const PERMISSION_CASH_PAYMENTS = 'permission product cash payments';
+     public const PERMISSION_CASH_PAYMENT_SHOW = 'permission product cash payment show';
+     public const PERMISSION_CASH_PAYMENT_CANCEL = 'permission product cash payment cancel';
+     public const PERMISSION_CASH_PAYMENT_RETURN = 'permission product cash payment return';
+
+    // D. DISCOUNTS
+     public const PERMISSION_DISCOUNTS = 'permission product discounts';
+
+    // 1  COUPON
+     public const PERMISSION_PRODUCT_COUPON_DISCOUNTS = 'permission product coupon discounts';
+     public const PERMISSION_PRODUCT_COUPON_DISCOUNT_CREATE = 'permission product coupon discount create';
+     public const PERMISSION_PRODUCT_COUPON_DISCOUNT_EDIT = 'permission product coupon discount edit';
+     public const PERMISSION_PRODUCT_COUPON_DISCOUNT_DELETE = 'permission product coupon discount delete';
+     public const PERMISSION_PRODUCT_COUPON_DISCOUNT_STATUS = 'permission product coupon discount status';
+
+    // 2  COMMON
+     public const PERMISSION_PRODUCT_COMMON_DISCOUNTS = 'permission product common discounts';
+     public const PERMISSION_PRODUCT_COMMON_DISCOUNT_CREATE = 'permission product common discount create';
+     public const PERMISSION_PRODUCT_COMMON_DISCOUNT_EDIT = 'permission product common discount edit';
+     public const PERMISSION_PRODUCT_COMMON_DISCOUNT_DELETE = 'permission product common discount delete';
+     public const PERMISSION_PRODUCT_COMMON_DISCOUNT_STATUS = 'permission product common discount status';
+
+    // 3  AMAZING SALE
+     public const PERMISSION_PRODUCT_AMAZING_SALES = 'permission product amazing sales';
+     public const PERMISSION_PRODUCT_AMAZING_SALE_CREATE = 'permission product amazing sale create';
+     public const PERMISSION_PRODUCT_AMAZING_SALE_EDIT = 'permission product amazing sale edit';
+     public const PERMISSION_PRODUCT_AMAZING_SALE_DELETE = 'permission product amazing sale delete';
+     public const PERMISSION_PRODUCT_AMAZING_SALE_STATUS = 'permission product amazing sale status';
+
+    // E. DELIVERY
+     public const PERMISSION_DELIVERY_METHODS = 'permission delivery methods';
+     public const PERMISSION_DELIVERY_METHOD_CREATE = 'permission delivery method create';
+     public const PERMISSION_DELIVERY_METHOD_EDIT = 'permission delivery method edit';
+     public const PERMISSION_DELIVERY_METHOD_DELETE = 'permission delivery method delete';
+     public const PERMISSION_DELIVERY_METHOD_STATUS = 'permission delivery method status';
+
+    // Content Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_CONTENT = 'permission content';
+
+    // 1  post categories
+     public const PERMISSION_POST_CATEGORIES = 'permission post categories';
+     public const PERMISSION_POST_CATEGORY_CREATE = 'permission post category create';
+     public const PERMISSION_POST_CATEGORY_EDIT = 'permission post category edit';
+     public const PERMISSION_POST_CATEGORY_DELETE = 'permission post category delete';
+     public const PERMISSION_POST_CATEGORY_STATUS = 'permission post category status';
+
+    // 2  post
+     public const PERMISSION_POST = 'permission post';
+     public const PERMISSION_POST_CREATE = 'permission post create';
+     public const PERMISSION_POST_EDIT = 'permission post edit';
+     public const PERMISSION_POST_DELETE = 'permission post delete';
+     public const PERMISSION_POST_STATUS = 'permission post status';
+     public const PERMISSION_POST_SET_TAGS = 'permission post set tags';
+     public const PERMISSION_POST_UPDATE_TAGS = 'permission post update tags';
+
+     public const PERMISSION_POST_AUTHORS = 'permission authors';
+
+    // 3  post comments
+     public const PERMISSION_POST_COMMENTS = 'permission post comments';
+     public const PERMISSION_POST_COMMENT_STATUS = 'permission post comment status';
+     public const PERMISSION_POST_COMMENT_SHOW = 'permission post comment show';
+     public const PERMISSION_POST_COMMENT_APPROVE = 'permission post comment approve';
+    // 4  FAQS
+     public const PERMISSION_FAQS = 'permission faqs';
+     public const PERMISSION_FAQ_CREATE = 'permission faq create';
+     public const PERMISSION_FAQ_EDIT = 'permission faq edit';
+     public const PERMISSION_FAQ_DELETE = 'permission faq delete';
+     public const PERMISSION_FAQ_STATUS = 'permission faq status';
+
+    // 5  PAGE
+     public const PERMISSION_PAGES = 'permission pages';
+     public const PERMISSION_PAGE_CREATE = 'permission page create';
+     public const PERMISSION_PAGE_EDIT = 'permission page edit';
+     public const PERMISSION_PAGE_DELETE = 'permission page delete';
+     public const PERMISSION_PAGE_STATUS = 'permission page status';
+
+    // 6  MENU
+     public const PERMISSION_MENUS = 'permission menus';
+     public const PERMISSION_MENU_CREATE = 'permission menu create';
+     public const PERMISSION_MENU_EDIT = 'permission menu edit';
+     public const PERMISSION_MENU_DELETE = 'permission menu delete';
+     public const PERMISSION_MENU_STATUS = 'permission menu status';
+
+    // 7  BANNER
+     public const PERMISSION_BANNERS = 'permission banners';
+     public const PERMISSION_BANNER_CREATE = 'permission banner create';
+     public const PERMISSION_BANNER_EDIT = 'permission banner edit';
+     public const PERMISSION_BANNER_DELETE = 'permission banner delete';
+     public const PERMISSION_BANNER_STATUS = 'permission banner status';
+
+    // 8  TAG
+     public const PERMISSION_TAGS = 'permission tags';
+     public const PERMISSION_TAG_CREATE = 'permission tag create';
+     public const PERMISSION_TAG_EDIT = 'permission tag edit';
+     public const PERMISSION_TAG_DELETE = 'permission tag delete';
+     public const PERMISSION_TAG_STATUS = 'permission tag status';
+
+    // User Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_USERS = 'permission users';
+
+    // 1  admin users
+     public const PERMISSION_ADMIN_USERS = 'permission admin users';
+     public const PERMISSION_ADMIN_USER_CREATE = 'permission admin user create';
+     public const PERMISSION_ADMIN_USER_EDIT = 'permission admin user edit';
+     public const PERMISSION_ADMIN_USER_DELETE = 'permission admin user delete';
+     public const PERMISSION_ADMIN_USER_STATUS = 'permission admin user status';
+     public const PERMISSION_ADMIN_USER_ROLES = 'permission admin user roles';
+     public const PERMISSION_ADMIN_USER_ACTIVATION = 'permission admin user activation';
+
+    // 2  CUSTOMER USER
+     public const PERMISSION_CUSTOMER_USERS = 'permission customer users';
+     public const PERMISSION_CUSTOMER_USER_CREATE = 'permission customer user create';
+     public const PERMISSION_CUSTOMER_USER_EDIT = 'permission customer user edit';
+     public const PERMISSION_CUSTOMER_USER_DELETE = 'permission customer user delete';
+     public const PERMISSION_CUSTOMER_USER_STATUS = 'permission customer user status';
+     public const PERMISSION_CUSTOMER_USER_ACTIVATION = 'permission customer user activation';
+     public const PERMISSION_CUSTOMER_USER_ROLES = 'permission customer user roles';
+
+    // 3  USER ROLES
+     public const PERMISSION_USER_ROLES = 'permission user roles';
+     public const PERMISSION_USER_ROLE_CREATE = 'permission user role create';
+     public const PERMISSION_USER_ROLE_EDIT = 'permission user role edit';
+     public const PERMISSION_USER_ROLE_DELETE = 'permission user role delete';
+     public const PERMISSION_USER_ROLE_STATUS = 'permission user role status';
+     public const PERMISSION_USER_ROLE_PERMISSIONS = 'permission user role permissions';
+     public const PERMISSION_USER_PERMISSIONS_IMPORT = 'permission user permissions import';
+     public const PERMISSION_USER_PERMISSIONS_EXPORT = 'permission user permissions export';
+
+    // TICKET Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_TICKETS = 'permission tickets';
+
+    // 1  TICKET CATEGORY
+     public const PERMISSION_TICKET_CATEGORIES = 'permission ticket categories';
+     public const PERMISSION_TICKET_CATEGORY_CREATE = 'permission ticket category create';
+     public const PERMISSION_TICKET_CATEGORY_EDIT = 'permission ticket category edit';
+     public const PERMISSION_TICKET_CATEGORY_DELETE = 'permission ticket category delete';
+     public const PERMISSION_TICKET_CATEGORY_STATUS = 'permission ticket category status';
+
+    // 2  TICKET PRIORITY
+     public const PERMISSION_TICKET_PRIORITIES = 'permission ticket priorities';
+     public const PERMISSION_TICKET_PRIORITY_CREATE = 'permission ticket priority create';
+     public const PERMISSION_TICKET_PRIORITY_EDIT = 'permission ticket priority edit';
+     public const PERMISSION_TICKET_PRIORITY_DELETE = 'permission ticket priority delete';
+     public const PERMISSION_TICKET_PRIORITY_STATUS = 'permission ticket priority status';
+
+    // 3  ADMIN TICKET
+     public const PERMISSION_ADMIN_TICKETS = 'permission admin tickets';
+     public const PERMISSION_ADMIN_TICKET_ADD = 'permission admin ticket add';
+
+    // 4  NEW TICKET
+     public const PERMISSION_NEW_TICKETS = 'permission new tickets';
+     public const PERMISSION_NEW_TICKET_SHOW = 'permission new ticket show';
+     public const PERMISSION_NEW_TICKET_CHANGE = 'permission new ticket change';
+
+    // 5  OPEN TICKET
+     public const PERMISSION_OPEN_TICKETS = 'permission open tickets';
+     public const PERMISSION_OPEN_TICKET_SHOW = 'permission open ticket show';
+     public const PERMISSION_OPEN_TICKET_CHANGE = 'permission open ticket change';
+
+
+    // 6  CLOSE TICKETS
+     public const PERMISSION_CLOSE_TICKETS = 'permission close tickets';
+     public const PERMISSION_CLOSE_TICKET_SHOW = 'permission close ticket show';
+     public const PERMISSION_CLOSE_TICKET_CHANGE = 'permission close ticket change';
+
+    // 7  ALL TICKET
+     public const PERMISSION_ALL_TICKETS = 'permission all tickets';
+     public const PERMISSION_TICKET_SHOW = 'permission ticket show';
+     public const PERMISSION_TICKET_CHANGE = 'permission ticket change';
+
+
+    // NOTIFY Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_NOTIFY = 'permission notify';
+
+    // 1  EMAIL NOTIFY
+     public const PERMISSION_EMAIL_NOTIFY = 'permission email notify';
+     public const PERMISSION_EMAIL_NOTIFY_CREATE = 'permission email notify create';
+     public const PERMISSION_EMAIL_NOTIFY_EDIT = 'permission email notify edit';
+     public const PERMISSION_EMAIL_NOTIFY_DELETE = 'permission email notify delete';
+     public const PERMISSION_EMAIL_NOTIFY_STATUS = 'permission email notify status';
+     public const PERMISSION_EMAIL_NOTIFY_FILES = 'permission email notify files';
+     public const PERMISSION_EMAIL_NOTIFY_FILES_CREATE = 'permission email notify file create';
+     public const PERMISSION_EMAIL_NOTIFY_FILES_EDIT = 'permission email notify file edit';
+     public const PERMISSION_EMAIL_NOTIFY_FILES_DELETE = 'permission email notify file delete';
+     public const PERMISSION_EMAIL_NOTIFY_FILES_STATUS = 'permission email notify file status';
+
+    // 2  SMS NOTIFY
+     public const PERMISSION_SMS_NOTIFY = 'permission sms notify';
+     public const PERMISSION_SMS_NOTIFY_CREATE = 'permission sms notify create';
+     public const PERMISSION_SMS_NOTIFY_EDIT = 'permission sms notify edit';
+     public const PERMISSION_SMS_NOTIFY_DELETE = 'permission sms notify delete';
+     public const PERMISSION_SMS_NOTIFY_STATUS = 'permission sms notify status';
+
+    // SETTING Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_SETTING = 'permission setting';
+     public const PERMISSION_SETTING_EDIT = 'permission setting edit';
+
+    // NOTIFY Section Permissions
+    //******************************************************************************************************************
+     public const PERMISSION_OFFICE = 'permission office';
+
+    // 1  SERVICE categories
+     public const PERMISSION_SERVICE_CATEGORIES = 'permission service categories';
+     public const PERMISSION_SERVICE_CATEGORY_CREATE = 'permission service category create';
+     public const PERMISSION_SERVICE_CATEGORY_EDIT = 'permission service category edit';
+     public const PERMISSION_SERVICE_CATEGORY_DELETE = 'permission service category delete';
+     public const PERMISSION_SERVICE_CATEGORY_STATUS = 'permission service category status';
+
+    // 2  SERVICES
+     public const PERMISSION_SERVICES = 'permission service';
+     public const PERMISSION_SERVICE_CREATE = 'permission service create';
+     public const PERMISSION_SERVICE_EDIT = 'permission service edit';
+     public const PERMISSION_SERVICE_DELETE = 'permission service delete';
+     public const PERMISSION_SERVICE_STATUS = 'permission service status';
+
+    // 3  SERVICE COMMENTS
+     public const PERMISSION_SERVICE_COMMENTS = 'permission service comments';
+     public const PERMISSION_SERVICE_COMMENT_STATUS = 'permission service comment status';
+     public const PERMISSION_SERVICE_COMMENT_SHOW = 'permission service comment show';
+     public const PERMISSION_SERVICE_COMMENT_APPROVE = 'permission service comment approve';
+    //******************************************************************************************************************
+
+
+    /**
+     * @var array|array[]
+     */
+    public static array $permissions = [
+        self::PERMISSION_SUPER_ADMIN
+        , self::PERMISSION_ADMIN_PANEL
+        , self::PERMISSION_MARKET
+        , self::PERMISSION_VITRINE
+        , self::PERMISSION_PRODUCT_CATEGORIES
+        , self::PERMISSION_PRODUCT_CATEGORY_CREATE
+        , self::PERMISSION_PRODUCT_CATEGORY_EDIT
+        , self::PERMISSION_PRODUCT_CATEGORY_DELETE
+        , self::PERMISSION_PRODUCT_CATEGORY_STATUS
+        , self::PERMISSION_PRODUCT_PROPERTIES
+        , self::PERMISSION_PRODUCT_PROPERTY_CREATE
+        , self::PERMISSION_PRODUCT_PROPERTY_EDIT
+        , self::PERMISSION_PRODUCT_PROPERTY_DELETE
+        , self::PERMISSION_PRODUCT_PROPERTY_STATUS
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUES
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_CREATE
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_EDIT
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_DELETE
+        , self::PERMISSION_PRODUCT_PROPERTY_VALUE_STATUS
+        , self::PERMISSION_PRODUCT_BRANDS
+        , self::PERMISSION_PRODUCT_BRAND_CREATE
+        , self::PERMISSION_PRODUCT_BRAND_EDIT
+        , self::PERMISSION_PRODUCT_BRAND_DELETE
+        , self::PERMISSION_PRODUCT_BRAND_STATUS
+        , self::PERMISSION_PRODUCTS
+        , self::PERMISSION_PRODUCT_CREATE
+        , self::PERMISSION_PRODUCT_EDIT
+        , self::PERMISSION_PRODUCT_DELETE
+        , self::PERMISSION_PRODUCT_STATUS
+        , self::PERMISSION_PRODUCT_GALLERY
+        , self::PERMISSION_PRODUCT_GALLERY_CREATE
+        , self::PERMISSION_PRODUCT_GALLERY_DELETE
+        , self::PERMISSION_PRODUCT_GUARANTEES
+        , self::PERMISSION_PRODUCT_GUARANTEE_CREATE
+        , self::PERMISSION_PRODUCT_GUARANTEE_DELETE
+        , self::PERMISSION_PRODUCT_COLORS
+        , self::PERMISSION_PRODUCT_COLOR_CREATE
+        , self::PERMISSION_PRODUCT_COLOR_DELETE
+        , self::PERMISSION_PRODUCT_WAREHOUSE
+        , self::PERMISSION_PRODUCT_WAREHOUSE_ADD
+        , self::PERMISSION_PRODUCT_WAREHOUSE_MODIFY
+        , self::PERMISSION_PRODUCT_COMMENTS
+        , self::PERMISSION_PRODUCT_COMMENT_SHOW
+        , self::PERMISSION_PRODUCT_COMMENT_STATUS
+        , self::PERMISSION_PRODUCT_COMMENT_APPROVE
+        , self::PERMISSION_ORDERS
+        , self::PERMISSION_NEW_ORDERS
+        , self::PERMISSION_NEW_ORDER_SHOW
+        , self::PERMISSION_NEW_ORDER_DETAIL
+        , self::PERMISSION_NEW_ORDER_PRINT
+        , self::PERMISSION_NEW_ORDER_CANCEL
+        , self::PERMISSION_NEW_ORDER_CHANGE_STATUS
+        , self::PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_SENDING_ORDERS
+        , self::PERMISSION_SENDING_ORDER_SHOW
+        , self::PERMISSION_SENDING_ORDER_DETAIL
+        , self::PERMISSION_SENDING_ORDER_PRINT
+        , self::PERMISSION_SENDING_ORDER_CANCEL
+        , self::PERMISSION_SENDING_ORDER_CHANGE_STATUS
+        , self::PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_UNPAID_ORDERS
+        , self::PERMISSION_UNPAID_ORDER_SHOW
+        , self::PERMISSION_UNPAID_ORDER_SHOW_DETAIL
+        , self::PERMISSION_UNPAID_ORDER_SHOW_PRINT
+        , self::PERMISSION_UNPAID_ORDER_CANCEL
+        , self::PERMISSION_UNPAID_ORDER_CHANGE_STATUS
+        , self::PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_CANCELED_ORDERS
+        , self::PERMISSION_CANCELED_ORDER_SHOW
+        , self::PERMISSION_CANCELED_ORDER_SHOW_DETAIL
+        , self::PERMISSION_CANCELED_ORDER_SHOW_PRINT
+        , self::PERMISSION_CANCELED_ORDER_CANCEL
+        , self::PERMISSION_CANCELED_ORDER_CHANGE_STATUS
+        , self::PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_RETURNED_ORDERS
+        , self::PERMISSION_RETURNED_ORDER_SHOW
+        , self::PERMISSION_RETURNED_ORDER_SHOW_DETAIL
+        , self::PERMISSION_RETURNED_ORDER_SHOW_PRINT
+        , self::PERMISSION_RETURNED_ORDER_CANCEL
+        , self::PERMISSION_RETURNED_ORDER_CHANGE_STATUS
+        , self::PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_ALL_ORDERS
+        , self::PERMISSION_ORDER_SHOW
+        , self::PERMISSION_ORDER_SHOW_DETAIL
+        , self::PERMISSION_ORDER_SHOW_PRINT
+        , self::PERMISSION_ORDER_CANCEL
+        , self::PERMISSION_ORDER_CHANGE_STATUS
+        , self::PERMISSION_ORDER_CHANGE_SEND_STATUS
+        , self::PERMISSION_PAYMENTS
+        , self::PERMISSION_ALL_PAYMENTS
+        , self::PERMISSION_PAYMENT_SHOW
+        , self::PERMISSION_PAYMENT_CANCEL
+        , self::PERMISSION_PAYMENT_RETURN
+        , self::PERMISSION_ONLINE_PAYMENTS
+        , self::PERMISSION_ONLINE_PAYMENT_SHOW
+        , self::PERMISSION_ONLINE_PAYMENT_CANCEL
+        , self::PERMISSION_ONLINE_PAYMENT_RETURN
+        , self::PERMISSION_OFFLINE_PAYMENTS
+        , self::PERMISSION_OFFLINE_PAYMENT_SHOW
+        , self::PERMISSION_OFFLINE_PAYMENT_CANCEL
+        , self::PERMISSION_OFFLINE_PAYMENT_RETURN
+        , self::PERMISSION_CASH_PAYMENTS
+        , self::PERMISSION_CASH_PAYMENT_SHOW
+        , self::PERMISSION_CASH_PAYMENT_CANCEL
+        , self::PERMISSION_CASH_PAYMENT_RETURN
+        , self::PERMISSION_DISCOUNTS
+        , self::PERMISSION_PRODUCT_COUPON_DISCOUNTS
+        , self::PERMISSION_PRODUCT_COUPON_DISCOUNT_CREATE
+        , self::PERMISSION_PRODUCT_COUPON_DISCOUNT_EDIT
+        , self::PERMISSION_PRODUCT_COUPON_DISCOUNT_DELETE
+        , self::PERMISSION_PRODUCT_COUPON_DISCOUNT_STATUS
+        , self::PERMISSION_PRODUCT_COMMON_DISCOUNTS
+        , self::PERMISSION_PRODUCT_COMMON_DISCOUNT_CREATE
+        , self::PERMISSION_PRODUCT_COMMON_DISCOUNT_EDIT
+        , self::PERMISSION_PRODUCT_COMMON_DISCOUNT_DELETE
+        , self::PERMISSION_PRODUCT_COMMON_DISCOUNT_STATUS
+        , self::PERMISSION_PRODUCT_AMAZING_SALES
+        , self::PERMISSION_PRODUCT_AMAZING_SALE_CREATE
+        , self::PERMISSION_PRODUCT_AMAZING_SALE_EDIT
+        , self::PERMISSION_PRODUCT_AMAZING_SALE_DELETE
+        , self::PERMISSION_PRODUCT_AMAZING_SALE_STATUS
+        , self::PERMISSION_DELIVERY_METHODS
+        , self::PERMISSION_DELIVERY_METHOD_CREATE
+        , self::PERMISSION_DELIVERY_METHOD_EDIT
+        , self::PERMISSION_DELIVERY_METHOD_DELETE
+        , self::PERMISSION_DELIVERY_METHOD_STATUS
+        , self::PERMISSION_CONTENT
+        , self::PERMISSION_POST_CATEGORIES
+        , self::PERMISSION_POST_CATEGORY_CREATE
+        , self::PERMISSION_POST_CATEGORY_EDIT
+        , self::PERMISSION_POST_CATEGORY_DELETE
+        , self::PERMISSION_POST_CATEGORY_STATUS
+        , self::PERMISSION_POST
+        , self::PERMISSION_POST_CREATE
+        , self::PERMISSION_POST_EDIT
+        , self::PERMISSION_POST_DELETE
+        , self::PERMISSION_POST_STATUS
+        , self::PERMISSION_POST_AUTHORS
+        , self::PERMISSION_POST_COMMENTS
+        , self::PERMISSION_POST_COMMENT_STATUS
+        , self::PERMISSION_POST_COMMENT_SHOW
+        , self::PERMISSION_POST_COMMENT_APPROVE
+        , self::PERMISSION_FAQS
+        , self::PERMISSION_FAQ_CREATE
+        , self::PERMISSION_FAQ_EDIT
+        , self::PERMISSION_FAQ_DELETE
+        , self::PERMISSION_FAQ_STATUS
+        , self::PERMISSION_PAGES
+        , self::PERMISSION_PAGE_CREATE
+        , self::PERMISSION_PAGE_EDIT
+        , self::PERMISSION_PAGE_DELETE
+        , self::PERMISSION_PAGE_STATUS
+        , self::PERMISSION_MENUS
+        , self::PERMISSION_MENU_CREATE
+        , self::PERMISSION_MENU_EDIT
+        , self::PERMISSION_MENU_DELETE
+        , self::PERMISSION_MENU_STATUS
+        , self::PERMISSION_BANNERS
+        , self::PERMISSION_BANNER_CREATE
+        , self::PERMISSION_BANNER_EDIT
+        , self::PERMISSION_BANNER_DELETE
+        , self::PERMISSION_BANNER_STATUS
+        , self::PERMISSION_POST_SET_TAGS
+        , self::PERMISSION_POST_UPDATE_TAGS
+        , self::PERMISSION_TAGS
+        , self::PERMISSION_TAG_CREATE
+        , self::PERMISSION_TAG_EDIT
+        , self::PERMISSION_TAG_DELETE
+        , self::PERMISSION_TAG_STATUS
+        , self::PERMISSION_USERS
+        , self::PERMISSION_ADMIN_USERS
+        , self::PERMISSION_ADMIN_USER_CREATE
+        , self::PERMISSION_ADMIN_USER_EDIT
+        , self::PERMISSION_ADMIN_USER_DELETE
+        , self::PERMISSION_ADMIN_USER_STATUS
+        , self::PERMISSION_ADMIN_USER_ROLES
+        , self::PERMISSION_ADMIN_USER_ACTIVATION
+        , self::PERMISSION_CUSTOMER_USERS
+        , self::PERMISSION_CUSTOMER_USER_CREATE
+        , self::PERMISSION_CUSTOMER_USER_EDIT
+        , self::PERMISSION_CUSTOMER_USER_DELETE
+        , self::PERMISSION_CUSTOMER_USER_STATUS
+        , self::PERMISSION_CUSTOMER_USER_ACTIVATION
+        , self::PERMISSION_CUSTOMER_USER_ROLES
+        , self::PERMISSION_USER_ROLES
+        , self::PERMISSION_USER_ROLE_CREATE
+        , self::PERMISSION_USER_ROLE_EDIT
+        , self::PERMISSION_USER_ROLE_DELETE
+        , self::PERMISSION_USER_ROLE_STATUS
+        , self::PERMISSION_USER_ROLE_PERMISSIONS
+        , self::PERMISSION_USER_PERMISSIONS_IMPORT
+        , self::PERMISSION_USER_PERMISSIONS_EXPORT
+        , self::PERMISSION_TICKETS
+        , self::PERMISSION_TICKET_CATEGORIES
+        , self::PERMISSION_TICKET_CATEGORY_CREATE
+        , self::PERMISSION_TICKET_CATEGORY_EDIT
+        , self::PERMISSION_TICKET_CATEGORY_DELETE
+        , self::PERMISSION_TICKET_CATEGORY_STATUS
+        , self::PERMISSION_TICKET_PRIORITIES
+        , self::PERMISSION_TICKET_PRIORITY_CREATE
+        , self::PERMISSION_TICKET_PRIORITY_EDIT
+        , self::PERMISSION_TICKET_PRIORITY_DELETE
+        , self::PERMISSION_TICKET_PRIORITY_STATUS
+        , self::PERMISSION_ADMIN_TICKETS
+        , self::PERMISSION_ADMIN_TICKET_ADD
+        , self::PERMISSION_NEW_TICKETS
+        , self::PERMISSION_NEW_TICKET_SHOW
+        , self::PERMISSION_NEW_TICKET_CHANGE
+        , self::PERMISSION_OPEN_TICKETS
+        , self::PERMISSION_OPEN_TICKET_SHOW
+        , self::PERMISSION_OPEN_TICKET_CHANGE
+        , self::PERMISSION_CLOSE_TICKETS
+        , self::PERMISSION_CLOSE_TICKET_SHOW
+        , self::PERMISSION_CLOSE_TICKET_CHANGE
+        , self::PERMISSION_ALL_TICKETS
+        , self::PERMISSION_TICKET_SHOW
+        , self::PERMISSION_TICKET_CHANGE
+        , self::PERMISSION_NOTIFY
+        , self::PERMISSION_EMAIL_NOTIFY
+        , self::PERMISSION_EMAIL_NOTIFY_CREATE
+        , self::PERMISSION_EMAIL_NOTIFY_EDIT
+        , self::PERMISSION_EMAIL_NOTIFY_DELETE
+        , self::PERMISSION_EMAIL_NOTIFY_STATUS
+        , self::PERMISSION_EMAIL_NOTIFY_FILES
+        , self::PERMISSION_EMAIL_NOTIFY_FILES_CREATE
+        , self::PERMISSION_EMAIL_NOTIFY_FILES_EDIT
+        , self::PERMISSION_EMAIL_NOTIFY_FILES_DELETE
+        , self::PERMISSION_EMAIL_NOTIFY_FILES_STATUS
+        , self::PERMISSION_SMS_NOTIFY
+        , self::PERMISSION_SMS_NOTIFY_CREATE
+        , self::PERMISSION_SMS_NOTIFY_EDIT
+        , self::PERMISSION_SMS_NOTIFY_DELETE
+        , self::PERMISSION_SMS_NOTIFY_STATUS
+        , self::PERMISSION_SETTING
+        , self::PERMISSION_SETTING_EDIT
+        , self::PERMISSION_OFFICE
+        , self::PERMISSION_SERVICE_CATEGORIES
+        , self::PERMISSION_SERVICE_CATEGORY_CREATE
+        , self::PERMISSION_SERVICE_CATEGORY_EDIT
+        , self::PERMISSION_SERVICE_CATEGORY_DELETE
+        , self::PERMISSION_SERVICE_CATEGORY_STATUS
+        , self::PERMISSION_SERVICES
+        , self::PERMISSION_SERVICE_CREATE
+        , self::PERMISSION_SERVICE_EDIT
+        , self::PERMISSION_SERVICE_DELETE
+        , self::PERMISSION_SERVICE_STATUS
+        , self::PERMISSION_SERVICE_COMMENTS
+        , self::PERMISSION_SERVICE_COMMENT_STATUS
+        , self::PERMISSION_SERVICE_COMMENT_SHOW
+        , self::PERMISSION_SERVICE_COMMENT_APPROVE
+    ];
+}

@@ -3,19 +3,19 @@
 namespace Modules\ACL\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Modules\ACL\Enums\PermissionStatusEnum;
 use Modules\ACL\Traits\DefinePermissionsTrait;
+use Modules\ACL\Traits\SystemPermissionsTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
+use Spatie\Permission\Traits\HasRoles;
 
-class Permission extends Model
+class Permission extends \Spatie\Permission\Models\Permission
 {
-    use HasFactory, SoftDeletes, HasFaDate, DefinePermissionsTrait, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, SystemPermissionsTrait, HasDefaultStatus, HasRoles;
 
     /**
      * @var string[]

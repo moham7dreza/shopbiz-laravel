@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\ACL\Traits\HasPermissionTrait;
 use Modules\Address\Entities\Address;
 use Modules\Comment\Entities\Comment;
 use Modules\Order\Entities\Order;
@@ -19,16 +19,20 @@ use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasPermissionTrait, HasFaDate;
+    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
 
     public const TYPE_USER = 0;
     public const TYPE_ADMIN = 1;
+
+    public const ACTIVATE = 1;
+    public const NOT_ACTIVE = 0;
 
     /**
      * @var array|int[]

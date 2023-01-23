@@ -2,17 +2,17 @@
 
 namespace Modules\ACL\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
+use Spatie\Permission\Traits\HasPermissions;
 
-class Role extends Model
+class Role extends \Spatie\Permission\Models\Role
 {
-    use HasFactory, SoftDeletes, HasFaDate;
+    use HasFactory, SoftDeletes, HasFaDate, HasPermissions;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
@@ -30,7 +30,8 @@ class Role extends Model
 
     // access everywhere
     //******************************************************************************************************************
-    public const ROLE_SUPER_ADMIN = ['name' => 'role-super-admin', 'description' => 'مدیر ارشد سیستم - دسترسی نامحدود'];
+//    public const ROLE_SUPER_ADMIN = ['name' => 'role-super-admin', 'description' => 'مدیر ارشد سیستم - دسترسی نامحدود'];
+    public const ROLE_SUPER_ADMIN = 'role super admin';
 
     /**
      * @var array|array[]
@@ -73,14 +74,14 @@ class Role extends Model
         return $this->permissions->count() ?? 0;
     }
 
-    /**
-     * @param $permission
-     * @return mixed
-     */
-    public function hasPermissionTo($permission): mixed
-    {
-        return $this->permissions->contains('name', $permission->name);
-    }
+//    /**
+//     * @param $permission
+//     * @return mixed
+//     */
+//    public function hasPermissionTo($permission): mixed
+//    {
+//        return $this->permissions->contains('name', $permission->name);
+//    }
 
     /**
      * @return string
