@@ -28,6 +28,4 @@ class PaymentRequest extends FormRequest
             'cash_receiver' => 'nullable|string'
         ];
     }
-
-
 }

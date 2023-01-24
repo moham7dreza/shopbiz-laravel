@@ -36,6 +36,4 @@ class CopanRequest extends FormRequest
 
         ];
     }
-
-
 }
