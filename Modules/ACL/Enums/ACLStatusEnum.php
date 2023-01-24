@@ -2,9 +2,8 @@
 
 namespace Modules\ACL\Enums;
 
-enum PermissionStatusEnum: int
+enum ACLStatusEnum: int
 {
     case STATUS_ACTIVE = 1;
-
-    case STATUS_INACTIVE = 8;
+    case STATUS_INACTIVE = 0;
 }
