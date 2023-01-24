@@ -4,6 +4,7 @@ namespace Modules\Share\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\ACL\Entities\Permission;
 use Modules\User\Entities\User;
 
@@ -196,22 +197,100 @@ class ShareService
      * Show success toast.
      *
      * @param string $title
-     * @return mixed
+     * @return RedirectResponse
      */
-    public static function successToast(string $title)
+    public static function successToast(string $title): RedirectResponse
     {
-        return toast($title, 'success')->autoClose(5000);
+        toast($title, 'success')->autoClose(5000)->timerProgressBar();
+        return back();
+    }
+
+    /**
+     * Show success toast.
+     *
+     * @param string $title
+     * @return RedirectResponse
+     */
+    public static function infoToast(string $title): RedirectResponse
+    {
+        toast($title, 'info')->autoClose(5000)->timerProgressBar();
+        return back();
     }
 
     /**
      * Show error toast.
      *
      * @param string $title
+     * @return RedirectResponse
+     */
+    public static function errorToast(string $title): RedirectResponse
+    {
+        toast($title, 'error')->autoClose(5000)->timerProgressBar();
+        return back();
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     * @param int $autoClose
+     * @return RedirectResponse
+     */
+    public static function successAlert($title, $message, int $autoClose = 3000): RedirectResponse
+    {
+        alert()->success($title, $message)->autoClose($autoClose);
+        return back();
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     * @param int $autoClose
+     * @return RedirectResponse
+     */
+    public static function infoAlert($title, $message, int $autoClose = 3000): RedirectResponse
+    {
+        alert()->info($title, $message)->autoClose($autoClose);
+        return back();
+    }
+
+    /**
+     * @param $message
+     * @return RedirectResponse
+     */
+    public static function animateAlert($message): RedirectResponse
+    {
+        alert()->info('هشدار', $message)->persistent(false, false)
+            ->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')
+            ->footer('برای ویرایش وارد <a class="text-decoration-none" href="/cart"> <strong>سبد خرید</strong> </a> خود شوید');
+        return back();
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     * @param $type
+     * @param int $autoClose
      * @return mixed
      */
-    public static function errorToast(string $title)
+    public static function alert($title, $message, $type, int $autoClose = 3000): mixed
     {
-        return toast($title, 'error')->autoClose(5000);
+        // example:
+//        toast('Signed in successfully','success')->timerProgressBar();
+        // example:
+//        alert()->success('Post Created', 'Successfully')->iconHtml('<i class="far fa-thumbs-up"></i>');
+// example:
+//       alert()->info('InfoAlert','Lorem ipsum dolor sit amet.')
+//            ->animation('animate__animated animate__fadeInDown','animate__animated animate__fadeOutUp')->autoClose(2000);
+// example:
+//        alert('Title','Lorem Lorem Lorem', 'success')->background('#fff');
+// example:
+//        alert('Title','Lorem Lorem Lorem', 'success')->width('300px');
+// example:
+//        alert('Title','Lorem Lorem Lorem', 'success')->width('300px')->padding('50px');
+// example:
+//        alert()->error('Oops...', 'Something went wrong!')->footer('<a href="#">Why do I have this issue?</a>');
+// example:
+        return alert($title, $message, $type)->autoClose($autoClose);
     }
 
     /**
@@ -220,7 +299,7 @@ class ShareService
      * @param string $title
      * @return string
      */
-    public static function makeSlug(string $title)
+    public static function makeSlug(string $title): string
     {
         return preg_replace('/\s+/', '-', str_replace('_', '', $title));
     }
@@ -232,7 +311,7 @@ class ShareService
      * @return string
      * @throws \Exception
      */
-    public static function makeUniqueSku($model)
+    public static function makeUniqueSku($model): string
     {
         $number = random_int(10000, 99999);
 
@@ -250,7 +329,7 @@ class ShareService
      * @param int $number
      * @return bool
      */
-    private function checkSKU($model, int $number)
+    private function checkSKU($model, int $number): bool
     {
         return $model::query()->where('sku', $number)->exists();
     }
@@ -274,7 +353,7 @@ class ShareService
      * @param string $text
      * @return float
      */
-    public static function convertTextToReadMinute(string $text)
+    public static function convertTextToReadMinute(string $text): float
     {
         return ceil(str_word_count(strip_tags($text)) / 250);
     }

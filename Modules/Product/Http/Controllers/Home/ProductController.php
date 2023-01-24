@@ -53,8 +53,10 @@ class ProductController extends Controller
         }
         $commentService->store($request, $product);
         if (ShareService::checkForAdmin())
-            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
-        return back()->with('swal-animate', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
+            return ShareService::successToast('نظر شما با موفقیت ثبت شد.');
+//            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
+//        return back()->with('swal-animate', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
+        return ShareService::successAlert('موفقیت آمیز', 'نظر شما با موفقیت ثبت شد پس از تایید در سایت قرار خواهد گرفت.');
     }
 
 
@@ -64,6 +66,8 @@ class ProductController extends Controller
      */
     public function addToFavorite(Product $product): JsonResponse
     {
+//        $product->user->contains(auth()->id()) ? ShareService::infoToast('محصول از علاقه مندی شما حذف شد') :
+//            ShareService::infoToast('محصول به علاقه مندی شما اضافه شد');
         return $this->service->productAddToFavorite($product);
     }
 }

@@ -18,6 +18,9 @@
                     <form class="row" method="post"
                           action="{{ route('customer.sales-process.add-address') }}">
                         @csrf
+                        @php
+                            $selected_province = null;
+                        @endphp
                         <section class="col-6 mb-2">
                             <label for="province"
                                    class="form-label mb-1">استان</label>
@@ -27,8 +30,15 @@
                                 <option selected>استان را انتخاب کنید</option>
                                 @foreach ($provinces as $province)
                                     <option value="{{ $province->id }}"
-                                            data-url="{{ route('customer.sales-process.get-cities', $province->id) }}">
+                                            data-url="{{ route('customer.sales-process.get-cities', $province->id) }}"
+                                        {{ old('province_id') == $province->id ? 'selected' : '' }}>
                                         {{ $province->name }}</option>
+                                    @php
+                                        if ( old('province_id') == $province->id)
+                                            {
+                                                $selected_province = $province;
+                                            }
+                                    @endphp
                                 @endforeach
 
                             </select>
@@ -39,7 +49,14 @@
                             <select name="city_id"
                                     class="form-select form-select-sm"
                                     id="city">
-                                <option selected>شهر را انتخاب کنید</option>
+                                @if(!is_null($selected_province))
+                                    @foreach($selected_province->cities as $city)
+                                        <option
+                                            {{ $city->id == old('city_id') ? 'selected' : '' }} value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option selected>شهر را انتخاب کنید</option>
+                                @endif
                             </select>
                         </section>
                         <section class="col-12 mb-2">
@@ -47,7 +64,7 @@
                                    class="form-label mb-1">نشانی</label>
                             <textarea name="address"
                                       class="form-control form-control-sm"
-                                      id="address" placeholder="نشانی"></textarea>
+                                      id="address" placeholder="نشانی">{{ old('address') }}</textarea>
                         </section>
 
                         <section class="col-6 mb-2">
@@ -56,21 +73,21 @@
                             <input type="text" name="postal_code"
                                    class="form-control form-control-sm"
                                    id="postal_code"
-                                   placeholder="کد پستی">
+                                   placeholder="کد پستی" value="{{ old('postal_code') }}">
                         </section>
 
                         <section class="col-3 mb-2">
                             <label for="no" class="form-label mb-1">پلاک</label>
                             <input type="text" name="no"
                                    class="form-control form-control-sm" id="no"
-                                   placeholder="پلاک">
+                                   placeholder="پلاک" value="{{ old('no') }}">
                         </section>
 
                         <section class="col-3 mb-2">
                             <label for="unit" class="form-label mb-1">واحد</label>
                             <input type="text" name="unit"
                                    class="form-control form-control-sm" id="unit"
-                                   placeholder="واحد">
+                                   placeholder="واحد" value="{{ old('unit') }}">
                         </section>
 
                         <section class="border-bottom mt-2 mb-3"></section>
@@ -78,7 +95,7 @@
                         <section class="col-12 mb-2">
                             <section class="form-check">
                                 <input class="form-check-input" name="receiver"
-                                       type="checkbox" id="receiver">
+                                       type="checkbox" id="receiver" {{ old('receiver') == 'on' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="receiver">
                                     گیرنده سفارش خودم نیستم (اطلاعات زیر تکمیل شود)
                                 </label>
@@ -91,7 +108,7 @@
                             <input type="text" name="recipient_first_name"
                                    class="form-control form-control-sm"
                                    id="first_name"
-                                   placeholder="نام گیرنده">
+                                   placeholder="نام گیرنده" value="{{ old('recipient_first_name') }}">
                         </section>
 
                         <section class="col-6 mb-2">
@@ -100,7 +117,7 @@
                             <input type="text" name="recipient_last_name"
                                    class="form-control form-control-sm"
                                    id="last_name"
-                                   placeholder="نام خانوادگی گیرنده">
+                                   placeholder="نام خانوادگی گیرنده" value="{{ old('recipient_last_name') }}">
                         </section>
 
                         <section class="col-6 mb-2">
@@ -108,7 +125,7 @@
                                 موبایل</label>
                             <input type="text" name="mobile"
                                    class="form-control form-control-sm" id="mobile"
-                                   placeholder="شماره موبایل">
+                                   placeholder="شماره موبایل" value="{{ old('mobile') }}">
                         </section>
 
 

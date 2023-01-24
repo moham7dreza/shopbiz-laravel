@@ -17,7 +17,7 @@
             });
 
             swalWithBootstrapButtons.fire({
-                title: 'محصول مورد نظر از سبد خرید حذف شود؟',
+                title: 'آیا مطمئن هستید؟',
                 // text: "شما میتوانید درخواست خود را لغو نمایید",
                 icon: 'warning',
                 showCancelButton: true,

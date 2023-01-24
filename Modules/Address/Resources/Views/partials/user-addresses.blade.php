@@ -47,7 +47,7 @@
                                     id="province-{{ $address->id }}">
                                 @foreach ($provinces as $province)
                                     <option
-                                        {{ $address->province_id == $province->id ? 'selected' : '' }} value="{{ $province->id }}"
+                                        {{ old('province_id', $address->province_id) == $province->id ? 'selected' : '' }} value="{{ $province->id }}"
                                         data-url="{{ route('customer.sales-process.get-cities', $province->id) }}">
                                         {{ $province->name }}</option>
                                 @endforeach
@@ -60,7 +60,11 @@
                             <select name="city_id"
                                     class="form-select form-select-sm"
                                     id="city-{{ $address->id }}">
-                                <option selected>شهر را انتخاب کنید</option>
+                                @foreach($address->province->cities as $city)
+                                    <option
+                                        {{ old('city_id'. $address->city_id) == $city->id ? 'selected' : '' }} value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+
                             </select>
                         </section>
                         <section class="col-12 mb-2">
@@ -69,7 +73,7 @@
                             <textarea name="address"
                                       class="form-control form-control-sm"
                                       id="address"
-                                      placeholder="نشانی">{{ $address->address }}</textarea>
+                                      placeholder="نشانی">{{ old('address', $address->address) }}</textarea>
                         </section>
 
                         <section class="col-6 mb-2">
@@ -84,14 +88,14 @@
 
                         <section class="col-3 mb-2">
                             <label for="no" class="form-label mb-1">پلاک</label>
-                            <input type="text" value="{{ $address->no }}" name="no"
+                            <input type="text" value="{{ old('no', $address->no) }}" name="no"
                                    class="form-control form-control-sm" id="no"
                                    placeholder="پلاک">
                         </section>
 
                         <section class="col-3 mb-2">
                             <label for="unit" class="form-label mb-1">واحد</label>
-                            <input type="text" value="{{ $address->unit }}"
+                            <input type="text" value="{{ old('unit', $address->unit) }}"
                                    name="unit"
                                    class="form-control form-control-sm" id="unit"
                                    placeholder="واحد">
@@ -102,7 +106,7 @@
                         <section class="col-12 mb-2">
                             <section class="form-check">
                                 <input
-                                    {{ $address->recipient_first_name ? 'checked' : '' }} class="form-check-input"
+                                    {{ old('recipient_first_name', $address->recipient_first_name) ? 'checked' : '' }} class="form-check-input"
                                     name="receiver"
                                     type="checkbox" id="receiver">
                                 <label class="form-check-label" for="receiver">
@@ -115,7 +119,7 @@
                             <label for="first_name" class="form-label mb-1">نام
                                 گیرنده</label>
                             <input
-                                value="{{ $address->recipient_first_name ?? $address->recipient_first_name  }}"
+                                value="{{ old('recipient_first_name', $address->recipient_first_name)  }}"
                                 type="text" name="recipient_first_name"
                                 class="form-control form-control-sm" id="first_name"
                                 placeholder="نام گیرنده">
@@ -125,7 +129,7 @@
                             <label for="last_name" class="form-label mb-1">نام
                                 خانوادگی گیرنده</label>
                             <input
-                                value="{{ $address->recipient_last_name ?? $address->recipient_last_name  }}"
+                                value="{{ old('recipient_last_name', $address->recipient_last_name)  }}"
                                 type="text" name="recipient_last_name"
                                 class="form-control form-control-sm" id="last_name"
                                 placeholder="نام خانوادگی گیرنده">
@@ -135,7 +139,7 @@
                             <label for="mobile" class="form-label mb-1">شماره
                                 موبایل</label>
                             <input
-                                value="{{ $address->mobile ?? $address->mobile }}"
+                                value="{{ old('mobile', $address->mobile) }}"
                                 type="text" name="mobile"
                                 class="form-control form-control-sm" id="mobile"
                                 placeholder="شماره موبایل">

@@ -9,7 +9,7 @@
 
 @section('content')
 
-    @include('Home::partials.preloader')
+{{--    @include('Home::partials.preloader')--}}
 
     @include('Home::partials.slide-show-and-top-banners')
 

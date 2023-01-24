@@ -14,6 +14,7 @@ use Modules\Cart\Services\CartService;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class CartController extends Controller
 {
@@ -52,7 +53,8 @@ class CartController extends Controller
             $relatedProducts = $productRepo->index()->get();
             return view('Cart::home.cart', compact(['cartItems', 'relatedProducts']));
         } else {
-            return redirect()->back()->with('danger', 'سبد خرید شما خالی است.');
+            return ShareService::errorToast('سبد خرید شما خالی است.');
+//            return redirect()->back()->with('danger', 'سبد خرید شما خالی است.');
         }
     }
 
@@ -76,8 +78,13 @@ class CartController extends Controller
     public function addToCart(Product $product, CartRequest $request): RedirectResponse
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
-        $this->service->store($request, $product->id, $cartItems);
-        return back()->with('swal-timer', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+        $cartItem = $this->service->store($request, $product->id, $cartItems);
+        if ($cartItem == 'product already in cart')
+            return ShareService::animateAlert('محصول قبلا به سبد خرید اضافه شده است.');
+        else if ($cartItem == 'product updated')
+            return ShareService::infoToast('محصول مورد نظر با موفقیت بروزرسانی شد');
+        else return ShareService::successToast('محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+//        return back()->with('swal-timer', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
     }
 
 
@@ -91,9 +98,29 @@ class CartController extends Controller
             $cartItem->delete();
             $cartItems = $this->repo->findUserCartItems()->get();
             if ($cartItems->count() == 0) {
-                return to_route('customer.home')->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
+                toast( 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.', 'warning')->autoClose(5000)->timerProgressBar();
+                return to_route('customer.home');
+//                    ->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
             }
         }
-        return back()->with('success', 'محصول مورد نظر با موفقیت از سبد خرید حذف شد');
+        return ShareService::successToast('محصول مورد نظر با موفقیت از سبد خرید حذف شد');
+//        return back()->with('success', 'محصول مورد نظر با موفقیت از سبد خرید حذف شد');
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function removeAllFromCart(): RedirectResponse
+    {
+        $cartItems = $this->repo->findUserCartItems()->get();
+        if ($cartItems->count() == 0) {
+            toast( 'سبد خرید شما خالی شد میتوانید از محصولات دیگر ما دیدن فرمایید.', 'warning')->autoClose(5000)->timerProgressBar();
+            return to_route('customer.home');
+//                    ->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
+        }
+        foreach ($cartItems as $cartItem) {
+            $cartItem->delete();
+        }
+        return ShareService::successAlert('موفقیت آمیز', 'همه محصولات از سبد خرید شما حذف شدند.');
     }
 }

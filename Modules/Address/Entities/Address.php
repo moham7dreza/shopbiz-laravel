@@ -25,6 +25,7 @@ class Address extends Model
     protected $fillable = [
         'user_id',
         'city_id',
+        'province_id',
         'address',
         'postal_code',
         'no',
@@ -49,5 +50,13 @@ class Address extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class);
     }
 }

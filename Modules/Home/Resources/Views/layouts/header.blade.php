@@ -135,6 +135,16 @@
                                             </section>
                                         @endforeach
                                     </section>
+                                    @if($cartItems->count() > 2)
+                                    <section class="border-top d-flex justify-content-between align-items-center p-2">
+                                            <section>حذف همه محصولات از سبد خرید</section>
+                                        <section class="flex-shrink-1">
+                                            <form action="{{ route('customer.sales-process.remove-all-from-cart') }}">
+                                                <button class="btn btn-light btn-sm text-muted p-1 delete" type="submit"><i class="fa fa-trash-alt"></i></button>
+                                            </form>
+                                        </section>
+                                    </section>
+                                    @endif
                                     <section
                                         class="header-cart-dropdown-footer border-top d-flex justify-content-between align-items-center p-2">
                                         <section class="">

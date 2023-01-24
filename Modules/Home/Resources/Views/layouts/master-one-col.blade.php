@@ -25,5 +25,7 @@
 @include('Home::alerts.dialog-timer')
 @include('Home::alerts.animate')
 @include('Home::alerts.delete-confirm', ['className' => 'delete'])
+@include('sweetalert::alert')
+
 </body>
 </html>

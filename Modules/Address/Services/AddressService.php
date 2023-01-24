@@ -17,6 +17,7 @@ class AddressService
         return $this->query()->create([
             'user_id' => auth()->id(),
             'city_id' => $request->city_id,
+            'province_id' => $request->province_id,
             'address' => $request->address,
             'postal_code' => $this->convertToEnglish($request->postal_code),
             'no' => $request->no,
@@ -37,6 +38,7 @@ class AddressService
         return $address->update([
             'user_id' => auth()->id(),
             'city_id' => $request->city_id,
+            'province_id' => $request->province_id,
             'address' => $request->address,
             'postal_code' => $this->convertToEnglish($request->postal_code),
             'no' => $request->no,

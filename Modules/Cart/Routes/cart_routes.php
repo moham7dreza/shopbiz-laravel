@@ -18,4 +18,5 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], static function ($router
     Route::post('/cart', [CartController::class, 'updateCart'])->name('customer.sales-process.update-cart');
     Route::post('/add-to-cart/{product:slug}', [CartController::class, 'addToCart'])->name('customer.sales-process.add-to-cart');
     Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customer.sales-process.remove-from-cart');
+    Route::get('/remove-all-from-cart/', [CartController::class, 'removeAllFromCart'])->name('customer.sales-process.remove-all-from-cart');
 });

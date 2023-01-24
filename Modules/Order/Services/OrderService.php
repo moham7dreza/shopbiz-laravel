@@ -12,11 +12,11 @@ use Modules\Payment\Entities\Payment;
 class OrderService
 {
     /**
-     * @param $order
+     * @param $orderId
      * @param $cartItems
      * @return void
      */
-    public function addOrderItemsAndDeleteAllCartItems($order, $cartItems): void
+    public function addOrderItemsAndDeleteAllCartItems($cartItems, $orderId): void
     {
         global $inputs;
         foreach ($cartItems as $cartItem) {
@@ -26,7 +26,7 @@ class OrderService
             $finalProductPrice = $cartItem->cartItemProductPrice() - $cartItemActiveAmazingSalesDiscountAmount;
             $finalTotalPrice = $finalProductPrice * $cartItem->number;
 
-            $inputs['order_id'] = $order->id;
+            $inputs['order_id'] = $orderId;
             $inputs['product_id'] = $cartItem->product_id;
 //            $inputs['product'] = $cartItem->product;
             $inputs['number'] = $cartItem->number;

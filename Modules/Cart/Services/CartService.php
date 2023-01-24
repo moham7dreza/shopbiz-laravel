@@ -4,7 +4,6 @@ namespace Modules\Cart\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\RedirectResponse;
 use Modules\Cart\Entities\CartItem;
 
 class CartService implements CartServiceInterface
@@ -32,9 +31,9 @@ class CartService implements CartServiceInterface
      * @param $request
      * @param $productId
      * @param $cartItems
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request, $productId, $cartItems): Model|Builder|RedirectResponse
+    public function store($request, $productId, $cartItems): Model|Builder|string
     {
         if (!isset($request->color)) {
             $request->color = null;
@@ -47,9 +46,13 @@ class CartService implements CartServiceInterface
             if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
                 if ($cartItem->number != $request->number) {
                     $cartItem->update(['number' => $request->number]);
-                    return redirect()->back()->with('info', 'محصول مورد نظر با موفقیت بروزرسانی شد');
+                    return 'product updated';
+//                    return redirect()->back()->with('info', 'محصول مورد نظر با موفقیت بروزرسانی شد');
                 } else {
-                    return back()->with('swal-animate', "محصول قبلا به سبد خرید اضافه شده است. برای ویرایش وارد سبد خرید خود شوید.");
+                    return 'product already in cart';
+//                    return to_route('customer.sales-process.cart');
+//                    return ShareService::animateAlert('محصول قبلا به سبد خرید اضافه شده است.');
+//                    return back()->with('swal-animate', "محصول قبلا به سبد خرید اضافه شده است. برای ویرایش وارد سبد خرید خود شوید.");
                 }
             }
         }
