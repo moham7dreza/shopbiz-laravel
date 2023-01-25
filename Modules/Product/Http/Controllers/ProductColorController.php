@@ -17,11 +17,11 @@ use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Services\Color\ProductColorService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductColorController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class ProductColorController extends Controller
     public function store(ProductColorRequest $request, Product $product): RedirectResponse
     {
         $this->service->store($request, $product->id);
-        return $this->successMessageWithRedirect('رنگ شما با موفقیت ثبت شد', params: [$product]);
+        return $this->showMessageWithRedirect('رنگ شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -117,7 +117,7 @@ class ProductColorController extends Controller
     public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
     {
         $this->service->update($request, $product->id, $color);
-        return $this->successMessageWithRedirect('رنگ شما با موفقیت ویرایش شد', params: [$product]);
+        return $this->showMessageWithRedirect('رنگ شما با موفقیت ویرایش شد', params: [$product]);
     }
 
     /**
@@ -130,7 +130,7 @@ class ProductColorController extends Controller
     public function destroy(Product $product, ProductColor $color): RedirectResponse
     {
         $color->delete();
-        return $this->successMessageWithRedirect('رنگ شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirect('رنگ شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**

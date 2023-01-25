@@ -14,12 +14,12 @@ use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Copan\CopanDiscountService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class CopanController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -75,7 +75,7 @@ class CopanController extends Controller
     public function store(CopanRequest $request): RedirectResponse
     {
         $this->copanDiscountService->store($request);
-        return $this->successMessageWithRedirect(' کد تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect(' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -98,7 +98,7 @@ class CopanController extends Controller
     public function update(CopanRequest $request, Copan $copanDiscount): RedirectResponse
     {
         $this->copanDiscountService->update($request, $copanDiscount);
-        return $this->successMessageWithRedirect('کد تخفیف  شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('کد تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -109,7 +109,7 @@ class CopanController extends Controller
     public function destroy(Copan $copanDiscount): RedirectResponse
     {
         $result = $copanDiscount->delete();
-        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

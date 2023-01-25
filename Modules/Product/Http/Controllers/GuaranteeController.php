@@ -17,11 +17,11 @@ use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface
 use Modules\Product\Services\Guarantee\ProductGuaranteeService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class GuaranteeController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class GuaranteeController extends Controller
     public function store(ProductGuaranteeRequest $request, Product $product): RedirectResponse
     {
         $this->service->store($request, $product->id);
-        return $this->successMessageWithRedirect('گارانتی شما با موفقیت ثبت شد', params: [$product]);
+        return $this->showMessageWithRedirect('گارانتی شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -128,7 +128,7 @@ class GuaranteeController extends Controller
     public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
-        return $this->successMessageWithRedirect('گارانتی شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirect('گارانتی شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**

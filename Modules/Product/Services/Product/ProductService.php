@@ -11,11 +11,11 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductService implements ProductServiceInterface
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
     public ProductMetaServiceInterface $metaService;
@@ -83,7 +83,7 @@ class ProductService implements ProductServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -140,7 +140,7 @@ class ProductService implements ProductServiceInterface
             $result = ShareService::createIndexAndSaveImage('product', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {

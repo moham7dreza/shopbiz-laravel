@@ -9,10 +9,13 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Home\Http\Requests\SalesProcess\ProfileCompletionRequest;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Services\UserService;
 
 class ProfileCompletionController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     public CartRepoEloquentInterface $cartRepo;
     public UserService $userService;
 
@@ -38,7 +41,11 @@ class ProfileCompletionController extends Controller
      */
     public function update(ProfileCompletionRequest $request): RedirectResponse
     {
-        $this->userService->profileCompletion($request);
-        return to_route('customer.sales-process.address-and-delivery');
+        $result = $this->userService->profileCompletion($request);
+        if ($result === 'mobile invalid') {
+            return $this->showAlertWithRedirect(message: 'فرمت شماره موبایل معتبر نیست', title: 'خطا', type: 'error');
+        }
+        return $this->showToastWithRedirect(title: 'اطلاعات شما تکمیل و ثبت شد.', route: 'customer.sales-process.address-and-delivery');
+//        return to_route('customer.sales-process.address-and-delivery');
     }
 }

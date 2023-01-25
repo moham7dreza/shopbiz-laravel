@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketAdmin;
 use Modules\Ticket\Repositories\TicketAdmin\TicketAdminRepoEloquentInterface;
 use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
@@ -17,7 +17,7 @@ use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class TicketAdminController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
     /**
      * @var string
      */
@@ -62,6 +62,6 @@ class TicketAdminController extends Controller
     public function set(User $admin): RedirectResponse
     {
         $this->service->addOrRemoveFromTicketAdmin($admin);
-        return $this->successMessageWithRedirect('تغییر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('تغییر شما با موفقیت حذف شد');
     }
 }

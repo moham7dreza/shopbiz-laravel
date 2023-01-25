@@ -10,6 +10,8 @@ use Modules\User\Entities\User;
 
 class ShareService
 {
+    // Permission
+    /******************************************************************************************************************/
     /**
      * @param null $user
      * @return bool
@@ -53,6 +55,8 @@ class ShareService
         return $user->user_type === $type ? count($result) : 0;
     }
 
+    // validate Mobile
+    /******************************************************************************************************************/
     /**
      * @param $mobileNumber
      * @return array|string|string[]|null
@@ -73,6 +77,8 @@ class ShareService
         return null;
     }
 
+    // File upload
+    /******************************************************************************************************************/
     /**
      * @param string $directoryName
      * @param $file
@@ -96,6 +102,7 @@ class ShareService
         return [$result, $fileSize, $fileFormat];
     }
 
+    /******************************************************************************************************************/
     /**
      * the primary timestamp is in ms - we should convert this to second then to date
      *
@@ -107,6 +114,8 @@ class ShareService
         return date("Y-m-d H:i:s", (int)substr($date, 0, 10));
     }
 
+    // Image intervention
+    /******************************************************************************************************************/
     /**
      * @param string $directoryName
      * @param $imageFile
@@ -159,6 +168,8 @@ class ShareService
         return $imageService->save($imageFile);
     }
 
+    // ajax change
+    /******************************************************************************************************************/
     /**
      * @param Model $model
      * @return JsonResponse
@@ -178,6 +189,11 @@ class ShareService
         }
     }
 
+    /**
+     * @param Model $model
+     * @param string $fieldName
+     * @return JsonResponse
+     */
     public static function ajaxChangeModelSpecialField(Model $model, string $fieldName = 'status'): JsonResponse
     {
         $model->$fieldName = $model->$fieldName == 0 ? 1 : 0;
@@ -193,87 +209,10 @@ class ShareService
         }
     }
 
-    /**
-     * Show success toast.
-     *
-     * @param string $title
-     * @return RedirectResponse
-     */
-    public static function successToast(string $title): RedirectResponse
-    {
-        toast($title, 'success')->autoClose(5000)->timerProgressBar();
-        return back();
-    }
 
-    /**
-     * Show success toast.
-     *
-     * @param string $title
-     * @return RedirectResponse
-     */
-    public static function infoToast(string $title): RedirectResponse
-    {
-        toast($title, 'info')->autoClose(5000)->timerProgressBar();
-        return back();
-    }
+    // Sweet Alert
+    /******************************************************************************************************************/
 
-    /**
-     * Show error toast.
-     *
-     * @param string $title
-     * @return RedirectResponse
-     */
-    public static function errorToast(string $title): RedirectResponse
-    {
-        toast($title, 'error')->autoClose(5000)->timerProgressBar();
-        return back();
-    }
-
-    /**
-     * @param $title
-     * @param $message
-     * @param int $autoClose
-     * @return RedirectResponse
-     */
-    public static function successAlert($title, $message, int $autoClose = 3000): RedirectResponse
-    {
-        alert()->success($title, $message)->autoClose($autoClose);
-        return back();
-    }
-
-    /**
-     * @param $title
-     * @param $message
-     * @param int $autoClose
-     * @return RedirectResponse
-     */
-    public static function infoAlert($title, $message, int $autoClose = 3000): RedirectResponse
-    {
-        alert()->info($title, $message)->autoClose($autoClose);
-        return back();
-    }
-
-    /**
-     * @param $message
-     * @return RedirectResponse
-     */
-    public static function animateAlert($message): RedirectResponse
-    {
-        alert()->info('هشدار', $message)->persistent(false, false)
-            ->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')
-            ->footer('برای ویرایش وارد <a class="text-decoration-none" href="/cart"> <strong>سبد خرید</strong> </a> خود شوید');
-        return back();
-    }
-
-    /**
-     * @param $title
-     * @param $message
-     * @param $type
-     * @param int $autoClose
-     * @return mixed
-     */
-    public static function alert($title, $message, $type, int $autoClose = 3000): mixed
-    {
         // example:
 //        toast('Signed in successfully','success')->timerProgressBar();
         // example:
@@ -290,9 +229,69 @@ class ShareService
 // example:
 //        alert()->error('Oops...', 'Something went wrong!')->footer('<a href="#">Why do I have this issue?</a>');
 // example:
-        return alert($title, $message, $type)->autoClose($autoClose);
+
+
+    /**
+     * @param $title
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showToast($title, string $type = 'success', int $timer = 5000): mixed
+    {
+        return toast($title, $type)->autoClose($timer)->timerProgressBar();
     }
 
+    /**
+     * @param $title
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showAnimatedToast($title, string $type = 'success', int $timer = 5000): mixed
+    {
+        return toast($title, $type)->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')->autoClose($timer)->timerProgressBar();
+    }
+
+    /**
+     * @param $msg
+     * @param string $title
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showAlert($msg, string $title = 'موفقیت آمیز', string $type = 'success', int $timer = 5000): mixed
+    {
+        return alert($title, $msg, $type)->autoClose($timer);
+    }
+
+    /**
+     * @param $msg
+     * @param string $title
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showAnimatedAlert($msg, string $title = 'موفقیت آمیز', string $type = 'success', int $timer = 5000): mixed
+    {
+        return alert($title, $msg, $type)->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')->autoClose($timer);
+    }
+
+    /**
+     * @param $msg
+     * @param string $title
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showAnimatedAlertWithFooter($msg, string $title = 'موفقیت آمیز', string $type = 'success', int $timer = 5000): mixed
+    {
+        return alert($title, $msg, $type)->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')
+            ->footer('برای ویرایش وارد <a class="text-decoration-none" href="/cart"> <strong>سبد خرید</strong> </a> خود شوید')->autoClose($timer);
+    }
+
+
+    /******************************************************************************************************************/
     /**
      * Convert string to slug.
      *
@@ -358,6 +357,8 @@ class ShareService
         return ceil(str_word_count(strip_tags($text)) / 250);
     }
 
+
+    /******************************************************************************************************************/
     /**
      * @param $text
      * @return array|string|string[]

@@ -9,11 +9,11 @@ use Modules\Setting\Entities\Setting;
 use Modules\Setting\Repositories\SettingRepoEloquent;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class SettingService
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -79,7 +79,7 @@ class SettingService
         }
         $result = ShareService::saveImageWithName('setting', $newImage, $newImageName, $this->imageService);
         if (!$result) {
-            return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
         }
         return $result;
     }

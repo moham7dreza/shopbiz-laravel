@@ -14,11 +14,11 @@ use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Delivery\Services\DeliveryService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class DeliveryController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class DeliveryController extends Controller
     public function store(DeliveryRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('روش ارسال جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('روش ارسال جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -114,7 +114,7 @@ class DeliveryController extends Controller
     public function update(DeliveryRequest $request, Delivery $delivery): RedirectResponse
     {
         $this->service->update($request, $delivery);
-        return $this->successMessageWithRedirect('روش ارسال شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('روش ارسال شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery): RedirectResponse
     {
         $result = $delivery->delete();
-        return $this->successMessageWithRedirect('روش ارسال شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('روش ارسال شما با موفقیت حذف شد');
     }
 
 

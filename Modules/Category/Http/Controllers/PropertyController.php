@@ -14,11 +14,11 @@ use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInt
 use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
 use Modules\Category\Services\Property\PropertyServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PropertyController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class PropertyController extends Controller
     public function store(CategoryAttributeRequest $request): RedirectResponse
     {
         $this->propertyService->store($request);
-        return $this->successMessageWithRedirect('فرم جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -118,7 +118,7 @@ class PropertyController extends Controller
     public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $this->propertyService->update($request, $categoryAttribute);
-        return $this->successMessageWithRedirect('فرم شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('فرم شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -130,6 +130,6 @@ class PropertyController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $result = $categoryAttribute->delete();
-        return $this->successMessageWithRedirect('فرم شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('فرم شما با موفقیت حذف شد');
     }
 }

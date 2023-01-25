@@ -15,11 +15,11 @@ use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
 use Modules\Notify\Services\SMS\SMSService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class SMSController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -80,7 +80,7 @@ class SMSController extends Controller
     public function store(SMSRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('پیامک شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('پیامک شما با موفقیت ثبت شد');
     }
 
     /**
@@ -115,7 +115,7 @@ class SMSController extends Controller
     public function update(SMSRequest $request, SMS $sms): RedirectResponse
     {
         $this->service->update($request, $sms);
-        return $this->successMessageWithRedirect('پیامک شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('پیامک شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -127,7 +127,7 @@ class SMSController extends Controller
     public function destroy(SMS $sms): RedirectResponse
     {
         $result = $sms->delete();
-        return $this->successMessageWithRedirect('پیامک شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('پیامک شما با موفقیت حذف شد');
     }
 
 

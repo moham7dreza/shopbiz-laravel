@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\CustomerRequest;
 use Modules\User\Repositories\UserRepoEloquentInterface;
@@ -17,7 +17,7 @@ use Modules\User\Services\UserService;
 
 class CustomerController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
     /**
      * @var string
      */
@@ -78,7 +78,7 @@ class CustomerController extends Controller
         $this->service->store($request);
         $adminUser = $this->repo->findById(1);
         $this->service->sendUserCreatedNotificationToAdmin($adminUser);
-        return $this->successMessageWithRedirect('مشتری جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('مشتری جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -113,7 +113,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, User $customerUser): RedirectResponse
     {
         $this->service->update($request, $customerUser);
-        return $this->successMessageWithRedirect('مشتری سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('مشتری سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -125,7 +125,7 @@ class CustomerController extends Controller
     public function destroy(User $customerUser): RedirectResponse
     {
         $result = $customerUser->delete();
-        return $this->successMessageWithRedirect('مشتری شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('مشتری شما با موفقیت حذف شد');
     }
 
 

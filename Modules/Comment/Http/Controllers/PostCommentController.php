@@ -13,11 +13,11 @@ use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Comment\Services\CommentService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PostCommentController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -145,9 +145,9 @@ class PostCommentController extends Controller
     {
         $result = $this->service->approveComment($postComment);
         if ($result) {
-            return $this->successMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
+            return $this->showMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return $this->successMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
         }
     }
 
@@ -161,9 +161,9 @@ class PostCommentController extends Controller
     {
         if ($postComment->parent == null) {
             $this->service->replyComment($request, $postComment);
-            return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+            return $this->showMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return $this->successMessageWithRedirect('خطا', 'swal-error');
+            return $this->showMessageWithRedirect('خطا', 'swal-error');
         }
     }
 }

@@ -220,8 +220,11 @@
                                             تومان</p>
                                     </section>
 
+                                @else
+                                    <section>
+                                        <p class="text-muted">هیج تخفیف عمومی فعال وجود ندارد</p>
+                                    </section>
                                 @endif
-
 
                                 <section class="border-bottom mb-3"></section>
                                 <section class="d-flex justify-content-between align-items-center">

@@ -15,11 +15,11 @@ use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface
 use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PostCategoryController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -99,7 +99,7 @@ class PostCategoryController extends Controller
     public function store(PostCategoryRequest $request): RedirectResponse
     {
         $this->categoryService->store($request);
-        return $this->successMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -134,7 +134,7 @@ class PostCategoryController extends Controller
     public function update(PostCategoryRequest $request, PostCategory $postCategory): RedirectResponse
     {
         $this->categoryService->update($request, $postCategory);
-        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -146,7 +146,7 @@ class PostCategoryController extends Controller
     public function destroy(PostCategory $postCategory): RedirectResponse
     {
         $result = $postCategory->delete();
-        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
     }
 
     /**

@@ -27,6 +27,7 @@ class LoginRegisterRequest extends FormRequest
         $route = Route::current();
         if ($route->getName() == 'auth.login-register') {
             return [
+                'rules' => 'required',
                 'id' => 'required|min:11|max:64|regex:/^[a-zA-Z0-9_.@\+]*$/',
             ];
         } elseif ($route->getName() == 'auth.login-confirm') {
@@ -40,7 +41,8 @@ class LoginRegisterRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'id' => 'ایمیل یا شماره موبایل'
+            'id' => 'ایمیل یا شماره موبایل',
+            'rules' => 'شرایط و قوانین'
         ];
     }
 }

@@ -15,11 +15,11 @@ use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PostController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -96,7 +96,7 @@ class PostController extends Controller
         // $this->authorize('create', Post::class);
 
         $this->service->store($request);
-        return $this->successMessageWithRedirect('پست جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('پست جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -150,7 +150,7 @@ class PostController extends Controller
         // $this->authorize('update', $post);
 
         $this->service->update($request, $post);
-        return $this->successMessageWithRedirect('پست شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('پست شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -162,7 +162,7 @@ class PostController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         $result = $post->delete();
-        return $this->successMessageWithRedirect('پست شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('پست شما با موفقیت حذف شد');
     }
 
     /**

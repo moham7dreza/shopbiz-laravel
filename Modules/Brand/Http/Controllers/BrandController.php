@@ -14,11 +14,11 @@ use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class BrandController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -80,7 +80,7 @@ class BrandController extends Controller
     public function store(BrandRequest $request): RedirectResponse
     {
        $this->service->store($request);
-        return $this->successMessageWithRedirect('برند جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('برند جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -116,7 +116,7 @@ class BrandController extends Controller
     public function update(BrandRequest $request, Brand $brand): RedirectResponse
     {
         $this->service->update($request, $brand);
-        return $this->successMessageWithRedirect('برند شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('برند شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -128,7 +128,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand): RedirectResponse
     {
         $result = $brand->delete();
-        return $this->successMessageWithRedirect('برند شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('برند شما با موفقیت حذف شد');
     }
 
     /**

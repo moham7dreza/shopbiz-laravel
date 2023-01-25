@@ -17,11 +17,11 @@ use Modules\Notify\Services\EmailFile\EmailFileService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\File\FileService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class EmailFileController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -87,7 +87,7 @@ class EmailFileController extends Controller
     {
 
         $this->service->store($request, $email->id);
-        return $this->successMessageWithRedirect('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
+        return $this->showMessageWithRedirect('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
     }
 
     /**
@@ -123,7 +123,7 @@ class EmailFileController extends Controller
     {
         $emailId = $file->email->id;
         $this->service->update($request, $emailId, $file);
-        return $this->successMessageWithRedirect('فایل شما با موفقیت ویرایش شد', params: [$emailId]);
+        return $this->showMessageWithRedirect('فایل شما با موفقیت ویرایش شد', params: [$emailId]);
     }
 
     /**
@@ -135,7 +135,7 @@ class EmailFileController extends Controller
     public function destroy(EmailFile $file): RedirectResponse
     {
         $result = $file->delete();
-        return $this->successMessageWithRedirect('فایل شما با موفقیت حذف شد', params: [$file->email->id]);
+        return $this->showMessageWithRedirect('فایل شما با موفقیت حذف شد', params: [$file->email->id]);
     }
 
     /**

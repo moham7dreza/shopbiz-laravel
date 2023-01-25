@@ -14,11 +14,11 @@ use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 use Modules\Banner\Services\BannerService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class BannerController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -82,7 +82,7 @@ class BannerController extends Controller
     public function store(BannerRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('بنر جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('بنر جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -118,7 +118,7 @@ class BannerController extends Controller
     public function update(BannerRequest $request, Banner $banner): RedirectResponse
     {
         $this->service->update($request, $banner);
-        return $this->successMessageWithRedirect('بنر شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('بنر شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -130,7 +130,7 @@ class BannerController extends Controller
     public function destroy(Banner $banner): RedirectResponse
     {
         $result = $banner->delete();
-        return $this->successMessageWithRedirect('بنر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('بنر شما با موفقیت حذف شد');
     }
 
 

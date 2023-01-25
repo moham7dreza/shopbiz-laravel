@@ -13,11 +13,11 @@ use Modules\Category\Http\Requests\CategoryValueRequest;
 use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
 use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PropertyValueController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -83,7 +83,7 @@ class PropertyValueController extends Controller
     public function store(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $this->propertyValueService->store($request, $categoryAttribute);
-        return $this->successMessageWithRedirect(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirect(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -120,7 +120,7 @@ class PropertyValueController extends Controller
     public function update(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $this->propertyValueService->update($request, $categoryAttribute, $value);
-        return $this->successMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -133,6 +133,6 @@ class PropertyValueController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $result = $value->delete();
-        return $this->successMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
     }
 }

@@ -37,6 +37,6 @@
     @include('Panel::alerts.sweetalert.error')
     @include('Panel::alerts.sweetalert.success')
 
-
+    @include('sweetalert::alert')
 </body>
 </html>

@@ -29,14 +29,20 @@ class AuthService
         return $token;
     }
 
+
     /**
      * @param $id
      * @param $userRepo
-     * @return RedirectResponse|void
+     * @return mixed|string
      */
-    public function loginRegister($id, $userRepo)
+    public function loginRegister($id, $userRepo): mixed
     {
-        [$user, $type] = $this->findOrCreateUserByMobileOrEmail($id, $userRepo);
+        $result = $this->findOrCreateUserByMobileOrEmail($id, $userRepo);
+        if ($result === 'id invalid') {
+            return $result;
+        }
+        $user = $result['user'];
+        $type = $result['type'];
         [$otpCode, $token] = $this->store($user->id, $type, $id);
         $this->sendSmsOrEmailToUser($user, $type, $id, $otpCode);
         return $token;
@@ -65,12 +71,13 @@ class AuthService
         return [$otpCode, $token];
     }
 
+
     /**
      * @param $id
      * @param $userRepo
-     * @return Builder|Model|RedirectResponse|mixed
+     * @return array|string
      */
-    private function findOrCreateUserByMobileOrEmail($id, $userRepo): mixed
+    private function findOrCreateUserByMobileOrEmail($id, $userRepo): array|string
     {
         //check id is email or not
         if (filter_var($id, FILTER_VALIDATE_EMAIL)) {
@@ -92,16 +99,17 @@ class AuthService
                 $newUser['mobile'] = $id;
             }
         } else {
-            $errorText = 'شناسه ورودی شما نه شماره موبایل است نه ایمیل';
-            return to_route('auth.login-register-form')->withErrors(['id' => $errorText]);
+            return 'id invalid';
+//            $errorText = 'شناسه ورودی شما نه شماره موبایل است نه ایمیل';
+//            return to_route('auth.login-register-form')->withErrors(['id' => $errorText]);
         }
 
         if (empty($user)) {
             $newUser['password'] = '98355154';
-            $newUser['activation'] = 1;
+            $newUser['activation'] = User::ACTIVATE;
             $user = User::query()->create($newUser);
         }
-        return [$user, $type];
+        return ['user' => $user, 'type' => $type];
     }
 
 
@@ -116,7 +124,7 @@ class AuthService
     {
         //send sms or email
 
-        if ($type == 0) {
+        if ($type == Otp::TYPE_MOBILE) {
             //send sms
             $smsService = new SmsService();
             $smsService->setFrom(Config::get('smsConfig.otp_from'));
@@ -126,7 +134,7 @@ class AuthService
 
             $messagesService = new MessageService($smsService);
 
-        } elseif ($type == 1) {
+        } elseif ($type == Otp::TYPE_EMAIL) {
             $emailService = new EmailService();
             $details = [
                 'title' => 'ایمیل فعال سازی',
@@ -150,11 +158,11 @@ class AuthService
     public function updateAndLoginUser($otp): void
     {
         // if everything is ok :
-        $otp->update(['used' => 1]);
+        $otp->update(['used' => Otp::CODE_USED]);
         $user = $otp->user()->first();
-        if ($otp->type == 0 && empty($user->mobile_verified_at)) {
+        if ($otp->type == Otp::TYPE_MOBILE && empty($user->mobile_verified_at)) {
             $user->update(['mobile_verified_at' => Carbon::now()]);
-        } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
+        } elseif ($otp->type == Otp::TYPE_EMAIL && empty($user->email_verified_at)) {
             $user->update(['email_verified_at' => Carbon::now()]);
         }
         Auth::login($user);

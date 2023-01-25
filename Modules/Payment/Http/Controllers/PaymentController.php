@@ -11,11 +11,11 @@ use Modules\Payment\Entities\Payment;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 use Modules\Payment\Services\PaymentService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PaymentController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -100,7 +100,7 @@ class PaymentController extends Controller
     public function canceled(Payment $payment): RedirectResponse
     {
         $this->service->makePaymentReturned($payment);
-        return $this->successMessageWithRedirect('سفارش شما با موفقیت باطل شد');
+        return $this->showMessageWithRedirect('سفارش شما با موفقیت باطل شد');
     }
 
     /**
@@ -110,7 +110,7 @@ class PaymentController extends Controller
     public function returned(Payment $payment): RedirectResponse
     {
         $this->service->makePaymentCanceled($payment);
-        return $this->successMessageWithRedirect('سفارش شما با موفقیت بازگردانده شد');
+        return $this->showMessageWithRedirect('سفارش شما با موفقیت بازگردانده شد');
     }
 
     /**

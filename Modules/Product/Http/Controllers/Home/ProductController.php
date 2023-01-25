@@ -14,9 +14,12 @@ use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     public ProductRepoEloquentInterface $repo;
     public ProductService $service;
 
@@ -52,11 +55,12 @@ class ProductController extends Controller
             return back()->with('swal-animate', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
         }
         $commentService->store($request, $product);
-        if (ShareService::checkForAdmin())
-            return ShareService::successToast('نظر شما با موفقیت ثبت شد.');
-//            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
+        if (ShareService::checkForAdmin()) {
+            return $this->showToastWithRedirect(title: 'نظر شما با موفقیت ثبت شد.');
+            //            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
+        }
 //        return back()->with('swal-animate', 'نظر شما با موفقیت ثبت شد. پس از تایید در سایت قرار خواهد گرفت.');
-        return ShareService::successAlert('موفقیت آمیز', 'نظر شما با موفقیت ثبت شد پس از تایید در سایت قرار خواهد گرفت.');
+        return $this->showAlertWithRedirect(message: 'نظر شما با موفقیت ثبت شد پس از تایید در سایت قرار خواهد گرفت.');
     }
 
 
@@ -66,8 +70,6 @@ class ProductController extends Controller
      */
     public function addToFavorite(Product $product): JsonResponse
     {
-//        $product->user->contains(auth()->id()) ? ShareService::infoToast('محصول از علاقه مندی شما حذف شد') :
-//            ShareService::infoToast('محصول به علاقه مندی شما اضافه شد');
         return $this->service->productAddToFavorite($product);
     }
 }

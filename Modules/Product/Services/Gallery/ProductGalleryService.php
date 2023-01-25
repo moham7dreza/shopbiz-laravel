@@ -8,11 +8,11 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Product\Entities\Gallery;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductGalleryService implements ProductGalleryServiceInterface
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -36,12 +36,12 @@ class ProductGalleryService implements ProductGalleryServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-gallery', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
             $request->image = null;
-            return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
         }
 
         return $this->query()->create([

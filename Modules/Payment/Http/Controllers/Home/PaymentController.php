@@ -17,11 +17,13 @@ use Modules\Payment\Http\Requests\Home\PaymentRequest;
 use Modules\Payment\Services\PaymentServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Payment\PaymentService;
-use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 
 class PaymentController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     public CartRepoEloquentInterface $cartRepo;
     public OrderService $orderService;
     public OrderRepoEloquentInterface $orderRepo;
@@ -63,7 +65,7 @@ class PaymentController extends Controller
             if (!is_null($copan->user_id)) {
                 $copan = $this->copanDiscountRepo->findActiveCopanDiscountWithCodeAssignedForUser($request->copan);
                 if (is_null($copan)) {
-                    return ShareService::errorToast('کد تخفیف اشتباه وارد شده است');
+                    return $this->showToastWithRedirect(title: 'کد تخفیف اشتباه وارد شده است', type: 'error');
 //                    return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
                 }
             }
@@ -73,14 +75,14 @@ class PaymentController extends Controller
                 $copanDiscountAmount = $this->orderService->calcCopanDiscountAmount($copan, $order->order_final_amount);
                 $this->orderService->update($order, $copanDiscountAmount, $copan->id);
 //                return redirect()->back()->with(['copan' => 'کد تخفیف با موفقیت اعمال شد']);
-                return ShareService::successAlert('موفقیت آمیز', 'کد تخفیف با موفقیت اعمال شد');
+                return $this->showAlertWithRedirect('کد تخفیف با موفقیت اعمال شد');
             } else {
 //                return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
-                return ShareService::errorToast('کد تخفیف اشتباه وارد شده است');
+                return $this->showToastWithRedirect(title: 'کد تخفیف اشتباه وارد شده است', type: 'error');
             }
         } else {
 //            return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);
-            return ShareService::errorToast('کد تخفیف اشتباه وارد شده است');
+            return $this->showToastWithRedirect(title: 'کد تخفیف اشتباه وارد شده است', type: 'error');
         }
     }
 
@@ -111,9 +113,8 @@ class PaymentController extends Controller
         $this->orderService->lastStepUpdate($order, $model['type'], $payment->id);
         //
         $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
-        alert()->success('موفقیت آمیز', 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید');
-        return redirect()->route('customer.home');
-//            ->with('success', 'سفارش شما با موفقیت ثبت شد');
+        return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'customer.home');
+//        return to_route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
     }
 
     /**
@@ -130,10 +131,12 @@ class PaymentController extends Controller
         $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
         if ($result['success']) {
             $order->update(['order_status' => Order::ORDER_STATUS_CONFIRMED]);
-            return redirect()->route('customer.home')->with('success', 'پرداخت شما با موفقیت انجام شد');
+            return $this->showAlertWithRedirect(message: 'پرداخت شما با موفقیت انجام شد', route: 'customer.home');
+//            return to_route('customer.home')->with('success', 'پرداخت شما با موفقیت انجام شد');
         } else {
             $order->update(['order_status' => Order::ORDER_STATUS_NOT_CONFIRMED]);
-            return redirect()->route('customer.home')->with('danger', 'سفارش شما با خطا مواجه شد');
+            return $this->showAlertWithRedirect(message: 'سفارش شما با خطا مواجه شد', type: 'error', route: 'customer.home');
+//            return to_route('customer.home')->with('danger', 'سفارش شما با خطا مواجه شد');
         }
     }
 }

@@ -8,12 +8,12 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Notify\Entities\EmailFile;
 use Modules\Share\Services\File\FileService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class EmailFileService implements EmailFileServiceInterface
 {
 
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public FileService $fileService;
 
@@ -33,7 +33,7 @@ class EmailFileService implements EmailFileServiceInterface
             [$result, $fileSize, $fileFormat] = ShareService::saveFileAndMove('email-files',
                 $request->file('file'), $this->fileService);
             if ($result === false) {
-                return $this->successMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
+                return $this->showMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
                     ,params: [$emailId]);
             }
         } else {
@@ -65,7 +65,7 @@ class EmailFileService implements EmailFileServiceInterface
             [$result, $fileSize, $fileFormat] = ShareService::saveFileAndMove('email-files',
                 $request->file('file'), $this->fileService);
             if ($result === false) {
-                return $this->successMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
+                return $this->showMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
                     ,params: [$emailId]);
             }
         } else {

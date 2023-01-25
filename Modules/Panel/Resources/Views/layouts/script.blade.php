@@ -9,14 +9,14 @@
     <script>
         let notificationDropdown = document.getElementById('header-notification-toggle');
         notificationDropdown.addEventListener('click', function(){
-            console.log('yes');
+            // console.log('yes');
 
             $.ajax({
                 type : "POST",
                 url : '/panel/notify/notification/read-all',
                 data : {_token: "{{ csrf_token() }}" },
                 success : function(){
-                    console.log('yes');
+                    // console.log('yes');
                 }
             })
         });

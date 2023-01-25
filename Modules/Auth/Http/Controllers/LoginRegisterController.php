@@ -11,10 +11,13 @@ use Modules\Auth\Http\Requests\LoginRegisterRequest;
 use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 use Modules\Auth\Services\AuthService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Repositories\UserRepoEloquentInterface;
 
 class LoginRegisterController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     public AuthRepoEloquentInterface $repo;
     private AuthService $service;
 
@@ -44,6 +47,9 @@ class LoginRegisterController extends Controller
     public function loginRegister(LoginRegisterRequest $request, UserRepoEloquentInterface $userRepo): RedirectResponse
     {
         $token = $this->service->loginRegister($request->id, $userRepo);
+        if ($token === 'id invalid') {
+            return $this->showAlertWithRedirect(message:'شناسه ورودی شما نه شماره موبایل است نه ایمیل', title: 'خطا', type: 'error', route: 'auth.login-register-form');
+        }
         return to_route('auth.login-confirm-form', $token);
     }
 
@@ -56,7 +62,8 @@ class LoginRegisterController extends Controller
     {
         $otp = $this->repo->findByToken($token);
         if (empty($otp)) {
-            return to_route('auth.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
+            return $this->showAlertWithRedirect(message: 'آدرس وارد شده نامعتبر میباشد', title: 'خطا', type: 'error', route: 'auth.login-register-form');
+//            return to_route('auth.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
         }
         return view('Auth::home.login-confirm', compact(['token', 'otp']));
     }
@@ -71,14 +78,17 @@ class LoginRegisterController extends Controller
     {
         $otp = $this->repo->findValidOtp($token);
         if (empty($otp)) {
-            return to_route('auth.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
+            return $this->showAlertWithRedirect(message: 'آدرس وارد شده نامعتبر میباشد', title: 'خطا', type: 'error', route: 'auth.login-register-form');
+//            return to_route('auth.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
         }
         //if otp not match
         if ($otp->otp_code !== $request->otp) {
-            return to_route('auth.login-confirm-form', $token)->withErrors(['otp' => 'کد وارد شده صحیح نمیباشد']);
+            return $this->showAlertWithRedirect(message: 'کد وارد شده صحیح نمیباشد', title: 'خطا', type: 'error', route: 'auth.login-register-form');
+//            return to_route('auth.login-confirm-form', $token)->withErrors(['otp' => 'کد وارد شده صحیح نمیباشد']);
         }
         $this->service->updateAndLoginUser($otp);
-        return to_route('customer.home');
+        return $this->showToastWithRedirect(title: 'شما با موفقیت وارد حساب کاربری خود شدید', route: 'customer.home');
+//        return to_route('customer.home');
     }
 
 
@@ -91,7 +101,8 @@ class LoginRegisterController extends Controller
         $otp = $this->repo->findExpiredOtp($token);
 
         if (empty($otp)) {
-            return to_route('auth.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
+            return $this->showAlertWithRedirect(message: 'آدرس وارد شده نامعتبر میباشد', title: 'خطا', type: 'error', route: 'auth.login-register-form');
+//            return to_route('auth.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
         }
         $token = $this->service->resendOtp($otp);
         return to_route('auth.login-confirm-form', $token);
@@ -104,6 +115,7 @@ class LoginRegisterController extends Controller
     public function logout(): RedirectResponse
     {
         Auth::logout();
-        return to_route('customer.home');
+        return $this->showToastWithRedirect(title: 'شما از حساب کاربری خود خارج شدید', route: 'customer.home');
+//        return to_route('customer.home');
     }
 }

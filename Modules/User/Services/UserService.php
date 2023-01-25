@@ -9,14 +9,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Entities\User;
 use Modules\User\Notifications\NewUserRegistered;
 
 class UserService
 {
 
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -52,7 +52,7 @@ class UserService
         if ($request->hasFile('profile_photo_path')) {
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->profile_photo_path = $result;
         } else {
@@ -86,7 +86,7 @@ class UserService
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
 
             if ($result === false) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->profile_photo_path = $result;
         } else {
@@ -118,11 +118,12 @@ class UserService
         ]);
     }
 
+
     /**
      * @param $request
-     * @return Authenticatable|RedirectResponse|null
+     * @return Authenticatable|string|null
      */
-    public function profileCompletion($request): Authenticatable|RedirectResponse|null
+    public function profileCompletion($request): string|Authenticatable|null
     {
         $national_code = convertArabicToEnglish($request->national_code);
         $national_code = convertPersianToEnglish($national_code);
@@ -136,12 +137,14 @@ class UserService
         if (isset($request->mobile) && empty($user->mobile)) {
             $inputs['mobile'] = ShareService::extractMobileNumber($request->mobile);
             if (is_null($inputs['mobile'])) {
-                $errorText = 'فرمت شماره موبایل معتبر نیست';
-                return redirect()->back()->withErrors(['mobile', $errorText]);
+                return 'mobile invalid';
+//                $errorText = 'فرمت شماره موبایل معتبر نیست';
+//                return redirect()->back()->withErrors(['mobile', $errorText]);
             }
         } else {
-            $errorText = 'فرمت شماره موبایل معتبر نیست';
-            return redirect()->back()->withErrors(['mobile', $errorText]);
+            return 'mobile invalid';
+//            $errorText = 'فرمت شماره موبایل معتبر نیست';
+//            return redirect()->back()->withErrors(['mobile', $errorText]);
         }
 
         if (isset($request->email) && empty($user->email)) {
@@ -192,9 +195,9 @@ class UserService
     /**
      * Get model(User) query, builder.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    private function query()
+    private function query(): Builder
     {
         return User::query();
     }

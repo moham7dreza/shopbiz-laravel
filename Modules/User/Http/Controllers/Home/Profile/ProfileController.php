@@ -8,11 +8,14 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Http\Requests\Home\UpdateProfileRequest;
 use Modules\User\Services\UserService;
 
 class ProfileController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     public UserService $userService;
 
     /**
@@ -30,6 +33,7 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
         $this->userService->updateUserProfile($request);
-        return to_route('customer.profile.profile')->with('success', 'حساب کاربری با موفقیت ویرایش شد');
+        return $this->showToastWithRedirect(title: 'حساب کاربری با موفقیت ویرایش شد', route: 'customer.profile.profile');
+//        return to_route('customer.profile.profile')->with('success', 'حساب کاربری با موفقیت ویرایش شد');
     }
 }

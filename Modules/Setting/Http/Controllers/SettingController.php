@@ -11,11 +11,11 @@ use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Setting\Services\SettingService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class SettingController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -105,7 +105,7 @@ class SettingController extends Controller
     public function update(SettingRequest $request, Setting $setting): RedirectResponse
     {
         $this->service->update($request, $setting);
-        return $this->successMessageWithRedirect('تنظیمات سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('تنظیمات سایت شما با موفقیت ویرایش شد');
     }
 
     /**

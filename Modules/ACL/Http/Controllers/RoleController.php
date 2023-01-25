@@ -13,11 +13,11 @@ use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class RoleController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -82,7 +82,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('نقش جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('نقش جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -117,7 +117,7 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         $this->service->update($request, $role);
-        return $this->successMessageWithRedirect('نقش شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('نقش شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -129,7 +129,7 @@ class RoleController extends Controller
     public function destroy(Role $role): RedirectResponse
     {
         $result = $role->delete();
-        return $this->successMessageWithRedirect('نقش شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('نقش شما با موفقیت حذف شد');
     }
 
 
@@ -154,7 +154,7 @@ class RoleController extends Controller
     {
 //        $this->service->rolePermissionsUpdate($request, $role);
         $role->syncPermissions($request->permissions);
-        return $this->successMessageWithRedirect('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
+        return $this->showMessageWithRedirect('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketPriority;
 use Modules\Ticket\Http\Requests\TicketPriorityRequest;
 use Modules\Ticket\Repositories\TicketPriority\TicketPriorityRepoEloquentInterface;
@@ -18,7 +18,7 @@ use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 
 class TicketPriorityController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
     /**
      * @var string
      */
@@ -77,7 +77,7 @@ class TicketPriorityController extends Controller
     public function store(TicketPriorityRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('اولویت  جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('اولویت  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -113,7 +113,7 @@ class TicketPriorityController extends Controller
     public function update(TicketPriorityRequest $request, TicketPriority $ticketPriority): RedirectResponse
     {
         $this->service->update($request, $ticketPriority);
-        return $this->successMessageWithRedirect('اولویت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('اولویت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -125,7 +125,7 @@ class TicketPriorityController extends Controller
     public function destroy(TicketPriority $ticketPriority): RedirectResponse
     {
         $result = $ticketPriority->delete();
-        return $this->successMessageWithRedirect('اولویت شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('اولویت شما با موفقیت حذف شد');
     }
 
 

@@ -14,11 +14,11 @@ use Modules\Page\Repositories\PageRepoEloquentInterface;
 use Modules\Page\Services\PageService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PageController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class PageController extends Controller
     public function store(PageRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('صفحه جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('صفحه جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -114,7 +114,7 @@ class PageController extends Controller
     public function update(PageRequest $request, Page $page): RedirectResponse
     {
         $this->service->update($request, $page);
-        return $this->successMessageWithRedirect('صفحه شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('صفحه شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class PageController extends Controller
     public function destroy(Page $page): \Illuminate\Http\RedirectResponse
     {
         $result = $page->delete();
-        return $this->successMessageWithRedirect('صفحه شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('صفحه شما با موفقیت حذف شد');
     }
 
 

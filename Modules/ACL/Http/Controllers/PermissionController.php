@@ -14,11 +14,11 @@ use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PermissionController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request): RedirectResponse
     {
         $this->service->permissionStore($request);
-        return $this->successMessageWithRedirect('دسترسی جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('دسترسی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -117,7 +117,7 @@ class PermissionController extends Controller
     public function update(PermissionRequest $request, Permission $permission): RedirectResponse
     {
         $this->service->permissionUpdate($request, $permission);
-        return $this->successMessageWithRedirect('دسترسی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('دسترسی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -129,7 +129,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $result = $permission->delete();
-        return $this->successMessageWithRedirect('دسترسی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('دسترسی شما با موفقیت حذف شد');
     }
 
     /**

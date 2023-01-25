@@ -14,11 +14,11 @@ use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Discount\Services\Common\CommonDiscountService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class CommonController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -74,7 +74,7 @@ class CommonController extends Controller
     public function store(CommonDiscountRequest $request): RedirectResponse
     {
         $this->commonDiscountService->store($request);
-        return $this->successMessageWithRedirect('کد تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -95,7 +95,7 @@ class CommonController extends Controller
     public function update(CommonDiscountRequest $request, CommonDiscount $commonDiscount): RedirectResponse
     {
         $this->commonDiscountService->update($request, $commonDiscount);
-        return $this->successMessageWithRedirect('کد تخفیف جدید شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('کد تخفیف جدید شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -105,7 +105,7 @@ class CommonController extends Controller
     public function destroy(CommonDiscount $commonDiscount): RedirectResponse
     {
         $result = $commonDiscount->delete();
-        return $this->successMessageWithRedirect('کد تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('کد تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

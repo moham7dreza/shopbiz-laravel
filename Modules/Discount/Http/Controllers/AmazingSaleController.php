@@ -16,11 +16,11 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class AmazingSaleController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -78,7 +78,7 @@ class AmazingSaleController extends Controller
     public function store(AmazingSaleRequest $request): RedirectResponse
     {
         $this->amazingSaleDiscountService->store($request);
-        return $this->successMessageWithRedirect(' تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect(' تخفیف جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -100,7 +100,7 @@ class AmazingSaleController extends Controller
     public function update(AmazingSaleRequest $request, AmazingSale $amazingSale): RedirectResponse
     {
         $this->amazingSaleDiscountService->update($request, $amazingSale);
-        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -111,7 +111,7 @@ class AmazingSaleController extends Controller
     public function destroy(AmazingSale $amazingSale): RedirectResponse
     {
         $result = $amazingSale->delete();
-        return $this->successMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Http\Requests\TicketRequest;
 use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
@@ -16,7 +16,7 @@ use Modules\Ticket\Services\Ticket\TicketService;
 
 class TicketController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -160,7 +160,7 @@ class TicketController extends Controller
     public function answer(TicketRequest $request, Ticket $ticket): RedirectResponse
     {
         $this->service->store($request, $ticket);
-        return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
     }
 
 
@@ -171,6 +171,6 @@ class TicketController extends Controller
     public function change(Ticket $ticket): RedirectResponse
     {
         $this->service->changeTicketStatus($ticket);
-        return $this->successMessageWithRedirect('تغییر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('تغییر شما با موفقیت حذف شد');
     }
 }

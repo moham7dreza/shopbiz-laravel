@@ -15,11 +15,11 @@ use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -83,7 +83,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('محصول جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('محصول جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $this->service->update($request, $product);
-        return $this->successMessageWithRedirect('محصول شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('محصول شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -136,7 +136,7 @@ class ProductController extends Controller
     public function destroy(Product $product): RedirectResponse
     {
         $result = $product->delete();
-        return $this->successMessageWithRedirect('محصول ما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('محصول ما با موفقیت حذف شد');
     }
 
     /**

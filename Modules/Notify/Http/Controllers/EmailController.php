@@ -14,11 +14,11 @@ use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
 use Modules\Notify\Services\Email\EmailService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class EmailController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class EmailController extends Controller
     public function store(EmailRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('ایمیل شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('ایمیل شما با موفقیت ثبت شد');
     }
 
     /**
@@ -116,7 +116,7 @@ class EmailController extends Controller
     public function update(EmailRequest $request, Email $email): RedirectResponse
     {
         $this->service->update($request, $email);
-        return $this->successMessageWithRedirect('ایمیل شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('ایمیل شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -128,7 +128,7 @@ class EmailController extends Controller
     public function destroy(Email $email): RedirectResponse
     {
         $result = $email->delete();
-        return $this->successMessageWithRedirect('ایمیل شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('ایمیل شما با موفقیت حذف شد');
     }
 
 

@@ -13,7 +13,7 @@ use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\AdminUserRequest;
 use Modules\User\Http\Requests\UserPermissionsRequest;
@@ -23,7 +23,7 @@ use Modules\User\Services\UserService;
 
 class AdminUserController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -85,7 +85,7 @@ class AdminUserController extends Controller
     public function store(AdminUserRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->service->store($request, User::TYPE_ADMIN);
-        return $this->successMessageWithRedirect('ادمین جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('ادمین جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -120,7 +120,7 @@ class AdminUserController extends Controller
     public function update(AdminUserRequest $request, User $adminUser): RedirectResponse
     {
         $this->service->update($request, $adminUser);
-        return $this->successMessageWithRedirect('ادمین سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('ادمین سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -132,7 +132,7 @@ class AdminUserController extends Controller
     public function destroy(User $adminUser): RedirectResponse
     {
         $result = $adminUser->delete();
-        return $this->successMessageWithRedirect('ادمین شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('ادمین شما با موفقیت حذف شد');
     }
 
     /**
@@ -187,7 +187,7 @@ class AdminUserController extends Controller
 //            }
 //        }
         $admin->syncRoles($request->roles);
-        return $this->successMessageWithRedirect('نقش با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('نقش با موفقیت ویرایش شد');
     }
 
 
@@ -211,6 +211,6 @@ class AdminUserController extends Controller
     {
 //        $admin->permissions()->sync($request->permissions);
         $admin->syncPermissions($request->permissions);
-        return $this->successMessageWithRedirect('سطح دسترسی با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('سطح دسترسی با موفقیت ویرایش شد');
     }
 }

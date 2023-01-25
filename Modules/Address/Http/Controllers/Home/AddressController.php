@@ -19,10 +19,11 @@ use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Order\Services\OrderService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class AddressController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
 
     public AddressRepoEloquentInterface $addressRepo;
     public AddressService $addressService;
@@ -40,11 +41,11 @@ class AddressController extends Controller
      * @param OrderService $orderService
      * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
      */
-    public function __construct(AddressRepoEloquentInterface  $addressRepoEloquent,
-                                AddressService                $addressService,
-                                CartRepoEloquentInterface     $cartRepo,
-                                DeliveryRepoEloquentInterface $deliveryRepo,
-                                OrderService $orderService,
+    public function __construct(AddressRepoEloquentInterface        $addressRepoEloquent,
+                                AddressService                      $addressService,
+                                CartRepoEloquentInterface           $cartRepo,
+                                DeliveryRepoEloquentInterface       $deliveryRepo,
+                                OrderService                        $orderService,
                                 CommonDiscountRepoEloquentInterface $commonDiscountRepo)
     {
         $this->addressRepo = $addressRepoEloquent;
@@ -65,8 +66,7 @@ class AddressController extends Controller
         $deliveryMethods = $this->deliveryRepo->activeMethods()->get();
         $addresses = $this->addressRepo->userAddresses()->get();
         if (empty($this->cartRepo->findUserCartItems()->count())) {
-            toast('سبد خرید شما خالی است.', 'error');
-            return redirect()->route('customer.sales-process.cart');
+            return $this->showAlertWithRedirect(message: 'سبد خرید شما خالی است.', title: 'خطا', type: 'error', route: 'customer.home');
         }
         return view('Address::address-and-delivery', compact([
             'cartItems', 'provinces', 'deliveryMethods', 'addresses'
@@ -96,7 +96,7 @@ class AddressController extends Controller
     {
         $this->addressService->store($request);
 //        return redirect()->back()->with('success', 'آدرس جدید با موفقیت ثبت شد.');
-        return ShareService::successAlert('موفقیت آمیز',  'آدرس جدید با موفقیت ثبت شد.');
+        return $this->showAlertWithRedirect('آدرس جدید با موفقیت ثبت شد.');
     }
 
     /**
@@ -107,7 +107,7 @@ class AddressController extends Controller
     public function updateAddress(Address $address, UpdateAddressRequest $request): RedirectResponse
     {
         $this->addressService->update($request, $address);
-        return ShareService::infoAlert('موفقیت آمیز',  'آدرس جدید با موفقیت ثبت شد.');
+        return $this->showAlertWithRedirect(message: 'آدرس شما با موفقیت ویرایش شد.', type: 'info');
     }
 
     /**
@@ -124,8 +124,7 @@ class AddressController extends Controller
         $calculatedPrices = $this->orderService->calcPrice($cartItems, $commonDiscount);
         //
         $this->orderService->updateOrCreate($commonDiscount, $selectedAddress, $selectedDeliveryMethod, $calculatedPrices);
-        toast('آدرس و روش ارسال برای شما ثبت شد.', 'success')->autoClose(5000)->timerProgressBar();
-        return redirect()->route('customer.sales-process.payment');
-//            ->with('info', 'آدرس و روش ارسال برای شما ثبت شد.');
+        return $this->showToastWithRedirect(title: 'آدرس و روش ارسال برای شما ثبت شد.', route: 'customer.sales-process.payment');
+//        return to_route('customer.sales-process.payment')->with('info', 'آدرس و روش ارسال برای شما ثبت شد.');
     }
 }

@@ -14,11 +14,11 @@ use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Comment\Services\CommentService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductCommentController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -143,9 +143,9 @@ class ProductCommentController extends Controller
     {
         $result = $this->service->approveComment($productComment);
         if ($result) {
-            return $this->successMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
+            return $this->showMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return $this->successMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
         }
     }
 
@@ -159,9 +159,9 @@ class ProductCommentController extends Controller
     {
         if ($productComment->parent == null) {
             $this->service->replyComment($request, $productComment);
-            return $this->successMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+            return $this->showMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return $this->successMessageWithRedirect('خطا', 'swal-error');
+            return $this->showMessageWithRedirect('خطا', 'swal-error');
         }
     }
 }

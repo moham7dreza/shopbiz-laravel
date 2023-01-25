@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketCategory;
 use Modules\Ticket\Http\Requests\TicketCategoryRequest;
 use Modules\Ticket\Repositories\TicketCategory\TicketCategoryRepoEloquentInterface;
@@ -17,7 +17,7 @@ use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 
 class TicketCategoryController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -76,7 +76,7 @@ class TicketCategoryController extends Controller
     public function store(TicketCategoryRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->successMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -112,7 +112,7 @@ class TicketCategoryController extends Controller
     public function update(TicketCategoryRequest $request, TicketCategory $ticketCategory): RedirectResponse
     {
         $this->service->update($request, $ticketCategory);
-        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class TicketCategoryController extends Controller
     public function destroy(TicketCategory $ticketCategory): RedirectResponse
     {
         $result = $ticketCategory->delete();
-        return $this->successMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
     }
 
 

@@ -10,26 +10,6 @@
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
-
-{{--            notifs--}}
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
-
-            @if(session('info'))
-                <div class="alert alert-info">
-                    {{ session('info') }}
-                </div>
-            @endif
-
             <section class="row">
                 <section class="col">
                     <!-- start content header -->
@@ -49,7 +29,7 @@
                         @if ($errors->any())
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                    <li class="alert alert-danger list-style-none">{{ $error }}</li>
+                                    <li class="alert alert-danger list-style-none font-size-80">{{ $error }}</li>
                                 @endforeach
                             </ul>
                         @endif

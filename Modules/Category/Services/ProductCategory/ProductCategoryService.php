@@ -9,11 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class ProductCategoryService implements ProductCategoryServiceInterface
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -36,7 +36,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -68,7 +68,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {

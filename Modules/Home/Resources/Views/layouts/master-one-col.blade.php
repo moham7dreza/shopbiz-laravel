@@ -22,10 +22,11 @@
 @include('Home::layouts.script')
 @yield('script')
 
-@include('Home::alerts.dialog-timer')
-@include('Home::alerts.animate')
+
+
 @include('Home::alerts.delete-confirm', ['className' => 'delete'])
 @include('sweetalert::alert')
 
+<section class="toast-wrapper flex-row-reverse"></section>
 </body>
 </html>

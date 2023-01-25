@@ -38,7 +38,7 @@
                             @endif
 
                         </span>
-                    <section id="header-notification" class="header-notifictation rounded">
+                    <section id="header-notification" class="header-notification rounded">
                         <section class="d-flex justify-content-between">
                             <span class="px-2">
                                 نوتیفیکیشن ها

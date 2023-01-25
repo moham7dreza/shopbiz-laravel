@@ -16,11 +16,11 @@ use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductServiceInterface;
 use Modules\Product\Services\Store\ProductStoreServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class StoreController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -72,7 +72,7 @@ class StoreController extends Controller
     public function store(StoreRequest $request, Product $product): \Illuminate\Http\RedirectResponse
     {
         $this->productService->productAddToStore($request, $product);
-        return $this->successMessageWithRedirect('موجودی جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('موجودی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -107,7 +107,7 @@ class StoreController extends Controller
     public function update(StoreUpdateRequest $request, Product $product): RedirectResponse
     {
         $this->productService->updateProductStore($request, $product);
-        return $this->successMessageWithRedirect('موجودی با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirect('موجودی با موفقیت ویرایش شد');
     }
 
     /**

@@ -9,7 +9,7 @@
 
 @section('content')
 
-{{--    @include('Home::partials.preloader')--}}
+    {{--    @include('Home::partials.preloader')--}}
 
     @include('Home::partials.slide-show-and-top-banners')
 
@@ -33,9 +33,16 @@
 
     @include('Home::partials.brand-banner')
 
-{{--    @include('Home.partials.toast')--}}
+    {{--    @include('Home.partials.toast')--}}
 @endsection
 
 @section('script')
-    @include('Home::partials.scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('.preloader').delay(250).fadeOut('slow');
+        });
+    </script>
+    @include('Product::home.functions.add-to-favorite')
+    @include('Panel::functions.toasts')
 @endsection

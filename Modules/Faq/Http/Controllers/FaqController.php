@@ -15,11 +15,11 @@ use Modules\Faq\Repositories\FaqRepoEloquentInterface;
 use Modules\Faq\Services\FaqService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class FaqController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class FaqController extends Controller
     {
 
         $this->service->store($request);
-        return $this->successMessageWithRedirect('پرسش  جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirect('پرسش  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -116,7 +116,7 @@ class FaqController extends Controller
     public function update(FaqRequest $request, Faq $faq): RedirectResponse
     {
         $this->service->update($request, $faq);
-        return $this->successMessageWithRedirect('پرسش شما با موفقیت ویرایش شد');;
+        return $this->showMessageWithRedirect('پرسش شما با موفقیت ویرایش شد');;
     }
 
     /**
@@ -128,7 +128,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq): RedirectResponse
     {
         $result = $faq->delete();
-        return $this->successMessageWithRedirect('پرسش  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirect('پرسش  شما با موفقیت حذف شد');
     }
 
 

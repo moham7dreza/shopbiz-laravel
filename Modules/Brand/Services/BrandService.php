@@ -8,11 +8,11 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Brand\Entities\Brand;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class BrandService
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -35,7 +35,7 @@ class BrandService
         if ($request->hasFile('logo')) {
             $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->logo = $result;
         } else {
@@ -67,7 +67,7 @@ class BrandService
             $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
 
             if ($result === false) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->logo = $result;
         } else {

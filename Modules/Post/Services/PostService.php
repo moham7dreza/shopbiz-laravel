@@ -9,12 +9,12 @@ use Illuminate\Http\RedirectResponse;
 use Modules\Post\Entities\Post;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PostService implements PostServiceInterface
 {
 
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     public ImageService $imageService;
 
@@ -37,7 +37,7 @@ class PostService implements PostServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -72,7 +72,7 @@ class PostService implements PostServiceInterface
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->successMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {

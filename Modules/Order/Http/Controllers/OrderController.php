@@ -12,11 +12,11 @@ use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepoEloquentInterface;
 use Modules\Order\Services\OrderService;
 use Modules\Share\Http\Controllers\Controller;
-use Modules\Share\Traits\SuccessToastMessageWithRedirectTrait;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class OrderController extends Controller
 {
-    use SuccessToastMessageWithRedirectTrait;
+    use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
@@ -152,7 +152,7 @@ class OrderController extends Controller
     public function changeSendStatus(Order $order): RedirectResponse
     {
         $this->service->changeSendStatus($order);
-        return $this->successMessageWithRedirect('وضعیت ارسال کالا با موفقیت تغییر کرد.');
+        return $this->showMessageWithRedirect('وضعیت ارسال کالا با موفقیت تغییر کرد.');
     }
 
     /**
@@ -162,7 +162,7 @@ class OrderController extends Controller
     public function changeOrderStatus(Order $order): RedirectResponse
     {
         $this->service->changeOrderStatus($order);
-        return $this->successMessageWithRedirect('وضعیت سفارش با موفقیت تغییر کرد.');
+        return $this->showMessageWithRedirect('وضعیت سفارش با موفقیت تغییر کرد.');
     }
 
     /**
@@ -172,6 +172,6 @@ class OrderController extends Controller
     public function cancelOrder(Order $order): RedirectResponse
     {
        $this->service->makeOrderStatusCanceled($order);
-        return $this->successMessageWithRedirect('وضعیت سفارش به باطل شده تغییر کرد.');
+        return $this->showMessageWithRedirect('وضعیت سفارش به باطل شده تغییر کرد.');
     }
 }
