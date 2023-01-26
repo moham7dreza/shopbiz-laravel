@@ -10,6 +10,15 @@ use Modules\Notify\Entities\EmailFile;
 class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
 {
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('file_size', $name)->orWhere('file_type' , 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * Get latest products.
      *
      * @return Builder

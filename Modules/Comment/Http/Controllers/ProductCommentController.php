@@ -50,13 +50,22 @@ class ProductCommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
         $unSeenComments = $this->repo->getUnseenProductComments();
         $this->service->makeSeenComments($unSeenComments);
-        $productComments = $this->repo->getLatestProductComments()->paginate(10);
+        if (isset(request()->search)) {
+            $productComments = $this->repo->search(request()->search)->paginate(10);
+            if (count($productComments) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($productComments));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $productComments = $this->repo->getLatestProductComments()->paginate(10);
+        }
         return view('Comment::product-comment.index', compact(['productComments']));
     }
 

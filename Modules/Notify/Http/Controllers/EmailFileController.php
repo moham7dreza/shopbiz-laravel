@@ -56,11 +56,21 @@ class EmailFileController extends Controller
      * Display a listing of the resource.
      *
      * @param Email $email
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(Email $email): View|Factory|Application
+    public function index(Email $email): View|Factory|Application|RedirectResponse
     {
-        $files = $email->files()->paginate(10);
+        if (isset(request()->search)) {
+            $files = $this->repo->search(request()->search)->paginate(10);
+            if (count($files) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($files));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $files = $email->files()->paginate(10);
+        }
+
         return view('Notify::email-file.index', compact(['email', 'files']));
     }
 

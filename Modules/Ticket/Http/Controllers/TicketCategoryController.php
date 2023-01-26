@@ -49,11 +49,21 @@ class TicketCategoryController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $ticketCategories = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $ticketCategories = $this->repo->search(request()->search)->paginate(10);
+            if (count($ticketCategories) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($ticketCategories));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $ticketCategories = $this->repo->index()->paginate(10);
+        }
+
         return view('Ticket::category.index', compact(['ticketCategories']));
     }
 

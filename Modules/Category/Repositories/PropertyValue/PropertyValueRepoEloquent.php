@@ -3,11 +3,28 @@
 namespace Modules\Category\Repositories\PropertyValue;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Modules\Category\Entities\CategoryValue;
-use Modules\Category\Entities\ProductCategory;
 
 class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @return Collection
+     */
+    public function search($name): Collection
+    {
+        $result = collect();
+        $values = $this->query()->pluck('value');
+        foreach ($values as $key => $value) {
+            if ($name == json_decode($value)->value) {
+                $result->push($this->findById($key));
+            }
+        }
+        return $result;
+    }
+
     /**
      * Get latest categories.
      *
@@ -44,7 +61,7 @@ class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
      * Change status by id.
      *
      * @param  $id
-     * @param  string $status
+     * @param string $status
      * @return int
      */
     public function changeStatus($id, string $status)

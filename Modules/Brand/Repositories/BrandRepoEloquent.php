@@ -30,6 +30,25 @@ class BrandRepoEloquent implements BrandRepoEloquentInterface
     }
 
     /**
+     * @param $name
+     * @param int $status
+     * @return Model|Builder|null
+     */
+    public function search($name, int $status = Brand::STATUS_ACTIVE): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['persian_name', 'like', '%' . $name . '%'],
+            ['status', $status]
+        ])->orWhere([
+            ['original_name','like', '%' . $name . '%'],
+            ['status', $status]
+        ])->orWhere([
+            ['tags',  'like', '%' . $name . '%'],
+            ['status', $status]
+        ])->latest();
+    }
+
+    /**
      * @param $field
      * @param $value
      * @return Builder

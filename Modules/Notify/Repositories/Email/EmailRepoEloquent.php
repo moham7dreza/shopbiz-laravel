@@ -8,6 +8,15 @@ use Modules\Notify\Entities\Email;
 class EmailRepoEloquent implements EmailRepoEloquentInterface
 {
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('subject' , 'like', '%' . $name . '%')->orWhere('body' , 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * Get latest products.
      *
      * @return Builder

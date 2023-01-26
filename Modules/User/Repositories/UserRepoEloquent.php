@@ -8,6 +8,16 @@ use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('first_name' , 'like', '%' . $name . '%')
+            ->orWhere('last_name' , 'like', '%' . $name . '%')->latest();
+    }
     /**
      * @return Builder
      */

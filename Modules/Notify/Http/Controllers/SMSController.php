@@ -53,11 +53,21 @@ class SMSController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $sms = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $sms = $this->repo->search(request()->search)->paginate(10);
+            if (count($sms) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($sms));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $sms = $this->repo->index()->paginate(10);
+        }
+
         return view('Notify::sms.index', compact(['sms']));
     }
 

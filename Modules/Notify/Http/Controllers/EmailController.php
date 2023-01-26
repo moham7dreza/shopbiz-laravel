@@ -52,11 +52,21 @@ class EmailController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $emails = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $emails = $this->repo->search(request()->search)->paginate(10);
+            if (count($emails) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($emails));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $emails = $this->repo->index()->paginate(10);
+        }
+
         return view('Notify::email.index', compact(['emails']));
 
     }

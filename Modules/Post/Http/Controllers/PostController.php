@@ -60,11 +60,21 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $posts = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $posts = $this->repo->search(request()->search)->paginate(10);
+            if (count($posts) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($posts));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $posts = $this->repo->index()->paginate(10);
+        }
+
         return view('Post::index', compact(['posts']));
     }
 

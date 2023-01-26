@@ -44,11 +44,21 @@ class StoreController extends Controller
 
     /**
      * @param ProductRepoEloquentInterface $productRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(ProductRepoEloquentInterface $productRepo): Factory|View|Application
+    public function index(ProductRepoEloquentInterface $productRepo): Factory|View|Application|RedirectResponse
     {
-        $products = $productRepo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $products = $productRepo->search(request()->search)->paginate(10);
+            if (count($products) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($products));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $products = $productRepo->index()->paginate(10);
+        }
+
         return view('Product::admin.store.index', compact(['products']));
     }
 

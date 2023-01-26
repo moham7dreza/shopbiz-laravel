@@ -9,6 +9,15 @@ use Modules\Discount\Entities\Copan;
 class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
 {
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('code' , 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * Get latest discounts.
      *
      * @return Builder

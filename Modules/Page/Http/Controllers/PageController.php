@@ -52,11 +52,21 @@ class PageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $pages = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $pages = $this->repo->search(request()->search)->paginate(10);
+            if (count($pages) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($pages));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $pages = $this->repo->index()->paginate(10);
+        }
+
         return view('Page::index', compact(['pages']));
     }
 

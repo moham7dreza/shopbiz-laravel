@@ -3,11 +3,23 @@
 namespace Modules\Category\Repositories\PostCategory;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\PostCategory;
 
 class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
 {
     private string $class = PostCategory::class;
+
+
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('name', 'like', '%' . $name . '%')
+            ->orWhere('description', 'like', '%' . $name . '%')->latest();
+    }
 
     /**
      * Get latest categories.

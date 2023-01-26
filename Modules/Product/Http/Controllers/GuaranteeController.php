@@ -52,11 +52,21 @@ class GuaranteeController extends Controller
 
     /**
      * @param Product $product
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(Product $product): Factory|View|Application
+    public function index(Product $product): Factory|View|Application|RedirectResponse
     {
-        $guarantees = $product->guarantees()->paginate(10);
+        if (isset(request()->search)) {
+            $guarantees = $this->repo->search(request()->search, $product->id)->paginate(10);
+            if (count($guarantees) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($guarantees));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $guarantees = $product->guarantees()->paginate(10);
+        }
+
         return view('Product::admin.guarantee.index', compact(['product', 'guarantees']));
     }
 

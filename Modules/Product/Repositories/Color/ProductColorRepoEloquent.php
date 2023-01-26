@@ -3,11 +3,24 @@
 namespace Modules\Product\Repositories\Color;
 
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
 
 class ProductColorRepoEloquent implements ProductColorRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @param $productId
+     * @return Model|Builder|null
+     */
+    public function search($name, $productId): Model|Builder|null
+    {
+        return $this->query()->where([['product_id', $productId], ['color_name' , 'like', '%' . $name . '%']])
+            ->orWhere([['product_id', $productId], ['color' , 'like', '%' . $name . '%']])->latest();
+    }
     /**
      * Get latest products.
      *

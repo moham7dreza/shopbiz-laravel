@@ -63,14 +63,24 @@ class PostCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
+        if (isset(request()->search)) {
+            $postCategories = $this->categoryRepo->search(request()->search)->paginate(10);
+            if (count($postCategories) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($postCategories));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
+        }
 //        $user = auth()->user();
         // if ($user->can('show-category')) {
 
-        $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
+
         return view('Category::post-category.index', compact(['postCategories']));
         // } else {
         //     abort(403);

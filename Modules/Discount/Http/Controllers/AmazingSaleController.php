@@ -52,11 +52,21 @@ class AmazingSaleController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $amazingSales = $this->amazingSaleDiscountRepo->getLatest()->paginate(10);
+        if (isset(request()->search)) {
+            $amazingSales = $this->amazingSaleDiscountRepo->search(request()->search)->paginate(10);
+            if (count($amazingSales) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($amazingSales));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $amazingSales = $this->amazingSaleDiscountRepo->getLatest()->paginate(10);
+        }
+
         return view('Discount::amazingSale.index', compact(['amazingSales']));
     }
 

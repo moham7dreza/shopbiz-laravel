@@ -3,11 +3,22 @@
 namespace Modules\Category\Repositories\Property;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\CategoryAttribute;
 use Modules\Category\Entities\ProductCategory;
 
 class PropertyRepoEloquent implements PropertyRepoEloquentInterface
 {
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('name', 'like', '%' . $name . '%')
+            ->orWhere('unit', 'like', '%' . $name . '%')->latest();
+    }
+
     /**
      * Get latest categories.
      *

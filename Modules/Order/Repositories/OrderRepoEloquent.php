@@ -10,6 +10,18 @@ use Modules\Order\Entities\Order;
 class OrderRepoEloquent implements OrderRepoEloquentInterface
 {
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name, $orderType): Model|Builder|null
+    {
+        if ($orderType === 'newOrders') {
+
+        }
+        return $this->query()->where('name' , 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * Get the latest roles with permissions.
      *
      * @return Builder
@@ -56,7 +68,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function newOrders(): Builder
     {
-        return $this->query()->where('order_status', 0)->latest();
+        return $this->query()->where('order_status', Order::ORDER_STATUS_NOT_CHECKED)->latest();
     }
 
     /**

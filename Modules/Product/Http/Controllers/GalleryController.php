@@ -49,11 +49,21 @@ class GalleryController extends Controller
 
     /**
      * @param Product $product
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(Product $product): Factory|View|Application
+    public function index(Product $product): Factory|View|Application|RedirectResponse
     {
-        $images = $product->images()->paginate(10);
+        if (isset(request()->search)) {
+            $images = $this->repo->search(request()->search)->paginate(10);
+            if (count($images) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($images));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $images = $product->images()->paginate(10);
+        }
+
         return view('Product::admin.gallery.index', compact(['product', 'images']));
     }
 

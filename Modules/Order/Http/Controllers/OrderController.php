@@ -73,57 +73,117 @@ class OrderController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function newOrders(): Factory|View|Application
+    public function newOrders(): Factory|View|Application|RedirectResponse
     {
-        $orders = $this->repo->newOrders()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'newOrders')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->newOrders()->paginate(10);
+        }
+
         $this->service->setOrderStatusToAwaitConfirm($orders);
         return view('Order::index', compact(['orders']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function sending(): View|Factory|Application
+    public function sending(): View|Factory|Application|RedirectResponse
     {
-        $orders = $this->repo->sending()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'sending')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->sending()->paginate(10);
+        }
+
         return view('Order::index', compact(['orders']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function unpaid(): View|Factory|Application
+    public function unpaid(): View|Factory|Application|RedirectResponse
     {
-        $orders = $this->repo->unpaid()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'unpaid')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->unpaid()->paginate(10);
+        }
+
         return view('Order::index', compact(['orders']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function canceled(): View|Factory|Application
+    public function canceled(): View|Factory|Application|RedirectResponse
     {
-        $orders = $this->repo->canceled()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'canceled')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->canceled()->paginate(10);
+        }
+
         return view('Order::index', compact(['orders']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function returned(): View|Factory|Application
+    public function returned(): View|Factory|Application|RedirectResponse
     {
-        $orders = $this->repo->returned()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'returned')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->returned()->paginate(10);
+        }
+
         return view('Order::index', compact(['orders']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function all(): View|Factory|Application
+    public function all(): View|Factory|Application|RedirectResponse
     {
-        $orders = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, 'all')->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $orders = $this->repo->index()->paginate(10);
+        }
+
         return view('Order::index', compact(['orders']));
     }
 

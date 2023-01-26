@@ -49,11 +49,21 @@ class CustomerController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $users = $this->repo->customerUsers()->paginate(10);
+        if (isset(request()->search)) {
+            $users = $this->repo->search(request()->search)->paginate(10);
+            if (count($users) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($users));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $users = $this->repo->customerUsers()->paginate(10);
+        }
+
         return view('User::customer.index', compact(['users']));
     }
 

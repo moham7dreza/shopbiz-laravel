@@ -46,11 +46,21 @@ class TicketAdminController extends Controller
 
     /**
      * @param UserRepoEloquentInterface $userRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(UserRepoEloquentInterface $userRepo): View|Factory|Application
+    public function index(UserRepoEloquentInterface $userRepo): View|Factory|Application|RedirectResponse
     {
-        $admins = $userRepo->adminUsers()->paginate(10);
+        if (isset(request()->search)) {
+            $admins = $userRepo->search(request()->search)->paginate(10);
+            if (count($admins) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($admins));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $admins = $userRepo->adminUsers()->paginate(10);
+        }
+
         return view('Ticket::admin.index', compact(['admins']));
     }
 

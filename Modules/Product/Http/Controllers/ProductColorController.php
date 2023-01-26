@@ -52,11 +52,21 @@ class ProductColorController extends Controller
 
     /**
      * @param Product $product
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(Product $product): Factory|View|Application
+    public function index(Product $product): Factory|View|Application|RedirectResponse
     {
-        $colors = $product->colors()->paginate(10);
+        if (isset(request()->search)) {
+            $colors = $this->repo->search(request()->search, $product->id)->paginate(10);
+            if (count($colors) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($colors));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $colors = $product->colors()->paginate(10);
+        }
+
         return view('Product::admin.color.index', compact(['product', 'colors']));
     }
 

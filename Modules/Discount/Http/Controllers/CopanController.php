@@ -50,11 +50,21 @@ class CopanController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $copans = $this->copanDiscountRepo->getLatest()->paginate(10);
+        if (isset(request()->search)) {
+            $copans = $this->copanDiscountRepo->search(request()->search)->paginate(10);
+            if (count($copans) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($copans));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $copans = $this->copanDiscountRepo->getLatest()->paginate(10);
+        }
+
         return view('Discount::copan.index', compact(['copans']));
     }
 

@@ -3,11 +3,15 @@
 namespace Modules\Product\Repositories\Gallery;
 
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Gallery;
 use Modules\Product\Entities\Product;
 
 class ProductGalleryRepoEloquent implements ProductGalleryRepoEloquentInterface
 {
+
+
     /**
      * Get latest products.
      *

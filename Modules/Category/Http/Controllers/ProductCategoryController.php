@@ -52,11 +52,21 @@ class ProductCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
+        if (isset(request()->search)) {
+            $productCategories = $this->categoryRepo->search(request()->search)->paginate(10);
+            if (count($productCategories) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($productCategories));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
+        }
+
         return view('Category::product-category.index', compact(['productCategories']));
     }
 

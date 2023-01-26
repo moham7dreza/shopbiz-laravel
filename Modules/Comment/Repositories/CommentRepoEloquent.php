@@ -12,6 +12,15 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     private string $class = Comment::class;
 
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('body', 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * @return Builder
      */
     public function unseenComments(): Builder

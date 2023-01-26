@@ -3,10 +3,20 @@
 namespace Modules\Notify\Repositories\SMS;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Notify\Entities\SMS;
 
 class SMSRepoEloquent implements SMSRepoEloquentInterface
 {
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('title' , 'like', '%' . $name . '%')->orWhere('body' , 'like', '%' . $name . '%')->latest();
+    }
+
     /**
      * Get latest products.
      *

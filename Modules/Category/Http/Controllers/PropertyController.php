@@ -52,11 +52,21 @@ class PropertyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $categoryAttributes = $this->propertyRepo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $categoryAttributes = $this->propertyRepo->search(request()->search)->paginate(10);
+            if (count($categoryAttributes) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($categoryAttributes));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $categoryAttributes = $this->propertyRepo->index()->paginate(10);
+        }
+
         return view('Category::property.index', compact(['categoryAttributes']));
     }
 

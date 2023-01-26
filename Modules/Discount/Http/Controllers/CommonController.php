@@ -51,11 +51,21 @@ class CommonController extends Controller
 
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $commonDiscounts = $this->commonDiscountRepo->getLatest()->paginate(10);
+        if (isset(request()->search)) {
+            $commonDiscounts = $this->commonDiscountRepo->search(request()->search)->paginate(10);
+            if (count($commonDiscounts) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($commonDiscounts));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $commonDiscounts = $this->commonDiscountRepo->getLatest()->paginate(10);
+        }
+
         return view('Discount::common.index', compact(['commonDiscounts']));
     }
 

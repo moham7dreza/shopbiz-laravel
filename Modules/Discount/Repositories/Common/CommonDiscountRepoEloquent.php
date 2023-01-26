@@ -10,6 +10,15 @@ use Modules\Discount\Entities\CommonDiscount;
 class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
 {
     /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('percentage', $name)->orWhere('title' , 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
      * Get latest discounts.
      *
      * @return Builder

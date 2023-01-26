@@ -4,10 +4,20 @@ namespace Modules\Discount\Repositories\AmazingSale;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Discount\Entities\AmazingSale;
 
 class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('percentage', $name)->latest();
+    }
     /**
      * Get latest discounts.
      *

@@ -54,11 +54,21 @@ class PropertyValueController extends Controller
      * Display a listing of the resource.
      *
      * @param CategoryAttribute $categoryAttribute
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(CategoryAttribute $categoryAttribute): Factory|View|Application
+    public function index(CategoryAttribute $categoryAttribute): Factory|View|Application|RedirectResponse
     {
-        $values = $categoryAttribute->values()->paginate(10);
+        if (isset(request()->search)) {
+            $values = $this->propertyValueRepo->search(request()->search);
+            if (count($values) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($values));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $values = $categoryAttribute->values()->paginate(10);
+        }
+
         return view('Category::property.value.index', compact(['categoryAttribute', 'values']));
     }
 

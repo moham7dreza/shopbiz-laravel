@@ -9,6 +9,15 @@ use Modules\Faq\Entities\Faq;
 
 class FaqRepoEloquent implements FaqRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function search($name): Model|Builder|null
+    {
+        return $this->query()->where('question' , 'like', '%' . $name . '%')->orWhere('answer' , 'like', '%' . $name . '%')->latest();
+    }
     /**
      * Get the latest roles with permissions.
      *

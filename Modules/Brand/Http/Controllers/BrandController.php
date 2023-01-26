@@ -23,7 +23,7 @@ class BrandController extends Controller
     /**
      * @var string
      */
-    private string $redirectRoute = 'brand.index';
+    public string $redirectRoute = 'brand.index';
 
     /**
      * @var string
@@ -53,11 +53,21 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $brands = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $brands = $this->repo->search(request()->search)->paginate(10);
+            if (count($brands) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($brands));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $brands = $this->repo->index()->paginate(10);
+        }
+
         return view('Brand::index', compact(['brands']));
     }
 

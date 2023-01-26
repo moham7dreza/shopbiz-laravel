@@ -64,11 +64,21 @@ class MenuController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function create(): View|Factory|Application
+    public function create(): View|Factory|Application|RedirectResponse
     {
-        $menus = $this->repo->getParentMenus()->get();
+        if (isset(request()->search)) {
+            $menus = $this->repo->search(request()->search)->paginate(10);
+            if (count($menus) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($menus));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $menus = $this->repo->getParentMenus()->get();
+        }
+
         return view('Menu::create', compact(['menus']));
     }
 

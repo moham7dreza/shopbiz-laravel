@@ -52,11 +52,21 @@ class DeliveryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        $delivery_methods = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $delivery_methods = $this->repo->search(request()->search)->paginate(10);
+            if (count($delivery_methods) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($delivery_methods));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $delivery_methods = $this->repo->index()->paginate(10);
+        }
+
         return view('Delivery::index', compact(['delivery_methods']));
     }
 

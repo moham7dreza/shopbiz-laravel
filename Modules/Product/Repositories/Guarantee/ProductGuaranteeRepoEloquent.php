@@ -3,11 +3,23 @@
 namespace Modules\Product\Repositories\Guarantee;
 
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 
 class ProductGuaranteeRepoEloquent implements ProductGuaranteeRepoEloquentInterface
 {
+
+    /**
+     * @param $name
+     * @param $productId
+     * @return Model|Builder|null
+     */
+    public function search($name, $productId): Model|Builder|null
+    {
+        return $this->query()->where([['product_id', $productId], ['name' , 'like', '%' . $name . '%']])->latest();
+    }
     /**
      * Get latest products.
      *

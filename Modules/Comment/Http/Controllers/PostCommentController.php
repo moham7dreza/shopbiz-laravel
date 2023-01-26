@@ -50,13 +50,23 @@ class PostCommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
         $unSeenComments = $this->repo->getUnseenPostComments();
         $this->service->makeSeenComments($unSeenComments);
-        $postComments = $this->repo->getLatestPostComments()->paginate(10);
+        if (isset(request()->search)) {
+            $postComments = $this->repo->search(request()->search)->paginate(10);
+            if (count($postComments) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($postComments));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $postComments = $this->repo->getLatestPostComments()->paginate(10);
+        }
+
         return view('Comment::post-comment.index', compact(['postComments']));
 
     }

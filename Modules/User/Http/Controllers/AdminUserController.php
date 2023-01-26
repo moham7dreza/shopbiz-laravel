@@ -58,11 +58,21 @@ class AdminUserController extends Controller
 
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $adminUsers = $this->repo->adminUsers()->paginate(10);
+        if (isset(request()->search)) {
+            $adminUsers = $this->repo->search(request()->search)->paginate(10);
+            if (count($adminUsers) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($adminUsers));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $adminUsers = $this->repo->adminUsers()->paginate(10);
+        }
+
         return view('User::admin-user.index', compact(['adminUsers']));
     }
 

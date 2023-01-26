@@ -53,11 +53,21 @@ class BannerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return View|Factory|Application|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $banners = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $banners = $this->repo->search(request()->search)->paginate(10);
+            if (count($banners) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($banners));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $banners = $this->repo->index()->paginate(10);
+        }
+
         $positions = $this->repo->positions();
         return view('Banner::index', compact(['banners', 'positions']));
     }
