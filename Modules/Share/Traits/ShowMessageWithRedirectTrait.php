@@ -8,6 +8,7 @@ use Modules\Share\Services\ShareService;
 trait ShowMessageWithRedirectTrait
 {
     public const TIMER = 5000;
+
     /**
      * Show success message with redirect;
      *
@@ -28,28 +29,29 @@ trait ShowMessageWithRedirectTrait
      * Show success message with redirect;
      *
      * @param string $msg
+     * @param string $title
      * @param string $type
      * @param string $status
      * @param array $params
      * @return RedirectResponse
      */
-    private function showMessageWithRedirect(string $msg, string $type = 'alert animated', string $status = 'success', array $params = []): RedirectResponse
+    private function showMessageWithRedirect(string $msg, string $title = 'موفقیت آمیز', string $type = 'alert animated', string $status = 'success', array $params = []): RedirectResponse
     {
         if (empty($this->redirectRoute)) {
-            return $this->showAlertWithRedirect(message: 'مسیر برگشت یافت نشد.', title: 'خطا', alertType: 'animated', type: 'error');
+            return $this->showAlertWithRedirect(message: 'مسیر برگشت یافت نشد.', title: 'خطا', type: 'error');
         }
         if ($type === 'alert') {
-            return $this->showAlertWithRedirect(message: $msg, route: $this->redirectRoute, params: $params);
+            return $this->showAlertWithRedirect(message: $msg, title: $title, alertType: 'normal', type: $status, route: $this->redirectRoute, params: $params);
         } elseif ($type === 'alert animated') {
-            return $this->showAlertWithRedirect(message: $msg, alertType: 'animated', route: $this->redirectRoute, params: $params);
+            return $this->showAlertWithRedirect(message: $msg, title: $title, type: $status, route: $this->redirectRoute, params: $params);
         } elseif ($type === 'alert animated with footer') {
-            return $this->showAlertWithRedirect(message: $msg, alertType: 'animated with footer', route: $this->redirectRoute, params: $params);
+            return $this->showAlertWithRedirect(message: $msg, title: $title, alertType: 'animated with footer', type: $status, route: $this->redirectRoute, params: $params);
         } elseif ($type === 'toast') {
-            return $this->showToastWithRedirect(title: $msg, route: $this->redirectRoute, params: $params);
+            return $this->showToastWithRedirect(title: $msg, toastType: 'normal', type: $status, route: $this->redirectRoute, params: $params);
         } elseif ($type === 'toast animated') {
-            return $this->showToastWithRedirect(title: $msg, toastType: 'animated', route: $this->redirectRoute, params: $params);
+            return $this->showToastWithRedirect(title: $msg, type: $status, route: $this->redirectRoute, params: $params);
         } else {
-            return $this->showAlertWithRedirect(message: 'نوع پیام را به درستی مشخص کنید.', title: 'خطا', alertType: 'animated', type: 'error');
+            return $this->showAlertWithRedirect(message: 'نوع پیام را به درستی مشخص کنید.', title: 'خطا', type: 'error');
         }
     }
 
@@ -101,5 +103,23 @@ trait ShowMessageWithRedirectTrait
     private function onlyRedirect(array $params = array()): RedirectResponse
     {
         return to_route($this->redirectRoute, $params);
+    }
+
+    /******************************************************************************************************************/
+    /**
+     * @param $recordsCount
+     * @return void
+     */
+    public function showToastOfFetchedRecordsCount($recordsCount): void
+    {
+        ShareService::showAnimatedToast('به تعداد ' . convertEnglishToPersian($recordsCount) . ' رکورد از نتایج جست و جو یافت شد.', 'info', 7000)->position('top-left');
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function showAlertOfNotResultFound(): RedirectResponse
+    {
+        return $this->showMessageWithRedirect(msg: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', status: 'warning');
     }
 }

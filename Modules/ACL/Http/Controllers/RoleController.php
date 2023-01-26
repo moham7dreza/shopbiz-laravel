@@ -55,11 +55,20 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return View|Factory|Application|RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
-        $roles = $this->repo->index()->paginate(10);
+        if (isset(request()->search)) {
+            $roles = $this->repo->search(request()->search)->paginate(10);
+            if (count($roles) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($roles));
+            } else {
+                return $this->showAlertOfNotResultFound();
+            }
+        } else {
+            $roles = $this->repo->index()->paginate(10);
+        }
         return view('ACL::role.index', compact(['roles']));
     }
 

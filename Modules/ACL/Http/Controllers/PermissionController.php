@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Http\Requests\PermissionRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
@@ -51,14 +50,15 @@ class PermissionController extends Controller
     public function index(): View|Factory|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $permissions = $this->repo->search(request()->search)->paginate(10);
-            if (empty($permissions)) {
-                return back();
+            $permissions = $this->repo->searchPermission(request()->search)->paginate(10);
+            if (count($permissions) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($permissions));
+            } else {
+                return $this->showAlertOfNotResultFound();
             }
         } else {
             $permissions = $this->repo->permissions()->paginate(10);
         }
-
         return view('ACL::permission.index', compact(['permissions']));
     }
 
@@ -87,7 +87,7 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)

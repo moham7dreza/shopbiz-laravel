@@ -20,9 +20,30 @@ class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
         return $this->query()->with('permissions')->latest();
     }
 
-    public function search($name, int $status = Permission::STATUS_ACTIVE): Model|Builder|null
+    /**
+     * @param $name
+     * @param int $status
+     * @return Model|Builder|null
+     */
+    public function searchPermission($name, int $status = Permission::STATUS_ACTIVE): Model|Builder|null
     {
         return Permission::query()->where([
+            ['name', 'like', '%' . $name . '%'],
+            ['status', $status]
+        ])->orWhere([
+            ['description', 'like', '%' . $name . '%'],
+            ['status', $status]
+        ])->latest();
+    }
+
+    /**
+     * @param $name
+     * @param int $status
+     * @return Model|Builder|null
+     */
+    public function search($name, int $status = Role::STATUS_ACTIVE): Model|Builder|null
+    {
+        return $this->query()->where([
             ['name', 'like', '%' . $name . '%'],
             ['status', $status]
         ])->orWhere([
