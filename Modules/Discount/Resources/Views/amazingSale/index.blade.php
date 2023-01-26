@@ -28,7 +28,10 @@
                     <a href="{{ route('amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست
                         شگفت انگیز</a>
                     <div class="max-width-16-rem">
-                        <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
+                        <form action="{{ route('amazingSale.index') }}" class="d-flex">
+                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
+                        </form>
                     </div>
                 </section>
 

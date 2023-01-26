@@ -13,7 +13,7 @@
 
         @include('Home::layouts.sidebar')
 
-        @include('Panel::alerts.alert-section.success')
+        @include('Share::alerts.alert-section.success')
 
         <main id="main-body" class="main-body col-md-9">
             @yield('content')

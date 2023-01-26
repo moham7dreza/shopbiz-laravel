@@ -28,7 +28,10 @@
                     <a href="{{ route('CategoryValue.create', $categoryAttribute->id) }}"
                        class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
                     <div class="max-width-16-rem">
-                        <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
+                        <form action="{{ route('categoryValue.index') }}" class="d-flex">
+                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
+                        </form>
                     </div>
                 </section>
 

@@ -6,9 +6,17 @@
                 <h5>
                     نظرات
                 </h5>
-                <p>
-                    تمامی کامنت های اخیر ایجاد شده
-                </p>
+                <section class="d-flex justify-content-between align-items-center mt-4 mb-3 pb-2">
+                    <p>
+                        تمامی کامنت های اخیر ایجاد شده
+                    </p>
+                    <div class="max-width-16-rem">
+                        <form action="{{ route('panel.home') }}" class="d-flex">
+                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
+                        </form>
+                    </div>
+                </section>
             </section>
             <section class="body-content">
                 <section class="table-responsive">
