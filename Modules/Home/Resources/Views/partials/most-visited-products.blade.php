@@ -41,18 +41,19 @@
                                                     @php
                                                         $defaultSelectedColor = !empty($mostVisitedProduct->colors[0]) ? $mostVisitedProduct->colors[0]->id : null;
                                                         $defaultSelectedGuarantee = !empty($mostVisitedProduct->guarantees[0]) ? $mostVisitedProduct->guarantees[0]->id : null;
+                                                        $productIsInCart = in_array($mostVisitedProduct->id, $repo->userCartItemsProductIds());
                                                     @endphp
                                                     <form
                                                         action="{{ route('customer.sales-process.add-to-cart', $mostVisitedProduct) }}"
                                                         method="post" data-bs-toggle="tooltip"
                                                         data-bs-placement="left"
-                                                        title="افزودن به سبد خرید">
+                                                        title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}">
                                                         @csrf
                                                         <input type="hidden" name="color_id" value="{{ $defaultSelectedColor }}">
                                                         <input type="hidden" name="guarantee_id" value="{{ $defaultSelectedGuarantee }}">
                                                         <input type="hidden" name="number" value="1">
                                                         <button type="submit"
-                                                                class="btn btn-light btn-sm add-to-cart-btn">
+                                                                class="btn btn-light btn-sm add-to-cart-btn {{ $productIsInCart ? 'text-danger' : '' }}">
                                                             <i class="fa fa-cart-plus"></i>
                                                         </button>
                                                     </form>

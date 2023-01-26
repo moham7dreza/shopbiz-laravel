@@ -845,6 +845,27 @@ body {
     text-align: center;
 }
 
+/* toast wrapper */
+
+.toast-wrapper {
+    position: fixed;
+    z-index: 9999;
+    top: 3rem;
+    left: 0;
+    width: 26rem;
+    max-width: 80%;
+    padding: 2rem;
+}
+
+.login-toast-wrapper {
+    position: fixed;
+    z-index: 9999;
+    top: 3rem;
+    right: 0;
+    width: 26rem;
+    max-width: 80%;
+    padding: 2rem;
+}
 
 /**
 * Preloader

@@ -1,7 +1,6 @@
-@include('Panel::functions.toasts')
-@include('Product::home.functions.product-bill')
-@include('Product::home.functions.to-fa-number')
-@include('Product::home.functions.add-to-favorite')
+@include('Share::functions.product-bill')
+@include('Share::functions.to-fa-number')
+@include('Share::ajax-functions.product-add-to-favorite')
 <script>
     $(document).ready(function () {
         bill();

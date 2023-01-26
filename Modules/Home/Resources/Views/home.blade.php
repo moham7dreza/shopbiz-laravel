@@ -43,6 +43,7 @@
             $('.preloader').delay(250).fadeOut('slow');
         });
     </script>
-    @include('Product::home.functions.add-to-favorite')
-    @include('Panel::functions.toasts')
+
+    @include('Share::ajax-functions.product-add-to-favorite')
+
 @endsection

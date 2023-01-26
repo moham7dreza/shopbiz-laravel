@@ -29,3 +29,6 @@
     }
 
 </script>
+@include('Share::toast-functions.success-toast')
+@include('Share::toast-functions.error-toast')
+@include('Share::toast-functions.warning-toast')

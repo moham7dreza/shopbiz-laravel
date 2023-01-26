@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Comment\Services\CommentService;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\Home\AddCommentToProductRequest;
@@ -23,12 +24,16 @@ class ProductController extends Controller
     public ProductRepoEloquentInterface $repo;
     public ProductService $service;
 
+    public CartRepoEloquentInterface $cartRepo;
+
     /**
      * @param ProductRepoEloquentInterface $productRepoEloquent
      * @param ProductService $productService
+     * @param CartRepoEloquentInterface $cartRepo
      */
-    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductService $productService)
+    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductService $productService, CartRepoEloquentInterface $cartRepo)
     {
+        $this->cartRepo = $cartRepo;
         $this->repo = $productRepoEloquent;
         $this->service = $productService;
     }
@@ -40,7 +45,8 @@ class ProductController extends Controller
     public function product(Product $product): View|Factory|Application
     {
         $relatedProducts = $this->repo->index()->get();
-        return view('Product::home.product', compact(['product', 'relatedProducts']));
+        $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
+        return view('Product::home.product', compact(['product', 'relatedProducts', 'userCartItemsProductIds']));
     }
 
     /**

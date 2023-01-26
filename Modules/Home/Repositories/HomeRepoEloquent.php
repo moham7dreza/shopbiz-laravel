@@ -2,23 +2,17 @@
 
 namespace Modules\Home\Repositories;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Banner\Entities\Banner;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
-use Modules\Brand\Entities\Brand;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
-use Modules\Comment\Entities\Comment;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
-use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
-use Modules\Post\Entities\Post;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
-use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
-use Modules\Setting\Entities\Setting;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 
 class HomeRepoEloquent implements HomeRepoEloquentInterface
@@ -30,6 +24,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
     private CommentRepoEloquentInterface $commentRepo;
     private PostRepoEloquentInterface $postRepo;
     private SettingRepoEloquentInterface $settingRepo;
+    private CartRepoEloquentInterface $cartRepo;
 
     public function __construct(BannerRepoEloquentInterface              $bannerRepo,
                                 BrandRepoEloquentInterface               $brandRepo,
@@ -37,7 +32,8 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
                                 AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo,
                                 CommentRepoEloquentInterface             $commentRepo,
                                 PostRepoEloquentInterface                $postRepo,
-                                SettingRepoEloquentInterface             $settingRepo)
+                                SettingRepoEloquentInterface             $settingRepo,
+                                CartRepoEloquentInterface                $cartRepo)
     {
         $this->bannerRepo = $bannerRepo;
         $this->brandRepo = $brandRepo;
@@ -46,6 +42,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
         $this->commentRepo = $commentRepo;
         $this->postRepo = $postRepo;
         $this->settingRepo = $settingRepo;
+        $this->cartRepo = $cartRepo;
     }
 
     /**
@@ -192,5 +189,11 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
     public function bestSellerProducts(): Collection|array
     {
         return $this->productRepo->bestSeller(100)->take(10)->get();
+    }
+
+
+    public function userCartItemsProductIds()
+    {
+        return $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
     }
 }

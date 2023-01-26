@@ -1,7 +1,6 @@
-@include('Cart::home.functions.cart-bill')
-@include('Product::home.functions.to-fa-number')
-@include('Product::home.functions.add-to-favorite')
-@include('Panel::functions.toasts')
+@include('Share::functions.cart-bill')
+@include('Share::functions.to-fa-number')
+@include('Share::ajax-functions.product-add-to-favorite')
 
 <script>
     $(document).ready(function () {

@@ -1,6 +1,6 @@
 <script type="text/javascript">
-    function changeActive(id, name) {
-        var element = $("#" + id + '-active')
+    function commentable(id, name) {
+        var element = $("#" + id + '-commentable')
         var url = element.attr('data-url')
         var elementValue = !element.prop('checked');
 
@@ -8,13 +8,13 @@
             url: url,
             type: "GET",
             success: function (response) {
-                if (response.activation) {
+                if (response.commentable) {
                     if (response.checked) {
                         element.prop('checked', true);
-                        successToast('فعال سازی ' + name + ' با موفقیت انجام شد ')
+                        successToast('امکان افزودن نظر برای ' + name + ' با موفقیت فعال شد ')
                     } else {
                         element.prop('checked', false);
-                        warningToast('غیر فعال سازی ' + name + ' با موفقیت انجام شد ')
+                        warningToast('امکان افزودن نظر برای ' + name + ' با موفقیت غیر فعال شد ')
                     }
                 } else {
                     element.prop('checked', elementValue);
@@ -29,3 +29,6 @@
     }
 
 </script>
+@include('Share::toast-functions.success-toast')
+@include('Share::toast-functions.error-toast')
+@include('Share::toast-functions.warning-toast')

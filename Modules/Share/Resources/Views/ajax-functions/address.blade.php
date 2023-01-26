@@ -61,3 +61,4 @@
 
     })
 </script>
+@include('Share::toast-functions.error-toast')

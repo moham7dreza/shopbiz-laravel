@@ -215,7 +215,6 @@
             printContent('printable');
         })
 
-
         function printContent(el) {
 
             var restorePage = $('body').html();
@@ -224,7 +223,6 @@
             window.print();
             $('body').html(restorePage);
         }
-
 
     </script>
 

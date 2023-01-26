@@ -9,16 +9,19 @@
                     $(element).children().first().addClass('text-danger');
                     $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
                     $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
-                    successToast('محصول به علاقه مندی شما اضافه شد.')
+                    infoToast('محصول به علاقه مندی شما اضافه شد.')
                 } else if (result.status === 2) {
                     $(element).children().first().removeClass('text-danger')
                     $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
                     $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
                     warningToast('محصول از علاقه مندی شما حذف شد.')
                 } else if (result.status === 3) {
-                    $('.toast').toast('show');
+                    loginToast()
                 }
             }
         })
     })
 </script>
+@include('Share::toast-functions.info-toast')
+@include('Share::toast-functions.warning-toast')
+@include('Share::toast-functions.login-toast')

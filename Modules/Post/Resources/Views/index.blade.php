@@ -118,10 +118,8 @@
 
 @endsection
 @section('script')
-    <script type="text/javascript">
-        @include('Panel::functions.status')
-        @include('Panel::functions.commentable')
-        @include('Panel::functions.toasts')
-    </script>
-    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+    @include('Share::ajax-functions.status')
+    @include('Share::ajax-functions.commentable')
+
+    @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

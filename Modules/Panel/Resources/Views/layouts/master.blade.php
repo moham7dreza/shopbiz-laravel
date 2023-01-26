@@ -9,34 +9,27 @@
 
 <body dir="rtl">
 
-    @include('Panel::layouts.header')
+@include('Panel::layouts.header')
 
 
+<section class="body-container">
 
-    <section class="body-container">
-
-        @include('Panel::layouts.sidebar')
+    @include('Panel::layouts.sidebar')
 
 
-        <section id="main-body" class="main-body">
+    <section id="main-body" class="main-body">
 
-            @yield('content')
+        @yield('content')
 
-        </section>
     </section>
+</section>
 
 
-    @include('Panel::layouts.script')
-    @yield('script')
+@include('Panel::layouts.script')
+@yield('script')
 
-    <section class="toast-wrapper flex-row-reverse">
-        @include('Panel::alerts.toast.success')
-        @include('Panel::alerts.toast.error')
-    </section>
+<section class="toast-wrapper flex-row-reverse"></section>
 
-    @include('Panel::alerts.sweetalert.error')
-    @include('Panel::alerts.sweetalert.success')
-
-    @include('sweetalert::alert')
+@include('sweetalert::alert')
 </body>
 </html>

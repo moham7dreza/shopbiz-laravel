@@ -1,6 +1,6 @@
 <script type="text/javascript">
-    function marketable(id, name) {
-        var element = $("#" + id + '-marketable')
+    function changeActive(id, name) {
+        var element = $("#" + id + '-active')
         var url = element.attr('data-url')
         var elementValue = !element.prop('checked');
 
@@ -8,13 +8,13 @@
             url: url,
             type: "GET",
             success: function (response) {
-                if (response.marketable) {
+                if (response.activation) {
                     if (response.checked) {
                         element.prop('checked', true);
-                        successToast('امکان فروش ' + name + ' با موفقیت فعال شد ')
+                        successToast('فعال سازی ' + name + ' با موفقیت انجام شد ')
                     } else {
                         element.prop('checked', false);
-                        warningToast('امکان فروش ' + name + ' با موفقیت غیر فعال شد ')
+                        warningToast('غیر فعال سازی ' + name + ' با موفقیت انجام شد ')
                     }
                 } else {
                     element.prop('checked', elementValue);
@@ -29,3 +29,6 @@
     }
 
 </script>
+@include('Share::toast-functions.success-toast')
+@include('Share::toast-functions.error-toast')
+@include('Share::toast-functions.warning-toast')

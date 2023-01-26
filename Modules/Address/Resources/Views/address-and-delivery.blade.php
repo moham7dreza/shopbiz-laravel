@@ -54,5 +54,5 @@
 
 
 @section('script')
-    @include('Address::partials.scripts')
+    @include('Share::ajax-functions.address')
 @endsection

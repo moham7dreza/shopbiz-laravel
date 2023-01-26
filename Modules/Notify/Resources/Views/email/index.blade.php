@@ -54,7 +54,7 @@
                                 <td>{{ $email->publishFaDate() }}</td>
                                 <td>
                                     <label>
-                                        <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }})"
+                                        <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }}, 'ایمیل')"
                                                data-url="{{ route('email.status', $email->id) }}"
                                                type="checkbox" @if ($email->status === 1)
                                                    checked
@@ -94,40 +94,8 @@
 
 @section('script')
 
-    <script type="text/javascript">
-        function changeStatus(id) {
-            var element = $("#" + id)
-            var url = element.attr('data-url')
-            var elementValue = !element.prop('checked');
+    @include('Share::ajax-functions.status')
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (response) {
-                    if (response.status) {
-                        if (response.checked) {
-                            element.prop('checked', true);
-                            successToast('ایمیل با موفقیت فعال شد')
-                        } else {
-                            element.prop('checked', false);
-                            warningToast('ایمیل با موفقیت غیر فعال شد')
-                        }
-                    } else {
-                        element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
-                    }
-                },
-                error: function () {
-                    element.prop('checked', elementValue);
-                    errorToast('ارتباط برقرار نشد')
-                }
-            });
-
-            @include('Panel::alerts.toast.functions.toasts')
-        }
-    </script>
-
-
-    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+    @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
 @endsection

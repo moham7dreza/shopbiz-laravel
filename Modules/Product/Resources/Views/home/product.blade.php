@@ -17,8 +17,6 @@
 
     @include('Product::home.partials.description')
 
-    {{--@include('Product::home.partials.toast')--}}
-
 @endsection
 
 @section('script')

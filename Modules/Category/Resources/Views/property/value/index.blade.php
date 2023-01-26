@@ -85,7 +85,7 @@
 
 @section('script')
 
-    @include('Panel::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+    @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
 @endsection
 

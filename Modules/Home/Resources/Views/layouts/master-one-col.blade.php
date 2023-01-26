@@ -24,9 +24,10 @@
 
 
 
-@include('Home::alerts.delete-confirm', ['className' => 'delete'])
+@include('Share::alerts.sweetalert.simple-delete-confirm', ['className' => 'delete'])
 @include('sweetalert::alert')
 
 <section class="toast-wrapper flex-row-reverse"></section>
+<section class="login-toast-wrapper flex-row-reverse"></section>
 </body>
 </html>

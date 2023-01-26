@@ -98,10 +98,7 @@
 
 @section('script')
 
-    <script type="text/javascript">
-        @include('Panel::functions.status')
-        @include('Panel::functions.toasts')
-    </script>
+    @include('Share::ajax-functions.status')
 
 @endsection
 
