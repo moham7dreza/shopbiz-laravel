@@ -2,10 +2,12 @@
 
 namespace Modules\Share\Services;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Modules\ACL\Entities\Permission;
+use Modules\Comment\Repositories\CommentRepoEloquent;
+use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
 use Modules\User\Entities\User;
 
 class ShareService
@@ -213,9 +215,9 @@ class ShareService
     // Sweet Alert
     /******************************************************************************************************************/
 
-        // example:
+    // example:
 //        toast('Signed in successfully','success')->timerProgressBar();
-        // example:
+    // example:
 //        alert()->success('Post Created', 'Successfully')->iconHtml('<i class="far fa-thumbs-up"></i>');
 // example:
 //       alert()->info('InfoAlert','Lorem ipsum dolor sit amet.')
@@ -230,7 +232,7 @@ class ShareService
 //        alert()->error('Oops...', 'Something went wrong!')->footer('<a href="#">Why do I have this issue?</a>');
 // example:
 
-
+    // Toast
     /**
      * @param $title
      * @param string $type
@@ -252,6 +254,21 @@ class ShareService
     {
         return toast($title, $type)->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')->autoClose($timer)->timerProgressBar();
     }
+
+    /**
+     * @param $header
+     * @param $body
+     * @param string $type
+     * @param int $timer
+     * @return mixed
+     */
+    public static function showAnimatedToastWithHtml($header, $body, string $type = 'success', int $timer = 5000): mixed
+    {
+        return toast()->html($header, $body, $type)->animation('animate__animated animate__fadeInDown', 'animate__animated animate__fadeOutUp')->autoClose($timer)->timerProgressBar();
+    }
+
+
+    // Alert
 
     /**
      * @param $msg
@@ -290,6 +307,65 @@ class ShareService
             ->footer('برای ویرایش وارد <a class="text-decoration-none" href="/cart"> <strong>سبد خرید</strong> </a> خود شوید')->autoClose($timer);
     }
 
+    /**
+     * @return string
+     */
+    public static function getSweetTime(): string
+    {
+        $nowHour = Carbon::parse(now())->format('H');
+        $bamdadEndHour = Carbon::parse('05:00:00')->format('H');
+        $sobhStartHour = Carbon::parse('07:00:00')->format('H');
+        $zohrStartHour = Carbon::parse('12:00:00')->format('H');
+        $asrStartHour = Carbon::parse('17:00:00')->format('H');
+        $shabStartHour = Carbon::parse('20:00:00')->format('H');
+        $payaneRozStartHour = Carbon::parse('24:00:00')->format('H');
+        if ($bamdadEndHour < $nowHour && $sobhStartHour > $nowHour) {
+            return 'سلام جغد.';
+        } elseif ($sobhStartHour < $nowHour && $zohrStartHour > $nowHour) {
+            return 'صبح بخیر.';
+        } elseif ($zohrStartHour < $nowHour && $asrStartHour > $nowHour) {
+            return 'ظهر بخیر.';
+        } elseif ($asrStartHour < $nowHour && $shabStartHour > $nowHour) {
+            return 'عصر بخیر.';
+        } elseif ($shabStartHour < $nowHour && $payaneRozStartHour > $nowHour) {
+            return 'شب بخیر.';
+        } elseif ($payaneRozStartHour < $nowHour && $bamdadEndHour > $nowHour) {
+            return 'بامداد بخیر.';
+        }
+        return '';
+    }
+    // Greeting
+
+    /**
+     * @return void
+     */
+    public static function showGreetingToast(): void
+    {
+        if (self::checkForAdmin()) {
+            $body = '';
+            $header = '<h5>با سلام ' . self::getSweetTime() .' ادمین عزیز خوش آمدید.</h5>';
+            $notif_repo = new NotificationRepoEloquent();
+            $newNotifsCount = $notif_repo->newNotifications()->count();
+            if ($newNotifsCount > 0) {
+                $body .= '<section class="">';
+                $body .= '<i class="fa fa-check mx-2"></i>';
+                $body .= '<p class="d-inline">شما ' . convertEnglishToPersian($newNotifsCount) . ' پیام جدید دارید.</p>';
+                $body .= '</section>';
+            }
+//            $body .= '<br>';
+            $comment_repo = new CommentRepoEloquent();
+            $unseenCommentCount = $comment_repo->latestCommentWithoutAdmin()->count();
+            if ($unseenCommentCount > 0) {
+                $body .= '<section class="">';
+                $body .= '<i class="fa fa-check mx-2"></i>';
+                $body .= '<p class="d-inline">به تعداد ' . convertEnglishToPersian($unseenCommentCount) . ' نظر جدید ثبت شده است.</p>';
+                $body .= '</section>';
+            }
+            self::showAnimatedToastWithHtml($header, $body, 'info', 8000);
+        } else {
+            self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' کاربر عزیز به فروشگاه ما خوش آمدید.')->position('top-left');
+        }
+    }
 
     /******************************************************************************************************************/
     /**

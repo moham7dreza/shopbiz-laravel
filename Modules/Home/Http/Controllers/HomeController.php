@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Modules\Home\Repositories\HomeRepoEloquentInterface;
 use Modules\Home\Services\HomeService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function home(HomeRepoEloquentInterface $repo): Factory|View|Application
     {
+        ShareService::showGreetingToast();
         return view('Home::home', compact(['repo']));
     }
 
