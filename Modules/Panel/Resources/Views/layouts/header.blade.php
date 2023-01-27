@@ -56,12 +56,13 @@
                                 <section class="media">
                                     <section class="media-body pr-1">
                                         @php
-                                        if (isset($notification['data']['order_id'])) {
-                                            $route = route('order.show', $notification['data']['order_id']);
-                                        }
+                                            if (isset($notification['data']['order_id'])) {
+                                                $route = route('order.show', $notification['data']['order_id']);
+                                            }
                                         @endphp
-                                        <a @if(!empty($route)) href="{{ $route }}" @endif class="notification-time text-decoration-none"
-                                        title="نمایش جزئیات">
+                                        <a @if(!empty($route)) href="{{ $route }}"
+                                           @endif class="notification-time text-decoration-none"
+                                           title="نمایش جزئیات">
                                             {{ $notification['data']['message'] }}</a>
                                     </section>
                                 </section>
@@ -104,8 +105,8 @@
                                         <section class="media-body pr-1">
                                             <section class="d-flex justify-content-between">
                                                 <h5 class="comment-user">{{ $unseenComment->user->fullName }}</h5>
-                                                <span>{{ $unseenComment->body }}<i
-                                                        class="fas fa-circle text-success comment-user-status"></i></span>
+                                                <span>{{ \Illuminate\Support\Str::limit($unseenComment->body, 50) }}<i
+                                                        class="fas fa-circle text-success comment-user-status mx-2"></i></span>
                                             </section>
                                         </section>
                                     </section>

@@ -13,6 +13,7 @@ use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Entities\CommonDiscount;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
+use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepoEloquentInterface;
 use Modules\Payment\Entities\Payment;
@@ -37,6 +38,7 @@ class PanelRepo
     public PaymentRepoEloquentInterface $paymentRepo;
     public AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
     public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
+    public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public TicketRepoEloquentInterface $ticketRepo;
     public SettingRepoEloquentInterface $settingRepo;
 
@@ -48,7 +50,8 @@ class PanelRepo
                                 AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,
                                 CommonDiscountRepoEloquentInterface      $commonDiscountRepoEloquent,
                                 TicketRepoEloquentInterface              $ticketRepoEloquent,
-                                SettingRepoEloquentInterface             $settingRepoEloquent)
+                                SettingRepoEloquentInterface             $settingRepoEloquent,
+                                CopanDiscountRepoEloquentInterface       $copanDiscountRepo)
     {
         $this->userRepo = $userRepoEloquent;
         $this->postRepo = $postRepoEloquent;
@@ -59,6 +62,7 @@ class PanelRepo
         $this->commonDiscountRepo = $commonDiscountRepoEloquent;
         $this->ticketRepo = $ticketRepoEloquent;
         $this->settingRepo = $settingRepoEloquent;
+        $this->copanDiscountRepo = $copanDiscountRepo;
     }
 
     /**
@@ -122,6 +126,14 @@ class PanelRepo
     public function activeCommonDiscount(): Model|Builder|null
     {
         return $this->commonDiscountRepo->activeCommonDiscount();
+    }
+
+    /**
+     * @return Builder|Model|null
+     */
+    public function activeCopanDiscounts(): Model|Builder|null
+    {
+        return $this->copanDiscountRepo->activeCopanDiscounts();
     }
 
     public function logs()

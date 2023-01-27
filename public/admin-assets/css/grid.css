@@ -41,7 +41,7 @@
     position: absolute;
     left: 0;
     margin-top: .2rem;
-    width: 16rem;
+    width: 25rem;
     background-color: white;
     color: #000000;
     box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.08);
@@ -78,7 +78,8 @@
 .header-comment {
     position: absolute;
     height: calc(100vh - 3.5rem);
-    width: 18rem;
+    width: 30rem;
+    left: 30px;
     background-color: #FFFFFF;
     color: black;
     box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.08);

@@ -59,6 +59,18 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
     }
 
     /**
+     * @return Model|Builder|null
+     */
+    public function activeCopanDiscounts(): Model|Builder|null
+    {
+        return $this->query()->where([
+            ['start_date', '<', Carbon::now()],
+            ['end_date', '>', Carbon::now()],
+            ['status', Copan::STATUS_ACTIVE]
+        ])->latest();
+    }
+
+    /**
      * Find by id.
      *
      * @param  int|string $id

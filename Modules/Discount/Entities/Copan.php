@@ -16,7 +16,13 @@ class Copan extends Model
     use HasFactory, SoftDeletes, HasFaDate;
 
     public const STATUS_ACTIVE = 1;
+
     public const STATUS_INACTIVE = 0;
+
+    public const AMOUNT_TYPE_PERCENTAGE = 0;
+    public const AMOUNT_TYPE_PRICE = 1;
+    public const COPAN_TYPE_PUBLIC = 0;
+    public const COPAN_TYPE_PRIVATE = 1;
 
     /**
      * @var array|int[]
@@ -41,11 +47,11 @@ class Copan extends Model
     // Methods
 
     /**
-     * @return array|mixed|string|string[]
+     * @return string
      */
-    public function getFaAmount(): mixed
+    public function getFaAmount(): string
     {
-        return $this->amount_type == 0 ? convertEnglishToPersian($this->amount) . ' % '
+        return $this->amount_type == self::AMOUNT_TYPE_PERCENTAGE ? ' % ' . convertEnglishToPersian($this->amount)
             : priceFormat($this->amount) . ' تومان';
     }
 
@@ -54,7 +60,7 @@ class Copan extends Model
      */
     public function textAmountType(): string
     {
-        return $this->amount_type == 0 ? 'درصدی' : 'عددی';
+        return $this->amount_type == self::AMOUNT_TYPE_PERCENTAGE ? 'درصدی' : 'عددی';
     }
 
     /**
@@ -70,7 +76,7 @@ class Copan extends Model
      */
     public function textDiscountType(): string
     {
-        return $this->type == 0 ? 'عمومی' : 'خصوصی';
+        return $this->type == self::COPAN_TYPE_PUBLIC ? 'عمومی' : 'خصوصی';
     }
 
     /**
@@ -87,5 +93,13 @@ class Copan extends Model
     public function getFaEndDate(): mixed
     {
         return jalaliDate($this->end_date) ?? $this->end_date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAssignedCopan(): string
+    {
+        return $this->user->fullName ?? '-';
     }
 }
