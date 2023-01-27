@@ -1037,6 +1037,7 @@ body {
     width: 100%;
     /*border-top: solid #039ee3 8px;*/
 }
+
 .blog_feature_cantant p {
     width: 100%;
     color: #707070;
@@ -1063,6 +1064,7 @@ body {
         padding-top: 90px;
         padding-bottom: 60px;
     }
+
     .main_heading {
         margin-bottom: 20px;
     }
@@ -1073,7 +1075,27 @@ body {
         padding-top: 75px;
         padding-bottom: 60px;
     }
+
     .blog_colum {
         margin-bottom: 25px;
     }
+}
+
+.content-404 {
+    margin: 0 auto;
+    line-height: 45px;
+}
+
+.content-404 h1 {
+    font-size: 8rem;
+}
+
+.content-404 p:first-of-type {
+    font-size: 32px;
+    font-weight: bold;
+    color: #75787b;
+}
+
+.main-wrap {
+    height: 30vh;
 }

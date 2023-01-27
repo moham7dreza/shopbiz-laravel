@@ -1,6 +1,24 @@
-@extends('errors::layout')
+@extends('Home::layouts.master-one-col')
 
-@section('title', __('Forbidden'))
-{{--@section('code', '403')--}}
-{{--@section('message', __($exception->getMessage() ?? 'دسترسی ندارید'))--}}
-@section('message', __('کاربری شما سطح دسترسی مورد نظر را دارا نمی باشد'))
+@section('head-tag')
+    <title>دسترسی ندارید</title>
+@endsection
+
+@section('content')
+    <div class="main-wrap">
+        <main class="position-relative">
+            <div class="container">
+                <div class="row mb-30">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="content-404 text-center mb-30 d-flex flex-column align-items-center justify-content-around h-100">
+                            <h1 class="mb-30">{{ convertEnglishToPersian(403) }}</h1>
+                            <p>کاربری شما سطح دسترسی مورد نظر را دارا نمی باشد.</p>
+                            <p class="text-muted">برای دریافت سطح دسترسی با ادمین سیستم تماس بگیرید :) </p>
+                            <p>بازدید از <a class="text-decoration-none text-danger" href="{{ route('customer.home') }}">صفحه نخست</a> یا در مورد مشکل <a class="text-decoration-none text-danger" href="contact.html">با ما تماس بگیرید</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+@endsection
