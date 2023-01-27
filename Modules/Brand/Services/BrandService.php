@@ -33,7 +33,7 @@ class BrandService
     public function store($request): Model|Builder|RedirectResponse
     {
         if ($request->hasFile('logo')) {
-            $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
+            $result = ShareService::saveImage('brand', $request->file('logo'), $this->imageService);
             if (!$result) {
                 return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
@@ -53,21 +53,19 @@ class BrandService
 
     /**
      * @param $request
-     * @param $postCategory
+     * @param $brand
      * @return mixed
      */
     public function update($request, $brand): mixed
     {
         if ($request->hasFile('logo')) {
             if (!empty($brand->logo)) {
-                $this->imageService->deleteImage($brand->logo['indexArray']['small']);
-                $this->imageService->deleteImage($brand->logo['indexArray']['medium']);
-                $this->imageService->deleteImage($brand->logo['indexArray']['large']);
+                $this->imageService->deleteImage($brand->logo);
             }
-            $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
+            $result = ShareService::saveImage('brand', $request->file('logo'), $this->imageService);
 
-            if ($result === false) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            if (!$result) {
+//                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->logo = $result;
         } else {

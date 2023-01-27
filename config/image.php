@@ -20,16 +20,16 @@ return [
     //index size
     'index-image-sizes' => [
         'large' => [
-            'width' => 800,
-            'height' => 600
+            'width' => 700,
+            'height' => 700
         ],
          'medium' => [
-            'width' => 400,
-            'height' => 300
+            'width' => 350,
+            'height' => 350
         ],
          'small' => [
-            'width' => 80,
-            'height' => 60
+            'width' => 70,
+            'height' => 70
         ],
 
     ],

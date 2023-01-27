@@ -86,7 +86,7 @@ class UserService
             }
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
 
-            if ($result === false) {
+            if (!$result) {
                 return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->profile_photo_path = $result;

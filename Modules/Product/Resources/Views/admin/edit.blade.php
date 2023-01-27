@@ -380,8 +380,6 @@
         });
     </script>
 
-    <script>
-        @include('Panel::functions.tags')
-    </script>
+    @include('Share::functions.tags')
 
 @endsection

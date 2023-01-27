@@ -50,7 +50,7 @@ class Brand extends Model
      */
     public function logo(): string
     {
-        return asset($this->logo['indexArray']['medium']);
+        return asset($this->logo);
     }
 
     /**

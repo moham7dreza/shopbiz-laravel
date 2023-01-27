@@ -65,7 +65,7 @@ class BannerService
             }
             $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);
 
-            if ($result === false) {
+            if (!$result) {
                 return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;

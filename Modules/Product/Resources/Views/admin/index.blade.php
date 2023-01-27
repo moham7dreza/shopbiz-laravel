@@ -58,7 +58,7 @@
                                 <td>{{ $product->limitedName() }}</td>
                                 <td>
                                     <img
-                                        src="{{ $product->imagePath() }}" alt="" width="100" height="50">
+                                        src="{{ $product->imagePath('small') }}" alt="">
                                 </td>
                                 <td>{{ $product->getFaPrice() }}</td>
                                 <td>{{ $product->getFaWeight() }}</td>

@@ -177,11 +177,12 @@ class Product extends Model
     }
 
     /**
+     * @param string $size
      * @return string
      */
-    public function imagePath(): string
+    public function imagePath(string $size = 'medium'): string
     {
-        return asset($this->image['indexArray']['medium']);
+        return asset($this->image['indexArray'][$size]);
     }
 
     /**
