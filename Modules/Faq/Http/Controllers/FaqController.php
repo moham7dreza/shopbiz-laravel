@@ -91,7 +91,7 @@ class FaqController extends Controller
     {
 
         $this->service->store($request);
-        return $this->showMessageWithRedirect('پرسش  جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('پرسش  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class FaqController extends Controller
     public function update(FaqRequest $request, Faq $faq): RedirectResponse
     {
         $this->service->update($request, $faq);
-        return $this->showMessageWithRedirect('پرسش شما با موفقیت ویرایش شد');;
+        return $this->showMessageWithRedirectRoute('پرسش شما با موفقیت ویرایش شد');;
     }
 
     /**
@@ -138,7 +138,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq): RedirectResponse
     {
         $result = $faq->delete();
-        return $this->showMessageWithRedirect('پرسش  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('پرسش  شما با موفقیت حذف شد');
     }
 
 

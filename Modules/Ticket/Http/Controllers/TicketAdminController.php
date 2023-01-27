@@ -72,6 +72,6 @@ class TicketAdminController extends Controller
     public function set(User $admin): RedirectResponse
     {
         $this->service->addOrRemoveFromTicketAdmin($admin);
-        return $this->showMessageWithRedirect('تغییر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('تغییر شما با موفقیت حذف شد');
     }
 }

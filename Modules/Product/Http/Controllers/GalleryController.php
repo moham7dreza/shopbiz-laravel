@@ -88,7 +88,7 @@ class GalleryController extends Controller
     public function store(ProductGalleryRequest $request, Product $product): RedirectResponse
     {
         $this->service->store($request, $product->id);
-        return $this->showMessageWithRedirect('عکس شما با موفقیت ثبت شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('عکس شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -135,6 +135,6 @@ class GalleryController extends Controller
     public function destroy(Product $product, Gallery $gallery): RedirectResponse
     {
         $result = $gallery->delete();
-        return $this->showMessageWithRedirect('عکس شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('عکس شما با موفقیت حذف شد', params: [$product]);
     }
 }

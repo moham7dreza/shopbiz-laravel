@@ -89,7 +89,7 @@ class PageController extends Controller
     public function store(PageRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('صفحه جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('صفحه جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class PageController extends Controller
     public function update(PageRequest $request, Page $page): RedirectResponse
     {
         $this->service->update($request, $page);
-        return $this->showMessageWithRedirect('صفحه شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('صفحه شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -136,7 +136,7 @@ class PageController extends Controller
     public function destroy(Page $page): \Illuminate\Http\RedirectResponse
     {
         $result = $page->delete();
-        return $this->showMessageWithRedirect('صفحه شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('صفحه شما با موفقیت حذف شد');
     }
 
 

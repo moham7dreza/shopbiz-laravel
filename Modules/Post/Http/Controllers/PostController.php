@@ -106,7 +106,7 @@ class PostController extends Controller
         // $this->authorize('create', Post::class);
 
         $this->service->store($request);
-        return $this->showMessageWithRedirect('پست جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('پست جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -160,7 +160,7 @@ class PostController extends Controller
         // $this->authorize('update', $post);
 
         $this->service->update($request, $post);
-        return $this->showMessageWithRedirect('پست شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('پست شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -172,7 +172,7 @@ class PostController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         $result = $post->delete();
-        return $this->showMessageWithRedirect('پست شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('پست شما با موفقیت حذف شد');
     }
 
     /**

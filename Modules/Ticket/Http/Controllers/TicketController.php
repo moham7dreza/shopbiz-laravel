@@ -160,7 +160,7 @@ class TicketController extends Controller
     public function answer(TicketRequest $request, Ticket $ticket): RedirectResponse
     {
         $this->service->store($request, $ticket);
-        return $this->showMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('پاسخ شما با موفقیت ثبت شد');
     }
 
 
@@ -171,6 +171,6 @@ class TicketController extends Controller
     public function change(Ticket $ticket): RedirectResponse
     {
         $this->service->changeTicketStatus($ticket);
-        return $this->showMessageWithRedirect('تغییر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('تغییر شما با موفقیت حذف شد');
     }
 }

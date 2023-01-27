@@ -6,6 +6,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Category\Entities\PostCategory;
@@ -70,6 +71,14 @@ class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function user(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     // Methods
 
     /**
@@ -77,7 +86,7 @@ class Post extends Model
      */
     public function path(): string
     {
-        return route('post.detail', $this->slug);
+        return route('customer.post.detail', $this->slug);
     }
 
     /**
@@ -209,5 +218,13 @@ class Post extends Model
     public function isNotCommentable(): int
     {
         return Post::IS_COMMENTABLE;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function tagLessSummary(): mixed
+    {
+        return strip_tags($this->summary) ?? $this->summary ?? '-';
     }
 }

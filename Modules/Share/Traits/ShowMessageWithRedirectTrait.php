@@ -35,7 +35,7 @@ trait ShowMessageWithRedirectTrait
      * @param array $params
      * @return RedirectResponse
      */
-    private function showMessageWithRedirect(string $msg, string $title = 'موفقیت آمیز', string $type = 'alert animated', string $status = 'success', array $params = []): RedirectResponse
+    private function showMessageWithRedirectRoute(string $msg, string $title = 'موفقیت آمیز', string $type = 'alert animated', string $status = 'success', array $params = []): RedirectResponse
     {
         if (empty($this->redirectRoute)) {
             return $this->showAlertWithRedirect(message: 'مسیر برگشت یافت نشد.', title: 'خطا', type: 'error');
@@ -120,6 +120,6 @@ trait ShowMessageWithRedirectTrait
      */
     public function showAlertOfNotResultFound(): RedirectResponse
     {
-        return $this->showMessageWithRedirect(msg: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', status: 'warning');
+        return $this->showMessageWithRedirectRoute(msg: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', status: 'warning');
     }
 }

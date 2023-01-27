@@ -81,7 +81,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request): RedirectResponse
     {
         $this->service->permissionStore($request);
-        return $this->showMessageWithRedirect('دسترسی جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('دسترسی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -117,7 +117,7 @@ class PermissionController extends Controller
     public function update(PermissionRequest $request, Permission $permission): RedirectResponse
     {
         $this->service->permissionUpdate($request, $permission);
-        return $this->showMessageWithRedirect('دسترسی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('دسترسی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -129,7 +129,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $result = $permission->delete();
-        return $this->showMessageWithRedirect('دسترسی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('دسترسی شما با موفقیت حذف شد');
     }
 
     /**

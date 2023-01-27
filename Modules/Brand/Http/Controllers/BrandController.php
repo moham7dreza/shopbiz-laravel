@@ -90,7 +90,7 @@ class BrandController extends Controller
     public function store(BrandRequest $request): RedirectResponse
     {
        $this->service->store($request);
-        return $this->showMessageWithRedirect('برند جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('برند جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class BrandController extends Controller
     public function update(BrandRequest $request, Brand $brand): RedirectResponse
     {
         $this->service->update($request, $brand);
-        return $this->showMessageWithRedirect('برند شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('برند شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -138,7 +138,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand): RedirectResponse
     {
         $result = $brand->delete();
-        return $this->showMessageWithRedirect('برند شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('برند شما با موفقیت حذف شد');
     }
 
     /**

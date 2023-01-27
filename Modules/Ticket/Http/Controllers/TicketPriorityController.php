@@ -87,7 +87,7 @@ class TicketPriorityController extends Controller
     public function store(TicketPriorityRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('اولویت  جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('اولویت  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -123,7 +123,7 @@ class TicketPriorityController extends Controller
     public function update(TicketPriorityRequest $request, TicketPriority $ticketPriority): RedirectResponse
     {
         $this->service->update($request, $ticketPriority);
-        return $this->showMessageWithRedirect('اولویت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('اولویت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -135,7 +135,7 @@ class TicketPriorityController extends Controller
     public function destroy(TicketPriority $ticketPriority): RedirectResponse
     {
         $result = $ticketPriority->delete();
-        return $this->showMessageWithRedirect('اولویت شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('اولویت شما با موفقیت حذف شد');
     }
 
 

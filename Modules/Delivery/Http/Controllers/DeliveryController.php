@@ -89,7 +89,7 @@ class DeliveryController extends Controller
     public function store(DeliveryRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('روش ارسال جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('روش ارسال جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -124,7 +124,7 @@ class DeliveryController extends Controller
     public function update(DeliveryRequest $request, Delivery $delivery): RedirectResponse
     {
         $this->service->update($request, $delivery);
-        return $this->showMessageWithRedirect('روش ارسال شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('روش ارسال شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -136,7 +136,7 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery): RedirectResponse
     {
         $result = $delivery->delete();
-        return $this->showMessageWithRedirect('روش ارسال شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('روش ارسال شما با موفقیت حذف شد');
     }
 
 

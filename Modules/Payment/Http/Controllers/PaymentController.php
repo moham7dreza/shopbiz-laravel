@@ -100,7 +100,7 @@ class PaymentController extends Controller
     public function canceled(Payment $payment): RedirectResponse
     {
         $this->service->makePaymentReturned($payment);
-        return $this->showMessageWithRedirect('سفارش شما با موفقیت باطل شد');
+        return $this->showMessageWithRedirectRoute('سفارش شما با موفقیت باطل شد');
     }
 
     /**
@@ -110,7 +110,7 @@ class PaymentController extends Controller
     public function returned(Payment $payment): RedirectResponse
     {
         $this->service->makePaymentCanceled($payment);
-        return $this->showMessageWithRedirect('سفارش شما با موفقیت بازگردانده شد');
+        return $this->showMessageWithRedirectRoute('سفارش شما با موفقیت بازگردانده شد');
     }
 
     /**

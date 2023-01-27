@@ -35,7 +35,7 @@ class BrandService
         if ($request->hasFile('logo')) {
             $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->logo = $result;
         } else {
@@ -67,7 +67,7 @@ class BrandService
             $result = ShareService::createIndexAndSaveImage('brand', $request->file('logo'), $this->imageService);
 
             if ($result === false) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->logo = $result;
         } else {

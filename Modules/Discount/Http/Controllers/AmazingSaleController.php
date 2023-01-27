@@ -88,7 +88,7 @@ class AmazingSaleController extends Controller
     public function store(AmazingSaleRequest $request): RedirectResponse
     {
         $this->amazingSaleDiscountService->store($request);
-        return $this->showMessageWithRedirect(' تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute(' تخفیف جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -110,7 +110,7 @@ class AmazingSaleController extends Controller
     public function update(AmazingSaleRequest $request, AmazingSale $amazingSale): RedirectResponse
     {
         $this->amazingSaleDiscountService->update($request, $amazingSale);
-        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute(' تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -121,7 +121,7 @@ class AmazingSaleController extends Controller
     public function destroy(AmazingSale $amazingSale): RedirectResponse
     {
         $result = $amazingSale->delete();
-        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

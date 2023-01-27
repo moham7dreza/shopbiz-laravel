@@ -91,7 +91,7 @@ class GuaranteeController extends Controller
     public function store(ProductGuaranteeRequest $request, Product $product): RedirectResponse
     {
         $this->service->store($request, $product->id);
-        return $this->showMessageWithRedirect('گارانتی شما با موفقیت ثبت شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -138,7 +138,7 @@ class GuaranteeController extends Controller
     public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
-        return $this->showMessageWithRedirect('گارانتی شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**

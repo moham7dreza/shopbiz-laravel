@@ -93,7 +93,7 @@ class PropertyValueController extends Controller
     public function store(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $this->propertyValueService->store($request, $categoryAttribute);
-        return $this->showMessageWithRedirect(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -130,7 +130,7 @@ class PropertyValueController extends Controller
     public function update(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $this->propertyValueService->update($request, $categoryAttribute, $value);
-        return $this->showMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -143,6 +143,6 @@ class PropertyValueController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $result = $value->delete();
-        return $this->showMessageWithRedirect(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
     }
 }

@@ -83,7 +83,7 @@ class ProductService implements ProductServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -140,7 +140,7 @@ class ProductService implements ProductServiceInterface
             $result = ShareService::createIndexAndSaveImage('product', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {

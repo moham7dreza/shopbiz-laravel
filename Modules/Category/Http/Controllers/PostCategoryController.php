@@ -109,7 +109,7 @@ class PostCategoryController extends Controller
     public function store(PostCategoryRequest $request): RedirectResponse
     {
         $this->categoryService->store($request);
-        return $this->showMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -144,7 +144,7 @@ class PostCategoryController extends Controller
     public function update(PostCategoryRequest $request, PostCategory $postCategory): RedirectResponse
     {
         $this->categoryService->update($request, $postCategory);
-        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -156,7 +156,7 @@ class PostCategoryController extends Controller
     public function destroy(PostCategory $postCategory): RedirectResponse
     {
         $result = $postCategory->delete();
-        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی شما با موفقیت حذف شد');
     }
 
     /**

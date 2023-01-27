@@ -33,7 +33,7 @@ class EmailFileService implements EmailFileServiceInterface
             [$result, $fileSize, $fileFormat] = ShareService::saveFileAndMove('email-files',
                 $request->file('file'), $this->fileService);
             if ($result === false) {
-                return $this->showMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
+                return $this->showMessageWithRedirectRoute(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
                     ,params: [$emailId]);
             }
         } else {
@@ -65,7 +65,7 @@ class EmailFileService implements EmailFileServiceInterface
             [$result, $fileSize, $fileFormat] = ShareService::saveFileAndMove('email-files',
                 $request->file('file'), $this->fileService);
             if ($result === false) {
-                return $this->showMessageWithRedirect(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
+                return $this->showMessageWithRedirectRoute(title: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
                     ,params: [$emailId]);
             }
         } else {

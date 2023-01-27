@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Post\Http\Controllers\PostController;
+use Modules\Post\Http\Controllers\Home\PostController as HomePostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,6 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     Route::get('post/status/{post}', [PostController::class, 'status'])->name('post.status');
     Route::get('post/commentable/{post}', [PostController::class, 'commentable'])->name('post.commentable');
 });
+Route::get('/post/{post:slug}', [HomePostController::class, 'post'])->name('customer.post.detail');
+Route::post('/add-comment/post/{post:slug}', [HomePostController::class, 'addComment'])->name('customer.post.add-comment');
+Route::get('/add-to-favorite/post/{post:slug}', [HomePostController::class, 'addToFavorite'])->name('customer.post.add-to-favorite');

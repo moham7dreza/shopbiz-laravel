@@ -93,7 +93,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('محصول جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('محصول جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -134,7 +134,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $this->service->update($request, $product);
-        return $this->showMessageWithRedirect('محصول شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('محصول شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -146,7 +146,7 @@ class ProductController extends Controller
     public function destroy(Product $product): RedirectResponse
     {
         $result = $product->delete();
-        return $this->showMessageWithRedirect('محصول ما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('محصول ما با موفقیت حذف شد');
     }
 
     /**

@@ -85,7 +85,7 @@ class CopanController extends Controller
     public function store(CopanRequest $request): RedirectResponse
     {
         $this->copanDiscountService->store($request);
-        return $this->showMessageWithRedirect(' کد تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute(' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -108,7 +108,7 @@ class CopanController extends Controller
     public function update(CopanRequest $request, Copan $copanDiscount): RedirectResponse
     {
         $this->copanDiscountService->update($request, $copanDiscount);
-        return $this->showMessageWithRedirect('کد تخفیف  شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('کد تخفیف  شما با موفقیت ویرایش شد');
     }
 
 
@@ -119,7 +119,7 @@ class CopanController extends Controller
     public function destroy(Copan $copanDiscount): RedirectResponse
     {
         $result = $copanDiscount->delete();
-        return $this->showMessageWithRedirect(' تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute(' تخفیف  شما با موفقیت حذف شد');
     }
 
     /**

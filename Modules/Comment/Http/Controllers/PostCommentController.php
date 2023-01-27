@@ -155,9 +155,9 @@ class PostCommentController extends Controller
     {
         $result = $this->service->approveComment($postComment);
         if ($result) {
-            return $this->showMessageWithRedirect('وضعیت نظر با موفقیت تغییر کرد');
+            return $this->showMessageWithRedirectRoute('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return $this->showMessageWithRedirect('تایید نظر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirectRoute('تایید نظر با خطا مواجه شد', 'swal-error');
         }
     }
 
@@ -171,9 +171,9 @@ class PostCommentController extends Controller
     {
         if ($postComment->parent == null) {
             $this->service->replyComment($request, $postComment);
-            return $this->showMessageWithRedirect('پاسخ شما با موفقیت ثبت شد');
+            return $this->showMessageWithRedirectRoute('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return $this->showMessageWithRedirect('خطا', 'swal-error');
+            return $this->showMessageWithRedirectRoute('خطا', 'swal-error');
         }
     }
 }

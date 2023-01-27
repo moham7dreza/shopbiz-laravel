@@ -92,7 +92,7 @@ class BannerController extends Controller
     public function store(BannerRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('بنر جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('بنر جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -128,7 +128,7 @@ class BannerController extends Controller
     public function update(BannerRequest $request, Banner $banner): RedirectResponse
     {
         $this->service->update($request, $banner);
-        return $this->showMessageWithRedirect('بنر شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('بنر شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -140,7 +140,7 @@ class BannerController extends Controller
     public function destroy(Banner $banner): RedirectResponse
     {
         $result = $banner->delete();
-        return $this->showMessageWithRedirect('بنر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('بنر شما با موفقیت حذف شد');
     }
 
 

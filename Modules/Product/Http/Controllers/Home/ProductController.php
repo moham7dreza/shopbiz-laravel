@@ -58,7 +58,8 @@ class ProductController extends Controller
     public function addComment(Product $product, AddCommentToProductRequest $request, CommentService $commentService): RedirectResponse
     {
         if (!auth()->check()) {
-            return back()->with('swal-animate', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
+            return $this->showAlertWithRedirect(message: 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.', title: 'خطا', type: 'error');
+//            return back()->with('swal-animate', 'برای ثبت نظر بایستی عضوی از وبسایت ما باشید.');
         }
         $commentService->store($request, $product);
         if (ShareService::checkForAdmin()) {

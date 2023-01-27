@@ -88,7 +88,7 @@ class CustomerController extends Controller
         $this->service->store($request);
         $adminUser = $this->repo->findById(1);
         $this->service->sendUserCreatedNotificationToAdmin($adminUser);
-        return $this->showMessageWithRedirect('مشتری جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('مشتری جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -123,7 +123,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, User $customerUser): RedirectResponse
     {
         $this->service->update($request, $customerUser);
-        return $this->showMessageWithRedirect('مشتری سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('مشتری سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -135,7 +135,7 @@ class CustomerController extends Controller
     public function destroy(User $customerUser): RedirectResponse
     {
         $result = $customerUser->delete();
-        return $this->showMessageWithRedirect('مشتری شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('مشتری شما با موفقیت حذف شد');
     }
 
 

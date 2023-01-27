@@ -212,7 +212,7 @@ class OrderController extends Controller
     public function changeSendStatus(Order $order): RedirectResponse
     {
         $this->service->changeSendStatus($order);
-        return $this->showMessageWithRedirect('وضعیت ارسال کالا با موفقیت تغییر کرد.');
+        return $this->showMessageWithRedirectRoute('وضعیت ارسال کالا با موفقیت تغییر کرد.');
     }
 
     /**
@@ -222,7 +222,7 @@ class OrderController extends Controller
     public function changeOrderStatus(Order $order): RedirectResponse
     {
         $this->service->changeOrderStatus($order);
-        return $this->showMessageWithRedirect('وضعیت سفارش با موفقیت تغییر کرد.');
+        return $this->showMessageWithRedirectRoute('وضعیت سفارش با موفقیت تغییر کرد.');
     }
 
     /**
@@ -232,6 +232,6 @@ class OrderController extends Controller
     public function cancelOrder(Order $order): RedirectResponse
     {
        $this->service->makeOrderStatusCanceled($order);
-        return $this->showMessageWithRedirect('وضعیت سفارش به باطل شده تغییر کرد.');
+        return $this->showMessageWithRedirectRoute('وضعیت سفارش به باطل شده تغییر کرد.');
     }
 }

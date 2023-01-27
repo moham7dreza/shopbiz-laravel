@@ -91,7 +91,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('نقش جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('نقش جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         $this->service->update($request, $role);
-        return $this->showMessageWithRedirect('نقش شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('نقش شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -138,7 +138,7 @@ class RoleController extends Controller
     public function destroy(Role $role): RedirectResponse
     {
         $result = $role->delete();
-        return $this->showMessageWithRedirect('نقش شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('نقش شما با موفقیت حذف شد');
     }
 
 
@@ -163,7 +163,7 @@ class RoleController extends Controller
     {
 //        $this->service->rolePermissionsUpdate($request, $role);
         $role->syncPermissions($request->permissions);
-        return $this->showMessageWithRedirect('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
+        return $this->showMessageWithRedirectRoute('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
     }
 
     /**

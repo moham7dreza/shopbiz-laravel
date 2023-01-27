@@ -36,7 +36,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -68,7 +68,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {

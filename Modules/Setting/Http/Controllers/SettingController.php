@@ -105,7 +105,7 @@ class SettingController extends Controller
     public function update(SettingRequest $request, Setting $setting): RedirectResponse
     {
         $this->service->update($request, $setting);
-        return $this->showMessageWithRedirect('تنظیمات سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('تنظیمات سایت شما با موفقیت ویرایش شد');
     }
 
     /**

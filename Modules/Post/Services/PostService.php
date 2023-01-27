@@ -5,6 +5,7 @@ namespace Modules\Post\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Post\Entities\Post;
 use Modules\Share\Services\Image\ImageService;
@@ -37,7 +38,7 @@ class PostService implements PostServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -72,7 +73,7 @@ class PostService implements PostServiceInterface
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
 
             if ($result === false) {
-                return $this->showMessageWithRedirect('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
             }
             $request->image = $result;
         } else {
@@ -97,6 +98,25 @@ class PostService implements PostServiceInterface
             'category_id' => $request->category_id,
             'commentable' => $request->commentable,
         ]);
+    }
+
+
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function postAddToFavorite(Post $post): JsonResponse
+    {
+        if (auth()->check()) {
+            $post->user()->toggle([auth()->id()]);
+            if ($post->user->contains(auth()->id())) {
+                return response()->json(['status' => 1]);
+            } else {
+                return response()->json(['status' => 2]);
+            }
+        } else {
+            return response()->json(['status' => 3]);
+        }
     }
 //    /**
 //     * Store article by request.

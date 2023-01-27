@@ -91,7 +91,7 @@ class EmailController extends Controller
     public function store(EmailRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('ایمیل شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('ایمیل شما با موفقیت ثبت شد');
     }
 
     /**
@@ -126,7 +126,7 @@ class EmailController extends Controller
     public function update(EmailRequest $request, Email $email): RedirectResponse
     {
         $this->service->update($request, $email);
-        return $this->showMessageWithRedirect('ایمیل شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('ایمیل شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -138,7 +138,7 @@ class EmailController extends Controller
     public function destroy(Email $email): RedirectResponse
     {
         $result = $email->delete();
-        return $this->showMessageWithRedirect('ایمیل شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('ایمیل شما با موفقیت حذف شد');
     }
 
 

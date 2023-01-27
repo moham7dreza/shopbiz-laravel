@@ -90,7 +90,7 @@ class SMSController extends Controller
     public function store(SMSRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('پیامک شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('پیامک شما با موفقیت ثبت شد');
     }
 
     /**
@@ -125,7 +125,7 @@ class SMSController extends Controller
     public function update(SMSRequest $request, SMS $sms): RedirectResponse
     {
         $this->service->update($request, $sms);
-        return $this->showMessageWithRedirect('پیامک شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('پیامک شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -137,7 +137,7 @@ class SMSController extends Controller
     public function destroy(SMS $sms): RedirectResponse
     {
         $result = $sms->delete();
-        return $this->showMessageWithRedirect('پیامک شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('پیامک شما با موفقیت حذف شد');
     }
 
 

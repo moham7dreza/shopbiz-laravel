@@ -95,7 +95,7 @@ class AdminUserController extends Controller
     public function store(AdminUserRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->service->store($request, User::TYPE_ADMIN);
-        return $this->showMessageWithRedirect('ادمین جدید با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('ادمین جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -130,7 +130,7 @@ class AdminUserController extends Controller
     public function update(AdminUserRequest $request, User $adminUser): RedirectResponse
     {
         $this->service->update($request, $adminUser);
-        return $this->showMessageWithRedirect('ادمین سایت شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('ادمین سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -142,7 +142,7 @@ class AdminUserController extends Controller
     public function destroy(User $adminUser): RedirectResponse
     {
         $result = $adminUser->delete();
-        return $this->showMessageWithRedirect('ادمین شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('ادمین شما با موفقیت حذف شد');
     }
 
     /**
@@ -197,7 +197,7 @@ class AdminUserController extends Controller
 //            }
 //        }
         $admin->syncRoles($request->roles);
-        return $this->showMessageWithRedirect('نقش با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('نقش با موفقیت ویرایش شد');
     }
 
 
@@ -221,6 +221,6 @@ class AdminUserController extends Controller
     {
 //        $admin->permissions()->sync($request->permissions);
         $admin->syncPermissions($request->permissions);
-        return $this->showMessageWithRedirect('سطح دسترسی با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('سطح دسترسی با موفقیت ویرایش شد');
     }
 }

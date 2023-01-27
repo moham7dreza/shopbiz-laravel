@@ -91,7 +91,7 @@ class ProductColorController extends Controller
     public function store(ProductColorRequest $request, Product $product): RedirectResponse
     {
         $this->service->store($request, $product->id);
-        return $this->showMessageWithRedirect('رنگ شما با موفقیت ثبت شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ثبت شد', params: [$product]);
     }
 
     /**
@@ -127,7 +127,7 @@ class ProductColorController extends Controller
     public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
     {
         $this->service->update($request, $product->id, $color);
-        return $this->showMessageWithRedirect('رنگ شما با موفقیت ویرایش شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ویرایش شد', params: [$product]);
     }
 
     /**
@@ -140,7 +140,7 @@ class ProductColorController extends Controller
     public function destroy(Product $product, ProductColor $color): RedirectResponse
     {
         $color->delete();
-        return $this->showMessageWithRedirect('رنگ شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**

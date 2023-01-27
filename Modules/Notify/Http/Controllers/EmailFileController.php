@@ -97,7 +97,7 @@ class EmailFileController extends Controller
     {
 
         $this->service->store($request, $email->id);
-        return $this->showMessageWithRedirect('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
+        return $this->showMessageWithRedirectRoute('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
     }
 
     /**
@@ -133,7 +133,7 @@ class EmailFileController extends Controller
     {
         $emailId = $file->email->id;
         $this->service->update($request, $emailId, $file);
-        return $this->showMessageWithRedirect('فایل شما با موفقیت ویرایش شد', params: [$emailId]);
+        return $this->showMessageWithRedirectRoute('فایل شما با موفقیت ویرایش شد', params: [$emailId]);
     }
 
     /**
@@ -145,7 +145,7 @@ class EmailFileController extends Controller
     public function destroy(EmailFile $file): RedirectResponse
     {
         $result = $file->delete();
-        return $this->showMessageWithRedirect('فایل شما با موفقیت حذف شد', params: [$file->email->id]);
+        return $this->showMessageWithRedirectRoute('فایل شما با موفقیت حذف شد', params: [$file->email->id]);
     }
 
     /**

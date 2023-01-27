@@ -91,7 +91,7 @@ class PropertyController extends Controller
     public function store(CategoryAttributeRequest $request): RedirectResponse
     {
         $this->propertyService->store($request);
-        return $this->showMessageWithRedirect('فرم جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('فرم جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -128,7 +128,7 @@ class PropertyController extends Controller
     public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $this->propertyService->update($request, $categoryAttribute);
-        return $this->showMessageWithRedirect('فرم شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('فرم شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -140,6 +140,6 @@ class PropertyController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $result = $categoryAttribute->delete();
-        return $this->showMessageWithRedirect('فرم شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('فرم شما با موفقیت حذف شد');
     }
 }

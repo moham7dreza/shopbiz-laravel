@@ -21,7 +21,8 @@ class FavoriteController extends Controller
     public function index(): View|Factory|Application
     {
         $products = auth()->user()->products()->latest()->get();
-        return view('User::home.profile.my-favorites', compact(['products']));
+        $posts = auth()->user()->posts()->latest()->get();
+        return view('User::home.profile.my-favorites', compact(['products', 'posts']));
     }
 
     /**

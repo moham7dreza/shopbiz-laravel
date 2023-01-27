@@ -86,7 +86,7 @@ class TicketCategoryController extends Controller
     public function store(TicketCategoryRequest $request): RedirectResponse
     {
         $this->service->store($request);
-        return $this->showMessageWithRedirect('دسته بندی جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -122,7 +122,7 @@ class TicketCategoryController extends Controller
     public function update(TicketCategoryRequest $request, TicketCategory $ticketCategory): RedirectResponse
     {
         $this->service->update($request, $ticketCategory);
-        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -134,7 +134,7 @@ class TicketCategoryController extends Controller
     public function destroy(TicketCategory $ticketCategory): RedirectResponse
     {
         $result = $ticketCategory->delete();
-        return $this->showMessageWithRedirect('دسته بندی شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('دسته بندی شما با موفقیت حذف شد');
     }
 
 

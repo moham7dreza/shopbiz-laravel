@@ -84,7 +84,7 @@ class CommonController extends Controller
     public function store(CommonDiscountRequest $request): RedirectResponse
     {
         $this->commonDiscountService->store($request);
-        return $this->showMessageWithRedirect('کد تخفیف جدید شما با موفقیت ثبت شد');
+        return $this->showMessageWithRedirectRoute('کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
 
@@ -105,7 +105,7 @@ class CommonController extends Controller
     public function update(CommonDiscountRequest $request, CommonDiscount $commonDiscount): RedirectResponse
     {
         $this->commonDiscountService->update($request, $commonDiscount);
-        return $this->showMessageWithRedirect('کد تخفیف جدید شما با موفقیت ویرایش شد');
+        return $this->showMessageWithRedirectRoute('کد تخفیف جدید شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -115,7 +115,7 @@ class CommonController extends Controller
     public function destroy(CommonDiscount $commonDiscount): RedirectResponse
     {
         $result = $commonDiscount->delete();
-        return $this->showMessageWithRedirect('کد تخفیف  شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('کد تخفیف  شما با موفقیت حذف شد');
     }
 
     /**
