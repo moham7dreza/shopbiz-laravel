@@ -38,7 +38,8 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
 });
 Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');
 Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');
-Route::get('/my-favorites/delete/{product}', [FavoriteController::class, 'delete'])->name('customer.profile.my-favorites.delete');
+Route::get('/my-favorites/delete/product/{product}', [FavoriteController::class, 'deleteProduct'])->name('customer.profile.my-favorites.product-delete');
+Route::get('/my-favorites/delete/post/{post}', [FavoriteController::class, 'deletePost'])->name('customer.profile.my-favorites.post-delete');
 Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
 Route::get('/my-addresses', [AddressController::class, 'index'])->name('customer.profile.my-addresses');

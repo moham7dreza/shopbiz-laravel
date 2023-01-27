@@ -27,7 +27,7 @@
 @include('Share::alerts.sweetalert.simple-delete-confirm', ['className' => 'delete'])
 @include('sweetalert::alert')
 
-<section class="toast-wrapper flex-row-reverse"></section>
+<section class="toast-wrapper low-z-index flex-row-reverse"></section>
 <section class="login-toast-wrapper flex-row-reverse"></section>
 </body>
 </html>

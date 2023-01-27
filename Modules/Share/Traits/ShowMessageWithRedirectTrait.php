@@ -71,7 +71,7 @@ trait ShowMessageWithRedirectTrait
         } elseif ($toastType === 'animated') {
             ShareService::showAnimatedToast($title, $type, $timer);
         }
-        return is_null($route) ? back() : to_route($route, $params);
+        return is_null($route) ? back()->with(['block' => 'yes']) : to_route($route, $params)->with(['block' => 'yes']);
     }
 
     /**
@@ -93,7 +93,7 @@ trait ShowMessageWithRedirectTrait
         } elseif ($alertType === 'animated with footer') {
             ShareService::showAnimatedAlertWithFooter($message, $title, $type, $timer);
         }
-        return is_null($route) ? back() : to_route($route, $params);
+        return is_null($route) ? back()->with(['block' => 'yes']) : to_route($route, $params)->with(['block' => 'yes']);
     }
 
     /**

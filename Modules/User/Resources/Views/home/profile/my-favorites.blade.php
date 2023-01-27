@@ -57,7 +57,7 @@
                                     <section class="align-self-end w-100">
                                         <section>
                                             <a class="text-decoration-none cart-delete"
-                                               href="{{ route('customer.profile.my-favorites.delete', $product) }}"><i
+                                               href="{{ route('customer.profile.my-favorites.product-delete', $product) }}"><i
                                                     class="fa fa-trash-alt"></i> حذف از لیست علاقه ها</a>
                                         </section>
                                     </section>
@@ -92,7 +92,7 @@
                                     <section class="align-self-end w-100">
                                         <section>
                                             <a class="text-decoration-none cart-delete"
-                                               href="{{ route('customer.profile.my-favorites.delete', $post) }}"><i
+                                               href="{{ route('customer.profile.my-favorites.post-delete', $post) }}"><i
                                                     class="fa fa-trash-alt"></i> حذف از لیست علاقه ها</a>
                                         </section>
                                     </section>

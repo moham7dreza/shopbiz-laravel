@@ -1099,3 +1099,11 @@ body {
 .main-wrap {
     height: 30vh;
 }
+
+.high-z-index {
+    z-index: 999999;
+}
+
+.low-z-index {
+    z-index: -999999;
+}

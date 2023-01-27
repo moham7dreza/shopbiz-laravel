@@ -14,5 +14,6 @@
         $('.toast').toast('show').delay(5500).queue(function () {
             $(this).remove();
         })
+        $('.toast-wrapper').addClass('low-z-index');
     }
 </script>

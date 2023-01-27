@@ -75,19 +75,22 @@
                                     <section class="d-flex justify-content-between">
                                         <section>
                                             <section class="order-item-date"><i class="fa fa-calendar-alt"></i>
-                                                {{ jdate($order->created_at) }}
+                                                {{ $order->getFaCreatedDate() }}
                                             </section>
                                             <section class="order-item-id"><i class="fa fa-id-card-alt"></i>کد سفارش :
-                                                {{ $order->id }}
+                                                {{ $order->faOrderId() }}
                                             </section>
                                             <section class="order-item-status"><i class="fa fa-clock"></i>
                                                 {{ $order->paymentStatusValue() }}
                                             </section>
                                             <section class="order-item-products">
-                                                <a href="#"><img src="assets/images/products/1.jpg"
-                                                                 alt=""></a>
-                                                <a href="#"><img src="assets/images/products/2.jpg"
-                                                                 alt=""></a>
+                                                @foreach($order->orderItems as $orderItem)
+                                                    @php
+                                                        $product = $orderItem->singleProduct;
+                                                    @endphp
+                                                    <a href="{{ $product->path() }}"><img src="{{ $product->imagePath() }}"
+                                                                     alt="{{ $product->name }}" title="{!! $product->tagLessIntro() !!}"></a>
+                                                @endforeach
                                             </section>
                                         </section>
                                         <section class="order-item-link"><a href="#">پرداخت سفارش</a></section>

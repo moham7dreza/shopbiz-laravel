@@ -27,7 +27,9 @@ class HomeController extends Controller
      */
     public function home(HomeRepoEloquentInterface $repo): Factory|View|Application
     {
-        ShareService::showGreetingToast();
+        if (session('block') !== 'yes') {
+            ShareService::showGreetingToast();
+        }
         return view('Home::home', compact(['repo']));
     }
 
