@@ -7,7 +7,7 @@
     <script src="{{ asset('admin-assets/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('admin-assets/sweetalert/sweetalert2.min.js') }}"></script>
     <script>
-        let notificationDropdown = document.getElementById('header-notification-toggle');
+        let notificationDropdown = document.getElementById('header-notification-toggle1');
         notificationDropdown.addEventListener('click', function(){
             // console.log('yes');
 

@@ -83,11 +83,11 @@ class CustomerController extends Controller
      * @param CustomerRequest $request
      * @return RedirectResponse
      */
-    public function store(CustomerRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(CustomerRequest $request): RedirectResponse
     {
-        $this->service->store($request);
-        $adminUser = $this->repo->findById(1);
-        $this->service->sendUserCreatedNotificationToAdmin($adminUser);
+        $user = $this->service->store($request);
+        $adminUser = $this->repo->findSystemAdmin();
+        $this->service->sendUserCreatedNotificationToAdmin($adminUser, $user->id);
         return $this->showMessageWithRedirectRoute('مشتری جدید با موفقیت ثبت شد');
     }
 

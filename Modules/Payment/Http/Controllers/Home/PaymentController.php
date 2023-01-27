@@ -18,6 +18,7 @@ use Modules\Payment\Services\PaymentServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Payment\PaymentService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\User\Repositories\UserRepoEloquentInterface;
 
 
 class PaymentController extends Controller
@@ -30,17 +31,21 @@ class PaymentController extends Controller
     public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public PaymentServiceInterface $paymentService;
 
+    public UserRepoEloquentInterface $userRepo;
+
     public function __construct(CartRepoEloquentInterface          $cartRepo,
                                 OrderService                       $orderService,
                                 OrderRepoEloquentInterface         $orderRepo,
                                 CopanDiscountRepoEloquentInterface $copanDiscountRepo,
-                                PaymentServiceInterface            $paymentService)
+                                PaymentServiceInterface            $paymentService,
+                                UserRepoEloquentInterface          $userRepo)
     {
         $this->cartRepo = $cartRepo;
         $this->orderService = $orderService;
         $this->orderRepo = $orderRepo;
         $this->copanDiscountRepo = $copanDiscountRepo;
         $this->paymentService = $paymentService;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -113,6 +118,8 @@ class PaymentController extends Controller
         $this->orderService->lastStepUpdate($order, $model['type'], $payment->id);
         //
         $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
+        $admin = $this->userRepo->findSystemAdmin();
+        $this->orderService->sendOrderSubmittedNotificationToAdmin($admin, $order->id);
         return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'customer.home');
 //        return to_route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
     }

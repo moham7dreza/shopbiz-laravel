@@ -3,7 +3,7 @@
         <section class="d-flex justify-content-between flex-md-row-reverse px-2">
             <span id="sidebar-toggle-show" class="d-inline d-md-none pointer"><i class="fas fa-toggle-off"></i></span>
             <span id="sidebar-toggle-hide" class="d-none d-md-inline pointer"><i class="fas fa-toggle-on"></i></span>
-{{--            <span><img class="logo" src="{{ asset('admin-assets/images/logo.png') }}"/></span>--}}
+            {{--            <span><img class="logo" src="{{ asset('admin-assets/images/logo.png') }}"/></span>--}}
             <span><img class="logo" src="{{ asset('admin-assets/images/logo-light.png') }}" alt=""/></span>
             <span class="d-md-none" id="menu-toggle"><i class="fas fa-ellipsis-h"></i></span>
         </section>
@@ -55,7 +55,14 @@
                                 <li class="list-group-item list-group-item-action">
                                 <section class="media">
                                     <section class="media-body pr-1">
-                                        <p class="notification-time">{{ $notification['data']['message'] }}</p>
+                                        @php
+                                        if (isset($notification['data']['order_id'])) {
+                                            $route = route('order.show', $notification['data']['order_id']);
+                                        }
+                                        @endphp
+                                        <a @if(!empty($route)) href="{{ $route }}" @endif class="notification-time text-decoration-none"
+                                        title="نمایش جزئیات">
+                                            {{ $notification['data']['message'] }}</a>
                                     </section>
                                 </section>
                             </li>

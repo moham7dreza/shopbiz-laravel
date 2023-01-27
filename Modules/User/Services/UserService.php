@@ -32,10 +32,11 @@ class UserService
      * @param $adminUser
      * @return void
      */
-    public function sendUserCreatedNotificationToAdmin($adminUser): void
+    public function sendUserCreatedNotificationToAdmin($adminUser, $userId): void
     {
         $details = [
-            'message' => 'یک کاربر جدید در سایت ثبت نام کرد'
+            'message' => 'یک کاربر جدید در سایت ثبت نام کرد',
+            'user_id' => $userId,
         ];
         $adminUser->notify(new NewUserRegistered($details));
     }

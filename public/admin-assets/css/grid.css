@@ -65,9 +65,14 @@
 }
 
 .notification-time {
-    font-size: .6rem;
+    font-size: .8rem;
     line-height: .6rem;
     color: #919aa3;
+}
+
+.notification-time:hover {
+    font-size: 1rem;
+    color: salmon;
 }
 
 .header-comment {

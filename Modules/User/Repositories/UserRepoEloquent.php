@@ -3,11 +3,20 @@
 namespace Modules\User\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
 {
+
+    /**
+     * @return Model|Collection|Builder|array|null
+     */
+    public function findSystemAdmin(): Model|Collection|Builder|array|null
+    {
+        return $this->findById(1);
+    }
 
     /**
      * @param $name

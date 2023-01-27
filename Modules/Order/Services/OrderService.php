@@ -7,10 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderItem;
+use Modules\Order\Notifications\NewOrderSubmitted;
 use Modules\Payment\Entities\Payment;
 
 class OrderService
 {
+
+    /**
+     * @param $adminUser
+     * @return void
+     */
+    public function sendOrderSubmittedNotificationToAdmin($adminUser, $orderId): void
+    {
+        $details = [
+            'message' => 'یک سفارش جدید ثبت شد.',
+            'order_id' => $orderId,
+        ];
+        $adminUser->notify(new NewOrderSubmitted($details));
+    }
     /**
      * @param $orderId
      * @param $cartItems
@@ -39,6 +53,7 @@ class OrderService
             $inputs['final_total_price'] = $finalTotalPrice;
 
             OrderItem::query()->create($inputs);
+            $cartItem->delete();
         }
     }
 
