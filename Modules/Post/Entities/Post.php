@@ -125,11 +125,12 @@ class Post extends Model
     }
 
     /**
+     * @param int $limit
      * @return string
      */
-    public function limitedSummary(): string
+    public function limitedSummary(int $limit = 150): string
     {
-        return Str::limit($this->summary, 150);
+        return strip_tags(Str::limit($this->summary, $limit));
     }
 
     /**

@@ -30,4 +30,24 @@ trait HasComment
             ['parent_id', null]
         ])->get();
     }
+
+    /**
+     * @return Collection
+     */
+    public function allActivePostComments(): Collection
+    {
+        return $this->comments()->where([
+            ['approved', Comment::APPROVED],
+            ['status', Comment::STATUS_ACTIVE],
+            ['commentable_type', 'Modules\Post\Entities\Post']
+        ])->get();
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function allActivePostCommentsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->allActivePostComments()->count()) ?? 0;
+    }
 }

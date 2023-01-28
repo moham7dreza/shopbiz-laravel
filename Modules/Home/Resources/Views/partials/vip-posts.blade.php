@@ -56,18 +56,26 @@
                                                     </section>
                                                 @endif
                                             @endauth
-                                            <a class="product-link"
-                                               href="{{ $post->path() }}">
+                                            <a class="product-link" href="{{ $post->path() }}">
                                                 <section class="product-image">
                                                     <img class=""
                                                          src="{{ $post->imagePath() }}"
                                                          alt="{{$post->name }}">
                                                 </section>
-                                                <section class="product-name">
-                                                    <h3>{{ $post->limitedTitle() }}</h3></section>
-                                                <section class="product-price-wrapper">
-                                                    <section
-                                                        class="product-price">{{ $post->time_to_read }}
+                                                <section class="d-flex flex-column">
+                                                    <section class="product-name mb-0">
+                                                        <h2>{{ $post->limitedTitle() }}</h2>
+                                                    </section>
+                                                    <section class="post-summary my-3">
+                                                        <p>{!! $post->limitedSummary(100) !!}</p>
+                                                    </section>
+                                                    <section class="d-flex justify-content-end align-items-center post-count my-2">
+                                                        <span><i class="fa fa-eye mx-2"></i>100</span>
+                                                        <span><i class="fa fa-comment mx-2"></i>{{ $post->allActivePostCommentsCount() }}</span>
+                                                    </section>
+                                                    <section class="d-flex align-items-center justify-content-start post-user border-top">
+                                                        <span><i class="fa fa-user"></i></span>
+                                                        <span>{{ $post->textAuthorName() }}</span>
                                                     </section>
                                                 </section>
                                             </a>

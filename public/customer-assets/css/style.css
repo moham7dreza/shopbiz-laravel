@@ -719,6 +719,7 @@ body {
     font-size: 0.8rem;
     text-decoration: none;
     line-height: 1.5rem;
+    text-align: justify;
 }
 
 .product-price-wrapper {
@@ -1106,4 +1107,42 @@ body {
 
 .low-z-index {
     z-index: -999999;
+}
+
+.post-summary > p {
+    color: #686e71;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: justify;
+    margin: 0;
+    padding: 0 15px;
+    height: 55px;
+    overflow: hidden;
+}
+.w-300-px {
+    width: 300px;
+}
+ .product-name > h2 {
+     font-weight: bold;
+     font-size: 0.9rem;
+ }
+.post-count i, .post-user i {
+    font-size: 14px;
+    margin-left: 3px;
+    position: relative;
+    top: 2px;
+    color: #c8cfd5;
+}
+
+.post-user span, .post-count span {
+    font-size: 14px;
+    color: #686e71;
+    width: auto;
+    line-height: 30px;
+}
+.post-count span:first-of-type {
+    margin-left: 10px;
+}
+.post-user span {
+    margin-top: 10px;
 }
