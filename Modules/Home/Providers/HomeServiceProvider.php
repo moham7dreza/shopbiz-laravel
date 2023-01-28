@@ -136,7 +136,7 @@ class HomeServiceProvider extends ServiceProvider
         view()->composer(['Home::layouts.head-tag', 'Home::layouts.footer'], function ($view) use($settingRepo) {
             $view->with('setting', $settingRepo->getSystemSetting());
         });
-        view()->composer(['Home::layouts.sidebar', 'Home::layouts.footer'], function ($view) use($productCategoryRepo) {
+        view()->composer(['Home::layouts.sidebar', 'Home::layouts.sidebar-for-two-column'], function ($view) use($productCategoryRepo) {
             $view->with('categories', $productCategoryRepo->getShowInMenuActiveParentCategories()->get());
         });
     }

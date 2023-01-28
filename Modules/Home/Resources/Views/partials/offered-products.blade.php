@@ -31,7 +31,7 @@
                                                     <button class="btn btn-light btn-sm text-decoration-none"
                                                             data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="اضافه از علاقه مندی">
+                                                            title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
                                                     </button>
                                                 </section>

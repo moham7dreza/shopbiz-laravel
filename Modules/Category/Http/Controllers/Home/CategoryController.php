@@ -9,6 +9,7 @@ use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
+use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ class CategoryController extends Controller
     public BrandRepoEloquentInterface $brandRepo;
     public ProductRepoEloquentInterface $productRepo;
     public ProductCategoryRepoEloquentInterface $productCategoryRepo;
+    public ProductCategoryServiceInterface $productCategoryService;
     public AmazingSaleDiscountRepoEloquentInterface $amazingSaleRepo;
     public CartRepoEloquentInterface $cartRepo;
 
@@ -27,18 +29,21 @@ class CategoryController extends Controller
      * @param ProductRepoEloquentInterface $productRepoEloquent
      * @param ProductCategoryRepoEloquentInterface $productCategoryRepoEloquent
      * @param CartRepoEloquentInterface $cartRepo
+     * @param ProductCategoryServiceInterface $productCategoryService
      */
     public function __construct(BrandRepoEloquentInterface               $brandRepoEloquent,
                                 AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,
                                 ProductRepoEloquentInterface             $productRepoEloquent,
                                 ProductCategoryRepoEloquentInterface     $productCategoryRepoEloquent,
-                                CartRepoEloquentInterface                $cartRepo)
+                                CartRepoEloquentInterface                $cartRepo,
+                                ProductCategoryServiceInterface          $productCategoryService)
     {
         $this->brandRepo = $brandRepoEloquent;
         $this->amazingSaleRepo = $amazingSaleDiscountRepoEloquent;
         $this->productRepo = $productRepoEloquent;
         $this->productCategoryRepo = $productCategoryRepoEloquent;
         $this->cartRepo = $cartRepo;
+        $this->productCategoryService = $productCategoryService;
     }
 
     /**
@@ -47,25 +52,21 @@ class CategoryController extends Controller
      */
     public function categoryProducts(ProductCategory $productCategory): Factory|View|Application
     {
-//        if ($productCategory->children()) {
-//            $categoryChilds = $productCategory->children()->orderBy('id', 'desc')->get();
-//            return view('customer.market.product.category-products', compact('categoryChilds'));
-//        }
-        // برندها
+        // sort items by type of them
         if (isset(request()->type)) {
-            $products = $this->productCategoryRepo->findCategoryProductsByType($productCategory, request()->type)->paginate(9);
-        } elseif (isset(request()->category_products_search)) {
-            $products = $this->productCategoryRepo->findCategoryProductsByType($productCategory, request()->category_products_search)->paginate(9);
-        } elseif(isset(request()->brands) || isset(request()->attrs) || isset(request()->price_from) || isset(request()->price_to)) {
-            $selectedBrands = request()->brands;
-            $selectedAttrs = request()->attrs;
-            $selectedPriceFrom = request()->price_from;
-            $selectedPriceTo = request()->price_to;
-            $products = $this->productCategoryRepo->findCategoryProductsByFilter($productCategory, $selectedBrands, $selectedAttrs, $selectedPriceFrom, $selectedPriceTo)->paginate(9);
+            $products = $this->productCategoryService->findCategoryProductsByType($productCategory, request()->type)->paginate(9);
+        }   // search in items
+        elseif (isset(request()->category_products_search)) {
+            $products = $this->productCategoryService->findCategoryProductsByType($productCategory, request()->category_products_search)->paginate(9);
+        }   // filter items by brand attrs and price
+        elseif (isset(request()->brands) || isset(request()->attrs) || isset(request()->price_from) || isset(request()->price_to)) {
+            $products = $this->productCategoryService->findCategoryProductsByFilter($productCategory, request()->brands,
+                request()->attrs, request()->price_from, request()->price_to)->paginate(9);
         } else {
             $products = $productCategory->products()->latest()->paginate(9);
         }
-        $brands = $this->brandRepo->index()->get();
+        // get all products brands
+        $brands = $this->productCategoryService->findProductCategoryBrands($productCategory);
         $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
         return view('Category::home.products', compact(['productCategory', 'products', 'brands', 'userCartItemsProductIds']));
     }
@@ -75,11 +76,24 @@ class CategoryController extends Controller
      */
     public function bestOffers(): View|Factory|Application
     {
-        // برندها
-        $brands = $this->brandRepo->index()->get();
-        $productsWithActiveAmazingSales = $this->amazingSaleRepo->bestOffers()->get();
-        $productCategory = $productsWithActiveAmazingSales[0]->category;
-        return view('Category::home.best-offers', compact(['productsWithActiveAmazingSales', 'brands', 'productCategory']));
+        $activeAmazingSales = $this->amazingSaleRepo->bestOffers(1)->latest()->get();
+        // sort items by type of them
+        if (isset(request()->type)) {
+            $activeAmazingSales = $this->productCategoryService->findOfferedProductsByType($activeAmazingSales, request()->type)->paginate(9);
+        }   // search in items
+        elseif (isset(request()->category_products_search)) {
+            $products = $this->productCategoryService->findOfferedProductsByType(request()->category_products_search)->paginate(9);
+        }   // filter items by brand attrs and price
+        elseif (isset(request()->brands) || isset(request()->attrs) || isset(request()->price_from) || isset(request()->price_to)) {
+            $products = $this->productCategoryService->findOfferedProductsByFilter(request()->brands,
+                request()->attrs, request()->price_from, request()->price_to)->paginate(9);
+        } else {
+            $products = $this->amazingSaleRepo->bestOffers(1)->get();
+        }
+        // get all products brands
+//        $brands = $this->productCategoryService->findOfferedProductsBrands();
+        $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
+        return view('Category::home.best-offers', compact(['activeAmazingSales']));
     }
 
     /**

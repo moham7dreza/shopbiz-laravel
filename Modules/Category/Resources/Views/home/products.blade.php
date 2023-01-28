@@ -20,7 +20,7 @@
             <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">360,000 تومان</span></span>
 
         </section>
-        <section class="sort ">
+        <section class="sort">
             <span>مرتب سازی بر اساس : </span>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=newest']) }}"
                class="btn btn-info btn-sm px-1 py-0" type="button">جدیدترین</a>
@@ -43,13 +43,13 @@
         <section class="main-product-wrapper row my-4">
 
             @foreach($products as $product)
-                <section class="col-md-3 p-0">
+                <section class="col-md-3 p-0 mx-1">
                     <section class="product">
                         @guest
                             <section class="product-add-to-favorite">
                                 <button class="btn btn-light btn-sm text-decoration-none"
                                         data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                        data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                        data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
                                     <i class="fa fa-heart"></i>
                                 </button>
                             </section>
@@ -125,10 +125,10 @@
                         </a>
                     </section>
                 </section>
-                <section class="pt-3">{{ $products->links() }}</section>
             @endforeach
-
-
+            @if(count($products) > 8)
+                    <section class="pt-3">{{ $products->links() }}</section>
+            @endif
 
             @if(count($products) > 20)
                 <section class="col-12">

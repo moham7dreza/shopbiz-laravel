@@ -5,6 +5,7 @@ namespace Modules\Product\Repositories\Product;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Modules\Product\Entities\Product;
 
 class ProductRepoEloquent implements ProductRepoEloquentInterface
@@ -12,7 +13,6 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
 
     /**
      * @param $name
-     * @param $productId
      * @return Model|Builder|null
      */
     public function search($name): Model|Builder|null
@@ -20,6 +20,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
         return $this->query()->where('name', 'like', '%' . $name . '%')
             ->orWhere('introduction', 'like', '%' . $name . '%')->latest();
     }
+
     /**
      * Get latest products.
      *
@@ -74,6 +75,21 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
             ['status', Product::STATUS_ACTIVE],
             ['sold_number', '>=', $soldNumber],
         ])->latest();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function findHasActiveAmazingSales(): Collection
+    {
+        $products = $this->index()->get();
+        $actives = collect();
+        foreach ($products as $product) {
+            if ($product->activeAmazingSales()) {
+                $actives->push($product);
+            }
+        }
+        return $actives->unique();
     }
 
     /**

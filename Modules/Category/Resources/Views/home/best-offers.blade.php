@@ -1,4 +1,4 @@
-@extends('Home::layouts.master-two-col')
+@extends('Home::layouts.master-two-column')
 @section('head-tag')
     <title>
         فروش ویژه
@@ -20,20 +20,29 @@
             <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">360,000 تومان</span></span>
 
         </section>
-        <section class="sort ">
+        <section class="sort">
             <span>مرتب سازی بر اساس : </span>
-            <button class="btn btn-info btn-sm px-1 py-0" type="button">جدیدترین</button>
-            <button class="btn btn-light btn-sm px-1 py-0" type="button">محبوب ترین</button>
-            <button class="btn btn-light btn-sm px-1 py-0" type="button">گران ترین</button>
-            <button class="btn btn-light btn-sm px-1 py-0" type="button">ارزان ترین</button>
-            <button class="btn btn-light btn-sm px-1 py-0" type="button">پربازدیدترین</button>
-            <button class="btn btn-light btn-sm px-1 py-0" type="button">پرفروش ترین</button>
+            <a href="{{ route('customer.market.products.offers', 'type=newest') }}"
+               class="btn btn-info btn-sm px-1 py-0" type="button">جدیدترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=popular') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button">محبوب ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=expensive') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button">گران ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=cheapest') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button">ارزان ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=mostVisited') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button">پربازدیدترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=bestSales') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button">پرفروش ترین</a>
+            <a href="{{ route('customer.market.products.offers') }}"
+               class="btn btn-light btn-sm px-1 py-0" type="button"><i class="fa fa-times mx-2 my-1 text-danger"></i>حذف
+                فیلتر</a>
         </section>
 
 
         <section class="main-product-wrapper row my-4">
 
-            @foreach($productsWithActiveAmazingSales as $amazingSale)
+            @foreach($activeAmazingSales as $amazingSale)
                 @php
                     $product = $amazingSale->product;
                     $productNewPrice = $product->price - ($product->price * $amazingSale->percentage / 100);
@@ -44,7 +53,7 @@
                             <section class="product-add-to-favorite">
                                 <button class="btn btn-light btn-sm text-decoration-none"
                                         data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                        data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                        data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
                                     <i class="fa fa-heart"></i>
                                 </button>
                             </section>
@@ -97,7 +106,7 @@
                     </section>
                 </section>
             @endforeach
-            @if(count($productsWithActiveAmazingSales) > 20)
+            @if(count($activeAmazingSales) > 20)
                 <section class="col-12">
                     <section class="my-4 d-flex justify-content-center">
                         <nav>
