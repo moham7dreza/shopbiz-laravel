@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
@@ -18,22 +19,26 @@ class CategoryController extends Controller
     public ProductRepoEloquentInterface $productRepo;
     public ProductCategoryRepoEloquentInterface $productCategoryRepo;
     public AmazingSaleDiscountRepoEloquentInterface $amazingSaleRepo;
+    public CartRepoEloquentInterface $cartRepo;
 
     /**
      * @param BrandRepoEloquentInterface $brandRepoEloquent
      * @param AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent
      * @param ProductRepoEloquentInterface $productRepoEloquent
      * @param ProductCategoryRepoEloquentInterface $productCategoryRepoEloquent
+     * @param CartRepoEloquentInterface $cartRepo
      */
     public function __construct(BrandRepoEloquentInterface               $brandRepoEloquent,
                                 AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,
                                 ProductRepoEloquentInterface             $productRepoEloquent,
-                                ProductCategoryRepoEloquentInterface     $productCategoryRepoEloquent)
+                                ProductCategoryRepoEloquentInterface     $productCategoryRepoEloquent,
+                                CartRepoEloquentInterface                $cartRepo)
     {
         $this->brandRepo = $brandRepoEloquent;
         $this->amazingSaleRepo = $amazingSaleDiscountRepoEloquent;
         $this->productRepo = $productRepoEloquent;
         $this->productCategoryRepo = $productCategoryRepoEloquent;
+        $this->cartRepo = $cartRepo;
     }
 
     /**
@@ -47,9 +52,22 @@ class CategoryController extends Controller
 //            return view('customer.market.product.category-products', compact('categoryChilds'));
 //        }
         // برندها
+        if (isset(request()->type)) {
+            $products = $this->productCategoryRepo->findCategoryProductsByType($productCategory, request()->type)->paginate(9);
+        } elseif (isset(request()->category_products_search)) {
+            $products = $this->productCategoryRepo->findCategoryProductsByType($productCategory, request()->category_products_search)->paginate(9);
+        } elseif(isset(request()->brands) || isset(request()->attrs) || isset(request()->price_from) || isset(request()->price_to)) {
+            $selectedBrands = request()->brands;
+            $selectedAttrs = request()->attrs;
+            $selectedPriceFrom = request()->price_from;
+            $selectedPriceTo = request()->price_to;
+            $products = $this->productCategoryRepo->findCategoryProductsByFilter($productCategory, $selectedBrands, $selectedAttrs, $selectedPriceFrom, $selectedPriceTo)->paginate(9);
+        } else {
+            $products = $productCategory->products()->latest()->paginate(9);
+        }
         $brands = $this->brandRepo->index()->get();
-        $products = $productCategory->products()->latest()->paginate(9);
-        return view('Category::home.products', compact(['productCategory', 'products', 'brands']));
+        $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
+        return view('Category::home.products', compact(['productCategory', 'products', 'brands', 'userCartItemsProductIds']));
     }
 
     /**

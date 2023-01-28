@@ -192,7 +192,10 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
     }
 
 
-    public function userCartItemsProductIds()
+    /**
+     * @return array
+     */
+    public function userCartItemsProductIds(): array
     {
         return $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
     }

@@ -224,4 +224,33 @@ class Product extends Model
     {
         return strip_tags($this->introduction) ?? $this->introduction ?? '-';
     }
+
+    /**
+     * @return array|string|string[]
+     */
+    public function getFinalFaPrice(): array|string
+    {
+        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
+            ($this->guarantees[0]->price_increase ?? 0);
+        $productDiscount = $this->price * $this->activeAmazingSales()->percentage / 100;
+        return (priceFormat($productPrice - $productDiscount) ?? 0) . ' تومان';
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaAmazingSalesPercentage(): array|int|string
+    {
+        return '% ' . convertEnglishToPersian($this->activeAmazingSales()->percentage) ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActualFaPrice(): string
+    {
+        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
+            ($this->guarantees[0]->price_increase ?? 0);
+        return convertEnglishToPersian($productPrice) . ' تومان';
+    }
 }

@@ -5,6 +5,7 @@ namespace Modules\Category\Repositories\ProductCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\ProductCategory;
+use Modules\Product\Entities\Product;
 
 class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterface
 {
@@ -18,6 +19,130 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     {
         return $this->query()->where('name', 'like', '%' . $name . '%')
             ->orWhere('description', 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
+     * @param $productCategory
+     * @param $selectedBrands
+     * @param $selectedAttrs
+     * @param $selectedPriceFrom
+     * @param $selectedPriceTo
+     * @return mixed
+     */
+    public function findCategoryProductsByFilter($productCategory, $selectedBrands, $selectedAttrs, $selectedPriceFrom, $selectedPriceTo): mixed
+    {
+        // all items checked
+        if (isset($selectedBrands) && isset($selectedAttrs) && isset($selectedPriceFrom) && isset($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }   // brands and attrs plus price start
+        elseif (!empty($selectedBrands) && !empty($selectedAttrs) && !empty($selectedPriceFrom)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }   // brands and attrs plus price end
+        elseif (!empty($selectedBrands) && !empty($selectedAttrs) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }   // select brands and prices
+        elseif (!empty($selectedBrands) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedBrands) && !empty($selectedPriceFrom)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedBrands) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }    // select attrs and prices
+        elseif (!empty($selectedAttrs) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedAttrs) && !empty($selectedPriceFrom)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedAttrs) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }   // only prices
+        elseif (!empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }   // single checks
+        elseif (!empty($selectedBrands)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedAttrs)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedPriceFrom)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif (!empty($selectedPriceTo)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } else {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }
+    }
+
+    /**
+     * @param $productCategory
+     * @param $type
+     * @return mixed
+     */
+    public function findCategoryProductsByType($productCategory, $type): mixed
+    {
+        if ($type === 'newest') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        } elseif ($type === 'popular') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['sold_number', '>=', 0],
+            ])->latest();
+        } elseif ($type === 'expensive') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->orderBy('price', 'desc')->latest();
+        } elseif ($type === 'cheapest') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->orderBy('price', 'asc')->latest();
+        } elseif ($type === 'mostVisited') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['sold_number', '>=', 0],
+            ])->latest();
+        } elseif ($type === 'bestSales') {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['sold_number', '>=', 1],
+            ])->latest();
+        } elseif (isset($type)) {
+            return $productCategory->products()->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['name', 'like', '%' . $type . '%'],
+            ])->latest();
+        } else {
+            return $productCategory->products()->latest();
+        }
     }
 
     /**

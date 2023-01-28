@@ -25,10 +25,10 @@
 
 @include('Home::layouts.footer')
 
-
-
 @include('Home::layouts.script')
 @yield('script')
 @include('sweetalert::alert')
+<section class="toast-wrapper low-z-index flex-row-reverse"></section>
+<section class="login-toast-wrapper flex-row-reverse"></section>
 </body>
 </html>

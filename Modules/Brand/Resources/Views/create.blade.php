@@ -105,7 +105,7 @@
                             <section class="col-12 col-md-12">
                                 <div class="form-group">
                                     <label for="">تصویر برند</label>
-                                    <input type="file" class="form-control form-control-sm" name="logo">
+                                    <input type="file" class="form-control form-control-sm" name="logo" value="{{ old('logo') }}">
                                 </div>
                                 @error('logo')
                                 <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
