@@ -1,12 +1,8 @@
 <?php
-
-namespace Modules\Category\Services\Property;
-
+namespace Modules\Attribute\Services\Property;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Entities\ProductCategory;
 
 class PropertyService implements PropertyServiceInterface
 {

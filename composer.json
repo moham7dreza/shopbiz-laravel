@@ -60,7 +60,8 @@
             "Modules\\Ticket\\" : "Modules/Ticket/",
             "Modules\\Setting\\" : "Modules/Setting/",
             "Modules\\User\\" : "Modules/User/",
-            "Modules\\Address\\" : "Modules/Address/"
+            "Modules\\Address\\" : "Modules/Address/",
+            "Modules\\Attribute\\" : "Modules/Attribute/"
         }
     },
     "autoload-dev": {

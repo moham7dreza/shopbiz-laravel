@@ -2,14 +2,14 @@
 
 namespace Modules\Category\Http\Controllers\Home;
 
+use CategoryAttribute;
+use CategoryValue;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
-use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;

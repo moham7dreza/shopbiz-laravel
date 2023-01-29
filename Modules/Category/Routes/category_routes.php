@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Modules\Category\Http\Controllers\Home\CategoryController;
 use Modules\Category\Http\Controllers\PostCategoryController;
 use Modules\Category\Http\Controllers\ProductCategoryController;
-use Modules\Category\Http\Controllers\PropertyController;
-use Modules\Category\Http\Controllers\PropertyValueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,18 +21,6 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
 
     $router->resource('postCategory', 'PostCategoryController', ['except' => 'show']);
     Route::get('postCategory/status/{postCategory}', [PostCategoryController::class, 'status'])->name('postCategory.status');
-
-    $router->resource('categoryAttribute', 'PropertyController', ['except' => 'show']);
-    Route::get('categoryAttribute/status/{categoryAttribute}', [PropertyController::class, 'status'])->name('categoryAttribute.status');
-
-    Route::prefix('property')->group(static function () {
-        Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('CategoryValue.index');
-        Route::get('/value/create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('CategoryValue.create');
-        Route::post('/value/store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('CategoryValue.store');
-        Route::get('/value/edit/{categoryAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('CategoryValue.edit');
-        Route::put('/value/update/{categoryAttribute}/{value}', [PropertyValueController::class, 'update'])->name('CategoryValue.update');
-        Route::delete('/value/destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('CategoryValue.destroy');
-    });
 });
 
 // products of special category

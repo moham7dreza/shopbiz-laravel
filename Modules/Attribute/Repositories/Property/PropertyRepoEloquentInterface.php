@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Repositories\Property;
+namespace Modules\Attribute\Repositories\Property;
 
 interface PropertyRepoEloquentInterface
 {

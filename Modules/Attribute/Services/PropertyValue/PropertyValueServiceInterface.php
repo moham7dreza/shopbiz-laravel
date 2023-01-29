@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Services\PropertyValue;
+namespace Modules\Attribute\Services\PropertyValue;
 
 interface PropertyValueServiceInterface
 {

@@ -3,10 +3,10 @@
 namespace Modules\Category\Services\ProductCategory;
 
 
+use CategoryValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
 use Modules\Share\Services\Image\ImageService;

@@ -13,18 +13,18 @@ use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquent;
 use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquent;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
-use Modules\Category\Repositories\Property\PropertyRepoEloquent;
-use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
-use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquent;
-use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
 use Modules\Category\Services\PostCategory\PostCategoryService;
 use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
 use Modules\Category\Services\ProductCategory\ProductCategoryService;
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
-use Modules\Category\Services\Property\PropertyService;
-use Modules\Category\Services\Property\PropertyServiceInterface;
-use Modules\Category\Services\PropertyValue\PropertyValueService;
-use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
+use Repositories\Property\PropertyRepoEloquent;
+use Repositories\Property\PropertyRepoEloquentInterface;
+use Repositories\PropertyValue\PropertyValueRepoEloquent;
+use Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
+use Services\Property\PropertyService;
+use Services\Property\PropertyServiceInterface;
+use Services\PropertyValue\PropertyValueService;
+use Services\PropertyValue\PropertyValueServiceInterface;
 
 class CategoryServiceProvider extends ServiceProvider
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Category\Http\Controllers;
+namespace Modules\Attribute\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Entities\CategoryValue;
-use Modules\Category\Http\Requests\CategoryValueRequest;
-use Modules\Category\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
-use Modules\Category\Services\PropertyValue\PropertyValueServiceInterface;
+use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Http\Requests\CategoryValueRequest;
+use Modules\Attribute\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
+use Modules\Attribute\Services\PropertyValue\PropertyValueServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
@@ -46,8 +46,6 @@ class PropertyValueController extends Controller
         $this->middleware('can:permission-product-property-value-edit')->only(['edit', 'update']);
         $this->middleware('can:permission-product-property-value-delete')->only(['destroy']);
         $this->middleware('can:permission-product-property-value-status')->only(['status']);
-
-
     }
 
     /**
@@ -69,7 +67,7 @@ class PropertyValueController extends Controller
             $values = $categoryAttribute->values()->paginate(10);
         }
 
-        return view('Category::property.value.index', compact(['categoryAttribute', 'values']));
+        return view('Attribute::value.index', compact(['categoryAttribute', 'values']));
     }
 
     /**
@@ -80,7 +78,7 @@ class PropertyValueController extends Controller
      */
     public function create(CategoryAttribute $categoryAttribute): View|Factory|Application
     {
-        return view('Category::property.value.create', compact(['categoryAttribute']));
+        return view('Attribute::value.create', compact(['categoryAttribute']));
     }
 
     /**
@@ -93,7 +91,7 @@ class PropertyValueController extends Controller
     public function store(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute): RedirectResponse
     {
         $this->propertyValueService->store($request, $categoryAttribute);
-        return $this->showMessageWithRedirectRoute(title: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(msg: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -116,7 +114,7 @@ class PropertyValueController extends Controller
      */
     public function edit(CategoryAttribute $categoryAttribute, CategoryValue $value): View|Factory|Application
     {
-        return view('Category::property.value.edit', compact(['categoryAttribute', 'value']));
+        return view('Attribute::value.edit', compact(['categoryAttribute', 'value']));
     }
 
     /**
@@ -130,7 +128,7 @@ class PropertyValueController extends Controller
     public function update(CategoryValueRequest $request ,CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $this->propertyValueService->update($request, $categoryAttribute, $value);
-        return $this->showMessageWithRedirectRoute(title:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(msg:'مقدار فرم کالای  شما با موفقیت ویرایش شد', params: [$categoryAttribute->id]);
     }
 
     /**
@@ -143,6 +141,6 @@ class PropertyValueController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute, CategoryValue $value): RedirectResponse
     {
         $result = $value->delete();
-        return $this->showMessageWithRedirectRoute(title:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
+        return $this->showMessageWithRedirectRoute(msg:'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$categoryAttribute->id]);
     }
 }

@@ -1,18 +1,17 @@
 <?php
 
-namespace Modules\Category\Http\Controllers;
-
+namespace Modules\Attribute\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Http\Requests\CategoryAttributeRequest;
+use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Http\Requests\CategoryAttributeRequest;
+use Modules\Attribute\Repositories\Property\PropertyRepoEloquentInterface;
+use Modules\Attribute\Services\Property\PropertyServiceInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
-use Modules\Category\Repositories\Property\PropertyRepoEloquentInterface;
-use Modules\Category\Services\Property\PropertyServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
@@ -67,7 +66,7 @@ class PropertyController extends Controller
             $categoryAttributes = $this->propertyRepo->index()->paginate(10);
         }
 
-        return view('Category::property.index', compact(['categoryAttributes']));
+        return view('Attribute::property.index', compact(['categoryAttributes']));
     }
 
     /**
@@ -79,7 +78,7 @@ class PropertyController extends Controller
     public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
         $productCategories = $productCategoryRepo->getLatestCategories()->get();
-        return view('Category::property.create', compact(['productCategories']));
+        return view('Attribute::property.create', compact(['productCategories']));
     }
 
     /**
@@ -115,7 +114,7 @@ class PropertyController extends Controller
     public function edit(CategoryAttribute $categoryAttribute, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
     {
         $productCategories = $productCategoryRepo->getLatestCategories()->get();
-        return view('Category::property.edit', compact(['categoryAttribute', 'productCategories']));
+        return view('Attribute::property.edit', compact(['categoryAttribute', 'productCategories']));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Modules\Category\Entities;
 
+use CategoryAttribute;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

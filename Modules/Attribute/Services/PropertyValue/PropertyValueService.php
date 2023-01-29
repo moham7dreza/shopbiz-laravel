@@ -1,11 +1,9 @@
 <?php
 
-namespace Modules\Category\Services\PropertyValue;
-
+namespace Modules\Attribute\Services\PropertyValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Category\Entities\CategoryValue;
 
 class PropertyValueService implements PropertyValueServiceInterface
 {

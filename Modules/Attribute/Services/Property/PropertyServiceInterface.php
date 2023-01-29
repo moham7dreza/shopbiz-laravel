@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Services\Property;
+namespace Modules\Attribute\Services\Property;
 
 interface PropertyServiceInterface
 {

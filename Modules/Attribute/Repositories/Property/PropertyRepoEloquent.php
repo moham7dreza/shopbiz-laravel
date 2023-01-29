@@ -1,11 +1,10 @@
 <?php
 
-namespace Modules\Category\Repositories\Property;
+namespace Modules\Attribute\Repositories\Property;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Category\Entities\CategoryAttribute;
-use Modules\Category\Entities\ProductCategory;
+use Modules\Attribute\Entities\CategoryAttribute;
 
 class PropertyRepoEloquent implements PropertyRepoEloquentInterface
 {

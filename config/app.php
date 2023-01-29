@@ -167,6 +167,7 @@ return [
          */
         Modules\ACL\Providers\AclServiceProvider::class,
         Modules\Address\Providers\AddressServiceProvider::class,
+        Modules\Attribute\Providers\AttributeServiceProvider::class,
         Modules\Auth\Providers\AuthServiceProvider::class,
         Modules\Banner\Providers\BannerServiceProvider::class,
         Modules\Brand\Providers\BrandServiceProvider::class,

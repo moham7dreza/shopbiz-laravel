@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\Category\Repositories\PropertyValue;
+namespace Modules\Attribute\Repositories\PropertyValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Modules\Category\Entities\CategoryValue;
 
 class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
 {
