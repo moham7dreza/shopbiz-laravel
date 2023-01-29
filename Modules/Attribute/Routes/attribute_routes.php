@@ -2,20 +2,25 @@
 
 
 use Illuminate\Support\Facades\Route;
-use Modules\Attribute\Http\Controllers\PropertyController;
-use Modules\Attribute\Http\Controllers\PropertyValueController;
+use Modules\Attribute\Http\Controllers\AttributeController;
+use Modules\Attribute\Http\Controllers\AttributeValueController;
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
 
-    $router->resource('categoryAttribute', 'PropertyController', ['except' => 'show']);
-    Route::get('categoryAttribute/status/{categoryAttribute}', [PropertyController::class, 'status'])->name('categoryAttribute.status');
+    $router->resource('attribute', 'AttributeController', ['except' => 'show']);
+    Route::get('attribute/status/{attribute}', [AttributeController::class, 'status'])->name('attribute.status');
+    Route::prefix('attribute')->group(function () {
+        Route::get('/category-form/{attribute}', [AttributeController::class, 'categoryForm'])->name('attribute.category-form');
+        Route::put('/category-update/{attribute}', [AttributeController::class, 'categoryUpdate'])->name('attribute.category-update');
+    });
 
-    Route::prefix('property')->group(static function () {
-        Route::get('/value/{categoryAttribute}', [PropertyValueController::class, 'index'])->name('CategoryValue.index');
-        Route::get('/value/create/{categoryAttribute}', [PropertyValueController::class, 'create'])->name('CategoryValue.create');
-        Route::post('/value/store/{categoryAttribute}', [PropertyValueController::class, 'store'])->name('CategoryValue.store');
-        Route::get('/value/edit/{categoryAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('CategoryValue.edit');
-        Route::put('/value/update/{categoryAttribute}/{value}', [PropertyValueController::class, 'update'])->name('CategoryValue.update');
-        Route::delete('/value/destroy/{categoryAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('CategoryValue.destroy');
+//    Route::resource('attributeValue/{attribute}', AttributeValueController::class)->except('show');
+    Route::prefix('attributeValue')->group(static function () {
+        Route::get('/{attribute}', [AttributeValueController::class, 'index'])->name('attributeValue.index');
+        Route::get('/create/{attribute}', [AttributeValueController::class, 'create'])->name('attributeValue.create');
+        Route::post('/store/{attribute}', [AttributeValueController::class, 'store'])->name('attributeValue.store');
+        Route::get('/edit/{attribute}/{value}', [AttributeValueController::class, 'edit'])->name('attributeValue.edit');
+        Route::put('/update/{attribute}/{value}', [AttributeValueController::class, 'update'])->name('attributeValue.update');
+        Route::delete('/destroy/{attribute}/{value}', [AttributeValueController::class, 'destroy'])->name('attributeValue.destroy');
     });
 });

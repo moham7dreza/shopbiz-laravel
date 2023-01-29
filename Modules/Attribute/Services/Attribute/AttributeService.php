@@ -1,11 +1,11 @@
 <?php
-namespace Modules\Attribute\Services\Property;
+namespace Modules\Attribute\Services\Attribute;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Entities\Attribute;
 
-class PropertyService implements PropertyServiceInterface
+class AttributeService implements AttributeServiceInterface
 {
 
     /**
@@ -20,7 +20,6 @@ class PropertyService implements PropertyServiceInterface
             'name' => $request->name,
 //            'type' => $request->type,
             'unit' => $request->unit,
-            'category_id' => $request->category_id,
         ]);
     }
 
@@ -28,16 +27,15 @@ class PropertyService implements PropertyServiceInterface
      * Update menu.
      *
      * @param  $request
-     * @param $categoryAttribute
+     * @param $attribute
      * @return mixed
      */
-    public function update($request, $categoryAttribute): mixed
+    public function update($request, $attribute): mixed
     {
-        return $categoryAttribute->update([
+        return $attribute->update([
             'name' => $request->name,
 //            'type' => $request->type,
             'unit' => $request->unit,
-            'category_id' => $request->category_id,
         ]);
     }
 
@@ -48,6 +46,6 @@ class PropertyService implements PropertyServiceInterface
      */
     private function query(): Builder
     {
-        return CategoryAttribute::query();
+        return Attribute::query();
     }
 }

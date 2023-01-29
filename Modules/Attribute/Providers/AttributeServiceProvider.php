@@ -4,14 +4,14 @@ namespace Modules\Attribute\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Attribute\Repositories\Property\PropertyRepoEloquent;
-use Modules\Attribute\Repositories\Property\PropertyRepoEloquentInterface;
-use Modules\Attribute\Repositories\PropertyValue\PropertyValueRepoEloquent;
-use Modules\Attribute\Repositories\PropertyValue\PropertyValueRepoEloquentInterface;
-use Modules\Attribute\Services\Property\PropertyService;
-use Modules\Attribute\Services\Property\PropertyServiceInterface;
-use Modules\Attribute\Services\PropertyValue\PropertyValueService;
-use Modules\Attribute\Services\PropertyValue\PropertyValueServiceInterface;
+use Modules\Attribute\Repositories\Attribute\AttributeRepoEloquent;
+use Modules\Attribute\Repositories\Attribute\AttributeRepoEloquentInterface;
+use Modules\Attribute\Repositories\AttributeValue\AttributeValueRepoEloquent;
+use Modules\Attribute\Repositories\AttributeValue\AttributeValueRepoEloquentInterface;
+use Modules\Attribute\Services\Attribute\AttributeService;
+use Modules\Attribute\Services\Attribute\AttributeServiceInterface;
+use Modules\Attribute\Services\AttributeValue\AttributeValueService;
+use Modules\Attribute\Services\AttributeValue\AttributeValueServiceInterface;
 
 class AttributeServiceProvider extends ServiceProvider
 {
@@ -143,8 +143,8 @@ class AttributeServiceProvider extends ServiceProvider
      */
     private function bindRepository(): void
     {
-        $this->app->bind(PropertyRepoEloquentInterface::class, PropertyRepoEloquent::class);
-        $this->app->bind(PropertyValueRepoEloquentInterface::class, PropertyValueRepoEloquent::class);
+        $this->app->bind(AttributeRepoEloquentInterface::class, AttributeRepoEloquent::class);
+        $this->app->bind(AttributeValueRepoEloquentInterface::class, AttributeValueRepoEloquent::class);
     }
 
     /**
@@ -154,7 +154,7 @@ class AttributeServiceProvider extends ServiceProvider
      */
     private function bindServices(): void
     {
-        $this->app->bind(PropertyServiceInterface::class, PropertyService::class);
-        $this->app->bind(PropertyValueServiceInterface::class, PropertyValueService::class);
+        $this->app->bind(AttributeServiceInterface::class, AttributeService::class);
+        $this->app->bind(AttributeValueServiceInterface::class, AttributeValueService::class);
     }
 }

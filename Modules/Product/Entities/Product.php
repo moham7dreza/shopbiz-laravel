@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Entities\AttributeValue;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;
@@ -127,7 +127,7 @@ class Product extends Model
      */
     public function values(): HasMany
     {
-        return $this->hasMany(CategoryValue::class);
+        return $this->hasMany(AttributeValue::class);
     }
 
     // methods

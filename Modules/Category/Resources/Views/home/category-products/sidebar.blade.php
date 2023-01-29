@@ -84,7 +84,6 @@
             </section>
         </section>
 
-
         @foreach($productCategory->attributes as $attribute)
             <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                 <section class="content-header mb-3">

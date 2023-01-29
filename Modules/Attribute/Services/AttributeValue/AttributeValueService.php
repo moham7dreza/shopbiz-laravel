@@ -1,27 +1,28 @@
 <?php
 
-namespace Modules\Attribute\Services\PropertyValue;
+namespace Modules\Attribute\Services\AttributeValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Entities\AttributeValue;
 
-class PropertyValueService implements PropertyValueServiceInterface
+class AttributeValueService implements AttributeValueServiceInterface
 {
     /**
      * Store menu.
      *
      * @param  $request
-     * @param $categoryAttribute
+     * @param $attribute
      * @return Builder|Model
      */
-    public function store($request, $categoryAttribute): Model|Builder
+    public function store($request, $attribute): Model|Builder
     {
         return $this->query()->create([
             'product_id' => $request->product_id,
             'type' => $request->type,
-            'category_attribute_id' => $categoryAttribute->id,
+            'attribute_id' => $attribute->id,
             'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
+            'category_id' => $request->category_id,
         ]);
     }
 
@@ -29,17 +30,18 @@ class PropertyValueService implements PropertyValueServiceInterface
      * Update menu.
      *
      * @param  $request
-     * @param $categoryAttribute
+     * @param $attribute
      * @param $value
      * @return mixed
      */
-    public function update($request, $categoryAttribute, $value): mixed
+    public function update($request, $attribute, $value): mixed
     {
         return $value->update([
             'product_id' => $request->product_id,
             'type' => $request->type,
-            'category_attribute_id' => $categoryAttribute->id,
+            'attribute_id' => $attribute->id,
             'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
+            'category_id' => $request->category_id,
         ]);
     }
 
@@ -50,6 +52,6 @@ class PropertyValueService implements PropertyValueServiceInterface
      */
     private function query(): Builder
     {
-        return CategoryValue::query();
+        return AttributeValue::query();
     }
 }

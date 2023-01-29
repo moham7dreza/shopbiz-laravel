@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryValuesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCategoryValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_values', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('category_attribute_id')->constrained('category_attributes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('attribute_id')->constrained('attributes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->text('value');
             $table->tinyInteger('type')->default(0)->comment('value type is 0 => simple, 1 => multi values select by customers (affected on price)');
             $table->timestamps();
@@ -33,4 +34,4 @@ class CreateCategoryValuesTable extends Migration
     {
         Schema::dropIfExists('category_values');
     }
-}
+};

@@ -26,24 +26,37 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('CategoryValue.index', $categoryAttribute->id) }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('attributeValue.index', $attribute->id) }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
 
                 <section>
                     <form
-                        action="{{ route('CategoryValue.update', ['categoryAttribute' => $categoryAttribute->id , 'value' => $value->id] ) }}"
+                        action="{{ route('attributeValue.update', ['attribute' => $attribute->id , 'value' => $value->id] ) }}"
                         method="POST">
                         @csrf
                         @method('PUT')
                         <section class="row">
+                            <section class="col-12 col-md-5">
+                                <div class="form-group">
+                                    <label for="">نام فرم کالا</label>
+                                    <section>{{ $attribute->name }}</section>
+                                </div>
+                            </section>
 
+                            <section class="col-12 col-md-5">
+                                <div class="form-group">
+                                    <label for="">واحد</label>
+                                    <section>{{ $attribute->unit }}</section>
+                                </div>
+                            </section>
+                            <section class="col-12 border-bottom mb-3"></section>
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="">انتخاب محصول</label>
                                     <select name="product_id" class="form-control form-control-sm">
                                         <option value="">محصول را انتخاب کنید</option>
-                                        @foreach ($categoryAttribute->category->products as $product)
+                                        @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
                                                     @if(old('product_id', $value->product_id) == $product->id) selected @endif>{{ $product->name }}</option>
                                         @endforeach

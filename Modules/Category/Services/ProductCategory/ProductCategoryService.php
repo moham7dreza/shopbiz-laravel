@@ -5,7 +5,7 @@ namespace Modules\Category\Services\ProductCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Entities\AttributeValue;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
 use Modules\Share\Services\Image\ImageService;
@@ -109,7 +109,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         // all items checked
         if (isset($selectedBrands) && isset($selectedAttrs) && isset($selectedPriceFrom) && isset($selectedPriceTo)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -119,7 +119,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }   // brands and attrs plus price start
         elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceFrom)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -128,7 +128,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }   // brands and attrs plus price end
         elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceTo)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -136,7 +136,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             ])->latest();
         } elseif (!empty($selectedBrands) && !empty($selectedValues)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -160,20 +160,20 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             ])->latest();
         }    // select attrs and prices
         elseif (!empty($selectedValues) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '>', $selectedPriceFrom],
                 ['price', '<', $selectedPriceTo],
             ])->latest();
         } elseif (!empty($selectedValues) && !empty($selectedPriceFrom)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '>', $selectedPriceFrom]
             ])->latest();
         } elseif (!empty($selectedValues) && !empty($selectedPriceTo)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '<', $selectedPriceTo]
@@ -188,10 +188,12 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }   // single checks
         elseif (!empty($selectedBrands)) {
             return $products->whereIn('brand_id', $selectedBrands)->latest();
-        } elseif (!empty($selectedValues)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+        }
+        elseif (!empty($selectedValues)) {
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->latest();
-        } elseif (!empty($selectedPriceFrom)) {
+        }
+        elseif (!empty($selectedPriceFrom)) {
             return $products->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '>', $selectedPriceFrom]
@@ -289,7 +291,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         // all items checked
         if (isset($selectedBrands) && isset($selectedAttrs) && isset($selectedPriceFrom) && isset($selectedPriceTo)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -299,7 +301,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }   // brands and attrs plus price start
         elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceFrom)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -308,7 +310,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         }   // brands and attrs plus price end
         elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceTo)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -316,7 +318,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             ])->latest();
         } elseif (!empty($selectedBrands) && !empty($selectedValues)) {
             $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)
                 ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
@@ -340,20 +342,20 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             ])->latest();
         }    // select attrs and prices
         elseif (!empty($selectedValues) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '>', $selectedPriceFrom],
                 ['price', '<', $selectedPriceTo],
             ])->latest();
         } elseif (!empty($selectedValues) && !empty($selectedPriceFrom)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '>', $selectedPriceFrom]
             ])->latest();
         } elseif (!empty($selectedValues) && !empty($selectedPriceTo)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['price', '<', $selectedPriceTo]
@@ -369,7 +371,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
         elseif (!empty($selectedBrands)) {
             return $products->whereIn('brand_id', $selectedBrands)->latest();
         } elseif (!empty($selectedValues)) {
-            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            $productIds = AttributeValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
             return Product::query()->whereIn('id', $productIds)->latest();
         } elseif (!empty($selectedPriceFrom)) {
             return $products->where([

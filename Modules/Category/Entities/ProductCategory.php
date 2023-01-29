@@ -6,9 +6,10 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Entities\Attribute;
 use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
 
@@ -78,11 +79,11 @@ class ProductCategory extends Model
     }
 
     /**
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function attributes(): HasMany
+    public function attributes(): BelongsToMany
     {
-        return $this->hasMany(CategoryAttribute::class, 'category_id');
+        return $this->belongsToMany(Attribute::class, 'attribute_category', foreignPivotKey: 'category_id');
     }
 
     //methods

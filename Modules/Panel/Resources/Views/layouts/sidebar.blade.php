@@ -57,7 +57,7 @@
                                 <a href="{{ route('productCategory.index') }}">دسته بندی</a>
                             @endcan
                             @can('permission-super-admin','permission-product-properties')
-                                <a href="{{ route('categoryAttribute.index') }}">فرم کالا</a>
+                                <a href="{{ route('attribute.index') }}">فرم کالا</a>
                             @endcan
                             @can('permission-super-admin','permission-product-brands')
                                 <a href="{{ route('brand.index') }}">برندها</a>

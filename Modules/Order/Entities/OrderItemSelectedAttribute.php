@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Attribute\Entities\CategoryAttribute;
-use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Entities\Attribute;
+use Modules\Attribute\Entities\AttributeValue;
 use Modules\Share\Traits\HasFaDate;
 
 class OrderItemSelectedAttribute extends Model
@@ -23,7 +23,7 @@ class OrderItemSelectedAttribute extends Model
      */
     public function categoryAttribute(): BelongsTo
     {
-        return $this->belongsTo(CategoryAttribute::class);
+        return $this->belongsTo(Attribute::class);
     }
 
     /**
@@ -31,7 +31,7 @@ class OrderItemSelectedAttribute extends Model
      */
     public function categoryAttributeValue(): BelongsTo
     {
-        return $this->belongsTo(CategoryValue::class, 'category_value_id');
+        return $this->belongsTo(AttributeValue::class, 'category_value_id');
     }
 
     /**

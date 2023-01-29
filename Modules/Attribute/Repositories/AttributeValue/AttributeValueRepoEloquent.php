@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Attribute\Repositories\PropertyValue;
+namespace Modules\Attribute\Repositories\AttributeValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Modules\Attribute\Entities\CategoryValue;
+use Modules\Attribute\Entities\AttributeValue;
 
-class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
+class AttributeValueRepoEloquent implements AttributeValueRepoEloquentInterface
 {
 
     /**
@@ -76,6 +76,6 @@ class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
      */
     private function query(): Builder
     {
-        return CategoryValue::query();
+        return AttributeValue::query();
     }
 }

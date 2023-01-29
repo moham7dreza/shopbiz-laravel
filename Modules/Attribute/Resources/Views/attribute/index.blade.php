@@ -25,9 +25,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('categoryAttribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                    <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('categoryAttribute.index') }}" class="d-flex">
+                        <form action="{{ route('attribute.index') }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
@@ -41,25 +41,45 @@
                             <th>#</th>
                             <th>نام فرم</th>
                             <th>واحد اندازه گیری</th>
-                            <th>دسته والد</th>
+                            <th>دسته بندی ها</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($categoryAttributes as $categoryAttribute)
+                        @foreach ($attributes as $attribute)
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $categoryAttribute->name }}</td>
-                                <td>{{ $categoryAttribute->unit }}</td>
-                                <td>{{ $categoryAttribute->textCategoryName() }}</td>
+                                <td>{{ $attribute->name }}</td>
+                                <td>{{ $attribute->unit }}</td>
+                                <td>
+                                    @if(empty($attribute->categories()->get()->toArray()))
+                                        <span class="text-danger">برای این فرم کالا هیچ دسته بندی تعریف نشده است</span>
+                                    @else
+                                        @foreach($attribute->categories as $category)
+                                            {{ $category->name }} <br>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $attribute->id }}" onchange="changeStatus({{ $attribute->id }}, 'فرم کالا')"
+                                               data-url="{{ route('attribute.status', $attribute->id) }}" type="checkbox"
+                                               @if ($attribute->status === 1)
+                                                   checked
+                                            @endif>
+                                    </label>
+                                </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('CategoryValue.index', $categoryAttribute->id) }}"
-                                       class="btn btn-warning btn-sm" target="_blank"><i class="fa fa-weight"></i></a>
-                                    <a href="{{ route('categoryAttribute.edit', $categoryAttribute->id) }}"
+                                    <a href="{{ route('attribute.category-form', $attribute->id) }}"
+                                       class="btn btn-info btn-sm" target="_blank" title="تعریف دسته بندی"><i class="fa fa-leaf"></i></a>
+                                    <a href="{{ route('attributeValue.index', $attribute->id) }}"
+                                       class="btn btn-warning btn-sm" target="_blank" title="مقادیر فرم کالا"><i class="fa fa-weight"></i></a>
+                                    <a href="{{ route('attribute.edit', $attribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"
-                                          action="{{ route('categoryAttribute.destroy', $categoryAttribute->id) }}"
+                                          action="{{ route('attribute.destroy', $attribute->id) }}"
                                           method="post">
                                         @csrf
                                         {{ method_field('delete') }}
@@ -74,7 +94,7 @@
 
                         </tbody>
                     </table>
-                    <section class="border-top pt-3">{{ $categoryAttributes->links() }}</section>
+                    <section class="border-top pt-3">{{ $attributes->links() }}</section>
                 </section>
 
             </section>
@@ -85,6 +105,9 @@
 
 
 @section('script')
-    @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-@endsection
 
+    @include('Share::ajax-functions.status')
+
+    @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
+@endsection

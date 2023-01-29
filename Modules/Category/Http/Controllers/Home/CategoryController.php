@@ -5,8 +5,9 @@ namespace Modules\Category\Http\Controllers\Home;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Modules\Attribute\Entities\CategoryAttribute;
-use Modules\Attribute\Entities\CategoryValue;
+use Illuminate\Support\Facades\DB;
+use Modules\Attribute\Entities\Attribute;
+use Modules\Attribute\Entities\AttributeValue;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
@@ -76,7 +77,7 @@ class CategoryController extends Controller
                 $selectedBrands = implode(', ', $selectedBrands->toArray());
             }
             if (isset(request()->values)) {
-                $selectedValues = CategoryValue::query()->whereIn('id', request()->values)->with('attribute')->get();
+                $selectedValues = AttributeValue::query()->whereIn('id', request()->values)->with('attribute')->get();
                 $values = [];
                 foreach ($selectedValues as $selectedValue) {
                     $values[] = convertEnglishToPersian(json_decode($selectedValue->value)->value) . $selectedValue->attribute->unit;
@@ -133,7 +134,7 @@ class CategoryController extends Controller
                 $selectedBrands = implode(', ', $selectedBrands->toArray());
             }
             if (isset(request()->values)) {
-                $selectedValues = CategoryValue::query()->whereIn('id', request()->values)->with('attribute')->get();
+                $selectedValues = AttributeValue::query()->whereIn('id', request()->values)->with('attribute')->get();
                 $values = [];
                 foreach ($selectedValues as $selectedValue) {
                     $values[] = convertEnglishToPersian(json_decode($selectedValue->value)->value) . $selectedValue->attribute->unit;
@@ -160,10 +161,9 @@ class CategoryController extends Controller
         // all cats
         $categories = $this->productCategoryRepo->getShowInMenuActiveParentCategories()->get();
         // attrs and values
-        $productCategoryIds = Product::query()->whereIn('id', $productIds)->pluck('category_id')->unique();
-        $categoryAttrs = CategoryAttribute::query()->whereIn('category_id', $productCategoryIds)->latest()->get();
+        $attributes = AttributeValue::query()->with('attribute')->whereIn('product_id', $productIds)->get()->pluck('attribute')->unique();
         return view('Category::home.special-sales.index', compact([
-            'products', 'categories', 'userCartItemsProductIds', 'brands', 'categoryAttrs', 'type',
+            'products', 'categories', 'userCartItemsProductIds', 'brands', 'attributes', 'type',
             'selectedBrands', 'selectedValues', 'selectedPriceFrom', 'selectedPriceTo'
         ]));
     }
