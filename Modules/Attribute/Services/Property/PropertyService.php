@@ -3,6 +3,7 @@ namespace Modules\Attribute\Services\Property;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Attribute\Entities\CategoryAttribute;
 
 class PropertyService implements PropertyServiceInterface
 {

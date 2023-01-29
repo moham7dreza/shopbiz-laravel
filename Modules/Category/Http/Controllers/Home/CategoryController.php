@@ -2,11 +2,11 @@
 
 namespace Modules\Category\Http\Controllers\Home;
 
-use CategoryAttribute;
-use CategoryValue;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Entities\CategoryValue;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
@@ -56,18 +56,44 @@ class CategoryController extends Controller
      */
     public function categoryProducts(ProductCategory $productCategory): Factory|View|Application
     {
+        $type = null;
+        $selectedBrands = null;
+        $selectedValues = null;
+        $selectedPriceFrom = null;
+        $selectedPriceTo = null;
         // sort items by type of them
         if (isset(request()->type)) {
+            $type = request()->type;
             $products = $this->productCategoryService->findCategoryProductsByType($productCategory, request()->type)->paginate(9);
         }   // search in items
         elseif (isset(request()->category_products_search)) {
+            $type = request()->category_products_search;
             $products = $this->productCategoryService->findCategoryProductsByType($productCategory, request()->category_products_search)->paginate(9);
-        }   // filter items by brand attrs and price
-        elseif (isset(request()->brands) || isset(request()->attrs) || isset(request()->price_from) || isset(request()->price_to)) {
-            $products = $this->productCategoryService->findCategoryProductsByFilter($productCategory, request()->brands,
-                request()->attrs, request()->price_from, request()->price_to)->paginate(9);
+        }   // filter items by brand values and price
+        elseif (isset(request()->brands) || isset(request()->values) || isset(request()->price_from) || isset(request()->price_to)) {
+            if (isset(request()->brands)) {
+                $selectedBrands = Brand::query()->whereIn('id', request()->brands)->pluck('persian_name');
+                $selectedBrands = implode(', ', $selectedBrands->toArray());
+            }
+            if (isset(request()->values)) {
+                $selectedValues = CategoryValue::query()->whereIn('id', request()->values)->with('attribute')->get();
+                $values = [];
+                foreach ($selectedValues as $selectedValue) {
+                    $values[] = convertEnglishToPersian(json_decode($selectedValue->value)->value) . $selectedValue->attribute->unit;
+                }
+                $selectedValues = implode(', ', $values);
+            }
+            $selectedPriceFrom = priceFormat(request()->price_from);
+            $selectedPriceTo = priceFormat(request()->price_to);
+            $products = $this->productCategoryService->findCategoryProductsByFilter(
+                $productCategory,
+                request()->brands,
+                request()->values,
+                request()->price_from,
+                request()->price_to
+            )->paginate(9);
         } else {
-            $products = $productCategory->products()->latest()->paginate(9);
+            $products = $productCategory->products()->where('status', Product::STATUS_ACTIVE)->latest()->paginate(9);
         }
         // get all products brands
         $brands = $productCategory->products()->with('brand')->latest()->get()->pluck('brand')->unique();
@@ -76,7 +102,8 @@ class CategoryController extends Controller
         // get all cats
         $categories = $this->productCategoryRepo->getShowInMenuActiveParentCategories()->get();
         return view('Category::home.category-products.index', compact([
-            'productCategory', 'products', 'brands', 'userCartItemsProductIds', 'categories'
+            'productCategory', 'products', 'brands', 'userCartItemsProductIds', 'categories', 'type',
+            'selectedBrands', 'selectedValues', 'selectedPriceFrom', 'selectedPriceTo'
         ]));
     }
 

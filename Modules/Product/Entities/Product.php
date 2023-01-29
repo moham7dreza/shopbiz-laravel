@@ -3,7 +3,6 @@
 namespace Modules\Product\Entities;
 
 use Carbon\Carbon;
-use CategoryValue;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Attribute\Entities\CategoryValue;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;

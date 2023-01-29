@@ -4,6 +4,7 @@ namespace Modules\Attribute\Repositories\PropertyValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Modules\Attribute\Entities\CategoryValue;
 
 class PropertyValueRepoEloquent implements PropertyValueRepoEloquentInterface
 {

@@ -4,6 +4,7 @@ namespace Modules\Attribute\Services\PropertyValue;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Attribute\Entities\CategoryValue;
 
 class PropertyValueService implements PropertyValueServiceInterface
 {

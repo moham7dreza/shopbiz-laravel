@@ -2,12 +2,12 @@
 
 namespace Modules\Order\Entities;
 
-use CategoryAttribute;
-use CategoryValue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Attribute\Entities\CategoryAttribute;
+use Modules\Attribute\Entities\CategoryValue;
 use Modules\Share\Traits\HasFaDate;
 
 class OrderItemSelectedAttribute extends Model

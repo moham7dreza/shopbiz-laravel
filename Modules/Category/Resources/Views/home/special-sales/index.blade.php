@@ -48,7 +48,7 @@
         <section class="main-product-wrapper row my-4">
 
             @foreach($products as $product)
-                <section class="col-md-3 p-0 mx-2">
+                <section class="col-md-3 p-0 my-1">
                     <section class="product">
                         @guest
                             <section class="product-add-to-favorite">

@@ -13,30 +13,32 @@
 @section('content')
     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
         <section class="filters mb-3">
-            <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای : <span
-                    class="badge bg-info text-dark">_</span></span>
+           <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای : <span
+                   class="badge bg-info text-dark">{{ !is_null($type) ? $type : '-' }}</span></span>
             <span class="d-inline-block border p-1 rounded bg-light">برند : <span
-                    class="badge bg-info text-dark">"کتاب"</span></span>
+                    class="badge bg-info text-dark">{{ !is_null($selectedBrands) ? $selectedBrands : '-' }}</span></span>
             <span class="d-inline-block border p-1 rounded bg-light">دسته : <span
-                    class="badge bg-info text-dark">"کتاب"</span></span>
-            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span class="badge bg-info text-dark">25,000 تومان</span></span>
-            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">360,000 تومان</span></span>
+                    class="badge bg-info text-dark">{{ $productCategory->name }}</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">فرم کالا : <span
+                    class="badge bg-info text-dark">{{ !is_null($selectedValues) ? $selectedValues : '-' }}</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span class="badge bg-info text-dark">{{ !is_null($selectedPriceFrom) ? $selectedPriceFrom : '-' }} تومان</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">{{ !is_null($selectedPriceTo) ? $selectedPriceTo : '-' }} تومان</span></span>
 
         </section>
         <section class="sort">
             <span>مرتب سازی بر اساس : </span>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=newest']) }}"
-               class="btn btn-info btn-sm px-1 py-0" type="button">جدیدترین</a>
+               class="btn {{ $type == 'newest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">جدیدترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=popular']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">محبوب ترین</a>
+               class="btn {{ $type == 'popular' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">محبوب ترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=expensive']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">گران ترین</a>
+               class="btn {{ $type == 'expensive' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">گران ترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=cheapest']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">ارزان ترین</a>
+               class="btn {{ $type == 'cheapest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">ارزان ترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=mostVisited']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">پربازدیدترین</a>
+               class="btn {{ $type == 'mostVisited' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پربازدیدترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory, 'type=bestSales']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">پرفروش ترین</a>
+               class="btn {{ $type == 'bestSales' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پرفروش ترین</a>
             <a href="{{ route('customer.market.category.products', [$productCategory]) }}"
                class="btn btn-light btn-sm px-1 py-0" type="button"><i class="fa fa-times mx-2 my-1 text-danger"></i>حذف
                 فیلتر</a>
@@ -46,7 +48,7 @@
         <section class="main-product-wrapper row my-4">
 
             @foreach($products as $product)
-                <section class="col-md-3 p-0 mx-1">
+                <section class="col-md-3 p-0">
                     <section class="product">
                         @guest
                             <section class="product-add-to-favorite">

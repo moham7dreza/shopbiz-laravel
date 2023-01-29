@@ -49,18 +49,48 @@
 
         <section class="">
             <form action="{{ route('customer.market.category.products', [$productCategory]) }}" class="d-flex">
-                <input name="category_products_search" class="sidebar-input-text" type="text" placeholder="جستجو بر اساس نام، برند ...">
+                <input name="category_products_search" class="sidebar-input-text" type="text"
+                       placeholder="جستجو بر اساس نام، برند ...">
                 <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
             </form>
         </section>
     </section>
     <form action="{{ route('customer.market.category.products', [$productCategory]) }}">
-        @if(!is_null($productCategory))
+
+        <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
+            <section class="content-header mb-3">
+                <section class="d-flex justify-content-between align-items-center">
+                    <h2 class="content-header-title content-header-title-small">
+                        برند
+                    </h2>
+                    <section class="content-header-link">
+                        <!--<a href="#">مشاهده همه</a>-->
+                    </section>
+                </section>
+            </section>
+
+            <section class="sidebar-brand-wrapper">
+                @foreach($brands as $brand)
+                    <section class="form-check sidebar-brand-item">
+                        <input name="brands[]" class="form-check-input" type="checkbox" value="{{ $brand->id }}"
+                               id="{{ $brand->id }}">
+                        <label class="form-check-label d-flex justify-content-between" for="{{ $brand->id }}">
+                            <span>{{ $brand->persian_name }}</span>
+                            <span>{{ $brand->original_name }}</span>
+                        </label>
+                    </section>
+                @endforeach
+
+            </section>
+        </section>
+
+
+        @foreach($productCategory->attributes as $attribute)
             <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                 <section class="content-header mb-3">
                     <section class="d-flex justify-content-between align-items-center">
                         <h2 class="content-header-title content-header-title-small">
-                            برند
+                            {{ $attribute->name }}
                         </h2>
                         <section class="content-header-link">
                             <!--<a href="#">مشاهده همه</a>-->
@@ -69,73 +99,19 @@
                 </section>
 
                 <section class="sidebar-brand-wrapper">
-                    @foreach($brands as $brand)
+                    @foreach($attribute->values as $value)
                         <section class="form-check sidebar-brand-item">
-                            <input name="brands[]" class="form-check-input" type="checkbox" value="{{ $brand->id }}" id="{{ $brand->id }}">
-                            <label class="form-check-label d-flex justify-content-between" for="{{ $brand->id }}">
-                                <span>{{ $brand->persian_name }}</span>
-                                <span>{{ $brand->original_name }}</span>
+                            <input name="values[]" class="form-check-input" type="checkbox" value="{{ $value->id }}"
+                                   id="{{ $value->id }}">
+                            <label class="form-check-label" for="{{ $value->id }}">
+                                <span>{{ json_decode($value->value, true)['value'] . ' ' . $attribute->unit }}</span>
                             </label>
                         </section>
                     @endforeach
 
                 </section>
             </section>
-
-
-            @foreach($productCategory->attributes as $attribute)
-                <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                    <section class="content-header mb-3">
-                        <section class="d-flex justify-content-between align-items-center">
-                            <h2 class="content-header-title content-header-title-small">
-                                {{ $attribute->name }}
-                            </h2>
-                            <section class="content-header-link">
-                                <!--<a href="#">مشاهده همه</a>-->
-                            </section>
-                        </section>
-                    </section>
-
-                    <section class="sidebar-brand-wrapper">
-                        @foreach($attribute->values as $value)
-                            <section class="form-check sidebar-brand-item">
-                                <input name="attrs[]" class="form-check-input" type="checkbox" value="{{ $value->id }}" id="{{ $value->id }}">
-                                <label class="form-check-label" for="{{ $value->id }}">
-                                    <span>{{ json_decode($value->value, true)['value'] . ' ' . $attribute->unit }}</span>
-                                </label>
-                            </section>
-                        @endforeach
-
-                    </section>
-                </section>
-            @endforeach
-        @else
-            <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                <section class="content-header mb-3">
-                    <section class="d-flex justify-content-between align-items-center">
-                        <h2 class="content-header-title content-header-title-small">
-                            برند
-                        </h2>
-                        <section class="content-header-link">
-                            <!--<a href="#">مشاهده همه</a>-->
-                        </section>
-                    </section>
-                </section>
-
-                <section class="sidebar-brand-wrapper">
-                    @foreach($brands as $brand)
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="1" id="1">
-                            <label class="form-check-label d-flex justify-content-between" for="1">
-                                <span>{{ $brand->persian_name }}</span>
-                                <span>{{ $brand->original_name }}</span>
-                            </label>
-                        </section>
-                    @endforeach
-
-                </section>
-            </section>
-        @endif
+        @endforeach
 
         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
             <section class="content-header mb-3">
