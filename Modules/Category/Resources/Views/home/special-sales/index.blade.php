@@ -1,40 +1,45 @@
 @extends('Home::layouts.master-two-col')
 @section('head-tag')
     <title>
-        محصولات دسته بندی {{ $productCategory->name }}
+        فروش ویژه
     </title>
 @endsection
 @php
     $user = auth()->user();
 @endphp
+@section('sidebar')
+    @include('Category::home.special-sales.sidebar')
+@endsection
 @section('content')
     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
         <section class="filters mb-3">
             <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای : <span
-                    class="badge bg-info text-dark">_</span></span>
+                    class="badge bg-info text-dark">{{ !is_null($type) ? $type : '-' }}</span></span>
             <span class="d-inline-block border p-1 rounded bg-light">برند : <span
-                    class="badge bg-info text-dark">"کتاب"</span></span>
+                    class="badge bg-info text-dark">{{ !is_null($selectedBrands) ? $selectedBrands : '-' }}</span></span>
             <span class="d-inline-block border p-1 rounded bg-light">دسته : <span
-                    class="badge bg-info text-dark">"کتاب"</span></span>
-            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span class="badge bg-info text-dark">25,000 تومان</span></span>
-            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">360,000 تومان</span></span>
+                    class="badge bg-info text-dark">-</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">فرم کالا : <span
+                    class="badge bg-info text-dark">{{ !is_null($selectedValues) ? $selectedValues : '-' }}</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span class="badge bg-info text-dark">{{ !is_null($selectedPriceFrom) ? $selectedPriceFrom : '-' }} تومان</span></span>
+            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span class="badge bg-info text-dark">{{ !is_null($selectedPriceTo) ? $selectedPriceTo : '-' }} تومان</span></span>
 
         </section>
         <section class="sort">
             <span>مرتب سازی بر اساس : </span>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=newest']) }}"
-               class="btn btn-info btn-sm px-1 py-0" type="button">جدیدترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=popular']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">محبوب ترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=expensive']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">گران ترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=cheapest']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">ارزان ترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=mostVisited']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">پربازدیدترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory, 'type=bestSales']) }}"
-               class="btn btn-light btn-sm px-1 py-0" type="button">پرفروش ترین</a>
-            <a href="{{ route('customer.market.category.products', [$productCategory]) }}"
+            <a href="{{ route('customer.market.products.offers', 'type=newest') }}"
+               class="btn {{ $type == 'newest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">جدیدترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=popular') }}"
+               class="btn {{ $type == 'popular' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">محبوب ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=expensive') }}"
+               class="btn {{ $type == 'expensive' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">گران ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=cheapest') }}"
+               class="btn {{ $type == 'cheapest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">ارزان ترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=mostVisited') }}"
+               class="btn {{ $type == 'mostVisited' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پربازدیدترین</a>
+            <a href="{{ route('customer.market.products.offers', 'type=bestSales') }}"
+               class="btn {{ $type == 'bestSales' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پرفروش ترین</a>
+            <a href="{{ route('customer.market.products.offers') }}"
                class="btn btn-light btn-sm px-1 py-0" type="button"><i class="fa fa-times mx-2 my-1 text-danger"></i>حذف
                 فیلتر</a>
         </section>
@@ -43,7 +48,7 @@
         <section class="main-product-wrapper row my-4">
 
             @foreach($products as $product)
-                <section class="col-md-3 p-0 mx-1">
+                <section class="col-md-3 p-0 mx-2">
                     <section class="product">
                         @guest
                             <section class="product-add-to-favorite">
@@ -126,10 +131,6 @@
                     </section>
                 </section>
             @endforeach
-            @if(count($products) > 8)
-                    <section class="pt-3">{{ $products->links() }}</section>
-            @endif
-
             @if(count($products) > 20)
                 <section class="col-12">
                     <section class="my-4 d-flex justify-content-center">
@@ -155,8 +156,14 @@
             @endif
         </section>
 
+
     </section>
 @endsection
 @section('script')
     @include('Share::ajax-functions.product-add-to-favorite')
+    <script>
+        $('.sort a').click(function () {
+           $(this).removeClass('btn-light').addClass('btn-info');
+        });
+    </script>
 @endsection

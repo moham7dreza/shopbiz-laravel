@@ -11,7 +11,7 @@
 <section id="main-body-two-col" class="container-xxl body-container">
     <section class="row">
 
-        @include('Home::layouts.sidebar')
+        @yield('sidebar')
 
         @include('Share::alerts.alert-section.success')
 

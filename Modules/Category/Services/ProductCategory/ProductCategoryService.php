@@ -6,9 +6,8 @@ namespace Modules\Category\Services\ProductCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
+use Modules\Category\Entities\CategoryValue;
 use Modules\Category\Entities\ProductCategory;
-use Modules\Discount\Entities\AmazingSale;
 use Modules\Product\Entities\Product;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
@@ -93,19 +92,6 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             'show_in_menu' => $request->show_in_menu,
             'parent_id' => $request->parent_id,
         ]);
-    }
-
-    /**
-     * @param $productCategory
-     * @return Collection
-     */
-    public function findProductCategoryBrands($productCategory): Collection
-    {
-        $brandsCollection = collect();
-        foreach ($productCategory->products as $product) {
-            $brandsCollection->push($product->brand);
-        }
-        return $brandsCollection->unique();
     }
 
     /**
@@ -233,47 +219,145 @@ class ProductCategoryService implements ProductCategoryServiceInterface
     }
 
     /**
-     * @param $activeAmazingSales
+     * @param $productIds
      * @param $type
      * @return mixed
      */
-    public function findOfferedProductsByType($activeAmazingSales, $type): mixed
+    public function findOfferedProductsByType($productIds, $type): mixed
     {
-        $products = collect();
-        foreach ($activeAmazingSales as $activeAmazingSale) {
-            $products->push($activeAmazingSale->product->id);
-        }
-        $products = $products->unique();
+        $products = Product::query()->whereIn('id', $productIds);
         if ($type === 'newest') {
-            return AmazingSale::query()->whereIn('product_id', $products->values())->latest();
+            return $products->latest();
         } elseif ($type === 'popular') {
-            $products = Product::query()->whereIn('id', $products->values())->where('sold_number', '>=', 2)->pluck('id');
-            return AmazingSale::query()->whereIn('product_id', $products->values())->latest();
+            return $products->where('sold_number', '>=', 1)->latest();
         } elseif ($type === 'expensive') {
-            return $productCategory->products()->where([
-                ['status', Product::STATUS_ACTIVE],
-            ])->orderBy('price', 'desc')->latest();
+            return $products->orderBy('price', 'desc')->latest();
         } elseif ($type === 'cheapest') {
-            return $productCategory->products()->where([
-                ['status', Product::STATUS_ACTIVE],
-            ])->orderBy('price', 'asc')->latest();
+            return $products->orderBy('price', 'asc')->latest();
         } elseif ($type === 'mostVisited') {
-            return $productCategory->products()->where([
-                ['status', Product::STATUS_ACTIVE],
-                ['sold_number', '>=', 0],
-            ])->latest();
+            return $products->latest();
         } elseif ($type === 'bestSales') {
-            return $productCategory->products()->where([
-                ['status', Product::STATUS_ACTIVE],
-                ['sold_number', '>=', 1],
-            ])->latest();
+            return $products->where('sold_number', '>=', 1)->latest();
         } elseif (isset($type)) {
-            return $productCategory->products()->where([
+            return $products->where([
                 ['status', Product::STATUS_ACTIVE],
                 ['name', 'like', '%' . $type . '%'],
             ])->latest();
         } else {
-            return $productCategory->products()->latest();
+            return $products->latest();
+        }
+    }
+
+    /**
+     * @param $productIds
+     * @param $selectedBrands
+     * @param $selectedValues
+     * @param $selectedPriceFrom
+     * @param $selectedPriceTo
+     * @return mixed
+     */
+    public function findOfferedProductsByFilter($productIds, $selectedBrands, $selectedValues, $selectedPriceFrom, $selectedPriceTo): mixed
+    {
+        $products = Product::query()->whereIn('id', $productIds)->where([
+            ['status', Product::STATUS_ACTIVE],
+        ]);
+        // all items checked
+        if (isset($selectedBrands) && isset($selectedAttrs) && isset($selectedPriceFrom) && isset($selectedPriceTo)) {
+            $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+                ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        }   // brands and attrs plus price start
+        elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceFrom)) {
+            $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+                ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+            ])->latest();
+        }   // brands and attrs plus price end
+        elseif (!empty($selectedBrands) && !empty($selectedValues) && !empty($selectedPriceTo)) {
+            $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+                ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        } elseif (!empty($selectedBrands) && !empty($selectedValues)) {
+            $selectedBrandProductIds = $products->whereIn('brand_id', $selectedBrands)->pluck('id');
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)
+                ->whereIn('product_id', $selectedBrandProductIds)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+            ])->latest();
+        }// select brands and prices
+        elseif (!empty($selectedBrands) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            return $products->whereIn('brand_id', $selectedBrands)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        } elseif (!empty($selectedBrands) && !empty($selectedPriceFrom)) {
+            return $products->whereIn('brand_id', $selectedBrands)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+            ])->latest();
+        } elseif (!empty($selectedBrands) && !empty($selectedPriceTo)) {
+            return $products->whereIn('brand_id', $selectedBrands)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        }    // select attrs and prices
+        elseif (!empty($selectedValues) && !empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        } elseif (!empty($selectedValues) && !empty($selectedPriceFrom)) {
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom]
+            ])->latest();
+        } elseif (!empty($selectedValues) && !empty($selectedPriceTo)) {
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '<', $selectedPriceTo]
+            ])->latest();
+        }   // only prices
+        elseif (!empty($selectedPriceFrom) && !empty($selectedPriceTo)) {
+            return $products->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom],
+                ['price', '<', $selectedPriceTo],
+            ])->latest();
+        }   // single checks
+        elseif (!empty($selectedBrands)) {
+            return $products->whereIn('brand_id', $selectedBrands)->latest();
+        } elseif (!empty($selectedValues)) {
+            $productIds = CategoryValue::query()->whereIn('id', $selectedValues)->pluck('product_id');
+            return Product::query()->whereIn('id', $productIds)->latest();
+        } elseif (!empty($selectedPriceFrom)) {
+            return $products->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '>', $selectedPriceFrom]
+            ])->latest();
+        } elseif (!empty($selectedPriceTo)) {
+            return $products->where([
+                ['status', Product::STATUS_ACTIVE],
+                ['price', '<', $selectedPriceTo]
+            ])->latest();
+        } else {
+            return $products->latest();
         }
     }
 

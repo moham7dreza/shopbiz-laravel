@@ -115,7 +115,6 @@ class BannerController extends Controller
     {
         $positions = $this->repo->positions();
         return view('Banner::edit', compact(['banner', 'positions']));
-
     }
 
     /**
