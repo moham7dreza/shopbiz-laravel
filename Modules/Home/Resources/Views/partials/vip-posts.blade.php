@@ -21,7 +21,10 @@
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                             @foreach ($repo->posts() as $post)
-
+                                @php
+                                    $hasFavorited = auth()->user()->hasFavorited($post);
+                                    $hasLiked = auth()->user()->hasLiked($post);
+                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
@@ -35,28 +38,7 @@
                                                     </button>
                                                 </section>
                                             @endguest
-                                            @auth
-                                                @if ($post->user->contains(auth()->id()))
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.post.add-to-favorite', $post) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="حذف از علاقه مندی">
-                                                            <i class="fa fa-heart text-danger"></i>
-                                                        </button>
-                                                    </section>
-                                                @else
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.post.add-to-favorite', $post) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="اضافه به علاقه مندی">
-                                                            <i class="fa fa-heart"></i>
-                                                        </button>
-                                                    </section>
-                                                @endif
-                                            @endauth
-                                            <a class="product-link" href="{{ $post->path() }}">
+                                            <section class="product-link">
                                                 <section class="product-image">
                                                     <img class=""
                                                          src="{{ $post->imagePath() }}"
@@ -69,16 +51,60 @@
                                                     <section class="post-summary my-3">
                                                         <p>{!! $post->limitedSummary(100) !!}</p>
                                                     </section>
-                                                    <section class="d-flex justify-content-end align-items-center post-count my-2">
+                                                    <section
+                                                        class="d-flex justify-content-end align-items-center post-count my-2">
                                                         <span><i class="fa fa-eye mx-2"></i>{{ $post->getFaViewsCount() }}</span>
                                                         <span><i class="fa fa-comment mx-2"></i>{{ $post->allActivePostCommentsCount() }}</span>
                                                     </section>
-                                                    <section class="d-flex align-items-center justify-content-start post-user border-top">
+                                                    <section
+                                                        class="d-flex align-items-center justify-content-start post-user border-top">
                                                         <span><i class="fa fa-user"></i></span>
                                                         <span>{{ $post->textAuthorName() }}</span>
                                                     </section>
+                                                    <section class="d-flex align-items-center justify-content-end gap-2">
+                                                        @auth
+                                                            @if ($hasLiked)
+                                                                <section class="post-like-btn">
+                                                                    <button class="btn btn-light btn-sm text-decoration-none"
+                                                                            data-url="{{ route('customer.post.like', $post) }}"
+                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                            title="لایک نکردن">
+                                                                        <i class="fa fa-heart text-danger"></i>
+                                                                    </button>
+                                                                </section>
+                                                            @else
+                                                                <section class="post-like-btn">
+                                                                    <button class="btn btn-light btn-sm text-decoration-none"
+                                                                            data-url="{{ route('customer.post.like', $post) }}"
+                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                            title="لایک کردن">
+                                                                        <i class="fa fa-heart"></i>
+                                                                    </button>
+                                                                </section>
+                                                            @endif
+                                                            @if ($hasFavorited)
+                                                                <section class="post-favorite-btn">
+                                                                    <button class="btn btn-light btn-sm text-decoration-none"
+                                                                            data-url="{{ route('customer.post.add-to-favorite', $post) }}"
+                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                            title="حذف از علاقه مندی">
+                                                                        <i class="fa fa-bookmark text-danger"></i>
+                                                                    </button>
+                                                                </section>
+                                                            @else
+                                                                <section class="post-favorite-btn">
+                                                                    <button class="btn btn-light btn-sm text-decoration-none"
+                                                                            data-url="{{ route('customer.post.add-to-favorite', $post) }}"
+                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                            title="اضافه به علاقه مندی">
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </button>
+                                                                </section>
+                                                            @endif
+                                                        @endauth
+                                                    </section>
                                                 </section>
-                                            </a>
+                                            </section>
                                         </section>
                                     </section>
                                 </section>

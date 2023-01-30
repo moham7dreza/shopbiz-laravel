@@ -20,14 +20,16 @@
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                             @foreach ($relatedProducts as $relatedProduct)
-
+                                @php
+                                    $hasFavorited = auth()->user()->hasFavorited($relatedProduct);
+                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
                                             @guest
                                                 <section class="product-add-to-favorite">
                                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
+                                                            data-url="{{ route('customer.product.add-to-favorite', $relatedProduct) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
@@ -37,6 +39,7 @@
                                             @auth
                                                 <section class="product-add-to-cart">
                                                     @php
+
                                                         $defaultSelectedColor = !empty($relatedProduct->colors[0]) ? $relatedProduct->colors[0]->id : null;
                                                         $defaultSelectedGuarantee = !empty($relatedProduct->guarantees[0]) ? $relatedProduct->guarantees[0]->id : null;
                                                         $productIsInCart = in_array($relatedProduct->id, $userCartItemsProductIds);
@@ -58,25 +61,25 @@
                                                         </button>
                                                     </form>
                                                 </section>
-                                                @if ($relatedProduct->user->contains(auth()->user()->id))
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="حذف از علاقه مندی">
-                                                            <i class="fa fa-heart text-danger"></i>
-                                                        </button>
-                                                    </section>
-                                                @else
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="اضافه به علاقه مندی">
-                                                            <i class="fa fa-heart"></i>
-                                                        </button>
-                                                    </section>
-                                                @endif
+                                                    @if ($hasFavorited)
+                                                        <section class="product-add-to-favorite">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="حذف از علاقه مندی">
+                                                                <i class="fa fa-bookmark text-danger"></i>
+                                                            </button>
+                                                        </section>
+                                                    @else
+                                                        <section class="product-add-to-favorite">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="اضافه به علاقه مندی">
+                                                                <i class="fa fa-bookmark"></i>
+                                                            </button>
+                                                        </section>
+                                                    @endif
                                             @endauth
                                             <a class="product-link" href="{{ $relatedProduct->path() }}">
                                                 <section class="product-image">

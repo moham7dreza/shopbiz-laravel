@@ -80,4 +80,13 @@ class ProductController extends Controller
     {
         return $this->service->productAddToFavorite($product);
     }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function like(Product $product): JsonResponse
+    {
+        return $this->service->productLike($product);
+    }
 }

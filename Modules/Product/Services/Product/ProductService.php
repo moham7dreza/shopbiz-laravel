@@ -36,9 +36,29 @@ class ProductService implements ProductServiceInterface
      */
     public function productAddToFavorite(Product $product): JsonResponse
     {
+        $user = auth()->user();
         if (auth()->check()) {
-            $product->user()->toggle([auth()->id()]);
-            if ($product->user->contains(auth()->id())) {
+            $user->toggleFavorite($product);
+            if ($user->hasFavorited($product)) {
+                return response()->json(['status' => 1]);
+            } else {
+                return response()->json(['status' => 2]);
+            }
+        } else {
+            return response()->json(['status' => 3]);
+        }
+    }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function productLike(Product $product): JsonResponse
+    {
+        $user = auth()->user();
+        if (auth()->check()) {
+            $user->toggleLike($product);
+            if ($user->hasLiked($product)) {
                 return response()->json(['status' => 1]);
             } else {
                 return response()->json(['status' => 2]);

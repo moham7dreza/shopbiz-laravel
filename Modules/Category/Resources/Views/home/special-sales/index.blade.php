@@ -53,7 +53,7 @@
                         @guest
                             <section class="product-add-to-favorite">
                                 <button class="btn btn-light btn-sm text-decoration-none"
-                                        data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                        data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                         data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
                                     <i class="fa fa-heart"></i>
                                 </button>
@@ -86,7 +86,7 @@
                             @if ($product->user->contains(auth()->user()->id))
                                 <section class="product-add-to-favorite">
                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                            data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
                                         <i class="fa fa-heart text-danger"></i>
                                     </button>
@@ -94,7 +94,7 @@
                             @else
                                 <section class="product-add-to-favorite">
                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                            data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                             title="اضافه به علاقه مندی">
                                         <i class="fa fa-heart"></i>

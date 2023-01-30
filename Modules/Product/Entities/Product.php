@@ -20,10 +20,12 @@ use Modules\Discount\Entities\AmazingSale;
 use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
+use Overtrue\LaravelLike\Traits\Likeable;
 
 class Product extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews, Likeable, Favoriteable;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;

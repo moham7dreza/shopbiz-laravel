@@ -16,10 +16,12 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
+use Overtrue\LaravelLike\Traits\Likeable;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews, Likeable, Favoriteable;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_PENDING = 2;

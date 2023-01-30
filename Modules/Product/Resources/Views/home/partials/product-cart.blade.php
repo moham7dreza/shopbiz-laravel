@@ -9,7 +9,8 @@
         @elseif(session('info'))
             <div class="alert alert-info">
                 {{ session('info') }} - برای نمایش سبد خرید <a class="text-decoration-none text-info pointer"
-                    href="{{ route('customer.sales-process.cart') }}">کلیک</a> کنید.
+                                                               href="{{ route('customer.sales-process.cart') }}">کلیک</a>
+                کنید.
             </div>
         @endif
 
@@ -46,6 +47,9 @@
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
                             <section class="product-gallery">
                                 @php
+                                    $hasFavorited = auth()->user()->hasFavorited($product);
+                                    $hasLiked = auth()->user()->hasLiked($product);
+
                                     $imageGalley = $product->images()->get();
                                     $images = collect();
                                     $images->push($product->image);
@@ -147,76 +151,85 @@
                                             <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا ناموجود</span>
                                         @endif
                                     </p>
-                                    <p>
+
+                                    <section>
+                                        <section class="cart-product-number d-inline-block ">
+                                            <button class="cart-number cart-number-down" type="button">-
+                                            </button>
+                                            <input type="number" id="number" name="number" min="1" max="5"
+                                                   step="1" value="1" readonly="readonly">
+                                            <button class="cart-number cart-number-up" type="button">+</button>
+                                        </section>
+                                    </section>
+                                    <span class="d-flex align-items-center justify-content-end">
 
                                     @guest
-                                        <section class="product-add-to-favorite position-relative" style="top: 0">
+                                            <section class="product-add-to-favorite position-relative" style="top: 0">
                                             <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                    data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                     title="اضافه به علاقه مندی">
                                                 <i class="fa fa-heart"></i>
                                             </button>
                                         </section>
-                                    @endguest
-                                    @auth
-                                        @if ($product->user->contains(auth()->user()->id))
-                                            <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                        data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        title="حذف از علاقه مندی">
-                                                    <i class="fa fa-heart text-danger"></i>
-                                                </button>
-                                            </section>
-                                        @else
-                                            <section class="d-flex">
+                                        @endguest
+                                        @auth
+                                            @if ($hasFavorited)
                                                 <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="اضافه به علاقه مندی">
-                                                        <i class="fa fa-heart"></i>
-                                                    </button>
-                                                </section>
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="حذف از علاقه مندی">
+                                                            <i class="fa fa-bookmark text-danger"></i>
+                                                        </button>
+                                                    </section>
+                                            @else
                                                 <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="اضافه به علاقه مندی">
-                                                        <i class="fa fa-bookmark"></i>
-                                                    </button>
-                                                </section>
-                                                <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="اضافه به علاقه مندی">
-                                                        <i class="fa fa-comment"></i>
-                                                    </button>
-                                                </section>
-                                            </section>
-
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="اضافه به علاقه مندی">
+                                                            <i class="fa fa-bookmark"></i>
+                                                        </button>
+                                                    </section>
                                             @endif
-                                            @endauth
-                                            </p>
-                                            <section>
-                                                <section class="cart-product-number d-inline-block ">
-                                                    <button class="cart-number cart-number-down" type="button">-
-                                                    </button>
-                                                    <input type="number" id="number" name="number" min="1" max="5"
-                                                           step="1" value="1" readonly="readonly">
-                                                    <button class="cart-number cart-number-up" type="button">+</button>
-                                                </section>
-                                            </section>
-                                            <p class="mb-3 mt-5">
-                                                <i class="fa fa-info-circle me-1"></i>کاربر گرامی خرید شما هنوز نهایی
-                                                نشده است. برای ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید
-                                                و سپس نحوه ارسال را انتخاب کنید. نحوه ارسال انتخابی شما محاسبه و به این
-                                                مبلغ اضافه شده خواهد شد. و در نهایت پرداخت این سفارش صورت میگیرد. پس از
-                                                ثبت سفارش کالا بر اساس نحوه ارسال که شما انتخاب کرده اید کالا برای شما
-                                                در مدت زمان مذکور ارسال می گردد.
-                                            </p>
+                                            @if ($hasLiked)
+                                                    <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-url="{{ route('customer.product.like', $product) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="لایک نکردن">
+                                                            <i class="fa fa-heart text-danger"></i>
+                                                        </button>
+                                                    </section>
+                                            @else
+                                                    <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                        <button class="btn btn-light btn-sm text-decoration-none"
+                                                                data-url="{{ route('customer.product.like', $product) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="لایک کردن">
+                                                            <i class="fa fa-heart"></i>
+                                                        </button>
+                                                    </section>
+                                            @endif
+                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                        <a href="#comment-add-button" class="btn btn-light btn-sm text-decoration-none"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="افزودن نظر">
+                                                            <i class="fa fa-comment"></i>
+                                                        </a>
+                                                    </section>
+                                        @endauth
+                                            </span>
+                                    <section class="border my-2"></section>
+                                    <p class="mb-3 mt-3">
+                                        <i class="fa fa-info-circle me-1"></i>کاربر گرامی خرید شما هنوز نهایی
+                                        نشده است. برای ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید
+                                        و سپس نحوه ارسال را انتخاب کنید. نحوه ارسال انتخابی شما محاسبه و به این
+                                        مبلغ اضافه شده خواهد شد. و در نهایت پرداخت این سفارش صورت میگیرد. پس از
+                                        ثبت سفارش کالا بر اساس نحوه ارسال که شما انتخاب کرده اید کالا برای شما
+                                        در مدت زمان مذکور ارسال می گردد.
+                                    </p>
                             </section>
                         </section>
 

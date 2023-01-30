@@ -83,7 +83,7 @@
                         <section class="product-comments mb-4">
 
                             <section class="comment-add-wrapper">
-                                <button class="comment-add-button" type="button" data-bs-toggle="modal" data-bs-target="#add-comment" ><i class="fa fa-plus"></i> افزودن دیدگاه</button>
+                                <button class="comment-add-button" type="button" data-bs-toggle="modal" data-bs-target="#add-comment" id="comment-add-button"><i class="fa fa-plus"></i> افزودن دیدگاه</button>
                                 <!-- start add comment Modal -->
                                 <section class="modal fade" id="add-comment" tabindex="-1" aria-labelledby="add-comment-label" aria-hidden="true">
                                     <section class="modal-dialog">

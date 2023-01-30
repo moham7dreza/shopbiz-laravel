@@ -19,12 +19,15 @@ use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
+use Overtrue\LaravelLike\Traits\Likeable;
+use Overtrue\LaravelLike\Traits\Liker;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles, HasPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles, HasPermissions, Liker, Favoriter;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;

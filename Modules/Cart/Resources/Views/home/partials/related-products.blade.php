@@ -20,13 +20,16 @@
 
 
                             @foreach ($relatedProducts as $relatedProduct)
+                                @php
+                                    $hasFavorited = auth()->user()->hasFavorited($relatedProduct);
+                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
                                             @guest
                                                 <section class="product-add-to-favorite">
                                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
+                                                            data-url="{{ route('customer.product.add-to-favorite', $relatedProduct) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
@@ -57,10 +60,10 @@
                                                         </button>
                                                     </form>
                                                 </section>
-                                                @if ($relatedProduct->user->contains(auth()->user()->id))
+                                                @if ($hasFavorited)
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $relatedProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
                                                             <i class="fa fa-heart text-danger"></i>
@@ -69,7 +72,7 @@
                                                 @else
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $relatedProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
                                                             <i class="fa fa-heart"></i>

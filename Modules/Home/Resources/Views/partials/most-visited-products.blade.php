@@ -21,7 +21,10 @@
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                             @foreach ($repo->mostVisitedProducts() as $mostVisitedProduct)
-
+                                @php
+                                    $hasFavorited = auth()->user()->hasFavorited($mostVisitedProduct);
+                                    $hasLiked = auth()->user()->hasLiked($mostVisitedProduct);
+                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
@@ -29,7 +32,7 @@
                                             @guest
                                                 <section class="product-add-to-favorite">
                                                     <button class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct) }}"
+                                                            data-url="{{ route('customer.product.add-to-favorite', $mostVisitedProduct) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
@@ -57,33 +60,6 @@
                                                             <i class="fa fa-cart-plus"></i>
                                                         </button>
                                                     </form>
-                                                </section>
-                                                @if ($mostVisitedProduct->user->contains(auth()->id()))
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="حذف از علاقه مندی">
-                                                            <i class="fa fa-heart text-danger"></i>
-                                                        </button>
-                                                    </section>
-                                                @else
-                                                    <section class="product-add-to-favorite">
-                                                        <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="اضافه به علاقه مندی">
-                                                            <i class="fa fa-heart"></i>
-                                                        </button>
-                                                    </section>
-                                                @endif
-                                                <section class="product-add-to-bookmark">
-                                                    <button class="btn btn-light btn-sm text-decoration-none"
-                                                            data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="اضافه به علاقه مندی">
-                                                        <i class="fa fa-bookmark"></i>
-                                                    </button>
                                                 </section>
                                             @endauth
 
@@ -114,11 +90,53 @@
                                                     @endforeach
                                                 </section>
                                                 <section class="border"></section>
-                                                <section class="d-flex justify-content-end align-items-center post-count my-2">
+                                                <section class="d-flex justify-content-start align-items-center post-count my-2">
                                                     <span><i class="fa fa-eye mx-2"></i>{{ $mostVisitedProduct->getFaViewsCount() }}</span>
                                                     <span><i class="fa fa-comment mx-2"></i>{{ $mostVisitedProduct->allActiveProductCommentsCount() }}</span>
                                                 </section>
                                             </a>
+                                            @auth
+                                                <section class="d-flex align-items-center justify-content-end gap-2 pb-2 px-1">
+                                                    @if ($hasFavorited)
+                                                        <section class="post-favorite-btn">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.add-to-favorite', $mostVisitedProduct) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="حذف از علاقه مندی">
+                                                                <i class="fa fa-bookmark text-danger"></i>
+                                                            </button>
+                                                        </section>
+                                                    @else
+                                                        <section class="post-favorite-btn">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.add-to-favorite', $mostVisitedProduct) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="اضافه به علاقه مندی">
+                                                                <i class="fa fa-bookmark"></i>
+                                                            </button>
+                                                        </section>
+                                                    @endif
+                                                    @if ($hasLiked)
+                                                        <section class="post-like-btn">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.like', $mostVisitedProduct) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="لایک نکردن">
+                                                                <i class="fa fa-heart text-danger"></i>
+                                                            </button>
+                                                        </section>
+                                                    @else
+                                                        <section class="post-like-btn">
+                                                            <button class="btn btn-light btn-sm text-decoration-none"
+                                                                    data-url="{{ route('customer.product.like', $mostVisitedProduct) }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    title="لایک کردن">
+                                                                <i class="fa fa-heart"></i>
+                                                            </button>
+                                                        </section>
+                                                    @endif
+                                                </section>
+                                            @endauth
                                         </section>
                                     </section>
                                 </section>

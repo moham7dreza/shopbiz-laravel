@@ -59,4 +59,5 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
 });
 Route::get('/product/{product:slug}', [MarketProductController::class, 'product'])->name('customer.market.product');
 Route::post('/add-comment/product/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
-Route::get('/add-to-favorite/product/{product:slug}', [MarketProductController::class, 'addToFavorite'])->name('customer.market.add-to-favorite');
+Route::get('/add-to-favorite/product/{product:slug}', [MarketProductController::class, 'addToFavorite'])->name('customer.product.add-to-favorite');
+Route::get('/like/product/{product:slug}', [MarketProductController::class, 'like'])->name('customer.product.like');

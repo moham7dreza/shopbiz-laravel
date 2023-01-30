@@ -12,6 +12,7 @@ use Modules\Post\Entities\Post;
 use Modules\Post\Http\Requests\Home\AddCommentToPostRequest;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Post\Services\PostService;
+use Modules\Product\Entities\Product;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -72,5 +73,14 @@ class PostController extends Controller
     public function addToFavorite(Post $post): JsonResponse
     {
         return $this->service->postAddToFavorite($post);
+    }
+
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function like(Post $post): JsonResponse
+    {
+        return $this->service->productLike($post);
     }
 }

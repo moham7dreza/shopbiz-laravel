@@ -21,8 +21,9 @@ class FavoriteController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $products = auth()->user()->products()->latest()->get();
-        $posts = auth()->user()->posts()->latest()->get();
+        $user = auth()->user();
+        $products = $user->getFavoriteItems(Product::class)->latest()->get();
+        $posts = $user->getFavoriteItems(Post::class)->latest()->get();
         return view('User::home.profile.my-favorites', compact(['products', 'posts']));
     }
 
@@ -32,7 +33,7 @@ class FavoriteController extends Controller
      */
     public function deleteProduct(Product $product): RedirectResponse
     {
-        auth()->user()->products()->detach($product->id);
+        auth()->user()->unfavorite($product);
         return $this->showToastWithRedirect(title: 'محصول با موفقیت از علاقه مندی ها حذف شد', route: 'customer.profile.my-favorites');
 //        return to_route('customer.profile.my-favorites')->with('success', 'محصول با موفقیت از علاقه مندی ها حذف شد');
     }
@@ -43,7 +44,7 @@ class FavoriteController extends Controller
      */
     public function deletePost(Post $post): RedirectResponse
     {
-        auth()->user()->posts()->detach($post->id);
+        auth()->user()->unfavorite($post);
         return $this->showToastWithRedirect(title: 'پست با موفقیت از علاقه مندی ها حذف شد', route: 'customer.profile.my-favorites');
 //        return to_route('customer.profile.my-favorites')->with('success', 'محصول با موفقیت از علاقه مندی ها حذف شد');
     }

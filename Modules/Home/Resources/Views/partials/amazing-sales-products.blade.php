@@ -23,7 +23,7 @@
                                 @foreach($repo->productsWithActiveAmazingSales() as $amazingSale)
                                     @php
                                         $activeAmazingSaleProduct = $amazingSale->product;
-//                                        $productNewPrice = $activeAmazingSaleProduct->price - ($activeAmazingSaleProduct->price * $amazingSale->percentage / 100);
+                                        $hasFavorited = auth()->user()->hasFavorited($activeAmazingSaleProduct);
                                     @endphp
                                     <section class="item">
                                         <section class="lazyload-item-wrapper">
@@ -31,7 +31,7 @@
                                                 @guest
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $activeAmazingSaleProduct) }}"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $activeAmazingSaleProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
                                                             <i class="fa fa-heart"></i>
@@ -62,24 +62,24 @@
                                                             </button>
                                                         </form>
                                                     </section>
-                                                    @if ($activeAmazingSaleProduct->user->contains(auth()->id()))
+                                                    @if ($hasFavorited)
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $activeAmazingSaleProduct) }}"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $activeAmazingSaleProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
-                                                                <i class="fa fa-heart text-danger"></i>
+                                                                <i class="fa fa-bookmark text-danger"></i>
                                                             </button>
                                                         </section>
                                                     @else
                                                         <section class="product-add-to-favorite">
                                                             <button
                                                                 class="btn btn-light btn-sm text-decoration-none"
-                                                                data-url="{{ route('customer.market.add-to-favorite', $activeAmazingSaleProduct) }}"
+                                                                data-url="{{ route('customer.product.add-to-favorite', $activeAmazingSaleProduct) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
-                                                                <i class="fa fa-heart"></i>
+                                                                <i class="fa fa-bookmark"></i>
                                                             </button>
                                                         </section>
                                                     @endif

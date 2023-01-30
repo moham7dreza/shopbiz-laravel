@@ -107,9 +107,10 @@ class PostService implements PostServiceInterface
      */
     public function postAddToFavorite(Post $post): JsonResponse
     {
+        $user = auth()->user();
         if (auth()->check()) {
-            $post->user()->toggle([auth()->id()]);
-            if ($post->user->contains(auth()->id())) {
+            $user->toggleFavorite($post);
+            if ($user->hasFavorited($post)) {
                 return response()->json(['status' => 1]);
             } else {
                 return response()->json(['status' => 2]);
@@ -118,6 +119,26 @@ class PostService implements PostServiceInterface
             return response()->json(['status' => 3]);
         }
     }
+
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function productLike(Post $post): JsonResponse
+    {
+        $user = auth()->user();
+        if (auth()->check()) {
+            $user->toggleLike($post);
+            if ($user->hasLiked($post)) {
+                return response()->json(['status' => 1]);
+            } else {
+                return response()->json(['status' => 2]);
+            }
+        } else {
+            return response()->json(['status' => 3]);
+        }
+    }
+
 //    /**
 //     * Store article by request.
 //     *

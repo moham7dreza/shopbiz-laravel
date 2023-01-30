@@ -1147,7 +1147,7 @@ body {
     margin-top: 10px;
 }
 
-.product-add-to-bookmark {
+.product-like {
     position: absolute;
     top: 5rem;
     left: 0;
@@ -1156,7 +1156,47 @@ body {
     border-radius: 0.25rem;
     transition: 0.4s;
 }
-.product-add-to-bookmark button {
-    padding: 0.6rem;
+.product-like button {
+    padding: 0.4rem;
+    color: grey;
+}
+.post-add-to-favorite {
+    position: absolute;
+    top: 3.2rem;
+    left: 0;
+    padding: 0.2rem;
+}
+
+.post-add-to-favorite a {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.4rem 0rem 0.4rem;
+    color: rgba(0, 0, 0, 1);
+    box-shadow: 0rem 0rem 0.4rem 0.1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    transition: 0.4s;
+}
+.post-add-to-favorite button {
+    color: gray;
+    padding: 0.5rem;
+}
+
+.post-add-to-favorite-active, .post-add-to-favorite a:hover {
+    background-color: rgba(255, 255, 255, 1) !important;
+    color: #ff253a !important;
+    text-decoration: none;
+    transition: 0.4s;
+}
+.post-like {
+    position: absolute;
+    top: 0.6rem;
+    left: 0;
+    padding: 0.2rem;
+    /*box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.4);*/
+    border-radius: 0.25rem;
+    transition: 0.4s;
+}
+.post-like button {
+    padding: 0.4rem;
     color: grey;
 }
