@@ -723,7 +723,7 @@ body {
 }
 
 .product-price-wrapper {
-    height: 3.2rem;
+    height: 2.2rem;
     justify-items: center;
 }
 
@@ -1145,4 +1145,18 @@ body {
 }
 .post-user span {
     margin-top: 10px;
+}
+
+.product-add-to-bookmark {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    padding: 0.2rem;
+    /*box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.4);*/
+    border-radius: 0.25rem;
+    transition: 0.4s;
+}
+.product-add-to-bookmark button {
+    padding: 0.6rem;
+    color: grey;
 }

@@ -3,6 +3,8 @@
 namespace Modules\Post\Entities;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,9 +17,9 @@ use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 
-class Post extends Model
+class Post extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_PENDING = 2;
@@ -227,5 +229,23 @@ class Post extends Model
     public function tagLessSummary(): mixed
     {
         return strip_tags($this->summary) ?? $this->summary ?? '-';
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaViewsCount(): array|int|string
+    {
+        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
+    }
+
+    /**
+     * @param $query
+     * @param int $status
+     * @return mixed
+     */
+    public function scopeActive($query, int $status = self::STATUS_ACTIVE): mixed
+    {
+        return $query->where('status', $status);
     }
 }

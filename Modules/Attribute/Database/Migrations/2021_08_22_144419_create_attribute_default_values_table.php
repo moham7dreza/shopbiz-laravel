@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_attribute_default_values', function (Blueprint $table) {
+        Schema::create('attribute_default_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attribute_id')->constrained('attributes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');

@@ -170,14 +170,33 @@
                                                 </button>
                                             </section>
                                         @else
-                                            <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                <button type="button" class="btn btn-light btn-sm text-decoration-none"
-                                                        data-url="{{ route('customer.market.add-to-favorite', $product) }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        title="اضافه به علاقه مندی">
-                                                    <i class="fa fa-heart"></i>
-                                                </button>
+                                            <section class="d-flex">
+                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="اضافه به علاقه مندی">
+                                                        <i class="fa fa-heart"></i>
+                                                    </button>
+                                                </section>
+                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="اضافه به علاقه مندی">
+                                                        <i class="fa fa-bookmark"></i>
+                                                    </button>
+                                                </section>
+                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                    <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $product) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="اضافه به علاقه مندی">
+                                                        <i class="fa fa-comment"></i>
+                                                    </button>
+                                                </section>
                                             </section>
+
                                             @endif
                                             @endauth
                                             </p>

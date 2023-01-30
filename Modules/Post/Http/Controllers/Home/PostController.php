@@ -39,7 +39,8 @@ class PostController extends Controller
      */
     public function post(Post $post): View|Factory|Application
     {
-        $relatedPosts = $this->repo->index()->get();
+        views($post)->record();
+        $relatedPosts = $this->repo->relatedItems($post)->get();
         return view('Post::home.post', compact(['post', 'relatedPosts']));
     }
 

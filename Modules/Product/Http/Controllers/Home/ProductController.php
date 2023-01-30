@@ -44,7 +44,8 @@ class ProductController extends Controller
      */
     public function product(Product $product): View|Factory|Application
     {
-        $relatedProducts = $this->repo->index()->get();
+        views($product)->record();
+        $relatedProducts = $this->repo->relatedItems($product)->get();
         $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
         return view('Product::home.product', compact(['product', 'relatedProducts', 'userCartItemsProductIds']));
     }

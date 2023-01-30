@@ -43,6 +43,7 @@
                             <th>دسته</th>
                             <th>تصویر</th>
                             <th>تاریخ انتشار</th>
+                            <th>تعداد بازدید</th>
                             <th>وضعیت</th>
                             <th>امکان درج کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -60,6 +61,7 @@
                                     <img class="admin-table-image" src="{{ $post->imagePath() }}" alt="">
                                 </td>
                                 <td>{{ $post->publishFaDate() }}</td>
+                                <td>{{ $post->getFaViewsCount() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }}, 'پست')"

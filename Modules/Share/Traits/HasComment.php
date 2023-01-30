@@ -44,10 +44,30 @@ trait HasComment
     }
 
     /**
+     * @return Collection
+     */
+    public function allActiveProductComments(): Collection
+    {
+        return $this->comments()->where([
+            ['approved', Comment::APPROVED],
+            ['status', Comment::STATUS_ACTIVE],
+            ['commentable_type', 'Modules\Product\Entities\Product']
+        ])->get();
+    }
+
+    /**
      * @return array|int|string
      */
     public function allActivePostCommentsCount(): array|int|string
     {
         return convertEnglishToPersian($this->allActivePostComments()->count()) ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function allActiveProductCommentsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->allActiveProductComments()->count()) ?? 0;
     }
 }

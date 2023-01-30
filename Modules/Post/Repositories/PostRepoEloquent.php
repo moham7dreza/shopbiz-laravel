@@ -31,6 +31,15 @@ class PostRepoEloquent implements PostRepoEloquentInterface
     }
 
     /**
+     * @param $post
+     * @return mixed
+     */
+    public function relatedItems($post): mixed
+    {
+        return $post->category->posts()->where('id', '!=', $post->id)->latest();
+    }
+
+    /**
      * Find article by id.
      *
      * @param  $id
@@ -74,6 +83,14 @@ class PostRepoEloquent implements PostRepoEloquentInterface
     public function home(): Builder
     {
         return $this->query()->where('status', Post::STATUS_ACTIVE)->latest();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function orderByViews(): mixed
+    {
+        return $this->query()->active()->orderByUniqueViews();
     }
 
 

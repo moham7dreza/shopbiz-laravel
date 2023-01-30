@@ -77,6 +77,14 @@
                                                         </button>
                                                     </section>
                                                 @endif
+                                                <section class="product-add-to-bookmark">
+                                                    <button class="btn btn-light btn-sm text-decoration-none"
+                                                            data-url="{{ route('customer.market.add-to-favorite', $mostVisitedProduct) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="اضافه به علاقه مندی">
+                                                        <i class="fa fa-bookmark"></i>
+                                                    </button>
+                                                </section>
                                             @endauth
 
                                             <a class="product-link"
@@ -104,6 +112,11 @@
                                                         <section class="product-colors-item"
                                                                  style="background-color: {{ $color->color }};"></section>
                                                     @endforeach
+                                                </section>
+                                                <section class="border"></section>
+                                                <section class="d-flex justify-content-end align-items-center post-count my-2">
+                                                    <span><i class="fa fa-eye mx-2"></i>{{ $mostVisitedProduct->getFaViewsCount() }}</span>
+                                                    <span><i class="fa fa-comment mx-2"></i>{{ $mostVisitedProduct->allActiveProductCommentsCount() }}</span>
                                                 </section>
                                             </a>
                                         </section>

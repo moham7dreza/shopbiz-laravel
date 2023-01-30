@@ -45,6 +45,7 @@
                             <th> قیمت</th>
                             <th>وزن</th>
                             <th>دسته</th>
+                            <th>تعداد بازدید</th>
                             <th>وضعیت</th>
                             <th>قابل فروش بودن</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -63,7 +64,7 @@
                                 <td>{{ $product->getFaPrice() }}</td>
                                 <td>{{ $product->getFaWeight() }}</td>
                                 <td>{{ $product->textCategoryName() }}</td>
-
+                                <td>{{ $product->getFaViewsCount() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }}, 'کالا')"

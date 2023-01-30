@@ -70,7 +70,7 @@
                                                         <p>{!! $post->limitedSummary(100) !!}</p>
                                                     </section>
                                                     <section class="d-flex justify-content-end align-items-center post-count my-2">
-                                                        <span><i class="fa fa-eye mx-2"></i>100</span>
+                                                        <span><i class="fa fa-eye mx-2"></i>{{ $post->getFaViewsCount() }}</span>
                                                         <span><i class="fa fa-comment mx-2"></i>{{ $post->allActivePostCommentsCount() }}</span>
                                                     </section>
                                                     <section class="d-flex align-items-center justify-content-start post-user border-top">

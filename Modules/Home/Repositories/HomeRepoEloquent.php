@@ -115,7 +115,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function mostVisitedProducts(): Collection|array
     {
-        return $this->productRepo->index()->take(10)->get();
+        return $this->productRepo->orderByViews()->take(10)->get();
     }
 
     /**
@@ -142,7 +142,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function newestProducts(): Collection|array
     {
-        return $this->productRepo->index()->take(10)->get();
+        return $this->productRepo->orderByPublishedAt()->take(10)->get();
     }
 
     /**
@@ -160,7 +160,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function posts(): Collection|array
     {
-        return $this->postRepo->home()->take(3)->get();
+        return $this->postRepo->orderByViews()->take(10)->get();
     }
 
     /**
@@ -188,7 +188,7 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function bestSellerProducts(): Collection|array
     {
-        return $this->productRepo->bestSeller(100)->take(10)->get();
+        return $this->productRepo->bestSeller(1)->take(10)->get();
     }
 
 

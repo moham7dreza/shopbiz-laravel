@@ -32,6 +32,32 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * @param $product
+     * @return mixed
+     */
+    public function relatedItems($product): mixed
+    {
+        return $product->category->products()->where('id', '!=', $product->id)->latest();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function orderByPublishedAt(): Builder
+    {
+        return $this->query()->where('status', 1)->orderBy('published_at', 'desc');
+//        return $this->query()->active()->latest()-orderBy('published_at', 'desc');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function orderByViews(): mixed
+    {
+        return $this->query()->orderByUniqueViews();
+    }
+
+    /**
      * @param $field
      * @param $value
      * @return Builder

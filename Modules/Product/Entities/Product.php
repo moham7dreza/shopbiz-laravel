@@ -4,6 +4,8 @@ namespace Modules\Product\Entities;
 
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,9 +21,9 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
 
-class Product extends Model
+class Product extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews;
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_INACTIVE = 0;
@@ -252,5 +254,23 @@ class Product extends Model
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         return convertEnglishToPersian($productPrice) . ' تومان';
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaViewsCount(): array|int|string
+    {
+        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
+    }
+
+    /**
+     * @param $query
+     * @param int $status
+     * @return mixed
+     */
+    public function scopeActive($query, int $status = self::STATUS_ACTIVE): mixed
+    {
+        return $query->where('status', $status);
     }
 }
