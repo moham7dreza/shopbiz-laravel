@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\AdminUserController;
 use Modules\User\Http\Controllers\CustomerController;
+use Modules\User\Http\Controllers\Home\Author\AuthorUserController;
 use Modules\User\Http\Controllers\Home\Profile\AddressController;
 use Modules\User\Http\Controllers\Home\Profile\FavoriteController;
 use Modules\User\Http\Controllers\Home\Profile\OrderController;
@@ -43,3 +44,4 @@ Route::get('/my-favorites/delete/post/{post}', [FavoriteController::class, 'dele
 Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
 Route::get('/my-addresses', [AddressController::class, 'index'])->name('customer.profile.my-addresses');
+Route::get('/author/{user:first_name}', [AuthorUserController::class, 'index'])->name('customer.author.bio');

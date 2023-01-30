@@ -75,14 +75,6 @@ class Post extends Model implements Viewable
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    /**
-     * @return BelongsToMany
-     */
-    public function user(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
-
     // Methods
 
     /**

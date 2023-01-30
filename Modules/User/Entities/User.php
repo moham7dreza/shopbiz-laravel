@@ -144,14 +144,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return BelongsToMany
-     */
-    public function posts(): BelongsToMany
-    {
-        return $this->belongsToMany(Post::class);
-    }
-
-    /**
      * @return HasMany
      */
     public function comments(): HasMany
@@ -162,7 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @return HasMany
      */
-    public function hasPosts(): HasMany
+    public function posts(): HasMany
     {
         return $this->HasMany(Post::class, 'author_id');
     }

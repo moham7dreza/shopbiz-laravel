@@ -39,11 +39,13 @@
                                                 </section>
                                             @endguest
                                             <section class="product-link">
-                                                <section class="product-image">
-                                                    <img class=""
-                                                         src="{{ $post->imagePath() }}"
-                                                         alt="{{$post->name }}">
-                                                </section>
+                                                <a href="{{ route('customer.post.detail', $post) }}">
+                                                    <section class="product-image">
+                                                        <img class=""
+                                                             src="{{ $post->imagePath() }}"
+                                                             alt="{{$post->name }}">
+                                                    </section>
+                                                </a>
                                                 <section class="d-flex flex-column">
                                                     <section class="product-name mb-0">
                                                         <h2>{{ $post->limitedTitle() }}</h2>
@@ -56,47 +58,61 @@
                                                         <span><i class="fa fa-eye mx-2"></i>{{ $post->getFaViewsCount() }}</span>
                                                         <span><i class="fa fa-comment mx-2"></i>{{ $post->allActivePostCommentsCount() }}</span>
                                                     </section>
+
                                                     <section
-                                                        class="d-flex align-items-center justify-content-start post-user border-top">
+                                                        class="d-flex align-items-center justify-content-start gap-1 post-user border-top">
                                                         <span><i class="fa fa-user"></i></span>
-                                                        <span>{{ $post->textAuthorName() }}</span>
+                                                        <a href="{{ route('customer.author.bio', $post->author) }}"
+                                                           class="author text-decoration-none text-dark pointer mt-2">
+                                                            <span>{{ $post->textAuthorName() }}</span>
+                                                        </a>
                                                     </section>
-                                                    <section class="d-flex align-items-center justify-content-end gap-2">
+
+                                                    <section
+                                                        class="d-flex align-items-center justify-content-end gap-2">
                                                         @auth
                                                             @if ($hasLiked)
                                                                 <section class="post-like-btn">
-                                                                    <button class="btn btn-light btn-sm text-decoration-none"
-                                                                            data-url="{{ route('customer.post.like', $post) }}"
-                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                            title="لایک نکردن">
+                                                                    <button
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.post.like', $post) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="left"
+                                                                        title="لایک نکردن">
                                                                         <i class="fa fa-heart text-danger"></i>
                                                                     </button>
                                                                 </section>
                                                             @else
                                                                 <section class="post-like-btn">
-                                                                    <button class="btn btn-light btn-sm text-decoration-none"
-                                                                            data-url="{{ route('customer.post.like', $post) }}"
-                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                            title="لایک کردن">
+                                                                    <button
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.post.like', $post) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="left"
+                                                                        title="لایک کردن">
                                                                         <i class="fa fa-heart"></i>
                                                                     </button>
                                                                 </section>
                                                             @endif
                                                             @if ($hasFavorited)
                                                                 <section class="post-favorite-btn">
-                                                                    <button class="btn btn-light btn-sm text-decoration-none"
-                                                                            data-url="{{ route('customer.post.add-to-favorite', $post) }}"
-                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                            title="حذف از علاقه مندی">
+                                                                    <button
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.post.add-to-favorite', $post) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="left"
+                                                                        title="حذف از علاقه مندی">
                                                                         <i class="fa fa-bookmark text-danger"></i>
                                                                     </button>
                                                                 </section>
                                                             @else
                                                                 <section class="post-favorite-btn">
-                                                                    <button class="btn btn-light btn-sm text-decoration-none"
-                                                                            data-url="{{ route('customer.post.add-to-favorite', $post) }}"
-                                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                            title="اضافه به علاقه مندی">
+                                                                    <button
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.post.add-to-favorite', $post) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="left"
+                                                                        title="اضافه به علاقه مندی">
                                                                         <i class="fa fa-bookmark"></i>
                                                                     </button>
                                                                 </section>

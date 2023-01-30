@@ -1200,3 +1200,8 @@ body {
     padding: 0.4rem;
     color: grey;
 }
+
+.author:hover {
+    color: #ff253a !important;
+    transition: 0.4s;
+}
