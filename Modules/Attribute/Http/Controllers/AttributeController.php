@@ -143,12 +143,15 @@ class AttributeController extends Controller
     /**
      * @param Attribute $attribute
      * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function categoryForm(Attribute $attribute, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application
+    public function categoryForm(Attribute $attribute, ProductCategoryRepoEloquentInterface $productCategoryRepo): View|Factory|Application|RedirectResponse
     {
         $categories = $productCategoryRepo->getLatestCategories()->get();
-        return view('Attribute::attribute.set-categories', compact(['attribute', 'categories']));
+        if ($categories->count() > 0) {
+            return view('Attribute::attribute.set-categories', compact(['attribute', 'categories']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای تخصیص فرم کالا ابتدا باید دسته بندی تعریف کنید.', title: 'خطا', status: 'error');
     }
 
     /**

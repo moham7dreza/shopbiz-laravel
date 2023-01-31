@@ -27,7 +27,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="#" class="btn btn-info btn-sm disabled">ایجاد نظر </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('productComments.index') }}" class="d-flex">
+                        <form action="{{ route('productComment.index') }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>

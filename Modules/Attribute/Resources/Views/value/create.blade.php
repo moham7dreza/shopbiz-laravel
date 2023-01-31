@@ -49,8 +49,8 @@
                             <section class="col-12 border-bottom mb-3"></section>
                             <section class="col-12">
                                 <div class="form-group">
-                                    <label for="">انتخاب محصول</label>
-                                    <select name="product_id" class="form-control form-control-sm">
+                                    <label for="product_id">انتخاب محصول</label>
+                                    <select name="product_id" id="product_id" class="form-control form-control-sm">
                                         <option value=""> محصول را انتخاب کنید</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
@@ -129,4 +129,14 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script>
+        var product_id = $('#product_id');
+        product_id.select2({
+            placeholder: 'لطفا محصول را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

@@ -83,32 +83,32 @@
                                     </section>
 
 
-{{--                                    @php--}}
-{{--                                        $rolePermissionsArray = $role->permissions->pluck('id')->toArray();--}}
-{{--                                    @endphp--}}
-{{--                                    @foreach ($permissions as $key => $permission)--}}
+                                    {{--                                    @php--}}
+                                    {{--                                        $rolePermissionsArray = $role->permissions->pluck('id')->toArray();--}}
+                                    {{--                                    @endphp--}}
+                                    {{--                                    @foreach ($permissions as $key => $permission)--}}
 
-{{--                                        <section class="col-md-6">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input type="checkbox" class="form-check-input" name="permissions[]"--}}
-{{--                                                       value="{{ $permission->id }}" id="{{ $permission->id }}"--}}
-{{--                                                       @if(in_array($permission->id, $rolePermissionsArray)) checked @endif/>--}}
-{{--                                                <label for="{{ $permission->id }}"--}}
-{{--                                                       class="form-check-label mr-4 mt-1">{{ $permission->description }}</label>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="mt-2">--}}
-{{--                                                @error('permissions.' . $key)--}}
-{{--                                                <span class="alert_required bg-danger text-white p-1 rounded"--}}
-{{--                                                      role="alert">--}}
-{{--                                            <strong>--}}
-{{--                                                {{ $message }}--}}
-{{--                                            </strong>--}}
-{{--                                        </span>--}}
-{{--                                                @enderror--}}
-{{--                                            </div>--}}
-{{--                                        </section>--}}
+                                    {{--                                        <section class="col-md-6">--}}
+                                    {{--                                            <div class="form-check">--}}
+                                    {{--                                                <input type="checkbox" class="form-check-input" name="permissions[]"--}}
+                                    {{--                                                       value="{{ $permission->id }}" id="{{ $permission->id }}"--}}
+                                    {{--                                                       @if(in_array($permission->id, $rolePermissionsArray)) checked @endif/>--}}
+                                    {{--                                                <label for="{{ $permission->id }}"--}}
+                                    {{--                                                       class="form-check-label mr-4 mt-1">{{ $permission->description }}</label>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                            <div class="mt-2">--}}
+                                    {{--                                                @error('permissions.' . $key)--}}
+                                    {{--                                                <span class="alert_required bg-danger text-white p-1 rounded"--}}
+                                    {{--                                                      role="alert">--}}
+                                    {{--                                            <strong>--}}
+                                    {{--                                                {{ $message }}--}}
+                                    {{--                                            </strong>--}}
+                                    {{--                                        </span>--}}
+                                    {{--                                                @enderror--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </section>--}}
 
-{{--                                    @endforeach--}}
+                                    {{--                                    @endforeach--}}
 
 
                                     <section class="col-12 border-top">
@@ -134,7 +134,7 @@
         select_roles.select2({
             placeholder: 'لطفا دسترسی ها را وارد نمایید',
             multiple: true,
-            tags: true
+            tags: false
         })
     </script>
 

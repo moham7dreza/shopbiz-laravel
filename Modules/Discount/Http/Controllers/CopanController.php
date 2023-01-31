@@ -74,7 +74,10 @@ class CopanController extends Controller
      */
     public function create(UserRepoEloquentInterface $userRepo): View|Factory|Application
     {
-        $users = $userRepo->index()->get();
+        $users = $userRepo->index()->get()->except([1]);
+        if ($users->count() < 1) {
+            ShareService::showAnimatedToast(title: 'برای تخصیص کپن تخفیف خصوصی باید ابتدا کاربر ایجاد کنید.', type: 'info');
+        }
         return view('Discount::copan.create', compact(['users']));
     }
 

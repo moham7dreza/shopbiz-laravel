@@ -38,8 +38,8 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">انتخاب کالا</label>
-                                    <select name="product_id" class="form-control form-control-sm">
+                                    <label for="product_id">انتخاب کالا</label>
+                                    <select name="product_id" id="product_id" class="form-control form-control-sm">
                                         <option value="">کالا را انتخاب کنید</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
@@ -154,5 +154,14 @@
                     altField: '#end_date'
                 })
         });
+    </script>
+
+    <script>
+        var product_id = $('#product_id');
+        product_id.select2({
+            placeholder: 'لطفا کالا را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
     </script>
 @endsection

@@ -53,12 +53,13 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="category_id" class="form-control form-control-sm">
+                                    <label for="category_id">انتخاب دسته</label>
+                                    <select name="category_id" class="form-control form-control-sm" id="category_id">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($postCategories as $postCategory)
                                             <option value="{{ $postCategory->id }}"
-                                                    @if(old('category_id') == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
+                                                    @if(old('category_id') == $postCategory->id) selected @endif>
+                                                {{ $postCategory->name }}</option>
                                         @endforeach
 
                                     </select>
@@ -218,6 +219,15 @@
                 altField: '#published_at'
             })
         });
+    </script>
+
+    <script>
+        var categoryId = $('#category_id');
+        categoryId.select2({
+            placeholder: 'لطفا دسته بندی را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
     </script>
 
     @include('Share::functions.tags')

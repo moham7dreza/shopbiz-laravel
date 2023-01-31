@@ -74,14 +74,19 @@ class ProductController extends Controller
      *
      * @param ProductCategoryRepoEloquentInterface $productCategoryRepo
      * @param BrandRepoEloquentInterface $brandRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo,
-                           BrandRepoEloquentInterface           $brandRepo): View|Factory|Application
+                           BrandRepoEloquentInterface           $brandRepo): View|Factory|Application|RedirectResponse
     {
         $productCategories = $productCategoryRepo->getLatestCategories()->get();
         $brands = $brandRepo->index()->get();
-        return view('Product::admin.create', compact(['productCategories', 'brands']));
+        $findZero = null;
+        if ($productCategories->count() > 0 && $brands->count() > 0) {
+            return view('Product::admin.create', compact(['productCategories', 'brands']));
+        }
+        $findZero = $productCategories->count() > 0 ? 'برند' : 'دسته بندی';
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد محصول ابتدا باید ' . $findZero . ' تعریف کنید.', title: 'خطا', status: 'error');
     }
 
     /**

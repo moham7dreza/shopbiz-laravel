@@ -76,9 +76,9 @@ class AttributeValueController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Attribute $attribute
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function create(Attribute $attribute): View|Factory|Application
+    public function create(Attribute $attribute): View|Factory|Application|RedirectResponse
     {
         $productsCollection = $attribute->categories()->with('products')->get()->pluck('products');
         $products = collect();
@@ -87,7 +87,10 @@ class AttributeValueController extends Controller
                 $products->push($product);
             }
         }
-        return view('Attribute::value.create', compact(['attribute', 'products']));
+        if ($products->count() > 0) {
+            return view('Attribute::value.create', compact(['attribute', 'products']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد مقدار فرم کالا ابتدا باید محصول تعریف کنید.', title: 'خطا', status: 'error');
     }
 
     /**

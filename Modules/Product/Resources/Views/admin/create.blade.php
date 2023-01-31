@@ -54,8 +54,8 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="category_id" class="form-control form-control-sm">
+                                    <label for="category_id">انتخاب دسته</label>
+                                    <select name="category_id" id="category_id" class="form-control form-control-sm">
                                         <option value="">دسته را انتخاب کنید</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"
@@ -76,8 +76,8 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">انتخاب برند</label>
-                                    <select name="brand_id" class="form-control form-control-sm">
+                                    <label for="brand_id">انتخاب برند</label>
+                                    <select name="brand_id" id="brand_id" class="form-control form-control-sm">
                                         <option value="">برند را انتخاب کنید</option>
                                         @foreach ($brands as $brand)
                                             <option value="{{ $brand->id }}"
@@ -355,6 +355,24 @@
                 var ele = $(this).parent().prev().clone(true);
                 $(this).before(ele);
             })
+        })
+    </script>
+
+    <script>
+        var category_id = $('#category_id');
+        category_id.select2({
+            placeholder: 'لطفا دسته بندی را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
+
+    <script>
+        var brand_id = $('#brand_id');
+        brand_id.select2({
+            placeholder: 'لطفا برند را انتخاب نمایید',
+            multiple: false,
+            tags: false
         })
     </script>
 

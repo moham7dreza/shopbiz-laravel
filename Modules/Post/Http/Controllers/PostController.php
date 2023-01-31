@@ -82,12 +82,15 @@ class PostController extends Controller
      * Show the form for creating a new resource.
      *
      * @param PostCategoryRepoEloquentInterface $postCategoryRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function create(PostCategoryRepoEloquentInterface $postCategoryRepo): View|Factory|Application
+    public function create(PostCategoryRepoEloquentInterface $postCategoryRepo): View|Factory|Application|RedirectResponse
     {
         $postCategories = $postCategoryRepo->getLatestCategories()->get();
-        return view('Post::create', compact(['postCategories']));
+        if ($postCategories->count() > 0) {
+            return view('Post::create', compact(['postCategories']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد پست ابتدا باید دسته بندی تعریف کنید.', title: 'خطا', status: 'error');
     }
 
     /**

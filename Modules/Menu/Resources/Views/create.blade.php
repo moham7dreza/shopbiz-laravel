@@ -51,16 +51,13 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">منو والد</label>
-                                    <select name="parent_id" class="form-control form-control-sm">
+                                    <label for="parent_id">منو والد</label>
+                                    <select name="parent_id" id="parent_id" class="form-control form-control-sm">
                                         <option value="">منوی اصلی</option>
                                         @foreach ($menus as $menu)
-
                                             <option value="{{ $menu->id }}"
                                                     @if(old('parent_id') == $menu->id) selected @endif>{{ $menu->name }}</option>
-
                                         @endforeach
-
                                     </select>
                                 </div>
                                 @error('parent_id')
@@ -116,4 +113,14 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script>
+        var parent_id = $('#parent_id');
+        parent_id.select2({
+            // placeholder: 'لطفا منو را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

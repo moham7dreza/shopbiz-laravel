@@ -29,7 +29,7 @@
                     <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
                         فایل اطلاعیه ایمیلی</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('email-file.index') }}" class="d-flex">
+                        <form action="{{ route('email-file.index', $email->id) }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>

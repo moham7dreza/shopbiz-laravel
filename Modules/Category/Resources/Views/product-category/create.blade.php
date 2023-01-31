@@ -52,16 +52,13 @@
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">منو والد</label>
-                                    <select name="parent_id" class="form-control form-control-sm">
-                                        <option value="">منوی اصلی</option>
+                                    <label for="parent_id">دسته والد</label>
+                                    <select name="parent_id" class="form-control form-control-sm" id="parent_id">
+                                        <option value="" selected>دسته ی اصلی</option>
                                         @foreach ($categories as $category)
-
                                             <option value="{{ $category->id }}"
                                                     @if(old('parent_id') == $category->id) selected @endif>{{ $category->name }}</option>
-
                                         @endforeach
-
                                     </select>
                                 </div>
                                 @error('parent_id')
@@ -179,6 +176,15 @@
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.replace('description');
+    </script>
+
+    <script>
+        var categoryId = $('#parent_id');
+        categoryId.select2({
+            // placeholder: 'لطفا دسته بندی را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
     </script>
 
     @include('Share::functions.tags')

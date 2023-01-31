@@ -61,15 +61,13 @@
                             </section>
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="">کاربران</label>
+                                    <label for="users">کاربران</label>
                                     <select name="user_id" id="users" class="form-control form-control-sm" disabled>
+                                        <option value="" selected>کاربر را انتخاب کنید</option>
                                         @foreach ($users as $user)
-
                                             <option @if(old('user_id') == $user->id) selected
                                                     @endif value="{{ $user->id }}">{{ $user->fullName }}</option>
-
                                         @endforeach
-
                                     </select>
                                 </div>
                                 @error('user_id')
@@ -222,9 +220,16 @@
                 $('#users').attr('disabled', 'disabled');
 
             }
-
         });
+    </script>
 
+    <script>
+        var users = $('#users');
+        users.select2({
+            placeholder: 'لطفا کاربر را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
     </script>
 
 @endsection

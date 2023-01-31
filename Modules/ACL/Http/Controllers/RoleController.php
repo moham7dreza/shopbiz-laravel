@@ -144,13 +144,15 @@ class RoleController extends Controller
 
     /**
      * @param Role $role
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function permissionForm(Role $role): Factory|View|Application
+    public function permissionForm(Role $role): Factory|View|Application|RedirectResponse
     {
         $permissions = $this->repo->getAllPermissions();
-        return view('ACL::role.set-permission', compact(['role', 'permissions']));
-
+        if ($permissions->count() > 0) {
+            return view('ACL::role.set-permission', compact(['role', 'permissions']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای تخصیص نقش ابتدا باید سطوح دسترسی تعریف کنید.', title: 'خطا', status: 'error');
     }
 
 

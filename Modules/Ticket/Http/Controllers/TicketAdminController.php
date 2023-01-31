@@ -60,7 +60,6 @@ class TicketAdminController extends Controller
         } else {
             $admins = $userRepo->adminUsers()->paginate(10);
         }
-
         return view('Ticket::admin.index', compact(['admins']));
     }
 

@@ -106,7 +106,7 @@
         select_categories.select2({
             placeholder: 'لطفا دسته بندی ها را وارد نمایید',
             multiple: true,
-            tags: true
+            tags: false
         })
     </script>
 

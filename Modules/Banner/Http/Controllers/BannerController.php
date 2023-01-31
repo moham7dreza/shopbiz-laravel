@@ -75,12 +75,15 @@ class BannerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function create(): View|Factory|Application
+    public function create(): View|Factory|Application|RedirectResponse
     {
         $positions = $this->repo->positions();
-        return view('Banner::create', compact(['positions']));
+        if (count($positions) > 0) {
+            return view('Banner::create', compact(['positions']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد بنر ابتدا باید مکان بنرها تعریف شوند.', title: 'خطا', status: 'error');
     }
 
     /**

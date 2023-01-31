@@ -72,13 +72,15 @@ class AmazingSaleController extends Controller
 
     /**
      * @param ProductRepoEloquentInterface $productRepo
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function create(ProductRepoEloquentInterface $productRepo): View|Factory|Application
+    public function create(ProductRepoEloquentInterface $productRepo): View|Factory|Application|RedirectResponse
     {
         $products = $productRepo->index()->get();
-        $products = $this->amazingSaleDiscountService->findInActiveAmazingSalesProducts($products);
-        return view('Discount::amazingSale.create', compact(['products']));
+        if ($products->count() > 0) {
+            return view('Discount::amazingSale.create', compact(['products']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد تخفیف ابتدا باید محصول تعریف کنید.', title: 'خطا', status: 'error');
     }
 
     /**

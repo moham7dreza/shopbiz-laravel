@@ -100,8 +100,8 @@
 
                             <section class="col-12">
                                 <div class="form-group">
-                                    <label for="">موقعیت</label>
-                                    <select name="position" class="form-control form-control-sm">
+                                    <label for="position">موقعیت</label>
+                                    <select name="position" id="position" class="form-control form-control-sm">
                                         @foreach ($positions as $key => $value)
                                             <option value="{{ $key }}"
                                                     @if(old('position') == $key) selected @endif>{{ $value }}</option>
@@ -129,4 +129,14 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script>
+        var position = $('#position');
+        position.select2({
+            // placeholder: 'لطفا منو را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

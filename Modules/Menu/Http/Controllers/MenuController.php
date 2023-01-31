@@ -53,20 +53,9 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
-     */
-    public function index(): View|Factory|Application
-    {
-        $menus = $this->repo->index()->paginate(10);
-        return view('Menu::index', compact(['menus']));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
      * @return Application|Factory|View|RedirectResponse
      */
-    public function create(): View|Factory|Application|RedirectResponse
+    public function index(): View|Factory|Application|RedirectResponse
     {
         if (isset(request()->search)) {
             $menus = $this->repo->search(request()->search)->paginate(10);
@@ -76,9 +65,19 @@ class MenuController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $menus = $this->repo->getParentMenus()->get();
+            $menus = $this->repo->index()->paginate(10);
         }
+        return view('Menu::index', compact(['menus']));
+    }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function create(): View|Factory|Application
+    {
+        $menus = $this->repo->getParentMenus()->get();
         return view('Menu::create', compact(['menus']));
     }
 
