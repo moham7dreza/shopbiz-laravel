@@ -165,11 +165,11 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
 
     /**
      *         // محصولات فروش ویژه
-     * @return Builder[]|Collection
+     * @return \Illuminate\Support\Collection
      */
-    public function productsWithActiveAmazingSales(): Collection|array
+    public function productsWithActiveAmazingSales(): \Illuminate\Support\Collection
     {
-        return $this->amazingSaleDiscountRepo->bestOffers(1)->take(10)->get();
+        return $this->amazingSaleDiscountRepo->bestOffers(1)->with('product')->take(10)->get()->pluck('product');
     }
 
     /**

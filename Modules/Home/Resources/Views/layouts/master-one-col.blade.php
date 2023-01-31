@@ -10,6 +10,8 @@
 
 <main id="main-body-one-col" class="main-body">
 
+    @include('Share::loaders.preloader')
+
     @yield('content')
 
 </main>

@@ -130,7 +130,7 @@
                                     @if($guarantees->count() != 0)
                                         <p class="font-weight-bold"><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
                                             گارانتی :
-                                            <select name="guarantee" id="guarantee" class="p-1" class="guarantee">
+                                            <select name="guarantee" id="guarantee" class="guarantee p-1">
                                                 @foreach ($guarantees as $key => $guarantee)
                                                     <option value="{{ $guarantee->id }}"
                                                             data-guarantee-price={{ $guarantee->price_increase }}  @if($key == 0) selected @endif>{{ $guarantee->name }}</option>

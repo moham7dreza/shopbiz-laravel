@@ -9,40 +9,55 @@
 
 @section('content')
 
-    {{--    @include('Home::partials.preloader')--}}
+    @php
+        $productIds = $repo->userCartItemsProductIds();
+    @endphp
 
-    @include('Home::partials.slide-show-and-top-banners')
+    @include('Home::partials.banners.slide-show-and-top-banners')
 
-    @include('Home::partials.amazing-sales-products')
+    @include('Share::wrapper.product-lazy-load', [
+        'title' => 'محصولات فروش ویژه',
+        'products' => $repo->productsWithActiveAmazingSales(),
+        'productIds' => $productIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=productsWithActiveAmazingSales')
+    ])
 
-    @include('Home::partials.four-col-banners')
+    @include('Home::partials.banners.four-col-banners')
 
-    @include('Home::partials.most-visited-products')
+    @include('Share::wrapper.product-lazy-load-with-reactions-and-counters', [
+        'title' => 'پربازدیدترین محصولات',
+        'products' => $repo->mostVisitedProducts(),
+        'productIds' => $productIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=mostVisitedProducts')
+    ])
 
-    @include('Home::partials.middle-banners')
+    @include('Home::partials.banners.middle-banners')
 
-    @include('Home::partials.offered-products')
+    @include('Share::wrapper.product-lazy-load', [
+        'title' => 'محصولات پیشنهادی',
+        'products' => $repo->offerProducts(),
+        'productIds' => $productIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=offerProducts')
+    ])
 
-    @include('Home::partials.bottom-banner')
+    @include('Home::partials.banners.bottom-banner')
 
-    @include('Home::partials.newest-products')
+    @include('Share::wrapper.product-lazy-load', [
+        'title' => 'جدیدترین محصولات',
+        'products' => $repo->newestProducts(),
+        'productIds' => $productIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=newestProducts')
+    ])
 
     @include('Home::partials.vip-posts')
 
     @include('Home::partials.brands')
 
-    @include('Home::partials.brand-banner')
+    {{--    @include('Home::partials.banners.brand-banner')--}}
 
-    {{--    @include('Home.partials.toast')--}}
 @endsection
 
 @section('script')
-
-    <script>
-        $(document).ready(function () {
-            $('.preloader').delay(250).fadeOut('slow');
-        });
-    </script>
 
     @include('Share::ajax-functions.product-add-to-favorite')
     @include('Share::ajax-functions.post-add-to-favorite')

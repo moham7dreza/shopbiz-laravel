@@ -9,4 +9,8 @@
 <script src="{{ asset('admin-assets/sweetalert/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('customer-assets/js/main.js') }}"></script>
 
-
+<script>
+    $(document).ready(function () {
+        $('.preloader').delay(100).fadeOut('fast');
+    });
+</script>
