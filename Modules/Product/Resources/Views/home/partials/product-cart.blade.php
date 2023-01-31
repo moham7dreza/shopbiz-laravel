@@ -104,24 +104,23 @@
                                     @endphp
 
                                     @if($colors->count() != 0)
-                                        <p><span>رنگ انتخاب شده : <span
+                                        <p><span>رنگ انتخاب شده : <span class="font-weight-bold"
                                                     id="selected_color_name"> {{ $colors->first()->color_name }}</span></span>
                                         </p>
                                         <p>
                                             @foreach ($colors as $key => $color)
-
                                                 <label for="{{ 'color_' . $color->id }}"
                                                        style="background-color: {{ $color->color ?? '#ffffff' }};"
                                                        class="product-info-colors me-1" data-bs-toggle="tooltip"
                                                        data-bs-placement="bottom"
-                                                       title="{{ $color->color_name }}"></label>
+                                                       title="{{ $color->color_name }}">
 
+                                                </label>
                                                 <input class="d-none" type="radio" name="color"
                                                        id="{{ 'color_' . $color->id }}" value="{{ $color->id }}"
                                                        data-color-name="{{ $color->color_name }}"
                                                        data-color-price={{ $color->price_increase }} @if($key == 0) checked @endif>
                                             @endforeach
-
                                         </p>
                                     @endif
 
@@ -129,22 +128,19 @@
                                         $guarantees = $product->guarantees()->get();
                                     @endphp
                                     @if($guarantees->count() != 0)
-
-                                        <p><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
+                                        <p class="font-weight-bold"><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
                                             گارانتی :
-                                            <select name="guarantee" id="guarantee" class="p-1">
+                                            <select name="guarantee" id="guarantee" class="p-1" class="guarantee">
                                                 @foreach ($guarantees as $key => $guarantee)
                                                     <option value="{{ $guarantee->id }}"
                                                             data-guarantee-price={{ $guarantee->price_increase }}  @if($key == 0) selected @endif>{{ $guarantee->name }}</option>
                                                 @endforeach
-
                                             </select>
                                         </p>
-
                                     @endif
 
 
-                                    <p>
+                                    <p class="font-weight-bold">
                                         @if($product->marketable_number > 0)
                                             <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span>
                                         @else
@@ -153,7 +149,7 @@
                                     </p>
 
                                     <section>
-                                        <section class="cart-product-number d-inline-block ">
+                                        <section class="cart-product-number d-inline-block">
                                             <button class="cart-number cart-number-down" type="button">-
                                             </button>
                                             <input type="number" id="number" name="number" min="1" max="5"
@@ -161,6 +157,19 @@
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
                                     </section>
+                                    @if($product->tags)
+                                        <section class="d-flex flex-column mt-4 tags">
+                                            <section class="d-flex gap-2">
+                                                <i class="fa fa-tags"></i>
+                                                <span class="font-weight-bold"> برچسب ها :</span>
+                                            </section>
+                                            <section class="d-flex flex-wrap align-items-center gap-1 mt-2">
+                                                @foreach(explode(',', $product->tags) as $tag)
+                                                    <a href="{{ route('customer.market.products.offers', 'tag='.$tag) }}" class="product-tags">{{ $tag }}</a>
+                                                @endforeach
+                                            </section>
+                                        </section>
+                                    @endif
                                     <span class="d-flex align-items-center justify-content-end">
 
                                     @guest
@@ -175,7 +184,8 @@
                                         @endguest
                                         @auth
                                             @if ($hasFavorited)
-                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                <section class="product-add-to-favorite position-relative"
+                                                         style="top: 0">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -184,7 +194,8 @@
                                                         </button>
                                                     </section>
                                             @else
-                                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                <section class="product-add-to-favorite position-relative"
+                                                         style="top: 0">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -194,7 +205,8 @@
                                                     </section>
                                             @endif
                                             @if ($hasLiked)
-                                                    <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                <section class="product-add-to-favorite position-relative"
+                                                         style="top: 0">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -203,7 +215,8 @@
                                                         </button>
                                                     </section>
                                             @else
-                                                    <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                <section class="product-add-to-favorite position-relative"
+                                                         style="top: 0">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -212,10 +225,11 @@
                                                         </button>
                                                     </section>
                                             @endif
-                                                <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                        <a href="#comment-add-button" class="btn btn-light btn-sm text-decoration-none"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="افزودن نظر">
+                                            <section class="product-add-to-favorite position-relative" style="top: 0">
+                                                        <a href="#comment-add-button"
+                                                           class="btn btn-light btn-sm text-decoration-none"
+                                                           data-bs-toggle="tooltip" data-bs-placement="left"
+                                                           title="افزودن نظر">
                                                             <i class="fa fa-comment"></i>
                                                         </a>
                                                     </section>

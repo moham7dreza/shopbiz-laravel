@@ -28,17 +28,22 @@
         <section class="sort">
             <span>مرتب سازی بر اساس : </span>
             <a href="{{ route('customer.market.products.offers', 'type=newest') }}"
-               class="btn {{ $type == 'newest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">جدیدترین</a>
+               class="btn {{ $type == 'newest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
+               type="button">جدیدترین</a>
             <a href="{{ route('customer.market.products.offers', 'type=popular') }}"
-               class="btn {{ $type == 'popular' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">محبوب ترین</a>
+               class="btn {{ $type == 'popular' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">محبوب
+                ترین</a>
             <a href="{{ route('customer.market.products.offers', 'type=expensive') }}"
-               class="btn {{ $type == 'expensive' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">گران ترین</a>
+               class="btn {{ $type == 'expensive' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">گران
+                ترین</a>
             <a href="{{ route('customer.market.products.offers', 'type=cheapest') }}"
-               class="btn {{ $type == 'cheapest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">ارزان ترین</a>
+               class="btn {{ $type == 'cheapest' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">ارزان
+                ترین</a>
             <a href="{{ route('customer.market.products.offers', 'type=mostVisited') }}"
                class="btn {{ $type == 'mostVisited' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پربازدیدترین</a>
             <a href="{{ route('customer.market.products.offers', 'type=bestSales') }}"
-               class="btn {{ $type == 'bestSales' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پرفروش ترین</a>
+               class="btn {{ $type == 'bestSales' ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0" type="button">پرفروش
+                ترین</a>
             <a href="{{ route('customer.market.products.offers') }}"
                class="btn btn-light btn-sm px-1 py-0" type="button"><i class="fa fa-times mx-2 my-1 text-danger"></i>حذف
                 فیلتر</a>
@@ -62,9 +67,11 @@
                         @auth
                             <section class="product-add-to-cart">
                                 @php
-                                    $defaultSelectedColor = !empty($product->colors[0]) ? $product->colors[0]->id : null;
-                                    $defaultSelectedGuarantee = !empty($product->guarantees[0]) ? $product->guarantees[0]->id : null;
-                                    $productIsInCart = in_array($product->id, $userCartItemsProductIds);
+                                    $hasFavorited = auth()->user()->hasFavorited($product);
+                                        $hasLiked = auth()->user()->hasLiked($product);
+                                        $defaultSelectedColor = !empty($product->colors[0]) ? $product->colors[0]->id : null;
+                                        $defaultSelectedGuarantee = !empty($product->guarantees[0]) ? $product->guarantees[0]->id : null;
+                                        $productIsInCart = in_array($product->id, $userCartItemsProductIds);
                                 @endphp
                                 <form
                                     action="{{ route('customer.sales-process.add-to-cart', $product) }}"
@@ -83,12 +90,12 @@
                                     </button>
                                 </form>
                             </section>
-                            @if ($product->user->contains(auth()->user()->id))
+                            @if ($hasFavorited)
                                 <section class="product-add-to-favorite">
                                     <button class="btn btn-light btn-sm text-decoration-none"
                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
-                                        <i class="fa fa-heart text-danger"></i>
+                                        <i class="fa fa-bookmark text-danger"></i>
                                     </button>
                                 </section>
                             @else
@@ -97,7 +104,7 @@
                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                             title="اضافه به علاقه مندی">
-                                        <i class="fa fa-heart"></i>
+                                        <i class="fa fa-bookmark"></i>
                                     </button>
                                 </section>
                             @endif

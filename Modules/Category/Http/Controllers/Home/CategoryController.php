@@ -156,8 +156,8 @@ class CategoryController extends Controller
                 request()->price_from,
                 request()->price_to
             )->paginate(9);
-        } elseif (isset(request()->search)) {
-            $words = request()->search;
+        } elseif (isset(request()->search) || isset(request()->tag)) {
+            $words = request()->search ?? request()->tag;
             // product
             $productIds = $this->productRepo->search($words)->pluck('id');
             // brand

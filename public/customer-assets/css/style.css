@@ -1210,3 +1210,22 @@ body {
     border: none;
     color: gray;
 }
+.product-tags {
+    background-color: #f1f5f8;
+    margin: 6px 5px;
+    font-size: 13px;
+    color: #1e2f38;
+    padding: 5px 6px;
+    line-height: 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0rem 0rem 0.2rem 0.1rem rgb(0 0 0 / 10%);
+}
+
+.guarantee {
+    border-radius: 12px;
+    margin: 0 10px;
+}
+ .font-weight-bold {
+     font-weight: bold;
+ }
