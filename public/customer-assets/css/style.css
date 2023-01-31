@@ -1205,3 +1205,8 @@ body {
     color: #ff253a !important;
     transition: 0.4s;
 }
+#search-btn {
+    background-color: transparent;
+    border: none;
+    color: gray;
+}

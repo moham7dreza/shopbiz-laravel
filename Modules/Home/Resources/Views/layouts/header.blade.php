@@ -20,8 +20,17 @@
                     <section class="search-box">
                         <section class="search-textbox">
                             <span><i class="fa fa-search"></i></span>
-                            <input id="search" type="text" class="" placeholder="جستجو ..." autocomplete="off">
-                            {{--                                   onkeyup="liveSearch(this.value)">--}}
+                            <form action="{{ route('customer.market.products.offers') }}" class="w-100 d-flex">
+                                {{--                                <section class="d-flex">--}}
+                                <input name="search" id="search" type="text" class="" placeholder="جستجو ..."
+                                       autocomplete="off">
+                                {{--                                   onkeyup="liveSearch(this.value)">--}}
+                                <button id="search-btn" type="submit" class="btn btn-light btn-sm"
+                                        data-bs-toggle="tooltip" data-bs-placement="left" title="شروع جست و جو">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                {{--                                </section>--}}
+                            </form>
                         </section>
                         <section class="search-result visually-hidden" id="search-result">
                             <section id="product-category-search-result" class="d-none">
