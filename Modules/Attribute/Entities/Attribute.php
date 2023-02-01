@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Category\Entities\ProductCategory;
+use Modules\Share\Traits\HasDefaultStatus;
 
 class Attribute extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasDefaultStatus;
 
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'type', 'unit'];
+    protected $fillable = ['name', 'type', 'unit', 'status'];
 
     // Relations
 
@@ -35,5 +36,4 @@ class Attribute extends Model
     {
         return $this->hasMany(AttributeValue::class);
     }
-
 }

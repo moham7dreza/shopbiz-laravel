@@ -16,7 +16,6 @@ class Ticket extends Model
 {
     use HasFactory, SoftDeletes, HasFaDate;
 
-
     public const STATUS_OPEN_TICKET = 1;
     public const STATUS_CLOSE_TICKET = 0;
     public const STATUS_SEEN_TICKET = 1;

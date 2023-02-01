@@ -54,7 +54,7 @@
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $single_sms->limitedTitle() }}</td>
                                 <td>{{ $single_sms->limitedBody() }}</td>
-                                <td>{{ $single_sms->publishFaDate() }}</td>
+                                <td>{{ $single_sms->publishFaDateWithTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $single_sms->id }}" onchange="changeStatus({{ $single_sms->id }}, 'پیامک')"

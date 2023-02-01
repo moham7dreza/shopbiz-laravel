@@ -74,7 +74,6 @@ class PostController extends Controller
         } else {
             $posts = $this->repo->index()->paginate(10);
         }
-
         return view('Post::index', compact(['posts']));
     }
 

@@ -45,12 +45,4 @@ class Email extends Model
     {
         return Str::limit($this->body, 50);
     }
-
-    /**
-     * @return mixed|string
-     */
-    public function publishFaDate(): mixed
-    {
-        return jalaliDate($this->published_at, 'H:i:s | Y-m-d') ?? $this->published_at ?? '-';
-    }
 }

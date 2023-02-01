@@ -5,19 +5,12 @@ namespace Modules\Delivery\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 class Delivery extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string

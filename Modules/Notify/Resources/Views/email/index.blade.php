@@ -54,7 +54,7 @@
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $email->limitedSubject() }}</td>
                                 <td>{!! $email->limitedBody() !!}</td>
-                                <td>{{ $email->publishFaDate() }}</td>
+                                <td>{{ $email->publishFaDateWithTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }}, 'ایمیل')"

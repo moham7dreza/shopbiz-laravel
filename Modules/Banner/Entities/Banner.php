@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 class Banner extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     public const POSITION_SLIDE_SHOW = 0;
     public const POSITION_INSIDE_SLIDE_SHOW = 1;
@@ -32,11 +30,6 @@ class Banner extends Model
         , self::POSITION_BIG_BRANDS_BANNER
         , self::POSITION_4_MIDDLE_BANNERS
     ];
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
     /**
      * @var string[]
@@ -83,24 +76,6 @@ class Banner extends Model
     public function limitedTitle(): string
     {
         return Str::limit($this->title, 50);
-    }
-
-    /**
-     * @return string
-     */
-    public function cssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
-    }
-
-    /**
-     * @return string
-     */
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace Modules\Setting\Providers;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Setting\Database\Seeders\SettingSeeder;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Policies\SettingPolicy;
 use Modules\Setting\Repositories\SettingRepoEloquent;
@@ -69,6 +71,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadPolicyFiles();
         $this->bindServices();
         $this->bindRepository();
+        $this->setDatabaseSeederWithSettingSeeder();
     }
 
     /**
@@ -142,7 +145,7 @@ class SettingServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindRepository()
+    private function bindRepository(): void
     {
         $this->app->bind(SettingRepoEloquentInterface::class, SettingRepoEloquent::class);
     }
@@ -150,8 +153,18 @@ class SettingServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    private function bindServices()
+    private function bindServices(): void
     {
         $this->app->bind(SettingServiceInterface::class, SettingService::class);
+    }
+
+    /**
+     * Set database seeder with permission seeder.
+     *
+     * @return void
+     */
+    private function setDatabaseSeederWithSettingSeeder(): void
+    {
+        DatabaseSeeder::$seeders[] = SettingSeeder::class;
     }
 }

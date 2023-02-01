@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Category\Entities\PostCategory;
 use Modules\Share\Traits\HasComment;
+use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
@@ -21,20 +22,14 @@ use Overtrue\LaravelLike\Traits\Likeable;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews, Likeable, Favoriteable;
+    use HasFactory, SoftDeletes, Sluggable,
+        HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
+        InteractsWithViews, Likeable, Favoriteable;
 
-    public const STATUS_ACTIVE = 1;
     public const STATUS_PENDING = 2;
-    public const STATUS_INACTIVE = 0;
 
     public const IS_COMMENTABLE = 1;
     public const IS_NOT_COMMENTABLE = 0;
-
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_PENDING, self::STATUS_INACTIVE];
 
     /**
      * @return array[]
@@ -77,6 +72,7 @@ class Post extends Model implements Viewable
 
     // Methods
 
+    // paths
     /**
      * @return string
      */
@@ -97,20 +93,12 @@ class Post extends Model implements Viewable
     /**
      * @return string
      */
-    public function cssStatus(): string
+    public function getCategoryPath(): string
     {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
+        return $this->category->path();
     }
 
-    /**
-     * @return string
-     */
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
+    // text property
 
     /**
      * @return string
@@ -148,14 +136,6 @@ class Post extends Model implements Viewable
     /**
      * @return string
      */
-    public function getCategoryPath(): string
-    {
-        return $this->category->path();
-    }
-
-    /**
-     * @return string
-     */
     public function textAuthorName(): string
     {
         return $this->author->fullName ?? 'نویسنده ندارد.';
@@ -188,25 +168,9 @@ class Post extends Model implements Viewable
     /**
      * @return int
      */
-    public function active(): int
-    {
-        return Post::STATUS_ACTIVE;
-    }
-
-    /**
-     * @return int
-     */
-    public function inActive(): int
-    {
-        return Post::STATUS_INACTIVE;
-    }
-
-    /**
-     * @return int
-     */
     public function commentable(): int
     {
-        return Post::IS_COMMENTABLE;
+        return self::IS_COMMENTABLE;
     }
 
     /**
@@ -214,7 +178,7 @@ class Post extends Model implements Viewable
      */
     public function isNotCommentable(): int
     {
-        return Post::IS_COMMENTABLE;
+        return self::IS_COMMENTABLE;
     }
 
     /**
@@ -223,23 +187,5 @@ class Post extends Model implements Viewable
     public function tagLessSummary(): mixed
     {
         return strip_tags($this->summary) ?? $this->summary ?? '-';
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function getFaViewsCount(): array|int|string
-    {
-        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
-    }
-
-    /**
-     * @param $query
-     * @param int $status
-     * @return mixed
-     */
-    public function scopeActive($query, int $status = self::STATUS_ACTIVE): mixed
-    {
-        return $query->where('status', $status);
     }
 }

@@ -38,11 +38,12 @@ trait HasFaDate
 
     /**
      * @param $date
+     * @param string|null $format
      * @return string
      */
-    public function getFaDate($date): string
+    public function getFaDate($date, string $format = null): string
     {
-        return jalaliDate($date) ?? $date;
+        return jalaliDate($date, $format) ?? $date ?? '-';
     }
 
     /**
@@ -52,5 +53,29 @@ trait HasFaDate
     public function getDiffDate($date): string
     {
         return $date->diffForHumans() ?? $this->getFaDate($date);
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getFaStartDate(): mixed
+    {
+        return $this->getFaDate($this->start_date);
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getFaEndDate(): mixed
+    {
+        return $this->getFaDate($this->end_date);
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function publishFaDateWithTime(): mixed
+    {
+        return $this->getFaDate($this->published_at, 'H:i:s | Y-m-d');
     }
 }

@@ -11,24 +11,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Attribute\Entities\Attribute;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 
 class ProductCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
 
     public const SHOW_IN_MENU = 1;
     public const SHOW_NOT_IN_MENU = 0;
-
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
     /**
      * @return array[]
@@ -113,29 +105,11 @@ class ProductCategory extends Model
     }
 
     /**
-     * @return string
+     * @return array|int|string
      */
-    public function textStatus(): string
+    public function productsCount(): array|int|string
     {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
-
-    /**
-     * @return string
-     */
-    public function cssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
-    }
-
-    /**
-     * @return int
-     */
-    public function productsCount(): int
-    {
-        return $this->products->count() ?? 0;
+        return convertEnglishToPersian($this->products->count()) ?? 0;
     }
 
 }

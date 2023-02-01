@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 class CommonDiscount extends Model
@@ -15,15 +16,7 @@ class CommonDiscount extends Model
      */
     protected $table = 'common_discount';
 
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -61,21 +54,4 @@ class CommonDiscount extends Model
     {
         return priceFormat($this->minimal_order_amount) . ' تومان ' ?? $this->minimal_order_amount . ' تومان ';
     }
-
-    /**
-     * @return mixed|string
-     */
-    public function getFaStartDate(): mixed
-    {
-        return jalaliDate($this->start_date) ?? $this->start_date;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getFaEndDate(): mixed
-    {
-        return jalaliDate($this->end_date) ?? $this->end_date;
-    }
-
 }

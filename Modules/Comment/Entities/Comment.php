@@ -9,15 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
 
 class Comment extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
     public const STATUS_NEW = 2;
 
     public const APPROVED = 1;
@@ -25,11 +23,6 @@ class Comment extends Model
 
     public const SEEN = 1;
     public const UNSEEN = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_NEW];
 
     /**
      * @var string[]
@@ -54,7 +47,6 @@ class Comment extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-
     /**
      * @return BelongsTo
      */
@@ -72,34 +64,6 @@ class Comment extends Model
     }
 
     //methods
-
-    /**
-     * @return string
-     */
-    public function cssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
-    }
-
-    /**
-     * @return string
-     */
-    public function btnCssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'danger';
-        else if ($this->status === self::STATUS_INACTIVE) return 'success';
-        else return 'warning';
-    }
-
-    /**
-     * @return string
-     */
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
 
     /**
      * @return string
@@ -202,11 +166,11 @@ class Comment extends Model
     }
 
     /**
-     * @return int
+     * @return array|int|string
      */
-    public function answersCount(): int
+    public function answersCount(): array|int|string
     {
-        return $this->answers->count() ?? 0;
+        return convertEnglishToPersian($this->answers->count()) ?? 0;
     }
 
     /**

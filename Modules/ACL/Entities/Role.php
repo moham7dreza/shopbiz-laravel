@@ -6,37 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\ACL\Traits\SystemRolesTrait;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\User\Entities\User;
 use Spatie\Permission\Traits\HasPermissions;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasPermissions;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait;
 
     /**
      * @var string[]
      */
     protected $fillable = ['name', 'description', 'status'];
-
-
-    // access everywhere
-    //******************************************************************************************************************
-//    public const ROLE_SUPER_ADMIN = ['name' => 'role-super-admin', 'description' => 'مدیر ارشد سیستم - دسترسی نامحدود'];
-    public const ROLE_SUPER_ADMIN = 'role super admin';
-
-    /**
-     * @var array|array[]
-     */
-    public static array $roles = [ self::ROLE_SUPER_ADMIN ];
 
     // Relations
 
@@ -59,19 +42,19 @@ class Role extends \Spatie\Permission\Models\Role
     // methods
 
     /**
-     * @return int
+     * @return array|int|string
      */
-    public function usersCount(): int
+    public function usersCount(): array|int|string
     {
-        return $this->users->count() ?? 0;
+        return convertEnglishToPersian($this->users->count()) ?? 0;
     }
 
     /**
-     * @return int
+     * @return array|int|string
      */
-    public function permissionsCount(): int
+    public function permissionsCount(): array|int|string
     {
-        return $this->permissions->count() ?? 0;
+        return convertEnglishToPersian($this->permissions->count()) ?? 0;
     }
 
 //    /**
@@ -82,24 +65,6 @@ class Role extends \Spatie\Permission\Models\Role
 //    {
 //        return $this->permissions->contains('name', $permission->name);
 //    }
-
-    /**
-     * @return string
-     */
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
-
-    /**
-     * @return string
-     */
-    public function cssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
-    }
 
     /**
      * @return string

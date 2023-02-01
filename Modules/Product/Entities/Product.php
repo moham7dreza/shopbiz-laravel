@@ -2,14 +2,12 @@
 
 namespace Modules\Product\Entities;
 
-use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -17,23 +15,20 @@ use Modules\Attribute\Entities\AttributeValue;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Share\Traits\HasComment;
+use Modules\Share\Traits\HasCountersTrait;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\User\Entities\User;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
 
 class Product extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasComment, InteractsWithViews, Likeable, Favoriteable;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, Sluggable,
+        HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
+        InteractsWithViews, Likeable, Favoriteable;
 
     /**
      * @return array[]
@@ -55,9 +50,11 @@ class Product extends Model implements Viewable
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'introduction', 'slug', 'image', 'status', 'tags', 'weight', 'length', 'width',
+    protected $fillable = [
+        'name', 'introduction', 'slug', 'image', 'status', 'tags', 'weight', 'length', 'width',
         'height', 'price', 'marketable', 'sold_number', 'frozen_number', 'marketable_number', 'brand_id',
-        'category_id', 'published_at'];
+        'category_id', 'published_at'
+    ];
 
     // relations
 
@@ -102,14 +99,6 @@ class Product extends Model implements Viewable
     }
 
     /**
-     * @return BelongsToMany
-     */
-    public function user(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    /**
      * @return HasMany
      */
     public function guarantees(): HasMany
@@ -123,7 +112,6 @@ class Product extends Model implements Viewable
     public function amazingSales(): HasMany
     {
         return $this->hasMany(AmazingSale::class);
-
     }
 
     /**
@@ -141,12 +129,11 @@ class Product extends Model implements Viewable
      */
     public function activeAmazingSales(): Model|HasMany|null
     {
-        return $this->amazingSales()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', AmazingSale::STATUS_ACTIVE]
-        ])->first();
+        $amazingSaleDiscountRepo = new AmazingSaleDiscountRepoEloquent();
+        return $amazingSaleDiscountRepo->activeAmazingSales($this->id)->first();
     }
+
+    // paths
 
     /**
      * @return string
@@ -157,12 +144,23 @@ class Product extends Model implements Viewable
     }
 
     /**
+     * @param string $size
      * @return string
      */
-    public function getFaPrice(): string
+    public function imagePath(string $size = 'medium'): string
     {
-        return priceFormat($this->price) . ' تومان ';
+        return asset($this->image['indexArray'][$size]);
     }
+
+    /**
+     * @return mixed
+     */
+    public function categoryPath(): mixed
+    {
+        return $this->category->path();
+    }
+
+    // text property
 
     /**
      * @return int|string
@@ -178,15 +176,6 @@ class Product extends Model implements Viewable
     public function limitedName(): string
     {
         return Str::limit($this->name, 50) ?? '-';
-    }
-
-    /**
-     * @param string $size
-     * @return string
-     */
-    public function imagePath(string $size = 'medium'): string
-    {
-        return asset($this->image['indexArray'][$size]);
     }
 
     /**
@@ -230,6 +219,25 @@ class Product extends Model implements Viewable
     }
 
     /**
+     * @return array|int|string
+     */
+    public function getFaAmazingSalesPercentage(): array|int|string
+    {
+        return '% ' . convertEnglishToPersian($this->activeAmazingSales()->percentage) ?? 0;
+    }
+
+
+    // price calc
+
+    /**
+     * @return string
+     */
+    public function getFaPrice(): string
+    {
+        return priceFormat($this->price) . ' تومان ';
+    }
+
+    /**
      * @return array|string|string[]
      */
     public function getFinalFaPrice(): array|string
@@ -241,14 +249,6 @@ class Product extends Model implements Viewable
     }
 
     /**
-     * @return array|int|string
-     */
-    public function getFaAmazingSalesPercentage(): array|int|string
-    {
-        return '% ' . convertEnglishToPersian($this->activeAmazingSales()->percentage) ?? 0;
-    }
-
-    /**
      * @return string
      */
     public function getActualFaPrice(): string
@@ -256,23 +256,5 @@ class Product extends Model implements Viewable
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         return convertEnglishToPersian($productPrice) . ' تومان';
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function getFaViewsCount(): array|int|string
-    {
-        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
-    }
-
-    /**
-     * @param $query
-     * @param int $status
-     * @return mixed
-     */
-    public function scopeActive($query, int $status = self::STATUS_ACTIVE): mixed
-    {
-        return $query->where('status', $status);
     }
 }

@@ -20,6 +20,7 @@ class AttributeService implements AttributeServiceInterface
             'name' => $request->name,
 //            'type' => $request->type,
             'unit' => $request->unit,
+            'status' => $request->status
         ]);
     }
 
@@ -36,6 +37,7 @@ class AttributeService implements AttributeServiceInterface
             'name' => $request->name,
 //            'type' => $request->type,
             'unit' => $request->unit,
+            'status' => $request->status
         ]);
     }
 

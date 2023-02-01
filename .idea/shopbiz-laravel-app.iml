@@ -58,11 +58,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/css-selector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/error-handler" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme" />
@@ -154,10 +152,13 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/saeedpooyanfar/zarinpal" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-permission" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/realrashid/sweet-alert" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/jaybizzle/crawler-detect" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/error-handler" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cyrildewit/eloquent-viewable" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jaybizzle/crawler-detect" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/laravel-favorite" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/laravel-like" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/artesaos/seotools" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

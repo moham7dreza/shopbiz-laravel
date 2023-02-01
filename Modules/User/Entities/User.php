@@ -16,6 +16,7 @@ use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
@@ -27,21 +28,15 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasFaDate, HasRoles, HasPermissions, Liker, Favoriter;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    use HasApiTokens, HasFactory, Notifiable,
+        HasFaDate, HasRoles, HasPermissions, Liker, Favoriter,
+        HasDefaultStatus;
 
     public const TYPE_USER = 0;
     public const TYPE_ADMIN = 1;
 
     public const ACTIVATE = 1;
     public const NOT_ACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
     /**
      * The attributes that are mass assignable.
@@ -188,18 +183,6 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->email_verified_at) return 'success';
 
         return 'danger';
-    }
-
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
-
-    public function cssStatus(): string
-    {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
     }
 
     public function textActivationStatus(): string

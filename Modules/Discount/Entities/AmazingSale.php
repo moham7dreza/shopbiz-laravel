@@ -4,23 +4,19 @@ namespace Modules\Discount\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
+use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 class AmazingSale extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -54,22 +50,6 @@ class AmazingSale extends Model
     }
 
     /**
-     * @return mixed|string
-     */
-    public function getFaStartDate(): mixed
-    {
-        return jalaliDate($this->start_date) ?? $this->start_date;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getFaEndDate(): mixed
-    {
-        return jalaliDate($this->end_date) ?? $this->end_date;
-    }
-
-    /**
      * @return array|int|string|string[]
      */
     public function productFinalFaPrice(): array|int|string
@@ -99,5 +79,14 @@ class AmazingSale extends Model
     public function productFaPrice()
     {
         return $this->product->getFaprice();
+    }
+
+    /**
+     * @return Model|HasMany|null
+     */
+    public static function activeAmazingSales(): Model|HasMany|null
+    {
+        $amazingSaleDiscountRepo = new AmazingSaleDiscountRepoEloquent();
+        return $amazingSaleDiscountRepo->activeAmazingSales()->first();
     }
 }

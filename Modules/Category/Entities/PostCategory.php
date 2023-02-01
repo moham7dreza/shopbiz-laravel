@@ -10,20 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Post\Entities\Post;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
 
 class PostCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
 
     /**
      * @return array[]
@@ -102,34 +95,16 @@ class PostCategory extends Model
     /**
      * @return string
      */
-    public function textStatus(): string
-    {
-        return $this->status === self::STATUS_ACTIVE ? 'فعال' : 'غیر فعال';
-    }
-
-    /**
-     * @return string
-     */
     public function imagePath(): string
     {
         return asset($this->image['indexArray']['medium']);
     }
 
     /**
-     * @return string
+     * @return array|int|string
      */
-    public function cssStatus(): string
+    public function postsCount(): array|int|string
     {
-        if ($this->status === self::STATUS_ACTIVE) return 'success';
-        else if ($this->status === self::STATUS_INACTIVE) return 'danger';
-        else return 'warning';
-    }
-
-    /**
-     * @return int
-     */
-    public function postsCount(): int
-    {
-        return $this->posts->count() ?? 0;
+        return convertEnglishToPersian($this->posts->count()) ?? 0;
     }
 }

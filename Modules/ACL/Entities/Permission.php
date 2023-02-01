@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Modules\ACL\Traits\DefinePermissionsTrait;
 use Modules\ACL\Traits\SystemPermissionsTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
@@ -53,18 +52,19 @@ class Permission extends \Spatie\Permission\Models\Permission
     }
 
     /**
-     * @return int
+     * @return array|int|string
      */
-    public function rolesCount(): int
+    public function rolesCount(): array|int|string
     {
-        return $this->roles->count() ?? 0;
+        return convertEnglishToPersian($this->roles->count()) ?? 0;
     }
 
+
     /**
-     * @return int
+     * @return array|int|string
      */
-    public function usersCount(): int
+    public function usersCount(): array|int|string
     {
-        return $this->users->count() ?? 0;
+        return convertEnglishToPersian($this->users->count()) ?? 0;
     }
 }

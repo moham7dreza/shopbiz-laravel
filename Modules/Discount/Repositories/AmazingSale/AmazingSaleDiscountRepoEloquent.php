@@ -44,11 +44,21 @@ class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquent
      */
     public function activeAmazingSalesCount(): int
     {
-        return AmazingSale::query()->where([
+        return $this->activeAmazingSales()->count();
+    }
+
+    /**
+     * @param $productID
+     * @return Model|Builder|null
+     */
+    public function activeAmazingSales($productID = null): Model|Builder|null
+    {
+        $query = AmazingSale::query()->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
             ['status', AmazingSale::STATUS_ACTIVE]
-        ])->count();
+        ]);
+        return is_null($productID) ? $query->latest() : $query->where('product_id', $productID)->latest();
     }
 
     /**
@@ -57,12 +67,7 @@ class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquent
      */
     public function bestOffers($percentage): Builder
     {
-        return AmazingSale::query()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', AmazingSale::STATUS_ACTIVE],
-            ['percentage', '>=', $percentage]
-        ])->latest();
+        return $this->activeAmazingSales()->where('percentage', '>=', $percentage)->latest();
     }
 
     /**

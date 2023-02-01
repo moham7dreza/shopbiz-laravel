@@ -63,7 +63,22 @@
                             </span>
                                 @enderror
                             </section>
-
+                            <section class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="status">وضعیت</label>
+                                    <select name="status" class="form-control form-control-sm" id="status">
+                                        <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
+                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
+                                    </select>
+                                </div>
+                                @error('status')
+                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                                @enderror
+                            </section>
 {{--                            <section class="col-12">--}}
 {{--                                <div class="form-group">--}}
 {{--                                    <label for="">انتخاب دسته</label>--}}

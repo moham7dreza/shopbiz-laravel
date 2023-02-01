@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Share\Traits\HasDefaultStatus;
 
 class EmailFile extends Model
 {
@@ -14,7 +15,7 @@ class EmailFile extends Model
      */
     protected $table = 'public_mail_files';
 
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasDefaultStatus;
 
     /**
      * @var string[]

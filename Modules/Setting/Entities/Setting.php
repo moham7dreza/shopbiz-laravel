@@ -11,14 +11,6 @@ class Setting extends Model
 {
     use HasFactory, HasFaDate;
 
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
-
     /**
      * @var string[]
      */

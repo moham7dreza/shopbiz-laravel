@@ -5,19 +5,12 @@ namespace Modules\Address\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 
 class Address extends Model
 {
-    use HasFactory;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, HasDefaultStatus;
 
     /**
      * @var string[]
