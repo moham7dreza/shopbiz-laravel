@@ -13,10 +13,12 @@ use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInt
 use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
 
 class AmazingSale extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait;
 
     /**
      * @var string[]
@@ -32,23 +34,6 @@ class AmazingSale extends Model
     }
 
     // Methods
-
-    /**
-     * @return string
-     */
-    public function textProductName(): string
-    {
-        return $this->product->name ?? 'نام کالا یافت نشد.';
-    }
-
-    /**
-     * @return string
-     */
-    public function getFaPercentage(): string
-    {
-        return ' % ' . convertEnglishToPersian($this->percentage) ?? $this->percentage . ' %';
-    }
-
     /**
      * @return array|int|string|string[]
      */
@@ -58,14 +43,6 @@ class AmazingSale extends Model
                 ($this->product->guarantees[0]->price_increase ?? 0);
         $productDiscount = $this->product->price * $this->percentage / 100;
         return priceFormat($productPrice - $productDiscount) ?? 0 . ' تومان';
-    }
-
-    /**
-     * @return string
-     */
-    public function productImagePath(): string
-    {
-        return asset($this->product->image['indexArray']['medium']);
     }
 
     /**

@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Page extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
 
     /**
      * @return array[]
@@ -31,14 +32,4 @@ class Page extends Model
      * @var string[]
      */
     protected $fillable = ['title', 'body', 'slug', 'status', 'tags'];
-
-    //methods
-
-    /**
-     * @return string
-     */
-    public function limitedTitle(): string
-    {
-        return Str::limit($this->title, 50);
-    }
 }

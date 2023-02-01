@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Attribute\Entities\Attribute;
 use Modules\Attribute\Entities\AttributeValue;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class OrderItemSelectedAttribute extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
+    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
 
     public $fillable = ['order_item_id', 'category_attribute_id', 'category_value_id', 'value'];
 
@@ -32,21 +33,5 @@ class OrderItemSelectedAttribute extends Model
     public function categoryAttributeValue(): BelongsTo
     {
         return $this->belongsTo(AttributeValue::class, 'category_value_id');
-    }
-
-    /**
-     * @return string
-     */
-    public function textAttributeName(): string
-    {
-        return $this->categoryAttribute->name ?? 'فرم کالا ندارد.';
-    }
-
-    /**
-     * @return string
-     */
-    public function attributeValue(): string
-    {
-        return $this->categoryAttributeValue->value ?? 'مقداری برای فرم کالا یافت نشد.';
     }
 }

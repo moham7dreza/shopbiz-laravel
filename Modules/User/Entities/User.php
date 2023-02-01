@@ -16,8 +16,11 @@ use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
@@ -30,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable,
         HasFaDate, HasRoles, HasPermissions, Liker, Favoriter,
-        HasDefaultStatus;
+        HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait, HasCountersTrait;
 
     public const TYPE_USER = 0;
     public const TYPE_ADMIN = 1;
@@ -166,79 +169,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return route('posts.author', $this->email);
     }
 
-    public function image(): string
-    {
-        return asset($this->profile_photo_path);
-    }
-
-    public function textStatusEmailVerifiedAt(): string
-    {
-        if ($this->email_verified_at) return 'تایید شده';
-
-        return 'تایید نشده';
-    }
 
     public function cssStatusEmailVerifiedAt(): string
     {
         if ($this->email_verified_at) return 'success';
 
         return 'danger';
-    }
-
-    public function textActivationStatus(): string
-    {
-        return $this->activation === 1 ? 'فعال' : 'غیر فعال';
-    }
-
-    // Counters
-    public function commentsCount(): int
-    {
-        return $this->comments->count() ?? 0;
-    }
-
-    public function rolesCount(): int
-    {
-        return $this->roles->count() ?? 0;
-    }
-
-    public function permissionsCount(): int
-    {
-        return $this->permissions->count() ?? 0;
-    }
-
-    public function likesCount(): int
-    {
-        $counter = 0;
-//        $posts = Post::query()->where('author_id', $this->id)->withCount('likers')->get();
-        foreach ($this->hasPosts as $post) {
-            $counter += $post->likers()->count();
-        }
-        return $counter;
-    }
-
-    public function getPostsCount(): string
-    {
-        return convertEnglishToPersian($this->hasPosts->count()) ?? 0;
-    }
-
-    public function likedPostsCount(): int
-    {
-        return $this->likes()->withType(Post::class)->count();
-    }
-
-    public function favoritedPostsCount(): int
-    {
-        return $this->favorites()->withType(Post::class)->count();
-    }
-
-    public function followersCount(): int
-    {
-        return $this->followers()->count();
-    }
-
-    public function followingsCount(): int
-    {
-        return $this->followings()->count();
     }
 
     // public function before(User $user, $ability)
@@ -268,21 +204,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ticketIconStatus(): string
     {
         return is_null($this->ticketAdmin) ? 'check' : 'times';
-    }
-
-    /**
-     * @return string
-     */
-    public function faMobileNumber(): string
-    {
-        return '۰' . convertEnglishToPersian($this->mobile);
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function faId(): array|int|string
-    {
-        return convertEnglishToPersian($this->id) ?? $this->id;
     }
 }

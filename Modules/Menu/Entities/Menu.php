@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Menu extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
 
     /**
      * @var string[]
@@ -41,15 +42,5 @@ class Menu extends Model
     public function children(): HasMany
     {
         return $this->hasMany($this, 'parent_id')->with('children');
-    }
-
-    // Methods
-
-    /**
-     * @return string
-     */
-    public function textParentName(): string
-    {
-        return is_null($this->parent_id) ? 'منوی اصلی' : $this->parent->name;
     }
 }

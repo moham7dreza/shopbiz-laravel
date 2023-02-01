@@ -20,7 +20,7 @@ class CreatePostCategoriesTable extends Migration
             $table->string('slug')->unique()->nullable();
             $table->text('image');
             $table->tinyInteger('status')->default(0);
-            $table->string('tags');
+//            $table->string('tags');
             $table->timestamps();
             $table->softDeletes();
         });

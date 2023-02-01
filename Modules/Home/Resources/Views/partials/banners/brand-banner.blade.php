@@ -6,7 +6,7 @@
             <section class="row py-4">
                 <section class="col">
                     <a href="{{ urldecode($repo->brandsBanner()->url) }}">
-                        <img class="d-block rounded-2 w-100" src="{{ $repo->brandsBanner()->imagePath() }}"
+                        <img class="d-block rounded-2 w-100" src="{{ $repo->brandsBanner()->image() }}"
                              alt="{{ $repo->brandsBanner()->title }}">
                     </a>
                 </section>

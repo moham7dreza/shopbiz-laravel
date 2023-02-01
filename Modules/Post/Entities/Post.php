@@ -16,6 +16,8 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
 use Modules\User\Entities\User;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -25,7 +27,8 @@ class Post extends Model implements Viewable
 {
     use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
-        InteractsWithViews, Likeable, Favoriteable;
+        InteractsWithViews, Likeable, Favoriteable,
+        HasFaPropertiesTrait, HasImageTrait;
 
     public const STATUS_PENDING = 2;
 
@@ -65,7 +68,7 @@ class Post extends Model implements Viewable
     /**
      * @var string[]
      */
-    protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'tags', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
+    protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
 
     // Relations
 
@@ -97,63 +100,11 @@ class Post extends Model implements Viewable
     }
 
     /**
-     * @param string $size
-     * @return string
-     */
-    public function imagePath(string $size = 'medium'): string
-    {
-        return asset($this->image['indexArray'][$size]);
-    }
-
-    /**
      * @return string
      */
     public function getCategoryPath(): string
     {
         return $this->category->path();
-    }
-
-    // text property
-
-    /**
-     * @return string
-     */
-    public function limitedTitle(): string
-    {
-        return Str::limit($this->title, 50);
-    }
-
-    /**
-     * @param int $limit
-     * @return string
-     */
-    public function limitedSummary(int $limit = 150): string
-    {
-        return strip_tags(Str::limit($this->summary, $limit));
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedBody(): string
-    {
-        return Str::limit($this->body, 150);
-    }
-
-    /**
-     * @return string
-     */
-    public function textCategoryName(): string
-    {
-        return $this->category->name ?? 'دسته ندارد';
-    }
-
-    /**
-     * @return string
-     */
-    public function textAuthorName(): string
-    {
-        return $this->author->fullName ?? 'نویسنده ندارد.';
     }
 
     /**
@@ -162,22 +113,6 @@ class Post extends Model implements Viewable
     public function getAuthorPath(): string
     {
         return $this->author->path();
-    }
-
-    /**
-     * @return string
-     */
-    public function authorImage(): string
-    {
-        return $this->author->image() ?? 'عکس ندارد.';
-    }
-
-    /**
-     * @return string
-     */
-    public function publishFaDate(): string
-    {
-        return jalaliDate($this->published_at);
     }
 
     /**
@@ -194,13 +129,5 @@ class Post extends Model implements Viewable
     public function isNotCommentable(): int
     {
         return self::IS_COMMENTABLE;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function tagLessSummary(): mixed
-    {
-        return strip_tags($this->summary) ?? $this->summary ?? '-';
     }
 }

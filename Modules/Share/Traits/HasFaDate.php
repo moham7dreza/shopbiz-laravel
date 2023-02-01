@@ -78,4 +78,12 @@ trait HasFaDate
     {
         return $this->getFaDate($this->published_at, 'H:i:s | Y-m-d');
     }
+
+    /**
+     * @return string
+     */
+    public function publishFaDate(): string
+    {
+        return $this->getFaDate($this->published_at);
+    }
 }

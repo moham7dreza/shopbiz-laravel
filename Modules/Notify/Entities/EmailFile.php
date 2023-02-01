@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Share\Traits\HasDefaultStatus;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class EmailFile extends Model
 {
@@ -15,7 +16,7 @@ class EmailFile extends Model
      */
     protected $table = 'public_mail_files';
 
-    use HasFactory, SoftDeletes, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasDefaultStatus, HasFaPropertiesTrait;
 
     /**
      * @var string[]
@@ -28,15 +29,6 @@ class EmailFile extends Model
     public function email(): BelongsTo
     {
         return $this->belongsTo(Email::class, 'public_mail_id');
-    }
-
-    /**
-     * @param string $unit
-     * @return string|array
-     */
-    public function getFaFileSize(string $unit = "KB"): string|array
-    {
-        return convert($this->file_size, $unit);
     }
 
     /**

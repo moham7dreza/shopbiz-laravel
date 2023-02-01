@@ -11,13 +11,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Attribute\Entities\Attribute;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
+use Spatie\Tags\HasTags;
 
 
 class ProductCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasImageTrait, HasCountersTrait, HasFaPropertiesTrait;
 
     public const SHOW_IN_MENU = 1;
     public const SHOW_NOT_IN_MENU = 0;
@@ -42,7 +46,7 @@ class ProductCategory extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'description', 'slug', 'image', 'status', 'tags', 'show_in_menu', 'parent_id'];
+    protected $fillable = ['name', 'description', 'slug', 'image', 'status', 'show_in_menu', 'parent_id'];
 
     //relations
 
@@ -83,33 +87,8 @@ class ProductCategory extends Model
     /**
      * @return string
      */
-    public function imagePath(): string
-    {
-        return asset($this->image['indexArray']['medium']);
-    }
-
-    /**
-     * @return string
-     */
     public function customerPath(): string
     {
         return route('customer.market.category.products', $this->slug);
     }
-
-    /**
-     * @return string
-     */
-    public function textParentName(): string
-    {
-        return is_null($this->parent_id) ? 'دسته اصلی' : $this->parent->name;
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function productsCount(): array|int|string
-    {
-        return convertEnglishToPersian($this->products->count()) ?? 0;
-    }
-
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class SMS extends Model
 {
@@ -17,27 +18,11 @@ class SMS extends Model
      */
     protected $table = 'public_sms';
 
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
 
 
     /**
      * @var string[]
      */
     protected $fillable = ['title', 'body', 'status', 'published_at'];
-
-    /**
-     * @return string
-     */
-    public function limitedBody(): string
-    {
-        return Str::limit($this->body);
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedTitle(): string
-    {
-        return Str::limit($this->title, 50);
-    }
 }

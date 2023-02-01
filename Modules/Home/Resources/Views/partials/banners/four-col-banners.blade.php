@@ -6,8 +6,8 @@
             @foreach ($repo->fourColumnBanners() as $colBanner)
                 <section class="col">
                     <a href="{{ urldecode($colBanner->url) }}">
-                        <img class="d-block rounded-2 w-100" src="{{ $colBanner->imagePath() }}"
-                             alt="{{ $colBanner->title }}">
+                        <img class="d-block rounded-2 w-100" src="{{ $colBanner->image() }}"
+                             alt="{{ $colBanner->title }}" title="{{ $colBanner->title }}" data-bs-toggle="tooltip" data-bs-placement="left">
                     </a>
                 </section>
             @endforeach

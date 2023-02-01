@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasImageTrait;
 
 class Gallery extends Model
 {
@@ -15,7 +16,7 @@ class Gallery extends Model
      */
     protected $table = 'product_images';
 
-    use HasFactory, SoftDeletes, HasFaDate;
+    use HasFactory, SoftDeletes, HasFaDate, HasImageTrait;
 
     /**
      * @var string[]
@@ -34,13 +35,5 @@ class Gallery extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    /**
-     * @return string
-     */
-    public function imagePath(): string
-    {
-        return asset($this->image['indexArray']['medium']);
     }
 }

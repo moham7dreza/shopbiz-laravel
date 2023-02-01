@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Spatie\Tags\HasTags;
 
 class Faq extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasFaPropertiesTrait;
 
     /**
      * @return array[]
@@ -30,23 +32,5 @@ class Faq extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['question', 'answer', 'slug', 'status', 'tags'];
-
-    // methods
-
-    /**
-     * @return string
-     */
-    public function limitedQuestion(): string
-    {
-        return Str::limit($this->question, 50);
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedAnswer(): string
-    {
-        return Str::limit($this->answer, 50);
-    }
+    protected $fillable = ['question', 'answer', 'slug', 'status'];
 }

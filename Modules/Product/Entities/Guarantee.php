@@ -7,19 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Guarantee extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
-
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    /**
-     * @var array|int[]
-     */
-    public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
 
     /**
      * @var string[]
@@ -37,21 +31,5 @@ class Guarantee extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getFaPriceIncrease(): string
-    {
-        return priceFormat($this->price_increase) . ' تومان ';
-    }
-
-    /**
-     * @return string
-     */
-    public function textProductName(): string
-    {
-        return Str::limit($this->product->name) ?? '-';
     }
 }

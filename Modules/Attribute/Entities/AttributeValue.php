@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class AttributeValue extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasFaPropertiesTrait;
+
+    public const TYPE_SIMPLE = 0;
+    public const TYPE_MULTIPLE = 1;
 
     /**
      * @var string[]
@@ -73,22 +77,6 @@ class AttributeValue extends Model
      */
     public function getTextType(): string
     {
-        return $this->type == 0 ? 'ساده' : 'انتخابی';
-    }
-
-    /**
-     * @return string
-     */
-    public function textProductName(): string
-    {
-        return $this->product->name ?? 'نام محصول یافت نشد.';
-    }
-
-    /**
-     * @return string
-     */
-    public function textCategoryName(): string
-    {
-        return $this->category->name ?? 'دسته ندارد';
+        return $this->type == self::TYPE_SIMPLE ? 'ساده' : 'انتخابی';
     }
 }

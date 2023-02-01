@@ -1,25 +1,6 @@
 <!-- start cart -->
 <section class="mb-4">
     <section class="container-xxl">
-
-        @if(session('danger') && session('info'))
-            <div class="alert alert-danger">
-                {{ session('danger') }}
-            </div>
-        @elseif(session('info'))
-            <div class="alert alert-info">
-                {{ session('info') }} - برای نمایش سبد خرید <a class="text-decoration-none text-info pointer"
-                                                               href="{{ route('customer.sales-process.cart') }}">کلیک</a>
-                کنید.
-            </div>
-        @endif
-
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <section class="row">
             @if ($errors->any())
                 <ul>
@@ -157,7 +138,7 @@
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
                                     </section>
-                                    @if($product->tags)
+                                    @if($product->tags()->count() > 0)
                                         <section class="d-flex flex-column mt-4 tags">
                                             <section class="d-flex gap-2">
                                                 <i class="fa fa-tags"></i>

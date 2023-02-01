@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
 use Modules\User\Entities\User;
 
 class Comment extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait;
     public const STATUS_NEW = 2;
 
     public const APPROVED = 1;
@@ -93,21 +95,6 @@ class Comment extends Model
         return $this->approved === self::APPROVED ? 'تایید شده' : 'تایید نشده';
     }
 
-    /**
-     * @return string
-     */
-    public function limitedBody(): string
-    {
-        return Str::limit($this->body);
-    }
-
-    /**
-     * @return string
-     */
-    public function textAuthorName(): string
-    {
-        return $this->user->fullName ?? 'نویسنده ندارد.';
-    }
 
     /**
      * @return array|mixed|string|string[]
@@ -120,57 +107,9 @@ class Comment extends Model
     /**
      * @return string
      */
-    public function authorImage(): string
-    {
-        return $this->user->image() ?? 'عکس ندارد.';
-    }
-
-    /**
-     * @return string
-     */
     public function getAuthorPath(): string
     {
         return $this->user->path();
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorPostsCount(): string
-    {
-        return convertEnglishToPersian($this->user->posts->count()) ?? 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAuthorCommentsCount(): int
-    {
-        return $this->user->comments->count() ?? 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function textParentName(): string
-    {
-        return is_null($this->parent_id) ? 'نظر اصلی' : $this->parent->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function textParentBody(): string
-    {
-        return is_null($this->parent_id) ? '-' : Str::limit($this->parent->body);
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function answersCount(): array|int|string
-    {
-        return convertEnglishToPersian($this->answers->count()) ?? 0;
     }
 
     /**

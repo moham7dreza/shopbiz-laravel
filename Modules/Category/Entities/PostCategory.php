@@ -10,13 +10,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Post\Entities\Post;
+use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
+use Spatie\Tags\HasTags;
 
 
 class PostCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait, HasTags, HasCountersTrait;
 
     /**
      * @return array[]
@@ -38,7 +42,7 @@ class PostCategory extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'description', 'slug', 'image', 'status', 'tags'];
+    protected $fillable = ['name', 'description', 'slug', 'image', 'status'];
 
     //relations
 
@@ -74,37 +78,5 @@ class PostCategory extends Model
     public function path(): string
     {
         return route('category.posts', $this->slug);
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedDescription(): string
-    {
-        return Str::limit($this->description, 50);
-    }
-
-    /**
-     * @return string
-     */
-    public function getParent(): string
-    {
-        return is_null($this->parent_id) ? 'دسته اصلی' : $this->parent->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function imagePath(): string
-    {
-        return asset($this->image['indexArray']['medium']);
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function postsCount(): array|int|string
-    {
-        return convertEnglishToPersian($this->posts->count()) ?? 0;
     }
 }

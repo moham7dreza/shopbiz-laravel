@@ -22,6 +22,8 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
+use Modules\Share\Traits\HasImageTrait;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
 use Spatie\Tags\HasTags;
@@ -30,7 +32,8 @@ class Product extends Model implements Viewable
 {
     use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
-        InteractsWithViews, Likeable, Favoriteable;
+        InteractsWithViews, Likeable, Favoriteable,
+        HasFaPropertiesTrait, HasImageTrait;
 
 //    # Booted
 //    /**
@@ -81,7 +84,7 @@ class Product extends Model implements Viewable
      * @var string[]
      */
     protected $fillable = [
-        'name', 'introduction', 'slug', 'image', 'status', 'tags', 'weight', 'length', 'width',
+        'name', 'introduction', 'slug', 'image', 'status', 'weight', 'length', 'width',
         'height', 'price', 'marketable', 'sold_number', 'frozen_number', 'marketable_number', 'brand_id',
         'category_id', 'published_at'
     ];
@@ -184,97 +187,11 @@ class Product extends Model implements Viewable
     }
 
     /**
-     * @param string $size
-     * @return string
-     */
-    public function imagePath(string $size = 'medium'): string
-    {
-        return asset($this->image['indexArray'][$size]);
-    }
-
-    /**
      * @return mixed
      */
     public function categoryPath(): mixed
     {
         return $this->category->path();
-    }
-
-    // text property
-
-    /**
-     * @return int|string
-     */
-    public function getFaWeight(): int|string
-    {
-        return convertEnglishToPersian($this->weight) . ' کیلو' ?? 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedName(): string
-    {
-        return Str::limit($this->name, 50) ?? '-';
-    }
-
-    /**
-     * @return string
-     */
-    public function textCategoryName(): string
-    {
-        return $this->category->name ?? 'دسته ندارد';
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getFaMarketableNumber(): int|string
-    {
-        return convertEnglishToPersian($this->marketable_number) . ' عدد' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getFaSoldNumber(): int|string
-    {
-        return convertEnglishToPersian($this->sold_number) . ' عدد' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getFaFrozenNumber(): int|string
-    {
-        return convertEnglishToPersian($this->frozen_number) . ' عدد' ?? 0;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function tagLessIntro(): mixed
-    {
-        return strip_tags($this->introduction) ?? $this->introduction ?? '-';
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function getFaAmazingSalesPercentage(): array|int|string
-    {
-        return '% ' . convertEnglishToPersian($this->activeAmazingSales()->percentage) ?? 0;
-    }
-
-
-    // price calc
-
-    /**
-     * @return string
-     */
-    public function getFaPrice(): string
-    {
-        return priceFormat($this->price) . ' تومان ';
     }
 
     /**

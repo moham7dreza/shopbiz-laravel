@@ -126,7 +126,7 @@
                          $user = auth()->user();
                      @endphp
                         <span id="header-profile-toggle" class="pointer">
-                            <img class="header-avatar" src="{{ $user->image() }}" alt="">
+                            <img class="header-avatar" src="{{ $user->profile() }}" alt="{{ $user->fullName }}">
                             <span class="header-username">{{ $user->fullName }}</span>
                     <i class="fas fa-angle-down"></i>
                     </span>

@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasImageTrait;
+use Spatie\Tags\HasTags;
 
 class Brand extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasImageTrait;
 
     /**
      * @return array[]
@@ -34,15 +36,5 @@ class Brand extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['persian_name', 'original_name', 'slug', 'logo', 'status', 'tags'];
-
-    // Methods
-
-    /**
-     * @return string
-     */
-    public function logo(): string
-    {
-        return asset($this->logo);
-    }
+    protected $fillable = ['persian_name', 'original_name', 'slug', 'logo', 'status'];
 }

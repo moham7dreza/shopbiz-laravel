@@ -12,10 +12,11 @@ use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
 use Modules\Share\Traits\HasFaDate;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class OrderItem extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
+    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
 
     protected $fillable = ['order_id', 'product_id', 'product', 'amazing_sale_id', 'amazing_sale_object',
         'amazing_sale_discount_amount', 'number', 'final_product_price', 'final_total_price', 'color_id', 'guarantee_id'];
@@ -78,61 +79,5 @@ class OrderItem extends Model
     public function textProductName(): string
     {
         return $this->singleProduct->name ?? 'نام کالا یافت نشد.';
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function amazingSaleFaPercentage(): array|int|string
-    {
-        return convertEnglishToPersian($this->amazingSale->percentage) . ' % ' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function orderItemAmazingSaleDiscountAmountFaPrice(): int|string
-    {
-        return priceFormat($this->amazing_sale_discount_amount) . ' تومان' ?? 0;
-    }
-
-    /**
-     * @return array|int|string
-     */
-    public function orderItemFaNumber(): array|int|string
-    {
-        return convertEnglishToPersian($this->number) . ' عدد' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function orderItemFinalProductFaPrice(): int|string
-    {
-        return priceFormat($this->final_product_price) . ' تومان' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function orderItemFinalTotalFaPrice(): int|string
-    {
-        return priceFormat($this->final_total_price) . ' تومان' ?? 0;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function orderItemProductColorName(): int|string
-    {
-        return $this->color->color_name ?? 'رنگ ندارد.';
-    }
-
-    /**
-     * @return int|string
-     */
-    public function orderItemProductGuaranteeName(): int|string
-    {
-        return $this->guarantee->name ?? 'گارانتی ندارد.';
     }
 }

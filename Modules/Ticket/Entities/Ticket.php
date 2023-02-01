@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
+use Modules\Share\Traits\HasFaPropertiesTrait;
 use Modules\User\Entities\User;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate;
+    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
 
     public const STATUS_OPEN_TICKET = 1;
     public const STATUS_CLOSE_TICKET = 0;
@@ -83,55 +84,6 @@ class Ticket extends Model
     }
 
     // Methods
-
-    /**
-     * @return string
-     */
-    public function textUserName(): string
-    {
-        return $this->user->fullName ?? $this->user->first_name ?? '-';
-    }
-
-    /**
-     * @return string
-     */
-    public function textParentTitle(): string
-    {
-        return !empty($this->parent->subject) ? Str::limit($this->parent->subject, 50) : '-';
-    }
-
-    /**
-     * @return string
-     */
-    public function textReferenceName(): string
-    {
-        return $this->admin->user->fullName ?? $this->admin->user->first_name ?? '-';
-    }
-
-    /**
-     * @return string
-     */
-    public function limitedSubject(): string
-    {
-        return Str::limit($this->subject, 50);
-    }
-
-    /**
-     * @return string
-     */
-    public function textCategoryName(): string
-    {
-        return $this->category->name ?? 'دسته ندارد';
-    }
-
-    /**
-     * @return string
-     */
-    public function textPriorityName(): string
-    {
-        return $this->priority->name ?? 'اولویت ندارد';
-    }
-
     /**
      * @return string
      */
@@ -150,13 +102,5 @@ class Ticket extends Model
         if ($this->status === self::STATUS_OPEN_TICKET) return 'times';
         else if ($this->status === self::STATUS_CLOSE_TICKET) return 'check';
         else return 'warning';
-    }
-
-    /**
-     * @return array|string
-     */
-    public function faId(): array|string
-    {
-        return convertEnglishToPersian($this->id);
     }
 }
