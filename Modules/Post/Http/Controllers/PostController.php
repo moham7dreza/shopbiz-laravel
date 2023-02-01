@@ -16,6 +16,7 @@ use Modules\Post\Services\PostService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class PostController extends Controller
 {
@@ -193,5 +194,27 @@ class PostController extends Controller
     public function commentable(Post $post): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($post, 'commentable');
+    }
+
+    /**
+     * @param Post $post
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(Post $post, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Post::tags-form', compact(['post', 'tags']));
+    }
+
+    /**
+     * @param PostRequest $request
+     * @param Post $post
+     * @return RedirectResponse
+     */
+    public function setTags(PostRequest $request, Post $post): RedirectResponse
+    {
+        $post->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های پست با موفقیت بروزرسانی شد');
     }
 }

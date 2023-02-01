@@ -188,6 +188,7 @@ return [
         Modules\Product\Providers\ProductServiceProvider::class,
         Modules\Setting\Providers\SettingServiceProvider::class,
         Modules\Share\Providers\ShareServiceProvider::class,
+        Modules\Tag\Providers\TagServiceProvider::class,
         Modules\Ticket\Providers\TicketServiceProvider::class,
         Modules\User\Providers\UserServiceProvider::class,
         /*

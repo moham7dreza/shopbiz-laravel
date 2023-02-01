@@ -23,6 +23,10 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     Route::get('/product/marketable/{product}', [ProductController::class, 'marketable'])->name('product.marketable');
 
     Route::prefix('product')->group(function () {
+
+        // tags
+        Route::get('/tags-form/{product}', [ProductController::class, 'tagsForm'])->name('product.tags-from');
+        Route::put('/tags-sync/{product}', [ProductController::class, 'setTags'])->name('product.tags.sync');
         //gallery
         Route::get('/gallery/{product}', [GalleryController::class, 'index'])->name('product.gallery.index');
         Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('product.gallery.create');

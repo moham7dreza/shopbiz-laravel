@@ -44,6 +44,7 @@
                             <th>تصویر</th>
                             <th>تاریخ انتشار</th>
                             <th>تعداد بازدید</th>
+                            <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th>امکان درج کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -62,6 +63,15 @@
                                 </td>
                                 <td>{{ $post->publishFaDate() }}</td>
                                 <td>{{ $post->getFaViewsCount() }}</td>
+                                <td>
+                                    @if(empty($post->tags()->get()->toArray()))
+                                        <span class="text-danger">برای این پست هیچ تگی تعریف نشده است</span>
+                                    @else
+                                        @foreach($post->tags as $tag)
+                                            {{ $tag->name }} <br>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>
                                     <label>
                                         <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }}, 'پست')"
@@ -82,6 +92,9 @@
                                     </label>
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    <a href="{{ route('post.tags-from', $post->id) }}"
+                                       class="btn btn-info btn-sm"><i class="fa fa-tag"></i></a>
+
                                     {{-- @can('update', $post) --}}
                                     <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary btn-sm"><i
                                             class="fa fa-edit"></i></a>

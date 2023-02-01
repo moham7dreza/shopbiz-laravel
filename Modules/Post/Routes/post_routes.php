@@ -17,6 +17,9 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     $router->resource('post', 'PostController', ['except' => 'show']);
     Route::get('post/status/{post}', [PostController::class, 'status'])->name('post.status');
     Route::get('post/commentable/{post}', [PostController::class, 'commentable'])->name('post.commentable');
+    // tags
+    Route::get('post/tags-form/{post}', [PostController::class, 'tagsForm'])->name('post.tags-from');
+    Route::put('post/tags-sync/{post}', [PostController::class, 'setTags'])->name('post.tags.sync');
 });
 Route::get('/post/{post:slug}', [HomePostController::class, 'post'])->name('customer.post.detail');
 Route::post('/add-comment/post/{post:slug}', [HomePostController::class, 'addComment'])->name('customer.post.add-comment');

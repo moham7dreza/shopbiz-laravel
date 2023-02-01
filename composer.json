@@ -23,7 +23,8 @@
         "overtrue/laravel-like": "^5.0",
         "realrashid/sweet-alert": "^5.1",
         "saeedpooyanfar/zarinpal": "^5.0",
-        "spatie/laravel-permission": "^5.8"
+        "spatie/laravel-permission": "^5.8",
+        "spatie/laravel-tags": "^4.3"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
@@ -65,7 +66,8 @@
             "Modules\\Setting\\" : "Modules/Setting/",
             "Modules\\User\\" : "Modules/User/",
             "Modules\\Address\\" : "Modules/Address/",
-            "Modules\\Attribute\\" : "Modules/Attribute/"
+            "Modules\\Attribute\\" : "Modules/Attribute/",
+            "Modules\\Tag\\" : "Modules/Tag/"
         }
     },
     "autoload-dev": {

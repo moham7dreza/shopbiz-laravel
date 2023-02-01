@@ -19,10 +19,11 @@ use Modules\Share\Traits\HasDefaultStatus;
 use Modules\User\Entities\User;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
+use Spatie\Tags\HasTags;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable,
+    use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
         InteractsWithViews, Likeable, Favoriteable;
 
@@ -30,6 +31,20 @@ class Post extends Model implements Viewable
 
     public const IS_COMMENTABLE = 1;
     public const IS_NOT_COMMENTABLE = 0;
+
+    // Booted
+    /**
+     * Boot post model.
+     */
+//    public static function boot()
+//    {
+//        parent::boot();
+//
+//        static::deleting(static function($article) {
+//            $article->categories()->delete();
+//            $article->tags()->delete();
+//        });
+//    }
 
     /**
      * @return array[]

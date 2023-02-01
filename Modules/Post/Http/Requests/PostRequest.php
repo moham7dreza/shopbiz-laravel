@@ -3,6 +3,7 @@
 namespace Modules\Post\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class PostRequest extends FormRequest
 {
@@ -23,6 +24,13 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
+        $route = Route::current();
+        if ($route->getName() === 'post.tags.sync') {
+            return [
+                'tags.*' => 'exists:tags,id'
+            ];
+        }
+
         $rules = [
             'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'summary' => 'required|max:300|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',

@@ -11,6 +11,34 @@ class PostRepoEloquent implements PostRepoEloquentInterface
 {
 
     /**
+     * Find article by slug.
+     *
+     * @param  $slug
+     * @return mixed
+     */
+    public function findPostBySlug($slug): mixed
+    {
+        return $this->query()->where('slug', $slug)->active()->firstOrFail();
+    }
+
+    /**
+     * Get random articles.
+     *
+     * @param  string|int|null $id
+     * @return mixed
+     */
+    public function getRandomPosts(string|int $id = null): mixed
+    {
+        $query = $this->query()->active()->inRandomOrder()->limit(4);
+
+        if (! is_null($id)) {
+            return $query->where('id', '!=', $id);
+        }
+
+        return $query->get();
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */

@@ -46,6 +46,7 @@
                             <th>وزن</th>
                             <th>دسته</th>
                             <th>تعداد بازدید</th>
+                            <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th>قابل فروش بودن</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -65,6 +66,15 @@
                                 <td>{{ $product->getFaWeight() }}</td>
                                 <td>{{ $product->textCategoryName() }}</td>
                                 <td>{{ $product->getFaViewsCount() }}</td>
+                                <td>
+                                    @if(empty($product->tags()->get()->toArray()))
+                                        <span class="text-danger">برای این کالا هیچ تگی تعریف نشده است</span>
+                                    @else
+                                        @foreach($product->tags as $tag)
+                                            {{ $tag->name }} <br>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>
                                     <label>
                                         <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }}, 'کالا')"
@@ -103,6 +113,9 @@
                                             <a href="{{ route('product.guarantee.index', $product->id) }}"
                                                class="dropdown-item text-right" target="_blank"><i
                                                     class="fa fa-shield-alt"></i> گارانتی</a>
+                                            <a href="{{ route('product.tags-from', $product->id) }}"
+                                               class="dropdown-item text-right" target="_blank"><i
+                                                    class="fa fa-tags"></i> تگ ها</a>
                                             <a href="{{ route('product.edit', $product->id) }}"
                                                class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
                                             <form class="d-inline"

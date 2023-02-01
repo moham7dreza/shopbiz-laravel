@@ -16,6 +16,7 @@ use Modules\Product\Services\Product\ProductService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class ProductController extends Controller
 {
@@ -63,9 +64,8 @@ class ProductController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $products = $this->repo->index()->paginate(10);
+            $products = $this->repo->index()->with('tags')->paginate(10);
         }
-
         return view('Product::admin.index', compact(['products']));
     }
 
@@ -170,5 +170,27 @@ class ProductController extends Controller
     public function marketable(Product $product): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($product, 'marketable');
+    }
+
+    /**
+     * @param Product $product
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(Product $product, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Product::admin.tags-form', compact(['product', 'tags']));
+    }
+
+    /**
+     * @param ProductRequest $request
+     * @param Product $product
+     * @return RedirectResponse
+     */
+    public function setTags(ProductRequest $request, Product $product): RedirectResponse
+    {
+        $product->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های محصول با موفقیت بروزرسانی شد');
     }
 }

@@ -8,6 +8,7 @@ use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -23,12 +24,41 @@ use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
+use Spatie\Tags\HasTags;
 
 class Product extends Model implements Viewable
 {
-    use HasFactory, SoftDeletes, Sluggable,
+    use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
         InteractsWithViews, Likeable, Favoriteable;
+
+//    # Booted
+//    /**
+//     * Boot product model.
+//     */
+//    public static function boot()
+//    {
+//        parent::boot();
+//
+//        static::deleting(static function($product) {
+//            $product->categories()->delete();
+//            $product->tags()->delete();
+//            $product->galleries()->delet();
+//            $product->attributes()->deleteAllAttribute();
+//        });
+//    }
+    # Scopes
+    /**
+     * Scope product popular.
+     *
+     * @param  $query
+     * @return mixed
+     */
+    public function scopePopular($query): mixed
+    {
+        return $query->where('is_popular', 1);
+    }
+
 
     /**
      * @return array[]
@@ -120,6 +150,16 @@ class Product extends Model implements Viewable
     public function values(): HasMany
     {
         return $this->hasMany(AttributeValue::class);
+    }
+
+    /**
+     * Relation to product_rates table, one to many.
+     *
+     * @return BelongsToMany
+     */
+    public function rates(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'product_rates');
     }
 
     // methods
@@ -256,5 +296,19 @@ class Product extends Model implements Viewable
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         return convertEnglishToPersian($productPrice) . ' تومان';
+    }
+
+    /**
+     * Get rate score.
+     *
+     * @return int
+     */
+    public function getRate(): int
+    {
+        $totalRate      = $this->rates()->get()->sum('rates');
+        $totalRateCount = $this->rates()->count();
+        $calculateRate  = (int) $totalRate / $totalRateCount;
+
+        return (int) round((int) $calculateRate);
     }
 }

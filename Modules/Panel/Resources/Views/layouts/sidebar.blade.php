@@ -16,6 +16,12 @@
                     <span>تنظیمات</span>
                 </a>
             @endcan
+            @can('permission-super-admin','permission-tags')
+                <a href="{{ route('tag.index') }}" class="sidebar-link">
+                    <i class="fas fa-tags"></i>
+                    <span>تگ</span>
+                </a>
+            @endcan
             @canany(['permission-super-admin','permission-users'])
                 <section class="sidebar-part-title">بخش کاربران</section>
                 @can('permission-super-admin','permission-admin-users')
