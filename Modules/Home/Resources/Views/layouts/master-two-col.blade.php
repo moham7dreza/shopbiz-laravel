@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('Home::layouts.head-tag')
     @yield('head-tag')
+    @include('Home::layouts.head-tag')
 </head>
 <body>
 

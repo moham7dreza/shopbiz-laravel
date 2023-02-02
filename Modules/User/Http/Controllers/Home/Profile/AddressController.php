@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -24,6 +25,9 @@ class AddressController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        SEOTools::setTitle('لیست آدرس های شما');
+        SEOTools::setDescription('لیست آدرس های شما');
+
         $provinces = $this->addressRepo->provinces()->get();
         $addresses = $this->addressRepo->userAddresses()->get();
         return view('User::home.profile.my-addresses', compact(['provinces', 'addresses']));

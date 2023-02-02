@@ -1,12 +1,7 @@
 @extends('Home::layouts.master-profile')
 
 @section('head-tag')
-    <!-- Meta Description -->
-    <meta name="description" content="پروفایل کاربری">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="پروفایل کاربری">
-
-    <title>حساب کاربری</title>
+    {!! SEO::generate() !!}
 @endsection
 
 

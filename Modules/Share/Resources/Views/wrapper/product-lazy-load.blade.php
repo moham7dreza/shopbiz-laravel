@@ -83,7 +83,10 @@
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ $product->imagePath() }}"
-                                                             alt="{{ $product->name }}">
+                                                             alt="{{ $product->name }}"
+                                                             title="{{ $product->limitedIntro(50) }}"
+                                                             data-bs-toggle="tooltip"
+                                                             data-bs-placement="right">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">

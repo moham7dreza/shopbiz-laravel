@@ -28,7 +28,7 @@
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
                             <section class="product-gallery">
                                 <section class="product-gallery-selected-image mb-3">
-                                    <img src="{{ $user->image() }}" alt="{{ $user->fullName }}">
+                                    <img src="{{ $user->profile() }}" alt="{{ $user->fullName }}">
                                 </section>
                                 <section class="product-gallery-thumbs">
                                 </section>

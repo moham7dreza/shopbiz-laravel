@@ -2,6 +2,8 @@
 
 namespace Modules\Cart\Http\Controllers;
 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -50,6 +52,10 @@ class CartController extends Controller
      */
     public function cart(ProductRepoEloquentInterface $productRepo): View|Factory|RedirectResponse|Application
     {
+        SEOTools::setTitle('سبد خرید شما');
+        SEOTools::setDescription('سبد خرید شما');
+        SEOMeta::setKeywords('سبد خرید شما');
+
         $cartItems = $this->repo->findUserCartItems()->get();
         if ($cartItems->count() > 0) {
             $relatedProducts = $productRepo->index()->get();

@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,6 +22,9 @@ class FavoriteController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        SEOTools::setTitle('لیست علاقه مندی های شما');
+        SEOTools::setDescription('لیست علاقه مندی های شما');
+
         $user = auth()->user();
         $products = $user->getFavoriteItems(Product::class)->latest()->get();
         $posts = $user->getFavoriteItems(Post::class)->latest()->get();

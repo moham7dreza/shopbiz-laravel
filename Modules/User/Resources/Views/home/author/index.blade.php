@@ -1,12 +1,7 @@
 @extends('Home::layouts.master-one-col')
 
 @section('head-tag')
-    <!-- Meta Description -->
-    <meta name="description" content="{{ $user->fullName }}">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="{{ $user->fullName }}">
-
-    <title>{{ $user->fullName }}</title>
+    {!! SEO::generate() !!}
 @endsection
 
 @section('content')

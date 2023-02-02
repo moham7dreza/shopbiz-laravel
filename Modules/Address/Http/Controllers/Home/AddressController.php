@@ -2,6 +2,7 @@
 
 namespace Modules\Address\Http\Controllers\Home;
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -61,6 +62,8 @@ class AddressController extends Controller
      */
     public function addressAndDelivery(): View|Factory|RedirectResponse|Application
     {
+        SEOTools::setTitle('مدیریت آدرس ها');
+        SEOTools::setDescription('مدیریت آدرس ها');
         $provinces = $this->addressRepo->provinces()->get();
         $cartItems = $this->cartRepo->findUserCartItems()->get();
         $deliveryMethods = $this->deliveryRepo->activeMethods()->get();

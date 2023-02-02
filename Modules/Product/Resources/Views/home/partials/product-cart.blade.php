@@ -86,7 +86,7 @@
 
                                     @if($colors->count() != 0)
                                         <p><span>رنگ انتخاب شده : <span class="font-weight-bold"
-                                                    id="selected_color_name"> {{ $colors->first()->color_name }}</span></span>
+                                                                        id="selected_color_name"> {{ $colors->first()->color_name }}</span></span>
                                         </p>
                                         <p>
                                             @foreach ($colors as $key => $color)
@@ -109,7 +109,8 @@
                                         $guarantees = $product->guarantees()->get();
                                     @endphp
                                     @if($guarantees->count() != 0)
-                                        <p class="font-weight-bold"><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
+                                        <p class="font-weight-bold"><i
+                                                class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
                                             گارانتی :
                                             <select name="guarantee" id="guarantee" class="guarantee p-1">
                                                 @foreach ($guarantees as $key => $guarantee)
@@ -146,7 +147,8 @@
                                             </section>
                                             <section class="d-flex flex-wrap align-items-center gap-1 mt-2">
                                                 @foreach(explode(',', $product->tags) as $tag)
-                                                    <a href="{{ route('customer.market.products.offers', 'tag='.$tag) }}" class="product-tags">{{ $tag }}</a>
+                                                    <a href="{{ route('customer.market.products.offers', 'tag='.$tag) }}"
+                                                       class="product-tags">{{ $tag }}</a>
                                                 @endforeach
                                             </section>
                                         </section>

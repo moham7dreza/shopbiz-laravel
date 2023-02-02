@@ -1,13 +1,7 @@
 @extends('Home::layouts.master-profile')
 
 @section('head-tag')
-
-    <!-- Meta Description -->
-    <meta name="description" content="لیست آدرس های کاربر">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="لیست آدرس های کاربر">
-
-    <title>لیست آدرس های شما</title>
+    {!! SEO::generate() !!}
 @endsection
 
 

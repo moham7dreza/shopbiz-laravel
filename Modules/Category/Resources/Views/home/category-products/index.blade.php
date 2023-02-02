@@ -1,8 +1,6 @@
 @extends('Home::layouts.master-two-col')
 @section('head-tag')
-    <title>
-        محصولات دسته بندی {{ $productCategory->name }}
-    </title>
+    {!! SEO::generate() !!}
 @endsection
 @php
     $user = auth()->user();

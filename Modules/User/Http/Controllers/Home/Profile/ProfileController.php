@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers\Home\Profile;
 
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,6 +24,8 @@ class ProfileController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        SEOTools::setTitle('حساب کاربری');
+        SEOTools::setDescription('حساب کاربری');
         return view('User::home.profile.profile');
     }
 

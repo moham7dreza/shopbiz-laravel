@@ -33,10 +33,10 @@
 
                                 <section class="cart-item d-md-flex py-3">
                                     <section class="cart-img align-self-start flex-shrink-1">
-                                        <img src="{{ $cartItem->productImage() }}" alt="">
+                                        <img src="{{ $cartItem->productImagePath() }}" alt="">
                                     </section>
                                     <section class="align-self-start w-100">
-                                        <p class="fw-bold">{{ $cartItem->productName() }}</p>
+                                        <p class="fw-bold">{{ $cartItem->textProductName() }}</p>
                                         <p>
                                             @if (!empty($cartItem->color))
                                                 <span style="background-color: {{ $cartItem->color->color }};"

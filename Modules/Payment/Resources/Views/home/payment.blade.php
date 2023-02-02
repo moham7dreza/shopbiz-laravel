@@ -1,12 +1,7 @@
 @extends('Home::layouts.master-one-col')
 
 @section('head-tag')
-    <!-- Meta Description -->
-    <meta name="description" content="صفحه پرداخت و انتخاب روش ارسال کالا">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="صفحه پرداخت">
-
-    <title>پرداخت</title>
+    {!! SEO::generate() !!}
 @endsection
 
 

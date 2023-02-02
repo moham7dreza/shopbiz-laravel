@@ -2,6 +2,7 @@
 
 namespace Modules\Home\Http\Controllers\SalesProcess;
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -30,6 +31,9 @@ class ProfileCompletionController extends Controller
      */
     public function profileCompletion(): Factory|View|Application
     {
+        SEOTools::setTitle('تکمیل اطلاعات حساب کاربری');
+        SEOTools::setDescription('تکمیل اطلاعات حساب کاربری');
+
         $cartItems = $this->cartRepo->findUserCartItems()->get();
         return view('Home::sales-process.profile-completion',compact(['cartItems']));
 

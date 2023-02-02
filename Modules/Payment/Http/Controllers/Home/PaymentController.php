@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Http\Controllers\Home;
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -53,6 +54,9 @@ class PaymentController extends Controller
      */
     public function payment(): View|Factory|Application
     {
+        SEOTools::setTitle('پرداخت');
+        SEOTools::setDescription('صفحه پرداخت و انتخاب روش ارسال کال');
+
         $cartItems = $this->cartRepo->findUserCartItems()->get();
         $order = $this->orderRepo->findUserUncheckedOrder();
         return view('Payment::home.payment', compact(['cartItems', 'order']));

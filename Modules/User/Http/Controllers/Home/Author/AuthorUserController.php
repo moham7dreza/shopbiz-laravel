@@ -3,6 +3,8 @@
 namespace Modules\User\Http\Controllers\Home\Author;
 
 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,6 +23,8 @@ use Modules\User\Services\UserService;
 
 class AuthorUserController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -46,6 +50,7 @@ class AuthorUserController extends Controller
      */
     public function index(User $user): View|Factory|Application|RedirectResponse
     {
+        $this->setMetas($user);
         $relatedPosts = $user->posts()->latest()->take(10)->get();
         return view('User::home.author.index', compact(['user', 'relatedPosts']));
     }
@@ -196,5 +201,21 @@ class AuthorUserController extends Controller
 //        $admin->permissions()->sync($request->permissions);
         $admin->syncPermissions($request->permissions);
         return $this->showMessageWithRedirectRoute('سطح دسترسی با موفقیت ویرایش شد');
+    }
+
+    /**
+     * @param $user
+     * @return void
+     */
+    private function setMetas($user): void
+    {
+        SEOMeta::setKeywords($user->fullName);
+        SEOTools::setTitle($user->fullName);
+        SEOTools::setDescription($user->fullName);
+        SEOTools::opengraph()->setUrl('http://current.url.com');
+        SEOTools::setCanonical('https://codecasts.com.br/lesson');
+        SEOTools::opengraph()->addProperty('type', 'articles');
+        SEOTools::twitter()->setSite('@LuizVinicius73');
+        SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
     }
 }

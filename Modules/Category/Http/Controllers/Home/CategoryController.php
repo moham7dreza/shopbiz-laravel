@@ -233,6 +233,7 @@ class CategoryController extends Controller
 
             }
         }
+        $this->setMetasForQueryProductsPage($queryTitle);
         $productCategory = count($queryResult) == 0 ?
             $this->productCategoryRepo->findById(1) :
             $queryResult[0]->category;
@@ -265,6 +266,22 @@ class CategoryController extends Controller
         SEOMeta::setKeywords('محصولات فروش ویژه');
         SEOTools::setTitle('محصولات فروش ویژه');
         SEOTools::setDescription('محصولات فروش ویژه');
+        SEOTools::opengraph()->setUrl('http://current.url.com');
+        SEOTools::setCanonical('https://codecasts.com.br/lesson');
+        SEOTools::opengraph()->addProperty('type', 'articles');
+        SEOTools::twitter()->setSite('@LuizVinicius73');
+        SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
+    }
+
+    /**
+     * @param $queryTitle
+     * @return void
+     */
+    private function setMetasForQueryProductsPage($queryTitle): void
+    {
+        SEOMeta::setKeywords($queryTitle);
+        SEOTools::setTitle($queryTitle);
+        SEOTools::setDescription($queryTitle);
         SEOTools::opengraph()->setUrl('http://current.url.com');
         SEOTools::setCanonical('https://codecasts.com.br/lesson');
         SEOTools::opengraph()->addProperty('type', 'articles');

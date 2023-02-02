@@ -34,6 +34,15 @@ trait HasFaPropertiesTrait
     }
 
     /**
+     * @param int $limit
+     * @return string
+     */
+    public function limitedIntro(int $limit = 150): string
+    {
+        return strip_tags(Str::limit($this->introduction, $limit));
+    }
+
+    /**
      * @return string
      */
     public function limitedBody(): string
@@ -127,7 +136,7 @@ trait HasFaPropertiesTrait
      */
     public function textAuthorName(): string
     {
-        return $this->user->fullName ?? 'نویسنده ندارد.';
+        return $this->user->fullName ?? $this->author->fullName ?? 'نویسنده ندارد.';
     }
 
     /**

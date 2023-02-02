@@ -1,14 +1,11 @@
 @extends('Home::layouts.master-one-col')
 
 @section('head-tag')
-    <!-- Meta Description -->
-    <meta name="description" content="تکمیل اطلاعات حساب کاربری">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="تکمیل اطلاعات حساب کاربری">
-
-    <title>تکمیل اطلاعات حساب کاربری</title>
+    {!! SEO::generate() !!}
 @endsection
+
 @php $user = auth()->user(); @endphp
+
 @section('content')
 
     <!-- start cart -->
