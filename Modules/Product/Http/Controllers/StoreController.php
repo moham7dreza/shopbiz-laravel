@@ -82,6 +82,7 @@ class StoreController extends Controller
     public function store(StoreRequest $request, Product $product): \Illuminate\Http\RedirectResponse
     {
         $this->productService->productAddToStore($request, $product);
+        Product::ProductWarehouseReport($request, $product);
         return $this->showMessageWithRedirectRoute('موجودی جدید با موفقیت ثبت شد');
     }
 
@@ -117,6 +118,7 @@ class StoreController extends Controller
     public function update(StoreUpdateRequest $request, Product $product): RedirectResponse
     {
         $this->productService->updateProductStore($request, $product);
+        Product::ProductWarehouseReport($request, $product, 'products', 'update-store');
         return $this->showMessageWithRedirectRoute('موجودی با موفقیت ویرایش شد');
     }
 

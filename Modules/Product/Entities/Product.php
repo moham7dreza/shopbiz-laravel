@@ -18,6 +18,7 @@ use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Share\Traits\HasActivityLogTrait;
 use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
@@ -33,7 +34,7 @@ class Product extends Model implements Viewable
     use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
         InteractsWithViews, Likeable, Favoriteable,
-        HasFaPropertiesTrait, HasImageTrait;
+        HasFaPropertiesTrait, HasImageTrait, HasActivityLogTrait;
 
 //    # Booted
 //    /**

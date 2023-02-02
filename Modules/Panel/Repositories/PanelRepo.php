@@ -23,6 +23,7 @@ use Modules\Post\Entities\Post;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
+use Modules\Share\Entities\ActivityLog;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Repositories\Ticket\TicketRepoEloquentInterface;
 use Modules\User\Repositories\UserRepoEloquentInterface;
@@ -136,9 +137,13 @@ class PanelRepo
         return $this->copanDiscountRepo->activeCopanDiscounts();
     }
 
-    public function logs()
+    /**
+     * @return LengthAwarePaginator
+     */
+    public function activityLogs(): LengthAwarePaginator
     {
-//        return Log::query()->where([['causer_id', '!=', auth()->id()]])->latest()->paginate(2);
+        return ActivityLog::query()->latest()->paginate(5);
+//        return ActivityLog::query()->where([['causer_id', '!=', auth()->id()]])->latest()->paginate(5);
     }
 
     /**
