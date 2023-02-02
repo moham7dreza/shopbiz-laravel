@@ -38,10 +38,10 @@ trait HasFaDate
 
     /**
      * @param $date
-     * @param string|null $format
+     * @param string $format
      * @return string
      */
-    public function getFaDate($date, string $format = null): string
+    public function getFaDate($date, string $format = '%A, %d %B %Y'): string
     {
         return jalaliDate($date, $format) ?? $date ?? '-';
     }

@@ -49,7 +49,6 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             'description' => $request->description,
             'image' => $request->image,
             'status' => $request->status,
-            'tags' => $request->tags,
             'show_in_menu' => $request->show_in_menu,
             'parent_id' => $request->parent_id,
         ]);
@@ -87,7 +86,6 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             'description' => $request->description,
             'image' => $request->image,
             'status' => $request->status,
-            'tags' => $request->tags,
             'show_in_menu' => $request->show_in_menu,
             'parent_id' => $request->parent_id,
         ]);

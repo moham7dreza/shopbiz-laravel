@@ -90,35 +90,12 @@ class Comment extends Model
     /**
      * @return string
      */
-    public function textApprove(): string
-    {
-        return $this->approved === self::APPROVED ? 'تایید شده' : 'تایید نشده';
-    }
-
-
-    /**
-     * @return array|mixed|string|string[]
-     */
-    public function authorId(): mixed
-    {
-        return convertEnglishToPersian($this->author_id) ?? $this->author_id;
-    }
-
-    /**
-     * @return string
-     */
     public function getAuthorPath(): string
     {
         return $this->user->path();
     }
 
-    /**
-     * @return string
-     */
-    public function getCommentableName(): string
-    {
-        return Str::limit($this->commentable->title, 50) ?? Str::limit($this->commentable->name, 50) ?? 'عنوانی ندارد';
-    }
+
 
     /**
      * @return array|mixed|string|string[]

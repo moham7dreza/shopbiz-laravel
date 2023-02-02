@@ -69,7 +69,10 @@ class AttributeValueController extends Controller
             $values = $attribute->values()->paginate(10);
         }
 
-        return view('Attribute::value.index', compact(['attribute', 'values']));
+        if ($attribute->categories()->count() > 0) {
+            return view('Attribute::value.index', compact(['attribute', 'values']));
+        }
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد مقدار فرم کالا ابتدا باید دسته بندی تعریف کنید.', title: 'خطا', status: 'error', params: [$attribute->id]);
     }
 
     /**
@@ -90,7 +93,7 @@ class AttributeValueController extends Controller
         if ($products->count() > 0) {
             return view('Attribute::value.create', compact(['attribute', 'products']));
         }
-        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد مقدار فرم کالا ابتدا باید محصول تعریف کنید.', title: 'خطا', status: 'error');
+        return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد مقدار فرم کالا ابتدا باید دسته بندی تعریف کنید.', title: 'خطا', status: 'error', params: [$attribute->id]);
     }
 
     /**

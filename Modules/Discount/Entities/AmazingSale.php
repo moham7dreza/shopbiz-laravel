@@ -46,19 +46,6 @@ class AmazingSale extends Model
     }
 
     /**
-     * @return string
-     */
-    public function limitedProductName(): string
-    {
-        return $this->product->limitedName();
-    }
-
-    public function productFaPrice()
-    {
-        return $this->product->getFaprice();
-    }
-
-    /**
      * @return Model|HasMany|null
      */
     public static function activeAmazingSales(): Model|HasMany|null

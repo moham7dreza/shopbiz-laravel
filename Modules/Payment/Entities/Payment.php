@@ -38,13 +38,7 @@ class Payment extends Model
 
     // Methods
 
-    /**
-     * @return int|string
-     */
-    public function transactionId(): int|string
-    {
-        return convertEnglishToPersian($this->paymentable->transaction_id) ?? '-';
-    }
+
 
     /**
      * @return string

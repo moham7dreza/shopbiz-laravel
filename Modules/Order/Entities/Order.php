@@ -85,17 +85,6 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-
-    // Methods
-
-    /**
-     * @return array|int|mixed|string
-     */
-    public function faOrderId(): mixed
-    {
-        return convertEnglishToPersian($this->id) ?? $this->id ?? 0;
-    }
-
     /**
      * @return string
      */

@@ -48,7 +48,6 @@ class PostCategoryService implements PostCategoryServiceInterface
             'description' => $request->description,
             'image' => $request->image,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 
@@ -84,7 +83,6 @@ class PostCategoryService implements PostCategoryServiceInterface
             'description' => $request->description,
             'image' => $request->image,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 

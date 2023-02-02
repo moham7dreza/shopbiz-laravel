@@ -58,11 +58,12 @@ trait HasFaPropertiesTrait
     }
 
     /**
+     * @param int $size
      * @return string
      */
-    public function limitedDescription(): string
+    public function limitedDescription(int $size = 50): string
     {
-        return Str::limit($this->description, 50);
+        return Str::limit($this->description, $size) ?? '-';
     }
 
     /**
@@ -70,7 +71,7 @@ trait HasFaPropertiesTrait
      */
     public function textProductName(): string
     {
-        return $this->product->name ?? 'نام محصول یافت نشد.';
+        return $this->product->name ?? $this->singleProduct->name ?? 'نام محصول یافت نشد.';
     }
 
     /**
@@ -570,11 +571,11 @@ trait HasFaPropertiesTrait
     }
 
     /**
-     * @return array|string
+     * @return array|string|int
      */
-    public function faId(): array|string
+    public function faId(): array|string|int
     {
-        return convertEnglishToPersian($this->id);
+        return convertEnglishToPersian($this->id) ?? $this->id ?? 0;
     }
 
     /**
@@ -635,4 +636,51 @@ trait HasFaPropertiesTrait
         return '۰' . convertEnglishToPersian($this->mobile);
     }
 
+    /**
+     * @return string
+     */
+    public function textApprove(): string
+    {
+        return $this->approved === self::APPROVED ? 'تایید شده' : 'تایید نشده';
+    }
+
+    /**
+     * @return array|mixed|string|string[]
+     */
+    public function authorId(): mixed
+    {
+        return convertEnglishToPersian($this->author_id) ?? $this->author_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommentableName(): string
+    {
+        return Str::limit($this->commentable->title, 50) ?? Str::limit($this->commentable->name, 50) ?? 'عنوانی ندارد';
+    }
+
+    /**
+     * @return string
+     */
+    public function limitedProductName(): string
+    {
+        return $this->product->limitedName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function productFaPrice(): mixed
+    {
+        return $this->product->getFaprice();
+    }
+
+    /**
+     * @return int|string
+     */
+    public function transactionId(): int|string
+    {
+        return convertEnglishToPersian($this->paymentable->transaction_id) ?? '-';
+    }
 }

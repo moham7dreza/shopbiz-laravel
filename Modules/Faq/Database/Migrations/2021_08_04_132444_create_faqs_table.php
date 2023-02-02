@@ -19,7 +19,6 @@ class CreateFaqsTable extends Migration
             $table->text('answer');
             $table->string('slug')->unique()->nullable();
             $table->tinyInteger('status')->default(0);
-//            $table->string('tags');
             $table->timestamps();
             $table->softDeletes();
         });

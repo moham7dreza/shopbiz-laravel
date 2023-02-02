@@ -68,24 +68,6 @@
 
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
-                                    <label for="tags">تگ ها</label>
-                                    <input type="hidden" class="form-control form-control-sm" name="tags" id="tags"
-                                           value="{{ old('tags', $faq->tags) }}">
-                                    <select class="select2 form-control form-control-sm" id="select_tags" multiple>
-
-                                    </select>
-                                </div>
-                                @error('tags')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" class="form-control form-control-sm" id="status">
                                         <option value="0" @if (old('status', $faq->status) == 0) selected @endif>
@@ -123,8 +105,5 @@
     <script>
         CKEDITOR.replace('answer');
     </script>
-
-
-    @include('Share::functions.tags')
 
 @endsection

@@ -70,14 +70,4 @@ class OrderItem extends Model
     {
         return $this->hasMany(OrderItemSelectedAttribute::class);
     }
-
-    // Methods
-
-    /**
-     * @return string
-     */
-    public function textProductName(): string
-    {
-        return $this->singleProduct->name ?? 'نام کالا یافت نشد.';
-    }
 }

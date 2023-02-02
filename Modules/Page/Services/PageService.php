@@ -20,7 +20,6 @@ class PageService
             'title' => $request->title,
             'body' => $request->body,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 
@@ -37,7 +36,6 @@ class PageService
             'title' => $request->title,
             'body' => $request->body,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 

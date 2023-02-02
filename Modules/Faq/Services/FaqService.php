@@ -20,7 +20,6 @@ class FaqService
             'question' => $request->question,
             'answer' => $request->answer,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 
@@ -37,7 +36,6 @@ class FaqService
             'question' => $request->question,
             'answer' => $request->answer,
             'status' => $request->status,
-            'tags' => $request->tags,
         ]);
     }
 
