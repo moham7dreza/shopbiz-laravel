@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique()->nullable();
             $table->text('summary');
             $table->text('body');
+            $table->string('keywords')->nullable();
             $table->text('image');
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('popular')->default(0);

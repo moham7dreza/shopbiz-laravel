@@ -15,9 +15,9 @@ class CreateOrderItemSelectedAttributesTable extends Migration
     {
         Schema::create('order_item_selected_attributes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_item_id')->constrained('order_items')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('attribute_id')->constrained('attributes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('attribute_value_id')->constrained('attribute_values')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('order_item_id')->constrained('order_items')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('attribute_id')->constrained('attributes')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('attribute_value_id')->constrained('attribute_values')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('value')->nullable();
             $table->timestamps();
             $table->softDeletes();

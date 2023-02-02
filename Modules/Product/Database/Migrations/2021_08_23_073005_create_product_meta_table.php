@@ -17,7 +17,7 @@ class CreateProductMetaTable extends Migration
             $table->id();
             $table->string('meta_key');
             $table->string('meta_value');
-            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

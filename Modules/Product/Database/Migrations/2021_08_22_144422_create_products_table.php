@@ -32,9 +32,10 @@ class CreateProductsTable extends Migration
             $table->smallInteger('sold_number')->default(0);
             $table->smallInteger('frozen_number')->default(0);
             $table->smallInteger('marketable_number')->default(0);
-            $table->foreignId('brand_id')->constrained('brands')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('product_categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamp('published_at');
+            $table->foreignId('active_discount_id')->nullable()->constrained('amazing_sales')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('view_count')->default(0);
             $table->integer('comment_count')->default(0);
             $table->integer('like_count')->default(0);

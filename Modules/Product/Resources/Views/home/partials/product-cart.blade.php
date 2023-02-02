@@ -146,9 +146,9 @@
                                                 <span class="font-weight-bold"> برچسب ها :</span>
                                             </section>
                                             <section class="d-flex flex-wrap align-items-center gap-1 mt-2">
-                                                @foreach(explode(',', $product->tags) as $tag)
-                                                    <a href="{{ route('customer.market.products.offers', 'tag='.$tag) }}"
-                                                       class="product-tags">{{ $tag }}</a>
+                                                @foreach($product->tags as $tag)
+                                                    <a href="{{ route('customer.market.products.offers', 'tag='.$tag->name) }}"
+                                                       class="product-tags">{{ $tag->name }}</a>
                                                 @endforeach
                                             </section>
                                         </section>

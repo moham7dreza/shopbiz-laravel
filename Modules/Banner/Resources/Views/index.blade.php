@@ -57,7 +57,7 @@
                                 <td>{{ $banner->limitedTitle() }}</td>
                                 <td>{{ $banner->url }}</td>
                                 <td>
-                                    <img src="{{ $banner->imagePath() }}" alt="" width="100" height="50">
+                                    <img src="{{ $banner->image() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
                                     <label>

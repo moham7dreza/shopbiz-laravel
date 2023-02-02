@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Banner\Entities\Banner;
+use Modules\Banner\Entities\HasFaProperties;
 use Modules\Banner\Policies\BannerPolicy;
 use Modules\Banner\Repositories\BannerRepoEloquent;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
@@ -144,5 +145,6 @@ class BannerServiceProvider extends ServiceProvider
     private function bindRepository(): void
     {
         $this->app->bind(BannerRepoEloquentInterface::class, BannerRepoEloquent::class);
+        $this->app->bind(HasFaProperties::class, Banner::class);
     }
 }

@@ -15,9 +15,9 @@ class CreateCartItemSelectedAttributesTable extends Migration
     {
         Schema::create('cart_item_selected_attributes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_item_id')->constrained('cart_items')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('attribute_id')->constrained('attributes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('attribute_value_id')->constrained('attribute_values')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('cart_item_id')->constrained('cart_items')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('attribute_id')->constrained('attributes')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('attribute_value_id')->constrained('attribute_values')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('value')->nullable();
             $table->timestamps();
             $table->softDeletes();

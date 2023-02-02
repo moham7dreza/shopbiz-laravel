@@ -7,11 +7,12 @@ use Illuminate\Support\Str;
 trait HasFaPropertiesTrait
 {
     /**
+     * @param int $size
      * @return string
      */
-    public function limitedName(): string
+    public function limitedName(int $size = 50): string
     {
-        return Str::limit($this->name, 50) ?? '-';
+        return Str::limit($this->name, $size) ?? '-';
     }
 
     // text property

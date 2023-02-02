@@ -15,7 +15,7 @@ class CreateProvincesTable extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('country_id')->constrained('countries')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('country_id')->constrained('countries')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->string('name_en')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();

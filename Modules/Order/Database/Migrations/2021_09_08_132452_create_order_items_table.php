@@ -15,17 +15,17 @@ class CreateOrderItemsTable extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->longText('product')->nullable();
-            $table->foreignId('amazing_sale_id')->nullable()->constrained('amazing_sales')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('amazing_sale_id')->nullable()->constrained('amazing_sales')->cascadeOnUpdate()->cascadeOnDelete();
             $table->longText('amazing_sale_object')->nullable();
             $table->decimal('amazing_sale_discount_amount',20, 3)->nullable();
             $table->integer('number')->default(1);
             $table->decimal('final_product_price',20, 3)->nullable();
             $table->decimal('final_total_price',20, 3)->nullable()->comment('number * final_product_price');
-            $table->foreignId('color_id')->nullable()->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('guarantee_id')->nullable()->constrained('guarantees')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('color_id')->nullable()->constrained('product_colors')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('guarantee_id')->nullable()->constrained('guarantees')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

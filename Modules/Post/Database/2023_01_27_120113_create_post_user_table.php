@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post_user', function (Blueprint $table) {
-            $table->foreignId('post_id')->constrained('posts')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('post_id')->constrained('posts')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->primary(['post_id', 'user_id']);
         });
     }

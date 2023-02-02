@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('national_code')->unique()->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->text('bio')->nullable();
+            $table->text('social_media')->nullable();
+            $table->bigInteger('followers_count')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->text('profile_photo_path')->nullable()->comment('avatar');
             $table->timestamp('email_verified_at')->nullable();

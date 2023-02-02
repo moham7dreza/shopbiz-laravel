@@ -23,7 +23,8 @@ class CreateCopansTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->timestamp('start_date')->useCurrent();
             $table->timestamp('end_date')->useCurrent();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('uses')->default(0)->unsigned()->comment('number of times can be used bu user');
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
