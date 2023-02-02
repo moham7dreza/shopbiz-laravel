@@ -2,6 +2,9 @@
 
 namespace Modules\Post\Http\Controllers\Home;
 
+use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -40,6 +43,7 @@ class PostController extends Controller
      */
     public function post(Post $post): View|Factory|Application
     {
+        $this->setMetas($post);
         views($post)->record();
         $relatedPosts = $this->repo->relatedItems($post)->get();
         return view('Post::home.post', compact(['post', 'relatedPosts']));
@@ -82,5 +86,47 @@ class PostController extends Controller
     public function like(Post $post): JsonResponse
     {
         return $this->service->productLike($post);
+    }
+
+    /**
+     * @param $post
+     * @return void
+     */
+    private function setMetas($post): void
+    {
+        SEOMeta::setTitle($post->title);
+        SEOMeta::setDescription($post->tagLessSummary());
+        SEOMeta::addMeta('article:published_time', $post->published_date, 'property');
+        SEOMeta::addMeta('article:section', $post->textCategoryName(), 'property');
+        SEOMeta::addKeyword($post->tags ?? '');
+
+        OpenGraph::setDescription($post->tagLessSummary());
+        OpenGraph::setTitle($post->title);
+        OpenGraph::setUrl('http://current.url.com');
+        OpenGraph::addProperty('type', 'article');
+        OpenGraph::addProperty('locale', 'fa-ir');
+        OpenGraph::addProperty('locale:alternate', ['fa-ir', 'en-us']);
+
+        OpenGraph::addImage($post->imagePath());
+        OpenGraph::addImage(['url' => 'http://image.url.com/cover.jpg', 'size' => 300]);
+        OpenGraph::addImage('http://image.url.com/cover.jpg', ['height' => 300, 'width' => 300]);
+
+        JsonLd::setTitle($post->title);
+        JsonLd::setDescription($post->tagLessSummary());
+        JsonLd::setType('Article');
+        JsonLd::addImage($post->imagePath());
+
+        // Namespace URI: http://ogp.me/ns/article#
+        // article
+        OpenGraph::setTitle($post->title)
+            ->setDescription($post->tagLessSummary())
+            ->setType('article')
+            ->setArticle([
+                'published_time' => $post->published_date,
+                'modified_time' => $post->update_at,
+                'author' => 'profile / array',
+                'section' => 'string',
+                'tag' => 'string / array'
+            ]);
     }
 }

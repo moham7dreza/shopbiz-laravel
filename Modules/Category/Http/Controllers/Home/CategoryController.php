@@ -2,6 +2,8 @@
 
 namespace Modules\Category\Http\Controllers\Home;
 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +16,7 @@ use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Home\Repositories\HomeRepoEloquentInterface;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
@@ -63,6 +66,7 @@ class CategoryController extends Controller
      */
     public function categoryProducts(ProductCategory $productCategory): Factory|View|Application
     {
+        $this->setMetasForCategoryPage($productCategory);
         $type = null;
         $selectedBrands = null;
         $selectedValues = null;
@@ -119,6 +123,7 @@ class CategoryController extends Controller
      */
     public function bestOffers(): View|Factory|Application
     {
+        $this->setMetasForSpecialSalesPage();
         $type = null;
         $selectedBrands = null;
         $selectedValues = null;
@@ -234,5 +239,36 @@ class CategoryController extends Controller
 
         return view('Category::home.query-products',
             compact(['queryResult', 'queryTitle', 'brands', 'productCategory']));
+    }
+
+    /**
+     * @param $productCategory
+     * @return void
+     */
+    private function setMetasForCategoryPage($productCategory): void
+    {
+        SEOMeta::setKeywords($productCategory->tags ?? '');
+        SEOTools::setTitle($productCategory->name);
+        SEOTools::setDescription($productCategory->tagLessDescription());
+        SEOTools::opengraph()->setUrl('http://current.url.com');
+        SEOTools::setCanonical('https://codecasts.com.br/lesson');
+        SEOTools::opengraph()->addProperty('type', 'articles');
+        SEOTools::twitter()->setSite('@LuizVinicius73');
+        SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
+    }
+
+    /**
+     * @return void
+     */
+    private function setMetasForSpecialSalesPage(): void
+    {
+        SEOMeta::setKeywords('محصولات فروش ویژه');
+        SEOTools::setTitle('محصولات فروش ویژه');
+        SEOTools::setDescription('محصولات فروش ویژه');
+        SEOTools::opengraph()->setUrl('http://current.url.com');
+        SEOTools::setCanonical('https://codecasts.com.br/lesson');
+        SEOTools::opengraph()->addProperty('type', 'articles');
+        SEOTools::twitter()->setSite('@LuizVinicius73');
+        SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
     }
 }

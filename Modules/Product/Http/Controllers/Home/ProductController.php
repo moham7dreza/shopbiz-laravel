@@ -2,6 +2,9 @@
 
 namespace Modules\Product\Http\Controllers\Home;
 
+use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -44,6 +47,7 @@ class ProductController extends Controller
      */
     public function product(Product $product): View|Factory|Application
     {
+        $this->setMetas($product);
         views($product)->record();
         $relatedProducts = $this->repo->relatedItems($product)->get();
         $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
@@ -88,5 +92,47 @@ class ProductController extends Controller
     public function like(Product $product): JsonResponse
     {
         return $this->service->productLike($product);
+    }
+
+    /**
+     * @param $product
+     * @return void
+     */
+    private function setMetas($product): void
+    {
+        SEOMeta::setTitle($product->name);
+        SEOMeta::setDescription($product->tagLessIntro());
+        SEOMeta::addMeta('product:published_time', $product->published_date, 'property');
+        SEOMeta::addMeta('product:section', $product->textCategoryName(), 'property');
+        SEOMeta::addKeyword($product->tags ?? '');
+
+        OpenGraph::setDescription($product->tagLessIntro());
+        OpenGraph::setTitle($product->name);
+        OpenGraph::setUrl('http://current.url.com');
+        OpenGraph::addProperty('type', 'product');
+        OpenGraph::addProperty('locale', 'fa-ir');
+        OpenGraph::addProperty('locale:alternate', ['fa-ir', 'en-us']);
+
+        OpenGraph::addImage($product->imagePath());
+        OpenGraph::addImage(['url' => 'http://image.url.com/cover.jpg', 'size' => 300]);
+        OpenGraph::addImage('http://image.url.com/cover.jpg', ['height' => 300, 'width' => 300]);
+
+        JsonLd::setTitle($product->name);
+        JsonLd::setDescription($product->tagLessIntro());
+        JsonLd::setType('Product');
+        JsonLd::addImage($product->imagePath());
+
+        // Namespace URI: http://ogp.me/ns/article#
+        // article
+        OpenGraph::setTitle('Product')
+            ->setDescription($product->tagLessIntro())
+            ->setType('product')
+            ->setArticle([
+                'published_time' => $product->published_date,
+                'modified_time' => $product->updated_at,
+                'author' => 'profile / array',
+                'section' => 'string',
+                'tag' => $product->tags
+            ]);
     }
 }

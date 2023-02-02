@@ -58,6 +58,14 @@ trait HasFaPropertiesTrait
     }
 
     /**
+     * @return mixed|string
+     */
+    public function tagLessDescription(): mixed
+    {
+        return strip_tags($this->description) ?? $this->description ?? '-';
+    }
+
+    /**
      * @param int $size
      * @return string
      */

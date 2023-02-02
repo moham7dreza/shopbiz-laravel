@@ -1,10 +1,7 @@
 @extends('Home::layouts.master-one-col')
 
 @section('head-tag')
-    <!-- Meta Description -->
-    <meta name="description" content="{{ $repo->siteSetting()->description }}">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="{{ $repo->siteSetting()->keywords }}">
+    {!! SEO::generate() !!}
 @endsection
 
 @section('content')

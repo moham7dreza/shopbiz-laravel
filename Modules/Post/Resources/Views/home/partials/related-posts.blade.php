@@ -20,7 +20,10 @@
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                             @foreach ($relatedPosts as $relatedPost)
-
+                                @php
+                                    $hasFavorited = auth()->user()->hasFavorited($post);
+                                    $hasLiked = auth()->user()->hasLiked($post);
+                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
@@ -35,13 +38,13 @@
                                                 </section>
                                             @endguest
                                             @auth
-                                                @if ($relatedPost->user->contains(auth()->id()))
+                                                @if ($hasFavorited)
                                                     <section class="product-add-to-favorite">
                                                         <button class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.post.add-to-favorite', $relatedPost) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="حذف از علاقه مندی">
-                                                            <i class="fa fa-heart text-danger"></i>
+                                                            <i class="fa fa-bookmark text-danger"></i>
                                                         </button>
                                                     </section>
                                                 @else
@@ -50,7 +53,7 @@
                                                                 data-url="{{ route('customer.post.add-to-favorite', $relatedPost) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
-                                                            <i class="fa fa-heart"></i>
+                                                            <i class="fa fa-bookmark"></i>
                                                         </button>
                                                     </section>
                                                 @endif

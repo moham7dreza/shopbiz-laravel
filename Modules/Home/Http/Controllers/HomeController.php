@@ -2,6 +2,8 @@
 
 namespace Modules\Home\Http\Controllers;
 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -27,6 +29,8 @@ class HomeController extends Controller
      */
     public function home(HomeRepoEloquentInterface $repo): Factory|View|Application
     {
+        $this->setMetas($repo);
+
         if (session('block') !== 'yes') {
             ShareService::showGreetingToast();
         }
@@ -43,5 +47,22 @@ class HomeController extends Controller
         if ($request->ajax()) {
             return $this->service->search($request->search);
         }
+    }
+
+    /**
+     * @param HomeRepoEloquentInterface $repo
+     * @return void
+     */
+    private function setMetas(HomeRepoEloquentInterface $repo): void
+    {
+        SEOMeta::setKeywords($repo->siteSetting()->keywords);
+        SEOTools::setTitle($repo->siteSetting()->title);
+        SEOTools::setDescription($repo->siteSetting()->description);
+        SEOTools::opengraph()->setUrl('http://current.url.com');
+        SEOTools::setCanonical('https://codecasts.com.br/lesson');
+        SEOTools::opengraph()->addProperty('type', 'articles');
+        SEOTools::twitter()->setSite('@LuizVinicius73');
+        SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
+        SEOMeta::addMeta('author', $repo->siteSetting()->title);
     }
 }

@@ -3,9 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Favicon-->
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset($setting->icon) }}">
-<!-- Author Meta -->
-<meta name="author" content="shopbiz">
-
 <!-- meta character set -->
 <meta charset="UTF-8">
 
