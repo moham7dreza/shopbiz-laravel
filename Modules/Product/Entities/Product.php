@@ -166,7 +166,7 @@ class Product extends Model implements Viewable
      */
     public function reviews(): MorphMany
     {
-        return $this->morphMany('Modules\Product\Entities\Product', 'reviewable');
+        return $this->morphMany('Modules\Share\Entities\Review', 'reviewable');
     }
 
     // methods
@@ -222,14 +222,19 @@ class Product extends Model implements Viewable
     /**
      * Get rate score.
      *
-     * @return int
+     * @return float|int
      */
-    public function calculateRate(): int
+    public function calculateRate(): float|int
     {
-        $totalRate      = $this->reviews()->get()->sum('rate');
+        $totalRate = $this->reviews()->get()->sum('rate');
         $totalRateCount = $this->reviews()->count();
-        $calculateRate  = (int) $totalRate / $totalRateCount;
-
-        return (int) round((int) $calculateRate);
+        $calculateRate = (int)$totalRate / $totalRateCount;
+        $calculateRate *= getAdditionalRateNumber($this->like_count);
+        $calculateRate *= getAdditionalRateNumber($this->view_count);
+        $calculateRate *= getAdditionalRateNumber($this->comment_count);
+        if ($calculateRate >= 5) {
+            return 5;
+        }
+        return round((int)$calculateRate);
     }
 }

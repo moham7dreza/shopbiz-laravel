@@ -4,6 +4,7 @@ namespace Modules\Share\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Product\Entities\Product;
 use Modules\Share\Entities\Review;
 
 class ReviewService
@@ -34,7 +35,12 @@ class ReviewService
             $review->reviewable_type = get_class($model);
             $review->save();
         }
-
+        $rating = $model->calculateRate();
+        $product = Product::query()->where('id', $model->id)->first();
+        if ($product) {
+            Product::query()->where('id', $model->id)->update(['rating' => $rating]);
+            $product->refresh();
+        }
 //        $this->query()->create([
 //           'user_id' => auth()->id(),
 //            'commentable_id' => $model->id,

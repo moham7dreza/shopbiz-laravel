@@ -78,7 +78,6 @@ class ProductService implements ProductServiceInterface
      */
     public function productReview(Product $product, int $rate): JsonResponse
     {
-        $user = auth()->user();
         if (auth()->check()) {
             $this->reviewService->store($product, $rate);
             return response()->json(['status' => $rate]);

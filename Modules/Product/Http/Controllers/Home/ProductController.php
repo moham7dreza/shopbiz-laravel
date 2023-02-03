@@ -16,6 +16,7 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\Home\AddCommentToProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
+use Modules\Share\Entities\Review;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;

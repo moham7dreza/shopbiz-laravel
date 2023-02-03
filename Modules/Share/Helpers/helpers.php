@@ -201,3 +201,21 @@ function get_per_name($permission): mixed
 {
     return $permission['name'];
 }
+
+/**
+ * @param $count
+ * @return float
+ */
+function getAdditionalRateNumber($count): float
+{
+    $rate = 1;
+    if ($count <= 10) {
+        return $rate += 0.05;
+    } elseif ($count > 11 && $count <= 100) {
+        return $rate += 0.1;
+    } else if ($count > 101 && $count <= 200) {
+        return $rate += 0.2;
+    } else {
+        return $rate += 0.3;
+    }
+}

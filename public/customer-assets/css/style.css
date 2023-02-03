@@ -1258,8 +1258,8 @@ button:hover.text-greenyellow {
 }
 .star-rate i {
     padding: 0;
-    font-size: 12px;
-    margin: 0 1px;
+    font-size: 10px;
+    margin: 0;
     /*transition: 0.4s;*/
     box-shadow: 0 7px 8px 0 rgba(0, 0, 0, 0.04);
 }
@@ -1296,7 +1296,7 @@ button:hover.text-greenyellow {
 }
 
 .star-rate .fa {
-    margin: 0 0.5px;
+    margin: 0;
 }
 /*----- header fix -----*/
 
