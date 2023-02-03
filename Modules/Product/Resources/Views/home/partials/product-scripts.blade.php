@@ -2,6 +2,7 @@
 @include('Share::functions.to-fa-number')
 @include('Share::ajax-functions.product-add-to-favorite')
 @include('Share::ajax-functions.product-like')
+@include('Share::ajax-functions.product-review')
 <script>
     $(document).ready(function () {
         bill();

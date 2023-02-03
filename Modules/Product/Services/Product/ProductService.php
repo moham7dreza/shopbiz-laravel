@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\Product\Entities\Product;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
 use Modules\Share\Services\Image\ImageService;
+use Modules\Share\Services\ReviewService;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
@@ -19,15 +20,17 @@ class ProductService implements ProductServiceInterface
 
     public ImageService $imageService;
     public ProductMetaServiceInterface $metaService;
+    public ReviewService $reviewService;
 
     /**
      * @param ImageService $imageService
      * @param ProductMetaServiceInterface $metaService
      */
-    public function __construct(ImageService $imageService, ProductMetaServiceInterface $metaService)
+    public function __construct(ImageService $imageService, ProductMetaServiceInterface $metaService, ReviewService $reviewService)
     {
         $this->imageService = $imageService;
         $this->metaService = $metaService;
+        $this->reviewService = $reviewService;
     }
 
     /**
@@ -65,6 +68,22 @@ class ProductService implements ProductServiceInterface
             }
         } else {
             return response()->json(['status' => 3]);
+        }
+    }
+
+    /**
+     * @param Product $product
+     * @param int $rate
+     * @return JsonResponse
+     */
+    public function productReview(Product $product, int $rate): JsonResponse
+    {
+        $user = auth()->user();
+        if (auth()->check()) {
+            $this->reviewService->store($product, $rate);
+            return response()->json(['status' => $rate]);
+        } else {
+            return response()->json(['status' => false]);
         }
     }
 

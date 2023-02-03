@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_rates', static function (Blueprint $table) {
+        Schema::create('reviews', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->enum('rates', get_value_enums(Modules\Product\Enums\ProductRateEnum::cases()));
+            $table->string('reviewable_type');
+            $table->unsignedBigInteger('reviewable_id');
+            $table->enum('rate', get_value_enums(\Modules\Share\Enums\RateEnum::cases()));
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_rates');
+        Schema::dropIfExists('reviews');
     }
 };

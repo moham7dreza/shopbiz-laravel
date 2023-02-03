@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Product\Enums;
+namespace Modules\Share\Enums;
 
-enum ProductRateEnum:int
+enum RateEnum:int
 {
     case RATE_VERY_LOW = 1;
     case RATE_LOW = 2;

@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -31,7 +32,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable,
+    use HasApiTokens, HasFactory, Notifiable, Sluggable,
         HasFaDate, HasRoles, HasPermissions, Liker, Favoriter,
         HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait, HasCountersTrait;
 
@@ -40,6 +41,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public const ACTIVATE = 1;
     public const NOT_ACTIVE = 0;
+
+    /**
+     * @return array[]
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'first_name' . 'last_name'
+            ]
+        ];
+    }
 
     /**
      * The attributes that are mass assignable.

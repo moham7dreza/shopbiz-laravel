@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Category\Entities\PostCategory;
@@ -86,6 +87,16 @@ class Post extends Model implements Viewable
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Relation to product_rates table, one to many.
+     *
+     * @return MorphMany
+     */
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany('Modules\Post\Entities\Post', 'reviewable');
     }
 
     // Methods

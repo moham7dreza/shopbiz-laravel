@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Attribute\Entities\AttributeValue;
@@ -18,6 +19,7 @@ use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
+use Modules\Share\Entities\Review;
 use Modules\Share\Traits\HasActivityLogTrait;
 use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
@@ -160,11 +162,11 @@ class Product extends Model implements Viewable
     /**
      * Relation to product_rates table, one to many.
      *
-     * @return BelongsToMany
+     * @return MorphMany
      */
-    public function rates(): BelongsToMany
+    public function reviews(): MorphMany
     {
-        return $this->belongsToMany(User::class, 'product_rates');
+        return $this->morphMany('Modules\Product\Entities\Product', 'reviewable');
     }
 
     // methods
@@ -222,10 +224,10 @@ class Product extends Model implements Viewable
      *
      * @return int
      */
-    public function getRate(): int
+    public function calculateRate(): int
     {
-        $totalRate      = $this->rates()->get()->sum('rates');
-        $totalRateCount = $this->rates()->count();
+        $totalRate      = $this->reviews()->get()->sum('rate');
+        $totalRateCount = $this->reviews()->count();
         $calculateRate  = (int) $totalRate / $totalRateCount;
 
         return (int) round((int) $calculateRate);

@@ -95,6 +95,15 @@ class ProductController extends Controller
     }
 
     /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function review(Product $product): JsonResponse
+    {
+        return $this->service->productReview($product, request()->rate);
+    }
+
+    /**
      * @param $product
      * @return void
      */
