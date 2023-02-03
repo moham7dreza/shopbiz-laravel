@@ -651,7 +651,9 @@ body {
     position: relative;
     border-radius: 0.25rem;
     background-color: #FFFFFF;
-    transition: 0.4s;
+    /*transition: 0.4s;*/
+    /*min-height: 400px;*/
+    transition: ease all 0.5s;
 }
 
 .product:hover {
@@ -679,6 +681,7 @@ body {
     overflow: hidden;
     margin-bottom: 1rem;
     padding: 0rem;
+    background: #f3f3f3;
 }
 
 .product-image img {
@@ -686,6 +689,7 @@ body {
     width: 100%;
     max-width: 240px;
     border-radius: 0.25rem;
+    /*padding: 12px;*/
 }
 
 
@@ -1251,4 +1255,55 @@ body {
 }
 button:hover.text-greenyellow {
     color: grey
+}
+.star-rate i {
+    padding: 0;
+    font-size: 12px;
+    margin: 0 1px;
+    /*transition: 0.4s;*/
+    box-shadow: 0 7px 8px 0 rgba(0, 0, 0, 0.04);
+}
+/*.product-link:hover,*/
+/*.product-link:focus {*/
+/*    box-shadow: 0 0 25px -17px #000;*/
+/*    border-bottom: solid #17a5e9 5px;*/
+/*}*/
+
+.product-link .star-rate {
+    height: 0;
+    overflow: hidden;
+    transition: ease all 0.5s;
+}
+.product-link:hover .star-rate,
+.product-link:focus .star-rate {
+    height: 25px;
+    margin-bottom: 6px;
+}
+
+.product-link:hover section.product-actions,
+.product-link:focus section.product-actions {
+    display: none;
+}
+
+.product-link:hover .product-img img,
+.product-link:focus .product-img img {
+    transform: scale(1.2);
+    transition: ease all 0.5s;
+}
+
+.star-rate {
+    /*color: #ffcc00;*/
+}
+
+.star-rate .fa {
+    margin: 0 0.5px;
+}
+/*----- header fix -----*/
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999;
 }

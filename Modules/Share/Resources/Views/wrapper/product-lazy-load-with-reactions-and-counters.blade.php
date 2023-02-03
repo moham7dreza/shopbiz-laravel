@@ -76,6 +76,41 @@
                                                     <section class="product-name">
                                                         <h3>{{ $product->limitedName() }}</h3>
                                                     </section>
+                                                    <section class="d-flex align-items-center justify-content-center m-3">
+                                                        <section class="star-rate">
+                                                            @if($product->rating <= 1)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 2 && $product->rating > 1)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 3 && $product->rating > 2)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 4 && $product->rating > 3)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 5 && $product->rating > 4)
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @endif
+                                                        </section>
+                                                    </section>
                                                     <section class="product-price-wrapper">
                                                         @if($product->activeAmazingSales())
                                                             <section class="product-discount">
@@ -112,45 +147,45 @@
                                                 </a>
                                                 @auth
                                                     <section
-                                                        class="d-flex align-items-center justify-content-end gap-2 pb-2 px-1">
+                                                        class="d-flex align-items-center justify-content-end gap-2 pb-2 px-1 product-actions">
                                                         @if ($hasFavorited)
                                                             <section class="post-favorite-btn">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                    title="حذف از علاقه مندی">
+                                                                <button type="button"
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        title="حذف از علاقه مندی">
                                                                     <i class="fa fa-bookmark text-danger"></i>
                                                                 </button>
                                                             </section>
                                                         @else
                                                             <section class="post-favorite-btn">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                    title="اضافه به علاقه مندی">
+                                                                <button type="button"
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        title="اضافه به علاقه مندی">
                                                                     <i class="fa fa-bookmark"></i>
                                                                 </button>
                                                             </section>
                                                         @endif
                                                         @if ($hasLiked)
                                                             <section class="post-like-btn">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.like', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                    title="لایک نکردن">
+                                                                <button type="button"
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.product.like', $product) }}"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        title="لایک نکردن">
                                                                     <i class="fa fa-heart text-danger"></i>
                                                                 </button>
                                                             </section>
                                                         @else
                                                             <section class="post-like-btn">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.like', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                    title="لایک کردن">
+                                                                <button type="button"
+                                                                        class="btn btn-light btn-sm text-decoration-none"
+                                                                        data-url="{{ route('customer.product.like', $product) }}"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        title="لایک کردن">
                                                                     <i class="fa fa-heart"></i>
                                                                 </button>
                                                             </section>

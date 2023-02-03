@@ -60,5 +60,6 @@
     @include('Share::ajax-functions.post-add-to-favorite')
     @include('Share::ajax-functions.product-like')
     @include('Share::ajax-functions.post-like')
+    @include('Home::partials.calc-rate')
 
 @endsection

@@ -91,7 +91,42 @@
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">
                                                         <h3>{{ $product->limitedName() }}</h3></section>
-                                                    <section class="product-price-wrapper">
+                                                    <section class="d-flex align-items-center justify-content-center m-3">
+                                                        <section class="star-rate">
+                                                            @if($product->rating <= 1)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 2 && $product->rating > 1)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 3 && $product->rating > 2)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-gray" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 4 && $product->rating > 3)
+                                                                <i class="fa fa-star text-gray" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @elseif($product->rating <= 5 && $product->rating > 4)
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_good_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_normal_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_low_{{ $product->id }}"></i>
+                                                                <i class="fa fa-star text-greenyellow" id="rate_very_low_{{ $product->id }}"></i>
+                                                            @endif
+                                                        </section>
+                                                    </section>
+                                                    <section class="product-price-wrapper mb-4">
                                                         @if($product->activeAmazingSales())
                                                             <section class="product-discount">
                                                             <span

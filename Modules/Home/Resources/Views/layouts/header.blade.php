@@ -1,5 +1,5 @@
 <!-- start header -->
-<header class="header mb-4">
+<header class="header mb-4 header_fixed_on_scroll">
 
 
     <!-- start top-header logo, searchbox and cart -->

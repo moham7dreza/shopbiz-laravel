@@ -252,3 +252,15 @@ $(document).ready(function () {
     });
 });
 //end product introduction, features and comment
+
+
+/** header fixed js **/
+
+$(window).scroll(function(){
+    if ($(window).scrollTop() >= 500) {
+        $('.header_fixed_on_scroll').addClass('fixed-header');
+    }
+    else {
+        $('.header_fixed_on_scroll').removeClass('fixed-header');
+    }
+});
