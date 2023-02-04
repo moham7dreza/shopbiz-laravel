@@ -21,6 +21,7 @@ use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 use Modules\Payment\Traits\SaleCalculator;
 use Modules\Post\Entities\Post;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Share\Entities\ActivityLog;
@@ -42,6 +43,7 @@ class PanelRepo
     public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public TicketRepoEloquentInterface $ticketRepo;
     public SettingRepoEloquentInterface $settingRepo;
+    public ProductRepoEloquentInterface $productRepo;
 
     public function __construct(UserRepoEloquentInterface                $userRepoEloquent,
                                 PostRepoEloquentInterface                $postRepoEloquent,
@@ -52,7 +54,8 @@ class PanelRepo
                                 CommonDiscountRepoEloquentInterface      $commonDiscountRepoEloquent,
                                 TicketRepoEloquentInterface              $ticketRepoEloquent,
                                 SettingRepoEloquentInterface             $settingRepoEloquent,
-                                CopanDiscountRepoEloquentInterface       $copanDiscountRepo)
+                                CopanDiscountRepoEloquentInterface       $copanDiscountRepo,
+                                ProductRepoEloquentInterface $productRepo)
     {
         $this->userRepo = $userRepoEloquent;
         $this->postRepo = $postRepoEloquent;
@@ -64,6 +67,7 @@ class PanelRepo
         $this->ticketRepo = $ticketRepoEloquent;
         $this->settingRepo = $settingRepoEloquent;
         $this->copanDiscountRepo = $copanDiscountRepo;
+        $this->productRepo = $productRepo;
     }
 
     /**
@@ -82,6 +86,9 @@ class PanelRepo
         return $this->userRepo->adminUsersCount();
     }
 
+    /**
+     * @return int
+     */
     public function postsCount(): int
     {
         return $this->postRepo->postsCount();
@@ -106,6 +113,14 @@ class PanelRepo
     public function paymentsCount(): int
     {
         return $this->paymentRepo->paymentsCount();
+    }
+
+    /**
+     * @return int
+     */
+    public function productsCount(): int
+    {
+        return $this->productRepo->productsCount();
     }
 
     public function activeAmazingSalesCount(): int

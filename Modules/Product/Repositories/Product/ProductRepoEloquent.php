@@ -22,6 +22,14 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function productsCount(): int
+    {
+        return $this->index()->count();
+    }
+
+    /**
      * Get latest products.
      *
      * @return Builder

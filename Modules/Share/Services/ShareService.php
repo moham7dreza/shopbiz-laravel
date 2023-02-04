@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Modules\ACL\Entities\Permission;
 use Modules\Comment\Repositories\CommentRepoEloquent;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
+use Modules\Product\Repositories\Product\ProductRepoEloquent;
 use Modules\User\Entities\User;
 
 class ShareService
@@ -344,23 +345,42 @@ class ShareService
         if (self::checkForAdmin()) {
             $body = '';
             $header = '<h5>با سلام ' . self::getSweetTime() . ' ادمین عزیز خوش آمدید.</h5>';
+
+            // 1. get new notifs count
             $notif_repo = new NotificationRepoEloquent();
             $newNotifsCount = $notif_repo->newNotifications()->count();
             if ($newNotifsCount > 0) {
                 $body .= '<section class="">';
                 $body .= '<i class="fa fa-check mx-2"></i>';
-                $body .= '<p class="d-inline">شما ' . convertEnglishToPersian($newNotifsCount) . ' پیام جدید دارید.</p>';
+                $body .= '<p class="d-inline">شما ' . '<strong>' . convertEnglishToPersian($newNotifsCount) . '</strong>' . ' پیام جدید دارید.</p>';
                 $body .= '</section>';
             }
 //            $body .= '<br>';
+
+            // 2. get comments count
             $comment_repo = new CommentRepoEloquent();
             $unseenCommentCount = $comment_repo->latestCommentWithoutAdmin()->count();
             if ($unseenCommentCount > 0) {
                 $body .= '<section class="">';
                 $body .= '<i class="fa fa-check mx-2"></i>';
-                $body .= '<p class="d-inline">به تعداد ' . convertEnglishToPersian($unseenCommentCount) . ' نظر جدید ثبت شده است.</p>';
+                $body .= '<p class="d-inline">به تعداد ' . '<strong>' . convertEnglishToPersian($unseenCommentCount) . '</strong>' . ' نظر جدید ثبت شده است.</p>';
                 $body .= '</section>';
             }
+
+            // 3. get products with low marketable number
+            $productCounter = 0;
+            $product_repo = new ProductRepoEloquent();
+            $products = $product_repo->index()->where('status', 1)->pluck('marketable_number');
+            foreach ($products as $product) {
+                if ($product < 10) {
+                    $productCounter += 1;
+                }
+            }
+            $body .= '<section class="">';
+            $body .= '<i class="fa fa-check mx-2"></i>';
+            $body .= '<p class="d-inline">موجودی ' . '<strong>' . convertEnglishToPersian($productCounter) . '</strong>' . ' تا از کالاها رو به اتمام است.</p>';
+            $body .= '</section>';
+
             self::showAnimatedToastWithHtml($header, $body, 'info', 8000);
         } else {
             self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' کاربر عزیز به فروشگاه ما خوش آمدید.')->position('top-left');

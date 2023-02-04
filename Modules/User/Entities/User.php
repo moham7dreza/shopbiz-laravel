@@ -281,7 +281,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getFaPostsCount(): string
     {
-        return convertEnglishToPersian($this->hasPosts->count()) ?? 0;
+        return convertEnglishToPersian($this->posts->count()) ?? 0;
     }
 
     public function getFaLikedPostsCount(): array|string

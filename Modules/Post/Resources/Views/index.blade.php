@@ -44,6 +44,7 @@
                             <th>تصویر</th>
                             <th>تاریخ انتشار</th>
                             <th>تعداد بازدید</th>
+                            <th>تعداد لایک</th>
                             <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th>امکان درج کامنت</th>
@@ -63,6 +64,7 @@
                                 </td>
                                 <td>{{ $post->getFaPublishDate() }}</td>
                                 <td>{{ $post->getFaViewsCount() }}</td>
+                                <td>{{ $post->getFaLikersCount() }}</td>
                                 <td>
                                     @if(empty($post->tags()->get()->toArray()))
                                         <span class="text-danger">برای این پست هیچ تگی تعریف نشده است</span>

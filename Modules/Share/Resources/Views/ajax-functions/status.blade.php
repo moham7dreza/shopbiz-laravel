@@ -11,24 +11,22 @@
                 if (response.status) {
                     if (response.checked) {
                         element.prop('checked', true);
-                        successToast('وضعیت ' + name + ' با موفقیت فعال شد ')
+                        swal('وضعیت ' + name + ' با موفقیت فعال شد ', 'success')
                     } else {
                         element.prop('checked', false);
-                        warningToast('وضعیت ' + name + ' با موفقیت غیر فعال شد ')
+                        swal('وضعیت ' + name + ' با موفقیت غیر فعال شد ', 'warning')
                     }
                 } else {
                     element.prop('checked', elementValue);
-                    errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    swal('هنگام ویرایش مشکلی بوجود امده است', 'error')
                 }
             },
             error: function () {
                 element.prop('checked', elementValue);
-                errorToast('ارتباط برقرار نشد')
+                swal('ارتباط برقرار نشد', 'error')
             }
         });
     }
 
 </script>
-@include('Share::toast-functions.success-toast')
-@include('Share::toast-functions.error-toast')
-@include('Share::toast-functions.warning-toast')
+@include('Share::toast-functions.swal')

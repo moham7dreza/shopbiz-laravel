@@ -239,4 +239,12 @@ class Post extends Model implements Viewable
     {
         return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
     }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaLikersCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->likers()->count()) ?? 0;
+    }
 }

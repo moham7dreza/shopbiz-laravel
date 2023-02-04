@@ -81,16 +81,16 @@
         </a>
     </section>
     <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('payment.index') }}" class="text-decoration-none d-block mb-4">
+        <a href="{{ route('product.index') }}" class="text-decoration-none d-block mb-4">
             <section class="card bg-danger text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
-                            <h5>{{ $panelRepo->paymentsCount() }}</h5>
-                            <p>تعداد پرداخت ها</p>
+                            <h5>{{ $panelRepo->productsCount() }}</h5>
+                            <p>تعداد محصولات</p>
                         </section>
                         <section class="info-box-icon">
-                            <i class="fas fa-cash-register"></i>
+                            <i class="fas fa-shopping-cart"></i>
                         </section>
                     </section>
                 </section>

@@ -16,11 +16,11 @@
                                 .name))
                         })
                     } else {
-                        errorToast('خطا پیش آمده است')
+                        errorToast('خطا پیش آمده است', 'error')
                     }
                 },
                 error: function () {
-                    errorToast('خطا پیش آمده است')
+                    errorToast('خطا پیش آمده است', 'error')
                 }
             })
         })
@@ -49,11 +49,11 @@
                                     .name))
                             })
                         } else {
-                            errorToast('خطا پیش آمده است')
+                            errorToast('خطا پیش آمده است', 'error')
                         }
                     },
                     error: function () {
-                        errorToast('خطا پیش آمده است')
+                        errorToast('خطا پیش آمده است', 'error')
                     }
                 })
             })
@@ -61,4 +61,4 @@
 
     })
 </script>
-@include('Share::toast-functions.error-toast')
+@include('Share::toast-functions.swal')

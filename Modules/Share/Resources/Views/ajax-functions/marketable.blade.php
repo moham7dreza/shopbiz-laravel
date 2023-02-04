@@ -11,24 +11,22 @@
                 if (response.marketable) {
                     if (response.checked) {
                         element.prop('checked', true);
-                        successToast('امکان فروش ' + name + ' با موفقیت فعال شد ')
+                        swal('امکان فروش ' + name + ' با موفقیت فعال شد ', 'success')
                     } else {
                         element.prop('checked', false);
-                        warningToast('امکان فروش ' + name + ' با موفقیت غیر فعال شد ')
+                        swal('امکان فروش ' + name + ' با موفقیت غیر فعال شد ', 'warning')
                     }
                 } else {
                     element.prop('checked', elementValue);
-                    errorToast('هنگام ویرایش مشکلی بوجود امده است')
+                    swal('هنگام ویرایش مشکلی بوجود امده است', 'error')
                 }
             },
             error: function () {
                 element.prop('checked', elementValue);
-                errorToast('ارتباط برقرار نشد')
+                swal('ارتباط برقرار نشد', 'error')
             }
         });
     }
 
 </script>
-@include('Share::toast-functions.success-toast')
-@include('Share::toast-functions.error-toast')
-@include('Share::toast-functions.warning-toast')
+@include('Share::toast-functions.swal')
