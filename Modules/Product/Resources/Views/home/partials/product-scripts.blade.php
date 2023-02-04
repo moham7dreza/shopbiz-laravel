@@ -3,6 +3,8 @@
 @include('Share::ajax-functions.product-add-to-favorite')
 @include('Share::ajax-functions.product-like')
 @include('Share::ajax-functions.product-review')
+@include('Share::toast-functions.swal')
+@include('Share::toast-functions.login-toast')
 <script>
     $(document).ready(function () {
         bill();

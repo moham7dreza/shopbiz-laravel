@@ -70,7 +70,10 @@
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ ($product->imagePath()) }}"
-                                                             alt="{{ $product->name }}">
+                                                             alt="{{ $product->name }}"
+                                                             title="{{ $product->limitedIntro(50) . ' (' . 'محبوبیت : ' . convertEnglishToPersian($product->rating) . ')' }}"
+                                                             data-bs-toggle="tooltip"
+                                                             data-bs-placement="top">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">
@@ -119,9 +122,9 @@
                                                                 <button type="button"
                                                                         class="btn btn-light btn-sm text-decoration-none"
                                                                         data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="right"
                                                                         title="حذف از علاقه مندی">
-                                                                    <i class="fa fa-bookmark text-danger"></i>
+                                                                    <i class="fa fa-bookmark text-info"></i>
                                                                 </button>
                                                             </section>
                                                         @else
@@ -129,7 +132,7 @@
                                                                 <button type="button"
                                                                         class="btn btn-light btn-sm text-decoration-none"
                                                                         data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="right"
                                                                         title="اضافه به علاقه مندی">
                                                                     <i class="fa fa-bookmark"></i>
                                                                 </button>

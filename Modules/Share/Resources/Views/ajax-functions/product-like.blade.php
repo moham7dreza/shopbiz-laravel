@@ -9,12 +9,12 @@
                     $(element).children().first().addClass('text-danger');
                     $(element).attr('data-original-title', 'لایک نکردن');
                     $(element).attr('data-bs-original-title', 'لایک نکردن');
-                    infoToast('آیتم توسط شما لایک شد')
+                    swal('آیتم توسط شما لایک شد', 'info')
                 } else if (result.status === 2) {
                     $(element).children().first().removeClass('text-danger')
                     $(element).attr('data-original-title', 'لایک کردن');
                     $(element).attr('data-bs-original-title', 'لایک کردن');
-                    warningToast('آیتم توسط شما از لایک خارج شد')
+                    swal('آیتم توسط شما از لایک خارج شد', 'warning')
                 } else if (result.status === 3) {
                     loginToast()
                 }
@@ -22,6 +22,3 @@
         })
     })
 </script>
-@include('Share::toast-functions.info-toast')
-@include('Share::toast-functions.warning-toast')
-@include('Share::toast-functions.login-toast')

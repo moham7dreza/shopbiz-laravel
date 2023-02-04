@@ -319,17 +319,17 @@ class ShareService
         $asrStartHour = Carbon::parse('17:00:00')->format('H');
         $shabStartHour = Carbon::parse('20:00:00')->format('H');
         $payaneRozStartHour = Carbon::parse('24:00:00')->format('H');
-        if ($bamdadEndHour < $nowHour && $sobhStartHour > $nowHour) {
+        if ($bamdadEndHour <= $nowHour && $sobhStartHour > $nowHour) {
             return 'سلام جغد.';
-        } elseif ($sobhStartHour < $nowHour && $zohrStartHour > $nowHour) {
+        } elseif ($sobhStartHour <= $nowHour && $zohrStartHour > $nowHour) {
             return 'صبح بخیر.';
-        } elseif ($zohrStartHour < $nowHour && $asrStartHour > $nowHour) {
+        } elseif ($zohrStartHour <= $nowHour && $asrStartHour > $nowHour) {
             return 'ظهر بخیر.';
-        } elseif ($asrStartHour < $nowHour && $shabStartHour > $nowHour) {
+        } elseif ($asrStartHour <= $nowHour && $shabStartHour > $nowHour) {
             return 'عصر بخیر.';
-        } elseif ($shabStartHour < $nowHour && $payaneRozStartHour > $nowHour) {
+        } elseif ($shabStartHour <= $nowHour && $payaneRozStartHour > $nowHour) {
             return 'شب بخیر.';
-        } elseif ($payaneRozStartHour < $nowHour && $bamdadEndHour > $nowHour) {
+        } elseif ($payaneRozStartHour <= $nowHour && $bamdadEndHour > $nowHour) {
             return 'بامداد بخیر.';
         }
         return '';

@@ -1,5 +1,6 @@
 @include('Share::ajax-functions.product-add-to-favorite')
-
+@include('Share::toast-functions.swal')
+@include('Share::toast-functions.login-toast')
 <script>
     //start product introduction, features and comment
     $(document).ready(function () {

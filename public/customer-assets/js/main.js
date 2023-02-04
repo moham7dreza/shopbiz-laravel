@@ -257,7 +257,7 @@ $(document).ready(function () {
 /** header fixed js **/
 
 $(window).scroll(function(){
-    if ($(window).scrollTop() >= 500) {
+    if ($(window).scrollTop() >= 700) {
         $('.header_fixed_on_scroll').addClass('fixed-header');
     }
     else {

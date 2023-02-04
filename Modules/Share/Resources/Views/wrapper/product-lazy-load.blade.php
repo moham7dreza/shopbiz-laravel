@@ -64,7 +64,7 @@
                                                                     data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     title="حذف از علاقه مندی">
-                                                                <i class="fa fa-bookmark text-danger"></i>
+                                                                <i class="fa fa-bookmark text-info"></i>
                                                             </button>
                                                         </section>
                                                     @else
@@ -86,7 +86,7 @@
                                                              alt="{{ $product->name }}"
                                                              title="{{ $product->limitedIntro(50) . ' (' . 'محبوبیت : ' . convertEnglishToPersian($product->rating) . ')' }}"
                                                              data-bs-toggle="tooltip"
-                                                             data-bs-placement="right">
+                                                             data-bs-placement="top">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">

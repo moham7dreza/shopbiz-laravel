@@ -161,7 +161,7 @@
                                                     <button type="button"
                                                             class="btn btn-light btn-sm text-decoration-none"
                                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            data-bs-toggle="tooltip" data-bs-placement="right"
                                                             title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
                                                     </button>
@@ -173,9 +173,9 @@
                                                              style="top: 0">
                                                         <button type="button" class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-toggle="tooltip" data-bs-placement="right"
                                                                 title="حذف از علاقه مندی">
-                                                            <i class="fa fa-bookmark text-danger"></i>
+                                                            <i class="fa fa-bookmark text-info"></i>
                                                         </button>
                                                     </section>
                                                 @else
@@ -190,17 +190,17 @@
                                                     </section>
                                                 @endif
                                                 @if ($hasLiked)
-                                                    <section class="product-add-to-favorite position-relative"
+                                                    <section class="product-like position-relative"
                                                              style="top: 0">
                                                         <button type="button" class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="لایک نکردن">
                                                             <i class="fa fa-heart text-danger"></i>
                                                         </button>
                                                     </section>
                                                 @else
-                                                    <section class="product-add-to-favorite position-relative"
+                                                    <section class="product-like position-relative"
                                                              style="top: 0">
                                                         <button type="button" class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
