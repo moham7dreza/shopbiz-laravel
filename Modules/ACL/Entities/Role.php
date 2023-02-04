@@ -16,14 +16,14 @@ use Spatie\Permission\Traits\HasPermissions;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait, HasCountersTrait, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait;
 
     /**
      * @var string[]
      */
     protected $fillable = ['name', 'description', 'status'];
 
-    // Relations
+    // ************************** Relations
 
 //    /**
 //     * @return BelongsToMany
@@ -41,7 +41,9 @@ class Role extends \Spatie\Permission\Models\Role
 //        return $this->belongsToMany(Permission::class);
 //    }
 
-//    /**
+    // ********************************************* methods
+
+    //    /**
 //     * @param $permission
 //     * @return mixed
 //     */
@@ -51,16 +53,42 @@ class Role extends \Spatie\Permission\Models\Role
 //    }
 
     /**
-     * @return mixed|string
+     * @param int $size
+     * @return string
      */
-    public function textName(): mixed
+    public function geLimitedDescription(int $size = 50): string
     {
-        foreach (self::$roles as $role) {
-            if ($this->name == $role['name']) {
-                return $role['description'];
-            }
-        }
-        return 'نقش یافت نشد.';
+        return Str::limit($this->description, $size) ?? '-';
     }
 
+//    /**
+//     * @return mixed|string
+//     */
+//    public function textName(): mixed
+//    {
+//        foreach (self::$roles as $role) {
+//            if ($this->name == $role['name']) {
+//                return $role['description'];
+//            }
+//        }
+//        return 'نقش یافت نشد.';
+//    }
+
+    // ********************************************* counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaUsersCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->users->count()) ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaPermissionsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->permissions->count()) ?? 0;
+    }
 }

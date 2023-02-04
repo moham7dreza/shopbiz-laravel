@@ -10,25 +10,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Post\Entities\Post;
-use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
-use Modules\Share\Traits\HasImageTrait;
 use Spatie\Tags\HasTags;
 
 
 class PostCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait, HasTags, HasCountersTrait;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags;
 
     /**
      * @return array[]
      */
     public function sluggable(): array
     {
-        return[
-            'slug' =>[
+        return [
+            'slug' => [
                 'source' => 'name'
             ]
         ];
@@ -44,7 +41,7 @@ class PostCategory extends Model
      */
     protected $fillable = ['name', 'description', 'slug', 'image', 'status'];
 
-    //relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -70,7 +67,27 @@ class PostCategory extends Model
         return $this->hasMany(Post::class, 'category_id');
     }
 
-    // Methods
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedDescription(int $size = 50): string
+    {
+        return Str::limit($this->description, $size) ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentName(): string
+    {
+        return is_null($this->parent_id) ? 'دسته اصلی' : $this->parent->name;
+    }
+
+
+    // ********************************************* paths
 
     /**
      * @return string
@@ -79,4 +96,26 @@ class PostCategory extends Model
     {
         return route('category.posts', $this->slug);
     }
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function getImagePath(string $size = 'medium'): string
+    {
+        return asset($this->image['indexArray'][$size]);
+    }
+
+    // ********************************************* FA Properties
+
+    // ********************************************* FA counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaProductsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->products->count()) ?? 0;
+    }
+
 }

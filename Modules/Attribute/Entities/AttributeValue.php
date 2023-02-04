@@ -13,7 +13,7 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class AttributeValue extends Model
 {
-    use HasFactory, SoftDeletes, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes;
 
     public const TYPE_SIMPLE = 0;
     public const TYPE_MULTIPLE = 1;
@@ -28,7 +28,7 @@ class AttributeValue extends Model
      */
     protected $table = 'attribute_values';
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -54,14 +54,30 @@ class AttributeValue extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // Methods
+    // ********************************************* Methods
 
     /**
      * @return string
      */
-    public function getFaPrice(): string
+    public function getProductName(): string
     {
-        return priceFormat(json_decode($this->value)->price_increase) . ' تومان ' ?? 0;
+        return $this->product->name ?? 'نام محصول یافت نشد.';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryName(): string
+    {
+        return $this->category->name ?? 'دسته ندارد';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttributeName(): string
+    {
+        return $this->attribute->name ?? 'فرم کالا ندارد';
     }
 
     /**
@@ -72,10 +88,20 @@ class AttributeValue extends Model
         return json_decode($this->value)->value ?? '';
     }
 
+    // ********************************************* FA Properties
+
     /**
      * @return string
      */
-    public function getTextType(): string
+    public function getFaPriceIncreaseAmount(): string
+    {
+        return priceFormat(json_decode($this->value)->price_increase) . ' تومان ' ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaType(): string
     {
         return $this->type == self::TYPE_SIMPLE ? 'ساده' : 'انتخابی';
     }

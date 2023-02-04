@@ -17,7 +17,7 @@ use Modules\User\Entities\User;
 
 class CartItem extends Model
 {
-    use HasFactory, SoftDeletes, HasImageTrait, HasFaPropertiesTrait, PriceCalcTrait;
+    use HasFactory, SoftDeletes, PriceCalcTrait;
 
     /**
      * @var string[]
@@ -25,7 +25,7 @@ class CartItem extends Model
     protected $fillable = ['color_id', 'number', 'product_id', 'user_id', 'guarantee_id'];
 
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -60,14 +60,30 @@ class CartItem extends Model
     }
 
 
-    // Methods
+    // ********************************************* Methods
 
     /**
-     * @return int|string
+     * @return string
      */
-    public function productDiscount(): int|string
+    public function getProductName(): string
     {
-        return priceFormat($this->cartItemProductDiscount()) . ' تومان ' ?? 0;
+        return $this->product->name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getColorName(): string
+    {
+        return $this->color->color_name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getGuaranteeName(): string
+    {
+        return $this->guarantee->name ?? '-';
     }
 
     /**
@@ -78,10 +94,31 @@ class CartItem extends Model
         return !empty($this->product->activeAmazingSales()) ?? false;
     }
 
+    // ********************************************* paths
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function getProductImagePath(string $size = 'medium'): string
+    {
+        return asset($this->product->image['indexArray'][$size]);
+    }
+
+    // ********************************************* FA Properties
+
     /**
      * @return int|string
      */
-    public function faProductPrice(): int|string
+    public function getFaProductDiscount(): int|string
+    {
+        return priceFormat($this->cartItemProductDiscount()) . ' تومان ' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaProductPrice(): int|string
     {
         return priceFormat($this->cartItemProductPrice()) . ' تومان ' ?? 0;
     }
@@ -90,15 +127,17 @@ class CartItem extends Model
      * @param $price
      * @return int|string
      */
-    public function faPrice($price): int|string
+    public function getFaPrice($price): int|string
     {
         return priceFormat($price) . ' تومان ' ?? 0;
     }
 
+    // ********************************************* FA counters
+
     /**
      * @return array|int|string|string[]
      */
-    public function faItemsCount(): array|int|string
+    public function getFaItemsCount(): array|int|string
     {
         return convertEnglishToPersian($this->count()) ?? 0;
     }

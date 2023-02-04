@@ -11,6 +11,11 @@ class Province extends Model
 {
     use HasFactory;
 
+    // ********************************************* relations
+
+    /**
+     * @return HasMany
+     */
     public function cities(): HasMany
     {
         return $this->hasMany(City::class);
@@ -23,4 +28,6 @@ class Province extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    // ********************************************* methods
 }

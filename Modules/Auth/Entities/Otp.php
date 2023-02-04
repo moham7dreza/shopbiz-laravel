@@ -20,6 +20,8 @@ class Otp extends Model
 
     protected $fillable = ['token', 'user_id', 'otp_code', 'login_id', 'type', 'used', 'status'];
 
+    // ********************************************* Relations
+
     /**
      * @return BelongsTo
      */
@@ -27,4 +29,6 @@ class Otp extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // ********************************************* Methods
 }

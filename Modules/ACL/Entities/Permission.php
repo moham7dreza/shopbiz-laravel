@@ -3,20 +3,17 @@
 namespace Modules\ACL\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\ACL\Traits\SystemPermissionsTrait;
-use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
-use Modules\User\Entities\User;
 use Spatie\Permission\Traits\HasRoles;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
-    use HasFactory, SoftDeletes, HasFaDate, SystemPermissionsTrait, HasDefaultStatus, HasRoles, HasCountersTrait, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasRoles,
+        HasFaDate, SystemPermissionsTrait, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -25,7 +22,7 @@ class Permission extends \Spatie\Permission\Models\Permission
 
 //    protected $casts = ['status' => PermissionStatusEnum::class];
 
-    // Relations
+    // ***************************************** Relations
 
 //    /**
 //     * @return BelongsToMany
@@ -43,4 +40,33 @@ class Permission extends \Spatie\Permission\Models\Permission
 //        return $this->belongsToMany(User::class);
 //    }
 
+    // ********************************************* methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedDescription(int $size = 50): string
+    {
+        return Str::limit($this->description, $size) ?? '-';
+    }
+
+    // ********************************************* counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaRolesCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->roles->count()) ?? 0;
+    }
+
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaUsersCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->users->count()) ?? 0;
+    }
 }

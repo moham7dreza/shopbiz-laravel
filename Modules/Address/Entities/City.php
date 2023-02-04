@@ -10,6 +10,8 @@ class City extends Model
 {
     use HasFactory;
 
+    // ********************************************* relations
+
     /**
      * @return BelongsTo
      */
@@ -17,4 +19,6 @@ class City extends Model
     {
         return $this->belongsTo(Province::class);
     }
+
+    // ********************************************* methods
 }

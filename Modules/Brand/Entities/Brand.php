@@ -13,7 +13,7 @@ use Spatie\Tags\HasTags;
 
 class Brand extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasImageTrait;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags;
 
     /**
      * @return array[]
@@ -37,4 +37,20 @@ class Brand extends Model
      * @var string[]
      */
     protected $fillable = ['persian_name', 'original_name', 'slug', 'logo', 'status'];
+
+    // ********************************************* Relations
+
+    // ********************************************* Methods
+
+    // ********************************************* paths
+
+    /**
+     * @return string
+     */
+    public function logo(): string
+    {
+        return asset($this->logo);
+    }
+
+    // ********************************************* FA Properties
 }

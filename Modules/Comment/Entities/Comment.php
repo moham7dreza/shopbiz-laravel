@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasFaPropertiesTrait;
@@ -16,7 +17,7 @@ use Modules\User\Entities\User;
 
 class Comment extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
     public const STATUS_NEW = 2;
 
     public const APPROVED = 1;
@@ -30,7 +31,7 @@ class Comment extends Model
      */
     protected $fillable = ['body', 'parent_id', 'author_id', 'commentable_id', 'commentable_type', 'approved', 'status'];
 
-    //relations
+    // ********************************************* Relations
 
     /**
      * @return MorphTo
@@ -64,7 +65,43 @@ class Comment extends Model
         return $this->hasMany($this, 'parent_id');
     }
 
-    //methods
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedBody(int $size = 50): string
+    {
+        return Str::limit($this->body, $size) ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): string
+    {
+        return $this->user->fullName ?? 'نویسنده ندارد.';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentName(): string
+    {
+        return is_null($this->parent_id) ? 'نظر اصلی' : $this->parent->name;
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getParentBody(int $size = 100): string
+    {
+        return is_null($this->parent_id) ? '-' : Str::limit($this->parent->body, $size);
+    }
+
+    // ********************************************* css
 
     /**
      * @return string
@@ -86,6 +123,16 @@ class Comment extends Model
         else return 'warning';
     }
 
+    // ********************************************* paths
+
+    /**
+     * @return string
+     */
+    public function getAuthorImage(): string
+    {
+        return $this->user->image() ?? 'عکس ندارد.';
+    }
+
     /**
      * @return string
      */
@@ -95,11 +142,64 @@ class Comment extends Model
     }
 
 
+    // ********************************************* FA Properties
+
+    /**
+     * @return string
+     */
+    public function getFaApproved(): string
+    {
+        return $this->approved === self::APPROVED ? 'تایید شده' : 'تایید نشده';
+    }
 
     /**
      * @return array|mixed|string|string[]
      */
-    public function commentableId(): mixed
+    public function getFaAuthorId(): mixed
+    {
+        return convertEnglishToPersian($this->author_id) ?? $this->author_id;
+    }
+
+    // ********************************************* FA counters
+
+    /**
+     * @return string
+     */
+    public function getFaAuthorPostsCount(): string
+    {
+        return convertEnglishToPersian($this->user->posts->count()) ?? 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFaAuthorCommentsCount(): int
+    {
+        return $this->user->comments->count() ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaAnswersCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->answers->count()) ?? 0;
+    }
+
+    // ********************************************* polymorphic
+
+    /**
+     * @return string
+     */
+    public function getCommentableName(): string
+    {
+        return Str::limit($this->commentable->title, 50) ?? Str::limit($this->commentable->name, 50) ?? 'عنوانی ندارد';
+    }
+
+    /**
+     * @return array|mixed|string|string[]
+     */
+    public function getFaCommentableId(): mixed
     {
         return convertEnglishToPersian($this->commentable_id) ?? $this->commentable_id;
     }
@@ -139,5 +239,4 @@ class Comment extends Model
             return route('postComment.index');
         else return '#';
     }
-
 }

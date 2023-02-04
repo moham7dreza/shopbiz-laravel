@@ -29,6 +29,8 @@ class Address extends Model
         'status'
     ];
 
+    // ********************************************* relations
+
     /**
      * @return BelongsTo
      */
@@ -51,5 +53,39 @@ class Address extends Model
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
+    }
+
+    // ********************************************* methods
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->user->fullName ?? $this->user->first_name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityName(): string
+    {
+        return $this->city->name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvinceName(): string
+    {
+        return $this->province->name ?? '-';
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaPostalCode(): array|string
+    {
+        return convertEnglishToPersian($this->postal_code) ?? '-';
     }
 }

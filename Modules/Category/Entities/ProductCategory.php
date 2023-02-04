@@ -21,7 +21,7 @@ use Spatie\Tags\HasTags;
 
 class ProductCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasImageTrait, HasCountersTrait, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags;
 
     public const SHOW_IN_MENU = 1;
     public const SHOW_NOT_IN_MENU = 0;
@@ -48,7 +48,7 @@ class ProductCategory extends Model
      */
     protected $fillable = ['name', 'description', 'slug', 'image', 'status', 'show_in_menu', 'parent_id'];
 
-    //relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -82,7 +82,26 @@ class ProductCategory extends Model
         return $this->belongsToMany(Attribute::class, 'attribute_category', foreignPivotKey: 'category_id');
     }
 
-    //methods
+    // ********************************************* Methods
+
+    /**
+     * @return string
+     */
+    public function getParentName(): string
+    {
+        return is_null($this->parent_id) ? 'دسته اصلی' : $this->parent->name;
+    }
+
+    // ********************************************* paths
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function getImagePath(string $size = 'medium'): string
+    {
+        return asset($this->image['indexArray'][$size]);
+    }
 
     /**
      * @return string
@@ -91,4 +110,8 @@ class ProductCategory extends Model
     {
         return route('customer.market.category.products', $this->slug);
     }
+
+    // ********************************************* FA Properties
+
+
 }
