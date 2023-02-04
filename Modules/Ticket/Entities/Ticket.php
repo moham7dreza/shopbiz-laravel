@@ -15,7 +15,7 @@ use Modules\User\Entities\User;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate;
 
     public const STATUS_OPEN_TICKET = 1;
     public const STATUS_CLOSE_TICKET = 0;
@@ -32,6 +32,8 @@ class Ticket extends Model
      */
     protected $fillable = ['subject', 'description', 'status', 'seen', 'reference_id', 'user_id', 'category_id', 'priority_id', 'ticket_id'];
 
+
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -83,7 +85,60 @@ class Ticket extends Model
         return $this->hasMany($this, 'ticket_id')->with('children');
     }
 
-    // Methods
+    // ********************************************* Methods
+
+    /**
+     * @return string
+     */
+    public function getUserName(): string
+    {
+        return $this->user->fullName ?? $this->user->first_name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentTitle(): string
+    {
+        return !empty($this->parent->subject) ? Str::limit($this->parent->subject, 50) : '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceName(): string
+    {
+        return $this->admin->user->fullName ?? $this->admin->user->first_name ?? '-';
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedSubject(int $size = 50): string
+    {
+        return Str::limit($this->subject, $size);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryName(): string
+    {
+        return $this->category->name ?? 'دسته ندارد';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriorityName(): string
+    {
+        return $this->priority->name ?? 'اولویت ندارد';
+    }
+
+    // ********************************************* css
+
+
     /**
      * @return string
      */
@@ -102,5 +157,15 @@ class Ticket extends Model
         if ($this->status === self::STATUS_OPEN_TICKET) return 'times';
         else if ($this->status === self::STATUS_CLOSE_TICKET) return 'check';
         else return 'warning';
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return array|string
+     */
+    public function getFaId(): array|string
+    {
+        return convertEnglishToPersian($this->id);
     }
 }

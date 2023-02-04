@@ -12,7 +12,7 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class ProductColor extends Model
 {
-    use HasFactory, SoftDeletes, HasDefaultStatus, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -26,5 +26,50 @@ class ProductColor extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getProductName(int $size = 100): string
+    {
+        return Str::limit($this->product->name, $size) ?? '-';
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return string
+     */
+    public function getFaPriceIncrease(): string
+    {
+        return priceFormat($this->price_increase) . ' تومان ';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaMarketableNumber(): int|string
+    {
+        return convertEnglishToPersian($this->marketable_number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaSoldNumber(): int|string
+    {
+        return convertEnglishToPersian($this->sold_number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaFrozenNumber(): int|string
+    {
+        return convertEnglishToPersian($this->frozen_number) . ' عدد' ?? 0;
     }
 }

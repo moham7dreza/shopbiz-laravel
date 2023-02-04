@@ -14,11 +14,11 @@ use Modules\User\Entities\User;
 
 class Payment extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, PaymentStatusTrait, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, PaymentStatusTrait;
 
     protected $fillable = ['amount', 'user_id', 'pay_date', 'type', 'paymentable_id', 'paymentable_type', 'status'];
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -36,15 +36,64 @@ class Payment extends Model
         return $this->morphTo();
     }
 
-    // Methods
-
-
+    // ********************************************* Methods
 
     /**
      * @return string
      */
-    public function paymentGateway(): string
+    public function getCustomerName(): string
+    {
+        return $this->user->fullName ?? $this->user->first_name ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentGateway(): string
     {
         return $this->paymentable->gateway ?? '-';
     }
+
+    /**
+     * @return string
+     */
+    public function geCashReceiverName(): string
+    {
+        return $this->paymentable->cash_receiver ?? '-';
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return int|string
+     */
+    public function getFaTransactionId(): int|string
+    {
+        return convertEnglishToPersian($this->paymentable->transaction_id) ?? '-';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaCustomerId(): int|string
+    {
+        return convertEnglishToPersian($this->user->id) ?? '-';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaPaymentAmountPrice(): int|string
+    {
+        return priceFormat($this->paymentable->amount) . ' تومان' ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaPayDate(): string
+    {
+        return jalaliDate($this->paymentable->pay_date) ?? 'تاریخ پرداخت یافت نشد.';
+    }
+
 }

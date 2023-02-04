@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
-use Modules\Share\Traits\HasImageTrait;
 
 class Setting extends Model
 {
-    use HasFactory, HasFaDate, HasImageTrait, HasFaPropertiesTrait;
+    use HasFactory, HasFaDate;
 
     /**
      * @var string[]
@@ -23,4 +21,47 @@ class Setting extends Model
      * @var string[]
      */
     protected $fillable = ['title', 'description', 'keywords', 'logo', 'icon'];
+
+
+    // ********************************************* Relations
+
+    // ********************************************* Methods
+
+    // ********************************************* paths
+
+    /**
+     * @return string
+     */
+    public function logo(): string
+    {
+        return asset($this->logo);
+    }
+
+    /**
+     * @return string
+     */
+    public function icon(): string
+    {
+        return asset($this->icon);
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedDescription(int $size = 50): string
+    {
+        return Str::limit($this->description, $size) ?? '-';
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedKeywords(int $size = 50): string
+    {
+        return Str::limit($this->keywords, $size);
+    }
 }

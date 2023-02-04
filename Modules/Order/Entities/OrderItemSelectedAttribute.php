@@ -13,16 +13,16 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class OrderItemSelectedAttribute extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate;
 
-    public $fillable = ['order_item_id', 'category_attribute_id', 'category_value_id', 'value'];
+    public $fillable = ['order_item_id', 'attribute_id', 'attribute_value_id', 'value'];
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
      */
-    public function categoryAttribute(): BelongsTo
+    public function attribute(): BelongsTo
     {
         return $this->belongsTo(Attribute::class);
     }
@@ -30,8 +30,26 @@ class OrderItemSelectedAttribute extends Model
     /**
      * @return BelongsTo
      */
-    public function categoryAttributeValue(): BelongsTo
+    public function attributeValue(): BelongsTo
     {
-        return $this->belongsTo(AttributeValue::class, 'category_value_id');
+        return $this->belongsTo(AttributeValue::class, 'attribute_value_id');
+    }
+
+    // ********************************************* Methods
+
+    /**
+     * @return string
+     */
+    public function getAttributeName(): string
+    {
+        return $this->attribute->name ?? 'فرم کالا ندارد.';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttributeValueAmount(): string
+    {
+        return $this->attributeValue->value ?? 'مقداری برای فرم کالا یافت نشد.';
     }
 }

@@ -27,9 +27,8 @@ use Spatie\Tags\HasTags;
 class Post extends Model implements Viewable
 {
     use HasFactory, SoftDeletes, Sluggable, HasTags,
-        HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
-        InteractsWithViews, Likeable, Favoriteable,
-        HasFaPropertiesTrait, HasImageTrait;
+        HasFaDate, HasComment, HasDefaultStatus,
+        InteractsWithViews, Likeable, Favoriteable;
 
     public const STATUS_PENDING = 2;
 
@@ -71,7 +70,7 @@ class Post extends Model implements Viewable
      */
     protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -99,15 +98,102 @@ class Post extends Model implements Viewable
         return $this->morphMany('Modules\Post\Entities\Post', 'reviewable');
     }
 
-    // Methods
+    // ********************************************* Methods
 
-    // paths
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedKeywords(int $size = 50): string
+    {
+        return Str::limit($this->keywords, $size);
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedTitle(int $size = 50): string
+    {
+        return Str::limit($this->title, $size);
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function geLimitedSummary(int $size = 150): string
+    {
+        return strip_tags(Str::limit($this->summary, $size));
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedBody(int $size = 150): string
+    {
+        return strip_tags(Str::limit($this->body, $size));
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryName(): string
+    {
+        return $this->category->name ?? 'دسته ندارد';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): string
+    {
+        return $this->author->fullName ?? 'نویسنده ندارد.';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getTagLessSummary(): mixed
+    {
+        return strip_tags($this->summary) ?? $this->summary ?? '-';
+    }
+
+    /**
+     * @return int
+     */
+    public function commentable(): int
+    {
+        return self::IS_COMMENTABLE;
+    }
+
+    /**
+     * @return int
+     */
+    public function isNotCommentable(): int
+    {
+        return self::IS_COMMENTABLE;
+    }
+
+    // ********************************************* paths
+
+
     /**
      * @return string
      */
     public function path(): string
     {
         return route('customer.post.detail', $this->slug);
+    }
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function geImagePath(string $size = 'medium'): string
+    {
+        return asset($this->image['indexArray'][$size]);
     }
 
     /**
@@ -127,18 +213,20 @@ class Post extends Model implements Viewable
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function commentable(): int
+    public function getAuthorImage(): string
     {
-        return self::IS_COMMENTABLE;
+        return $this->author->image() ?? 'عکس ندارد.';
     }
 
+    // ********************************************* FA Properties
+
     /**
-     * @return int
+     * @return string
      */
-    public function isNotCommentable(): int
+    public function getFaPublishDate(): string
     {
-        return self::IS_COMMENTABLE;
+        return jalaliDate($this->published_at);
     }
 }

@@ -18,11 +18,38 @@ class SMS extends Model
      */
     protected $table = 'public_sms';
 
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
 
     /**
      * @var string[]
      */
     protected $fillable = ['title', 'body', 'status', 'published_at'];
+
+    // ********************************************* Relations
+
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedTitle(int $size = 50): string
+    {
+        return Str::limit($this->title, $size);
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedBody(int $size = 50): string
+    {
+        return Str::limit($this->body, $size);
+    }
+
+    // ********************************************* paths
+
+
+    // ********************************************* FA Properties
 }

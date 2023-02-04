@@ -13,7 +13,7 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Menu extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -26,7 +26,7 @@ class Menu extends Model
     protected $fillable = ['name', 'url', 'parent_id', 'status'];
 
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -43,4 +43,19 @@ class Menu extends Model
     {
         return $this->hasMany($this, 'parent_id')->with('children');
     }
+
+    // ********************************************* Methods
+
+    /**
+     * @return string
+     */
+    public function getParentName(): string
+    {
+        return is_null($this->parent_id) ? 'منوی اصلی' : $this->parent->name;
+    }
+
+    // ********************************************* paths
+
+
+    // ********************************************* FA Properties
 }

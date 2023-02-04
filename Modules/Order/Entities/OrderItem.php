@@ -16,12 +16,12 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class OrderItem extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate;
 
     protected $fillable = ['order_id', 'product_id', 'product', 'amazing_sale_id', 'amazing_sale_object',
         'amazing_sale_discount_amount', 'number', 'final_product_price', 'final_total_price', 'color_id', 'guarantee_id'];
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -69,5 +69,76 @@ class OrderItem extends Model
     public function orderItemAttributes(): HasMany
     {
         return $this->hasMany(OrderItemSelectedAttribute::class);
+    }
+
+    // ********************************************* Methods
+
+    /**
+     * @return string
+     */
+    public function getProductName(): string
+    {
+        return $this->singleProduct->name ?? 'نام کالا یافت نشد.';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getOrderItemColorName(): int|string
+    {
+        return $this->color->color_name ?? 'رنگ ندارد.';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getOrderItemGuaranteeName(): int|string
+    {
+        return $this->guarantee->name ?? 'گارانتی ندارد.';
+    }
+
+    // ********************************************* paths
+
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaAmazingSalePercentage(): array|int|string
+    {
+        return convertEnglishToPersian($this->amazingSale->percentage) . ' % ' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaOrderItemAmazingSaleDiscountAmountPrice(): int|string
+    {
+        return priceFormat($this->amazing_sale_discount_amount) . ' تومان' ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function orderItemFaNumber(): array|int|string
+    {
+        return convertEnglishToPersian($this->number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaOrderItemFinalProductPrice(): int|string
+    {
+        return priceFormat($this->final_product_price) . ' تومان' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaOrderItemFinalTotalPrice(): int|string
+    {
+        return priceFormat($this->final_total_price) . ' تومان' ?? 0;
     }
 }

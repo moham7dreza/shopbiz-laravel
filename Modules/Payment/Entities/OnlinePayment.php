@@ -16,7 +16,8 @@ class OnlinePayment extends Model
     protected $fillable = ['amount', 'user_id', 'gateway', 'transaction_id', 'status',
         'bank_first_response', 'bank_second_response'];
 
-    // Relations
+    // ********************************************* Relations
+
     /**
      * @return MorphMany
      */
@@ -24,4 +25,6 @@ class OnlinePayment extends Model
     {
         return $this->morphMany('Modules\Payment\Entities\Payment', 'paymentable');
     }
+
+    // ********************************************* Methods
 }

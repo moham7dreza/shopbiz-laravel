@@ -16,6 +16,9 @@ class TicketAdmin extends Model
      */
     protected $fillable = ['user_id'];
 
+
+    // ********************************************* Relations
+
     /**
      * @return BelongsTo
      */

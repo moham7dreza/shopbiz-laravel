@@ -18,12 +18,14 @@ use Modules\Share\Traits\HasImageTrait;
 
 class AmazingSale extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string[]
      */
     protected $fillable = ['product_id', 'percentage', 'start_date', 'end_date', 'status'];
+
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -33,16 +35,14 @@ class AmazingSale extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // Methods
+    // ********************************************* Methods
+
     /**
-     * @return array|int|string|string[]
+     * @return string
      */
-    public function productFinalFaPrice(): array|int|string
+    public function getProductName(): string
     {
-        $productPrice = $this->product->price + ($this->product->colors[0]->price_increase ?? 0) +
-                ($this->product->guarantees[0]->price_increase ?? 0);
-        $productDiscount = $this->product->price * $this->percentage / 100;
-        return priceFormat($productPrice - $productDiscount) ?? 0 . ' تومان';
+        return $this->product->name ?? '-';
     }
 
     /**
@@ -52,5 +52,44 @@ class AmazingSale extends Model
     {
         $amazingSaleDiscountRepo = new AmazingSaleDiscountRepoEloquent();
         return $amazingSaleDiscountRepo->activeAmazingSales()->first();
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return string
+     */
+    public function getFaPercentage(): string
+    {
+        return ' % ' . convertEnglishToPersian($this->percentage) ?? $this->percentage . ' %';
+    }
+
+    // ********************************************* product
+
+    /**
+     * @return array|int|string|string[]
+     */
+    public function productFinalFaPrice(): array|int|string
+    {
+        $productPrice = $this->product->price + ($this->product->colors[0]->price_increase ?? 0) +
+            ($this->product->guarantees[0]->price_increase ?? 0);
+        $productDiscount = $this->product->price * $this->percentage / 100;
+        return priceFormat($productPrice - $productDiscount) ?? 0 . ' تومان';
+    }
+
+    /**
+     * @return string
+     */
+    public function productImagePath(): string
+    {
+        return asset($this->product->image['indexArray']['medium']);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function productFaPrice(): mixed
+    {
+        return $this->product->getFaprice();
     }
 }

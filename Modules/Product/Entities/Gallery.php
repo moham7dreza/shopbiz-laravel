@@ -16,7 +16,7 @@ class Gallery extends Model
      */
     protected $table = 'product_images';
 
-    use HasFactory, SoftDeletes, HasFaDate, HasImageTrait;
+    use HasFactory, SoftDeletes, HasFaDate;
 
     /**
      * @var string[]
@@ -29,11 +29,26 @@ class Gallery extends Model
     protected $casts = ['image' => 'array'];
 
 
+    // ********************************************* Relations
+
     /**
      * @return BelongsTo
      */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    // ********************************************* Methods
+
+    // ********************************************* paths
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function getImagePath(string $size = 'medium'): string
+    {
+        return asset($this->image['indexArray'][$size]);
     }
 }

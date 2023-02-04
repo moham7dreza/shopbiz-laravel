@@ -17,4 +17,6 @@ class TicketPriority extends Model
      * @var string[]
      */
     protected $fillable = ['name', 'status'];
+
+    // ********************************************* Relations
 }

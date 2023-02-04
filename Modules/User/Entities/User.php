@@ -33,8 +33,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, Sluggable,
-        HasFaDate, HasRoles, HasPermissions, Liker, Favoriter,
-        HasDefaultStatus, HasFaPropertiesTrait, HasImageTrait, HasCountersTrait;
+        HasFaDate, HasRoles, HasPermissions, Liker, Favoriter, HasDefaultStatus;
 
     public const TYPE_USER = 0;
     public const TYPE_ADMIN = 1;
@@ -104,7 +103,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
-    // Relations
+    // ********************************************* Relations
 
     /**
      * @return HasOne
@@ -170,38 +169,32 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->HasMany(Post::class, 'author_id');
     }
 
+    // ********************************************* Methods
 
-    // Methods
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
+
+    // ********************************************* paths
 
     public function path(): string
     {
         return route('posts.author', $this->email);
     }
 
+    public function image(): string
+    {
+        return asset($this->profile_photo_path);
+    }
+
+    // ********************************************* css
 
     public function cssStatusEmailVerifiedAt(): string
     {
-        if ($this->email_verified_at) return 'success';
-
-        return 'danger';
+        return $this->email_verified_at ? 'success' : 'danger';
     }
-
-    // public function before(User $user, $ability)
-    // {
-    //     // if($user->is_super_admin === true)
-    //     // {
-    //     //     return true;
-    //     // }
-
-    //     if($user->blocked === true)
-    //     {
-    //         return false;
-    //     }
-    // }
 
     /**
      * @return string
@@ -217,5 +210,106 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ticketIconStatus(): string
     {
         return is_null($this->ticketAdmin) ? 'check' : 'times';
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return string
+     */
+    public function getFaMobileNumber(): string
+    {
+        return '۰' . convertEnglishToPersian($this->mobile);
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaId(): array|int|string
+    {
+        return convertEnglishToPersian($this->id) ?? $this->id;
+    }
+
+    public function textStatusEmailVerifiedAt(): string
+    {
+        return $this->email_verified_at ? 'تایید شده' : 'تایید نشده';
+    }
+
+    public function textActivationStatus(): string
+    {
+        return $this->activation === 1 ? 'فعال' : 'غیر فعال';
+    }
+
+    // ********************************************* FA counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaCommentsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->comments->count()) ?? 0;
+    }
+
+    public function getFaRolesCount(): int|array|string
+    {
+        return convertEnglishToPersian($this->roles->count()) ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaPermissionsCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->permissions->count()) ?? 0;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaLikesCount(): array|string
+    {
+        $counter = 0;
+//        $posts = Post::query()->where('author_id', $this->id)->withCount('likers')->get();
+        foreach ($this->hasPosts as $post) {
+            $counter += $post->likers()->count();
+        }
+        return convertEnglishToPersian($counter);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaPostsCount(): string
+    {
+        return convertEnglishToPersian($this->hasPosts->count()) ?? 0;
+    }
+
+    public function getFaLikedPostsCount(): array|string
+    {
+        return convertEnglishToPersian($this->likes()->withType(Post::class)->count());
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaFavoritedPostsCount(): array|string
+    {
+        return convertEnglishToPersian($this->favorites()->withType(Post::class)->count());
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaFollowersCount(): array|string
+    {
+        return convertEnglishToPersian($this->followers()->count());
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaFollowingsCount(): array|string
+    {
+        return convertEnglishToPersian($this->followings()->count());
     }
 }

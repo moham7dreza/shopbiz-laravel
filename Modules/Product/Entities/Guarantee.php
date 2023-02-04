@@ -13,7 +13,7 @@ use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Guarantee extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
 
     /**
      * @var string[]
@@ -25,11 +25,34 @@ class Guarantee extends Model
         'status'
     ];
 
+    // ********************************************* Relations
+
     /**
      * @return BelongsTo
      */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getProductName(int $size = 100): string
+    {
+        return Str::limit($this->product->name, $size) ?? '-';
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return string
+     */
+    public function getFaPriceIncrease(): string
+    {
+        return priceFormat($this->price_increase) . ' تومان ';
     }
 }

@@ -16,6 +16,8 @@ class CashPayment extends Model
 
     protected $fillable = ['amount', 'user_id', 'pay_date', 'cash_receiver', 'status',];
 
+    // ********************************************* Relations
+
     /**
      * @return MorphMany
      */
@@ -23,4 +25,6 @@ class CashPayment extends Model
     {
         return $this->morphMany('Modules\Payment\Entities\Payment', 'paymentable');
     }
+
+    // ********************************************* Methods
 }

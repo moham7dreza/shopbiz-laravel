@@ -17,4 +17,6 @@ class TicketCategory extends Model
      */
     protected $fillable = ['name', 'status'];
 
+    // ********************************************* Relations
+
 }

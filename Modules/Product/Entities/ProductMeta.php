@@ -19,4 +19,8 @@ class ProductMeta extends Model
      * @var string[]
      */
     protected $fillable = ['meta_key', 'meta_value', 'product_id'];
+
+    // ********************************************* Relations
+
+    // ********************************************* Methods
 }

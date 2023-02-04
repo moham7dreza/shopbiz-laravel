@@ -35,9 +35,8 @@ use Spatie\Tags\HasTags;
 class Product extends Model implements Viewable
 {
     use HasFactory, SoftDeletes, Sluggable, HasTags,
-        HasFaDate, HasComment, HasDefaultStatus, HasCountersTrait,
-        InteractsWithViews, Likeable, Favoriteable,
-        HasFaPropertiesTrait, HasImageTrait, HasActivityLogTrait;
+        HasFaDate, HasComment, HasDefaultStatus,
+        InteractsWithViews, Likeable, Favoriteable, HasActivityLogTrait;
 
 //    # Booted
 //    /**
@@ -54,7 +53,7 @@ class Product extends Model implements Viewable
 //            $product->attributes()->deleteAllAttribute();
 //        });
 //    }
-    # Scopes
+    // ********************************************* scope
     /**
      * Scope product popular.
      *
@@ -93,7 +92,7 @@ class Product extends Model implements Viewable
         'category_id', 'published_at'
     ];
 
-    // relations
+    // ********************************************* Relations
 
     /**
      * @return BelongsTo
@@ -180,43 +179,31 @@ class Product extends Model implements Viewable
         return $amazingSaleDiscountRepo->activeAmazingSales($this->id)->first();
     }
 
-    // paths
+    // ********************************************* Methods
 
     /**
+     * @param int $size
      * @return string
      */
-    public function path(): string
+    public function getLimitedName(int $size = 50): string
     {
-        return route('customer.market.product', $this->slug) ?? '#';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function categoryPath(): mixed
-    {
-        return $this->category->path();
-    }
-
-    /**
-     * @return array|string|string[]
-     */
-    public function getFinalFaPrice(): array|string
-    {
-        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
-            ($this->guarantees[0]->price_increase ?? 0);
-        $productDiscount = $this->price * $this->activeAmazingSales()->percentage / 100;
-        return (priceFormat($productPrice - $productDiscount) ?? 0) . ' تومان';
+        return Str::limit($this->name, $size) ?? '-';
     }
 
     /**
      * @return string
      */
-    public function getActualFaPrice(): string
+    public function gertCategoryName(): string
     {
-        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
-            ($this->guarantees[0]->price_increase ?? 0);
-        return convertEnglishToPersian($productPrice) . ' تومان';
+        return $this->category->name ?? 'دسته ندارد';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getTagLessIntroduction(): mixed
+    {
+        return strip_tags($this->introduction) ?? $this->introduction ?? '-';
     }
 
     /**
@@ -236,5 +223,103 @@ class Product extends Model implements Viewable
             return 5;
         }
         return round((int)$calculateRate);
+    }
+
+    // ********************************************* paths
+
+    /**
+     * @return string
+     */
+    public function path(): string
+    {
+        return route('customer.market.product', $this->slug) ?? '#';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryPath(): mixed
+    {
+        return $this->category->path();
+    }
+
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function imagePath(string $size = 'medium'): string
+    {
+        return asset($this->image['indexArray'][$size]);
+    }
+
+    // ********************************************* FA Properties
+
+    /**
+     * @return int|string
+     */
+    public function getFaWeight(): int|string
+    {
+        return convertEnglishToPersian($this->weight) . ' کیلو' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaMarketableNumber(): int|string
+    {
+        return convertEnglishToPersian($this->marketable_number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaSoldNumber(): int|string
+    {
+        return convertEnglishToPersian($this->sold_number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getFaFrozenNumber(): int|string
+    {
+        return convertEnglishToPersian($this->frozen_number) . ' عدد' ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaAmazingSalesPercentage(): array|int|string
+    {
+        return '% ' . convertEnglishToPersian($this->activeAmazingSales()->percentage) ?? 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaPrice(): string
+    {
+        return priceFormat($this->price) . ' تومان ';
+    }
+
+    /**
+     * @return array|string|string[]
+     */
+    public function getFaFinalPrice(): array|string
+    {
+        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
+            ($this->guarantees[0]->price_increase ?? 0);
+        $productDiscount = $this->price * $this->activeAmazingSales()->percentage / 100;
+        return (priceFormat($productPrice - $productDiscount) ?? 0) . ' تومان';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaActualPrice(): string
+    {
+        $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
+            ($this->guarantees[0]->price_increase ?? 0);
+        return convertEnglishToPersian($productPrice) . ' تومان';
     }
 }

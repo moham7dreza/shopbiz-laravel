@@ -15,7 +15,7 @@ use Spatie\Tags\HasTags;
 
 class Faq extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags, HasFaPropertiesTrait;
+    use HasFactory, SoftDeletes, Sluggable, HasFaDate, HasDefaultStatus, HasTags;
 
     /**
      * @return array[]
@@ -33,4 +33,31 @@ class Faq extends Model
      * @var string[]
      */
     protected $fillable = ['question', 'answer', 'slug', 'status'];
+
+    // ********************************************* Relations
+
+    // ********************************************* Methods
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedQuestion(int $size = 50): string
+    {
+        return Str::limit($this->question, $size);
+    }
+
+    /**
+     * @param int $size
+     * @return string
+     */
+    public function getLimitedAnswer(int $size = 50): string
+    {
+        return Str::limit($this->answer, 50);
+    }
+
+    // ********************************************* paths
+
+    // ********************************************* FA Properties
+
 }
