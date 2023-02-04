@@ -153,8 +153,9 @@
                                             </section>
                                         </section>
                                     @endif
-                                    <section class="d-flex align-items-center justify-content-between mx-2 my-3 flex-row-reverse">
-                                        <section class="d-flex align-items-center">
+                                    <section
+                                        class="d-flex align-items-center justify-content-between mx-2 my-3 flex-row-reverse product-reactions">
+                                        <section class="d-flex align-items-center reactions">
                                             @guest
                                                 <section class="product-add-to-favorite position-relative"
                                                          style="top: 0">
@@ -171,7 +172,8 @@
                                                 @if ($hasFavorited)
                                                     <section class="product-add-to-favorite position-relative"
                                                              style="top: 0">
-                                                        <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="right"
                                                                 title="حذف از علاقه مندی">
@@ -181,7 +183,8 @@
                                                 @else
                                                     <section class="product-add-to-favorite position-relative"
                                                              style="top: 0">
-                                                        <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="اضافه به علاقه مندی">
@@ -192,7 +195,8 @@
                                                 @if ($hasLiked)
                                                     <section class="product-like position-relative"
                                                              style="top: 0">
-                                                        <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="لایک نکردن">
@@ -202,7 +206,8 @@
                                                 @else
                                                     <section class="product-like position-relative"
                                                              style="top: 0">
-                                                        <button type="button" class="btn btn-light btn-sm text-decoration-none"
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 title="لایک کردن">
@@ -212,39 +217,61 @@
                                                 @endif
                                                 <section class="product-add-to-favorite position-relative"
                                                          style="top: 0">
-                                                    <a href="#comment-add-button"
-                                                       class="btn btn-light btn-sm text-decoration-none"
-                                                       data-bs-toggle="tooltip" data-bs-placement="left"
-                                                       title="افزودن نظر">
+                                                    <button type="button"
+                                                            onclick="document.getElementById('comment-add-button').click();"
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="افزودن نظر">
                                                         <i class="fa fa-comment"></i>
-                                                    </a>
+                                                    </button>
                                                 </section>
                                             @endauth
                                         </section>
                                         @php
-//                                            $review = $product->reviews()->where('user_id', auth()->id())->first();
-                                            $review = \Modules\Share\Entities\Review::query()->where([
-                                              ['user_id', auth()->id()],
-                                              ['reviewable_id', $product->id],
-                                              ['reviewable_type', get_class($product)]
-                                              ])->pluck('rate')->first();
+                                            //                                            $review = $product->reviews()->where('user_id', auth()->id())->first();
+                                                                                        $review = \Modules\Share\Entities\Review::query()->where([
+                                                                                          ['user_id', auth()->id()],
+                                                                                          ['reviewable_id', $product->id],
+                                                                                          ['reviewable_type', get_class($product)]
+                                                                                          ])->pluck('rate')->first();
                                         @endphp
-                                        <section class="d-flex align-items-center reviews">
-                                            <button class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}" type="button" id="rate_very_good" title="عالی" data-bs-toggle="tooltip"
-                                               data-bs-placement="top" data-url="{{ route('customer.product.review', [$product, 'rate=5']) }}">
-                                                <i class="fa fa-star"></i></button>
-                                            <button class="btn {{ $review > 3 ? 'text-greenyellow' : 'text-gray' }}" type="button" id="rate_good" title="خوب" data-bs-toggle="tooltip"
-                                               data-bs-placement="top" data-url="{{ route('customer.product.review', [$product, 'rate=4']) }}">
-                                                <i class="fa fa-star"></i></button>
-                                            <button class="btn {{ $review > 2 ? 'text-greenyellow' : 'text-gray' }}" type="button" id="rate_normal" title="متوسط" data-bs-toggle="tooltip"
-                                               data-bs-placement="top" data-url="{{ route('customer.product.review', [$product, 'rate=3']) }}">
-                                                <i class="fa fa-star"></i></button>
-                                            <button class="btn {{ $review > 1 ? 'text-greenyellow' : 'text-gray' }}" type="button" id="rate_low" title="نه خوب" data-bs-toggle="tooltip"
-                                               data-bs-placement="top" data-url="{{ route('customer.product.review', [$product, 'rate=2']) }}">
-                                                <i class="fa fa-star"></i></button>
-                                            <button class="btn {{ $review > 0 ? 'text-greenyellow' : 'text-gray' }}" type="button" id="rate_very_low" title="بد" data-bs-toggle="tooltip"
-                                               data-bs-placement="top" data-url="{{ route('customer.product.review', [$product, 'rate=1']) }}">
-                                                <i class="fa fa-star"></i></button>
+                                        <section class="d-flex align-items-start flex-column reviews w-50">
+                                            <section class="d-flex align-items-center">
+                                                <i class="fa fa-ticket-alt"></i>
+                                                <span class="font-weight-bold mx-2"> نظر سنجی : </span>
+                                            </section>
+                                            <section class="d-flex mx-4 mt-3">
+                                                <button class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}"
+                                                        type="button" id="rate_very_good" title="عالی"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-url="{{ route('customer.product.review', [$product, 'rate=5']) }}">
+                                                    <i class="fa fa-star"></i></button>
+                                                <button class="btn {{ $review > 3 ? 'text-greenyellow' : 'text-gray' }}"
+                                                        type="button" id="rate_good" title="خوب"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-url="{{ route('customer.product.review', [$product, 'rate=4']) }}">
+                                                    <i class="fa fa-star"></i></button>
+                                                <button class="btn {{ $review > 2 ? 'text-greenyellow' : 'text-gray' }}"
+                                                        type="button" id="rate_normal" title="متوسط"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-url="{{ route('customer.product.review', [$product, 'rate=3']) }}">
+                                                    <i class="fa fa-star"></i></button>
+                                                <button class="btn {{ $review > 1 ? 'text-greenyellow' : 'text-gray' }}"
+                                                        type="button" id="rate_low" title="نه خوب"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-url="{{ route('customer.product.review', [$product, 'rate=2']) }}">
+                                                    <i class="fa fa-star"></i></button>
+                                                <button class="btn {{ $review > 0 ? 'text-greenyellow' : 'text-gray' }}"
+                                                        type="button" id="rate_very_low" title="بد"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-url="{{ route('customer.product.review', [$product, 'rate=1']) }}">
+                                                    <i class="fa fa-star"></i></button>
+                                            </section>
                                         </section>
                                     </section>
                                     <section class="border-top my-2"></section>
@@ -266,18 +293,22 @@
                         <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
                             <section class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted">قیمت کالا</p>
-                                <p class="text-muted"><span id="product_price"
-                                                            data-product-original-price={{ $product->price }}>{{ priceFormat($product->price) }}</span>
-                                    <span class="small">تومان</span></p>
+                                @if($product->marketable_number > 0)
+                                    <p class="text-muted"><span id="product_price"
+                                                                data-product-original-price={{ $product->price }}>{{ priceFormat($product->price) }}</span>
+                                        <span class="small">تومان</span></p>
+                                @else
+                                    <p class="text-danger fw-bolder">
+                                        {{ convertEnglishToPersian(0) }} <span class="small"> تومان</span>
+                                    </p>
+                                @endif
                             </section>
 
 
                             @php
-
                                 $amazingSale = $product->activeAmazingSales();
-
                             @endphp
-                            @if(!empty($amazingSale))
+                            @if(!empty($amazingSale) && $product->marketable_number > 0)
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">تخفیف کالا</p>
                                     <p class="text-danger fw-bolder" id="product-discount-price"
@@ -286,13 +317,29 @@
                                             class="small"> تومان</span>
                                     </p>
                                 </section>
+                            @else
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <p class="text-muted">تخفیف کالا</p>
+                                    <p class="text-danger fw-bolder">
+                                        {{ convertEnglishToPersian(0) }} <span class="small"> تومان</span>
+                                    </p>
+                                </section>
                             @endif
 
                             <section class="border-bottom mb-3"></section>
 
-                            <section class="d-flex justify-content-end align-items-center">
-                                <p class="fw-bolder"><span id="final-price"></span> <span class="small">تومان</span></p>
-                            </section>
+                            @if($product->marketable_number > 0)
+                                <section class="d-flex justify-content-end align-items-center">
+                                    <p class="fw-bolder"><span id="final-price"></span> <span class="small">تومان</span>
+                                    </p>
+                                </section>
+                            @else
+                                <section class="d-flex justify-content-end align-items-center">
+                                    <p class="text-danger fw-bolder">
+                                        {{ convertEnglishToPersian(0) }} <span class="small"> تومان</span>
+                                    </p>
+                                </section>
+                            @endif
 
                             <section class="">
                                 @if($product->marketable_number > 0)

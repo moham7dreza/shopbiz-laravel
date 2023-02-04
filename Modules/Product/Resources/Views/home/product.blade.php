@@ -8,9 +8,9 @@
 
     @include('Product::home.partials.product-cart')
 
-    @include('Product::home.partials.related-products')
-
     @include('Product::home.partials.description')
+
+    @include('Product::home.partials.related-products')
 
 @endsection
 
