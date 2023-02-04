@@ -35,7 +35,7 @@
                         <tbody>
 
                         <tr class="table-primary">
-                            <th>{{ $order->faOrderId() }}</th>
+                            <th>{{ $order->getFaId() }}</th>
                             <td class="width-24-rem text-left">
                                 <a href="" class="btn btn-dark btn-sm text-white" id="print">
                                     <i class="fa fa-print"></i>
@@ -52,55 +52,55 @@
                         <tr class="border-bottom">
                             <th>نام مشتری</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerName() }}
+                                {{ $order->getCustomerName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>آدرس</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->textCustomerAddress() }}
+                                {{ $order->getCustomerAddress() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>شهر</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->textCustomerCity() }}
+                                {{ $order->getCustomerCity() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>کد پستی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerPostalCode() }}
+                                {{ $order->getFaCustomerPostalCode() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>پلاک</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerNo() }}
+                                {{ $order->getFaCustomerNo() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>واحد</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerUnit() }}
+                                {{ $order->getFaCustomerUnit() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>نام گیرنده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->recipientFName() }}
+                                {{ $order->getRecipientFName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>نام خانوادگی گیرنده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->recipientLName() }}
+                                {{ $order->getRecipientLName() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>موبایل</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerFaMobile() }}
+                                {{ $order->getFaCustomerMobile() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
@@ -118,7 +118,7 @@
                         <tr class="border-bottom">
                             <th>مبلغ ارسال</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderDeliveryAmountFaPrice() }}
+                                {{ $order->getFaOrderDeliveryAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
@@ -130,62 +130,62 @@
                         <tr class="border-bottom">
                             <th>تاریخ ارسال</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderSendDate() }}
+                                {{ $order->getFaOrderSendDate() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مجموع مبلغ سفارش (بدون تخفیف)</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderFinalAmountFaPrice() }}
+                                {{ $order->getFaOrderFinalAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مجموع تمامی مبلغ تخفیفات</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderDiscountAmountFaPrice() }}
+                                {{ $order->getFaOrderDiscountAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مبلغ تخفیف همه محصولات</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderTotalProductsDiscountAmountFaPrice() }}
+                                {{ $order->getFaOrderTotalProductsDiscountAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>مبلغ نهایی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderFinalFaPrice() }}
+                                {{ $order->getFaOrderFinalPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>بانک</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->paymentGateway() }}
+                                {{ $order->getPaymentGateway() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>کوپن استفاده شده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->customerUsedCopan() }}
+                                {{ $order->getCustomerUsedCopan() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>تخفیف کد تخفیف</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderCopanDiscountAmountFaPrice() }}
+                                {{ $order->getFaOrderCopanDiscountAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">
                             <th>تخفیف عمومی استفاده شده</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->usedCommonDiscountTitle() }}
+                                {{ $order->getUsedCommonDiscountTitle() }}
                             </td>
                         </tr>
 
                         <tr class="border-bottom">
                             <th>مبلغ تخفیف عمومی</th>
                             <td class="text-left font-weight-bolder">
-                                {{ $order->orderCommonDiscountAmountFaPrice() }}
+                                {{ $order->getFaOrderCommonDiscountAmountPrice() }}
                             </td>
                         </tr>
                         <tr class="border-bottom">

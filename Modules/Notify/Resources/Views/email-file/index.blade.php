@@ -53,7 +53,7 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $email->limitedSubject() }}</td>
+                                <td>{{ $email->getLimitedSubject() }}</td>
                                 <td>{{ $file->getFaFileSize() }}</td>
                                 <td>{{ $file->file_type }}</td>
                                 <td>

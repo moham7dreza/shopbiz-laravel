@@ -250,7 +250,7 @@ class CategoryController extends Controller
     {
         SEOMeta::setKeywords($productCategory->tags ?? '');
         SEOTools::setTitle($productCategory->name);
-        SEOTools::setDescription($productCategory->tagLessDescription());
+        SEOTools::setDescription($productCategory->getTagLessDescription());
         SEOTools::opengraph()->setUrl('http://current.url.com');
         SEOTools::setCanonical('https://codecasts.com.br/lesson');
         SEOTools::opengraph()->addProperty('type', 'articles');

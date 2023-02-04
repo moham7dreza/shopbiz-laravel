@@ -74,7 +74,7 @@ trait HasFaDate
     /**
      * @return mixed|string
      */
-    public function publishFaDateWithTime(): mixed
+    public function getFaPublishDateWithTime(): mixed
     {
         return $this->getFaDate($this->published_at, 'H:i:s | Y-m-d');
     }
@@ -82,7 +82,7 @@ trait HasFaDate
     /**
      * @return string
      */
-    public function publishFaDate(): string
+    public function getFaPublishDate(): string
     {
         return $this->getFaDate($this->published_at);
     }

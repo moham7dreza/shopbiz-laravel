@@ -38,11 +38,11 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $comment->limitedBody() }}</td>
-                                <td>{{ $comment->textParentBody() }}</td>
-                                <td>{{ $comment->textAuthorName()  }}</td>
+                                <td>{{ $comment->getLimitedBody() }}</td>
+                                <td>{{ $comment->getParentBody() }}</td>
+                                <td>{{ $comment->getAuthorName()  }}</td>
                                 <td>{{ $comment->getCommentableName() }}</td>
-                                <td>{{ $comment->textApprove() }} </td>
+                                <td>{{ $comment->getFaApproved() }} </td>
                                 <td>{{ $comment->textStatus() }} </td>
 
                                 <td class="width-8-rem text-left">

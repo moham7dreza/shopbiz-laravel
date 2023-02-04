@@ -66,7 +66,7 @@
                                                          alt="{{$relatedPost->name }}">
                                                 </section>
                                                 <section class="product-name">
-                                                    <h3>{{ $relatedPost->limitedTitle() }}</h3></section>
+                                                    <h3>{{ $relatedPost->getLimitedTitle() }}</h3></section>
                                                 <section class="product-price-wrapper">
                                                     <section
                                                         class="product-price">{{ $relatedPost->time_to_read }}

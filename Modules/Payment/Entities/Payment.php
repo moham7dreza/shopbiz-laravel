@@ -57,7 +57,7 @@ class Payment extends Model
     /**
      * @return string
      */
-    public function geCashReceiverName(): string
+    public function getCashReceiverName(): string
     {
         return $this->paymentable->cash_receiver ?? '-';
     }

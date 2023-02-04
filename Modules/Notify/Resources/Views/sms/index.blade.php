@@ -52,9 +52,9 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $single_sms->limitedTitle() }}</td>
-                                <td>{{ $single_sms->limitedBody() }}</td>
-                                <td>{{ $single_sms->publishFaDateWithTime() }}</td>
+                                <td>{{ $single_sms->getLimitedTitle() }}</td>
+                                <td>{{ $single_sms->getLimitedBody() }}</td>
+                                <td>{{ $single_sms->getFaPublishDateWithTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $single_sms->id }}" onchange="changeStatus({{ $single_sms->id }}, 'پیامک')"

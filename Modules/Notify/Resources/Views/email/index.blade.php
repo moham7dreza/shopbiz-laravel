@@ -52,9 +52,9 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $email->limitedSubject() }}</td>
-                                <td>{!! $email->limitedBody() !!}</td>
-                                <td>{{ $email->publishFaDateWithTime() }}</td>
+                                <td>{{ $email->getLimitedSubject() }}</td>
+                                <td>{!! $email->getLimitedBody() !!}</td>
+                                <td>{{ $email->getFaPublishDateWithTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }}, 'ایمیل')"

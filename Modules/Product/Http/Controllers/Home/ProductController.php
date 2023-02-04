@@ -111,12 +111,12 @@ class ProductController extends Controller
     private function setMetas($product): void
     {
         SEOMeta::setTitle($product->name);
-        SEOMeta::setDescription($product->tagLessIntro());
+        SEOMeta::setDescription($product->getTagLessIntroduction());
         SEOMeta::addMeta('product:published_time', $product->published_date, 'property');
-        SEOMeta::addMeta('product:section', $product->textCategoryName(), 'property');
+        SEOMeta::addMeta('product:section', $product->getCategoryName(), 'property');
         SEOMeta::addKeyword($product->tags ?? '');
 
-        OpenGraph::setDescription($product->tagLessIntro());
+        OpenGraph::setDescription($product->getTagLessIntroduction());
         OpenGraph::setTitle($product->name);
         OpenGraph::setUrl('http://current.url.com');
         OpenGraph::addProperty('type', 'product');
@@ -128,14 +128,14 @@ class ProductController extends Controller
         OpenGraph::addImage('http://image.url.com/cover.jpg', ['height' => 300, 'width' => 300]);
 
         JsonLd::setTitle($product->name);
-        JsonLd::setDescription($product->tagLessIntro());
+        JsonLd::setDescription($product->getTagLessIntroduction());
         JsonLd::setType('Product');
         JsonLd::addImage($product->imagePath());
 
         // Namespace URI: http://ogp.me/ns/article#
         // article
         OpenGraph::setTitle('Product')
-            ->setDescription($product->tagLessIntro())
+            ->setDescription($product->getTagLessIntroduction())
             ->setType('product')
             ->setArticle([
                 'published_time' => $product->published_date,

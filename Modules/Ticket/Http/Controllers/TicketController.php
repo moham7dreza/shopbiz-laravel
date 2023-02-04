@@ -171,6 +171,6 @@ class TicketController extends Controller
     public function change(Ticket $ticket): RedirectResponse
     {
         $this->service->changeTicketStatus($ticket);
-        return $this->showMessageWithRedirectRoute('تغییر شما با موفقیت حذف شد');
+        return $this->showMessageWithRedirectRoute('تغییر شما با موفقیت ثبت شد');
     }
 }

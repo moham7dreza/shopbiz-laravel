@@ -31,11 +31,11 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        {{ $postComment->textAuthorName()  }} - {{ $postComment->authorId()  }}
+                        {{ $postComment->getAuthorName()  }} - {{ $postComment->getFaAuthorId()  }}
                     </section>
                     <section class="card-body">
                         <h5 class="card-title">مشخصات پست : {{ $postComment->getCommentableName() }}
-                            -  کد پست : {{ $postComment->commentableId() }}
+                            -  کد پست : {{ $postComment->getFaCommentableId() }}
                         </h5>
 
                         <p class="card-text border-top p-4">{{ $postComment->body }}</p>

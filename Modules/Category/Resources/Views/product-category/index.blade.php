@@ -51,7 +51,7 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $productCategory->name }}</td>
-                                <td>{{ $productCategory->textParentName() }}</td>
+                                <td>{{ $productCategory->getParentName() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $productCategory->id }}"

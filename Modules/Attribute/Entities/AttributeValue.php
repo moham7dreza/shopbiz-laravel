@@ -80,14 +80,6 @@ class AttributeValue extends Model
         return $this->attribute->name ?? 'فرم کالا ندارد';
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue(): mixed
-    {
-        return json_decode($this->value)->value ?? '';
-    }
-
     // ********************************************* FA Properties
 
     /**
@@ -104,5 +96,13 @@ class AttributeValue extends Model
     public function getFaType(): string
     {
         return $this->type == self::TYPE_SIMPLE ? 'ساده' : 'انتخابی';
+    }
+
+    /**
+     * @return string|array
+     */
+    public function getFaValue(): string|array
+    {
+        return convertEnglishToPersian(json_decode($this->value)->value) ?? '-';
     }
 }

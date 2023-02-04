@@ -191,9 +191,18 @@ class Product extends Model implements Viewable
     }
 
     /**
+     * @param int $size
      * @return string
      */
-    public function gertCategoryName(): string
+    public function getLimitedIntroduction(int $size = 50): string
+    {
+        return strip_tags(Str::limit($this->introduction, $size)) ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryName(): string
     {
         return $this->category->name ?? 'دسته ندارد';
     }
@@ -321,5 +330,23 @@ class Product extends Model implements Viewable
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         return convertEnglishToPersian($productPrice) . ' تومان';
+    }
+
+    // ********************************************* FA counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaViewsCount(): array|int|string
+    {
+        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaLikersCount(): array|int|string
+    {
+        return convertEnglishToPersian($this->likers()->count()) ?? 0;
     }
 }

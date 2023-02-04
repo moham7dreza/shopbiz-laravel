@@ -55,9 +55,9 @@
                         @foreach ($adminUsers as $key => $admin)
 
                             <tr>
-                                <th>{{ $admin->faId() }}</th>
+                                <th>{{ $admin->getFaId() }}</th>
                                 <td>{{ $admin->email }}</td>
-                                <td>{{ $admin->faMobileNumber() }}</td>
+                                <td>{{ $admin->getFaMobileNumber() }}</td>
                                 <td>{{ $admin->first_name }}</td>
                                 <td>{{ $admin->last_name }}</td>
                                 <td>

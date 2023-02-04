@@ -46,14 +46,14 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $item->textProductName() }}</td>
-                                <td>{{ $item->amazingSaleFaPercentage() }}</td>
-                                <td>{{ $item->orderItemAmazingSaleDiscountAmountFaPrice() }} تومان</td>
+                                <td>{{ $item->getProductName() }}</td>
+                                <td>{{ $item->getFaAmazingSalePercentage() }}</td>
+                                <td>{{ $item->getFaOrderItemAmazingSaleDiscountAmountPrice() }} تومان</td>
                                 <td>{{ $item->orderItemFaNumber() }} </td>
-                                <td>{{ $item->orderItemFinalProductFaPrice() }}</td>
-                                <td>{{ $item->orderItemFinalTotalFaPrice() }}</td>
-                                <td>{{ $item->orderItemProductColorName() }}</td>
-                                <td>{{ $item->orderItemProductGuaranteeName() }}</td>
+                                <td>{{ $item->getFaOrderItemFinalProductPrice() }}</td>
+                                <td>{{ $item->getFaOrderItemFinalTotalPrice() }}</td>
+                                <td>{{ $item->getOrderItemColorName() }}</td>
+                                <td>{{ $item->getOrderItemGuaranteeName() }}</td>
                                 <td>
                                     @forelse($item->orderItemAttributes as $attribute)
                                         {{ $attribute->textAttributeName() }}

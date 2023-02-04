@@ -54,12 +54,12 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $ticket->textUserName() }}</td>
-                                <td>{{ $ticket->limitedSubject() }}</td>
-                                <td>{{ $ticket->textCategoryName() }}</td>
-                                <td>{{ $ticket->textPriorityName() }}</td>
-                                <td>{{ $ticket->textReferenceName() }}</td>
-                                <td>{{ $ticket->textParentTitle() }}</td>
+                                <td>{{ $ticket->getUserName() }}</td>
+                                <td>{{ $ticket->getLimitedSubject() }}</td>
+                                <td>{{ $ticket->getCategoryName() }}</td>
+                                <td>{{ $ticket->getPriorityName() }}</td>
+                                <td>{{ $ticket->getReferenceName() }}</td>
+                                <td>{{ $ticket->getParentTitle() }}</td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-info btn-sm"><i
                                             class="fa fa-eye"></i></a>

@@ -52,9 +52,9 @@
                         @foreach ($users as $key => $user)
 
                             <tr>
-                                <th>{{ $user->faId() }}</th>
+                                <th>{{ $user->getFaId() }}</th>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->faMobileNumber() }}</td>
+                                <td>{{ $user->getFaMobileNumber() }}</td>
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>

@@ -28,7 +28,7 @@
                     <a href="{{ route('product.gallery.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                         عکس جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.gallery.index') }}" class="d-flex">
+                        <form action="{{ route('product.gallery.index', $product->id) }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
@@ -52,7 +52,7 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
                                 <td>
-                                    <img src="{{ $image->imagePath() }}"
+                                    <img src="{{ $image->getImagePath() }}"
                                          alt="" width="100" height="50">
                                 </td>
 

@@ -31,14 +31,14 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-yellow">
-                        {{ $payment->customerName() }} - {{ $payment->customerId()  }}
+                        {{ $payment->getCustomerName() }} - {{ $payment->getFaCustomerId()  }}
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title"> مبلغ : {{ $payment->paymentAmountFaPrice() }}</h5>
-                        <p class="card-text"> بانک : {{ $payment->paymentGateway() }}</p>
-                        <p class="card-text"> شماره پرداخت : {{ $payment->transactionId() }}</p>
-                        <p class="card-text"> تاریخ پرداخت : {{ $payment->payDate() }}</p>
-                        <p class="card-text"> دریافت کننده : {{ $payment->cashReceiverName() }}</p>
+                        <h5 class="card-title"> مبلغ : {{ $payment->getFaPaymentAmountPrice() }}</h5>
+                        <p class="card-text"> بانک : {{ $payment->getPaymentGateway() }}</p>
+                        <p class="card-text"> شماره پرداخت : {{ $payment->getFaTransactionId() }}</p>
+                        <p class="card-text"> تاریخ پرداخت : {{ $payment->getFaPayDate() }}</p>
+                        <p class="card-text"> دریافت کننده : {{ $payment->getCashReceiverName() }}</p>
                     </section>
                 </section>
 

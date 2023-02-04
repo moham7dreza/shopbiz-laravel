@@ -63,7 +63,7 @@ class Copan extends Model
     /**
      * @return string
      */
-    public function getAmountType(): string
+    public function getFaAmountType(): string
     {
         return $this->amount_type == self::AMOUNT_TYPE_PERCENTAGE ? 'درصدی' : 'عددی';
     }

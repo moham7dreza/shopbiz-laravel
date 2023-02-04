@@ -184,7 +184,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return route('posts.author', $this->email);
     }
 
-    public function image(): string
+    public function profile(): string
     {
         return asset($this->profile_photo_path);
     }
@@ -270,7 +270,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $counter = 0;
 //        $posts = Post::query()->where('author_id', $this->id)->withCount('likers')->get();
-        foreach ($this->hasPosts as $post) {
+        foreach ($this->posts as $post) {
             $counter += $post->likers()->count();
         }
         return convertEnglishToPersian($counter);

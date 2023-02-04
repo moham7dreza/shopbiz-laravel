@@ -94,7 +94,7 @@
                                 </section>
                                 <section class="w-25"></section>
                                 <section class="align-self-end flex-shrink-1">
-                                    <section class="text-nowrap fw-bold">زمان انتشار : {{ $post->publishFaDate() }}
+                                    <section class="text-nowrap fw-bold">زمان انتشار : {{ $post->getFaPublishDate() }}
                                     </section>
                                 </section>
                             </section>

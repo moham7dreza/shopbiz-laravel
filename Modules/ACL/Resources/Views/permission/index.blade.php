@@ -62,7 +62,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td>{{ $permission->limitedDescription() }}</td>
+                                <td>{{ $permission->getLimitedDescription() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }}, 'دسترسی')"

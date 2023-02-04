@@ -58,9 +58,9 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <th>{{ $copan->code }}</th>
                                 <th>{{ $copan->getFaAmount() }}</th>
-                                <th>{{ $copan->textAmountType() }}</th>
+                                <th>{{ $copan->getFaAmountType() }}</th>
                                 <th>{{ $copan->getFaDiscountCeiling() }} </th>
-                                <th>{{ $copan->textDiscountType() }}</th>
+                                <th>{{ $copan->getDiscountType() }}</th>
                                 <td>{{ $copan->getFaStartDate() }}</td>
                                 <td>{{ $copan->getFaEndDate() }}</td>
                                 <td>

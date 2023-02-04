@@ -58,16 +58,16 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $order->faOrderId() }}</td>
-                                <td>{{ $order->orderFinalAmountFaPrice() }}</td>
-                                <td>{{ $order->orderDiscountAmountFaPrice() }}</td>
-                                <td>{{ $order->orderTotalProductsDiscountAmountFaPrice() }}</td>
-                                <td>{{ $order->orderFinalFaPrice() }}</td>
+                                <td>{{ $order->getFaId() }}</td>
+                                <td>{{ $order->getFaOrderFinalAmountPrice() }}</td>
+                                <td>{{ $order->getFaOrderDiscountAmountPrice() }}</td>
+                                <td>{{ $order->getFaOrderTotalProductsDiscountAmountPrice() }}</td>
+                                <td>{{ $order->getFaOrderFinalPrice() }}</td>
                                 <td>{{ $order->paymentStatusValue() }}</td>
                                 <td>{{ $order->paymentTypeValue() }}</td>
-                                <td>{{ $order->paymentGateway() }}</td>
+                                <td>{{ $order->getPaymentGateway() }}</td>
                                 <td>{{ $order->deliveryStatusValue() }}</td>
-                                <td>{{ $order->deliveryMethodName() }}</td>
+                                <td>{{ $order->getDeliveryMethodName() }}</td>
                                 <td>{{ $order->orderStatusValue() }}</td>
                                 <td class="width-8-rem text-left">
                                     <div class="dropdown">
@@ -78,7 +78,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <a href="{{ route('order.show', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-images"></i> مشاهده
+                                               class="dropdown-item text-right" target="_blank"><i class="fa fa-images"></i> مشاهده
                                                 فاکتور</a>
                                             <a href="{{ route('order.changeSendStatus', $order->id) }}"
                                                class="dropdown-item text-right"><i class="fa fa-list-ul"></i> تغییر

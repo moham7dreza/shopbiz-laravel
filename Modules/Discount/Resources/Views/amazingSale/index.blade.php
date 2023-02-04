@@ -52,7 +52,7 @@
                         @foreach ($amazingSales as $amazingSale)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <th>{{ $amazingSale->textProductName() }}</th>
+                                <th>{{ $amazingSale->getProductName() }}</th>
                                 <th>{{ $amazingSale->getFaPercentage() }}</th>
                                 <td>{{ $amazingSale->getFaStartDate() }}</td>
                                 <td>{{ $amazingSale->getFaEndDate() }}</td>

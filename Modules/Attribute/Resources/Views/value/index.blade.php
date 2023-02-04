@@ -55,11 +55,11 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $attribute->name }}</td>
-                                <td>{{ $value->textProductName() }}</td>
-                                <td>{{ $value->textCategoryName() }}</td>
-                                <td>{{ $value->getValue() }}</td>
-                                <td>{{ $value->getFaPrice() }}</td>
-                                <td>{{ $value->getTextType() }}</td>
+                                <td>{{ $value->getProductName() }}</td>
+                                <td>{{ $value->getCategoryName() }}</td>
+                                <td>{{ $value->getFaValue() . ' ' . $attribute->unit }}</td>
+                                <td>{{ $value->getFaPriceIncreaseAmount() }}</td>
+                                <td>{{ $value->getFaType() }}</td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('attributeValue.edit', ['attribute' => $attribute->id , 'value' => $value->id] ) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>

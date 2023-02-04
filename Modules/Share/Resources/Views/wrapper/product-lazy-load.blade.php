@@ -84,24 +84,24 @@
                                                         <img class=""
                                                              src="{{ $product->imagePath() }}"
                                                              alt="{{ $product->name }}"
-                                                             title="{{ $product->limitedIntro(50) . ' (' . 'محبوبیت : ' . convertEnglishToPersian($product->rating) . ')' }}"
+                                                             title="{{ $product->getLimitedIntroduction(50) . ' (' . 'محبوبیت : ' . convertEnglishToPersian($product->rating) . ')' }}"
                                                              data-bs-toggle="tooltip"
                                                              data-bs-placement="top">
                                                     </section>
                                                     <section class="product-colors"></section>
                                                     <section class="product-name">
-                                                        <h3>{{ $product->limitedName() }}</h3></section>
+                                                        <h3>{{ $product->getLimitedName() }}</h3></section>
                                                     @include('Share::wrapper.partials.calc-stars-count-from-rate')
                                                     <section class="product-price-wrapper mb-4">
                                                         @if($product->activeAmazingSales())
                                                             <section class="product-discount">
                                                             <span
-                                                                class="product-old-price">{{ $product->getActualFaPrice() }}</span>
+                                                                class="product-old-price">{{ $product->getFaActualPrice() }}</span>
                                                                 <span
                                                                     class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                                             </section>
                                                             <section
-                                                                class="product-price">{{ $product->getFinalFaPrice() }}
+                                                                class="product-price">{{ $product->getFaFinalPrice() }}
                                                             </section>
                                                         @else
                                                             <section

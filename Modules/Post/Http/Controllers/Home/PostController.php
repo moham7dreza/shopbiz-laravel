@@ -95,12 +95,12 @@ class PostController extends Controller
     private function setMetas($post): void
     {
         SEOMeta::setTitle($post->title);
-        SEOMeta::setDescription($post->tagLessSummary());
+        SEOMeta::setDescription($post->getTagLessSummary());
         SEOMeta::addMeta('article:published_time', $post->published_date, 'property');
-        SEOMeta::addMeta('article:section', $post->textCategoryName(), 'property');
+        SEOMeta::addMeta('article:section', $post->getCategoryName(), 'property');
         SEOMeta::addKeyword($post->tags ?? '');
 
-        OpenGraph::setDescription($post->tagLessSummary());
+        OpenGraph::setDescription($post->getTagLessSummary());
         OpenGraph::setTitle($post->title);
         OpenGraph::setUrl('http://current.url.com');
         OpenGraph::addProperty('type', 'article');
@@ -112,14 +112,14 @@ class PostController extends Controller
         OpenGraph::addImage('http://image.url.com/cover.jpg', ['height' => 300, 'width' => 300]);
 
         JsonLd::setTitle($post->title);
-        JsonLd::setDescription($post->tagLessSummary());
+        JsonLd::setDescription($post->getTagLessSummary());
         JsonLd::setType('Article');
         JsonLd::addImage($post->imagePath());
 
         // Namespace URI: http://ogp.me/ns/article#
         // article
         OpenGraph::setTitle($post->title)
-            ->setDescription($post->tagLessSummary())
+            ->setDescription($post->getTagLessSummary())
             ->setType('article')
             ->setArticle([
                 'published_time' => $post->published_date,

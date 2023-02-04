@@ -46,6 +46,7 @@
                             <th>وزن</th>
                             <th>دسته</th>
                             <th>تعداد بازدید</th>
+                            <th>تعداد لایک</th>
                             <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th>قابل فروش بودن</th>
@@ -57,15 +58,16 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $product->limitedName() }}</td>
+                                <td>{{ $product->getLimitedName() }}</td>
                                 <td>
                                     <img
                                         src="{{ $product->imagePath('small') }}" alt="">
                                 </td>
                                 <td>{{ $product->getFaPrice() }}</td>
                                 <td>{{ $product->getFaWeight() }}</td>
-                                <td>{{ $product->textCategoryName() }}</td>
+                                <td>{{ $product->getCategoryName() }}</td>
                                 <td>{{ $product->getFaViewsCount() }}</td>
+                                <td>{{ $product->getFaLikersCount() }}</td>
                                 <td>
                                     @if(empty($product->tags()->get()->toArray()))
                                         <span class="text-danger">برای این کالا هیچ تگی تعریف نشده است</span>

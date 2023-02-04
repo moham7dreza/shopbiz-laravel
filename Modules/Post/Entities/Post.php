@@ -122,7 +122,7 @@ class Post extends Model implements Viewable
      * @param int $size
      * @return string
      */
-    public function geLimitedSummary(int $size = 150): string
+    public function getLimitedSummary(int $size = 150): string
     {
         return strip_tags(Str::limit($this->summary, $size));
     }
@@ -191,7 +191,7 @@ class Post extends Model implements Viewable
      * @param string $size
      * @return string
      */
-    public function geImagePath(string $size = 'medium'): string
+    public function imagePath(string $size = 'medium'): string
     {
         return asset($this->image['indexArray'][$size]);
     }
@@ -228,5 +228,15 @@ class Post extends Model implements Viewable
     public function getFaPublishDate(): string
     {
         return jalaliDate($this->published_at);
+    }
+
+    // ********************************************* FA counters
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaViewsCount(): array|int|string
+    {
+        return convertEnglishToPersian(views($this)->unique()->count()) ?? 0;
     }
 }

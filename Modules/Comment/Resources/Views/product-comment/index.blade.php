@@ -55,13 +55,13 @@
 
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $comment->limitedBody() }}</td>
-                                <td>{{ $comment->textParentBody() }}</td>
-                                <td>{{ $comment->authorId() }}</td>
-                                <td>{{ $comment->textAuthorName()  }}</td>
-                                <td>{{ $comment->commentableId() }}</td>
+                                <td>{{ $comment->getLimitedBody() }}</td>
+                                <td>{{ $comment->getParentBody() }}</td>
+                                <td>{{ $comment->getFaAuthorId() }}</td>
+                                <td>{{ $comment->getAuthorName()  }}</td>
+                                <td>{{ $comment->getFaCommentableId() }}</td>
                                 <td>{{ $comment->getCommentableName() }}</td>
-                                <td>{{ $comment->textApprove() }} </td>
+                                <td>{{ $comment->getFaApproved() }} </td>
                                 <td>
                                     <label>
                                         <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }}, 'نظر')"

@@ -31,7 +31,7 @@
 
                 <section class="card mb-3">
                     <section class="card-header text-white bg-custom-pink">
-                        {{ $ticket->textUserName() }} - {{ $ticket->faId() }}
+                        {{ $ticket->getUserName() }} - {{ $ticket->getFaId() }}
                     </section>
                     <section class="card-body">
                         <h5 class="card-title">موضوع : {{ $ticket->subject }}

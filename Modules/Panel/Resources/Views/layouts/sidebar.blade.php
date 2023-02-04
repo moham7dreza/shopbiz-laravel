@@ -203,12 +203,6 @@
                         <span>بنر ها</span>
                     </a>
                 @endcan
-                @can('permission-super-admin','permission-tags')
-                    <a href="#" class="sidebar-link">
-                        <i class="fas fa-tag"></i>
-                        <span>تگ</span>
-                    </a>
-                @endcan
             @endcan
 
             @can('permission-super-admin','permission-tickets')

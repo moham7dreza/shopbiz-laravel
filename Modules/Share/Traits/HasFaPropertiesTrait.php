@@ -216,7 +216,7 @@ trait HasFaPropertiesTrait
     /**
      * @return string
      */
-    public function textAmountType(): string
+    public function getFaAmountType(): string
     {
         return $this->amount_type == self::AMOUNT_TYPE_PERCENTAGE ? 'درصدی' : 'عددی';
     }
@@ -273,7 +273,7 @@ trait HasFaPropertiesTrait
     /**
      * @return int|string
      */
-    public function orderDiscountAmountFaPrice(): int|string
+    public function getFaOrderDiscountAmountPrice(): int|string
     {
         return priceFormat($this->order_discount_amount) . ' تومان' ?? 0;
     }

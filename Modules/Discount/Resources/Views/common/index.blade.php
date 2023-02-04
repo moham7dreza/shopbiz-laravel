@@ -56,7 +56,7 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <th>{{ $commonDiscount->getFaPercentage() }}</th>
                                 <th>{{ $commonDiscount->getFaDiscountCeiling() }}</th>
-                                <th>{{ $commonDiscount->limitedTitle() }}</th>
+                                <th>{{ $commonDiscount->getLimitedTitle() }}</th>
                                 <td>{{ $commonDiscount->getFaStartDate() }}</td>
                                 <td>{{ $commonDiscount->getFaEndDate() }}</td>
                                 <td>

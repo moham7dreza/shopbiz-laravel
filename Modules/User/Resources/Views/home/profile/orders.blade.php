@@ -73,7 +73,7 @@
                                                 {{ $order->getFaCreatedDate() }}
                                             </section>
                                             <section class="order-item-id"><i class="fa fa-id-card-alt"></i>کد سفارش :
-                                                {{ $order->faOrderId() }}
+                                                {{ $order->getFaId() }}
                                             </section>
                                             <section class="order-item-status"><i class="fa fa-clock"></i>
                                                 {{ $order->paymentStatusValue() }}
@@ -84,7 +84,7 @@
                                                         $product = $orderItem->singleProduct;
                                                     @endphp
                                                     <a href="{{ $product->path() }}"><img src="{{ $product->imagePath() }}"
-                                                                     alt="{{ $product->name }}" title="{!! $product->tagLessIntro() !!}"></a>
+                                                                     alt="{{ $product->name }}" title="{!! $product->getTagLessIntroduction() !!}"></a>
                                                 @endforeach
                                             </section>
                                         </section>

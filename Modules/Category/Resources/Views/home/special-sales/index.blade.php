@@ -113,17 +113,17 @@
                                      alt="{{ $product->name }}">
                             </section>
                             <section class="product-colors"></section>
-                            <section class="product-name"><h3>{{ $product->limitedName() }}</h3></section>
+                            <section class="product-name"><h3>{{ $product->getLimitedName() }}</h3></section>
                             <section class="product-price-wrapper">
                                 @if($product->activeAmazingSales())
                                     <section class="product-discount">
-                                        <span class="product-old-price">{{ $product->getActualFaPrice() }}</span>
+                                        <span class="product-old-price">{{ $product->getFaActualPrice() }}</span>
                                         <span
                                             class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                     </section>
-                                    <section class="product-price">{{ $product->getFinalFaPrice() }}</section>
+                                    <section class="product-price">{{ $product->getFaFinalPrice() }}</section>
                                 @else
-                                    <section class="product-price">{{ $product->getActualFaPrice() }}</section>
+                                    <section class="product-price">{{ $product->getFaActualPrice() }}</section>
                                 @endif
                             </section>
                             <section class="product-colors">

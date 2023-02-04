@@ -50,8 +50,8 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $faq->limitedQuestion() }}</td>
-                                <td>{!! $faq->limitedAnswer() !!}</td>
+                                <td>{{ $faq->getLimitedQuestion() }}</td>
+                                <td>{!! $faq->getLimitedAnswer() !!}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $faq->id }}" onchange="changeStatus({{ $faq->id }}, 'پرسش')"

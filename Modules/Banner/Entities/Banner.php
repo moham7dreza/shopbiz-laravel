@@ -50,7 +50,7 @@ class Banner extends Model
     /**
      * @return string
      */
-    public function imagePath(): string
+    public function image(): string
     {
         return asset($this->image);
     }

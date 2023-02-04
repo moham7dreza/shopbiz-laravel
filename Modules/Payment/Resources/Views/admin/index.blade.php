@@ -53,9 +53,9 @@
 
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $payment->transactionId() }}</td>
-                                <td>{{ $payment->paymentGateway() }}</td>
-                                <td>{{ $payment->customerName() }}</td>
+                                <td>{{ $payment->getFaTransactionId() }}</td>
+                                <td>{{ $payment->getPaymentGateway() }}</td>
+                                <td>{{ $payment->getCustomerName() }}</td>
                                 <td>{{ $payment->paymentStatusValue() }}</td>
                                 <td>{{ $payment->paymentTypeValue() }}</td>
                                 <td class="width-16-rem text-left">

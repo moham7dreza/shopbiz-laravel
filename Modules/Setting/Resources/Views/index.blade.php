@@ -50,8 +50,8 @@
                         <tr>
                             <th>1</th>
                             <td>{{ $setting->title }}</td>
-                            <td>{{ $setting->limitedDescription() }}</td>
-                            <td>{{ $setting->limitedKeywords() }}</td>
+                            <td>{{ $setting->getLimitedDescription() }}</td>
+                            <td>{{ $setting->getLimitedKeywords() }}</td>
                             <td><img src="{{ $setting->logo() }}" alt="" width="100" height="50"></td>
                             <td><img src="{{ $setting->icon() }}" alt="" width="100" height="50"></td>
                             <td class="width-8-rem text-left">

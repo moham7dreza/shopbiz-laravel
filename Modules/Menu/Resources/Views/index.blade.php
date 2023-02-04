@@ -51,7 +51,7 @@
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $menu->name }}</td>
-                                <td>{{ $menu->textParentName() }}</td>
+                                <td>{{ $menu->getParentName() }}</td>
                                 <td>{{ $menu->url }}</td>
                                 <td>
                                     <label>

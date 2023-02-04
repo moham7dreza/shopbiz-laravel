@@ -56,12 +56,12 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $post->limitedTitle() }}</td>
-                                <td>{{ $post->textCategoryName() }}</td>
+                                <td>{{ $post->getLimitedTitle() }}</td>
+                                <td>{{ $post->getCategoryName() }}</td>
                                 <td>
                                     <img class="admin-table-image" src="{{ $post->imagePath() }}" alt="">
                                 </td>
-                                <td>{{ $post->publishFaDate() }}</td>
+                                <td>{{ $post->getFaPublishDate() }}</td>
                                 <td>{{ $post->getFaViewsCount() }}</td>
                                 <td>
                                     @if(empty($post->tags()->get()->toArray()))

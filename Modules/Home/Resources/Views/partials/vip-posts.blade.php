@@ -43,15 +43,15 @@
                                                     <section class="product-image">
                                                         <img class=""
                                                              src="{{ $post->imagePath() }}"
-                                                             alt="{{$post->name }}">
+                                                             alt="{{ $post->title }}">
                                                     </section>
                                                 </a>
                                                 <section class="d-flex flex-column">
                                                     <section class="product-name mb-0">
-                                                        <h2>{{ $post->limitedTitle() }}</h2>
+                                                        <h2>{{ $post->getLimitedTitle() }}</h2>
                                                     </section>
                                                     <section class="post-summary my-3">
-                                                        <p>{!! $post->limitedSummary(100) !!}</p>
+                                                        <p>{!! $post->getLimitedSummary(100) !!}</p>
                                                     </section>
                                                     <section
                                                         class="d-flex justify-content-end align-items-center post-count my-2">
@@ -64,7 +64,7 @@
                                                         <span><i class="fa fa-user"></i></span>
                                                         <a href="{{ route('customer.author.bio', $post->author) }}"
                                                            class="author text-decoration-none text-dark pointer mt-2">
-                                                            <span>{{ $post->textAuthorName() }}</span>
+                                                            <span>{{ $post->getAuthorName() }}</span>
                                                         </a>
                                                     </section>
 

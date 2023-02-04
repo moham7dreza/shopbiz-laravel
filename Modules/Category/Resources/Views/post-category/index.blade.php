@@ -55,11 +55,11 @@
                             <tr>
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $postCategory->name }}</td>
-                                <td>{!! $postCategory->limitedDescription() !!}</td>
+                                <td>{!! $postCategory->getLimitedDescription() !!}</td>
                                 {{--                                <td>{{ $postCategory->slug }}</td>--}}
                                 <td>
                                     <img
-                                        src="{{ $postCategory->imagePath() }}"
+                                        src="{{ $postCategory->getImagePath() }}"
                                         alt="" width="100" height="50">
                                 </td>
                                 <td>{{ $postCategory->tags }}</td>

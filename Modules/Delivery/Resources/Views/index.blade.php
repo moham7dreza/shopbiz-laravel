@@ -52,8 +52,8 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $delivery_method->name }}</td>
-                                <td>{{ $delivery_method->faAmount() }}</td>
-                                <td>{{ $delivery_method->deliveryTime() }}</td>
+                                <td>{{ $delivery_method->getFaAmount() }}</td>
+                                <td>{{ $delivery_method->getFaDeliveryTime() }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $delivery_method->id }}"

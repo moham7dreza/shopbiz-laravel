@@ -54,7 +54,7 @@
 
                             <tr>
                                 <th>{{ $key += 1 }}</th>
-                                <td>{{ $banner->limitedTitle() }}</td>
+                                <td>{{ $banner->getLimitedTitle() }}</td>
                                 <td>{{ $banner->url }}</td>
                                 <td>
                                     <img src="{{ $banner->image() }}" alt="" width="100" height="50">
@@ -70,7 +70,7 @@
                                 </td>
 
                                 <td>
-                                    {{ $banner->textPosition() }}
+                                    {{ $banner->getFaPosition() }}
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-primary btn-sm"><i

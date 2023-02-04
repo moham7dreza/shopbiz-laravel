@@ -28,7 +28,7 @@
                     <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                         رنگ جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.color.index') }}" class="d-flex">
+                        <form action="{{ route('product.color.index', $product->id) }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
