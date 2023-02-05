@@ -38,6 +38,11 @@ class Product extends Model implements Viewable
         HasFaDate, HasComment, HasDefaultStatus,
         InteractsWithViews, Likeable, Favoriteable, HasActivityLogTrait;
 
+    public const POPULAR = 1;
+    public const NOT_POPULAR = 0;
+    public const SELECTED = 1;
+    public const NOT_SELECTED = 0;
+
 //    # Booted
 //    /**
 //     * Boot product model.
@@ -62,7 +67,16 @@ class Product extends Model implements Viewable
      */
     public function scopePopular($query): mixed
     {
-        return $query->where('is_popular', 1);
+        return $query->where('popular', self::POPULAR);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeSelected($query): mixed
+    {
+        return $query->where('selected', self::SELECTED);
     }
 
 
@@ -232,6 +246,22 @@ class Product extends Model implements Viewable
             return 5;
         }
         return round((int)$calculateRate);
+    }
+
+    /**
+     * @return bool
+     */
+    public function popular(): bool
+    {
+        return $this->popular == self::POPULAR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function selected(): bool
+    {
+        return $this->selected == self::SELECTED;
     }
 
     // ********************************************* paths

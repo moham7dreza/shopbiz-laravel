@@ -67,6 +67,8 @@
                                 <td>{{ $product->getFaWeight() }}</td>
                                 <td>{{ $product->getCategoryName() }}</td>
                                 @php
+                                    $product->active_discount_percentage = $product->activeAmazingSales()->percentage ?? null;
+                                    $product->popular = $product->rating >= 4 ? 1 : 0;
                                     $viewsCount = $product->getFaViewsCount();
                                     $product->views_count = convertPersianToEnglish($viewsCount);
                                     $likesCount = $product->getFaLikersCount();
@@ -115,19 +117,30 @@
                                             <i class="fa fa-tools"></i> عملیات
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            @if($product->selected())
+                                                <a href="{{ route('product.selected', $product->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-times text-danger"></i> حذف از محصولات پیشنهادی</a>
+                                            @else
+                                                <a href="{{ route('product.selected', $product->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-shopping-cart text-success"></i> افزودن به محصولات
+                                                    پیشنهادی </a>
+                                            @endif
+
                                             <a href="{{ route('product.gallery.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i
-                                                    class="fa fa-images"></i> گالری</a>
+                                               class="dropdown-item text-right" target="_blank">
+                                                <i class="fa fa-images text-warning"></i> گالری</a>
                                             <a href="{{ route('product.color.index', $product->id) }}"
                                                class="dropdown-item text-right" target="_blank"><i
                                                     class="fa fa-images"></i> مدیریت رنگ
                                                 ها</a>
                                             <a href="{{ route('product.guarantee.index', $product->id) }}"
                                                class="dropdown-item text-right" target="_blank"><i
-                                                    class="fa fa-shield-alt"></i> گارانتی</a>
+                                                    class="fa fa-shield-alt text-info"></i> گارانتی</a>
                                             <a href="{{ route('product.tags-from', $product->id) }}"
                                                class="dropdown-item text-right" target="_blank"><i
-                                                    class="fa fa-tags"></i> تگ ها</a>
+                                                    class="fa fa-tags text-primary"></i> تگ ها</a>
                                             <a href="{{ route('product.edit', $product->id) }}"
                                                class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
                                             <form class="d-inline"

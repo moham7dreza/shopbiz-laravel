@@ -21,6 +21,7 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     $router->resource('product', 'ProductController', ['except' => 'show']);
     Route::get('/product/status/{product}', [ProductController::class, 'status'])->name('product.status');
     Route::get('/product/marketable/{product}', [ProductController::class, 'marketable'])->name('product.marketable');
+    Route::get('/product/selected/{product}', [ProductController::class, 'selected'])->name('product.selected');
 
     Route::prefix('product')->group(function () {
 

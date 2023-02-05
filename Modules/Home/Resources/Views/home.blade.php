@@ -46,6 +46,13 @@
         'viewAllRoute' => route('customer.market.query-products', 'inputQuery=newestProducts')
     ])
 
+    @include('Share::wrapper.product-lazy-load', [
+        'title' => 'محبوب ترین کالاها',
+        'products' => $repo->popularProducts(),
+        'productIds' => $productIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=popularProducts')
+    ])
+
     @include('Home::partials.vip-posts')
 
     @include('Home::partials.brands')

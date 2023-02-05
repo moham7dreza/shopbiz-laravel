@@ -63,6 +63,15 @@ class SettingService
             'keywords' => $request->keywords,
             'logo' => $request->logo,
             'icon' => $request->icon,
+            'author' => $request->author,
+            'address' => json_encode(['addresses' => ['central_office' => $request->address],
+                'postal_code' => $request->postal_code]),
+            'bank_account' => json_encode(['primary' => $request->bank_account]),
+            'email' => json_encode(['office_mail' => $request->email]),
+            'mobile' => json_encode(['office_telephone' => $request->office_telephone, 'mobile' => $request->mobile]),
+            'social_media' => json_encode(['instagram' => $request->instagram, 'telegram' => $request->telegram,
+                'youtube' => $request->youtube, 'whatsapp' => $request->whatsapp]),
+            'postal_code' => $request->postal_code,
         ]);
     }
 

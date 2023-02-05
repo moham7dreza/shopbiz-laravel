@@ -176,6 +176,23 @@ class ProductController extends Controller
 
     /**
      * @param Product $product
+     * @return RedirectResponse
+     */
+    public function selected(Product $product): RedirectResponse
+    {
+        if ($product->selected == Product::NOT_SELECTED) {
+            $product->selected = Product::SELECTED;
+            $text = 'کالا به عنوان محصول پیشنهادی انتخاب شد.';
+        } else {
+            $product->selected = Product::NOT_SELECTED;
+            $text = 'کالا از عنوان محصول پیشنهادی خارج شد.';
+        }
+        $product->save();
+        return $this->showMessageWithRedirectRoute($text);
+    }
+
+    /**
+     * @param Product $product
      * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
      * @return Application|Factory|View
      */

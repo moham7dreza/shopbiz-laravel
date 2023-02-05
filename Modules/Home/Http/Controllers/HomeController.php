@@ -63,6 +63,6 @@ class HomeController extends Controller
         SEOTools::opengraph()->addProperty('type', 'articles');
         SEOTools::twitter()->setSite('@LuizVinicius73');
         SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
-        SEOMeta::addMeta('author', $repo->siteSetting()->title);
+        SEOMeta::addMeta('author', $repo->siteSetting()->author);
     }
 }

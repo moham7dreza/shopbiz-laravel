@@ -124,7 +124,15 @@ class HomeRepoEloquent implements HomeRepoEloquentInterface
      */
     public function offerProducts(): Collection|array
     {
-        return $this->productRepo->index()->take(10)->get();
+        return $this->productRepo->offers()->take(10)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function popularProducts(): mixed
+    {
+        return $this->productRepo->popular()->take(10)->get();
     }
 
     /**

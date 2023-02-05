@@ -71,7 +71,23 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function orderByViews(): mixed
     {
-        return $this->query()->orderByUniqueViews();
+        return $this->query()->active()->orderByUniqueViews();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function offers(): mixed
+    {
+        return $this->query()->active()->selected()->latest();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function popular(): mixed
+    {
+        return $this->query()->active()->popular()->latest();
     }
 
     /**

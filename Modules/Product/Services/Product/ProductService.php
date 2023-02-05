@@ -71,6 +71,7 @@ class ProductService implements ProductServiceInterface
      */
     public function decreaseProductsCount($cartItems): void
     {
+        $setting = $this->settingRepo->getSystemSetting();
         foreach ($cartItems as $cartItem) {
             $product = $this->productRepo->findById($cartItem->product_id);
             $product->frozen_number -= $cartItem->number;
@@ -78,7 +79,6 @@ class ProductService implements ProductServiceInterface
             $product->sold_number += $cartItem->number;
             $product->save();
             if ($product->marketable_number < 10) {
-                $setting = $this->settingRepo->getSystemSetting();
                 $setting->low_count_products += 1;
                 $setting->save();
             }
@@ -165,6 +165,7 @@ class ProductService implements ProductServiceInterface
 
             $product = $this->query()->create([
                 'name' => $request->name,
+                'code_kala' => 'shop-product-' . convertEnglishToPersian(mt_rand(100000, 999999)),
                 'introduction' => $request->introduction,
                 'image' => $request->image,
                 'status' => $request->status,

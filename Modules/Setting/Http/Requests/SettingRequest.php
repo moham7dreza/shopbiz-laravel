@@ -29,6 +29,12 @@ class SettingRequest extends FormRequest
             'keywords' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'logo' => 'image|mimes:png,jpg,jpeg,gif',
             'icon' => 'image|mimes:png,jpg,jpeg,gif',
+            'address' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'mobile' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'email' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'social_media' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'postal_code' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'author' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
         ];
     }
 }

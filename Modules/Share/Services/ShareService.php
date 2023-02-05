@@ -371,11 +371,12 @@ class ShareService
             // 3. get products with low marketable number
             $settingRepo = new SettingRepoEloquent();
             $productCounter = $settingRepo->getSystemSetting()->low_count_products;
-            $body .= '<section class="">';
-            $body .= '<i class="fa fa-check mx-2"></i>';
-            $body .= '<p class="d-inline">موجودی ' . '<strong>' . convertEnglishToPersian($productCounter) . '</strong>' . ' تا از کالاها رو به اتمام است.</p>';
-            $body .= '</section>';
-
+            if ($productCounter > 0) {
+                $body .= '<section class="">';
+                $body .= '<i class="fa fa-check mx-2"></i>';
+                $body .= '<p class="d-inline">موجودی ' . '<strong>' . convertEnglishToPersian($productCounter) . '</strong>' . ' تا از کالاها رو به اتمام است.</p>';
+                $body .= '</section>';
+            }
             self::showAnimatedToastWithHtml($header, $body, 'info', 8000);
         } else {
             self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' کاربر عزیز به فروشگاه ما خوش آمدید.')->position('top-left');
