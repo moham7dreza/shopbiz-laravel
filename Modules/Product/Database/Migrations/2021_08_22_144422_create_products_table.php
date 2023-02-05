@@ -36,9 +36,9 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_id')->constrained('product_categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamp('published_at');
             $table->foreignId('active_discount_id')->nullable()->constrained('amazing_sales')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('view_count')->default(0);
-            $table->integer('comment_count')->default(0);
-            $table->integer('like_count')->default(0);
+            $table->integer('views_count')->default(0);
+            $table->integer('comments_count')->default(0);
+            $table->integer('likes_count')->default(0);
             $table->double('rating')->default(0);
             $table->timestamps();
             $table->softDeletes();

@@ -46,8 +46,17 @@ class CommentService
      */
     public function approveComment($comment): mixed
     {
-        $comment->approved = $comment->approved == Comment::NOT_APPROVED ?
-            Comment::APPROVED : Comment::NOT_APPROVED;
+        if ($comment->approved == Comment::NOT_APPROVED) {
+            $comment->approved = Comment::APPROVED;
+            $product = $comment->commentable;
+            $product->comments_count += 1;
+            $product->save();
+        } elseif ($comment->approved == Comment::APPROVED) {
+            $comment->approved = Comment::NOT_APPROVED;
+            $product = $comment->commentable;
+            $product->comments_count -= 1;
+            $product->save();
+        }
         return $comment->save();
     }
 

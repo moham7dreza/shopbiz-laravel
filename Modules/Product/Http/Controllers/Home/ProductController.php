@@ -69,6 +69,8 @@ class ProductController extends Controller
         }
         $commentService->store($request, $product);
         if (ShareService::checkForAdmin()) {
+            $product->comments_count += 1;
+            $product->save();
             return $this->showToastWithRedirect(title: 'نظر شما با موفقیت ثبت شد.');
             //            return back()->with('swal-timer', 'نظر شما با موفقیت ثبت شد.');
         }

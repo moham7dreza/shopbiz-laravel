@@ -29,7 +29,8 @@
                         جدید </a>
                     <div class="max-width-16-rem">
                         <form action="{{ route('product.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <input type="text" name="search" class="form-control form-control-sm form-text"
+                                   placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
                     </div>
@@ -55,7 +56,6 @@
                         </thead>
                         <tbody>
                         @foreach ($products as $product)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->getLimitedName() }}</td>
@@ -66,8 +66,15 @@
                                 <td>{{ $product->getFaPrice() }}</td>
                                 <td>{{ $product->getFaWeight() }}</td>
                                 <td>{{ $product->getCategoryName() }}</td>
-                                <td>{{ $product->getFaViewsCount() }}</td>
-                                <td>{{ $product->getFaLikersCount() }}</td>
+                                @php
+                                    $viewsCount = $product->getFaViewsCount();
+                                    $product->views_count = convertPersianToEnglish($viewsCount);
+                                    $likesCount = $product->getFaLikersCount();
+                                    $product->likes_count = convertPersianToEnglish($likesCount);
+                                    $product->save();
+                                @endphp
+                                <td>{{ $viewsCount }}</td>
+                                <td>{{ $likesCount }}</td>
                                 <td>
                                     @if(empty($product->tags()->get()->toArray()))
                                         <span class="text-danger">برای این کالا هیچ تگی تعریف نشده است</span>
@@ -79,7 +86,8 @@
                                 </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $product->id }}" onchange="changeStatus({{ $product->id }}, 'کالا')"
+                                        <input id="{{ $product->id }}"
+                                               onchange="changeStatus({{ $product->id }}, 'کالا')"
                                                data-url="{{ route('product.status', $product->id) }}" type="checkbox"
                                                @if ($product->status === 1)
                                                    checked
@@ -89,8 +97,10 @@
 
                                 <td>
                                     <label>
-                                        <input id="{{ $product->id }}-marketable" onchange="marketable({{ $product->id }}, 'کالا')"
-                                               data-url="{{ route('product.marketable', $product->id) }}" type="checkbox"
+                                        <input id="{{ $product->id }}-marketable"
+                                               onchange="marketable({{ $product->id }}, 'کالا')"
+                                               data-url="{{ route('product.marketable', $product->id) }}"
+                                               type="checkbox"
                                                @if ($product->marketable === 1)
                                                    checked
                                             @endif>
@@ -133,10 +143,7 @@
                                     </div>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $products->links() }}</section>

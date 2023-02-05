@@ -13,6 +13,7 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
+use Modules\Setting\Repositories\SettingRepoEloquent;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -66,6 +67,7 @@ class ProductController extends Controller
         } else {
             $products = $this->repo->index()->with('tags')->paginate(10);
         }
+        $this->calcTotalRate();
         return view('Product::admin.index', compact(['products']));
     }
 
@@ -192,5 +194,16 @@ class ProductController extends Controller
     {
         $product->tags()->sync($request->tags);
         return $this->showMessageWithRedirectRoute('تگ های محصول با موفقیت بروزرسانی شد');
+    }
+
+    /**
+     * @return void
+     */
+    private function calcTotalRate(): void
+    {
+        $settingRepo = new SettingRepoEloquent();
+        $setting = $settingRepo->getSystemSetting();
+        $setting->rating_score = $this->repo->index()->get()->sum('rating') / $this->repo->index()->count();
+        $setting->save();
     }
 }

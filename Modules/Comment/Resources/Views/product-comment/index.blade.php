@@ -43,7 +43,7 @@
                             <th>پاسخ به</th>
                             <th>کد کاربر</th>
                             <th>نویسنده نظر</th>
-                            <th>کد پست</th>
+                            <th>کد کالا</th>
                             <th>محصول</th>
                             <th>وضعیت تایید</th>
                             <th>وضعیت کامنت</th>
@@ -75,7 +75,7 @@
                                     <a href="{{ route('productComment.show', $comment->id) }}"
                                        class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
 
-                                    @if($comment->approved == 1)
+                                    @if($comment->approved == 0)
                                         <a href="{{ route('productComment.approved', $comment->id)}} "
                                            class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i></a>
                                     @else

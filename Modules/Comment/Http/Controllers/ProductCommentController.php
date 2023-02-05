@@ -154,7 +154,7 @@ class ProductCommentController extends Controller
         if ($result) {
             return $this->showMessageWithRedirectRoute('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return $this->showMessageWithRedirectRoute('تایید نظر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirectRoute('تایید نظر با خطا مواجه شد', 'خطا', status: 'error');
         }
     }
 
@@ -168,9 +168,21 @@ class ProductCommentController extends Controller
     {
         if ($productComment->parent == null) {
             $this->service->replyComment($request, $productComment);
+            $this->increaseCommentsCount($productComment);
             return $this->showMessageWithRedirectRoute('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return $this->showMessageWithRedirectRoute('خطا', 'swal-error');
+            return $this->showMessageWithRedirectRoute('با خطا مواجه شد', 'خطا', status: 'error');
         }
+    }
+
+    /**
+     * @param $comment
+     * @return void
+     */
+    private function increaseCommentsCount($comment): void
+    {
+        $model = $comment->commentable;
+        $model->comments_count += 1;
+        $model->save();
     }
 }
