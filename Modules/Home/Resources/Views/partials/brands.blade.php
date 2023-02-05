@@ -20,7 +20,10 @@
                                 <section class="brand-item">
                                     <a href="#">
                                         <img class="rounded-2"
-                                             src="{{ $brand->logo() }}" alt="">
+                                             src="{{ $brand->logo() }}" alt="{{ $brand->persian_name . '_' . $brand->original_name }}"
+                                             title="{{ $brand->persian_name . '_' . $brand->original_name }}"
+                                             data-bs-toggle="tooltip"
+                                             data-bs-placement="top">
                                     </a>
                                 </section>
                             </section>

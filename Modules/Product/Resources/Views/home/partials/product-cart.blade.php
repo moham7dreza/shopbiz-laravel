@@ -166,7 +166,7 @@
                                                     <button type="button"
                                                             class="btn btn-light btn-sm text-decoration-none"
                                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
                                                             title="اضافه به علاقه مندی">
                                                         <i class="fa fa-heart"></i>
                                                     </button>
@@ -179,7 +179,7 @@
                                                         <button type="button"
                                                                 class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="حذف از علاقه مندی">
                                                             <i class="fa fa-bookmark text-info"></i>
                                                         </button>
@@ -190,7 +190,7 @@
                                                         <button type="button"
                                                                 class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="اضافه به علاقه مندی">
                                                             <i class="fa fa-bookmark"></i>
                                                         </button>
@@ -213,7 +213,7 @@
                                                         <button type="button"
                                                                 class="btn btn-light btn-sm text-decoration-none"
                                                                 data-url="{{ route('customer.product.like', $product) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="لایک کردن">
                                                             <i class="fa fa-heart"></i>
                                                         </button>
@@ -224,7 +224,7 @@
                                                     <button type="button"
                                                             onclick="document.getElementById('comment-add-button').click();"
                                                             class="btn btn-light btn-sm text-decoration-none"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
                                                             title="افزودن نظر">
                                                         <i class="fa fa-comment"></i>
                                                     </button>
@@ -244,37 +244,40 @@
                                                 <i class="fa fa-ticket-alt"></i>
                                                 <span class="font-weight-bold mx-2"> نظر سنجی : </span>
                                             </section>
-                                            <section class="d-flex mx-4 mt-3">
-                                                <button class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}"
-                                                        type="button" id="rate_very_good" title="عالی"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-url="{{ route('customer.product.review', [$product, 'rate=5']) }}">
-                                                    <i class="fa fa-star"></i></button>
-                                                <button class="btn {{ $review > 3 ? 'text-greenyellow' : 'text-gray' }}"
-                                                        type="button" id="rate_good" title="خوب"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-url="{{ route('customer.product.review', [$product, 'rate=4']) }}">
-                                                    <i class="fa fa-star"></i></button>
-                                                <button class="btn {{ $review > 2 ? 'text-greenyellow' : 'text-gray' }}"
-                                                        type="button" id="rate_normal" title="متوسط"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-url="{{ route('customer.product.review', [$product, 'rate=3']) }}">
-                                                    <i class="fa fa-star"></i></button>
-                                                <button class="btn {{ $review > 1 ? 'text-greenyellow' : 'text-gray' }}"
-                                                        type="button" id="rate_low" title="نه خوب"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-url="{{ route('customer.product.review', [$product, 'rate=2']) }}">
-                                                    <i class="fa fa-star"></i></button>
-                                                <button class="btn {{ $review > 0 ? 'text-greenyellow' : 'text-gray' }}"
-                                                        type="button" id="rate_very_low" title="بد"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        data-url="{{ route('customer.product.review', [$product, 'rate=1']) }}">
-                                                    <i class="fa fa-star"></i></button>
+                                            <section class="d-flex mx-4 mt-3 align-items-center gap-2">
+                                                <span><i class="fa fa-pen"></i></span>
+                                                <section class="d-flex">
+                                                    <button class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}"
+                                                            type="button" id="rate_very_good" title="عالی"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-url="{{ route('customer.product.review', [$product, 'rate=5']) }}">
+                                                        <i class="fa fa-star"></i></button>
+                                                    <button class="btn {{ $review > 3 ? 'text-greenyellow' : 'text-gray' }}"
+                                                            type="button" id="rate_good" title="خوب"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-url="{{ route('customer.product.review', [$product, 'rate=4']) }}">
+                                                        <i class="fa fa-star"></i></button>
+                                                    <button class="btn {{ $review > 2 ? 'text-greenyellow' : 'text-gray' }}"
+                                                            type="button" id="rate_normal" title="متوسط"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-url="{{ route('customer.product.review', [$product, 'rate=3']) }}">
+                                                        <i class="fa fa-star"></i></button>
+                                                    <button class="btn {{ $review > 1 ? 'text-greenyellow' : 'text-gray' }}"
+                                                            type="button" id="rate_low" title="نه خوب"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-url="{{ route('customer.product.review', [$product, 'rate=2']) }}">
+                                                        <i class="fa fa-star"></i></button>
+                                                    <button class="btn {{ $review > 0 ? 'text-greenyellow' : 'text-gray' }}"
+                                                            type="button" id="rate_very_low" title="بد"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-url="{{ route('customer.product.review', [$product, 'rate=1']) }}">
+                                                        <i class="fa fa-star"></i></button>
+                                                </section>
                                             </section>
                                         </section>
                                     </section>

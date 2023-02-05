@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     @yield('head-tag')
     @include('Home::layouts.head-tag')

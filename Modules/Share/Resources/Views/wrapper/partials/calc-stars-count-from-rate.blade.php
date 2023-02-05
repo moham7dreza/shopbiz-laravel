@@ -1,5 +1,7 @@
 <section class="d-flex align-items-center justify-content-center m-3">
-    <section class="star-rate">
+    <section class="star-rate" title="{{ 'محبوبیت : ' . convertEnglishToPersian($product->rating) }}"
+             data-bs-toggle="tooltip"
+             data-bs-placement="top">
         @php
             $rate = $product->rating;
         @endphp

@@ -353,13 +353,22 @@ class Product extends Model implements Viewable
     }
 
     /**
+     * @return array|string|string[]
+     */
+    public function getFaProductDiscountPrice(): array|string
+    {
+        $productDiscount = $this->price * $this->activeAmazingSales()->percentage / 100;
+        return (priceFormat($productDiscount) ?? 0) . ' تومان';
+    }
+
+    /**
      * @return string
      */
     public function getFaActualPrice(): string
     {
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
-        return convertEnglishToPersian($productPrice) . ' تومان';
+        return priceFormat($productPrice) . ' تومان';
     }
 
     // ********************************************* FA counters
