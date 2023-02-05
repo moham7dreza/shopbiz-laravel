@@ -40,6 +40,15 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * @param string $direction
+     * @return mixed
+     */
+    public function orderByMarketableNumber(string $direction = 'asc'): mixed
+    {
+        return $this->query()->active()->orderBy('marketable_number', $direction);
+    }
+
+    /**
      * @param $product
      * @return mixed
      */

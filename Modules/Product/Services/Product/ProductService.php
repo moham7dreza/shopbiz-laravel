@@ -8,7 +8,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
+use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ReviewService;
 use Modules\Share\Services\ShareService;
@@ -21,16 +23,27 @@ class ProductService implements ProductServiceInterface
     public ImageService $imageService;
     public ProductMetaServiceInterface $metaService;
     public ReviewService $reviewService;
+    public ProductRepoEloquentInterface $productRepo;
+    public SettingRepoEloquentInterface $settingRepo;
 
     /**
      * @param ImageService $imageService
      * @param ProductMetaServiceInterface $metaService
+     * @param ReviewService $reviewService
+     * @param ProductRepoEloquentInterface $productRepo
+     * @param SettingRepoEloquentInterface $settingRepo
      */
-    public function __construct(ImageService $imageService, ProductMetaServiceInterface $metaService, ReviewService $reviewService)
+    public function __construct(ImageService $imageService,
+                                ProductMetaServiceInterface $metaService,
+                                ReviewService $reviewService,
+                                ProductRepoEloquentInterface $productRepo,
+                                SettingRepoEloquentInterface $settingRepo)
     {
         $this->imageService = $imageService;
         $this->metaService = $metaService;
         $this->reviewService = $reviewService;
+        $this->productRepo = $productRepo;
+        $this->settingRepo = $settingRepo;
     }
 
     /**
@@ -49,6 +62,26 @@ class ProductService implements ProductServiceInterface
             }
         } else {
             return response()->json(['status' => 3]);
+        }
+    }
+
+    /**
+     * @param $cartItems
+     * @return void
+     */
+    public function decreaseProductsCount($cartItems): void
+    {
+        foreach ($cartItems as $cartItem) {
+            $product = $this->productRepo->findById($cartItem->product_id);
+            $product->frozen_number -= $cartItem->number;
+            $product->marketable_number -= $cartItem->number;
+            $product->sold_number += $cartItem->number;
+            $product->save();
+            if ($product->marketable_number < 10) {
+                $setting = $this->settingRepo->getSystemSetting();
+                $setting->low_count_products += 1;
+                $setting->save();
+            }
         }
     }
 

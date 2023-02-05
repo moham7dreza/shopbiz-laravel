@@ -111,7 +111,7 @@ return [
         'enable' => env('SWEET_ALERT_ANIMATION_ENABLE', false),
     ],
 
-    'animatecss' => env('SWEET_ALERT_ANIMATECSS', asset('customer-assets/css/animate.min.css')),
+    'animatecss' => env('SWEET_ALERT_ANIMATECSS', '/customer-assets/css/animate.min.css'),
 
     /*
     |--------------------------------------------------------------------------

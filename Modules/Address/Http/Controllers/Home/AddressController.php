@@ -16,6 +16,7 @@ use Modules\Address\Http\Requests\UpdateAddressRequest;
 use Modules\Address\Repositories\AddressRepoEloquentInterface;
 use Modules\Address\Services\AddressService;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Cart\Services\CartServiceInterface;
 use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
 use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
 use Modules\Order\Services\OrderService;
@@ -28,8 +29,8 @@ class AddressController extends Controller
 
     public AddressRepoEloquentInterface $addressRepo;
     public AddressService $addressService;
-
     public CartRepoEloquentInterface $cartRepo;
+    public CartServiceInterface $cartService;
     public DeliveryRepoEloquentInterface $deliveryRepo;
     public OrderService $orderService;
     public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
@@ -41,13 +42,15 @@ class AddressController extends Controller
      * @param DeliveryRepoEloquentInterface $deliveryRepo
      * @param OrderService $orderService
      * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
+     * @param CartServiceInterface $cartService
      */
     public function __construct(AddressRepoEloquentInterface        $addressRepoEloquent,
                                 AddressService                      $addressService,
                                 CartRepoEloquentInterface           $cartRepo,
                                 DeliveryRepoEloquentInterface       $deliveryRepo,
                                 OrderService                        $orderService,
-                                CommonDiscountRepoEloquentInterface $commonDiscountRepo)
+                                CommonDiscountRepoEloquentInterface $commonDiscountRepo,
+                                CartServiceInterface                $cartService)
     {
         $this->addressRepo = $addressRepoEloquent;
         $this->addressService = $addressService;
@@ -55,6 +58,7 @@ class AddressController extends Controller
         $this->cartRepo = $cartRepo;
         $this->orderService = $orderService;
         $this->commonDiscountRepo = $commonDiscountRepo;
+        $this->cartService = $cartService;
     }
 
     /**
@@ -120,6 +124,18 @@ class AddressController extends Controller
     public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request): RedirectResponse
     {
         $cartItems = $this->cartRepo->findUserCartItems()->get();
+        // check availability of cart items to buy
+        $result = $this->cartService->checkCartItemsAvailabilityAndDeleteNotAvailableCartItems($cartItems);
+        if ($result != 'available') {
+            $cartItems = $this->cartRepo->findUserCartItems()->get();
+            if ($cartItems->count() > 0) {
+                return $this->showAlertWithRedirect('موجودی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار',
+                    type: 'warning', route: 'customer.sales-process.cart')->with('products', $result);
+            }
+            return $this->showAlertWithRedirect('موجودی کالاهای انتخابی شما به اتمام رسید.', title: 'هشدار',
+                type: 'warning', route: 'customer.home');
+        }
+        //
         $commonDiscount = $this->commonDiscountRepo->activeCommonDiscount();
         $selectedDeliveryMethod = $this->deliveryRepo->findById($request->delivery_id);
         $selectedAddress = $this->addressRepo->findById($request->address_id);

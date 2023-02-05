@@ -56,7 +56,7 @@ class StoreController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $products = $productRepo->index()->paginate(10);
+            $products = $productRepo->orderByMarketableNumber()->paginate(10);
         }
 
         return view('Product::admin.store.index', compact(['products']));

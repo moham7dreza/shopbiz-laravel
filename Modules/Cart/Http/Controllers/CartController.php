@@ -73,8 +73,11 @@ class CartController extends Controller
     public function updateCart(Request $request): RedirectResponse
     {
         $cartItems = $this->repo->findUserCartItems()->get();
-        $this->service->updateCartItems($request, $cartItems);
-        return to_route('customer.sales-process.address-and-delivery');
+        $result = $this->service->updateCartItems($request, $cartItems);
+        if ($result != 'updated') {
+            return $this->showAlertWithRedirect('موجودی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار' , type: 'warning')->with('products', $result);
+        }
+        return $this->showToastWithRedirect('کالاهای انتخاب شده برای شما ثبت شد.', route: 'customer.sales-process.address-and-delivery');
     }
 
 
@@ -87,7 +90,10 @@ class CartController extends Controller
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
         $cartItem = $this->service->store($request, $product->id, $cartItems);
-        if ($cartItem == 'product already in cart') {
+        if ($cartItem == 'requested number can not provided') {
+            return $this->showAlertWithRedirect('موجودی کالا هم اکنون ' . convertEnglishToPersian($product->marketable_number) . ' عدد است.',
+                title: 'هشدار' , type: 'warning', timer: 10000);
+        } elseif ($cartItem == 'product already in cart') {
 //            return $this->showAlertWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', 'هشدار', 'animated with footer', 'warning');
             return $this->showToastWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', type: 'error');
         } else if ($cartItem == 'product updated') {
@@ -106,10 +112,11 @@ class CartController extends Controller
     public function removeFromCart(CartItem $cartItem): RedirectResponse
     {
         if ($cartItem->user_id === auth()->id()) {
-            $cartItem->delete();
+            $this->service->decreaseFrozenNumberAndDelete($cartItem);
             $cartItems = $this->repo->findUserCartItems()->get();
             if ($cartItems->count() == 0) {
-                return $this->showToastWithRedirect(title: 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.', type: 'warning', route: 'customer.home');
+                return $this->showToastWithRedirect(title: 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.',
+                    type: 'warning', route: 'customer.home');
 //                return to_route('customer.home');->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
             }
         }
@@ -128,7 +135,7 @@ class CartController extends Controller
 //                    ->with('warning', 'سبد خرید شما خالی شد. میتوانید از محصولات دیگر ما دیدن فرمایید.');
         }
         foreach ($cartItems as $cartItem) {
-            $cartItem->delete();
+            $this->removeFromCart($cartItem);
         }
         return $this->showAlertWithRedirect('همه محصولات شما از سبد خرید حذف شدند.');
     }

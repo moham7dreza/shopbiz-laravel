@@ -8,6 +8,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Cart\Services\CartService;
+use Modules\Cart\Services\CartServiceInterface;
 use Modules\Discount\Http\Requests\Home\CopanDiscountRequest;
 use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
 use Modules\Order\Entities\Order;
@@ -16,6 +18,7 @@ use Modules\Order\Services\OrderService;
 use Modules\Payment\Entities\OnlinePayment;
 use Modules\Payment\Http\Requests\Home\PaymentRequest;
 use Modules\Payment\Services\PaymentServiceInterface;
+use Modules\Product\Services\Product\ProductServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Payment\PaymentService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -31,15 +34,18 @@ class PaymentController extends Controller
     public OrderRepoEloquentInterface $orderRepo;
     public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
     public PaymentServiceInterface $paymentService;
-
     public UserRepoEloquentInterface $userRepo;
+    public ProductServiceInterface $productService;
+    public CartServiceInterface $cartService;
 
     public function __construct(CartRepoEloquentInterface          $cartRepo,
                                 OrderService                       $orderService,
                                 OrderRepoEloquentInterface         $orderRepo,
                                 CopanDiscountRepoEloquentInterface $copanDiscountRepo,
                                 PaymentServiceInterface            $paymentService,
-                                UserRepoEloquentInterface          $userRepo)
+                                UserRepoEloquentInterface          $userRepo,
+                                ProductServiceInterface $productService,
+                                CartServiceInterface $cartService)
     {
         $this->cartRepo = $cartRepo;
         $this->orderService = $orderService;
@@ -47,6 +53,8 @@ class PaymentController extends Controller
         $this->copanDiscountRepo = $copanDiscountRepo;
         $this->paymentService = $paymentService;
         $this->userRepo = $userRepo;
+        $this->productService = $productService;
+        $this->cartService = $cartService;
     }
 
     /**
@@ -68,6 +76,21 @@ class PaymentController extends Controller
      */
     public function copanDiscount(CopanDiscountRequest $request): RedirectResponse
     {
+        $order = $this->orderRepo->findUserUncheckedOrder();
+        $cartItems = $this->cartRepo->findUserCartItems()->get();
+        // check availability of cart items to buy
+        $result = $this->cartService->checkCartItemsAvailabilityAndDeleteNotAvailableCartItems($cartItems);
+        if ($result != 'available') {
+            $order->delete();
+            $cartItems = $this->cartRepo->findUserCartItems()->get();
+            if ($cartItems->count() > 0) {
+                return $this->showAlertWithRedirect('موجودی برخی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار',
+                    type: 'warning', route: 'customer.sales-process.cart')->with('products', $result);
+            }
+            return $this->showAlertWithRedirect('موجودی کالاهای انتخابی شما به اتمام رسید.', title: 'هشدار',
+                type: 'warning', route: 'customer.home');
+        }
+        //
         $copan = $this->copanDiscountRepo->findActiveCopanDiscountWithCode($request->copan);
         if (!is_null($copan)) {
             // special user copan discount
@@ -105,7 +128,19 @@ class PaymentController extends Controller
         $order = $this->orderRepo->findUserUncheckedOrder();
         $orderFinalAmount = $order->order_final_amount;
         $cartItems = $this->cartRepo->findUserCartItems()->get();
-
+        // check availability of cart items to buy
+        $result = $this->cartService->checkCartItemsAvailabilityAndDeleteNotAvailableCartItems($cartItems);
+        if ($result != 'available') {
+            $order->delete();
+            $cartItems = $this->cartRepo->findUserCartItems()->get();
+            if ($cartItems->count() > 0) {
+                return $this->showAlertWithRedirect('موجودی برخی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار',
+                    type: 'warning', route: 'customer.sales-process.cart')->with('products', $result);
+            }
+            return $this->showAlertWithRedirect('موجودی کالاهای انتخابی شما به اتمام رسید.', title: 'هشدار',
+                type: 'warning', route: 'customer.home');
+        }
+        //
         $model = $this->paymentService->findTargetModel($request);
         $paymented = $this->paymentService->storeTargetModel($model['targetModel'],
             $orderFinalAmount, $model['cashReceiver']);
@@ -122,6 +157,8 @@ class PaymentController extends Controller
         $this->orderService->lastStepUpdate($order, $model['type'], $payment->id);
         //
         $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
+        // decrease product count
+        $this->productService->decreaseProductsCount($cartItems);
         $admin = $this->userRepo->findSystemAdmin();
         $this->orderService->sendOrderSubmittedNotificationToAdmin($admin, $order->id);
         return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'customer.home');

@@ -4,27 +4,66 @@ namespace Modules\Cart\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Modules\Cart\Entities\CartItem;
+use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Product\Repositories\Product\ProductRepoEloquent;
+use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 
 class CartService implements CartServiceInterface
 {
+    public ProductRepoEloquentInterface $productRepo;
+    public CartRepoEloquentInterface $cartRepo;
+
+    /**
+     * @param ProductRepoEloquentInterface $productRepo
+     * @param CartRepoEloquentInterface $cartRepo
+     */
+    public function __construct(ProductRepoEloquentInterface $productRepo, CartRepoEloquentInterface $cartRepo)
+    {
+        $this->productRepo = $productRepo;
+        $this->cartRepo = $cartRepo;
+    }
 
     /**
      * update cart items number before go to address and delivery selection
      *
      * @param $request
      * @param $cartItems
-     * @return void
+     * @return Collection|string
      */
-    public function updateCartItems($request, $cartItems): void
+    public function updateCartItems($request, $cartItems): Collection|string
     {
+        // check products can not be provided with that number
+        $lowCountProducts = collect();
         foreach ($cartItems as $cartItem) {
             if (isset($request->number[$cartItem->id])) {
-                $cartItem->update([
-                    'number' => $request->number[$cartItem->id]
-                ]);
+                $newNumber = $request->number[$cartItem->id];
+                // find product
+                $product = $this->productRepo->findById($cartItem->product_id);
+                // not provided
+                if ($newNumber > $product->marketable_number) {
+                    $lowCountProducts->push($product);
+                } // can provided
+                else {
+                    $product->frozen_number -= $cartItem->number;
+//                    $product->marketable_number += $cartItem->number;
+
+                    $cartItem->update([
+                        'number' => $newNumber
+                    ]);
+                    //
+                    $product->frozen_number += $newNumber;
+//                    $product->marketable_number -= $newNumber;
+                    $product->save();
+                    //
+                }
             }
         }
+        if ($lowCountProducts->count() > 0) {
+            return $lowCountProducts;
+        }
+        return 'updated';
     }
 
     /**
@@ -35,6 +74,8 @@ class CartService implements CartServiceInterface
      */
     public function store($request, $productId, $cartItems): Model|Builder|string
     {
+        $product = $this->productRepo->findById($productId);
+
         if (!isset($request->color)) {
             $request->color = null;
         }
@@ -45,7 +86,10 @@ class CartService implements CartServiceInterface
         foreach ($cartItems as $cartItem) {
             if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
                 if ($cartItem->number != $request->number) {
+                    $product->frozen_number -= $cartItem->number;
                     $cartItem->update(['number' => $request->number]);
+                    $product->frozen_number += $request->number;
+                    $product->save();
                     return 'product updated';
 //                    return redirect()->back()->with('info', 'محصول مورد نظر با موفقیت بروزرسانی شد');
                 } else {
@@ -56,6 +100,15 @@ class CartService implements CartServiceInterface
                 }
             }
         }
+        // update product marketable and frozen numbers
+
+        if ($request->number > $product->marketable_number) {
+            return 'requested number can not provided';
+        }
+        $product->frozen_number += $request->number;
+//        $product->marketable_number -= $request->number;
+        $product->save();
+        //
 
         return $this->query()->create([
             'color_id' => $request->color,
@@ -64,6 +117,40 @@ class CartService implements CartServiceInterface
             'user_id' => auth()->id(),
             'guarantee_id' => $request->guarantee,
         ]);
+    }
+
+    /**
+     * @param $cartItem
+     * @return void
+     */
+    public function decreaseFrozenNumberAndDelete($cartItem): void
+    {
+        // decrease count
+        $product = $this->productRepo->findById($cartItem->product_id);
+        $product->frozen_number -= $cartItem->number;
+        $product->save();
+        $cartItem->delete();
+    }
+
+    /**
+     * @param $cartItems
+     * @return Collection|string
+     */
+    public function checkCartItemsAvailabilityAndDeleteNotAvailableCartItems($cartItems): string|Collection
+    {
+        // check for another user buy products before than current user
+        $lowCountProducts = collect();
+        foreach ($cartItems as $cartItem) {
+            $product = $this->productRepo->findById($cartItem->product_id);
+            if ($product->marketable_number < $cartItem->number) {
+                $lowCountProducts->push($product);
+                $this->decreaseFrozenNumberAndDelete($cartItem);
+            }
+        }
+        if ($lowCountProducts->count() > 0) {
+            return $lowCountProducts;
+        }
+        return 'available';
     }
 
     /**

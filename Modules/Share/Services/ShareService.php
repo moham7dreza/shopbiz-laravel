@@ -9,6 +9,7 @@ use Modules\ACL\Entities\Permission;
 use Modules\Comment\Repositories\CommentRepoEloquent;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
 use Modules\Product\Repositories\Product\ProductRepoEloquent;
+use Modules\Setting\Repositories\SettingRepoEloquent;
 use Modules\User\Entities\User;
 
 class ShareService
@@ -368,14 +369,8 @@ class ShareService
             }
 
             // 3. get products with low marketable number
-            $productCounter = 0;
-            $product_repo = new ProductRepoEloquent();
-            $products = $product_repo->index()->where('status', 1)->pluck('marketable_number');
-            foreach ($products as $product) {
-                if ($product < 10) {
-                    $productCounter += 1;
-                }
-            }
+            $settingRepo = new SettingRepoEloquent();
+            $productCounter = $settingRepo->getSystemSetting()->low_count_products;
             $body .= '<section class="">';
             $body .= '<i class="fa fa-check mx-2"></i>';
             $body .= '<p class="d-inline">موجودی ' . '<strong>' . convertEnglishToPersian($productCounter) . '</strong>' . ' تا از کالاها رو به اتمام است.</p>';

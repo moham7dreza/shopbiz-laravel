@@ -134,7 +134,11 @@
                                         <section class="cart-product-number d-inline-block">
                                             <button class="cart-number cart-number-down" type="button">-
                                             </button>
-                                            <input type="number" id="number" name="number" min="1" max="5"
+                                            @php
+                                                $count = $product->marketable_number;
+                                            @endphp
+                                            <input type="number" id="number" name="number" min="1"
+                                                   @if($count < 5) max="{{ $count }}" @else max="5" @endif
                                                    step="1" value="1" readonly="readonly">
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
@@ -329,8 +333,11 @@
                             <section class="border-bottom mb-3"></section>
 
                             @if($product->marketable_number > 0)
-                                <section class="d-flex justify-content-end align-items-center">
-                                    <p class="fw-bolder"><span id="final-price"></span> <span class="small">تومان</span>
+                                <section class="d-flex justify-content-between">
+                                    <span>جمع کل</span>
+                                    <p class="fw-bolder">
+                                        <span id="final-price"></span>
+                                        <span class="small">تومان</span>
                                     </p>
                                 </section>
                             @else
@@ -341,8 +348,9 @@
                                 </section>
                             @endif
 
-                            <section class="">
+                            <section class="d-flex flex-column gap-2">
                                 @if($product->marketable_number > 0)
+                                    <span class="text-danger mb-2">تنها <strong>{{ convertEnglishToPersian($product->marketable_number) }}</strong> عدد در انبار باقی مانده</span>
                                     <button id="next-level" class="btn btn-danger d-block w-100"
                                             onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد
                                         خرید

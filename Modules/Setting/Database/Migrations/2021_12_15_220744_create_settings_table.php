@@ -20,6 +20,8 @@ class CreateSettingsTable extends Migration
             $table->text('keywords')->nullable();
             $table->text('logo')->nullable();
             $table->text('icon')->nullable();
+            $table->integer('low_count_products')->default(0)->comment('count of products which have low marketable number');
+            $table->float('rating_score')->default(0)->comment('calculate avg rating of all items');
             $table->text('author')->nullable();
             $table->text('address')->nullable();
             $table->text('mobile')->nullable();
