@@ -360,7 +360,7 @@ class ShareService
 
             // 2. get comments count
             $comment_repo = new CommentRepoEloquent();
-            $unseenCommentCount = $comment_repo->latestCommentWithoutAdmin()->count();
+            $unseenCommentCount = $comment_repo->latestUnseenCommentWithoutAdmin()->count();
             if ($unseenCommentCount > 0) {
                 $body .= '<section class="">';
                 $body .= '<i class="fa fa-check mx-2"></i>';

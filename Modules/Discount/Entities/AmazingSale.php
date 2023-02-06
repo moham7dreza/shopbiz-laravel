@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
@@ -24,6 +25,21 @@ class AmazingSale extends Model
      * @var string[]
      */
     protected $fillable = ['product_id', 'percentage', 'start_date', 'end_date', 'status'];
+
+    // ********************************* scope
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAlreadyActive($query): mixed
+    {
+        return $query->where([
+            ['start_date', '<', Carbon::now()],
+            ['end_date', '>', Carbon::now()],
+            ['status', AmazingSale::STATUS_ACTIVE]
+        ]);
+    }
 
     // ********************************************* Relations
 

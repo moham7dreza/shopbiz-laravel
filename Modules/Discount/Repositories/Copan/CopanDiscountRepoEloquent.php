@@ -35,12 +35,7 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
      */
     public function findActiveCopanDiscountWithCode($code): Model|Builder|null
     {
-        return $this->query()->where([
-            ['code', $code],
-            ['status', Copan::STATUS_ACTIVE],
-            ['end_date', '>', Carbon::now()],
-            ['start_date', '<', Carbon::now()]
-        ])->first();
+        return $this->query()->alreadyActive()->where('code', $code)->first();
     }
 
     /**
@@ -49,25 +44,19 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
      */
     public function findActiveCopanDiscountWithCodeAssignedForUser($code): Model|Builder|null
     {
-        return $this->query()->where([
+        return $this->query()->alreadyActive()->where([
             ['code', $code],
-            ['status', Copan::STATUS_ACTIVE],
-            ['end_date', '>', Carbon::now()],
-            ['start_date', '<', Carbon::now()],
             ['user_id', auth()->id()]
         ])->first();
     }
 
     /**
+     * panel
      * @return Model|Builder|null
      */
     public function activeCopanDiscounts(): Model|Builder|null
     {
-        return $this->query()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', Copan::STATUS_ACTIVE]
-        ])->latest();
+        return $this->query()->alreadyActive()->latest();
     }
 
     /**

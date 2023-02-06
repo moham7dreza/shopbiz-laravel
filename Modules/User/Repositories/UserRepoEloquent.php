@@ -40,9 +40,8 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      */
     public function adminUsers(): Builder
     {
-        return $this->query()->where([
+        return $this->query()->admin()->where([
 //            ['id', '!=', auth()->id()],
-            ['user_type', 1]
         ])->latest();
     }
 
@@ -51,9 +50,8 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      */
     public function customerUsers(): Builder
     {
-        return $this->query()->where([
+        return $this->query()->user()->where([
 //            ['id', '!=', auth()->id()],
-            ['user_type', 0]
         ])->latest();
     }
 
@@ -62,9 +60,7 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      */
     public function customerUsersCount(): int
     {
-        return $this->query()->where([
-            ['user_type', 0]
-        ])->count();
+        return $this->query()->user()->count();
     }
 
     /**
@@ -72,9 +68,7 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      */
     public function adminUsersCount(): int
     {
-        return $this->query()->where([
-            ['user_type', 1]
-        ])->count();
+        return $this->query()->admin()->count();
     }
 
     /**

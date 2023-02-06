@@ -44,11 +44,7 @@ class CommonDiscountRepoEloquent implements CommonDiscountRepoEloquentInterface
      */
     public function activeCommonDiscount(): Model|Builder|null
     {
-        return $this->query()->where([
-            ['start_date', '<', Carbon::now()],
-            ['end_date', '>', Carbon::now()],
-            ['status', CommonDiscount::STATUS_ACTIVE]
-        ])->first();
+        return $this->query()->alreadyActive()->first();
     }
 
     /**

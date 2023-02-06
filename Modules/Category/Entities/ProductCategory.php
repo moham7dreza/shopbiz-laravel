@@ -48,6 +48,17 @@ class ProductCategory extends Model
      */
     protected $fillable = ['name', 'description', 'slug', 'image', 'status', 'show_in_menu', 'parent_id'];
 
+    // ************************ scope
+
+    public function scopeShowInCatMenu($query)
+    {
+        return $query->where([
+           ['status', self::STATUS_ACTIVE],
+           ['show_in_menu', self::SHOW_IN_MENU],
+           ['parent_id', null]
+        ]);
+    }
+
     // ********************************************* Relations
 
     /**

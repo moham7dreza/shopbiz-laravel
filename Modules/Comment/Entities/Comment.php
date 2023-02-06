@@ -31,6 +31,88 @@ class Comment extends Model
      */
     protected $fillable = ['body', 'parent_id', 'author_id', 'commentable_id', 'commentable_type', 'approved', 'status'];
 
+    // ********************************** scope
+
+    /**
+     * @param $query
+     * @param int $seen
+     * @return mixed
+     */
+    public function scopeSeen($query, int $seen = self::SEEN): mixed
+    {
+        return $query->where('seen', $seen);
+    }
+
+    /**
+     * @param $query
+     * @param int $approved
+     * @return mixed
+     */
+    public function scopeApproved($query, int $approved = self::SEEN): mixed
+    {
+        return $query->where('approved', $approved);
+    }
+
+    /**
+     * @param $query
+     * @param int $approved
+     * @return mixed
+     */
+    public function scopeAll($query, int $approved = self::SEEN): mixed
+    {
+        return $query->where([
+            ['status', self::STATUS_ACTIVE],
+            ['approved', self::APPROVED],
+            ['parent_id', null]
+        ]);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeProduct($query): mixed
+    {
+        return $query->where([
+            ['status', self::STATUS_ACTIVE],
+            ['approved', self::APPROVED],
+            ['commentable_type', 'Modules\Product\Entities\Product'],
+            ['parent_id', null]
+        ]);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopePost($query): mixed
+    {
+        return $query->where([
+            ['status', self::STATUS_ACTIVE],
+            ['approved', self::APPROVED],
+            ['commentable_type', 'Modules\Post\Entities\Post'],
+            ['parent_id', null]
+        ]);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeProductType($query): mixed
+    {
+        return $query->where('commentable_type', 'Modules\Product\Entities\Product');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopePostType($query): mixed
+    {
+        return $query->where('commentable_type', 'Modules\Post\Entities\Post');
+    }
+
     // ********************************************* Relations
 
     /**

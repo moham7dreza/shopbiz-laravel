@@ -26,6 +26,17 @@ class Menu extends Model
     protected $fillable = ['name', 'url', 'parent_id', 'status'];
 
 
+    // ********************************* scope
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeParent($query): mixed
+    {
+        return $query->where('parent_id', null);
+    }
+
     // ********************************************* Relations
 
     /**

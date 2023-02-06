@@ -11,6 +11,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
 {
     /**
      * @param $name
+     * @param $orderType
      * @return Model|Builder|null
      */
     public function search($name, $orderType): Model|Builder|null
@@ -32,6 +33,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * user profile
      * @param $type
      * @return mixed
      */
@@ -76,7 +78,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function sending(): Builder
     {
-        return $this->query()->where('delivery_status', 1)->latest();
+        return $this->query()->where('delivery_status', Order::DELIVERY_STATUS_SENDING)->latest();
     }
 
     /**
@@ -84,7 +86,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function unpaid(): Builder
     {
-        return $this->query()->where('payment_status', 0)->latest();
+        return $this->query()->where('payment_status', Order::PAYMENT_STATUS_NOT_PAID)->latest();
     }
 
     /**
@@ -92,7 +94,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function canceled(): Builder
     {
-        return $this->query()->where('order_status', 4)->latest();
+        return $this->query()->where('order_status', Order::ORDER_STATUS_CANCELED)->latest();
     }
 
     /**
@@ -100,7 +102,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function returned(): Builder
     {
-        return $this->query()->where('order_status', 5)->latest();
+        return $this->query()->where('order_status', Order::ORDER_STATUS_RETURNED)->latest();
     }
 
     /**
@@ -126,6 +128,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * panel
      * @return int
      */
     public function ordersCount(): int
@@ -134,6 +137,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * panel
      * @return Builder|Model|null
      */
     public function getLastOrder(): Model|Builder|null

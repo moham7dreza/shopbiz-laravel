@@ -18,6 +18,35 @@ class Payment extends Model
 
     protected $fillable = ['amount', 'user_id', 'pay_date', 'type', 'paymentable_id', 'paymentable_type', 'status'];
 
+    // ********************************* scope
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOfflineType($query): mixed
+    {
+        return $query->where('paymentable_type', 'Modules\Payment\Entities\OfflinePayment');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOnlineType($query): mixed
+    {
+        return $query->where('paymentable_type', 'Modules\Payment\Entities\OnlinePayment');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCashType($query): mixed
+    {
+        return $query->where('paymentable_type', 'Modules\Payment\Entities\CashPayment');
+    }
+
     // ********************************************* Relations
 
     /**

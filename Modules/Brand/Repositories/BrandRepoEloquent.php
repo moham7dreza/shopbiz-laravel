@@ -19,14 +19,14 @@ class BrandRepoEloquent implements BrandRepoEloquentInterface
         return $this->query()->latest();
     }
 
+    // **************** home
+
     /**
      * @return Builder
      */
     public function getActiveBrands(): Builder
     {
-        return $this->query()->where([
-            ['status', Brand::STATUS_ACTIVE],
-        ])->latest();
+        return $this->query()->active()->latest();
     }
 
     /**

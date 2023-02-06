@@ -12,6 +12,8 @@ use Modules\Address\Entities\Province;
 
 class AddressRepoEloquent implements AddressRepoEloquentInterface
 {
+    //***************************************************** Home queries ******************************************* //
+
     /**
      * @return mixed
      */

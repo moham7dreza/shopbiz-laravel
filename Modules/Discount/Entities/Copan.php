@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasFaPropertiesTrait;
@@ -26,6 +27,21 @@ class Copan extends Model
      * @var string[]
      */
     protected $fillable = ['code', 'amount', 'amount_type' , 'discount_ceiling' , 'type' , 'user_id' ,'start_date', 'end_date', 'status'];
+
+    // ********************************* scope
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAlreadyActive($query): mixed
+    {
+        return $query->where([
+            ['start_date', '<', Carbon::now()],
+            ['end_date', '>', Carbon::now()],
+            ['status', Copan::STATUS_ACTIVE]
+        ]);
+    }
 
     // ********************************************* Relations
 

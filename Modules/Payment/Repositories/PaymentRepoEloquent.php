@@ -15,7 +15,7 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
      */
     public function offline(): Builder
     {
-        return $this->query()->where('paymentable_type', 'Modules\Payment\Entities\OfflinePayment')->latest();
+        return $this->query()->offlineType()->latest();
     }
 
     /**
@@ -23,7 +23,7 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
      */
     public function online(): Builder
     {
-        return $this->query()->where('paymentable_type', 'Modules\Payment\Entities\OnlinePayment')->latest();
+        return $this->query()->onlineType()->latest();
     }
 
     /**
@@ -31,7 +31,7 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
      */
     public function cash(): Builder
     {
-        return $this->query()->where('paymentable_type', 'Modules\Payment\Entities\CashPayment')->latest();
+        return $this->query()->cashType()->latest();
     }
 
     /**

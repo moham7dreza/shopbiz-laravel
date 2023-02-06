@@ -25,49 +25,43 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
      */
     public function unseenComments(): Builder
     {
-        return $this->query()->where('seen', Comment::UNSEEN)->latest();
+        return $this->query()->seen(Comment::UNSEEN)->latest();
     }
 
     /**
+     * panel
      * @return Builder
      */
     public function getLatestPostComments(): Builder
     {
-        return $this->query()->where([
-            ['commentable_type', 'Modules\Post\Entities\Post']
-        ])->latest();
+        return $this->query()->postType()->latest();
     }
 
     /**
+     * panel
      * @return Builder
      */
     public function getLatestProductComments(): Builder
     {
-        return $this->query()->where([
-            ['commentable_type', 'Modules\Product\Entities\Product']
-        ])->latest();
+        return $this->query()->productType()->latest();
     }
 
     /**
+     * panel
      * @return Collection|Builder[]
      */
     public function getUnseenPostComments(): array|Collection
     {
-        return $this->query()->where([
-            ['seen', 0],
-            ['commentable_type', 'Modules\Post\Entities\Post']
-        ])->get();
+        return $this->query()->seen(Comment::UNSEEN)->postType()->get();
     }
 
     /**
+     * panel
      * @return Builder[]|Collection
      */
     public function getUnseenProductComments(): array|Collection
     {
-        return $this->query()->where([
-            ['seen', 0],
-            ['commentable_type', 'Modules\Product\Entities\Product']
-        ])->get();
+        return $this->query()->seen(Comment::UNSEEN)->productType()->get();
     }
 
     /**
@@ -93,18 +87,12 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
 
     public function findActivePostComments(): Builder
     {
-        return $this->query()->where([
-            ['status', $this->class::STATUS_ACTIVE],
-            ['commentable_type', 'Modules\Post\Entities\Post']
-        ])->latest();
+        return $this->query()->post()->latest();
     }
 
     public function findActiveProductComments(): Builder
     {
-        return $this->query()->where([
-            ['status', $this->class::STATUS_ACTIVE],
-            ['commentable_type', 'Modules\Product\Entities\Product']
-        ])->latest();
+        return $this->query()->product()->latest();
     }
 
     /**
@@ -122,6 +110,7 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     }
 
     /**
+     * panel
      * @return int
      */
     public function commentsCount(): int
@@ -130,11 +119,21 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     }
 
     /**
+     * panel
      * @return Builder
      */
     public function latestCommentWithoutAdmin(): Builder
     {
         return $this->query()->where('author_id', '!=', auth()->id())->latest();
+    }
+
+    /**
+     * panel
+     * @return Builder
+     */
+    public function latestUnseenCommentWithoutAdmin(): Builder
+    {
+        return $this->query()->seen(Comment::UNSEEN)->where('author_id', '!=', auth()->id())->latest();
     }
 
 
@@ -145,10 +144,7 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
      */
     public function latestActiveParentComments(): Builder
     {
-        return $this->query()->where([
-            ['status', $this->class::STATUS_ACTIVE],
-            ['parent_id', null]
-        ])->latest();
+        return $this->query()->all()->latest();
     }
     /**
      * Get query model(builder).

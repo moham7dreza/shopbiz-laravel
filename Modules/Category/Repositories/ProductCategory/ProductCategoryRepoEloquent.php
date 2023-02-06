@@ -12,6 +12,24 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     private string $class = ProductCategory::class;
 
     /**
+     * home
+     * @return Builder
+     */
+    public function getShowInMenuActiveParentCategories(): Builder
+    {
+        return $this->query()->showInCatMenu()->latest();
+    }
+
+    /**
+     *  panel
+     * @return Builder
+     */
+    public function getParentCategories(): Builder
+    {
+        return $this->query()->where('parent_id', null)->latest();
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */
@@ -95,26 +113,6 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
             ['status', $this->class::STATUS_ACTIVE],
             ['slug', $slug]
         ])->first();
-    }
-
-    /**
-     * @return Builder
-     */
-    public function getParentCategories(): Builder
-    {
-        return $this->query()->where('parent_id', null)->latest();
-    }
-
-    /**
-     * @return Builder
-     */
-    public function getShowInMenuActiveParentCategories(): Builder
-    {
-        return $this->query()->where([
-            ['status', $this->class::SHOW_IN_MENU],
-            ['show_in_menu', $this->class::STATUS_ACTIVE],
-            ['parent_id', NULL]
-        ])->latest();
     }
 
     /**

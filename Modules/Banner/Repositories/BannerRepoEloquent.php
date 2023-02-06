@@ -74,10 +74,7 @@ class BannerRepoEloquent implements BannerRepoEloquentInterface
      */
     public function getActiveBannerByPosition(int $position): Builder
     {
-        return $this->query()->where([
-            ['position', $position],
-            ['status', Banner::STATUS_ACTIVE]
-        ])->latest();
+        return $this->query()->active()->where('position', $position)->latest();
     }
 
     /**

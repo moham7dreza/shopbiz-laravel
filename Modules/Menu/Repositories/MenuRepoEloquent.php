@@ -29,11 +29,12 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
     }
 
     /**
+     * panel
      * @return Builder
      */
     public function getParentMenus(): Builder
     {
-        return $this->query()->where('parent_id', null)->latest();
+        return $this->query()->parent()->latest();
     }
 
     /**
@@ -65,10 +66,7 @@ class MenuRepoEloquent implements MenuRepoEloquentInterface
      */
     public function getActiveParentMenus(): Builder
     {
-        return $this->query()->where([
-            ['parent_id', null],
-            ['status', Menu::STATUS_ACTIVE],
-        ])->latest();
+        return $this->query()->active()->parent()->latest();
     }
 
     /**

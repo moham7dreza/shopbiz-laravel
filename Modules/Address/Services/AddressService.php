@@ -49,7 +49,12 @@ class AddressService
         ]);
     }
 
-    private function checkReceiver($status, $field)
+    /**
+     * @param $status
+     * @param $field
+     * @return mixed|null
+     */
+    private function checkReceiver($status, $field): mixed
     {
         return $status === "on" ? $field : null;
     }

@@ -104,6 +104,37 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    // *********************************************** scope
+
+    /**
+     * @param $query
+     * @param int $activation
+     * @return mixed
+     */
+    public function scopeActivate($query, int $activation = self::ACTIVATE): mixed
+    {
+        return $query->where('activation', $activation);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAdmin($query): mixed
+    {
+        return $query->where('user_type', self::TYPE_ADMIN);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUser($query): mixed
+    {
+        return $query->where('user_type', self::TYPE_USER);
+    }
+
+
     // ********************************************* Relations
 
     /**

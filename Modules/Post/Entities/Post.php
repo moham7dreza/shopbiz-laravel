@@ -70,6 +70,31 @@ class Post extends Model implements Viewable
      */
     protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
 
+    // ********************************* scope
+
+    /**
+     * @param $query
+     * @param int $commentable
+     * @return mixed
+     */
+    public function scopeCommentable($query, int $commentable = self::IS_COMMENTABLE): mixed
+    {
+        return $query->where('commentable', $commentable);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeReadyForPublish($query): mixed
+    {
+        return $query->where([
+            ['status', self::STATUS_ACTIVE],
+            ['commentable', self::IS_COMMENTABLE],
+            ['published_at', '<', now()]
+        ]);
+    }
+
     // ********************************************* Relations
 
     /**

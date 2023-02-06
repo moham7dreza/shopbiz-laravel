@@ -86,8 +86,7 @@ class PostRepoEloquent implements PostRepoEloquentInterface
     // home queries
     public function relatedPosts($category_id, $id): Builder
     {
-        return $this->query()->where([
-            ['status', Post::STATUS_ACTIVE],
+        return $this->query()->active()->where([
             ['category_id', $category_id],
             ['id', '!=', $id]
         ]);

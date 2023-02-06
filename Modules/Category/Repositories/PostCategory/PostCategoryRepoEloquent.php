@@ -65,14 +65,13 @@ class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
         return $this->query()->where('id', $id)->update(['status' => $status]);
     }
 
+
     /**
-     * Get active categories.
-     *
-     * @return Builder
+     * @return mixed
      */
-    public function getActiveCategories()
+    public function getActiveCategories(): mixed
     {
-        return $this->query()->where('status', $this->class::STATUS_ACTIVE);
+        return $this->query()->active()->latest();
     }
 
     /**
