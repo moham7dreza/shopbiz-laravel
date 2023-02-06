@@ -10,7 +10,6 @@ use Modules\Product\Entities\Product;
 
 class ProductRepoEloquent implements ProductRepoEloquentInterface
 {
-
     /**
      * @param $name
      * @return Model|Builder|null
@@ -22,11 +21,12 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * used in panel
      * @return int
      */
     public function productsCount(): int
     {
-        return $this->index()->count();
+        return $this->query()->count();
     }
 
     /**
@@ -39,13 +39,39 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
         return $this->query()->latest();
     }
 
+    //***************************************************** Home queries ******************************************* //
+
+    /**
+     * @param $name
+     * @return Model|Builder|null
+     */
+    public function searchReadyForSaleProducts($name): Model|Builder|null
+    {
+        return $this->query()->readyForSale()->where('name', 'like', '%' . $name . '%')
+            ->orWhere('introduction', 'like', '%' . $name . '%')->latest();
+    }
+
+    /**
+     * find related products in cart from cart items
+     * @param $products
+     * @return Collection
+     */
+    public function findRelatedProducts($products): Collection
+    {
+        $categoryProducts = collect();
+        foreach ($products as $product) {
+            $categoryProducts->push($product->category->products()->readyForSale()->get());
+        }
+        return $categoryProducts->collapse()->shuffle()->take(10);
+    }
+
     /**
      * @param string $direction
      * @return mixed
      */
     public function orderByMarketableNumber(string $direction = 'asc'): mixed
     {
-        return $this->query()->active()->orderBy('marketable_number', $direction);
+        return $this->query()->readyForSale()->orderBy('marketable_number', $direction);
     }
 
     /**
@@ -54,7 +80,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function relatedItems($product): mixed
     {
-        return $product->category->products()->where('id', '!=', $product->id)->latest();
+        return $product->category->products()->readyForSale()->where('id', '!=', $product->id)->latest();
     }
 
     /**
@@ -62,8 +88,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function orderByPublishedAt(): Builder
     {
-        return $this->query()->where('status', 1)->orderBy('published_at', 'desc');
-//        return $this->query()->active()->latest()-orderBy('published_at', 'desc');
+        return $this->query()->readyForSale()->orderBy('published_at', 'desc');
     }
 
     /**
@@ -71,7 +96,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function orderByViews(): mixed
     {
-        return $this->query()->active()->orderByUniqueViews();
+        return $this->query()->readyForSale()->orderByUniqueViews();
     }
 
     /**
@@ -79,7 +104,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function offers(): mixed
     {
-        return $this->query()->active()->selected()->latest();
+        return $this->query()->readyForSale()->selected()->latest();
     }
 
     /**
@@ -87,10 +112,20 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function popular(): mixed
     {
-        return $this->query()->active()->popular()->latest();
+        return $this->query()->readyForSale()->popular()->latest();
     }
 
     /**
+     * @param $soldNumber
+     * @return Builder
+     */
+    public function bestSeller($soldNumber): Builder
+    {
+        return $this->query()->readyForSale()->where('sold_number', '>=', $soldNumber)->latest();
+    }
+
+    /**
+     * primary site search using
      * @param $field
      * @param $value
      * @return Builder
@@ -99,6 +134,8 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     {
         return $this->query()->where($field, 'like', '%' . $value . '%')->latest();
     }
+
+    // ******************************************************************************
 
     /**
      * Find product by id.
@@ -124,17 +161,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
 
     // home
 
-    /**
-     * @param $soldNumber
-     * @return Builder
-     */
-    public function bestSeller($soldNumber): Builder
-    {
-        return $this->query()->where([
-            ['status', Product::STATUS_ACTIVE],
-            ['sold_number', '>=', $soldNumber],
-        ])->latest();
-    }
+
 
     /**
      * @return Collection

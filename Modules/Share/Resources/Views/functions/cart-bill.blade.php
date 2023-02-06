@@ -15,8 +15,8 @@
 
         total_price = total_product_price - total_discount;
 
-        $('#total_product_price').html(toFarsiNumber(total_product_price));
-        $('#total_discount').html(toFarsiNumber(total_discount));
-        $('#total_price').html(toFarsiNumber(total_price));
+        $('#total_product_price').html(toFarsiNumber(total_product_price) + ' تومان');
+        $('#total_discount').html(toFarsiNumber(total_discount) + ' تومان');
+        $('#total_price').html(toFarsiNumber(total_price) + ' تومان');
     }
 </script>

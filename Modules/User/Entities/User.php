@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Address\Entities\Address;
+use Modules\Cart\Entities\CartItem;
 use Modules\Comment\Entities\Comment;
 use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
@@ -167,6 +168,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function posts(): HasMany
     {
         return $this->HasMany(Post::class, 'author_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class)->whereNull('deleted_at');
     }
 
     // ********************************************* Methods

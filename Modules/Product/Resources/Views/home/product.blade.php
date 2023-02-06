@@ -10,7 +10,15 @@
 
     @include('Product::home.partials.description')
 
-    @include('Product::home.partials.related-products')
+{{--    @include('Product::home.partials.related-products')--}}
+
+    @include('Share::wrapper.product-lazy-load-with-reactions-and-counters', [
+                'class' => 'py-4 bg-blue-light',
+        'title' => 'کالاهای مرتبط',
+        'products' => $relatedProducts,
+        'productIds' => $userCartItemsProductIds,
+        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=mostVisitedProducts')
+    ])
 
 @endsection
 

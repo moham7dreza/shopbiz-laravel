@@ -245,7 +245,9 @@
                                                 <span class="font-weight-bold mx-2"> نظر سنجی : </span>
                                             </section>
                                             <section class="d-flex mx-4 mt-3 align-items-center gap-2">
-                                                <span><i class="fa fa-pen"></i></span>
+                                                <span><i class="fa fa-pen" title="لطفا در نظر سنجی کالا شرکت کنید"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-placement="top"></i></span>
                                                 <section class="d-flex">
                                                     <button class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}"
                                                             type="button" id="rate_very_good" title="عالی"

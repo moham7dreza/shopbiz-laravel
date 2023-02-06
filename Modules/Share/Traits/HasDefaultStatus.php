@@ -47,7 +47,7 @@ trait HasDefaultStatus
      */
     public function active(): int
     {
-        return self::STATUS_ACTIVE;
+        return $this->status == self::STATUS_ACTIVE;
     }
 
     /**
@@ -55,7 +55,7 @@ trait HasDefaultStatus
      */
     public function inActive(): int
     {
-        return self::STATUS_INACTIVE;
+        return $this->status == self::STATUS_INACTIVE;
     }
 
     /**

@@ -33,10 +33,27 @@
 
                                 <section class="cart-item d-md-flex py-3">
                                     <section class="cart-img align-self-start flex-shrink-1">
-                                        <img src="{{ $cartItem->getProductImagePath() }}" alt="">
+                                        <a href="{{ $cartItem->product->path() }}">
+                                            <img src="{{ $cartItem->getProductImagePath() }}"
+                                                 alt="{{ $cartItem->getProductName() }}"
+                                                 title="{{ $cartItem->product->getTagLessIntroduction() }}"
+                                                 data-bs-toggle="tooltip"
+                                                 data-bs-placement="top">
+                                        </a>
                                     </section>
                                     <section class="align-self-start w-100">
-                                        <p class="fw-bold">{{ $cartItem->getProductName() }}</p>
+                                        <section class="d-flex">
+                                            <p class="fw-bold me-3">{{ $cartItem->getProductName() }}</p>
+                                            <section class="product-rate">
+                                                <span class="text-muted">(</span>
+                                                <span><i class="fa fa-star text-yellow" title="محبوبیت"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-placement="top"></i></span>
+                                                <strong
+                                                    class="text-muted">{{ $cartItem->product->getFaProductRating() }}</strong>
+                                                <span class="text-muted">)</span>
+                                            </section>
+                                        </section>
                                         <p>
                                             @if (!empty($cartItem->color))
                                                 <span style="background-color: {{ $cartItem->color->color }};"
@@ -68,10 +85,16 @@
                                                        value="{{ $cartItem->number }}" readonly="readonly">
                                                 <button class="cart-number cart-number-up" type="button">+</button>
                                             </section>
+{{--                                            <button class="btn btn-light btn-sm text-muted p-1"--}}
+{{--                                                    onclick="document.getElementById('delete-cart-item-form').submit();"><i class="fa fa-trash-alt"></i> حذف از سبد</button>--}}
                                             <a class="text-decoration-none ms-4 cart-delete"
-                                               href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i
-                                                    class="fa fa-trash-alt"></i> حذف از سبد</a>
+{{--                                               id="delete-{{ $cartItem->id }}"--}}
+                                               href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i class="fa fa-trash-alt"></i> حذف از سبد</a>
+{{--                                            <a class="d-none" id="delete-route-{{ $cartItem->id }}"--}}
+{{--                                               href="">--}}
+{{--                                            </a>--}}
                                         </section>
+
                                     </section>
                                     <section class="align-self-end flex-shrink-1">
                                         @if ($cartItem->hasActiveAmazingSale())
@@ -87,7 +110,9 @@
 
 
                         </form>
+                        <form action="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}" id="delete-cart-item-form">
 
+                        </form>
                     </section>
                     <section class="col-md-3">
                         <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
@@ -128,7 +153,7 @@
                                 <button onclick="document.getElementById('cart_items').submit();"
                                         class="btn btn-danger d-block w-100">
                                     انتخاب آدرس و روش ارسال کالا
-{{--                                    تکمیل فرآیند خرید--}}
+                                    {{--                                    تکمیل فرآیند خرید--}}
                                 </button>
                             </section>
 

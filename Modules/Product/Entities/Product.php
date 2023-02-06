@@ -42,6 +42,8 @@ class Product extends Model implements Viewable
     public const NOT_POPULAR = 0;
     public const SELECTED = 1;
     public const NOT_SELECTED = 0;
+    public const MARKETABLE = 1;
+    public const NOT_MARKETABLE = 0;
 
 //    # Booted
 //    /**
@@ -58,26 +60,7 @@ class Product extends Model implements Viewable
 //            $product->attributes()->deleteAllAttribute();
 //        });
 //    }
-    // ********************************************* scope
-    /**
-     * Scope product popular.
-     *
-     * @param  $query
-     * @return mixed
-     */
-    public function scopePopular($query): mixed
-    {
-        return $query->where('popular', self::POPULAR);
-    }
 
-    /**
-     * @param $query
-     * @return mixed
-     */
-    public function scopeSelected($query): mixed
-    {
-        return $query->where('selected', self::SELECTED);
-    }
 
 
     /**
@@ -105,6 +88,52 @@ class Product extends Model implements Viewable
         'height', 'price', 'marketable', 'sold_number', 'frozen_number', 'marketable_number', 'brand_id',
         'category_id', 'published_at'
     ];
+
+    // ********************************************* scope
+    /**
+     * Scope product popular.
+     *
+     * @param  $query
+     * @return mixed
+     */
+    public function scopePopular($query): mixed
+    {
+        return $query->where('popular', self::POPULAR);
+    }
+
+    /**
+     * @param $query
+     * @param int $selected
+     * @return mixed
+     */
+    public function scopeSelected($query, int $selected = self::SELECTED): mixed
+    {
+        return $query->where('selected', );
+    }
+
+    /**
+     * @param $query
+     * @param int $marketable
+     * @return mixed
+     */
+    public function scopeMarketable($query, int $marketable = self::MARKETABLE): mixed
+    {
+        return $query->where('marketable', $marketable);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeReadyForSale($query): mixed
+    {
+        return $query->where([
+            ['status', self::STATUS_ACTIVE],
+            ['marketable', self::MARKETABLE],
+            ['marketable_number', '>', 0],
+            ['published_at', '<', now()]
+        ]);
+    }
 
     // ********************************************* Relations
 
@@ -369,6 +398,14 @@ class Product extends Model implements Viewable
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         return priceFormat($productPrice) . ' تومان';
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function getFaProductRating(): array|int|string
+    {
+        return convertEnglishToPersian($this->rating) ?? 0;
     }
 
     // ********************************************* FA counters

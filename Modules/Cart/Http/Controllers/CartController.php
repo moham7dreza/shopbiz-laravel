@@ -56,12 +56,12 @@ class CartController extends Controller
         SEOTools::setDescription('سبد خرید شما');
         SEOMeta::setKeywords('سبد خرید شما');
 
-        $cartItems = $this->repo->findUserCartItems()->get();
+        $cartItems = $this->repo->findUserCartItems()->with('product')->get();
         if ($cartItems->count() > 0) {
-            $relatedProducts = $productRepo->index()->get();
+            $relatedProducts = $productRepo->findRelatedProducts($cartItems->pluck('product'));
             return view('Cart::home.cart', compact(['cartItems', 'relatedProducts']));
         } else {
-            return $this->showToastWithRedirect('سبد خرید شما خالی است.');
+            return $this->showToastWithRedirect('سبد خرید شما خالی است.', type: 'warning');
 //            return redirect()->back()->with('danger', 'سبد خرید شما خالی است.');
         }
     }
@@ -75,7 +75,7 @@ class CartController extends Controller
         $cartItems = $this->repo->findUserCartItems()->get();
         $result = $this->service->updateCartItems($request, $cartItems);
         if ($result != 'updated') {
-            return $this->showAlertWithRedirect('موجودی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار' , type: 'warning')->with('products', $result);
+            return $this->showAlertWithRedirect('موجودی کالاها هم اکنون کافی نمی باشد.', title: 'هشدار', type: 'warning')->with('products', $result);
         }
         return $this->showToastWithRedirect('کالاهای انتخاب شده برای شما ثبت شد.', route: 'customer.sales-process.address-and-delivery');
     }
@@ -92,7 +92,7 @@ class CartController extends Controller
         $cartItem = $this->service->store($request, $product->id, $cartItems);
         if ($cartItem == 'requested number can not provided') {
             return $this->showAlertWithRedirect('موجودی کالا هم اکنون ' . convertEnglishToPersian($product->marketable_number) . ' عدد است.',
-                title: 'هشدار' , type: 'warning', timer: 10000);
+                title: 'هشدار', type: 'warning', timer: 10000);
         } elseif ($cartItem == 'product already in cart') {
 //            return $this->showAlertWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', 'هشدار', 'animated with footer', 'warning');
             return $this->showToastWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', type: 'error');
