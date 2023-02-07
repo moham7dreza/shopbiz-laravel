@@ -2,9 +2,12 @@
 
 namespace Modules\Address\Providers;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Address\Database\Seeders\AddressSeeder;
+use Modules\Address\Database\Seeders\AddressTablesSeeder;
 use Modules\Address\Entities\Address;
 use Modules\Address\Repositories\AddressRepoEloquent;
 use Modules\Address\Repositories\AddressRepoEloquentInterface;
@@ -66,6 +69,8 @@ class AddressServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
+        $this->bindSeeder();
+        $this->setDatabaseSeederWithAddressSeeder();
     }
 
     /**
@@ -144,5 +149,25 @@ class AddressServiceProvider extends ServiceProvider
     private function bindRepository(): void
     {
         $this->app->bind(AddressRepoEloquentInterface::class, AddressRepoEloquent::class);
+    }
+
+    /**
+     * Bind permission seeder.
+     *
+     * @return void
+     */
+    private function bindSeeder(): void
+    {
+        $this->app->bind(AddressSeeder::class, AddressTablesSeeder::class);
+    }
+
+    /**
+     * Set database seeder with permission seeder.
+     *
+     * @return void
+     */
+    private function setDatabaseSeederWithAddressSeeder(): void
+    {
+        DatabaseSeeder::$seeders[] = AddressSeeder::class;
     }
 }

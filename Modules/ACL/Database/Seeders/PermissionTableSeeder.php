@@ -3,6 +3,7 @@
 namespace Modules\ACL\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\User\Entities\User;
@@ -57,6 +58,7 @@ class PermissionTableSeeder extends Seeder
         // assign primary role and permission to super admin
         $super_admin->assignRole($role_super_admin);
         $super_admin->syncPermissions($permission_super_admin);
+        Auth::loginUsingId($super_admin->id);
     }
 
     /**
