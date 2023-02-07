@@ -98,16 +98,25 @@
                 </section>
 
                 <section class="sidebar-brand-wrapper">
+{{--                    @php--}}
+{{--                        $values = collect();--}}
+{{--                    @endphp--}}
                     @foreach($attribute->values as $value)
+{{--                        @php--}}
+{{--                            $valueInt = json_decode($value->value)->value;--}}
+{{--                            if (!$values->contains($valueInt)) {--}}
+{{--                                $values->push([id,$valueInt]);--}}
+{{--                            }--}}
+{{--                        @endphp--}}
+
                         <section class="form-check sidebar-brand-item">
                             <input name="values[]" class="form-check-input" type="checkbox" value="{{ $value->id }}"
                                    id="{{ $value->id }}">
                             <label class="form-check-label" for="{{ $value->id }}">
-                                <span>{{ json_decode($value->value, true)['value'] . ' ' . $attribute->unit }}</span>
+                                <span>{{ $value->getFaValue() . ' ' . $attribute->unit }}</span>
                             </label>
                         </section>
                     @endforeach
-
                 </section>
             </section>
         @endforeach

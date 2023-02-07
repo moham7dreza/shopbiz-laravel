@@ -11,13 +11,13 @@
 
         @include('Panel::partials.alerts')
 
+        @include('Panel::partials.sales-charts')
+
         @include('Panel::partials.activity-log')
 
         @include('Panel::partials.latest-comments')
 
         @include('Panel::partials.users')
-
-        @include('Panel::partials.sales-charts')
 
     @endcan
 @endsection

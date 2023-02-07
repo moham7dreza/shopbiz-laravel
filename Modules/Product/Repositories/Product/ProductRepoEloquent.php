@@ -74,6 +74,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
         return $this->query()->readyForSale()->orderBy('marketable_number', $direction);
     }
 
+
     /**
      * @param $product
      * @return mixed
@@ -136,6 +137,15 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     // ******************************************************************************
+
+    /**
+     * @param string $direction
+     * @return mixed
+     */
+    public function allProductsOrderByMarketableNumber(string $direction = 'asc'): mixed
+    {
+        return $this->query()->orderBy('marketable_number', $direction);
+    }
 
     /**
      * Find product by id.

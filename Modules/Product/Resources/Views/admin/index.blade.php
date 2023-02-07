@@ -129,17 +129,17 @@
                                             @endif
 
                                             <a href="{{ route('product.gallery.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank">
+                                               class="dropdown-item text-right">
                                                 <i class="fa fa-images text-warning"></i> گالری</a>
                                             <a href="{{ route('product.color.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i
+                                               class="dropdown-item text-right"><i
                                                     class="fa fa-images"></i> مدیریت رنگ
                                                 ها</a>
                                             <a href="{{ route('product.guarantee.index', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i
+                                               class="dropdown-item text-right"><i
                                                     class="fa fa-shield-alt text-info"></i> گارانتی</a>
                                             <a href="{{ route('product.tags-from', $product->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i
+                                               class="dropdown-item text-right"><i
                                                     class="fa fa-tags text-primary"></i> تگ ها</a>
                                             <a href="{{ route('product.edit', $product->id) }}"
                                                class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>

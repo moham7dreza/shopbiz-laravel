@@ -73,9 +73,9 @@
                                 </td>
                                 <td class="width-22-rem text-left">
                                     <a href="{{ route('attribute.category-form', $attribute->id) }}"
-                                       class="btn btn-info btn-sm" target="_blank" title="تعریف دسته بندی"><i class="fa fa-leaf"></i></a>
+                                       class="btn btn-info btn-sm" title="تعریف دسته بندی"><i class="fa fa-leaf"></i></a>
                                     <a href="{{ route('attributeValue.index', $attribute->id) }}"
-                                       class="btn btn-warning btn-sm" target="_blank" title="مقادیر فرم کالا"><i class="fa fa-weight"></i></a>
+                                       class="btn btn-warning btn-sm" title="مقادیر فرم کالا"><i class="fa fa-weight"></i></a>
                                     <a href="{{ route('attribute.edit', $attribute->id) }}"
                                        class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                     <form class="d-inline"

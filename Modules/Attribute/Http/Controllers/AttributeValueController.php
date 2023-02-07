@@ -106,7 +106,7 @@ class AttributeValueController extends Controller
      */
     public function store(AttributeValueRequest $request, Attribute $attribute, ProductRepoEloquentInterface $productRepo): RedirectResponse
     {
-        $request->category_id = $productRepo->findById($request->product_id)->category->id;
+//        $request->category_id = $productRepo->findById($request->product_id)->category->id;
         $this->service->store($request, $attribute);
         return $this->showMessageWithRedirectRoute(msg: 'مقدار فرم کالای جدید شما با موفقیت ثبت شد', params: [$attribute->id]);
     }

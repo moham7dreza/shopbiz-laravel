@@ -7,7 +7,7 @@
                 <section class="col-12 col-md-6 mt-2 mt-md-0">
                     <a href="{{ urldecode($middleBanner->url) }}">
                         <img class="d-block rounded-2 w-100" src="{{ $middleBanner->image() }}"
-                             alt="{{ $middleBanner->title }}" title="{{ $middleBanner->title }}" data-bs-toggle="tooltip" data-bs-placement="left">
+                             alt="{{ $middleBanner->title }}" title="{{ $middleBanner->title }}" data-bs-toggle="tooltip" data-bs-placement="top">
                     </a>
                 </section>
             @endforeach

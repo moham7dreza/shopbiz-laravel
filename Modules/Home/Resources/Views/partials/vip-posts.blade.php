@@ -1,4 +1,5 @@
 <!-- start product lazy load -->
+@if($repo->posts()->count() > 0)
 <section class="mb-3">
     <section class="container-xxl">
         <section class="row">
@@ -134,3 +135,4 @@
     </section>
 </section>
 <!-- end product lazy load -->
+@endif

@@ -26,7 +26,7 @@ class PostCategoryRequest extends FormRequest
         $rules = [
             'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
-            'image' => 'required|image|mimes:png,jpg,jpeg,gif',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif',
             'status' => 'required|numeric|in:0,1',
         ];
         if (!$this->isMethod('post')) {

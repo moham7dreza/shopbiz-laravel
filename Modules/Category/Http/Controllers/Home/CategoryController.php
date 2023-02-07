@@ -40,6 +40,8 @@ class CategoryController extends Controller
      * @param ProductCategoryRepoEloquentInterface $productCategoryRepoEloquent
      * @param CartRepoEloquentInterface $cartRepo
      * @param ProductCategoryServiceInterface $productCategoryService
+     * @param PostRepoEloquentInterface $postRepo
+     * @param PostCategoryRepoEloquentInterface $postCategoryRepo
      */
     public function __construct(BrandRepoEloquentInterface               $brandRepoEloquent,
                                 AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepoEloquent,

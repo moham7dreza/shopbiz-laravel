@@ -69,7 +69,7 @@ class AttributeValue extends Model
      */
     public function getCategoryName(): string
     {
-        return $this->category->name ?? 'دسته ندارد';
+        return $this->product->category->name ?? 'دسته ندارد';
     }
 
     /**

@@ -22,7 +22,7 @@ class AttributeValueService implements AttributeValueServiceInterface
             'type' => $request->type,
             'attribute_id' => $attribute->id,
             'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
-            'category_id' => $request->category_id,
+//            'category_id' => $request->category_id,
         ]);
     }
 
@@ -41,7 +41,7 @@ class AttributeValueService implements AttributeValueServiceInterface
             'type' => $request->type,
             'attribute_id' => $attribute->id,
             'value' => json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]),
-            'category_id' => $request->category_id,
+//            'category_id' => $request->category_id,
         ]);
     }
 

@@ -275,7 +275,7 @@ class Comment extends Model
      */
     public function getCommentableName(): string
     {
-        return Str::limit($this->commentable->title, 50) ?? Str::limit($this->commentable->name, 50) ?? 'عنوانی ندارد';
+        return Str::limit($this->commentable->title ?? $this->commentable->name, 50) ?? 'عنوانی ندارد';
     }
 
     /**
