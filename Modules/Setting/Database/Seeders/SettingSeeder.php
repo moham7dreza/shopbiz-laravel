@@ -4,6 +4,7 @@ namespace Modules\Setting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Modules\Setting\Entities\Setting;
 
 class SettingSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('settings')->insert([
+        Setting::query()->updateOrCreate([
             'title' => 'عنوان سایت',
             'description' => 'توضیحات سایت',
             'keywords' => 'کلمات کلیدی سایت',
