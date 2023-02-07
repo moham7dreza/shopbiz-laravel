@@ -36,12 +36,12 @@ class ProductGalleryService implements ProductGalleryServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-gallery', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
             $request->image = null;
-            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            return 'upload failed';
         }
 
         return $this->query()->create([

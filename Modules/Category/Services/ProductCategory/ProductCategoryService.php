@@ -30,14 +30,14 @@ class ProductCategoryService implements ProductCategoryServiceInterface
      * Store category.
      *
      * @param  $request
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request): Model|Builder|RedirectResponse
+    public function store($request): Model|Builder|string
     {
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
@@ -68,7 +68,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             $result = ShareService::createIndexAndSaveImage('product-category', $request->file('image'), $this->imageService);
 
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {

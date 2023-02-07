@@ -140,7 +140,10 @@ class ShareService
      */
     public static function createIndexAndSaveImage(string $directoryName, $imageFile, $imageService): mixed
     {
-        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+        $directoryCreate = $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
+//        if (!$directoryCreate) {
+//            return 'directory creation failed';
+//        }
         return $imageService->createIndexAndSave($imageFile);
     }
 

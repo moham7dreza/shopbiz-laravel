@@ -35,7 +35,7 @@ class BannerService
         if ($request->hasFile('image')) {
             $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
@@ -66,7 +66,7 @@ class BannerService
             $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);
 
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {

@@ -67,7 +67,9 @@ class ProductController extends Controller
         } else {
             $products = $this->repo->index()->with('tags')->paginate(10);
         }
-        $this->calcTotalRate();
+        if ($products->count() > 0) {
+            $this->calcTotalRate();
+        }
         return view('Product::admin.index', compact(['products']));
     }
 
@@ -81,7 +83,7 @@ class ProductController extends Controller
     public function create(ProductCategoryRepoEloquentInterface $productCategoryRepo,
                            BrandRepoEloquentInterface           $brandRepo): View|Factory|Application|RedirectResponse
     {
-        $productCategories = $productCategoryRepo->getLatestCategories()->get();
+        $productCategories = $productCategoryRepo->getNotParentCategories()->get();
         $brands = $brandRepo->index()->get();
         $findZero = null;
         if ($productCategories->count() > 0 && $brands->count() > 0) {

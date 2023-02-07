@@ -88,7 +88,10 @@ class ProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request): RedirectResponse
     {
-        $this->categoryService->store($request);
+        $result = $this->categoryService->store($request);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
@@ -124,7 +127,10 @@ class ProductCategoryController extends Controller
      */
     public function update(ProductCategoryRequest $request, ProductCategory $productCategory): RedirectResponse
     {
-        $this->categoryService->update($request, $productCategory);
+        $result = $this->categoryService->update($request, $productCategory);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('دسته بندی شما با موفقیت ویرایش شد');
     }
 

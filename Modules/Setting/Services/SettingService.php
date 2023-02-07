@@ -88,7 +88,7 @@ class SettingService
         }
         $result = ShareService::saveImageWithName('setting', $newImage, $newImageName, $this->imageService);
         if (!$result) {
-            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+            return 'upload failed';
         }
         return $result;
     }

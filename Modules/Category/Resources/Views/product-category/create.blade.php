@@ -24,7 +24,13 @@
                         ایجاد دسته بندی
                     </h5>
                 </section>
-
+                @if ($errors->any())
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="alert alert-danger list-style-none font-size-80">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('productCategory.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>

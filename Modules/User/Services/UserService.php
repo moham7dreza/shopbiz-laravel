@@ -53,7 +53,7 @@ class UserService
         if ($request->hasFile('profile_photo_path')) {
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->profile_photo_path = $result;
         } else {
@@ -87,7 +87,7 @@ class UserService
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
 
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->profile_photo_path = $result;
         } else {

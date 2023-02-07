@@ -38,7 +38,7 @@ class PostService implements PostServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
@@ -72,7 +72,7 @@ class PostService implements PostServiceInterface
             $result = ShareService::createIndexAndSaveImage('post', $request->file('image'), $this->imageService);
 
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {

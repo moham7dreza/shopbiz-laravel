@@ -29,7 +29,6 @@ class ProductCategoryRequest extends FormRequest
             'image' => 'required|image|mimes:png,jpg,jpeg,gif',
             'status' => 'required|numeric|in:0,1',
             'show_in_menu' => 'required|numeric|in:0,1',
-            'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'parent_id' => 'nullable|min:1|max:100000000|regex:/^[0-9]+$/u|exists:product_categories,id',
         ];
         if (!$this->isMethod('post')) {

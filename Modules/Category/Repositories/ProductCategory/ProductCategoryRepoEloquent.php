@@ -49,6 +49,15 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
         return $this->query()->latest();
     }
 
+
+    /**
+     * @return Builder
+     */
+    public function getNotParentCategories(): Builder
+    {
+        return $this->query()->whereNotNull('parent_id')->latest();
+    }
+
     /**
      * @param $field
      * @param $value

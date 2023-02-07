@@ -36,7 +36,7 @@ class PostCategoryService implements PostCategoryServiceInterface
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('post-category', $request->file('image'), $this->imageService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
@@ -65,7 +65,7 @@ class PostCategoryService implements PostCategoryServiceInterface
             $result = ShareService::createIndexAndSaveImage('post-category', $request->file('image'), $this->imageService);
 
             if (!$result) {
-                return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'swal-error');
+                return 'upload failed';
             }
             $request->image = $result;
         } else {
