@@ -16,7 +16,6 @@ use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
-use Modules\Home\Repositories\HomeRepoEloquentInterface;
 use Modules\Post\Repositories\PostRepoEloquentInterface;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
@@ -184,6 +183,7 @@ class CategoryController extends Controller
         } else {
             $products = $this->amazingSaleRepo->bestOffers(1)->with('product')->latest()->get()->pluck('product')->unique();
         }
+
 
         // brands
         $brands = Product::query()->whereIn('id', $productIds)->with('brand')->latest()->get()->pluck('brand')->unique();

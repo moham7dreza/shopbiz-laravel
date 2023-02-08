@@ -18,7 +18,7 @@
 
                             <section class="item">
                                 <section class="brand-item">
-                                    <a href="#">
+                                    <a href="{{ $brand->path() }}">
                                         <img class="rounded-2"
                                              src="{{ $brand->logo() }}" alt="{{ $brand->persian_name . '_' . $brand->original_name }}"
                                              title="{{ $brand->persian_name . '_' . $brand->original_name }}"

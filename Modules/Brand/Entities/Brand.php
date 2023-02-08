@@ -4,8 +4,10 @@ namespace Modules\Brand\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasImageTrait;
@@ -40,9 +42,25 @@ class Brand extends Model
 
     // ********************************************* Relations
 
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
     // ********************************************* Methods
 
     // ********************************************* paths
+
+    /**
+     * @return string
+     */
+    public function path(): string
+    {
+        return route('customer.market.brand.products', $this->slug);
+    }
 
     /**
      * @return string
