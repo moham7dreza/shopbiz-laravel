@@ -4,6 +4,12 @@ namespace Modules\Share\Providers;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
+use Modules\Share\Components\Panel\Button;
+use Modules\Share\Components\Panel\File;
+use Modules\Share\Components\Panel\SelectBox;
+use Modules\Share\Components\Panel\Status;
+use Modules\Share\Components\Panel\TextArea;
+use Modules\Share\Components\Panel\Input;
 
 class ShareServiceProvider extends ServiceProvider
 {
@@ -38,6 +44,7 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadMigrationFiles();
         $this->loadFactoriesFiles();
         $this->loadConfigFiles();
+        $this->loadPanelComponents();
     }
 
     /**
@@ -80,5 +87,22 @@ class ShareServiceProvider extends ServiceProvider
     private function loadConfigFiles(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../Config/config.php', 'shareConfig');
+    }
+
+    /**
+     * Load components about panel.
+     *
+     * @return void
+     */
+    private function loadPanelComponents(): void
+    {
+        $this->loadViewComponentsAs('panel', [
+            Input::class,
+            File::class,
+            SelectBox::class,
+            TextArea::class,
+            Status::class,
+            Button::class
+        ]);
     }
 }

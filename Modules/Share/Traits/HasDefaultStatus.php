@@ -59,6 +59,22 @@ trait HasDefaultStatus
     }
 
     /**
+     * @return int
+     */
+    public function statusActive(): int
+    {
+        return self::STATUS_ACTIVE;
+    }
+
+    /**
+     * @return int
+     */
+    public function statusInActive(): int
+    {
+        return self::STATUS_INACTIVE;
+    }
+
+    /**
      * @param $query
      * @param int $status
      * @return mixed

@@ -245,3 +245,11 @@ input:checked + .slider:before {
     font-size: 80%;
     text-align: center;
 }
+
+.dir-ltr {
+    direction: ltr;
+}
+
+.dir-rtl {
+    direction: rtl;
+}

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Menu\Traits\DefineSystemMenusTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class Menu extends Model
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, DefineSystemMenusTrait;
 
     /**
      * @var string[]

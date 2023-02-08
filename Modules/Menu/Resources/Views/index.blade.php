@@ -41,7 +41,7 @@
                             <th>#</th>
                             <th>نام منو</th>
                             <th>منوی والد</th>
-                            <th> لینک منو</th>
+                            <th>لینک منو</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -52,7 +52,7 @@
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $menu->name }}</td>
                                 <td>{{ $menu->getParentName() }}</td>
-                                <td>{{ $menu->url }}</td>
+                                <td class="text-center dir-ltr">{{ $menu->url }}</td>
                                 <td>
                                     <label>
                                         <input id="{{ $menu->id }}" onchange="changeStatus({{ $menu->id }}, 'منو')"

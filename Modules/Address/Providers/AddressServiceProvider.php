@@ -162,7 +162,7 @@ class AddressServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set database seeder with permission seeder.
+     * Set database seeder with address seeder.
      *
      * @return void
      */

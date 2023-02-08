@@ -33,101 +33,19 @@
                     <form action="{{ route('banner.update', $banner->id) }}" method="POST"
                           enctype="multipart/form-data" id="form">
                         @csrf
-                        {{ method_field('put') }}
+                        @method('PUT')
                         <section class="row">
+                            <x-panel-input col="6" name="title" label="عنوان بنر" message="{{ $message ?? null }}" method="edit" :model="$banner" />
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان بنر</label>
-                                    <input type="text" class="form-control form-control-sm" name="title"
-                                           value="{{ old('title', $banner->title) }}">
-                                </div>
-                                @error('title')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
+                            <x-panel-input col="6" type="file" name="image" label="تصویر بنر" message="{{ $message ?? null }}" method="edit" :model="$banner" />
 
+                            <x-panel-status col="6" name="status" label="وضعیت بنر" message="{{ $message ?? null }}" method="edit" :model="$banner" />
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="image">تصویر</label>
-                                    <input type="file" class="form-control form-control-sm" name="image" id="image">
-                                </div>
-                                @error('image')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
+                            <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr" message="{{ $message ?? null }}" method="edit" :model="$banner" />
 
+                            <x-panel-select-box col="6" name="position" label="موقعیت بنر" message="{{ $message ?? null }}" :arr="$positions" method="edit" :model="$banner" />
 
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $banner->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $banner->status) == 1) selected @endif>
-                                            فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">آدرس URL</label>
-                                    <input type="text" name="url" value="{{ old('url', $banner->url) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('url')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">موقعیت</label>
-                                    <select name="position" class="form-control form-control-sm">
-                                        @foreach ($positions as $key => $value)
-                                            <option value="{{ $key }}"
-                                                    @if(old('position', $banner->position) == $key) selected @endif>{{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('position')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>
                 </section>

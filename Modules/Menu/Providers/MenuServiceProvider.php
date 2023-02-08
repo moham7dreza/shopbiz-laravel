@@ -2,9 +2,11 @@
 
 namespace Modules\Menu\Providers;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Menu\Database\Seeders\MenuSeeder;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Policies\MenuPolicy;
 use Modules\Menu\Repositories\MenuRepoEloquent;
@@ -66,6 +68,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
+        $this->setDatabaseSeederWithMenuSeeder();
     }
 
     /**
@@ -142,5 +145,15 @@ class MenuServiceProvider extends ServiceProvider
     private function bindRepository(): void
     {
         $this->app->bind(MenuRepoEloquentInterface::class, MenuRepoEloquent::class);
+    }
+
+    /**
+     * Set database seeder with permission seeder.
+     *
+     * @return void
+     */
+    private function setDatabaseSeederWithMenuSeeder(): void
+    {
+        DatabaseSeeder::$seeders[] = MenuSeeder::class;
     }
 }

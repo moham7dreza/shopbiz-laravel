@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     <label for="">آدرس URL</label>
                                     <input type="text" name="url" value="{{ old('url') }}"
-                                           class="form-control form-control-sm">
+                                           class="form-control form-control-sm dir-ltr">
                                 </div>
                                 @error('url')
                                 <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
