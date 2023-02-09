@@ -9,7 +9,7 @@
                             selected
                     @endif
                     @else
-                        @if(old($name, $model->$name) == $model->statusActive())
+                        @if(old($name, $model->$name) == 0)
                             selected
                 @endif
                 @endif
@@ -21,7 +21,7 @@
                             selected
                     @endif
                     @else
-                        @if(old($name, $model->$name) == $model->statusInActive())
+                        @if(old($name, $model->$name) == 1)
                             selected
                 @endif
                 @endif

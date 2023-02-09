@@ -1,3 +1,3 @@
-<section class="col-12 col-md-{{ $col }}">
-    <button type="{{ $type }}" class="btn btn-primary btn-sm {{ $class }}" {{ $attributes }}>{{ $title }}</button>
+<section class="col-12 col-md-{{ $col }} border-top">
+    <button type="{{ $type }}" class="btn btn-primary btn-sm mt-md-4 {{ $class }}" {{ $attributes }}>{{ $title }}</button>
 </section>

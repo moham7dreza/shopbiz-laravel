@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\File;
+use Modules\Share\Components\Panel\MultiSelection;
+use Modules\Share\Components\Panel\Section;
 use Modules\Share\Components\Panel\SelectBox;
 use Modules\Share\Components\Panel\Status;
 use Modules\Share\Components\Panel\TextArea;
@@ -104,7 +106,9 @@ class ShareServiceProvider extends ServiceProvider
             SelectBox::class,
             TextArea::class,
             Status::class,
-            Button::class
+            Button::class,
+            Section::class,
+            MultiSelection::class,
         ]);
     }
 
