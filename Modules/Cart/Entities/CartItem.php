@@ -5,6 +5,7 @@ namespace Modules\Cart\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Cart\Traits\PriceCalcTrait;
 use Modules\Product\Entities\Guarantee;
@@ -59,6 +60,13 @@ class CartItem extends Model
         return $this->belongsTo(ProductColor::class);
     }
 
+    /**
+     * @return HasMany
+     */
+    public function selectedAttributes(): HasMany
+    {
+        return $this->hasMany(CartItemAttribute::class);
+    }
 
     // ********************************************* Methods
 

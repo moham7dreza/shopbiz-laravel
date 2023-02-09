@@ -5,7 +5,9 @@ namespace Modules\Cart\Services;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Modules\Cart\Entities\CartItem;
+use Modules\Cart\Entities\CartItemAttribute;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquent;
@@ -141,13 +143,24 @@ class CartService implements CartServiceInterface
         $product->save();
         //
 
-        return $this->query()->create([
-            'color_id' => $request->color,
-            'number' => $request->number,
-            'product_id' => $productId,
-            'user_id' => auth()->id(),
-            'guarantee_id' => $request->guarantee,
-        ]);
+        DB::transaction(function () use ($request, $productId) {
+            $cartItem = $this->query()->create([
+                'color_id' => $request->color,
+                'number' => $request->number,
+                'product_id' => $productId,
+                'user_id' => auth()->id(),
+                'guarantee_id' => $request->guarantee,
+            ]);
+            foreach ($cartItem->product->values as $value) {
+                $attrs = CartItemAttribute::query()->create([
+                    'cart_item_id' => $cartItem->id,
+                    'attribute_id' => $value->attribute_id,
+                    'attribute_value_id' => $value->id,
+                    'value' => $value->value
+                ]);
+            }
+        });
+        return 'cart item and attributes created';
     }
 
     /**
@@ -165,6 +178,10 @@ class CartService implements CartServiceInterface
             $productSelectedColor = $this->productColorRepo->findById($cartItem->color_id);
             $productSelectedColor->frozen_number -= $cartItem->number;
             $productSelectedColor->save();
+        }
+        //
+        foreach ($cartItem->selectedAttributes as $attribute) {
+            $attribute->delete();
         }
         $cartItem->delete();
     }

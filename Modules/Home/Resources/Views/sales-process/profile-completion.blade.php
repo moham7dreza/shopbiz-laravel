@@ -11,15 +11,8 @@
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="list-style-none">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-share-error />
+
             <section class="row">
                 <section class="col">
                     <!-- start content header -->

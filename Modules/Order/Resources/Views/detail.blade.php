@@ -56,9 +56,8 @@
                                 <td>{{ $item->getOrderItemGuaranteeName() }}</td>
                                 <td>
                                     @forelse($item->orderItemAttributes as $attribute)
-                                        {{ $attribute->textAttributeName() }}
-                                        :
-                                        {{ $attribute->attributeValue() }}
+                                        {{ $attribute->generateAttributeDescription() }}
+                                        <br/>
                                     @empty
                                         -
                                     @endforelse

@@ -4,9 +4,11 @@ namespace Modules\Order\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderItem;
+use Modules\Order\Entities\OrderItemSelectedAttribute;
 use Modules\Order\Notifications\NewOrderSubmitted;
 use Modules\Payment\Entities\Payment;
 
@@ -15,6 +17,7 @@ class OrderService
 
     /**
      * @param $adminUser
+     * @param $orderId
      * @return void
      */
     public function sendOrderSubmittedNotificationToAdmin($adminUser, $orderId): void
@@ -52,7 +55,20 @@ class OrderService
             $inputs['final_product_price'] = $finalProductPrice;
             $inputs['final_total_price'] = $finalTotalPrice;
 
-            OrderItem::query()->create($inputs);
+            // create order item and his attributes
+            DB::transaction(function () use ($inputs, $cartItem) {
+                $orderItem = OrderItem::query()->create($inputs);
+                foreach ($cartItem->selectedAttributes as $attribute) {
+                    $selectedAttr = OrderItemSelectedAttribute::query()->create([
+                        'order_item_id' => $orderItem->id,
+                        'attribute_id' => $attribute->attribute_id,
+                        'attribute_value_id' => $attribute->attribute_value_id,
+                        'value' => $attribute->value
+                    ]);
+                    $attribute->delete();
+                }
+            });
+
             $cartItem->delete();
         }
     }

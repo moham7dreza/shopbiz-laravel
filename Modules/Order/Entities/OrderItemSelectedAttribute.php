@@ -48,8 +48,24 @@ class OrderItemSelectedAttribute extends Model
     /**
      * @return string
      */
+    public function getAttributeUnit(): string
+    {
+        return $this->attribute->unit ?? 'واحد اندازه گیری ندارد.';
+    }
+
+    /**
+     * @return string
+     */
     public function getAttributeValueAmount(): string
     {
-        return $this->attributeValue->value ?? 'مقداری برای فرم کالا یافت نشد.';
+        return convertEnglishToPersian(json_decode($this->attributeValue->value)->value) ?? 'مقداری برای فرم کالا یافت نشد.';
+    }
+
+    /**
+     * @return string
+     */
+    public function generateAttributeDescription(): string
+    {
+        return $this->getAttributeName() . ' : ' . $this->getAttributeValueAmount() . ' ' . $this->getAttributeUnit();
     }
 }
