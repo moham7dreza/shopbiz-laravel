@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Modules\Cart\Entities\CartItem;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
+use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquent;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 
@@ -14,15 +15,18 @@ class CartService implements CartServiceInterface
 {
     public ProductRepoEloquentInterface $productRepo;
     public CartRepoEloquentInterface $cartRepo;
+    public ProductColorRepoEloquentInterface $productColorRepo;
 
     /**
      * @param ProductRepoEloquentInterface $productRepo
      * @param CartRepoEloquentInterface $cartRepo
+     * @param ProductColorRepoEloquentInterface $productColorRepo
      */
-    public function __construct(ProductRepoEloquentInterface $productRepo, CartRepoEloquentInterface $cartRepo)
+    public function __construct(ProductRepoEloquentInterface $productRepo, CartRepoEloquentInterface $cartRepo, ProductColorRepoEloquentInterface $productColorRepo)
     {
         $this->productRepo = $productRepo;
         $this->cartRepo = $cartRepo;
+        $this->productColorRepo = $productColorRepo;
     }
 
     /**
@@ -39,25 +43,30 @@ class CartService implements CartServiceInterface
         foreach ($cartItems as $cartItem) {
             if (isset($request->number[$cartItem->id])) {
                 $newNumber = $request->number[$cartItem->id];
-                // find product
+                // find product and color
                 $product = $this->productRepo->findById($cartItem->product_id);
-                // not provided
-                if ($newNumber > $product->marketable_number) {
-                    $lowCountProducts->push($product);
-                } // can provided
-                else {
-                    $product->frozen_number -= $cartItem->number;
-//                    $product->marketable_number += $cartItem->number;
-
-                    $cartItem->update([
-                        'number' => $newNumber
-                    ]);
-                    //
-                    $product->frozen_number += $newNumber;
-//                    $product->marketable_number -= $newNumber;
+                // check for color selected and update count
+                if (!is_null($cartItem->color_id)) {
+                    $productSelectedColor = $this->productColorRepo->findById($cartItem->color_id);
+                    if ($newNumber > $product->marketable_number && $newNumber > $productSelectedColor->marketable_number) {
+                        $lowCountProducts->push($product);
+                    }
+                    $productSelectedColor->frozen_number += ($newNumber - $cartItem->number);
+                    $productSelectedColor->save();
+                    $product->frozen_number += ($newNumber - $cartItem->number);
                     $product->save();
-                    //
+                }   // color is not selected
+                else {
+                    // not provided
+                    if ($newNumber > $product->marketable_number) {
+                        $lowCountProducts->push($product);
+                    } // can provided
+                    else {
+                        $product->frozen_number += ($newNumber - $cartItem->number);
+                        $product->save();
+                    }
                 }
+                $cartItem->update(['number' => $newNumber]);
             }
         }
         if ($lowCountProducts->count() > 0) {
@@ -86,10 +95,20 @@ class CartService implements CartServiceInterface
         foreach ($cartItems as $cartItem) {
             if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
                 if ($cartItem->number != $request->number) {
-                    $product->frozen_number -= $cartItem->number;
-                    $cartItem->update(['number' => $request->number]);
-                    $product->frozen_number += $request->number;
+                    if (!is_null($request->color)) {
+                        // check product selected color has marketable
+                        $productSelectedColor = $this->productColorRepo->findById($request->color);
+                        if ($request->number > $productSelectedColor->marketable_number) {
+                            return 'requested number on this color can not provided';
+                        }
+                        // calc new numbers for color and product
+                        $productSelectedColor->frozen_number += ($request->number - $cartItem->number);
+                        $productSelectedColor->save();
+                        //
+                    }
+                    $product->frozen_number += ($request->number - $cartItem->number);
                     $product->save();
+                    $cartItem->update(['number' => $request->number]);
                     return 'product updated';
 //                    return redirect()->back()->with('info', 'محصول مورد نظر با موفقیت بروزرسانی شد');
                 } else {
@@ -101,9 +120,21 @@ class CartService implements CartServiceInterface
             }
         }
         // update product marketable and frozen numbers
-
         if ($request->number > $product->marketable_number) {
             return 'requested number can not provided';
+        }
+        // product color check
+        if ($product->colors->count() > 0) {
+            if ($product->colors()->pluck('id')->contains($request->color)) {
+                $productSelectedColor = $this->productColorRepo->findById($request->color);
+                if ($request->number > $productSelectedColor->marketable_number) {
+                    return 'requested number on this color can not provided';
+                }
+                $productSelectedColor->frozen_number += $request->number;
+                $productSelectedColor->save();
+            } else {
+                return 'requested color is invalid';
+            }
         }
         $product->frozen_number += $request->number;
 //        $product->marketable_number -= $request->number;
@@ -125,10 +156,16 @@ class CartService implements CartServiceInterface
      */
     public function decreaseFrozenNumberAndDelete($cartItem): void
     {
-        // decrease count
+        // decrease count for product
         $product = $this->productRepo->findById($cartItem->product_id);
         $product->frozen_number -= $cartItem->number;
         $product->save();
+        // for selected color
+        if (!is_null($cartItem->color_id)) {
+            $productSelectedColor = $this->productColorRepo->findById($cartItem->color_id);
+            $productSelectedColor->frozen_number -= $cartItem->number;
+            $productSelectedColor->save();
+        }
         $cartItem->delete();
     }
 

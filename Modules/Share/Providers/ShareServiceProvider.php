@@ -10,6 +10,7 @@ use Modules\Share\Components\Panel\SelectBox;
 use Modules\Share\Components\Panel\Status;
 use Modules\Share\Components\Panel\TextArea;
 use Modules\Share\Components\Panel\Input;
+use Modules\Share\Components\Share\Error;
 
 class ShareServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,7 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadFactoriesFiles();
         $this->loadConfigFiles();
         $this->loadPanelComponents();
+        $this->loadShareComponents();
     }
 
     /**
@@ -103,6 +105,18 @@ class ShareServiceProvider extends ServiceProvider
             TextArea::class,
             Status::class,
             Button::class
+        ]);
+    }
+
+    /**
+     * Load components about panel.
+     *
+     * @return void
+     */
+    private function loadShareComponents(): void
+    {
+        $this->loadViewComponentsAs('share', [
+            Error::class,
         ]);
     }
 }

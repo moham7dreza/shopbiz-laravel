@@ -2,13 +2,9 @@
 <section class="mb-4">
     <section class="container-xxl">
         <section class="row">
-            @if ($errors->any())
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="alert alert-danger list-style-none">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+
+            <x-share-error />
+
             <section class="col">
                 <!-- start content header -->
                 <section class="content-header">
@@ -354,15 +350,20 @@
                             @endif
 
                             <section class="d-flex flex-column gap-2">
-                                @if($product->marketable_number > 0)
+                                @if($product->marketable_number < 10 && $product->marketable_number > 0)
                                     <span class="text-danger mb-2">تنها <strong>{{ convertEnglishToPersian($product->marketable_number) }}</strong> عدد در انبار باقی مانده</span>
                                     <button id="next-level" class="btn btn-danger d-block w-100"
                                             onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد
                                         خرید
                                     </button>
-                                @else
+                                @elseif($product->marketable_number == 0)
                                     <button id="next-level" class="btn btn-secondary disabled d-block">محصول نا موجود
                                         میباشد
+                                    </button>
+                                @else
+                                    <button id="next-level" class="btn btn-danger d-block w-100"
+                                            onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد
+                                        خرید
                                     </button>
                                 @endif
                             </section>

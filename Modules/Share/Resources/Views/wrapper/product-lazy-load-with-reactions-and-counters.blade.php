@@ -44,8 +44,8 @@
                                                     @auth
                                                         <section class="product-add-to-cart">
                                                             @php
-                                                                $defaultSelectedColor = !empty($product->colors[0]) ? $product->colors[0]->id : null;
-                                                                $defaultSelectedGuarantee = !empty($product->guarantees[0]) ? $product->guarantees[0]->id : null;
+                                                                $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
+                                                                $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
                                                                 $productIsInCart = in_array($product->id, $productIds);
                                                             @endphp
                                                             <form

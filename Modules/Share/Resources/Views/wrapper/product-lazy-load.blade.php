@@ -41,8 +41,8 @@
                                                     @auth
                                                         <section class="product-add-to-cart">
                                                             @php
-                                                                $defaultSelectedColor = !empty($product->colors[0]) ? $product->colors[0]->id : null;
-                                                                $defaultSelectedGuarantee = !empty($product->guarantees[0]) ? $product->guarantees[0]->id : null;
+                                                                $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
+                                                                $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
                                                                 $productIsInCart = in_array($product->id, $productIds);
                                                             @endphp
                                                             <form
@@ -51,9 +51,9 @@
                                                                 data-bs-placement="left"
                                                                 title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}">
                                                                 @csrf
-                                                                <input type="hidden" name="color_id"
+                                                                <input type="hidden" name="color"
                                                                        value="{{ $defaultSelectedColor }}">
-                                                                <input type="hidden" name="guarantee_id"
+                                                                <input type="hidden" name="guarantee"
                                                                        value="{{ $defaultSelectedGuarantee }}">
                                                                 <input type="hidden" name="number" value="1">
                                                                 <button type="submit"

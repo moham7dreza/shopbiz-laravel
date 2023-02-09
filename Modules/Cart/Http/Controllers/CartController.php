@@ -14,6 +14,7 @@ use Modules\Cart\Http\Requests\CartRequest;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Cart\Services\CartService;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -29,15 +30,18 @@ class CartController extends Controller
 
     public CartRepoEloquentInterface $repo;
     public CartService $service;
+    public ProductColorRepoEloquentInterface $productColorRepo;
 
     /**
      * @param CartRepoEloquentInterface $cartRepoEloquent
      * @param CartService $cartService
+     * @param ProductColorRepoEloquentInterface $productColorRepo
      */
-    public function __construct(CartRepoEloquentInterface $cartRepoEloquent, CartService $cartService)
+    public function __construct(CartRepoEloquentInterface $cartRepoEloquent, CartService $cartService, ProductColorRepoEloquentInterface $productColorRepo)
     {
         $this->repo = $cartRepoEloquent;
         $this->service = $cartService;
+        $this->productColorRepo = $productColorRepo;
 
 //        $this->middleware('can:auth');
 
@@ -89,14 +93,21 @@ class CartController extends Controller
     public function addToCart(Product $product, CartRequest $request): RedirectResponse
     {
         $cartItems = $this->repo->findUserCartItemsWithRelatedProduct($product->id)->get();
-        $cartItem = $this->service->store($request, $product->id, $cartItems);
-        if ($cartItem == 'requested number can not provided') {
+        $result = $this->service->store($request, $product->id, $cartItems);
+        if ($result == 'requested number can not provided') {
             return $this->showAlertWithRedirect('موجودی کالا هم اکنون ' . convertEnglishToPersian($product->marketable_number) . ' عدد است.',
                 title: 'هشدار', type: 'warning', timer: 10000);
-        } elseif ($cartItem == 'product already in cart') {
+        } elseif ($result == 'requested number on this color can not provided') {
+            $productSelectedColor = $this->productColorRepo->findById($request->color);
+            return $this->showAlertWithRedirect('موجودی کالا هم اکنون برای رنگ ' . $productSelectedColor->color_name . ' فقط ' . convertEnglishToPersian($productSelectedColor->marketable_number) . ' عدد است.',
+                title: 'هشدار', type: 'warning', timer: 10000);
+        } elseif ($result == 'requested color is invalid') {
+            return $this->showAlertWithRedirect('رنگ انتخاب شده معتبر نمی باشد.', title: 'هشدار', type: 'warning', timer: 10000);
+        }
+        elseif ($result == 'product already in cart') {
 //            return $this->showAlertWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', 'هشدار', 'animated with footer', 'warning');
             return $this->showToastWithRedirect('محصول قبلا به سبد خرید اضافه شده است.', type: 'error');
-        } else if ($cartItem == 'product updated') {
+        } else if ($result == 'product updated') {
             return $this->showToastWithRedirect('محصول مورد نظر با موفقیت بروزرسانی شد', type: 'info');
         } else {
             return $this->showToastWithRedirect('محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
