@@ -8,9 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">فرم کالا</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('attributeValue.index', $attribute->id) }}">
+                    مقدار فرم کالا</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش مقدار فرم کالا</li>
         </ol>
     </nav>
@@ -34,44 +35,17 @@
                         action="{{ route('attributeValue.update', ['attribute' => $attribute->id , 'value' => $value->id] ) }}"
                         method="POST">
                         @csrf
-                        @method('PUT')
+                        @method('put')
                         <section class="row">
-                            <section class="col-12 col-md-5">
-                                <div class="form-group">
-                                    <label for="">نام فرم کالا</label>
-                                    <section>{{ $attribute->name }}</section>
-                                </div>
-                            </section>
+                            <x-panel-section col="5" id="attribute-name" label="نام فرم کالا"
+                                             text="{{ $attribute->name }}"/>
+                            <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
 
-                            <section class="col-12 col-md-5">
-                                <div class="form-group">
-                                    <label for="">واحد</label>
-                                    <section>{{ $attribute->unit }}</section>
-                                </div>
-                            </section>
                             <section class="col-12 border-bottom mb-3"></section>
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">انتخاب محصول</label>
-                                    <select name="product_id" class="form-control form-control-sm">
-                                        <option value="">محصول را انتخاب کنید</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}"
-                                                    @if(old('product_id', $value->product_id) == $product->id) selected @endif>{{ $product->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('product_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
+                            <x-panel-select-box col="6" name="product_id" label="انتخاب محصول"
+                                                message="{{ $message ?? null }}" :collection="$products" method="edit"
+                                                :model="$value" property="name" />
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
@@ -105,31 +79,8 @@
                                 @enderror
                             </section>
 
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="type">نوع</label>
-                                    <select name="type" class="form-control form-control-sm" id="type">
-                                        <option value="0" @if (old('type', $value->status) == 0) selected @endif>ساده
-                                        </option>
-                                        <option value="1" @if (old('type', $value->status) == 1) selected @endif>
-                                            انتخابی
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('type')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-status col="10" name="type" label="نوع" message="{{ $message ?? null }}" method="edit" :model="$value" />
+                            <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>
                 </section>
@@ -138,4 +89,14 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script>
+        const product_id = $('#product_id');
+        product_id.select2({
+            placeholder: 'لطفا محصول را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

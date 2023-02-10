@@ -8,8 +8,8 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> فرم کالا</li>
         </ol>
     </nav>
@@ -48,7 +48,6 @@
                         </thead>
                         <tbody>
                         @foreach ($attributes as $attribute)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $attribute->name }}</td>
@@ -63,30 +62,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $attribute->id }}" onchange="changeStatus({{ $attribute->id }}, 'فرم کالا')"
-                                               data-url="{{ route('attribute.status', $attribute->id) }}" type="checkbox"
-                                               @if ($attribute->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="attribute.status" method="changeStatus" name="فرم کالا" :model="$attribute" property="status" />
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('attribute.category-form', $attribute->id) }}"
-                                       class="btn btn-info btn-sm" title="تعریف دسته بندی"><i class="fa fa-leaf"></i></a>
-                                    <a href="{{ route('attributeValue.index', $attribute->id) }}"
-                                       class="btn btn-warning btn-sm" title="مقادیر فرم کالا"><i class="fa fa-weight"></i></a>
-                                    <a href="{{ route('attribute.edit', $attribute->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('attribute.destroy', $attribute->id) }}"
-                                          method="post">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}" title="تعریف دسته بندی" icon="list-ul" color="success" />
+                                    <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" title="مقادیر فرم کالا" icon="weight" color="warning" />
+                                    <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}" title="ویرایش آیتم" icon="edit" color="info" />
+                                    <x-panel-delete-form route="{{ route('attribute.destroy', $attribute->id) }}" title="حذف آیتم" />
                                 </td>
                             </tr>
 

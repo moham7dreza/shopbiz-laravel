@@ -4,7 +4,10 @@ namespace Modules\Share\Providers;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
+use Modules\Share\Components\Panel\ATag;
 use Modules\Share\Components\Panel\Button;
+use Modules\Share\Components\Panel\Checkbox;
+use Modules\Share\Components\Panel\DeleteForm;
 use Modules\Share\Components\Panel\File;
 use Modules\Share\Components\Panel\MultiSelection;
 use Modules\Share\Components\Panel\Section;
@@ -109,6 +112,9 @@ class ShareServiceProvider extends ServiceProvider
             Button::class,
             Section::class,
             MultiSelection::class,
+            ATag::class,
+            DeleteForm::class,
+            Checkbox::class,
         ]);
     }
 

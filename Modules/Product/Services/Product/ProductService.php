@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Product\Entities\Product;
+use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
@@ -25,6 +26,7 @@ class ProductService implements ProductServiceInterface
     public ReviewService $reviewService;
     public ProductRepoEloquentInterface $productRepo;
     public SettingRepoEloquentInterface $settingRepo;
+    public ProductColorRepoEloquentInterface $productColorRepo;
 
     /**
      * @param ImageService $imageService
@@ -69,7 +71,7 @@ class ProductService implements ProductServiceInterface
      * @param $cartItems
      * @return void
      */
-    public function decreaseProductsCount($cartItems): void
+    public function decreaseProductsCounters($cartItems): void
     {
         $setting = $this->settingRepo->getSystemSetting();
         foreach ($cartItems as $cartItem) {
@@ -78,6 +80,14 @@ class ProductService implements ProductServiceInterface
             $product->marketable_number -= $cartItem->number;
             $product->sold_number += $cartItem->number;
             $product->save();
+            // if product has color
+            if (!is_null($cartItem->color_id)) {
+                $productSelectedColor = $this->productColorRepo->findById($cartItem->color_id);
+                $productSelectedColor->frozen_number -= $cartItem->number;
+                $productSelectedColor->marketable_number -= $cartItem->number;
+                $productSelectedColor->sold_number += $cartItem->number;
+                $productSelectedColor->save();
+            }
             if ($product->marketable_number < 10) {
                 $setting->low_count_products += 1;
                 $setting->save();
@@ -147,9 +157,9 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param $request
-     * @return RedirectResponse|void
+     * @return string
      */
-    public function store($request)
+    public function store($request): string
     {
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product', $request->file('image'), $this->imageService);
@@ -181,6 +191,7 @@ class ProductService implements ProductServiceInterface
             ]);
             $this->storeProductMetas($product->id, $request->meta_key, $request->meta_value);
         });
+        return 'done';
     }
 
     /**
@@ -200,9 +211,9 @@ class ProductService implements ProductServiceInterface
     /**
      * @param $request
      * @param $product
-     * @return RedirectResponse|void
+     * @return string
      */
-    public function update($request, $product)
+    public function update($request, $product): string
     {
         if ($request->hasFile('image')) {
             if (!empty($product->image)) {
@@ -242,6 +253,7 @@ class ProductService implements ProductServiceInterface
             ]);
             $this->updateProductMetas($request->meta_key, $request->meta_value);
         });
+        return 'done';
     }
 
     /**

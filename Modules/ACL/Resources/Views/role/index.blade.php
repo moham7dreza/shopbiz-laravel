@@ -8,7 +8,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#"> بخش کاربران</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> نقش ها</li>
         </ol>
@@ -61,27 +61,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $role->id }}" onchange="changeStatus({{ $role->id }}, 'نقش')"
-                                               data-url="{{ route('role.status', $role->id) }}" type="checkbox"
-                                               @if ($role->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="role.status" method="changeStatus" name="نقش" :model="$role" property="status" />
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ route('role.permission-form', $role->id) }}"
-                                       class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i></a>
-                                    <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('role.destroy', $role->id) }}"
-                                          method="post">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}" title="سطوح دسترسی نقش" icon="user-graduate" color="success" />
+                                    <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم" icon="edit" color="info" />
+                                    <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}" title="حذف آیتم" />
                                 </td>
                             </tr>
 
@@ -100,9 +85,6 @@
 @endsection
 
 @section('script')
-
     @include('Share::ajax-functions.status')
-
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection

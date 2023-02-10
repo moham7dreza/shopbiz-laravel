@@ -15,7 +15,6 @@
         </ol>
     </nav>
 
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -33,10 +32,11 @@
                     <form action="{{ route('permission.store') }}" method="post">
                         @csrf
                         <section class="row">
-                            <x-panel-input col="10" name="name" label="عنوان دسترسی" message="{{ $message ?? null }}" />
-                            <x-panel-input col="10" name="description" label="توضیحات دسترسی" message="{{ $message ?? null }}" />
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}" />
-                            <x-panel-button col="12" title="ثبت" />
+                            <x-panel-input col="10" name="name" label="عنوان دسترسی" message="{{ $message ?? null }}"/>
+                            <x-panel-input col="10" name="description" label="توضیحات دسترسی"
+                                           message="{{ $message ?? null }}"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

@@ -13,8 +13,7 @@
                             selected
                 @endif
                 @endif
-            >غیرفعال
-            </option>
+            >{{ $name == 'status' ? 'غیر فعال' : 'ساده' }}</option>
             <option value="1"
                     @if($method == 'create')
                         @if(old($name) == 1)
@@ -25,7 +24,7 @@
                             selected
                 @endif
                 @endif
-            >فعال</option>
+            >{{ $name == 'status' ? 'فعال' : 'چند انتخابی' }}</option>
         </select>
     </div>
     @error($name)

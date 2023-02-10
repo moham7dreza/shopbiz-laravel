@@ -8,7 +8,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش محتوا</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> پیج ساز</li>
         </ol>
@@ -68,7 +68,7 @@
                                     <form class="d-inline" action="{{ route('page.destroy', $page->id) }}"
                                           method="post">
                                         @csrf
-                                        {{ method_field('delete') }}
+                                        @method('delete')
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
                                                 class="fa fa-trash-alt"></i>
                                         </button>

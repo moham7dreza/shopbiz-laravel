@@ -8,7 +8,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> گالری</li>
         </ol>
@@ -61,7 +61,7 @@
                                           action="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id] ) }}"
                                           method="post">
                                         @csrf
-                                        {{ method_field('delete') }}
+                                        @method('delete')
                                         <button class="btn btn-danger btn-sm delete" type="submit"><i
                                                 class="fa fa-trash-alt"></i>
                                         </button>

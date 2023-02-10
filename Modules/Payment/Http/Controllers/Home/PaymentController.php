@@ -140,11 +140,11 @@ class PaymentController extends Controller
             return $this->showAlertWithRedirect('موجودی کالاهای انتخابی شما به اتمام رسید.', title: 'هشدار',
                 type: 'warning', route: 'customer.home');
         }
-        //
+        // find payment submitted type -> online or ...
         $model = $this->paymentService->findTargetModel($request);
         $paymented = $this->paymentService->storeTargetModel($model['targetModel'],
             $orderFinalAmount, $model['cashReceiver']);
-
+        // save total model
         $payment = $this->paymentService->store($orderFinalAmount, $model['type'],
             $paymented->id, $model['targetModel']);
 
@@ -158,7 +158,8 @@ class PaymentController extends Controller
         //
         $this->orderService->addOrderItemsAndDeleteAllCartItems($cartItems, $order->id);
         // decrease product count
-        $this->productService->decreaseProductsCount($cartItems);
+        $this->productService->decreaseProductsCounters($cartItems);
+        // send notif to admin
         $admin = $this->userRepo->findSystemAdmin();
         $this->orderService->sendOrderSubmittedNotificationToAdmin($admin, $order->id);
         return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'customer.home');

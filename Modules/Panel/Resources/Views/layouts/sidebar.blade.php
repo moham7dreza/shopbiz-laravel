@@ -163,7 +163,7 @@
                 <section class="sidebar-part-title">بخش محتوی</section>
                 @can('permission-super-admin','permission-post-categories')
                     <a href="{{ route('postCategory.index') }}" class="sidebar-link">
-                        <i class="fas fa-leaf"></i>
+                        <i class="fas fa-list-ul"></i>
                         <span>دسته بندی</span>
                     </a>
                 @endcan
@@ -209,7 +209,7 @@
                 <section class="sidebar-part-title">تیکت ها</section>
                 @can('permission-super-admin','permission-ticket-categories')
                     <a href="{{ route('ticketCategory.index') }}" class="sidebar-link">
-                        <i class="fas fa-leaf"></i>
+                        <i class="fas fa-list-ol"></i>
                         <span> دسته بندی تیکت ها </span>
                     </a>
                 @endcan

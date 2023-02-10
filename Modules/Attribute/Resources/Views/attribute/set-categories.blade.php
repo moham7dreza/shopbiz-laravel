@@ -8,10 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">فرم کالا</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page">دسته بندی ها</li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('attribute.index') }}"> فرم کالا</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> دسته بندی ها</li>
         </ol>
     </nav>
 
@@ -37,56 +37,14 @@
 
                             <section class="col-12">
                                 <section class="row border-top mt-3 py-3">
+                                    <x-panel-section col="5" id="attribute-name" label="نام فرم کالا" text="{{ $attribute->name }}"/>
+                                    <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
 
-                                    <section class="col-12 col-md-5">
-                                        <div class="form-group">
-                                            <label for="">نام فرم کالا</label>
-                                            <section>{{ $attribute->name }}</section>
-                                        </div>
-                                    </section>
-
-                                    <section class="col-12 col-md-5">
-                                        <div class="form-group">
-                                            <label for="">واحد</label>
-                                            <section>{{ $attribute->unit }}</section>
-                                        </div>
-                                    </section>
                                     <section class="col-12 border-bottom mb-3"></section>
-
-
-                                    <section class="col-12">
-                                        <div class="form-group">
-                                            <label for="select_categories">دسته بندی ها</label>
-                                            <select multiple class="form-control form-control-sm" id="select_categories"
-                                                    name="categories[]">
-
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}"
-                                                            @foreach ($attribute->categories as $attribute_category)
-                                                                @if($attribute_category->id === $category->id)
-                                                                    selected
-                                                        @endif
-                                                        @endforeach
-                                                    >
-                                                        {{ $category->name }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                        @error('categories')
-                                        <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                        @enderror
-                                    </section>
-
-                                    <section class="col-12 border-top">
-                                        <button class="btn btn-primary btn-sm mt-md-4">ثبت</button>
-                                    </section>
-
+                                    <x-panel-multi-selection col="12" label="دسته بندی ها" name="categories"
+                                                             message="{{ $message ?? null }}" :items="$categories"
+                                                             :related="$attribute"/>
+                                    <x-panel-button col="12" title="ثبت" />
                                 </section>
                             </section>
 
@@ -102,8 +60,8 @@
 @section('script')
 
     <script>
-        var select_categories = $('#select_categories');
-        select_categories.select2({
+        const categories = $('#categories');
+        categories.select2({
             placeholder: 'لطفا دسته بندی ها را وارد نمایید',
             multiple: true,
             tags: false

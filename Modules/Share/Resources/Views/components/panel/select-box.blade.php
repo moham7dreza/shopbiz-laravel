@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="{{ $name }}">{{ $label }}</label>
         <select name="{{ $name }}" id="{{ $name }}" class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror" {{ $attributes }}>
-            @foreach ($arr as $key => $value)
+            @foreach ($arr ?? $collection as $key => $value)
                 <option value="{{ $key }}"
                         @if($method == 'create')
                             @if(old($name) == $key)
@@ -13,7 +13,7 @@
                                 selected
                     @endif
                     @endif
-                >{{ $value }}</option>
+                >{{ !isset($property) ? $value : $value->$property }}</option>
             @endforeach
         </select>
     </div>

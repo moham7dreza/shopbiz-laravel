@@ -9,7 +9,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">تخفیف</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش فروش شگفت انگیز</li>

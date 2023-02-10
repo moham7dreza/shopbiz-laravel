@@ -8,7 +8,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12"><a href="#">فرم کالا</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد مقدار فرم کالا</li>
@@ -33,94 +33,19 @@
                     <form action="{{ route('attributeValue.store', $attribute->id) }}" method="POST">
                         @csrf
                         <section class="row">
-                            <section class="col-12 col-md-5">
-                                <div class="form-group">
-                                    <label for="">نام فرم کالا</label>
-                                    <section>{{ $attribute->name }}</section>
-                                </div>
-                            </section>
+                            <x-panel-section col="5" id="attribute-name" label="نام فرم کالا"
+                                             text="{{ $attribute->name }}"/>
+                            <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
 
-                            <section class="col-12 col-md-5">
-                                <div class="form-group">
-                                    <label for="">واحد</label>
-                                    <section>{{ $attribute->unit }}</section>
-                                </div>
-                            </section>
                             <section class="col-12 border-bottom mb-3"></section>
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="product_id">انتخاب محصول</label>
-                                    <select name="product_id" id="product_id" class="form-control form-control-sm">
-                                        <option value=""> محصول را انتخاب کنید</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}"
-                                                    @if(old('product_id') == $product->id) selected @endif>{{ $product->name }}</option>
-                                        @endforeach
 
-                                    </select>
-                                </div>
-                                @error('product_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">مقدار</label>
-                                    <input type="text" name="value" value="{{ old('value') }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('value')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">افزایش قیمت</label>
-                                    <input type="text" name="price_increase" value="{{ old('price_increase') }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('price_increase')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="type">نوع</label>
-                                    <select name="type" class="form-control form-control-sm" id="type">
-                                        <option value="0" @if(old('type') == 0) selected @endif>ساده</option>
-                                        <option value="1" @if(old('type') == 1) selected @endif>انتخابی</option>
-                                    </select>
-                                </div>
-                                @error('type')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-select-box col="10" name="product_id" label="انتخاب محصول"
+                                                message="{{ $message ?? null }}" :collection="$products"
+                                                property="name"/>
+                            <x-panel-input col="10" name="value" label="مقدار" message="{{ $message ?? null }}" />
+                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" message="{{ $message ?? null }}" />
+                            <x-panel-status col="10" name="type" label="نوع" message="{{ $message ?? null }}" />
+                            <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>
                 </section>
@@ -132,7 +57,7 @@
 @endsection
 @section('script')
     <script>
-        var product_id = $('#product_id');
+        const product_id = $('#product_id');
         product_id.select2({
             placeholder: 'لطفا محصول را انتخاب نمایید',
             multiple: false,
