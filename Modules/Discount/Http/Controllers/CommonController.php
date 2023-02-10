@@ -63,7 +63,7 @@ class CommonController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $commonDiscounts = $this->commonDiscountRepo->getLatest()->paginate(10);
+            $commonDiscounts = $this->commonDiscountRepo->getLatestOrderByDate()->paginate(10);
         }
 
         return view('Discount::common.index', compact(['commonDiscounts']));

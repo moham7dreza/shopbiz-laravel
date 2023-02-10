@@ -27,6 +27,16 @@ class CopanDiscountRepoEloquent implements CopanDiscountRepoEloquentInterface
         return $this->query()->latest();
     }
 
+    /**
+     * @param string $date
+     * @param string $direction
+     * @return Builder
+     */
+    public function getLatestOrderByDate(string $date = 'end_date', string $direction = 'desc'): Builder
+    {
+        return $this->query()->orderBy($date, $direction)->latest();
+    }
+
     // home
 
     /**

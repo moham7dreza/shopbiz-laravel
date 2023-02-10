@@ -52,6 +52,14 @@ class CommonDiscount extends Model
         return Str::limit($this->title, $size) ?? '-';
     }
 
+    /**
+     * @return bool
+     */
+    public function activated(): bool
+    {
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == CommonDiscount::STATUS_ACTIVE;
+    }
+
     // ********************************************* paths
 
     // ********************************************* FA Properties

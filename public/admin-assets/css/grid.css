@@ -355,3 +355,9 @@ button:hover {
     height: 50px;
     aspect-ratio: auto 100 / 50;
 }
+.card-shadow {
+    box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.4);
+}
+.cursor {
+    cursor: pointer!important;
+}

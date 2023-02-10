@@ -63,6 +63,14 @@ class Copan extends Model
         return $this->user->fullName ?? '-';
     }
 
+    /**
+     * @return bool
+     */
+    public function activated(): bool
+    {
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == Copan::STATUS_ACTIVE;
+    }
+
     // ********************************************* paths
 
     // ********************************************* FA Properties

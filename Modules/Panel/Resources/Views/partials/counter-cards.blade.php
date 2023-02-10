@@ -1,8 +1,8 @@
 <!-- Counters cards --->
 <section class="row">
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('customerUser.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-yellow text-white">
+            <section class="card card-shadow bg-custom-yellow text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -20,9 +20,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('post.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-green text-white">
+            <section class="card card-shadow bg-custom-green text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -40,9 +40,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('productComment.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-pink text-white">
+            <section class="card card-shadow bg-custom-pink text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -60,9 +60,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('order.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-yellow text-white">
+            <section class="card card-shadow bg-custom-yellow text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -80,9 +80,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('product.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-danger text-white">
+            <section class="card card-shadow bg-danger text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -100,9 +100,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('amazingSale.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-success text-white">
+            <section class="card card-shadow bg-success text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -120,9 +120,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('adminUser.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-warning text-white">
+            <section class="card card-shadow bg-warning text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">
@@ -140,9 +140,9 @@
             </section>
         </a>
     </section>
-    <section class="col-lg-2 col-md-6 col-12">
+    <section class="col-lg-3 col-md-6 col-12">
         <a href="{{ route('ticket.newTickets') }}" class="text-decoration-none d-block mb-4">
-            <section class="card bg-primary text-white">
+            <section class="card card-shadow bg-primary text-white">
                 <section class="card-body">
                     <section class="d-flex justify-content-between">
                         <section class="info-box-body">

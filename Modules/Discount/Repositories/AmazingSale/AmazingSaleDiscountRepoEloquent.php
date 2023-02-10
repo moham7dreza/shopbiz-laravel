@@ -29,6 +29,16 @@ class AmazingSaleDiscountRepoEloquent implements AmazingSaleDiscountRepoEloquent
     }
 
     /**
+     * @param string $date
+     * @param string $direction
+     * @return Builder
+     */
+    public function getLatestOrderByDate(string $date = 'end_date', string $direction = 'desc'): Builder
+    {
+        return $this->query()->orderBy($date, $direction)->latest();
+    }
+
+    /**
      * Find by id.
      *
      * @param  int|string $id

@@ -12,7 +12,6 @@ use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Http\Requests\AmazingSaleRequest;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
 use Modules\Discount\Services\AmazingSale\AmazingSaleDiscountService;
-use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
@@ -34,15 +33,18 @@ class AmazingSaleController extends Controller
 
     public AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo;
     public AmazingSaleDiscountService $amazingSaleDiscountService;
+    public ProductRepoEloquentInterface $productRepo;
 
     /**
      * @param AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo
      * @param AmazingSaleDiscountService $amazingSaleDiscountService
      */
-    public function __construct(AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo, AmazingSaleDiscountService $amazingSaleDiscountService)
+    public function __construct(AmazingSaleDiscountRepoEloquentInterface $amazingSaleDiscountRepo, AmazingSaleDiscountService $amazingSaleDiscountService,
+                                ProductRepoEloquentInterface $productRepo)
     {
         $this->amazingSaleDiscountRepo = $amazingSaleDiscountRepo;
         $this->amazingSaleDiscountService = $amazingSaleDiscountService;
+        $this->productRepo = $productRepo;
 
         // set middlewares
         $this->middleware('can:permission-product-amazing-sales')->only(['amazingSale']);
@@ -64,7 +66,7 @@ class AmazingSaleController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $amazingSales = $this->amazingSaleDiscountRepo->getLatest()->paginate(10);
+            $amazingSales = $this->amazingSaleDiscountRepo->getLatestOrderByDate()->paginate(10);
         }
 
         return view('Discount::amazingSale.index', compact(['amazingSales']));
@@ -89,7 +91,8 @@ class AmazingSaleController extends Controller
      */
     public function store(AmazingSaleRequest $request): RedirectResponse
     {
-        $this->amazingSaleDiscountService->store($request);
+        $amazingSale = $this->amazingSaleDiscountService->store($request);
+        $this->updateActiveDiscountInProduct($amazingSale);
         return $this->showMessageWithRedirectRoute(' تخفیف جدید شما با موفقیت ثبت شد');
     }
 
@@ -111,7 +114,8 @@ class AmazingSaleController extends Controller
      */
     public function update(AmazingSaleRequest $request, AmazingSale $amazingSale): RedirectResponse
     {
-        $this->amazingSaleDiscountService->update($request, $amazingSale);
+        $result = $this->amazingSaleDiscountService->update($request, $amazingSale);
+        $this->updateActiveDiscountInProduct($amazingSale);
         return $this->showMessageWithRedirectRoute(' تخفیف  شما با موفقیت ویرایش شد');
     }
 
@@ -133,5 +137,20 @@ class AmazingSaleController extends Controller
     public function status(AmazingSale $amazingSale): JsonResponse
     {
         return ShareService::changeStatus($amazingSale);
+    }
+
+    /**
+     * @param $amazingSale
+     * @return void
+     */
+    private function updateActiveDiscountInProduct($amazingSale): void
+    {
+        $product = $this->productRepo->findById($amazingSale->product_id);
+        if ($amazingSale->activated()) {
+            $product->active_discount_percentage = $amazingSale->percentage;
+        } else {
+            $product->active_discount_percentage = null;
+        }
+        $product->save();
     }
 }

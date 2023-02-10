@@ -62,7 +62,7 @@ class CopanController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $copans = $this->copanDiscountRepo->getLatest()->paginate(10);
+            $copans = $this->copanDiscountRepo->getLatestOrderByDate()->paginate(10);
         }
 
         return view('Discount::copan.index', compact(['copans']));

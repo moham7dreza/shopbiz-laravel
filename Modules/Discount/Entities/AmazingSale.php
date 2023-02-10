@@ -16,6 +16,7 @@ use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasFaPropertiesTrait;
 use Modules\Share\Traits\HasImageTrait;
+use function Assert\that;
 
 class AmazingSale extends Model
 {
@@ -68,6 +69,14 @@ class AmazingSale extends Model
     {
         $amazingSaleDiscountRepo = new AmazingSaleDiscountRepoEloquent();
         return $amazingSaleDiscountRepo->activeAmazingSales()->first();
+    }
+
+    /**
+     * @return bool
+     */
+    public function activated(): bool
+    {
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == AmazingSale::STATUS_ACTIVE;
     }
 
     // ********************************************* FA Properties

@@ -46,6 +46,7 @@
                             <th>تاریخ شروع</th>
                             <th>تاریخ پایان</th>
                             <th>وضعیت</th>
+                            <th>هم اکنون فعال است</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -68,6 +69,13 @@
                                                    checked
                                             @endif>
                                     </label>
+                                </td>
+                                <td>
+                                    @if($commonDiscount->activated())
+                                        <span class="text-success font-size-16 mr-4"><i class="fa fa-check"></i></span>
+                                    @else
+                                        <span class="text-danger font-size-16 mr-4"><i class="fa fa-times"></i></span>
+                                    @endif
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <a href="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
