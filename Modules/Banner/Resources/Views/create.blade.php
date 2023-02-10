@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('banner.index') }}">بنر</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('banner.index') }}"> بنر</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد بنر</li>
         </ol>
     </nav>
@@ -34,17 +34,20 @@
                           id="form">
                         @csrf
                         <section class="row">
-                            <x-panel-input col="6" name="title" label="عنوان بنر" message="{{ $message ?? null }}" />
+                            <x-panel-input col="6" name="title" label="عنوان بنر" message="{{ $message ?? null }}"/>
 
-                            <x-panel-input col="6" type="file" name="image" label="تصویر بنر" message="{{ $message ?? null }}" />
+                            <x-panel-input col="6" type="file" name="image" label="تصویر بنر"
+                                           message="{{ $message ?? null }}"/>
 
-                            <x-panel-status col="6" name="status" label="وضعیت بنر" message="{{ $message ?? null }}" />
+                            <x-panel-status col="6" name="status" label="وضعیت بنر" message="{{ $message ?? null }}"/>
 
-                            <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr" message="{{ $message ?? null }}" />
+                            <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr"
+                                           message="{{ $message ?? null }}"/>
 
-                            <x-panel-select-box col="6" name="position" label="موقعیت بنر" message="{{ $message ?? null }}" :arr="$positions" />
+                            <x-panel-select-box col="6" name="position" label="موقعیت بنر"
+                                                message="{{ $message ?? null }}" :arr="$positions"/>
 
-                            <x-panel-button col="12" title="ثبت" />
+                            <x-panel-button col="12" title="ثبت"/>
 
                         </section>
                     </form>

@@ -29,7 +29,8 @@
                     <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
                     <div class="max-width-16-rem">
                         <form action="{{ route('banner.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <input type="text" name="search" class="form-control form-control-sm form-text"
+                                   placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
                     </div>
@@ -60,34 +61,20 @@
                                     <img src="{{ $banner->image() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $banner->id }}" onchange="changeStatus({{ $banner->id }}, 'بنر')"
-                                               data-url="{{ route('banner.status', $banner->id) }}" type="checkbox"
-                                               @if ($banner->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="banner.status" method="changeStatus"
+                                                      name="دسترسی" :model="$banner" property="status"/>
                                 </td>
-
                                 <td>
                                     {{ $banner->getFaPosition() }}
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('banner.destroy', $banner->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('banner.edit', $banner->id) }}" title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('banner.destroy', $banner->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $banners->links() }}</section>
