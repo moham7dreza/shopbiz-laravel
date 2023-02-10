@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> سوالات متداول</li>
         </ol>
     </nav>
@@ -28,7 +28,8 @@
                     <a href="{{ route('faq.create') }}" class="btn btn-info btn-sm">ایجاد سوال جدید</a>
                     <div class="max-width-16-rem">
                         <form action="{{ route('faq.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <input type="text" name="search" class="form-control form-control-sm form-text"
+                                   placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
                     </div>
@@ -53,24 +54,15 @@
                                 <td>{{ $faq->getLimitedQuestion() }}</td>
                                 <td>{!! $faq->getLimitedAnswer() !!}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $faq->id }}" onchange="changeStatus({{ $faq->id }}, 'پرسش')"
-                                               data-url="{{ route('faq.status', $faq->id) }}" type="checkbox"
-                                               @if ($faq->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="faq.status" method="changeStatus"
+                                                      name="دسترسی" :model="$faq" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('faq.edit', $faq->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('faq.destroy', $faq->id) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('faq.edit', $faq->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('faq.destroy', $faq->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
                         @endforeach

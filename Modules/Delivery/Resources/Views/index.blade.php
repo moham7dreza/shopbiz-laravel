@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> روش های ارسال</li>
         </ol>
     </nav>
@@ -28,7 +28,8 @@
                     <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال جدید </a>
                     <div class="max-width-16-rem">
                         <form action="{{ route('delivery.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
+                            <input type="text" name="search" class="form-control form-control-sm form-text"
+                                   placeholder="جستجو">
                             <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
                         </form>
                     </div>
@@ -55,26 +56,15 @@
                                 <td>{{ $delivery_method->getFaAmount() }}</td>
                                 <td>{{ $delivery_method->getFaDeliveryTime() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $delivery_method->id }}"
-                                               onchange="changeStatus({{ $delivery_method->id }}, 'روش ارسال')"
-                                               data-url="{{ route('delivery.status', $delivery_method->id) }}"
-                                               type="checkbox" @if ($delivery_method->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="delivery.status" method="changeStatus"
+                                                      name="دسترسی" :model="$delivery_method" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('delivery.edit', $delivery_method->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('delivery.destroy', $delivery_method->id) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('delivery.edit', $delivery_method->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('delivery.destroy', $delivery_method->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
 

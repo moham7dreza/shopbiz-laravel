@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">سوالات متداول</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('faq.index') }}"> سوالات متداول</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد سوال</li>
         </ol>
     </nav>
@@ -34,59 +34,12 @@
                         @csrf
 
                         <section class="row">
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">پرسش</label>
-                                    <input type="text" class="form-control form-control-sm" name="question" id="name"
-                                           value="{{ old('question') }}">
-
-                                </div>
-                                @error('question')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">پاسخ</label>
-                                    <textarea name="answer" id="answer" class="form-control form-control-sm"
-                                              rows="6">{{ old('answer') }}</textarea>
-                                </div>
-                                @error('answer')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
-                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-input col="10" name="question" label="پرسش"
+                                           message="{{ $message ?? null }}"/>
+                            <x-panel-text-area col="10" name="answer" label="پاسخ" rows="12"
+                                               message="{{ $message ?? null }}"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
