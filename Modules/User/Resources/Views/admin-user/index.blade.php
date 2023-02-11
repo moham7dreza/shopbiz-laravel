@@ -133,8 +133,8 @@
 
 @section('script')
 
-    @include('Share::ajax-functions.status')
-    @include('Share::ajax-functions.activation')
+    @include('Share::ajax-functions.panel.status')
+    @include('Share::ajax-functions.panel.activation')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 

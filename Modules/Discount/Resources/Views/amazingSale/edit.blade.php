@@ -48,7 +48,8 @@
                                            :message="$message" method="edit" :model="$amazingSale"/>
                             <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message" method="edit" :model="$amazingSale"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit"
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
                                             :model="$amazingSale"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

@@ -46,7 +46,10 @@
                                                 property="name" option="کالا را انتخاب کنید"/>
                             <x-panel-input col="10" name="value" label="مقدار" :message="$message" />
                             <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message" />
-                            <x-panel-status col="10" name="type" label="نوع" :message="$message" />
+
+                            @php $types = \Modules\Attribute\Entities\Attribute::$typesWithValues @endphp
+                            <x-panel-select-box col="10" name="type" label="نوع"
+                                                :message="$message" :arr="$types"/>
                             <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>

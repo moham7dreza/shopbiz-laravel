@@ -39,7 +39,8 @@
                                            method="edit" :model="$attribute"/>
                             <x-panel-input col="10" name="unit" label="واحد اندازه گیری"
                                            :message="$message" method="edit" :model="$attribute"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true"
                                             method="edit" :model="$attribute"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

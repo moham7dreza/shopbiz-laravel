@@ -39,8 +39,9 @@
                                            :message="$message" method="edit" :model="$page"/>
                             <x-panel-text-area col="10" name="body" label="محتوی" rows="12"
                                                :message="$message" method="edit" :model="$page"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit"
-                                            :model="$page"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$page"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

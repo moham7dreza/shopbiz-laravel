@@ -168,5 +168,5 @@
     </section>
 @endsection
 @section('script')
-    @include('Share::ajax-functions.product-add-to-favorite')
+    @include('Share::ajax-functions.home.product-add-to-favorite')
 @endsection

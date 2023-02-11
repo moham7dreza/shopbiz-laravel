@@ -37,7 +37,8 @@
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="name" label="عنوان نقش" :message="$message" method="edit" :model="$role" />
                             <x-panel-input col="10" name="description" label="توضیحات نقش" :message="$message" method="edit" :model="$role" />
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit" :model="$role" />
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit" :model="$role" />
                             <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>

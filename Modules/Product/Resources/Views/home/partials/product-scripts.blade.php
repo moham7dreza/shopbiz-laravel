@@ -1,8 +1,8 @@
-@include('Share::functions.product-bill')
-@include('Share::functions.to-fa-number')
-@include('Share::ajax-functions.product-add-to-favorite')
-@include('Share::ajax-functions.product-like')
-@include('Share::ajax-functions.product-review')
+@include('Share::functions.home.product-bill')
+@include('Share::functions.home.to-fa-number')
+@include('Share::ajax-functions.home.product-add-to-favorite')
+@include('Share::ajax-functions.home.product-like')
+@include('Share::ajax-functions.home.product-review')
 @include('Share::toast-functions.swal')
 @include('Share::toast-functions.login-toast')
 <script>

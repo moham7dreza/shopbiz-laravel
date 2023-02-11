@@ -7,16 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Attribute\Traits\HasTypesTrait;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasFaPropertiesTrait;
 
 class AttributeValue extends Model
 {
-    use HasFactory, SoftDeletes;
-
-    public const TYPE_SIMPLE = 0;
-    public const TYPE_MULTIPLE = 1;
+    use HasFactory, SoftDeletes, HasTypesTrait;
 
     /**
      * @var string[]
@@ -88,14 +86,6 @@ class AttributeValue extends Model
     public function getFaPriceIncreaseAmount(): string
     {
         return priceFormat(json_decode($this->value)->price_increase) . ' تومان ' ?? 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFaType(): string
-    {
-        return $this->type == self::TYPE_SIMPLE ? 'ساده' : 'انتخابی';
     }
 
     /**

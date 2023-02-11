@@ -76,7 +76,7 @@
 
 
 @section('script')
-    @include('Share::ajax-functions.status')
+    @include('Share::ajax-functions.panel.status')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

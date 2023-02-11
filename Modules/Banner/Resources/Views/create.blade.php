@@ -40,7 +40,8 @@
                             <x-panel-input col="6" type="file" name="image" label="تصویر بنر"
                                            :message="$message"/>
 
-                            <x-panel-status col="6" name="status" label="وضعیت بنر" :message="$message"/>
+                            <x-panel-select-box col="6" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" />
 
                             <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr"
                                            :message="$message"/>

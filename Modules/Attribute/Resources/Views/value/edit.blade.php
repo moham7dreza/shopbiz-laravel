@@ -52,8 +52,11 @@
                             <x-panel-input col="10" name="price_increase" label="افزایش قیمت"
                                            :old="json_decode($value->value)->price_increase"
                                            :message="$message" method="edit" :model="$value"/>
-                            <x-panel-status col="10" name="type" label="نوع" :message="$message" method="edit"
-                                            :model="$value"/>
+
+                            @php $types = \Modules\Attribute\Entities\Attribute::$typesWithValues @endphp
+                            <x-panel-select-box col="10" name="type" label="نوع"
+                                                :message="$message" :arr="$types" method="edit"
+                                                :model="$value"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

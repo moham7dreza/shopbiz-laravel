@@ -101,7 +101,7 @@
 
 @section('script')
 
-    @include('Share::ajax-functions.status')
+    @include('Share::ajax-functions.panel.status')
 
 @endsection
 

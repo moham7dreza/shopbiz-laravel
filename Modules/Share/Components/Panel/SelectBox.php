@@ -29,7 +29,7 @@ class SelectBox extends Component
      * @return void
      */
     public function __construct($name, $label, $col, $message, $arr = null, $collection = null,
-                                $property = null, $method = 'create', $model = null, $class = null, $option = null)
+                                $property = null, $method = 'create', $model = null, $class = null, $option = null, $hasDefaultStatus = false)
     {
         $this->name = $name;
         $this->label = $label;
@@ -42,6 +42,12 @@ class SelectBox extends Component
         $this->collection = $collection;
         $this->property = $property;
         $this->option = $option;
+        if ($hasDefaultStatus) {
+            $this->arr = [
+                0 => 'غیر فعال',
+                1 => 'فعال'
+            ];
+        }
     }
 
     /**

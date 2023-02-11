@@ -36,7 +36,8 @@
                             <x-panel-input col="10" name="name" label="نام فرم" :message="$message"/>
                             <x-panel-input col="10" name="unit" label="واحد اندازه گیری"
                                            :message="$message"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" />
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

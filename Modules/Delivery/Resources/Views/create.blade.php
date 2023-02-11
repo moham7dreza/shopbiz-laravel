@@ -42,7 +42,8 @@
                                            :message="$message"/>
                             <x-panel-input col="10" name="delivery_time_unit" label="واحد زمان ارسال"
                                            :message="$message"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" />
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

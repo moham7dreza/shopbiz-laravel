@@ -38,7 +38,8 @@
                                            :message="$message"/>
                             <x-panel-input col="10" name="persian_name" label="نام فارسی برند"
                                            :message="$message"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" />
                             <x-panel-input col="10" type="file" name="logo" label="تصویر برند"
                                            :message="$message"/>
                             <x-panel-button col="12" title="ثبت"/>

@@ -69,10 +69,10 @@
 
 @section('script')
 
-    @include('Share::ajax-functions.product-add-to-favorite')
-    @include('Share::ajax-functions.post-add-to-favorite')
-    @include('Share::ajax-functions.product-like')
-    @include('Share::ajax-functions.post-like')
+    @include('Share::ajax-functions.home.product-add-to-favorite')
+    @include('Share::ajax-functions.home.post-add-to-favorite')
+    @include('Share::ajax-functions.home.product-like')
+    @include('Share::ajax-functions.home.post-like')
     {{--    @include('Home::partials.calc-rate')--}}
     @include('Share::toast-functions.swal')
     @include('Share::toast-functions.login-toast')

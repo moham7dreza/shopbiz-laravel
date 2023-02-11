@@ -38,7 +38,8 @@
                                            :message="$message" method="edit" :model="$faq"/>
                             <x-panel-text-area col="10" name="answer" label="پاسخ" rows="12"
                                                :message="$message" method="edit" :model="$faq"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true"
                                             method="edit" :model="$faq"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

@@ -1,4 +1,4 @@
-@include('Share::ajax-functions.product-add-to-favorite')
+@include('Share::ajax-functions.home.product-add-to-favorite')
 
 <script>
     //start product introduction, features and comment

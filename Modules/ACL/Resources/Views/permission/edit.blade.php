@@ -38,7 +38,8 @@
                                            method="edit" :model="$permission"/>
                             <x-panel-input col="10" name="description" label="توضیحات دسترسی"
                                            :message="$message" method="edit" :model="$permission"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true"
                                             method="edit" :model="$permission"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

@@ -41,8 +41,9 @@
                             <x-panel-input col="6" type="file" name="image" label="تصویر بنر"
                                            :message="$message" method="edit" :model="$banner"/>
 
-                            <x-panel-status col="6" name="status" label="وضعیت بنر" :message="$message"
-                                            method="edit" :model="$banner"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$banner"/>
 
                             <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr"
                                            :message="$message" method="edit" :model="$banner"/>

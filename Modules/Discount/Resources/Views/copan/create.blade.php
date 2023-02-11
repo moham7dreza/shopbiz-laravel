@@ -53,7 +53,8 @@
                                            :message="$message"/>
                             <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" />
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
