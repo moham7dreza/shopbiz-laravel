@@ -44,14 +44,14 @@
 
                             <section class="col-12 border-bottom mb-3"></section>
 
-                            <x-panel-select-box col="6" name="product_id" label="انتخاب محصول"
+                            <x-panel-select-box col="10" name="product_id" label="انتخاب محصول"
                                                 :message="$message" :collection="$products" method="edit"
                                                 :model="$value" property="name"/>
                             <x-panel-input col="10" name="value" label="مقدار" :old="json_decode($value->value)->value"
-                                           :message="$message" method="edit" :model="$setting"/>
+                                           :message="$message" method="edit" :model="$value"/>
                             <x-panel-input col="10" name="price_increase" label="افزایش قیمت"
                                            :old="json_decode($value->value)->price_increase"
-                                           :message="$message" method="edit" :model="$setting"/>
+                                           :message="$message" method="edit" :model="$value"/>
                             <x-panel-status col="10" name="type" label="نوع" :message="$message" method="edit"
                                             :model="$value"/>
                             <x-panel-button col="12" title="ثبت"/>

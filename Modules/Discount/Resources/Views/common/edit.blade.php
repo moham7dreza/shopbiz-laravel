@@ -10,8 +10,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">تخفیف</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('commonDiscount.index') }}"> تخفیف عمومی</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش تخفیف عمومی</li>
         </ol>
     </nav>
@@ -34,127 +34,23 @@
                     <form action="{{ route('commonDiscount.update', $commonDiscount->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-
-
                         <section class="row">
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">درصد تخفیف</label>
-                                    <input type="text" class="form-control form-control-sm" name="percentage"
-                                           value="{{ old('percentage', $commonDiscount->percentage) }}">
-                                </div>
-                                @error('percentage')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">حداکثر تخفیف</label>
-                                    <input type="text" name="discount_ceiling"
-                                           value="{{ old('discount_ceiling', $commonDiscount->discount_ceiling) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('discount_ceiling')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">حداقل مبلغ خرید</label>
-                                    <input type="text" name="minimal_order_amount"
-                                           value="{{ old('minimal_order_amount', $commonDiscount->minimal_order_amount) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('minimal_order_amount')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان مناسبت</label>
-                                    <input type="text" name="title" value="{{ old('title', $commonDiscount->title) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('title')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ شروع</label>
-                                    <input type="text" name="start_date" id="start_date"
-                                           class="form-control form-control-sm d-none">
-                                    <input type="text" id="start_date_view" class="form-control form-control-sm">
-                                </div>
-                                @error('start_date')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ پایان</label>
-                                    <input type="text" name="end_date" id="end_date"
-                                           class="form-control form-control-sm d-none">
-                                    <input type="text" id="end_date_view" class="form-control form-control-sm">
-                                </div>
-                                @error('end_date')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0"
-                                                @if (old('status', $commonDiscount->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('status', $commonDiscount->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="percentage" label="درصد تخفیف" :message="$message"
+                                           method="edit" :model="$commonDiscount"/>
+                            <x-panel-input col="10" name="discount_ceiling" label="حداکثر تخفیف" :message="$message"
+                                           method="edit" :model="$commonDiscount"/>
+                            <x-panel-input col="10" name="minimal_order_amount" label="حداقل مبلغ خرید"
+                                           :message="$message" method="edit" :model="$commonDiscount"/>
+                            <x-panel-input col="10" name="title" label="عنوان مناسبت" :message="$message" method="edit"
+                                           :model="$commonDiscount"/>
+                            <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
+                                           :message="$message" method="edit" :model="$commonDiscount"/>
+                            <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
+                                           :message="$message" method="edit" :model="$commonDiscount"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit"
+                                            :model="$commonDiscount"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

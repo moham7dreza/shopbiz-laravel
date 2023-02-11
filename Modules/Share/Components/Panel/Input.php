@@ -19,13 +19,14 @@ class Input extends Component
     public ?Model $model;
     public ?string $class;
     public string $type;
+    public ?bool $date;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $label, $col, $message = null, $type = 'text', $method = 'create', $model = null, $class = null, $old = null)
+    public function __construct($name, $label, $col, $message = null, $type = 'text', $method = 'create', $model = null, $class = null, $old = null, $date = false)
     {
         $this->name = $name;
         $this->label = $label;
@@ -36,6 +37,7 @@ class Input extends Component
         $this->class = $class;
         $this->type = $type;
         $this->old = $old;
+        $this->date = $date;
     }
 
     /**

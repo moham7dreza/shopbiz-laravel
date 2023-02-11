@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page">تخفیف عمومی</li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> تخفیف عمومی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,10 +27,7 @@
                     <a href="{{ route('commonDiscount.create') }}" class="btn btn-info btn-sm">ایجاد تخفیف
                         عمومی</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('commonDiscount.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('commonDiscount.index') }}"/>
                     </div>
                 </section>
 
@@ -61,14 +57,9 @@
                                 <td>{{ $commonDiscount->getFaStartDate() }}</td>
                                 <td>{{ $commonDiscount->getFaEndDate() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $commonDiscount->id }}" onchange="changeStatus({{ $commonDiscount->id }}, 'تخفیف عمومی')"
-                                               data-url="{{ route('commonDiscount.status', $commonDiscount->id) }}"
-                                               type="checkbox"
-                                               @if ($commonDiscount->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="commonDiscount.status"
+                                                      method="changeStatus" name="تخفیف عمومی" :model="$commonDiscount"
+                                                      property="status"/>
                                 </td>
                                 <td>
                                     @if($commonDiscount->activated())
@@ -78,17 +69,11 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('commonDiscount.destroy', $commonDiscount->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
+                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                    <x-panel-delete-form
+                                        route="{{ route('commonDiscount.destroy', $commonDiscount->id) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
 

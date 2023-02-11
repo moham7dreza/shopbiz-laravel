@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page">کوپن تخفیف</li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> کوپن تخفیف</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('copanDiscount.create') }}" class="btn btn-info btn-sm">ایجاد کوپن تخفیف</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('copanDiscount.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('copanDiscount.index') }}"/>
                     </div>
                 </section>
 
@@ -65,14 +61,8 @@
                                 <td>{{ $copan->getFaStartDate() }}</td>
                                 <td>{{ $copan->getFaEndDate() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $copan->id }}" onchange="changeStatus({{ $copan->id }}, 'کپن تخفیف')"
-                                               data-url="{{ route('copanDiscount.status', $copan->id) }}"
-                                               type="checkbox"
-                                               @if ($copan->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="copanDiscount.status" method="changeStatus"
+                                                      name="کپن تخفیف" :model="$copan" property="status"/>
                                 </td>
                                 <td>
                                     @if($copan->activated())
@@ -82,16 +72,11 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('copanDiscount.edit', $copan->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('copanDiscount.destroy', $copan->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('copanDiscount.edit', $copan->id) }}"
+                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                    <x-panel-delete-form
+                                        route="{{ route('copanDiscount.destroy', $copan->id) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
 

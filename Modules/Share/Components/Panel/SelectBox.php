@@ -21,13 +21,15 @@ class SelectBox extends Component
     public ?array $arr;
     public ?Collection $collection;
     public ?string $property;
+    public ?string $option;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $label, $col, $message, $arr = null, $collection = null, $property = null, $method = 'create', $model = null, $class = null)
+    public function __construct($name, $label, $col, $message, $arr = null, $collection = null,
+                                $property = null, $method = 'create', $model = null, $class = null, $option = null)
     {
         $this->name = $name;
         $this->label = $label;
@@ -39,6 +41,7 @@ class SelectBox extends Component
         $this->arr = $arr;
         $this->collection = $collection;
         $this->property = $property;
+        $this->option = $option;
     }
 
     /**

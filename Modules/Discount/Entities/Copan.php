@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
+use Modules\Discount\Traits\CopanHasTypesTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasFaPropertiesTrait;
@@ -16,17 +17,12 @@ class Copan extends Model
 {
     use HasFactory;
 
-    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus;
-
-    public const AMOUNT_TYPE_PERCENTAGE = 0;
-    public const AMOUNT_TYPE_PRICE = 1;
-    public const COPAN_TYPE_PUBLIC = 0;
-    public const COPAN_TYPE_PRIVATE = 1;
+    use HasFactory, SoftDeletes, HasFaDate, HasDefaultStatus, CopanHasTypesTrait;
 
     /**
      * @var string[]
      */
-    protected $fillable = ['code', 'amount', 'amount_type' , 'discount_ceiling' , 'type' , 'user_id' ,'start_date', 'end_date', 'status'];
+    protected $fillable = ['code', 'amount', 'amount_type', 'discount_ceiling', 'type', 'user_id', 'start_date', 'end_date', 'status'];
 
     // ********************************* scope
 

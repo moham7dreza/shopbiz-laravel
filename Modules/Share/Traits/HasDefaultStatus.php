@@ -12,6 +12,14 @@ trait HasDefaultStatus
      */
     public static array $statuses = [self::STATUS_ACTIVE, self::STATUS_INACTIVE];
 
+    /**
+     * @var array|string[]
+     */
+    public static array $statusesWithValues = [
+        self::STATUS_ACTIVE => 'فعال',
+        self::STATUS_INACTIVE => 'غیر فعال'
+    ];
+
     // text status
 
     /**

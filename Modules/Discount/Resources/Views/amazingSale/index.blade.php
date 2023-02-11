@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page">فروش شگفت انگیز</li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12 active" aria-current="page"> فروش شگفت انگیز</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,10 +27,7 @@
                     <a href="{{ route('amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست
                         شگفت انگیز</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('amazingSale.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('amazingSale.index') }}"/>
                     </div>
                 </section>
 
@@ -58,14 +54,8 @@
                                 <td>{{ $amazingSale->getFaStartDate() }}</td>
                                 <td>{{ $amazingSale->getFaEndDate() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $amazingSale->id }}" onchange="changeStatus({{ $amazingSale->id }}, 'تخفیف شگفت انگیز')"
-                                               data-url="{{ route('amazingSale.status', $amazingSale->id) }}"
-                                               type="checkbox"
-                                               @if ($amazingSale->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="amazingSale.status" method="changeStatus"
+                                                      name="تخفیف شگفت انگیز" :model="$amazingSale" property="status"/>
                                 </td>
                                 <td>
                                     @if($amazingSale->activated())
@@ -75,17 +65,10 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('amazingSale.edit', $amazingSale->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('amazingSale.destroy', $amazingSale->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('amazingSale.edit', $amazingSale->id) }}"
+                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('amazingSale.destroy', $amazingSale->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
 

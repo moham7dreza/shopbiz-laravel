@@ -28,7 +28,7 @@
                     <a href="{{ route('attributeValue.create', $attribute->id) }}"
                        class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('attributeValue.index') }}" />
+                        <x-panel-search-form route="{{ route('attributeValue.index', $attribute->id) }}" />
                     </div>
                 </section>
 

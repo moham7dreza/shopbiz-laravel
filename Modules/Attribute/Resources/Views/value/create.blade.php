@@ -9,8 +9,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">فرم کالا</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-12"><a href="{{ route('attributeValue.index', $attribute->id) }}">
+                    مقدار فرم کالا</a></li>
             <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد مقدار فرم کالا</li>
         </ol>
     </nav>
@@ -42,7 +43,7 @@
 
                             <x-panel-select-box col="10" name="product_id" label="انتخاب محصول"
                                                 :message="$message" :collection="$products"
-                                                property="name"/>
+                                                property="name" option="کالا را انتخاب کنید"/>
                             <x-panel-input col="10" name="value" label="مقدار" :message="$message" />
                             <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message" />
                             <x-panel-status col="10" name="type" label="نوع" :message="$message" />
