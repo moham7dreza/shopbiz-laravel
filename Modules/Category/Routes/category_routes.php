@@ -18,6 +18,7 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
 
     $router->resource('productCategory', 'ProductCategoryController', ['except' => 'show']);
     Route::get('productCategory/status/{productCategory}', [ProductCategoryController::class, 'status'])->name('productCategory.status');
+    Route::get('productCategory/showInMenu/{productCategory}', [ProductCategoryController::class, 'showInMenu'])->name('productCategory.showInMenu');
 
     $router->resource('postCategory', 'PostCategoryController', ['except' => 'show']);
     Route::get('postCategory/status/{postCategory}', [PostCategoryController::class, 'status'])->name('postCategory.status');

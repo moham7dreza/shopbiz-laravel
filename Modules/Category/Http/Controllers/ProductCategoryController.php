@@ -154,4 +154,13 @@ class ProductCategoryController extends Controller
     {
         return ShareService::changeStatus($productCategory);
     }
+
+    /**
+     * @param ProductCategory $productCategory
+     * @return JsonResponse
+     */
+    public function showInMenu(ProductCategory $productCategory): JsonResponse
+    {
+        return ShareService::ajaxChangeModelSpecialField($productCategory, 'show_in_menu');
+    }
 }

@@ -1,9 +1,18 @@
 <section class="col-12 col-md-{{ $col }}">
     <div class="form-group">
         <label for="{{ $name }}">{{ $label }}</label>
-        <input type="{{ $type }}" class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror" name="{{ $name }}"
-               id="{{ $name }}" @if($method == 'create')
-                   value="{{ old($name) }}" @else value="{{ old($name, $old ?? $model->$name) }}" @endif {{ $attributes }}>
+        <input type="{{ $type }}" class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror"
+               name="{{ $name }}"
+               id="{{ $name }}"
+               @if($type != 'file')
+                   @if($method == 'create')
+                       value="{{ old($name) }}"
+               @else
+                   value="{{ old($name, $old ?? $model->$name) }}"
+            @endif
+            @endif
+            {{ $attributes }}
+        >
         @if($date)
             <input type="text" id="{{ $name }}_view" class="form-control form-control-sm">
         @endif

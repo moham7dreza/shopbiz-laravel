@@ -53,7 +53,7 @@
                                 <td>{{ $delivery_method->getFaDeliveryTime() }}</td>
                                 <td>
                                     <x-panel-checkbox class="rounded" route="delivery.status" method="changeStatus"
-                                                      name="دسترسی" :model="$delivery_method" property="status"/>
+                                                      name="روش ارسال" :model="$delivery_method" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('delivery.edit', $delivery_method->id) }}"

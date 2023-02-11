@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">دسته بندی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('productCategory.index') }}"> دسته بندی</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش دسته بندی</li>
         </ol>
     </nav>
@@ -35,148 +35,24 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام دسته</label>
-                                    <input type="text" name="name" value="{{ old('name', $productCategory->name) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">منو والد</label>
-                                    <select name="parent_id" class="form-control form-control-sm">
-                                        <option value="">منوی اصلی</option>
-                                        @foreach ($parent_categories as $parent_category)
-
-                                            <option value="{{ $parent_category->id }}"
-                                                    @if(old('parent_id', $productCategory->parent_id) == $parent_category->id) selected @endif>{{ $parent_category->name }}</option>
-
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('parent_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">توضیحات</label>
-                                    <textarea name="description" id="description" class="form-control form-control-sm"
-                                              rows="6">
-                                    {{ old('description', $productCategory->description) }}
-                                </textarea>
-                                </div>
-                                @error('description')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="image">تصویر</label>
-                                    <input type="file" class="form-control form-control-sm" name="image" id="image">
-                                </div>
-                                @error('image')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="row">
-                                @php
-                                    $number = 1;
-                                @endphp
-                                @foreach ($productCategory->image['indexArray'] as $key => $value )
-                                    <section class="col-md-{{ 6 / $number }}">
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="currentImage"
-                                                   value="{{ $key }}" id="{{ $number }}"
-                                                   @if($productCategory->image['currentImage'] == $key) checked @endif>
-                                            <label for="{{ $number }}" class="form-check-label mx-2">
-                                                <img src="{{ asset($value) }}" class="w-100" alt="">
-                                            </label>
-                                        </div>
-                                    </section>
-                                    @php
-                                        $number++;
-                                    @endphp
-                                @endforeach
-
-                            </section>
-
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0"
-                                                @if (old('status', $productCategory->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('status', $productCategory->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="show_in_menu">وضعیت نمایش در منو</label>
-                                    <select name="show_in_menu" class="form-control form-control-sm"
-                                            id="show_in_menu">
-                                        <option value="0"
-                                                @if (old('show_in_menu', $productCategory->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('show_in_menu', $productCategory->status) == 1) selected @endif>
-                                            فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('show_in_menu')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام دسته"
+                                           :message="$message" method="edit" :model="$productCategory"/>
+                            <x-panel-select-box col="10" name="parent_id" label="دسته والد"
+                                                :message="$message" :collection="$parent_categories"
+                                                property="name" method="edit"
+                                                :model="$productCategory"/>
+                            <x-panel-text-area col="10" name="description" label="توضیحات" rows="12"
+                                               :message="$message" method="edit" :model="$productCategory"/>
+                            <x-panel-input col="10" type="file" name="image" label="تصویر"
+                                           :message="$message" method="edit" :model="$productCategory"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$productCategory"/>
+                            <x-panel-select-box col="10" name="show_in_menu" label="نمایش در منو"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$productCategory"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -194,6 +70,13 @@
     <script>
         CKEDITOR.replace('description');
     </script>
-
+    <script>
+        const parent_id = $('#parent_id');
+        parent_id.select2({
+            // placeholder: 'لطفا دسته بندی را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection
 

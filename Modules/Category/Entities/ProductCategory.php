@@ -26,6 +26,13 @@ class ProductCategory extends Model
     public const SHOW_IN_MENU = 1;
     public const SHOW_NOT_IN_MENU = 0;
 
+    public static array $showTypes = [self::SHOW_IN_MENU, self::SHOW_NOT_IN_MENU];
+
+    public static array $showTypesWithValues = [
+        self::SHOW_IN_MENU => 'نمایش در منو',
+        self::SHOW_NOT_IN_MENU => 'عدم نمایش در منو'
+    ];
+
     /**
      * @return array[]
      */

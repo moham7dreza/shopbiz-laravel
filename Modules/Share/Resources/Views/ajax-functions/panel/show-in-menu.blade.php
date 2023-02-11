@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    function changeShowInMenu(id, name) {
+        var element = $("#" + id)
+        var url = element.attr('data-url')
+        var elementValue = !element.prop('checked');
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (response) {
+                if (response.show_in_menu) {
+                    if (response.checked) {
+                        element.prop('checked', true);
+                        swal('قابلیت نمایش در منو ' + name + ' با موفقیت فعال شد ', 'success')
+                    } else {
+                        element.prop('checked', false);
+                        swal('قابلیت نمایش در منو ' + name + ' با موفقیت غیر فعال شد ', 'warning')
+                    }
+                } else {
+                    element.prop('checked', elementValue);
+                    swal('هنگام ویرایش مشکلی بوجود امده است', 'error')
+                }
+            },
+            error: function () {
+                element.prop('checked', elementValue);
+                swal('ارتباط برقرار نشد', 'error')
+            }
+        });
+    }
+
+</script>
+@include('Share::toast-functions.swal')

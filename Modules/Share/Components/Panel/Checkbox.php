@@ -16,13 +16,14 @@ class Checkbox extends Component
     public string $property;
     public ?string $class;
     public Model $model;
+    public ?string $uniqueId;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $method, $route, $property, $model, $class = '')
+    public function __construct($name, $method, $route, $property, $model, $class = '', $uniqueId = null)
     {
         $this->name = $name;
         $this->method = $method;
@@ -30,6 +31,7 @@ class Checkbox extends Component
         $this->property = $property;
         $this->model = $model;
         $this->class = $class;
+        $this->uniqueId = $uniqueId;
     }
 
     /**

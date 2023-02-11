@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> محتوی</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> دسته بندی</li>
         </ol>
     </nav>
@@ -27,10 +27,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('postCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('postCategory.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('postCategory.index') }}"/>
                     </div>
                 </section>
 
@@ -64,27 +61,15 @@
                                 </td>
                                 <td>{{ $postCategory->tags }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $postCategory->id }}"
-                                               onchange="changeStatus({{ $postCategory->id }}, 'دسته بندی')"
-                                               data-url="{{ route('postCategory.status', $postCategory->id) }}"
-                                               type="checkbox" @if ($postCategory->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="postCategory.status" method="changeStatus"
+                                                      name="دسته بندی" :model="$postCategory" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('postCategory.edit', $postCategory->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('postCategory.destroy', $postCategory->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('postCategory.edit', $postCategory->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('postCategory.destroy', $postCategory->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
 

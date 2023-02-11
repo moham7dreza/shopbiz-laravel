@@ -9,9 +9,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">دسته بندی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد دسته بندی</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> محتوی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('postCategory.index') }}"> دسته بندی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش دسته بندی</li>
         </ol>
     </nav>
 
@@ -36,57 +36,13 @@
                         {{ method_field('put') }}
                         <section class="row">
 
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="name">نام دسته</label>
-                                    <input type="text" class="form-control form-control-sm" name="name" id="name"
-                                           value="{{ old('name', $postCategory->name) }}">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام دسته"
+                                           :message="$message" method="edit" :model="$postCategory"/>
+                            <x-panel-input col="10" type="file" name="image" label="تصویر"
+                                           :message="$message" method="edit" :model="$postCategory"/>
 
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0"
-                                                @if (old('status', $postCategory->status) == 0) selected @endif>غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('status', $postCategory->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="image">تصویر</label>
-                                    <input type="file" class="form-control form-control-sm" name="image" id="image">
-                                </div>
-                                @error('image')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-                            <section class="row">
+                            <section class="row mb-3">
                                 @php
                                     $number = 1;
                                 @endphp
@@ -108,36 +64,18 @@
 
                             </section>
 
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$postCategory"/>
+                            <x-panel-text-area col="10" name="description" label="توضیحات" rows="12"
+                                               :message="$message" method="edit" :model="$postCategory"/>
+                            <x-panel-button col="12" title="ثبت" method="edit" :model="$postCategory"/>
                         </section>
-
-
-                        <section class="col-12">
-                            <div class="form-group">
-                                <label for="">توضیحات</label>
-                                <textarea name="description" id="description" class="form-control form-control-sm"
-                                          rows="6">
-                                        {{ old('description', $postCategory->description) }}
-                                    </textarea>
-                            </div>
-                            @error('description')
-                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                            @enderror
-                        </section>
-
-
-                        <section class="col-12 my-3">
-                            <button class="btn btn-primary btn-sm">ثبت</button>
-                        </section>
+                    </form>
                 </section>
-                </form>
-            </section>
 
+            </section>
         </section>
-    </section>
     </section>
 
 @endsection

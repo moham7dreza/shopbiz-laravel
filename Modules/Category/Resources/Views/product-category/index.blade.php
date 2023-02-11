@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> دسته بندی</li>
         </ol>
     </nav>
@@ -27,10 +27,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('postCategory.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('productCategory.index') }}"/>
                     </div>
                 </section>
 
@@ -42,6 +39,7 @@
                             <th>نام دسته بندی</th>
                             <th>دسته والد</th>
                             <th>وضعیت</th>
+                            <th>نمایش در منو</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -53,28 +51,22 @@
                                 <td>{{ $productCategory->name }}</td>
                                 <td>{{ $productCategory->getParentName() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $productCategory->id }}"
-                                               onchange="changeStatus({{ $productCategory->id }}, 'دسته بندی')"
-                                               data-url="{{ route('productCategory.status', $productCategory->id) }}"
-                                               type="checkbox"
-                                               @if ($productCategory->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="productCategory.status"
+                                                      method="changeStatus"
+                                                      name="دسته بندی" :model="$productCategory" property="status"/>
+                                </td>
+                                <td>
+                                    <x-panel-checkbox class="rounded" route="productCategory.showInMenu" uniqueId="show"
+                                                      method="changeShowInMenu"
+                                                      name="دسته بندی" :model="$productCategory" property="show_in_menu"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('productCategory.edit', $productCategory->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('productCategory.destroy', $productCategory->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('productCategory.edit', $productCategory->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form
+                                        route="{{ route('productCategory.destroy', $productCategory->id) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
 
@@ -96,6 +88,7 @@
 @section('script')
 
     @include('Share::ajax-functions.panel.status')
+    @include('Share::ajax-functions.panel.show-in-menu')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 
