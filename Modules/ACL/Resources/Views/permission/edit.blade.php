@@ -8,10 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش کاربران</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('permission.index') }}"> دسترسی ها</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش دسترسی</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('permission.index') }}"> دسترسی ها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش دسترسی</li>
         </ol>
     </nav>
 

@@ -9,10 +9,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#">اطلاعیه ایمیلی</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش اطلاعیه ایمیلی</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#">اطلاع رسانی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#">اطلاعیه ایمیلی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش اطلاعیه ایمیلی</li>
         </ol>
     </nav>
 

@@ -8,10 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش کاربران</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="{{ route('role.index') }}"> نقش ها</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش نقش</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('role.index') }}"> نقش ها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش نقش</li>
         </ol>
     </nav>
 

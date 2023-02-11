@@ -8,10 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#"> خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> نمایش تیکت ها</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش تیکت ها</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> تیکت ها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش تیکت ها</li>
         </ol>
     </nav>
 

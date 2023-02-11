@@ -1,17 +1,17 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>نمایش نظر </title>
+    <title>نمایش نظر</title>
 @endsection
 
 @section('content')
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#"> خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> نظرات</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> نمایش نظر</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}"> خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('postComment.index') }}"> نظرات</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش نظر</li>
         </ol>
     </nav>
 
@@ -35,34 +35,22 @@
                     </section>
                     <section class="card-body">
                         <h5 class="card-title">مشخصات پست : {{ $postComment->getCommentableName() }}
-                            -  کد پست : {{ $postComment->getFaCommentableId() }}
+                            - کد پست : {{ $postComment->getFaCommentableId() }}
                         </h5>
 
                         <p class="card-text border-top p-4">{{ $postComment->body }}</p>
                     </section>
                 </section>
 
-                @if($postComment->parent_id == null)
+                @if(is_null($postComment->parent_id))
                     <section>
                         <form action="{{ route('postComment.answer', $postComment->id) }}" method="post">
                             @csrf
                             <section class="row">
-                                <section class="col-12">
-                                    <div class="form-group">
-                                        <label for="">پاسخ ادمین</label>
-                                        <textarea class="form-control form-control-sm" name="body" rows="4"></textarea>
-                                    </div>
-                                    @error('body')
-                                    <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                    @enderror
-                                </section>
-                                <section class="col-12">
-                                    <button class="btn btn-primary btn-sm">ثبت</button>
-                                </section>
+                                @php $message = $message ?? null @endphp
+                                <x-panel-text-area col="12" name="body" label="پاسخ ادمین" rows="12"
+                                                   :message="$message"/>
+                                <x-panel-button col="12" title="ثبت"/>
                             </section>
                         </form>
                     </section>

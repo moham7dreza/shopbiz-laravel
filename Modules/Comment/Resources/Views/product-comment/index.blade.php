@@ -8,12 +8,11 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#"> خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> نظرات</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}"> خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نظرات</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="#" class="btn btn-info btn-sm disabled">ایجاد نظر </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('productComment.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('productComment.index') }}"/>
                     </div>
                 </section>
 
@@ -63,25 +59,22 @@
                                 <td>{{ $comment->getCommentableName() }}</td>
                                 <td>{{ $comment->getFaApproved() }} </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }}, 'نظر')"
-                                               data-url="{{ route('productComment.status', $comment->id) }}"
-                                               type="checkbox" @if ($comment->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="productComment.status" method="changeStatus"
+                                                      name="نظر" :model="$comment" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('productComment.show', $comment->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <x-panel-a-tag route="{{ route('productComment.show', $comment->id) }}"
+                                                   title="نمایش نظر"
+                                                   icon="eye" color="info"/>
 
-                                    @if($comment->approved == 0)
-                                        <a href="{{ route('productComment.approved', $comment->id)}} "
-                                           class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i></a>
+                                    @if($comment->approved == 1)
+                                        <x-panel-a-tag route="{{ route('productComment.approved', $comment->id) }}"
+                                                       title="عدم تایید نظر"
+                                                       icon="clock" color="warning"/>
                                     @else
-                                        <a href="{{ route('productComment.approved', $comment->id)}}"
-                                           class="btn btn-success btn-sm text-white" type="submit"><i
-                                                class="fa fa-check"></i></a>
+                                        <x-panel-a-tag route="{{ route('productComment.approved', $comment->id) }}"
+                                                       title="تایید نظر"
+                                                       icon="check" color="success"/>
                                     @endif
                                 </td>
 

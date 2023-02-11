@@ -8,10 +8,10 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-12"><a href="#"> خانه</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-12"><a href="#"> پرداخت</a></li>
-            <li class="breadcrumb-item font-size-12 active" aria-current="page"> نمایش پرداخت</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> پرداخت</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش پرداخت</li>
         </ol>
     </nav>
 
