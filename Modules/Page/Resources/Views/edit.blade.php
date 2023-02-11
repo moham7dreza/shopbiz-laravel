@@ -32,15 +32,15 @@
                 <section>
                     <form action="{{ route('page.update', $page->id) }}" method="post" id="form">
                         @csrf
-                        {{ method_field('put') }}
-
+                        @method('put')
                         <section class="row">
-
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="title" label="عنوان"
-                                           message="{{ $message ?? null }}" method="edit" :model="$page" />
+                                           :message="$message" method="edit" :model="$page"/>
                             <x-panel-text-area col="10" name="body" label="محتوی" rows="12"
-                                               message="{{ $message ?? null }}" method="edit" :model="$page" />
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}" method="edit" :model="$page" />
+                                               :message="$message" method="edit" :model="$page"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit"
+                                            :model="$page"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

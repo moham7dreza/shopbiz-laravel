@@ -7,7 +7,7 @@
             @if($method == 'create')
                 {{ old($name) }}
             @else
-                {{ old($name, $model->$name) }}
+                {{ old($name, $old ?? $model->$name) }}
             @endif
         </textarea>
     </div>

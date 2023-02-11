@@ -10,6 +10,7 @@ use Modules\Share\Components\Panel\Checkbox;
 use Modules\Share\Components\Panel\DeleteForm;
 use Modules\Share\Components\Panel\File;
 use Modules\Share\Components\Panel\MultiSelection;
+use Modules\Share\Components\Panel\SearchForm;
 use Modules\Share\Components\Panel\Section;
 use Modules\Share\Components\Panel\SelectBox;
 use Modules\Share\Components\Panel\Status;
@@ -115,6 +116,7 @@ class ShareServiceProvider extends ServiceProvider
             ATag::class,
             DeleteForm::class,
             Checkbox::class,
+            SearchForm::class,
         ]);
     }
 

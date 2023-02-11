@@ -33,6 +33,7 @@
                     <form action="{{ route('attributeValue.store', $attribute->id) }}" method="POST">
                         @csrf
                         <section class="row">
+                            @php $message = $message ?? null @endphp
                             <x-panel-section col="5" id="attribute-name" label="نام فرم کالا"
                                              text="{{ $attribute->name }}"/>
                             <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
@@ -40,11 +41,11 @@
                             <section class="col-12 border-bottom mb-3"></section>
 
                             <x-panel-select-box col="10" name="product_id" label="انتخاب محصول"
-                                                message="{{ $message ?? null }}" :collection="$products"
+                                                :message="$message" :collection="$products"
                                                 property="name"/>
-                            <x-panel-input col="10" name="value" label="مقدار" message="{{ $message ?? null }}" />
-                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" message="{{ $message ?? null }}" />
-                            <x-panel-status col="10" name="type" label="نوع" message="{{ $message ?? null }}" />
+                            <x-panel-input col="10" name="value" label="مقدار" :message="$message" />
+                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message" />
+                            <x-panel-status col="10" name="type" label="نوع" :message="$message" />
                             <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>

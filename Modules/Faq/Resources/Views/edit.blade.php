@@ -33,12 +33,12 @@
                         @csrf
                         @method('put')
                         <section class="row">
-
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="question" label="پرسش"
-                                           message="{{ $message ?? null }}" method="edit" :model="$faq"/>
+                                           :message="$message" method="edit" :model="$faq"/>
                             <x-panel-text-area col="10" name="answer" label="پاسخ" rows="12"
-                                               message="{{ $message ?? null }}" method="edit" :model="$faq"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"
+                                               :message="$message" method="edit" :model="$faq"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"
                                             method="edit" :model="$faq"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

@@ -34,16 +34,16 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="name" label="نام روش ارسال"
-                                           message="{{ $message ?? null }}" method="edit" :model="$delivery"/>
+                                           :message="$message" method="edit" :model="$delivery"/>
                             <x-panel-input col="10" name="amount" label="هزینه روش ارسال"
-                                           message="{{ $message ?? null }}" method="edit" :model="$delivery"/>
+                                           :message="$message" method="edit" :model="$delivery"/>
                             <x-panel-input col="10" name="delivery_time" label="زمان ارسال"
-                                           message="{{ $message ?? null }}" method="edit" :model="$delivery"/>
+                                           :message="$message" method="edit" :model="$delivery"/>
                             <x-panel-input col="10" name="delivery_time_unit" label="واحد زمان ارسال"
-                                           message="{{ $message ?? null }}" method="edit" :model="$delivery"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                                           :message="$message" method="edit" :model="$delivery"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
                             <x-panel-button col="12" title="ثبت"/>
 
                         </section>

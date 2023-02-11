@@ -33,9 +33,10 @@
                     <form action="{{ route('role.store') }}" method="post">
                         @csrf
                         <section class="row">
-                            <x-panel-input col="10" name="name" label="عنوان نقش" message="{{ $message ?? null }}" />
-                            <x-panel-input col="10" name="description" label="توضیحات نقش" message="{{ $message ?? null }}" />
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}" />
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="عنوان نقش" :message="$message" />
+                            <x-panel-input col="10" name="description" label="توضیحات نقش" :message="$message" />
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" />
                             <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>

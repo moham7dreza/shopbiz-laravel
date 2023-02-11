@@ -37,6 +37,7 @@
 
                             <section class="col-12">
                                 <section class="row border-top mt-3 py-3">
+                                    @php $message = $message ?? null @endphp
                                     <x-panel-section col="5" id="role-name" label="نام نقش" text="{{ $role->name }}"/>
                                     <x-panel-section col="5" id="role-brief" label="توضیح نقش"
                                                      text="{{ $role->description }}"/>
@@ -44,7 +45,7 @@
                                     <section class="col-12 border-bottom mb-3"></section>
 
                                     <x-panel-multi-selection col="12" label="سطوح دسترسی" name="permissions"
-                                                             message="{{ $message ?? null }}" :items="$permissions"
+                                                             :message="$message" :items="$permissions"
                                                              :related="$role"/>
                                     <x-panel-button col="12" title="ثبت" />
                                 </section>

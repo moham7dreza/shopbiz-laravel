@@ -37,12 +37,13 @@
 
                             <section class="col-12">
                                 <section class="row border-top mt-3 py-3">
+                                    @php $message = $message ?? null @endphp
                                     <x-panel-section col="5" id="attribute-name" label="نام فرم کالا" text="{{ $attribute->name }}"/>
                                     <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
 
                                     <section class="col-12 border-bottom mb-3"></section>
                                     <x-panel-multi-selection col="12" label="دسته بندی ها" name="categories"
-                                                             message="{{ $message ?? null }}" :items="$categories"
+                                                             :message="$message" :items="$categories"
                                                              :related="$attribute"/>
                                     <x-panel-button col="12" title="ثبت" />
                                 </section>

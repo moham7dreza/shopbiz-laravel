@@ -37,6 +37,7 @@
                         @csrf
                         @method('put')
                         <section class="row">
+                            @php $message = $message ?? null @endphp
                             <x-panel-section col="5" id="attribute-name" label="نام فرم کالا"
                                              text="{{ $attribute->name }}"/>
                             <x-panel-section col="5" id="attribute-unit" label="واحد" text="{{ $attribute->unit }}"/>
@@ -44,43 +45,16 @@
                             <section class="col-12 border-bottom mb-3"></section>
 
                             <x-panel-select-box col="6" name="product_id" label="انتخاب محصول"
-                                                message="{{ $message ?? null }}" :collection="$products" method="edit"
-                                                :model="$value" property="name" />
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">مقدار</label>
-                                    <input type="text" name="value"
-                                           value="{{ old('value', json_decode($value->value)->value ) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('value')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">افزایش قیمت</label>
-                                    <input type="text" name="price_increase"
-                                           value="{{ old('price_increase', json_decode($value->value)->price_increase ) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('price_increase')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <x-panel-status col="10" name="type" label="نوع" message="{{ $message ?? null }}" method="edit" :model="$value" />
-                            <x-panel-button col="12" title="ثبت" />
+                                                :message="$message" :collection="$products" method="edit"
+                                                :model="$value" property="name"/>
+                            <x-panel-input col="10" name="value" label="مقدار" :old="json_decode($value->value)->value"
+                                           :message="$message" method="edit" :model="$setting"/>
+                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت"
+                                           :old="json_decode($value->value)->price_increase"
+                                           :message="$message" method="edit" :model="$setting"/>
+                            <x-panel-status col="10" name="type" label="نوع" :message="$message" method="edit"
+                                            :model="$value"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

@@ -11,6 +11,7 @@ use Illuminate\View\Component;
 class Input extends Component
 {
     public string $name;
+    public ?string $old;
     public string $label;
     public ?string $message;
     public string $col;
@@ -24,7 +25,7 @@ class Input extends Component
      *
      * @return void
      */
-    public function __construct($name, $label, $col, $message, $type = 'text', $method = 'create', $model = null, $class = null,)
+    public function __construct($name, $label, $col, $message = null, $type = 'text', $method = 'create', $model = null, $class = null, $old = null)
     {
         $this->name = $name;
         $this->label = $label;
@@ -34,6 +35,7 @@ class Input extends Component
         $this->method = $method;
         $this->class = $class;
         $this->type = $type;
+        $this->old = $old;
     }
 
     /**

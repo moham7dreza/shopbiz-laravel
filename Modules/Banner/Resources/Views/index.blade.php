@@ -14,8 +14,6 @@
         </ol>
     </nav>
 
-
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -28,11 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('banner.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text"
-                                   placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('banner.index') }}" />
                     </div>
                 </section>
 

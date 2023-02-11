@@ -34,11 +34,12 @@
                         @csrf
                         @method('put')
                         <section class="row">
-                            <x-panel-input col="10" name="name" label="نام فرم" message="{{ $message ?? null }}"
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام فرم" :message="$message"
                                            method="edit" :model="$attribute"/>
                             <x-panel-input col="10" name="unit" label="واحد اندازه گیری"
-                                           message="{{ $message ?? null }}" method="edit" :model="$attribute"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"
+                                           :message="$message" method="edit" :model="$attribute"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"
                                             method="edit" :model="$attribute"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>

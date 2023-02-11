@@ -32,13 +32,13 @@
                 <section>
                     <form action="{{ route('faq.store') }}" method="post" id="form">
                         @csrf
-
                         <section class="row">
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="question" label="پرسش"
-                                           message="{{ $message ?? null }}"/>
+                                           :message="$message"/>
                             <x-panel-text-area col="10" name="answer" label="پاسخ" rows="12"
-                                               message="{{ $message ?? null }}"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                                               :message="$message"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

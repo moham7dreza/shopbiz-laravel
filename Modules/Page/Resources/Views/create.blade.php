@@ -33,11 +33,12 @@
                     <form action="{{ route('page.store') }}" method="post" id="form">
                         @csrf
                         <section class="row">
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="title" label="عنوان"
-                                           message="{{ $message ?? null }}"/>
+                                           :message="$message"/>
                             <x-panel-text-area col="10" name="body" label="محتوی" rows="12"
-                                               message="{{ $message ?? null }}"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                                               :message="$message"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

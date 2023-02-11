@@ -35,13 +35,15 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
+                            @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="original_name" label="نام اصلی برند"
-                                           message="{{ $message ?? null }}" method="edit" :model="$brand"/>
+                                           :message="$message" method="edit" :model="$brand"/>
                             <x-panel-input col="10" name="persian_name" label="نام فارسی برند"
-                                           message="{{ $message ?? null }}" method="edit" :model="$brand"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}" method="edit" :model="$brand"/>
+                                           :message="$message" method="edit" :model="$brand"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message" method="edit"
+                                            :model="$brand"/>
                             <x-panel-input col="10" type="file" name="logo" label="تصویر برند"
-                                           message="{{ $message ?? null }}" method="edit" :model="$brand"/>
+                                           :message="$message" method="edit" :model="$brand"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

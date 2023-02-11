@@ -32,10 +32,11 @@
                     <form action="{{ route('attribute.store') }}" method="POST">
                         @csrf
                         <section class="row">
-                            <x-panel-input col="10" name="name" label="نام فرم" message="{{ $message ?? null }}"/>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام فرم" :message="$message"/>
                             <x-panel-input col="10" name="unit" label="واحد اندازه گیری"
-                                           message="{{ $message ?? null }}"/>
-                            <x-panel-status col="10" name="status" label="وضعیت" message="{{ $message ?? null }}"/>
+                                           :message="$message"/>
+                            <x-panel-status col="10" name="status" label="وضعیت" :message="$message"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

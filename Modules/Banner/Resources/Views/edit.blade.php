@@ -34,20 +34,21 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-                            <x-panel-input col="6" name="title" label="عنوان بنر" message="{{ $message ?? null }}"
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="6" name="title" label="عنوان بنر" :message="$message"
                                            method="edit" :model="$banner"/>
 
                             <x-panel-input col="6" type="file" name="image" label="تصویر بنر"
-                                           message="{{ $message ?? null }}" method="edit" :model="$banner"/>
+                                           :message="$message" method="edit" :model="$banner"/>
 
-                            <x-panel-status col="6" name="status" label="وضعیت بنر" message="{{ $message ?? null }}"
+                            <x-panel-status col="6" name="status" label="وضعیت بنر" :message="$message"
                                             method="edit" :model="$banner"/>
 
                             <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr"
-                                           message="{{ $message ?? null }}" method="edit" :model="$banner"/>
+                                           :message="$message" method="edit" :model="$banner"/>
 
                             <x-panel-select-box col="6" name="position" label="موقعیت بنر"
-                                                message="{{ $message ?? null }}" :arr="$positions" method="edit"
+                                                :message="$message" :arr="$positions" method="edit"
                                                 :model="$banner"/>
 
                             <x-panel-button col="12" title="ثبت"/>
