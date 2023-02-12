@@ -9,12 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">منو</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('menu.index') }}"> منو</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد منو</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -33,78 +32,17 @@
                     <form action="{{ route('menu.store') }}" method="post">
                         @csrf
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان منو</label>
-                                    <input type="text" name="name" class="form-control form-control-sm"
-                                           value="{{ old('name') }}">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="parent_id">منو والد</label>
-                                    <select name="parent_id" id="parent_id" class="form-control form-control-sm">
-                                        <option value="">منوی اصلی</option>
-                                        @foreach ($menus as $menu)
-                                            <option value="{{ $menu->id }}"
-                                                    @if(old('parent_id') == $menu->id) selected @endif>{{ $menu->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('parent_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">آدرس URL</label>
-                                    <input type="text" name="url" value="{{ old('url') }}"
-                                           class="form-control form-control-sm dir-ltr">
-                                </div>
-                                @error('url')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
-                                        <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="عنوان منو"
+                                           :message="$message"/>
+                            <x-panel-select-box col="10" name="parent_id" label="منو والد"
+                                                :message="$message" :collection="$menus"
+                                                property="name" option="منوی اصلی"/>
+                            <x-panel-input col="10" name="url" label="آدرس URL" class="dir-ltr text-left"
+                                           :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -116,7 +54,7 @@
 @endsection
 @section('script')
     <script>
-        var parent_id = $('#parent_id');
+        const parent_id = $('#parent_id');
         parent_id.select2({
             // placeholder: 'لطفا منو را وارد نمایید',
             multiple: false,

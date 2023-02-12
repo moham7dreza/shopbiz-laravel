@@ -2,6 +2,7 @@
 
 namespace Modules\Notify\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -51,6 +52,14 @@ class Email extends Model
     public function getLimitedBody(int $size = 50): string
     {
         return Str::limit($this->body, $size);
+    }
+
+    /**
+     * @return bool
+     */
+    public function sentStatus(): bool
+    {
+        return $this->published_at < Carbon::now() && $this->status == $this->statusActive();
     }
 
     // ********************************************* paths

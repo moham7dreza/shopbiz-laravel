@@ -1,8 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>ایجاد فایل اطلاعیه ایمیلی</title>
-    <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    <title>ویرایش فایل اطلائیه ایمیلی</title>
 @endsection
 
 @section('content')
@@ -11,8 +10,11 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاعیه ایمیلی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد فایل اطلاعیه ایمیلی</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('email.index', $file->email->id) }}"> اطلائیه
+                    ایمیلی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('email-file.index', $file->email->id) }}"> فایل های
+                    اطلائیه ایمیلی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش فایل اطلائیه ایمیلی</li>
         </ol>
     </nav>
 
@@ -22,7 +24,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        ایجاد فایل اطلاعیه ایمیلی
+                        ویرایش فایل اطلائیه ایمیلی
                     </h5>
                 </section>
 
@@ -37,45 +39,13 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="file">فایل</label>
-                                    <input type="file" class="form-control form-control-sm" name="file" id="file">
-                                </div>
-                                @error('file')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $file->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $file->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" type="file" name="file" label="فایل"
+                                           :message="$message" method="edit" :model="$file"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$file"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -85,30 +55,3 @@
     </section>
 
 @endsection
-@section('script')
-
-    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
-    <script>
-        CKEDITOR.replace('body');
-    </script>
-
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#published_at_view').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                altField: '#published_at',
-                timePicker: {
-                    enabled: true,
-                    meridiem: {
-                        enabled: true
-                    }
-                }
-            })
-        });
-    </script>
-
-@endsection
-
-

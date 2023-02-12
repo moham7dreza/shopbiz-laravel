@@ -35,20 +35,20 @@
                         @method('PUT')
                         <section class="row">
                             @php $message = $message ?? null @endphp
-                            <x-panel-input col="6" name="title" label="عنوان بنر" :message="$message"
+                            <x-panel-input col="10" name="title" label="عنوان بنر" :message="$message"
                                            method="edit" :model="$banner"/>
 
-                            <x-panel-input col="6" type="file" name="image" label="تصویر بنر"
+                            <x-panel-input col="10" type="file" name="image" label="تصویر بنر"
                                            :message="$message" method="edit" :model="$banner"/>
 
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"
                                                 :model="$banner"/>
 
-                            <x-panel-input col="6" name="url" label="آدرس URL" class="dir-ltr"
+                            <x-panel-input col="10" name="url" label="آدرس URL" class="dir-ltr text-left"
                                            :message="$message" method="edit" :model="$banner"/>
 
-                            <x-panel-select-box col="6" name="position" label="موقعیت بنر"
+                            <x-panel-select-box col="10" name="position" label="موقعیت بنر"
                                                 :message="$message" :arr="$positions" method="edit"
                                                 :model="$banner"/>
 

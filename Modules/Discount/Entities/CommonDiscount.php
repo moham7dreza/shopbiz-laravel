@@ -35,7 +35,7 @@ class CommonDiscount extends Model
         return $query->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', CommonDiscount::STATUS_ACTIVE]
+            ['status', $this->statusActive()]
         ]);
     }
 
@@ -57,7 +57,7 @@ class CommonDiscount extends Model
      */
     public function activated(): bool
     {
-        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == CommonDiscount::STATUS_ACTIVE;
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == $this->statusActive();
     }
 
     // ********************************************* paths

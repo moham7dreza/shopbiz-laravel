@@ -9,12 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">منو</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#">بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('menu.index') }}"> منو</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش منو</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -32,87 +31,20 @@
                 <section>
                     <form action="{{ route('menu.update', $menu->id) }}" method="post">
                         @csrf
-                        {{ method_field('put') }}
-
+                        @method('put')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان منو</label>
-                                    <input type="text" name="name" class="form-control form-control-sm"
-                                           value="{{ old('name', $menu->name) }}">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">منو والد</label>
-                                    <select name="parent_id" class="form-control form-control-sm">
-                                        <option value="">منوی اصلی</option>
-                                        @foreach ($parent_menus as $parent_menu)
-
-                                            <option value="{{ $parent_menu->id }}"
-                                                    @if(old('parent_id', $menu->parent_id) == $parent_menu->id) selected @endif>{{ $parent_menu->name }}</option>
-
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('parent_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">آدرس URL</label>
-                                    <input type="text" name="url" value="{{ old('url', $menu->url) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('url')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $menu->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $menu->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="عنوان منو"
+                                           :message="$message" method="edit" :model="$menu"/>
+                            <x-panel-select-box col="10" name="parent_id" label="منو والد"
+                                                :message="$message" :collection="$parent_menus"
+                                                option="منوی اصلی" property="name" method="edit" :model="$menu"/>
+                            <x-panel-input col="10" name="url" label="آدرس URL" class="dir-ltr text-left"
+                                           :message="$message" method="edit" :model="$menu"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$menu"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -121,4 +53,14 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script>
+        const parent_id = $('#parent_id');
+        parent_id.select2({
+            // placeholder: 'لطفا منو را وارد نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

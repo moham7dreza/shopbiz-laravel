@@ -95,9 +95,7 @@
 
                         <section class="header-comment-wrapper">
                             <ul class="list-group rounded px-0">
-
                                 @foreach ($unseenComments as $unseenComment)
-
                                     <li class="list-group-item list-groupt-item-action">
                                     <section class="media">
                                         <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar"
@@ -111,10 +109,7 @@
                                         </section>
                                     </section>
                                 </li>
-
                                 @endforeach
-
-
                             </ul>
                         </section>
 

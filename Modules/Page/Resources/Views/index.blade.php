@@ -52,7 +52,7 @@
                                 <td>{{ $page->slug }}</td>
                                 <td>
                                     <x-panel-checkbox class="rounded" route="page.status" method="changeStatus"
-                                                      name="دسترسی" :model="$page" property="status"/>
+                                                      name="پیج ساز" :model="$page" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('page.edit', $page->id) }}"

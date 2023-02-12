@@ -50,7 +50,7 @@
                                 <td>{!! $faq->getLimitedAnswer() !!}</td>
                                 <td>
                                     <x-panel-checkbox class="rounded" route="faq.status" method="changeStatus"
-                                                      name="دسترسی" :model="$faq" property="status"/>
+                                                      name="سوال" :model="$faq" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('faq.edit', $faq->id) }}"

@@ -26,7 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('permission.index') }}" />
+                        <x-panel-search-form route="{{ route('permission.index') }}"/>
                     </div>
                 </section>
 
@@ -58,11 +58,14 @@
                                 </td>
                                 <td>{{ $permission->getLimitedDescription() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="permission.status" method="changeStatus" name="دسترسی" :model="$permission" property="status" />
+                                    <x-panel-checkbox class="rounded" route="permission.status" method="changeStatus"
+                                                      name="دسترسی" :model="$permission" property="status"/>
                                 </td>
                                 <td class="width-12-rem text-left">
-                                    <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}" title="ویرایش آیتم" icon="edit" color="info" />
-                                    <x-panel-delete-form route="{{ route('permission.destroy', $permission->id) }}" title="حذف آیتم" />
+                                    <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}"
+                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('permission.destroy', $permission->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
                         @endforeach

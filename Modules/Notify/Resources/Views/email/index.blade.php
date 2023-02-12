@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>اطلاعیه ایمیلی</title>
+    <title>اطلائیه ایمیلی</title>
 @endsection
 
 @section('content')
@@ -9,29 +9,25 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> اطلاعیه ایمیلی</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> اطلاع رسانی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> اطلائیه ایمیلی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        اطلاعیه ایمیلی
+                        اطلائیه ایمیلی
                     </h5>
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('email.create') }}" class="btn btn-info btn-sm">ایجاد اطلاعیه
+                    <a href="{{ route('email.create') }}" class="btn btn-info btn-sm">ایجاد اطلائیه
                         ایمیلی</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('email.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('email.index') }}"/>
                     </div>
                 </section>
 
@@ -40,48 +36,44 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>عنوان اطلاعیه</th>
+                            <th>عنوان اطلائیه</th>
                             <th>متن ایمیل</th>
                             <th>تاریخ ارسال</th>
+                            <th>ارسال شده</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($emails as $key => $email)
-
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $email->getLimitedSubject() }}</td>
                                 <td>{!! $email->getLimitedBody() !!}</td>
                                 <td>{{ $email->getFaPublishDateWithTime() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $email->id }}" onchange="changeStatus({{ $email->id }}, 'ایمیل')"
-                                               data-url="{{ route('email.status', $email->id) }}"
-                                               type="checkbox" @if ($email->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    @if($email->sentStatus())
+                                        <span class="text-success font-size-16 mr-4"><i class="fa fa-check"></i></span>
+                                    @else
+                                        <span class="text-danger font-size-16 mr-4"><i class="fa fa-times"></i></span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <x-panel-checkbox class="rounded" route="email.status" method="changeStatus"
+                                                      name="ایمیل" :model="$email" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('email-file.index', $email) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-file"></i></a>
-                                    <a href="{{ route('email.edit', $email->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('email.destroy', $email->id) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('email-file.index', $email->id) }}"
+                                                   title="افزودن ضمیمه"
+                                                   icon="file" color="warning"/>
+                                    <x-panel-a-tag route="{{ route('email.edit', $email->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="info"/>
+                                    <x-panel-delete-form route="{{ route('email.destroy', $email->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $emails->links() }}</section>
@@ -90,10 +82,7 @@
             </section>
         </section>
     </section>
-
 @endsection
-
-
 
 @section('script')
 

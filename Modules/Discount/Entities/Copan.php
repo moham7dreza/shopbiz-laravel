@@ -35,7 +35,7 @@ class Copan extends Model
         return $query->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', Copan::STATUS_ACTIVE]
+            ['status', $this->statusActive()]
         ]);
     }
 
@@ -64,7 +64,7 @@ class Copan extends Model
      */
     public function activated(): bool
     {
-        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == Copan::STATUS_ACTIVE;
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == $this->statusActive();
     }
 
     // ********************************************* paths

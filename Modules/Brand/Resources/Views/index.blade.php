@@ -53,7 +53,7 @@
                                 </td>
                                 <td>
                                     <x-panel-checkbox class="rounded" route="brand.status" method="changeStatus"
-                                                      name="دسترسی" :model="$brand" property="status"/>
+                                                      name="برند" :model="$brand" property="status"/>
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('brand.edit', $brand->id) }}" title="ویرایش آیتم"

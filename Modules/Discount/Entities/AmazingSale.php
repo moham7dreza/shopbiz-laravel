@@ -38,7 +38,7 @@ class AmazingSale extends Model
         return $query->where([
             ['start_date', '<', Carbon::now()],
             ['end_date', '>', Carbon::now()],
-            ['status', AmazingSale::STATUS_ACTIVE]
+            ['status', $this->statusActive()]
         ]);
     }
 
@@ -76,7 +76,7 @@ class AmazingSale extends Model
      */
     public function activated(): bool
     {
-        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == AmazingSale::STATUS_ACTIVE;
+        return $this->start_date < Carbon::now() && $this->end_date > Carbon::now() && $this->status == $this->statusActive();
     }
 
     // ********************************************* FA Properties

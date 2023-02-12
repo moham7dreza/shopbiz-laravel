@@ -2,6 +2,7 @@
 
 namespace Modules\Post\Entities;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
@@ -124,6 +125,14 @@ class Post extends Model implements Viewable
     }
 
     // ********************************************* Methods
+
+    /**
+     * @return bool
+     */
+    public function published(): bool
+    {
+        return $this->published_at < Carbon::now();
+    }
 
     /**
      * @param int $size

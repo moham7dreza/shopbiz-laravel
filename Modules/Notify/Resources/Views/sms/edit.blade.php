@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>ویرایش اطلاعیه پیامکی</title>
+    <title>ویرایش اطلائیه پیامکی</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
@@ -10,19 +10,18 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاعیه پیامکی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش اطلاعیه پیامکی</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> اطلاع رسانی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('sms.index') }}"> اطلائیه پیامکی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش اطلائیه پیامکی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        ویرایش اطلاعیه پیامکی
+                        ویرایش اطلائیه پیامکی
                     </h5>
                 </section>
 
@@ -33,94 +32,32 @@
                 <section>
                     <form action="{{ route('sms.update', $sms->id) }}" method="post">
                         @csrf
-                        {{ method_field('put') }}
+                        @method('put')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان پیامک</label>
-                                    <input type="text" name="title" class="form-control form-control-sm"
-                                           value="{{ old('title', $sms->title) }}">
-                                </div>
-                                @error('title')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ انتشار</label>
-                                    <input type="text" name="published_at" id="published_at"
-                                           class="form-control form-control-sm d-none" value="{{ $sms->published_at }}">
-                                    <input type="text" id="published_at_view" class="form-control form-control-sm"
-                                           value={{ $sms->published_at }}>
-                                </div>
-                                @error('published_at')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $sms->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $sms->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">متن پیامک</label>
-                                    <textarea name="body" id="body" class="form-control form-control-sm"
-                                              rows="6">{{ old('body', $sms->body) }}</textarea>
-                                </div>
-                                @error('body')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="title" label="عنوان پیامک"
+                                           :message="$message" method="edit" :model="$sms"/>
+                            <x-panel-input col="10" name="published_at" label="تاریخ انتشار" :date="true" class="d-none"
+                                           :message="$message" method="edit" :model="$sms"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$sms"/>
+                            <x-panel-text-area col="10" name="body" label="متن پیامک" rows="12"
+                                               :message="$message" method="edit" :model="$sms"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
 
-
 @section('script')
-
+    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('body');
+    </script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script>
@@ -137,5 +74,4 @@
             })
         });
     </script>
-
 @endsection

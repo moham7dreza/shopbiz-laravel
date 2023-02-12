@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>ایجاد اطلاعیه ایمیلی</title>
+    <title>ایجاد اطلائیه ایمیلی</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
@@ -10,19 +10,18 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">اطلاعیه ایمیلی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد اطلاعیه ایمیلی</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> اطلاع رسانی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('email.index') }}"> اطلائیه ایمیلی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد اطلائیه ایمیلی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        ایجاد اطلاعیه ایمیلی
+                        ایجاد اطلائیه ایمیلی
                     </h5>
                 </section>
 
@@ -34,80 +33,19 @@
                     <form action="{{ route('email.store') }}" method="post">
                         @csrf
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان ایمیل</label>
-                                    <input type="text" name="subject" class="form-control form-control-sm"
-                                           value="{{ old('subject') }}">
-                                </div>
-                                @error('subject')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ انتشار</label>
-                                    <input type="text" name="published_at" id="published_at"
-                                           class="form-control form-control-sm d-none">
-                                    <input type="text" id="published_at_view" class="form-control form-control-sm">
-                                </div>
-                                @error('published_at')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیرفعال</option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">متن ایمیل</label>
-                                    <textarea name="body" id="body" class="form-control form-control-sm"
-                                              rows="6">{{ old('body') }}</textarea>
-                                </div>
-                                @error('body')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="subject" label="عنوان ایمیل"
+                                           :message="$message"/>
+                            <x-panel-input col="10" name="published_at" label="تاریخ انتشار" :date="true" class="d-none"
+                                           :message="$message"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true"/>
+                            <x-panel-text-area col="10" name="body" label="متن ایمیل" rows="12"
+                                               :message="$message"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
-
             </section>
         </section>
     </section>
@@ -138,5 +76,3 @@
     </script>
 
 @endsection
-
-

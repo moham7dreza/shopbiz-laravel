@@ -162,7 +162,7 @@ class NotifyServiceProvider extends ServiceProvider
     private function setMenuForPanel(): void
     {
         config()->set('panelConfig.menus.notify.email', [
-            'title' => 'اطلاعیه',
+            'title' => 'اطلائیه',
             'icon' => 'fa-mail-bulk',
             'url' => route('email.index'),
         ]);
