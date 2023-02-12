@@ -14,7 +14,6 @@
         </ol>
     </nav>
 
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="#" class="btn btn-info btn-sm disabled">ایجاد تیکت </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('ticket.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('ticket.index') }}"/>
                     </div>
                 </section>
 
@@ -51,7 +47,6 @@
                         <tbody>
 
                         @foreach ($tickets as $ticket)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $ticket->getUserName() }}</td>
@@ -61,18 +56,15 @@
                                 <td>{{ $ticket->getReferenceName() }}</td>
                                 <td>{{ $ticket->getParentTitle() }}</td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-info btn-sm"><i
-                                            class="fa fa-eye"></i></a>
-                                    <a href="{{ route('ticket.change', $ticket->id) }}"
-                                       class="btn btn-{{ $ticket->cssStatus() }} btn-sm"><i
-                                            class="fa fa-{{ $ticket->iconStatus() }}"></i>
-                                    </a>
+                                    <x-panel-a-tag route="{{ route('ticket.show', $ticket->id) }}"
+                                                   title="نمایش تیکت"
+                                                   icon="eye" color="info"/>
+                                    <x-panel-a-tag route="{{ route('ticket.change', $ticket->id) }}"
+                                                   title="تغییر وضعیت تیکت"
+                                                   icon="{{ $ticket->iconStatus() }}" color="{{ $ticket->cssStatus() }}"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $tickets->links() }}</section>
@@ -81,5 +73,4 @@
             </section>
         </section>
     </section>
-
 @endsection

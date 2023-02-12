@@ -48,7 +48,7 @@
                             @csrf
                             <section class="row">
                                 @php $message = $message ?? null @endphp
-                                <x-panel-text-area col="12" name="body" label="پاسخ ادمین" rows="12"
+                                <x-panel-text-area col="12" name="body" label="پاسخ ادمین" rows="12" class="p-1"
                                                    :message="$message"/>
                                 <x-panel-button col="12" title="ثبت"/>
                             </section>

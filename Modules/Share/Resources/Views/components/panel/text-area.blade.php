@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="{{ $name }}">{{ $label }}</label>
         <textarea name="{{ $name }}" id="{{ $name }}"
-                  class="form-control form-control-sm @error($name) is-invalid @enderror {{ $class }}"
+                  class="form-control form-control-sm p-3 @error($name) is-invalid @enderror {{ $class }}"
                   rows="{{ $rows }}" {{ $attributes }}>@if($method == 'create')
                 {{ old($name) }}
             @else

@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>نمایش تیکت ها</title>
+    <title>نمایش تیکت</title>
 @endsection
 
 @section('content')
@@ -10,18 +10,17 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#"> تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش تیکت ها</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('ticket.index') }}"> تیکت ها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش تیکت</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        نمایش تیکت ها
+                        نمایش تیکت
                     </h5>
                 </section>
 
@@ -47,22 +46,10 @@
                         @csrf
                         <section class="row">
                             <section class="col-12">
-                                <div class="form-group">
-                                    <label for="description">پاسخ تیکت </label>
-                                    <textarea class="form-control form-control-sm" rows="4"
-                                              name="description">{{ old('description') }}</textarea>
-                                </div>
-                                @error('description')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                                @php $message = $message ?? null @endphp
+                                <x-panel-text-area col="12" name="description" label="پاسخ تیکت" rows="12"
+                                                   :message="$message"/>
+                                <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -70,5 +57,4 @@
             </section>
         </section>
     </section>
-
 @endsection

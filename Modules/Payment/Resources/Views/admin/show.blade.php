@@ -10,11 +10,10 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#"> پرداخت</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('payment.index') }}"> پرداخت</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> نمایش پرداخت</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">

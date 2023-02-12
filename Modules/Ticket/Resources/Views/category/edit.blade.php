@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>دسته بندی</title>
+    <title>ویرایش دسته بندی</title>
 @endsection
 
 @section('content')
@@ -9,12 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">دسته بندی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش تیکت ها</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('ticketCategory.index') }}"> دسته بندی</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش دسته بندی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -30,63 +29,20 @@
                 </section>
 
                 <section>
-
                     <form action="{{ route('ticketCategory.update', $ticketCategory->id) }}" method="post">
                         @csrf
-                        {{ method_field('put') }}
+                        @method('put')
                         <section class="row">
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="name">نام دسته</label>
-                                    <input type="text" class="form-control form-control-sm" name="name" id="name"
-                                           value="{{ old('name', $ticketCategory->name) }}">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0"
-                                                @if (old('status', $ticketCategory->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('status', $ticketCategory->status) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </section>
-                        </section>
-
-
-                        <section class="col-12">
-
-                            <section class="col-12 my-3">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام دسته"
+                                           :message="$message" method="edit" :model="$ticketCategory"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit" :model="$ticketCategory"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection

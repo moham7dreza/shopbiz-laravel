@@ -14,7 +14,6 @@
         </ol>
     </nav>
 
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a class="btn btn-info btn-sm disabled">ایجاد ادمین تیکت </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('ticket-admin.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('ticket-admin.index') }}"/>
                     </div>
                 </section>
 
@@ -46,22 +42,18 @@
                         </thead>
                         <tbody>
                         @foreach ($admins as $key => $admin)
-
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $admin->fullName }}</td>
                                 <td>{{ $admin->email }}</td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('ticket-admin.set', $admin->id) }}"
-                                       class="btn btn-{{ $admin->ticketCssStatus() }} btn-sm"><i
-                                            class="fa fa-{{ $admin->ticketIconStatus() }}"></i>
-                                    </a>
+                                    <x-panel-a-tag route="{{ route('ticket-admin.set', $admin->id) }}"
+                                                   title="{{ $admin->ticketCssStatus() == 'success' ? 'اضافه به لیست ادمین تیکت ها' : 'حذف از لیست ادمین تیکت ها' }}"
+                                                   icon="{{ $admin->ticketIconStatus() }}"
+                                                   color="{{ $admin->ticketCssStatus() }}"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $admins->links() }}</section>
@@ -70,5 +62,4 @@
             </section>
         </section>
     </section>
-
 @endsection

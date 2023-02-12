@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">تگ</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش مشترک</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('tag.index') }}"> تگ</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش تگ</li>
         </ol>
     </nav>
@@ -32,63 +32,17 @@
                 <section>
                     <form action="{{ route('tag.update', $tag->id) }}" method="POST" id="form">
                         @csrf
-                        {{ method_field('put') }}
+                        @method('put')
                         <section class="row">
 
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="name">عنوان تگ</label>
-                                    <input type="text" class="form-control form-control-sm" name="name"
-                                           value="{{ old('name', $tag->name) }}">
-                                </div>
-                                @error('name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="type">عنوان تگ</label>
-                                    <input type="text" class="form-control form-control-sm" name="type"
-                                           value="{{ old('type', $tag->type) }}">
-                                </div>
-                                @error('type')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $tag->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $tag->status) == 1) selected @endif>
-                                            فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="عنوان تگ"
+                                           :message="$message" method="edit" :model="$tag"/>
+                            <x-panel-input col="10" name="type" label="نوع تگ"
+                                           :message="$message" method="edit" :model="$tag"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit" :model="$tag"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
