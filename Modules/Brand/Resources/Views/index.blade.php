@@ -57,7 +57,7 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('brand.edit', $brand->id) }}" title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('brand.destroy', $brand->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

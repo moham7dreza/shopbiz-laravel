@@ -1,9 +1,9 @@
 <section class="col-12 col-md-{{ $col }}">
     <div class="form-group">
         <label for="{{ $name }}">{{ $label }}</label>
-        <select multiple class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror" id="{{ $name }}"
+        <select multiple class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror"
+                id="{{ $name }}"
                 name="{{ $name }}[]" {{ $attributes }}>
-
             @foreach ($items as $item)
                 <option value="{{ $item->id }}"
                         @foreach ($related->$name as $related_item)
@@ -14,7 +14,6 @@
                     {{ $item->name }}
                 </option>
             @endforeach
-
         </select>
     </div>
     @error($name)

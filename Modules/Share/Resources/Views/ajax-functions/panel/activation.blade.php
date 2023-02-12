@@ -1,6 +1,6 @@
 <script type="text/javascript">
     function changeActive(id, name) {
-        var element = $("#" + id + '-active')
+        var element = $("#" + id)
         var url = element.attr('data-url')
         var elementValue = !element.prop('checked');
 

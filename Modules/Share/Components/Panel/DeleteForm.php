@@ -21,7 +21,7 @@ class DeleteForm extends Component
      *
      * @return void
      */
-    public function __construct($route, $color = 'danger', $icon = 'trash-alt', $title = null, $text = null, $class = null,)
+    public function __construct($route, $color = 'outline-danger', $icon = 'trash-alt', $title = null, $text = null, $class = null,)
     {
         $this->title = $title;
         $this->route = $route;

@@ -67,7 +67,7 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('postCategory.edit', $postCategory->id) }}"
                                                    title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('postCategory.destroy', $postCategory->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

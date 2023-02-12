@@ -61,8 +61,8 @@
                                     <x-panel-checkbox class="rounded" route="role.status" method="changeStatus" name="نقش" :model="$role" property="status" />
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}" title="سطوح دسترسی نقش" icon="user-graduate" color="success" />
-                                    <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم" icon="edit" color="info" />
+                                    <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}" title="سطوح دسترسی نقش" icon="user-graduate" color="outline-success" />
+                                    <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم" icon="edit" color="outline-info" />
                                     <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}" title="حذف آیتم" />
                                 </td>
                             </tr>

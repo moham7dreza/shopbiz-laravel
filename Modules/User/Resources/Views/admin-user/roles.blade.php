@@ -9,12 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش کاربران</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">کاربران ادمین</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('adminUser.index') }}"> کاربران ادمین</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد نقش ادمین</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -34,36 +33,17 @@
                           enctype="multipart/form-data">
                         @csrf
                         <section class="row">
+                            @php $message = $message ?? null @endphp
+                            <x-panel-section col="5" id="admin-name" label="نام کاربر" text="{{ $admin->fullName }}"/>
+                            <x-panel-section col="5" id="admin-email" label="ایمیل کاربر"
+                                             text="{{ $admin->email }}"/>
 
+                            <section class="col-12 border-bottom mb-3"></section>
 
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="tags">نقش ها</label>
-                                    <select multiple class="form-control form-control-sm" id="select_roles"
-                                            name="roles[]">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" @foreach ($admin->roles as $user_role)
-                                                @if($user_role->id === $role->id)
-                                                    selected
-                                                @endif
-                                                @endforeach>{{ $role->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('tags')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-multi-selection col="12" label="نقش ها" name="roles"
+                                                     :message="$message" :items="$roles"
+                                                     :related="$admin"/>
+                            <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>
                 </section>
@@ -77,8 +57,8 @@
 @section('script')
 
     <script>
-        var select_roles = $('#select_roles');
-        select_roles.select2({
+        const roles = $('#roles');
+        roles.select2({
             placeholder: 'لطفا نقش ها را وارد نمایید',
             multiple: true,
             tags: true

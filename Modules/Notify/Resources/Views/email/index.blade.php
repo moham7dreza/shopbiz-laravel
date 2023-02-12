@@ -65,10 +65,10 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('email-file.index', $email->id) }}"
                                                    title="افزودن ضمیمه"
-                                                   icon="file" color="warning"/>
+                                                   icon="file" color="outline-warning"/>
                                     <x-panel-a-tag route="{{ route('email.edit', $email->id) }}"
                                                    title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('email.destroy', $email->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

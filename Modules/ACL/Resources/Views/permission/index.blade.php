@@ -63,7 +63,7 @@
                                 </td>
                                 <td class="width-12-rem text-left">
                                     <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('permission.destroy', $permission->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

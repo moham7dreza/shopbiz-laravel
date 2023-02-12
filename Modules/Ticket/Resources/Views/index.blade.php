@@ -58,7 +58,7 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('ticket.show', $ticket->id) }}"
                                                    title="نمایش تیکت"
-                                                   icon="eye" color="info"/>
+                                                   icon="eye" color="outline-info"/>
                                     <x-panel-a-tag route="{{ route('ticket.change', $ticket->id) }}"
                                                    title="تغییر وضعیت تیکت"
                                                    icon="{{ $ticket->iconStatus() }}" color="{{ $ticket->cssStatus() }}"/>

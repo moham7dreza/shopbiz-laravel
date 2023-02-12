@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش کاربران</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> کاربران ادمین</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('adminUser.create') }}" class="btn btn-info btn-sm">ایجاد ادمین جدید</a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('adminUser.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('adminUser.index') }}"/>
                     </div>
                 </section>
 
@@ -51,9 +47,7 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                        @foreach ($adminUsers as $key => $admin)
-
+                        @foreach ($adminUsers as $admin)
                             <tr>
                                 <th>{{ $admin->getFaId() }}</th>
                                 <td>{{ $admin->email }}</td>
@@ -61,22 +55,13 @@
                                 <td>{{ $admin->first_name }}</td>
                                 <td>{{ $admin->last_name }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $admin->id }}-active" onchange="changeActive({{ $admin->id }}, 'ادمین')"
-                                               data-url="{{ route('adminUser.activation', $admin->id) }}"
-                                               type="checkbox" @if ($admin->activation === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="customerUser.activation"
+                                                      method="changeActive" uniqueId="active"
+                                                      name="ادمین" :model="$admin" property="activation"/>
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $admin->id }}" onchange="changeStatus({{ $admin->id }}, 'ادمین')"
-                                               data-url="{{ route('adminUser.status', $admin->id) }}"
-                                               type="checkbox" @if ($admin->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="customerUser.status" method="changeStatus"
+                                                      name="ادمین" :model="$admin" property="status"/>
                                 </td>
                                 <td>
                                     @forelse($admin->roles as $role)
@@ -101,25 +86,20 @@
                                     @endforelse
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('adminUser.permissions', $admin->id) }}"
-                                       class="btn btn-warning btn-sm"><i class="fa fa-user-shield"></i></a>
-                                    <a href="{{ route('adminUser.roles', $admin->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-user-check"></i></a>
-                                    <a href="{{ route('adminUser.edit', $admin->id) }}"
-                                       class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    <form class="d-inline" action="{{ route('adminUser.destroy', $admin->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i></button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('adminUser.permissions', $admin->id) }}"
+                                                   title="سطوح دسترسی کاربر"
+                                                   icon="user-check" color="outline-warning"/>
+                                    <x-panel-a-tag route="{{ route('adminUser.roles', $admin->id) }}"
+                                                   title="نقش های کاربر"
+                                                   icon="user-shield" color="outline-primary"/>
+                                    <x-panel-a-tag route="{{ route('adminUser.edit', $admin->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="outline-info"/>
+                                    <x-panel-delete-form route="{{ route('adminUser.destroy', $admin->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $adminUsers->links() }}</section>
@@ -128,12 +108,12 @@
             </section>
         </section>
     </section>
-
 @endsection
 
 @section('script')
 
     @include('Share::ajax-functions.panel.status')
+
     @include('Share::ajax-functions.panel.activation')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])

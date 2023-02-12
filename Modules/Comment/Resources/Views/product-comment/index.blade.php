@@ -65,16 +65,16 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('productComment.show', $comment->id) }}"
                                                    title="نمایش نظر"
-                                                   icon="eye" color="info"/>
+                                                   icon="eye" color="outline-info"/>
 
                                     @if($comment->approved == 1)
                                         <x-panel-a-tag route="{{ route('productComment.approved', $comment->id) }}"
                                                        title="عدم تایید نظر"
-                                                       icon="clock" color="warning"/>
+                                                       icon="clock" color="outline-warning"/>
                                     @else
                                         <x-panel-a-tag route="{{ route('productComment.approved', $comment->id) }}"
                                                        title="تایید نظر"
-                                                       icon="check" color="success"/>
+                                                       icon="check" color="outline-success"/>
                                     @endif
                                 </td>
 

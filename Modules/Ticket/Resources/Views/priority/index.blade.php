@@ -54,7 +54,7 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('ticketPriority.edit', $ticketPriority->id) }}"
                                                    title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form
                                         route="{{ route('ticketPriority.destroy', $ticketPriority->id) }}"
                                         title="حذف آیتم"/>

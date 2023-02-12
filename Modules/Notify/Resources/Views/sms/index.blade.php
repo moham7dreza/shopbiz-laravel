@@ -65,7 +65,7 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('sms.edit', $single_sms->id) }}"
                                                    title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('sms.destroy', $single_sms->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

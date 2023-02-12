@@ -55,7 +55,7 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('faq.edit', $faq->id) }}"
                                                    title="ویرایش آیتم"
-                                                   icon="edit" color="info"/>
+                                                   icon="edit" color="outline-info"/>
                                     <x-panel-delete-form route="{{ route('faq.destroy', $faq->id) }}"
                                                          title="حذف آیتم"/>
                                 </td>

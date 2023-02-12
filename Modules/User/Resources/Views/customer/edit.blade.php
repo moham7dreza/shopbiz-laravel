@@ -9,12 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش کاربران</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">کاربران مشتری</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('customerUser.index') }}"> کاربران مشتری</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش کاربر مشتری</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -35,55 +34,14 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام</label>
-                                    <input type="text" name="first_name" class="form-control form-control-sm"
-                                           value="{{ old('first_name', $customerUser->first_name) }}">
-                                </div>
-                                @error('first_name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام خانوادگی</label>
-                                    <input type="text" name="last_name" class="form-control form-control-sm"
-                                           value="{{ old('last_name', $customerUser->last_name) }}">
-                                </div>
-                                @error('last_name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">تصویر</label>
-                                    <input type="file" name="profile_photo_path" class="form-control form-control-sm">
-                                    <img src="{{ asset($customerUser->profile_photo_path) }}" alt="" width="100"
-                                         height="50"
-                                         class="mt-3">
-                                </div>
-                                @error('profile_photo_path')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="first_name" label="نام"
+                                           :message="$message" method="edit" :model="$customerUser"/>
+                            <x-panel-input col="10" name="last_name" label="نام خانوادگی"
+                                           :message="$message" method="edit" :model="$customerUser"/>
+                            <x-panel-input col="10" type="file" name="profile_photo_path" label="تصویر" :showImage="true"
+                                           :message="$message" :model="$customerUser"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

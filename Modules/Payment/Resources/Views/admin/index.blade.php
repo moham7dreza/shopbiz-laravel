@@ -55,13 +55,13 @@
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('payment.show', $payment->id) }}"
                                                    title="نمایش جزئیات پرداخت"
-                                                   icon="eye" color="info"/>
+                                                   icon="eye" color="outline-info"/>
                                     <x-panel-a-tag route="{{ route('payment.canceled', $payment->id) }}"
                                                    title="باطل کردن پرداخت"
-                                                   icon="times" color="warning"/>
+                                                   icon="times" color="outline-warning"/>
                                     <x-panel-a-tag route="{{ route('payment.returned', $payment->id) }}"
                                                    title="بازگرداندن پرداخت"
-                                                   icon="reply" color="danger"/>
+                                                   icon="reply" color="outline-danger"/>
                                 </td>
                             </tr>
                         @endforeach

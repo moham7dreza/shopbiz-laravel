@@ -1,6 +1,6 @@
 <script type="text/javascript">
     function marketable(id, name) {
-        var element = $("#" + id + '-marketable')
+        var element = $("#" + id)
         var url = element.attr('data-url')
         var elementValue = !element.prop('checked');
 

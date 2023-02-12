@@ -59,7 +59,7 @@
                                 <td class="width-22-rem text-left">
                                     <x-panel-a-tag
                                         route="{{ route('attributeValue.edit', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
-                                        title="ویرایش آیتم" icon="edit" color="info"/>
+                                        title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     <x-panel-delete-form
                                         route="{{ route('attributeValue.destroy', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
                                         title="حذف آیتم"/>

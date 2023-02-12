@@ -14,7 +14,11 @@
             {{ $attributes }}
         >
         @if($date)
+            <label for="{{ $name }}_view"></label>
             <input type="text" id="{{ $name }}_view" class="form-control form-control-sm">
+        @endif
+        @if($showImage)
+            <img src="{{ asset($model->$name) }}" alt="" width="100" height="50" class="mt-3">
         @endif
     </div>
     @error($name)

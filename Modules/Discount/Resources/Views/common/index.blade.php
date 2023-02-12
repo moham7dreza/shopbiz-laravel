@@ -70,7 +70,7 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     <x-panel-delete-form
                                         route="{{ route('commonDiscount.destroy', $commonDiscount->id) }}"
                                         title="حذف آیتم"/>

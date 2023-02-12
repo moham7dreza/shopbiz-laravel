@@ -32,7 +32,7 @@
                 @endcan
                 @can('permission-super-admin','permission-customer-users')
                     <a href="{{ route('customerUser.index') }}" class="sidebar-link">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-users"></i>
                         <span>مشتریان</span>
                     </a>
                 @endcan

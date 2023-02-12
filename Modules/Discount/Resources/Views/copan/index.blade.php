@@ -73,7 +73,7 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     <x-panel-a-tag route="{{ route('copanDiscount.edit', $copan->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="info"/>
+                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     <x-panel-delete-form
                                         route="{{ route('copanDiscount.destroy', $copan->id) }}"
                                         title="حذف آیتم"/>

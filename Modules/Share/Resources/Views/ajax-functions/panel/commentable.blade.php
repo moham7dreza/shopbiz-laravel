@@ -1,6 +1,6 @@
 <script type="text/javascript">
     function commentable(id, name) {
-        var element = $("#" + id + '-commentable')
+        var element = $("#" + id)
         var url = element.attr('data-url')
         var elementValue = !element.prop('checked');
 

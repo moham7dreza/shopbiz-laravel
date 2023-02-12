@@ -62,9 +62,9 @@
                                     <x-panel-checkbox class="rounded" route="attribute.status" method="changeStatus" name="فرم کالا" :model="$attribute" property="status" />
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}" title="تعریف دسته بندی" icon="list-ul" color="success" />
-                                    <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" title="مقادیر فرم کالا" icon="weight" color="warning" />
-                                    <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}" title="ویرایش آیتم" icon="edit" color="info" />
+                                    <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}" title="تعریف دسته بندی" icon="list-ul" color="outline-success" />
+                                    <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" title="مقادیر فرم کالا" icon="weight" color="outline-warning" />
+                                    <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}" title="ویرایش آیتم" icon="edit" color="outline-info" />
                                     <x-panel-delete-form route="{{ route('attribute.destroy', $attribute->id) }}" title="حذف آیتم" />
                                 </td>
                             </tr>

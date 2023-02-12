@@ -52,7 +52,7 @@
                             <td><img src="{{ $setting->icon() }}" alt="" width="100" height="50"></td>
                             <td class="width-8-rem text-left">
                                 <x-panel-a-tag route="{{ route('setting.edit', $setting->id) }}" title="ویرایش آیتم"
-                                               icon="edit" color="info"/>
+                                               icon="edit" color="outline-info"/>
                             </td>
                         </tr>
                         </tbody>
