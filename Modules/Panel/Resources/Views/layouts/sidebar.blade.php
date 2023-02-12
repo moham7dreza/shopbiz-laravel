@@ -5,7 +5,7 @@
                 <i class="fas fa-home"></i>
                 <span>خانه</span>
             </a>
-            <a href="{{ route('customer.home') }}" class="sidebar-link">
+            <a href="{{ route('customer.home') }}" class="sidebar-link" target="_blank">
                 <i class="fas fa-store"></i>
                 <span>فروشگاه</span>
             </a>

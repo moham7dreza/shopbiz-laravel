@@ -189,6 +189,14 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * @return Builder
+     */
+    public function lowMarketableNumber(): Builder
+    {
+        return $this->query()->where('marketable_number', '<', 10)->latest();
+    }
+
+    /**
      * Get query model (builder).
      *
      * @return Builder

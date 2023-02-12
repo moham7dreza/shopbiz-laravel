@@ -1,183 +1,27 @@
 <!-- Counters cards --->
 <section class="row">
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('customerUser.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-custom-yellow text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->customersCount() }}</h5>
-                            <p>تعداد مشتریان سیستم</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-users"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('post.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-custom-green text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->postsCount() }}</h5>
-                            <p>تعداد پست ها</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-blog"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('productComment.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-custom-pink text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->commentsCount() }}</h5>
-                            <p>تعداد نظرات</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-comment-alt"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('order.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-custom-yellow text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->ordersCount() }}</h5>
-                            <p>تعداد سفارشات</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('product.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-danger text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->productsCount() }}</h5>
-                            <p>تعداد محصولات</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('amazingSale.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-success text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->activeAmazingSalesCount() }}</h5>
-                            <p>تعداد تخفیفات شگفت انگیز فعال</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('adminUser.index') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-warning text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->adminUsersCount() }}</h5>
-                            <p>تعداد ادمین های سیستم</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-user-secret"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="{{ route('ticket.newTickets') }}" class="text-decoration-none d-block mb-4">
-            <section class="card card-shadow bg-primary text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>{{ $panelRepo->newTicketsCount() }}</h5>
-                            <p>تعداد تیکت های جدید</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-book-open"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}
-                </section>
-            </section>
-        </a>
-    </section>
-{{--    <section class="col-lg-2 col-md-6 col-12">--}}
-{{--        <a href="#" class="text-decoration-none d-block mb-4">--}}
-{{--            <section class="card bg-primary text-white">--}}
-{{--                <section class="card-body">--}}
-{{--                    <section class="d-flex justify-content-between">--}}
-{{--                        <section class="info-box-body">--}}
-{{--                            <h5>{{ $panelRepo->customerHomeViewCount() }}</h5>--}}
-{{--                            <p>تعداد بازدید از فروشگاه</p>--}}
-{{--                        </section>--}}
-{{--                        <section class="info-box-icon">--}}
-{{--                            <i class="fas fa-chart-line"></i>--}}
-{{--                        </section>--}}
-{{--                    </section>--}}
-{{--                </section>--}}
-{{--                <section class="card-footer info-box-footer">--}}
-{{--                    <i class="fas fa-clock mx-2"></i> به روز رسانی شده در : {{ jalaliDate(now()) }}--}}
-{{--                </section>--}}
-{{--            </section>--}}
-{{--        </a>--}}
-{{--    </section>--}}
+    <x-panel-card class="bg-custom-yellow" route="{{ route('customerUser.index') }}" title="تعداد مشتریان سیستم"
+                  :counter="$panelRepo->customersCount()" icon="users"/>
+    <x-panel-card class="bg-custom-green" route="{{ route('post.index') }}" title="تعداد پست ها"
+                  :counter="$panelRepo->postsCount()" group="fab" icon="instagram"/>
+    <x-panel-card class="bg-custom-pink" route="{{ route('productComment.index') }}" title="تعداد نظرات"
+                  :counter="$panelRepo->commentsCount()" group="fab" icon="telegram-plane"/>
+    <x-panel-card class="bg-info" route="{{ route('order.index') }}" title="تعداد سفارشات"
+                  :counter="$panelRepo->ordersCount()" icon="shopping-cart"/>
+    <x-panel-card class="bg-custom-light-green text-dark" route="{{ route('product.index') }}" title="تعداد محصولات"
+                  :counter="$panelRepo->productsCount()" icon="shopping-bag"/>
+    <x-panel-card class="bg-primary" route="{{ route('amazingSale.index') }}" title="تعداد تخفیفات شگفت انگیز فعال"
+                  :counter="$panelRepo->activeAmazingSalesCount()" icon="dollar-sign"/>
+    <x-panel-card class="bg-warning text-dark" route="{{ route('adminUser.index') }}" title="تعداد ادمین های سیستم"
+                  :counter="$panelRepo->adminUsersCount()" icon="user-secret"/>
+    <x-panel-card class="bg-success" route="{{ route('ticket.newTickets') }}" title="تعداد تیکت های جدید"
+                  :counter="$panelRepo->newTicketsCount()" icon="book-open"/>
+    <x-panel-card class="bg-danger" route="{{ route('payment.index') }}" title="تعداد پرداخت ها"
+                  :counter="$panelRepo->paymentsCount()" icon="cash-register"/>
+    <x-panel-card class="bg-gray" route="{{ route('product.store.index') }}" title="انباری"
+                  :counter="$panelRepo->lowCountProducts()" icon="warehouse"/>
+    <x-panel-card class="bg-greenyellow text-dark" route="{{ route('brand.index') }}" title="برندها"
+                  :counter="$panelRepo->brandsCount()" group="fab" icon="gitlab"/>
+    <x-panel-card class="bg-secondary" route="{{ route('banner.index') }}" title="تبلیغات"
+                  :counter="$panelRepo->bannersCount()" icon="ad"/>
 </section>

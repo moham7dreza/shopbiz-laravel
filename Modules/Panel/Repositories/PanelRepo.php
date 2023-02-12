@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Banner\Repositories\BannerRepoEloquentInterface;
+use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Discount\Entities\AmazingSale;
@@ -44,6 +46,8 @@ class PanelRepo
     public TicketRepoEloquentInterface $ticketRepo;
     public SettingRepoEloquentInterface $settingRepo;
     public ProductRepoEloquentInterface $productRepo;
+    public BrandRepoEloquentInterface $brandRepo;
+    public BannerRepoEloquentInterface $bannerRepo;
 
     public function __construct(UserRepoEloquentInterface                $userRepoEloquent,
                                 PostRepoEloquentInterface                $postRepoEloquent,
@@ -55,7 +59,9 @@ class PanelRepo
                                 TicketRepoEloquentInterface              $ticketRepoEloquent,
                                 SettingRepoEloquentInterface             $settingRepoEloquent,
                                 CopanDiscountRepoEloquentInterface       $copanDiscountRepo,
-                                ProductRepoEloquentInterface $productRepo)
+                                ProductRepoEloquentInterface $productRepo,
+                                BrandRepoEloquentInterface $brandRepo,
+                                BannerRepoEloquentInterface $bannerRepo)
     {
         $this->userRepo = $userRepoEloquent;
         $this->postRepo = $postRepoEloquent;
@@ -68,6 +74,8 @@ class PanelRepo
         $this->settingRepo = $settingRepoEloquent;
         $this->copanDiscountRepo = $copanDiscountRepo;
         $this->productRepo = $productRepo;
+        $this->brandRepo = $brandRepo;
+        $this->bannerRepo = $bannerRepo;
     }
 
     /**
@@ -134,6 +142,30 @@ class PanelRepo
     public function newTicketsCount(): int
     {
         return $this->ticketRepo->newTicketsCount();
+    }
+
+    /**
+     * @return int
+     */
+    public function lowCountProducts(): int
+    {
+        return $this->productRepo->lowMarketableNumber()->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function brandsCount(): int
+    {
+        return $this->brandRepo->index()->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function bannersCount(): int
+    {
+        return $this->bannerRepo->index()->count();
     }
 
     /**

@@ -11,10 +11,7 @@
                         تمامی کامنت های اخیر ایجاد شده
                     </p>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('panel.home') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('panel.home') }}"/>
                     </div>
                 </section>
             </section>

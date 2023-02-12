@@ -31,7 +31,7 @@
                                 <td>{{ $log->log_name }}</td>
                                 <td>{{ $log->description() }}</td>
                                 <td>{{ $log->causerName() }}</td>
-                                <td dir="rtl">
+                                <td>
                                     @if(empty($log->properties()))
                                         <span class="text-danger">ویژگی ندارد</span>
                                     @else
@@ -42,7 +42,7 @@
                                 </td>
                                 <td>{{ $log->getFaUpdatedDate() }}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="{{ $log->path() }}" class="btn btn-primary btn-sm"><i
+                                    <a href="{{ $log->path() }}" class="btn btn-outline-primary btn-sm"><i
                                             class="fa fa-edit"></i></a>
                                 </td>
                             </tr>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 use Modules\Share\Components\Panel\ATag;
 use Modules\Share\Components\Panel\Button;
+use Modules\Share\Components\Panel\Card;
 use Modules\Share\Components\Panel\Checkbox;
 use Modules\Share\Components\Panel\DeleteForm;
 use Modules\Share\Components\Panel\File;
@@ -118,6 +119,7 @@ class ShareServiceProvider extends ServiceProvider
             Checkbox::class,
             SearchForm::class,
             TableRow::class,
+            Card::class,
         ]);
     }
 
