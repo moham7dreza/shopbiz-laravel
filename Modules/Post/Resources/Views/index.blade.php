@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page">پست ها</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> پست ها</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{ route('post.create') }}" class="btn btn-info btn-sm">ایجاد پست </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('post.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('post.index') }}"/>
                     </div>
                 </section>
 
@@ -52,9 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach ($posts as $key => $post)
-
                             <tr>
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $post->getLimitedTitle() }}</td>
@@ -75,31 +69,16 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $post->id }}" onchange="changeStatus({{ $post->id }}, 'پست')"
-                                               data-url="{{ route('post.status', $post->id) }}" type="checkbox"
-                                               @if ($post->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="post.status" method="changeStatus"
+                                                      name="پست" :model="$post" property="status"/>
                                 </td>
-
                                 <td>
-                                    <label>
-                                        <input id="{{ $post->id }}-commentable" onchange="commentable({{ $post->id }}, 'پست')"
-                                               data-url="{{ route('post.commentable', $post->id) }}" type="checkbox"
-                                               @if ($post->commentable === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="post.commentable" method="commentable"
+                                                      uniqueId="commentable"
+                                                      name="پست" :model="$post" property="commentable"/>
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <a href="{{ route('post.tags-from', $post->id) }}"
-                                       class="btn btn-info btn-sm"><i class="fa fa-tag"></i></a>
-
                                     {{-- @can('update', $post) --}}
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i></a>
                                     {{-- @elsecan('create', Modules\Post\Entities\Post\Post::class) --}}
                                     {{-- @else --}}
                                     {{--                                    <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i--}}
@@ -114,19 +93,17 @@
                                     @elsecanany(['view'])
 
                                     @endcanany --}}
-                                    <form class="d-inline" action="{{ route('post.destroy', $post->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <x-panel-a-tag route="{{ route('post.tags-from', $post->id) }}"
+                                                   title="افزودن تگ"
+                                                   icon="tag" color="outline-success"/>
+                                    <x-panel-a-tag route="{{ route('post.edit', $post->id) }}"
+                                                   title="ویرایش آیتم"
+                                                   icon="edit" color="outline-info"/>
+                                    <x-panel-delete-form route="{{ route('post.destroy', $post->id) }}"
+                                                         title="حذف آیتم"/>
                                 </td>
                             </tr>
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $posts->links() }}</section>
@@ -139,6 +116,7 @@
 @endsection
 @section('script')
     @include('Share::ajax-functions.panel.status')
+
     @include('Share::ajax-functions.panel.commentable')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])

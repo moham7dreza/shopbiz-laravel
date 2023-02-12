@@ -20,6 +20,9 @@
         @if($showImage)
             <img src="{{ asset($model->$name) }}" alt="" width="100" height="50" class="mt-3">
         @endif
+        @if($select2)
+            <select class="select2 form-control form-control-sm" id="select_tags" multiple>
+        @endif
     </div>
     @error($name)
     <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">

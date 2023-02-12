@@ -11,19 +11,19 @@
                 if (response.commentable) {
                     if (response.checked) {
                         element.prop('checked', true);
-                        successToast('امکان افزودن نظر برای ' + name + ' با موفقیت فعال شد ', 'success')
+                        swal('امکان افزودن نظر برای ' + name + ' با موفقیت فعال شد ', 'success')
                     } else {
                         element.prop('checked', false);
-                        warningToast('امکان افزودن نظر برای ' + name + ' با موفقیت غیر فعال شد ', 'warning')
+                        swal('امکان افزودن نظر برای ' + name + ' با موفقیت غیر فعال شد ', 'warning')
                     }
                 } else {
                     element.prop('checked', elementValue);
-                    errorToast('هنگام ویرایش مشکلی بوجود امده است', 'error')
+                    swal('هنگام ویرایش مشکلی بوجود امده است', 'error')
                 }
             },
             error: function () {
                 element.prop('checked', elementValue);
-                errorToast('ارتباط برقرار نشد', 'error')
+                swal('ارتباط برقرار نشد', 'error')
             }
         });
     }

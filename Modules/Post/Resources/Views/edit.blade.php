@@ -10,12 +10,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">پست</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('post.index') }}"> پست</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش پست</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -34,176 +33,31 @@
                     <form action="{{ route('post.update', $post->id) }}" method="POST"
                           enctype="multipart/form-data" id="form">
                         @csrf
-                        {{ method_field('put') }}
+                        @method('put')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عنوان پست</label>
-                                    <input type="text" class="form-control form-control-sm" name="title"
-                                           value="{{ old('title', $post->title) }}">
-                                </div>
-                                @error('title')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="category_id" class="form-control form-control-sm">
-                                        <option value="">دسته را انتخاب کنید</option>
-                                        @foreach ($postCategories as $postCategory)
-                                            <option value="{{ $postCategory->id }}"
-                                                    @if(old('category_id', $post->category_id) == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('category_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="image">تصویر</label>
-                                    <input type="file" class="form-control form-control-sm" name="image" id="image">
-                                    {{-- <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']] ) }}" alt="" width="100" height="50" class="mt-3"> --}}
-                                </div>
-                                @error('image')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-                            <section class="row">
-                                @php
-                                    $number = 1;
-                                @endphp
-                                @foreach ($post->image['indexArray'] as $key => $value )
-                                    <section class="col-md-{{ 6 / $number }}">
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="currentImage"
-                                                   value="{{ $key }}" id="{{ $number }}"
-                                                   @if($post->image['currentImage'] == $key) checked @endif>
-                                            <label for="{{ $number }}" class="form-check-label mx-2">
-                                                <img src="{{ asset($value) }}" class="w-100" alt="">
-                                            </label>
-                                        </div>
-                                    </section>
-                                    @php
-                                        $number++;
-                                    @endphp
-                                @endforeach
-
-                            </section>
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $post->status) == $post->inActive()) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $post->status) == $post->active()) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="commentable">امکان درج کامنت</label>
-                                    <select name="commentable" class="form-control form-control-sm"
-                                            id="commentable">
-                                        <option value="0"
-                                                @if (old('commentable', $post->commentable) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('commentable', $post->commentable) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('commentable')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ انتشار</label>
-                                    <input type="text" name="published_at" id="published_at"
-                                           class="form-control form-control-sm d-none">
-                                    <input type="text" id="published_at_view" class="form-control form-control-sm">
-                                </div>
-                                @error('published_at')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">خلاصه پست</label>
-                                    <textarea name="summary" id="summary" class="form-control form-control-sm"
-                                              rows="6">{{ old('summary', $post->summary) }}</textarea>
-                                </div>
-                                @error('summary')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">متن پست</label>
-                                    <textarea name="body" id="body" class="form-control form-control-sm"
-                                              rows="6">{{ old('body', $post->body) }}</textarea>
-                                </div>
-                                @error('body')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="title" label="عنوان پست" :message="$message" method="edit"
+                                           :model="$post"/>
+                            <x-panel-select-box col="10" name="category_id" label="انتخاب دسته"
+                                                :message="$message" :collection="$postCategories"
+                                                property="name" method="edit" :model="$post"/>
+                            <x-panel-input col="10" name="time_to_read" label="زمان مطالعه" :message="$message"
+                                           method="edit" :model="$post"/>
+                            <x-panel-input col="10" type="file" name="image" label="تصویر"
+                                           :message="$message" method="edit" :model="$post"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$post"/>
+                            <x-panel-select-box col="10" name="commentable" label="امکان درج کامنت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$post"/>
+                            <x-panel-input col="10" name="published_at" label="تاریخ انتشار" :date="true" class="d-none"
+                                           :message="$message" method="edit" :model="$post"/>
+                            <x-panel-text-area col="10" name="summary" label="خلاصه پست" rows="12"
+                                               :message="$message" method="edit" :model="$post"/>
+                            <x-panel-text-area col="10" name="body" label="متن پست" rows="12"
+                                               :message="$message" method="edit" :model="$post"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

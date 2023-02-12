@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        var tags_input = $('#tags');
+        var tags_input = $('#keywords');
         var select_tags = $('#select_tags');
         var default_tags = tags_input.val();
         var default_data = null;

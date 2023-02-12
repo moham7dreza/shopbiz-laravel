@@ -69,7 +69,8 @@ class Post extends Model implements Viewable
     /**
      * @var string[]
      */
-    protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
+    protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'body',
+        'published_at', 'author_id', 'category_id', 'commentable', 'time_to_read', 'keywords'];
 
     // ********************************* scope
 
