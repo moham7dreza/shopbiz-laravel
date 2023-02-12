@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> سفارشات</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -27,10 +26,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="" class="btn btn-info btn-sm disabled">ایجاد سفارش </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('order.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('order.index') }}"/>
                     </div>
                 </section>
 
@@ -78,16 +74,16 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <a href="{{ route('order.show', $order->id) }}"
-                                               class="dropdown-item text-right" target="_blank"><i class="fa fa-images"></i> مشاهده
+                                               class="dropdown-item text-right"><i class="fa fa-images text-success"></i> مشاهده
                                                 فاکتور</a>
                                             <a href="{{ route('order.changeSendStatus', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-list-ul"></i> تغییر
+                                               class="dropdown-item text-right"><i class="fa fa-list-ul text-warning"></i> تغییر
                                                 وضعیت ارسال</a>
                                             <a href="{{ route('order.changeOrderStatus', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-edit"></i> تغییر وضعیت
+                                               class="dropdown-item text-right"><i class="fa fa-edit text-primary"></i> تغییر وضعیت
                                                 سفارش</a>
                                             <a href="{{ route('order.cancelOrder', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-window-close"></i> باطل
+                                               class="dropdown-item text-right"><i class="fa fa-window-close text-danger"></i> باطل
                                                 کردن سفارش</a>
                                         </div>
                                     </div>

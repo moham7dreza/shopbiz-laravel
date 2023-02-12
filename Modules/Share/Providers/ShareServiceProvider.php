@@ -9,13 +9,14 @@ use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\Checkbox;
 use Modules\Share\Components\Panel\DeleteForm;
 use Modules\Share\Components\Panel\File;
+use Modules\Share\Components\Panel\Input;
 use Modules\Share\Components\Panel\MultiSelection;
 use Modules\Share\Components\Panel\SearchForm;
 use Modules\Share\Components\Panel\Section;
 use Modules\Share\Components\Panel\SelectBox;
 use Modules\Share\Components\Panel\Status;
+use Modules\Share\Components\Panel\TableRow;
 use Modules\Share\Components\Panel\TextArea;
-use Modules\Share\Components\Panel\Input;
 use Modules\Share\Components\Share\Error;
 
 class ShareServiceProvider extends ServiceProvider
@@ -109,7 +110,6 @@ class ShareServiceProvider extends ServiceProvider
             File::class,
             SelectBox::class,
             TextArea::class,
-            Status::class,
             Button::class,
             Section::class,
             MultiSelection::class,
@@ -117,6 +117,7 @@ class ShareServiceProvider extends ServiceProvider
             DeleteForm::class,
             Checkbox::class,
             SearchForm::class,
+            TableRow::class,
         ]);
     }
 

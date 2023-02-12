@@ -10,20 +10,20 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('order.index') }}"> سفارشات</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('order.show', $order->id) }}"> فاکتور</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> جزئیات سفارش</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        جزئیات سفارش</>
+                        جزئیات سفارش
                     </h5>
                 </section>
-
 
                 <section class="table-responsive">
                     <table class="table table-striped table-hover h-150px">
@@ -43,7 +43,6 @@
                         </thead>
                         <tbody>
                         @foreach ($order->orderItems as $item)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $item->getProductName() }}</td>
@@ -63,9 +62,7 @@
                                     @endforelse
                                 </td>
                             </tr>
-
                         @endforeach
-
                         </tbody>
                     </table>
                 </section>
@@ -73,5 +70,4 @@
             </section>
         </section>
     </section>
-
 @endsection

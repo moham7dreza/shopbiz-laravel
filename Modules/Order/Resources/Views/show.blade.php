@@ -9,11 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('order.index') }}"> سفارشات</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> فاکتور</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -49,152 +49,36 @@
                             </td>
                         </tr>
 
-                        <tr class="border-bottom">
-                            <th>نام مشتری</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getCustomerName() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>آدرس</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getCustomerAddress() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>شهر</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getCustomerCity() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>کد پستی</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaCustomerPostalCode() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>پلاک</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaCustomerNo() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>واحد</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaCustomerUnit() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>نام گیرنده</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getRecipientFName() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>نام خانوادگی گیرنده</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getRecipientLName() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>موبایل</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaCustomerMobile() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>نوع پرداخت</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->paymentTypeValue() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>وضعیت پرداخت</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->paymentStatusValue() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>مبلغ ارسال</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderDeliveryAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>وضعیت ارسال</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->deliveryStatusValue() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>تاریخ ارسال</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderSendDate() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>مجموع مبلغ سفارش (بدون تخفیف)</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderFinalAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>مجموع تمامی مبلغ تخفیفات</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderDiscountAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>مبلغ تخفیف همه محصولات</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderTotalProductsDiscountAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>مبلغ نهایی</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderFinalPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>بانک</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getPaymentGateway() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>کوپن استفاده شده</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getCustomerUsedCopan() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>تخفیف کد تخفیف</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderCopanDiscountAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>تخفیف عمومی استفاده شده</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getUsedCommonDiscountTitle() }}
-                            </td>
-                        </tr>
-
-                        <tr class="border-bottom">
-                            <th>مبلغ تخفیف عمومی</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->getFaOrderCommonDiscountAmountPrice() }}
-                            </td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <th>وضعیت سفارش</th>
-                            <td class="text-left font-weight-bolder">
-                                {{ $order->orderStatusValue() }}
-                            </td>
-                        </tr>
-
+                        <x-panel-table-row th="نام مشتری" :td="$order->getCustomerName()"/>
+                        <x-panel-table-row th="آدرس" :td="$order->getCustomerAddress()"/>
+                        <x-panel-table-row th="شهر" :td="$order->getCustomerCity()"/>
+                        <x-panel-table-row th="کد پستی" :td="$order->getFaCustomerPostalCode()"/>
+                        <x-panel-table-row th="پلاک" :td="$order->getFaCustomerNo()"/>
+                        <x-panel-table-row th="واحد" :td="$order->getFaCustomerUnit()"/>
+                        <x-panel-table-row th="نام گیرنده" :td="$order->getRecipientFName()"/>
+                        <x-panel-table-row th="نام خانوادگی گیرنده" :td="$order->getRecipientLName()"/>
+                        <x-panel-table-row th="موبایل" :td="$order->getFaCustomerMobile()"/>
+                        <x-panel-table-row th="نوع پرداخت" :td="$order->paymentTypeValue()"/>
+                        <x-panel-table-row th="وضعیت پرداخت" :td="$order->paymentStatusValue()"/>
+                        <x-panel-table-row th="مبلغ ارسال" :td="$order->getFaOrderDeliveryAmountPrice()"/>
+                        <x-panel-table-row th="وضعیت ارسال" :td="$order->deliveryStatusValue()"/>
+                        <x-panel-table-row th="تاریخ ارسال" :td="$order->getFaOrderSendDate()"/>
+                        <x-panel-table-row th="مجموع مبلغ سفارش (بدون تخفیف)"
+                                           :td="$order->getFaOrderFinalAmountPrice()"/>
+                        <x-panel-table-row th="مجموع تمامی مبلغ تخفیفات"
+                                           :td="$order->getFaOrderDiscountAmountPrice()"/>
+                        <x-panel-table-row th="مبلغ تخفیف همه محصولات"
+                                           :td="$order->getFaOrderTotalProductsDiscountAmountPrice()"/>
+                        <x-panel-table-row th="مبلغ نهایی" :td="$order->getFaOrderFinalPrice()"/>
+                        <x-panel-table-row th="بانک" :td="$order->getPaymentGateway()"/>
+                        <x-panel-table-row th="کوپن استفاده شده" :td="$order->getCustomerUsedCopan()"/>
+                        <x-panel-table-row th="مبلغ تخفیف دریافتی از کد تخفیف"
+                                           :td="$order->getFaOrderCopanDiscountAmountPrice()"/>
+                        <x-panel-table-row th="تخفیف عمومی استفاده شده"
+                                           :td="$order->getUsedCommonDiscountTitle()"/>
+                        <x-panel-table-row th="مبلغ تخفیف عمومی"
+                                           :td="$order->getFaOrderCommonDiscountAmountPrice()"/>
+                        <x-panel-table-row th="وضعیت سفارش" :td="$order->orderStatusValue()"/>
                         </tbody>
                     </table>
                 </section>
@@ -209,21 +93,18 @@
 @section('script')
 
     <script>
-
         var printBtn = document.getElementById('print');
         printBtn.addEventListener('click', function () {
             printContent('printable');
         })
 
         function printContent(el) {
-
             var restorePage = $('body').html();
             var printContent = $('#' + el).clone();
             $('body').empty().html(printContent);
             window.print();
             $('body').html(restorePage);
         }
-
     </script>
 
 @endsection
