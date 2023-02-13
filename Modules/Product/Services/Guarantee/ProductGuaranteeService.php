@@ -20,6 +20,24 @@ class ProductGuaranteeService implements ProductGuaranteeServiceInterface
     {
         return $this->query()->create([
             'name' => $request->name,
+            'duration' => $request->duration,
+            'product_id' => $productId,
+            'status' => $request->status,
+            'price_increase' => $request->price_increase,
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $productId
+     * @param $guarantee
+     * @return mixed
+     */
+    public function update($request, $productId, $guarantee): mixed
+    {
+        return $guarantee->update([
+            'name' => $request->name,
+            'duration' => $request->duration,
             'product_id' => $productId,
             'status' => $request->status,
             'price_increase' => $request->price_increase,

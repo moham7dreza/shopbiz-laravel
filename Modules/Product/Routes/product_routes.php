@@ -48,6 +48,8 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/guarantee/{product}', [GuaranteeController::class, 'index'])->name('product.guarantee.index');
         Route::get('/guarantee/create/{product}', [GuaranteeController::class, 'create'])->name('product.guarantee.create');
         Route::post('/guarantee/store/{product}', [GuaranteeController::class, 'store'])->name('product.guarantee.store');
+        Route::get('/guarantee/edit/{product}/{guarantee}', [ProductColorController::class, 'edit'])->name('product.guarantee.edit');
+        Route::post('/guarantee/update/{product}/{guarantee}', [ProductColorController::class, 'update'])->name('product.guarantee.update');
         Route::delete('/guarantee/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('product.guarantee.destroy');
         Route::get('/guarantee/status/{guarantee}', [GuaranteeController::class, 'status'])->name('product.guarantee.status');
 

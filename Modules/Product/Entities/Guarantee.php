@@ -22,7 +22,8 @@ class Guarantee extends Model
         'name',
         'product_id',
         'price_increase',
-        'status'
+        'status',
+        'duration'
     ];
 
     // ********************************************* Relations

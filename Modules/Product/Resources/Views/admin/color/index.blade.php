@@ -9,11 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> رنگ</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,10 +28,7 @@
                     <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                         رنگ جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.color.index', $product->id) }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('product.color.index', $product->id) }}"/>
                     </div>
                 </section>
 
@@ -52,59 +49,37 @@
                         </thead>
                         <tbody>
                         @foreach ($colors as $color)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>
-                                    {{ $color->color_name }}
-                                </td>
-                                <td>
-                                    {{ $color->getFaPriceIncrease() }}
-                                </td>
+                                <td>{{ $color->color_name }}</td>
+                                <td>{{ $color->getFaPriceIncrease() }}</td>
                                 <td>{{ $color->getFaMarketableNumber() }}</td>
                                 <td>{{ $color->getFaSoldNumber() }}</td>
                                 <td>{{ $color->getFaFrozenNumber() }}</td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $color->id }}" onchange="changeStatus({{ $color->id }}, 'رنگ')"
-                                               data-url="{{ route('product.color.status', $color->id) }}" type="checkbox"
-                                               @if ($color->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="product.color.status" method="changeStatus"
+                                                      name="رنگ کالا" :model="$color" property="status"/>
                                 </td>
-
                                 <td class="width-12-rem text-center">
-                                    <a href="{{ route('product.color.edit', ['product' => $product->id , 'color' => $color->id]) }}" class="btn btn-primary btn-sm"><i
-                                            class="fa fa-edit"></i></a>
-                                    <form class="d-inline"
-                                          action="{{ route('product.color.destroy', ['product' => $product->id , 'color' => $color->id] ) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-
+                                    <x-panel-a-tag
+                                        route="{{ route('product.color.edit', ['product' => $product->id , 'color' => $color->id]) }}"
+                                        title="ویرایش آیتم"
+                                        icon="edit" color="outline-info"/>
+                                    <x-panel-delete-form
+                                        route="{{ route('product.color.destroy', ['product' => $product->id , 'color' => $color->id] ) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $colors->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
-
 
 @section('script')
 

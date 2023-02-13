@@ -9,11 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> گالری</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,10 +28,7 @@
                     <a href="{{ route('product.gallery.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                         عکس جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.gallery.index', $product->id) }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('product.gallery.index', $product->id) }}"/>
                     </div>
                 </section>
 
@@ -47,7 +44,6 @@
                         </thead>
                         <tbody>
                         @foreach ($images as $image)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
@@ -55,36 +51,21 @@
                                     <img src="{{ $image->getImagePath() }}"
                                          alt="" width="100" height="50">
                                 </td>
-
                                 <td class="width-12-rem text-center">
-                                    <form class="d-inline"
-                                          action="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id] ) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-
+                                    <x-panel-delete-form
+                                        route="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id]) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $images->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
-
-
 @section('script')
 
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])

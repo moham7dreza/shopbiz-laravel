@@ -9,11 +9,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> گارانتی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,10 +28,7 @@
                     <a href="{{ route('product.guarantee.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                         گارانتی جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.guarantee.index', $product) }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text" placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('product.guarantee.index', $product->id) }}"/>
                     </div>
                 </section>
 
@@ -42,6 +39,7 @@
                             <th>#</th>
                             <th>نام کالا</th>
                             <th>گارانتی کالا</th>
+                            <th>اعتبار گارانتی</th>
                             <th>افزایش قیمت</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -49,55 +47,35 @@
                         </thead>
                         <tbody>
                         @foreach ($guarantees as $guarantee)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $guarantee->name }}</td>
+                                <td>{{ $guarantee->period }}</td>
+                                <td>{{ $guarantee->getFaPriceIncrease() }}</td>
                                 <td>
-                                    {{ $guarantee->name }}
+                                    <x-panel-checkbox class="rounded" route="product.guarantee.status" method="changeStatus"
+                                                      name="گارانتی کالا" :model="$guarantee" property="status"/>
                                 </td>
-                                <td>
-                                    {{ $guarantee->getFaPriceIncrease() }}
-                                </td>
-                                <td>
-                                    <label>
-                                        <input id="{{ $guarantee->id }}" onchange="changeStatus({{ $guarantee->id }}, 'گارانتی')"
-                                               data-url="{{ route('product.guarantee.status', $guarantee->id) }}" type="checkbox"
-                                               @if ($guarantee->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
-                                </td>
-
-
                                 <td class="width-16-rem text-center">
-                                    <form class="d-inline"
-                                          action="{{ route('product.guarantee.destroy', ['product' => $product->id , 'guarantee' => $guarantee->id] ) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-
+                                    <x-panel-a-tag
+                                        route="{{ route('product.guarantee.edit', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
+                                        title="ویرایش آیتم"
+                                        icon="edit" color="outline-info"/>
+                                    <x-panel-delete-form
+                                        route="{{ route('product.guarantee.destroy', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
+                                        title="حذف آیتم"/>
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $guarantees->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
-
 
 @section('script')
 

@@ -30,6 +30,7 @@ class ProductColorRequest extends FormRequest
             'marketable_number' => 'required|numeric',
             'frozen_number' => 'required|numeric',
             'sold_number' => 'required|numeric',
+            'status' => 'required|numeric|in:0,1',
         ];
     }
 

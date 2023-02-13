@@ -25,7 +25,9 @@ class ProductGuaranteeRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'price_increase' => 'required|numeric'
+            'duration' => 'required',
+            'price_increase' => 'required|numeric',
+            'status' => 'required|numeric|in:0,1',
         ];
     }
 }

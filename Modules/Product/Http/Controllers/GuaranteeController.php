@@ -108,24 +108,27 @@ class GuaranteeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param Guarantee $guarantee
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(Product $product, Guarantee $guarantee): View|Factory|Application
     {
-        abort(403);
+        return view('Product::admin.guarantee.edit', compact(['product', 'guarantee']));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param ProductGuaranteeRequest $request
+     * @param Product $product
+     * @param Guarantee $guarantee
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(ProductGuaranteeRequest $request, Product $product, Guarantee $guarantee): RedirectResponse
     {
-        abort(403);
+        $this->service->update($request, $product->id, $guarantee);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ویرایش شد', params: [$product]);
     }
 
     /**
