@@ -8,7 +8,7 @@
                    @if($method == 'create')
                        value="{{ old($name) }}"
                @else
-                   value="{{ old($name, $old ?? $obj->$name) }}"
+                   value="{{ old($name, $obj->$name) }}"
             @endif
             @endif
         >

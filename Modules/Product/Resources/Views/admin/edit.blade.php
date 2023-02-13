@@ -3,6 +3,7 @@
 @section('head-tag')
     <title>ویرایش کالا</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -55,9 +56,9 @@
                                            :model="$product"/>
                             <x-panel-input col="10" name="height" label="ارتفاع" :message="$message" method="edit"
                                            :model="$product"/>
-                            <x-panel-input col="10" name="price" label="قیمت کالا" :message="$message" method="edit"
-                                           :model="$product"/>
-                            <livewire:fa-price-input col="10" name="price" label="قیمت کالا" :message="$message"
+{{--                            <x-panel-input col="10" name="price" label="قیمت کالا" :message="$message" method="edit"--}}
+{{--                                           :model="$product"/>--}}
+                            <livewire:fa-price-input col="10" name="price" label="قیمت کالا" :message="$message" class="dir-ltr"
                                                      method="edit"
                                                      :obj="$product"/>
                             <x-panel-text-area col="10" name="introduction" label="توضیحات" rows="12"
@@ -120,6 +121,7 @@
 @endsection
 
 @section('script')
+    @livewireScripts
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>

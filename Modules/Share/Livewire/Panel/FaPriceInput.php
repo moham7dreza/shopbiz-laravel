@@ -11,7 +11,6 @@ use Livewire\Component;
 class FaPriceInput extends Component
 {
     public string $name;
-    public ?string $old;
     public string $label;
     public ?string $message;
     public string $col;
@@ -19,7 +18,7 @@ class FaPriceInput extends Component
     public ?Model $obj;
     public ?string $class;
     public string $type;
-    public string $price;
+    public ?string $price;
 
     /**
      * Create a new component instance.
@@ -27,7 +26,7 @@ class FaPriceInput extends Component
      * @return void
      */
     public function mount($name, $label, $col, $message = null, $type = 'text', $method = 'create',
-                                $obj = null, $class = null, $old = null): void
+                          $obj = null, $class = null): void
     {
         $this->name = $name;
         $this->label = $label;
@@ -37,11 +36,18 @@ class FaPriceInput extends Component
         $this->method = $method;
         $this->class = $class;
         $this->type = $type;
-        $this->old = $old;
-        if ($method == 'edit') {
-            $this->price = $obj->price;
+        if ($method == 'create') {
+            $this->price = old($name);
+        } elseif ($method == 'edit') {
+            $this->price = old($name, $obj->price);
         }
+
     }
+
+//    public function UpdatingPrice($value)
+//    {
+//        $this->price = $value;
+//    }
     /**
      * @return Application|Factory|View
      */
