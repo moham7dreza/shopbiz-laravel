@@ -16,7 +16,6 @@
         </ol>
     </nav>
 
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -47,29 +46,7 @@
                                                 property="original_name" method="edit" :model="$product"/>
                             <x-panel-input col="10" type="file" name="image" label="تصویر"
                                            :message="$message" method="edit" :model="$product"/>
-
-                            <section class="row">
-                                @php
-                                    $number = 1;
-                                @endphp
-                                @foreach ($product->image['indexArray'] as $key => $value )
-                                    <section class="col-md-{{ 6 / $number }}">
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="currentImage"
-                                                   value="{{ $key }}" id="{{ $number }}"
-                                                   @if($product->image['currentImage'] == $key) checked @endif>
-                                            <label for="{{ $number }}" class="form-check-label mx-2">
-                                                <img src="{{ asset($value) }}" class="w-100" alt="">
-                                            </label>
-                                        </div>
-                                    </section>
-                                    @php
-                                        $number++;
-                                    @endphp
-                                @endforeach
-
-                            </section>
-
+                            <x-panel-image-index :model="$product"/>
                             <x-panel-input col="10" name="weight" label="وزن" :message="$message" method="edit"
                                            :model="$product"/>
                             <x-panel-input col="10" name="length" label="طول" :message="$message" method="edit"
@@ -112,7 +89,6 @@
                                     </span>
                                             @enderror
                                         </section>
-
                                         <section class="col-6 col-md-3">
                                             <div class="form-group">
                                                 <input type="text" name="meta_value[]"
@@ -128,35 +104,25 @@
                                     </span>
                                             @enderror
                                         </section>
-
                                     </section>
-
                                 @endforeach
-
-
                             </section>
-
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
 
-
 @section('script')
-
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script>
         CKEDITOR.replace('introduction');
     </script>
-
     <script>
         $(document).ready(function () {
             $('#published_at_view').persianDatepicker({
@@ -173,7 +139,6 @@
             tags: false
         })
     </script>
-
     <script>
         const brand_id = $('#brand_id');
         brand_id.select2({

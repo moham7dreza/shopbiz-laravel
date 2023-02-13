@@ -92,51 +92,45 @@
                                                       name="پست" :model="$product" property="marketable"/>
                                 </td>
 
-                                <td class="width-8-rem text-left">
-                                    <div class="dropdown">
-                                        <a href="#" class="btn btn-success btn-sm btn-block dorpdown-toggle"
-                                           role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <i class="fa fa-tools"></i> عملیات
+                                <td class="width-12-rem text-left">
+                                    @php $flag = $product->selected(); @endphp
+                                    <x-panel-a-tag route="{{ route('product.selected', $product->id) }}"
+                                                   title="{{ $flag ? 'حذف از محصولات پیشنهادی' : 'افزودن به محصولات پیشنهادی' }}"
+                                                   icon="{{ $flag ? 'times' : 'shopping-cart' }}"
+                                                   color="{{ $flag ? 'outline-danger' : 'outline-success' }}"
+                                                   class="{{ $flag ? 'pad-03-07' : '' }}"/>
+                                    <x-panel-dropdown text="عملیات" icon="tools">
+                                        <a href="{{ route('product.gallery.index', $product->id) }}"
+                                           class="dropdown-item text-right">
+                                            <i class="fa fa-images text-warning"></i><span class="mx-2">گالری</span>
                                         </a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            @if($product->selected())
-                                                <a href="{{ route('product.selected', $product->id) }}"
-                                                   class="dropdown-item text-right"><i
-                                                        class="fa fa-times text-danger"></i> حذف از محصولات پیشنهادی</a>
-                                            @else
-                                                <a href="{{ route('product.selected', $product->id) }}"
-                                                   class="dropdown-item text-right"><i
-                                                        class="fa fa-shopping-cart text-success"></i> افزودن به محصولات
-                                                    پیشنهادی </a>
-                                            @endif
-
-                                            <a href="{{ route('product.gallery.index', $product->id) }}"
-                                               class="dropdown-item text-right">
-                                                <i class="fa fa-images text-warning"></i> گالری</a>
-                                            <a href="{{ route('product.color.index', $product->id) }}"
-                                               class="dropdown-item text-right"><i
-                                                    class="fa fa-images"></i> مدیریت رنگ
-                                                ها</a>
-                                            <a href="{{ route('product.guarantee.index', $product->id) }}"
-                                               class="dropdown-item text-right"><i
-                                                    class="fa fa-shield-alt text-info"></i> گارانتی</a>
-                                            <a href="{{ route('product.tags-from', $product->id) }}"
-                                               class="dropdown-item text-right"><i
-                                                    class="fa fa-tags text-primary"></i> تگ ها</a>
-                                            <a href="{{ route('product.edit', $product->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
-                                            <form class="d-inline"
-                                                  action="{{ route('product.destroy', $product->id) }}"
-                                                  method="post">
-                                                @csrf
-                                                @method('Delete')
-                                                <button type="submit" class="dropdown-item text-right"><i
-                                                        class="fa fa-window-close"></i> حذف
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                        <a href="{{ route('product.color.index', $product->id) }}"
+                                           class="dropdown-item text-right"><i
+                                                class="fa fa-circle-notch text-greenyellow"></i><span
+                                                class="mx-2">رنگ</span>
+                                        </a>
+                                        <a href="{{ route('product.guarantee.index', $product->id) }}"
+                                           class="dropdown-item text-right"><i
+                                                class="fa fa-shield-alt text-secondary"></i><span
+                                                class="mx-2">گارانتی</span></a>
+                                        <a href="{{ route('product.tags-from', $product->id) }}"
+                                           class="dropdown-item text-right"><i
+                                                class="fa fa-tags text-primary"></i><span
+                                                class="mx-2">تگ</span></a>
+                                        <a href="{{ route('product.edit', $product->id) }}"
+                                           class="dropdown-item text-right"><i class="fa fa-edit text-info"></i><span
+                                                class="mx-2">ویرایش</span></a>
+                                        <form class="d-inline"
+                                              action="{{ route('product.destroy', $product->id) }}"
+                                              method="post">
+                                            @csrf
+                                            @method('Delete')
+                                            <button type="submit" class="dropdown-item text-right"><i
+                                                    class="fa fa-window-close text-danger"></i> <span
+                                                    class="mx-2">حذف</span>
+                                            </button>
+                                        </form>
+                                    </x-panel-dropdown>
                                 </td>
                             </tr>
                         @endforeach

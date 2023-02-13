@@ -1,7 +1,7 @@
 @extends('Panel::.layouts.master')
 
 @section('head-tag')
-    <title>ویرایش انبار</title>
+    <title>ویرایش موجودی</title>
 @endsection
 
 @section('content')
@@ -9,19 +9,19 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">انبار</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش انبار</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.store.index') }}"> انباری</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش موجودی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        ویرایش انبار
+                        ویرایش موجودی
                     </h5>
                 </section>
 
@@ -34,60 +34,14 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">تعداد قابل فروش</label>
-                                    <input type="text" name="marketable_number"
-                                           value="{{ old('marketable_number', $product->marketable_number) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('marketable_number')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">تعداد فروخته شده</label>
-                                    <input type="text" name="sold_number"
-                                           value="{{ old('sold_number', $product->sold_number) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('sold_number')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">تعداد رزرو شده</label>
-                                    <input type="text" name="frozen_number"
-                                           value="{{ old('frozen_number', $product->frozen_number) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('frozen_number')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="marketable_number" label="تعداد قابل فروش" :message="$message"
+                                           method="edit" :model="$product"/>
+                            <x-panel-input col="10" name="sold_number" label="تعداد فروخته شده" :message="$message"
+                                           method="edit" :model="$product"/>
+                            <x-panel-input col="10" name="frozen_number" label="تعداد رزرو شده" :message="$message"
+                                           method="edit" :model="$product"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>

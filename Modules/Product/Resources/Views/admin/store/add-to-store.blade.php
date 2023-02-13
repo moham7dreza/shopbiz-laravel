@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>اضافه کردن به انبار</title>
+    <title>افزایش موجودی</title>
 @endsection
 
 @section('content')
@@ -9,19 +9,19 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">انبار</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> اضافه کردن به انبار</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.store.index') }}"> انباری</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> افزایش موجودی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        اضافه کردن به انبار
+                        افزایش موجودی
                     </h5>
                 </section>
 
@@ -33,69 +33,13 @@
                     <form action="{{ route('product.store.store', $product->id) }}" method="POST">
                         @csrf
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام تحویل گیرنده</label>
-                                    <input type="text" name="receiver" value="{{ old('receiver') }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('receiver')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام تحویل دهنده</label>
-                                    <input type="text" name="deliverer" value="{{ old('deliverer') }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('deliverer')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تعداد</label>
-                                    <input type="text" name="marketable_number" value="{{ old('marketable_number') }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('marketable_number')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">توضیحات</label>
-                                    <textarea name="description" rows="4"
-                                              class="form-control form-control-sm">{{ old('description') }}</textarea>
-                                </div>
-                                @error('description')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="receiver" label="نام تحویل گیرنده" :message="$message"/>
+                            <x-panel-input col="10" name="deliverer" label="نام تحویل دهنده" :message="$message"/>
+                            <x-panel-input col="10" name="marketable_number" label="تعداد" class="dir-ltr text-left" :message="$message"/>
+                            <x-panel-text-area col="10" name="description" label="توضیحات" rows="12"
+                                               :message="$message"/>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -104,4 +48,10 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('description');
+    </script>
 @endsection

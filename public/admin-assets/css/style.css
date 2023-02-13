@@ -259,3 +259,9 @@ input:checked + .slider:before {
 .dir-rtl {
     direction: rtl;
 }
+.pad-03-07 {
+    padding: 0.3rem 0.7rem;
+}
+.text-greenyellow {
+    color: greenyellow;
+}

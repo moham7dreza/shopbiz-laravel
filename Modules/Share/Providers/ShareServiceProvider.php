@@ -9,7 +9,9 @@ use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\Card;
 use Modules\Share\Components\Panel\Checkbox;
 use Modules\Share\Components\Panel\DeleteForm;
+use Modules\Share\Components\Panel\Dropdown;
 use Modules\Share\Components\Panel\File;
+use Modules\Share\Components\Panel\ImageIndex;
 use Modules\Share\Components\Panel\Input;
 use Modules\Share\Components\Panel\MultiSelection;
 use Modules\Share\Components\Panel\SearchForm;
@@ -108,7 +110,6 @@ class ShareServiceProvider extends ServiceProvider
     {
         $this->loadViewComponentsAs('panel', [
             Input::class,
-            File::class,
             SelectBox::class,
             TextArea::class,
             Button::class,
@@ -120,6 +121,8 @@ class ShareServiceProvider extends ServiceProvider
             SearchForm::class,
             TableRow::class,
             Card::class,
+            ImageIndex::class,
+            Dropdown::class,
         ]);
     }
 

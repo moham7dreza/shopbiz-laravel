@@ -15,7 +15,7 @@
     <x-panel-card class="bg-warning text-dark" route="{{ route('adminUser.index') }}" title="تعداد ادمین های سیستم"
                   :counter="$panelRepo->adminUsersCount()" icon="user-secret"/>
     <x-panel-card class="bg-success" route="{{ route('ticket.newTickets') }}" title="تعداد تیکت های جدید"
-                  :counter="$panelRepo->newTicketsCount()" icon="book-open"/>
+                  :counter="$panelRepo->newTicketsCount()" icon="ticket-alt"/>
     <x-panel-card class="bg-danger" route="{{ route('payment.index') }}" title="تعداد پرداخت ها"
                   :counter="$panelRepo->paymentsCount()" icon="cash-register"/>
     <x-panel-card class="bg-gray" route="{{ route('product.store.index') }}" title="انباری"

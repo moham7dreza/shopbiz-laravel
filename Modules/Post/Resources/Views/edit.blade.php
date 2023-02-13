@@ -48,6 +48,7 @@
                                            method="edit" :model="$post"/>
                             <x-panel-input col="10" type="file" name="image" label="تصویر"
                                            :message="$message" method="edit" :model="$post"/>
+                            <x-panel-image-index :model="$post"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"
                                                 :model="$post"/>
