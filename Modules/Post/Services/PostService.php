@@ -55,6 +55,7 @@ class PostService implements PostServiceInterface
             'author_id' => auth()->id(),
             'category_id' => $request->category_id,
             'commentable' => $request->commentable,
+            'keywords' => $request->keywords,
         ]);
     }
 
@@ -95,6 +96,7 @@ class PostService implements PostServiceInterface
             'author_id' => auth()->id(),
             'category_id' => $request->category_id,
             'commentable' => $request->commentable,
+            'keywords' => $request->keywords,
         ]);
     }
 

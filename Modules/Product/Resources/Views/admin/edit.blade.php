@@ -10,8 +10,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">کالا </a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش کالا</li>
         </ol>
     </nav>
@@ -36,80 +36,17 @@
                         @csrf
                         @method('PUT')
                         <section class="row">
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">نام کالا</label>
-                                    <input type="text" name="name" value="{{ old('name', $product->name) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('name')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="category_id" class="form-control form-control-sm">
-                                        <option value="">دسته را انتخاب کنید</option>
-                                        @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}"
-                                                    @if(old('category_id', $product->category_id) == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('category_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="brand_id" class="form-control form-control-sm">
-                                        <option value="">دسته را انتخاب کنید</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}"
-                                                    @if(old('brand_id', $product->brand_id) == $brand->id) selected @endif>{{ $brand->original_name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('brand_id')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تصویر </label>
-                                    <input type="file" name="image" class="form-control form-control-sm">
-                                </div>
-                                @error('image')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
+                            @php $message = $message ?? null @endphp
+                            <x-panel-input col="10" name="name" label="نام کالا" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-select-box col="10" name="category_id" label="انتخاب دسته"
+                                                :message="$message" :collection="$productCategories"
+                                                property="name" method="edit" :model="$product"/>
+                            <x-panel-select-box col="10" name="brand_id" label="انتخاب برند"
+                                                :message="$message" :collection="$brands"
+                                                property="original_name" method="edit" :model="$product"/>
+                            <x-panel-input col="10" type="file" name="image" label="تصویر"
+                                           :message="$message" method="edit" :model="$product"/>
 
                             <section class="row">
                                 @php
@@ -133,162 +70,29 @@
 
                             </section>
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">وزن</label>
-                                    <input type="text" name="weight" value="{{ old('weight', $product->weight) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('weight')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">طول</label>
-                                    <input type="text" name="length" value="{{ old('length', $product->length) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('length')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">عرض</label>
-                                    <input type="text" name="width" value="{{ old('width', $product->width) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('width')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">ارتفاع</label>
-                                    <input type="text" name="height" value="{{ old('height', $product->height) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('height')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">قیمت کالا</label>
-                                    <input type="text" name="price" value="{{ old('price', $product->price) }}"
-                                           class="form-control form-control-sm">
-                                </div>
-                                @error('price')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-                            <section class="col-12">
-                                <div class="form-group">
-                                    <label for="">توضیحات</label>
-                                    <textarea name="introduction" id="introduction" name="introduction"
-                                              class="form-control form-control-sm"
-                                              rows="6">{{ old('introduction', $product->introduction) }}</textarea>
-                                </div>
-                                @error('introduction')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
+                            <x-panel-input col="10" name="weight" label="وزن" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-input col="10" name="length" label="طول" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-input col="10" name="width" label="عرض" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-input col="10" name="height" label="ارتفاع" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-input col="10" name="price" label="قیمت کالا" :message="$message" method="edit"
+                                           :model="$product"/>
+                            <x-panel-text-area col="10" name="introduction" label="توضیحات" rows="12"
+                                               :message="$message" method="edit" :model="$product"/>
+                            <x-panel-select-box col="10" name="status" label="وضعیت"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$product"/>
+                            <x-panel-select-box col="10" name="marketable" label="قابل فروش بودن"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$product"/>
+                            <x-panel-input col="10" name="published_at" label="تاریخ انتشار" :date="true" class="d-none"
+                                           :message="$message" method="edit" :model="$product"/>
 
 
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="status">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm" id="status">
-                                        <option value="0" @if (old('status', $product->status) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $product->status) == 1) selected @endif>
-                                            فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('status')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6 my-2">
-                                <div class="form-group">
-                                    <label for="marketable">قابل فروش بودن</label>
-                                    <select name="marketable" class="form-control form-control-sm"
-                                            id="marketable">
-                                        <option value="0"
-                                                @if (old('marketable', $product->marketable) == 0) selected @endif>
-                                            غیرفعال
-                                        </option>
-                                        <option value="1"
-                                                @if (old('marketable', $product->marketable) == 1) selected @endif>فعال
-                                        </option>
-                                    </select>
-                                </div>
-                                @error('marketable')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ انتشار</label>
-                                    <input type="text" name="published_at" id="published_at"
-                                           class="form-control form-control-sm d-none">
-                                    <input type="text" id="published_at_view" class="form-control form-control-sm">
-                                </div>
-                                @error('published_at')
-                                <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
-
-                            <section class="col-12 border-top border-bottom py-3 mb-3">
+                            <section class="col-12 border-top py-3 mb-3">
                                 @foreach ($product->metas as $meta)
 
                                     <section class="row meta-product">
@@ -300,7 +104,8 @@
                                                        value="{{ $meta->meta_key }}">
                                             </div>
                                             @error('meta_key.*')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80"
+                                                  role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -315,7 +120,8 @@
                                                        value="{{ $meta->meta_value }}">
                                             </div>
                                             @error('meta_value.*')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80"
+                                                  role="alert">
                                         <strong>
                                             {{ $message }}
                                         </strong>
@@ -330,9 +136,7 @@
 
                             </section>
 
-                            <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
-                            </section>
+                            <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
                 </section>
@@ -361,5 +165,21 @@
             })
         });
     </script>
+    <script>
+        const category_id = $('#category_id');
+        category_id.select2({
+            // placeholder: 'لطفا دسته بندی را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 
+    <script>
+        const brand_id = $('#brand_id');
+        brand_id.select2({
+            // placeholder: 'لطفا برند را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

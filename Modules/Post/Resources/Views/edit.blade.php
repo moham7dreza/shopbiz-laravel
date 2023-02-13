@@ -43,6 +43,9 @@
                                                 property="name" method="edit" :model="$post"/>
                             <x-panel-input col="10" name="time_to_read" label="زمان مطالعه" :message="$message"
                                            method="edit" :model="$post"/>
+                            <x-panel-input col="10" name="keywords" type="hidden" label="کلمات کلیدی"
+                                           :message="$message" :select2="true"
+                                           method="edit" :model="$post"/>
                             <x-panel-input col="10" type="file" name="image" label="تصویر"
                                            :message="$message" method="edit" :model="$post"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"

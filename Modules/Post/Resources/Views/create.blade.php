@@ -43,7 +43,7 @@
                                            placeholder="بر حسب دقیقه ..."/>
                             <x-panel-input col="10" name="keywords" type="hidden" label="کلمات کلیدی"
                                            :message="$message" :select2="true"/>
-                            <x-panel-input col="10" type="file" name="image" label="تصویر" class="mt-3"
+                            <x-panel-input col="10" type="file" name="image" label="تصویر"
                                            :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true"/>
@@ -93,5 +93,5 @@
             tags: false
         })
     </script>
-    @include('Share::functions.panel.tags')
+    @include('Share::functions.panel.tags', ['id' => 'keywords'])
 @endsection

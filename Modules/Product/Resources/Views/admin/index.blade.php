@@ -9,11 +9,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> کالاها</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -28,11 +27,7 @@
                     <a href="{{ route('product.create') }}" class="btn btn-info btn-sm">ایجاد کالای
                         جدید </a>
                     <div class="max-width-16-rem">
-                        <form action="{{ route('product.index') }}" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm form-text"
-                                   placeholder="جستجو">
-                            <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-check"></i></button>
-                        </form>
+                        <x-panel-search-form route="{{ route('product.index') }}"/>
                     </div>
                 </section>
 
@@ -87,26 +82,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <label>
-                                        <input id="{{ $product->id }}"
-                                               onchange="changeStatus({{ $product->id }}, 'کالا')"
-                                               data-url="{{ route('product.status', $product->id) }}" type="checkbox"
-                                               @if ($product->status === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="product.status" method="changeStatus"
+                                                      name="کالا" :model="$product" property="status"/>
                                 </td>
 
                                 <td>
-                                    <label>
-                                        <input id="{{ $product->id }}-marketable"
-                                               onchange="marketable({{ $product->id }}, 'کالا')"
-                                               data-url="{{ route('product.marketable', $product->id) }}"
-                                               type="checkbox"
-                                               @if ($product->marketable === 1)
-                                                   checked
-                                            @endif>
-                                    </label>
+                                    <x-panel-checkbox class="rounded" route="product.marketable" method="marketable"
+                                                      uniqueId="marketable"
+                                                      name="پست" :model="$product" property="marketable"/>
                                 </td>
 
                                 <td class="width-8-rem text-left">

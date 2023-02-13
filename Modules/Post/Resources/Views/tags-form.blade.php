@@ -35,8 +35,8 @@
                         <section class="row">
                             @php $message = $message ?? null @endphp
                             <x-panel-section col="5" id="post-name" label="نام پست" text="{{ $post->title }}"/>
-                            <x-panel-section col="5" id="admin-email" label="توضیح پست"
-                                             text="{!! $post->summary !!}"/>
+                            <x-panel-section col="5" id="post-summary" label="توضیح پست"
+                                             text="{!! strip_tags($post->summary) !!}"/>
                             <section class="col-12 border-bottom mb-3"></section>
 
                             <x-panel-multi-selection col="12" label="تگ ها" name="tags"
@@ -52,7 +52,6 @@
     </section>
 @endsection
 @section('script')
-
     <script>
         const tags = $('#tags');
         tags.select2({
@@ -61,5 +60,4 @@
             tags: false
         })
     </script>
-
 @endsection

@@ -19,9 +19,9 @@ class Input extends Component
     public ?Model $model;
     public ?string $class;
     public string $type;
-    public ?bool $date;
-    public ?bool $showImage;
-    public ?bool $select2;
+    public bool $date;
+    public bool $showImage;
+    public bool $select2;
 
     /**
      * Create a new component instance.
