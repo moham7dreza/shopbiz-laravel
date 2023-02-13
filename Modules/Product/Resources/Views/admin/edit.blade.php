@@ -57,6 +57,9 @@
                                            :model="$product"/>
                             <x-panel-input col="10" name="price" label="قیمت کالا" :message="$message" method="edit"
                                            :model="$product"/>
+                            <livewire:fa-price-input col="10" name="price" label="قیمت کالا" :message="$message"
+                                                     method="edit"
+                                                     :obj="$product"/>
                             <x-panel-text-area col="10" name="introduction" label="توضیحات" rows="12"
                                                :message="$message" method="edit" :model="$product"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"

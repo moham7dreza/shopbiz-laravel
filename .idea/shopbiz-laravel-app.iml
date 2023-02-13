@@ -165,6 +165,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-translatable" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/eloquent-sortable" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-activitylog" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/uri-template" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

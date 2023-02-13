@@ -4,6 +4,7 @@ namespace Modules\Share\Providers;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Modules\Share\Components\Panel\ATag;
 use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\Card;
@@ -21,6 +22,7 @@ use Modules\Share\Components\Panel\Status;
 use Modules\Share\Components\Panel\TableRow;
 use Modules\Share\Components\Panel\TextArea;
 use Modules\Share\Components\Share\Error;
+use Modules\Share\Livewire\Panel\FaPriceInput;
 
 class ShareServiceProvider extends ServiceProvider
 {
@@ -57,6 +59,7 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadConfigFiles();
         $this->loadPanelComponents();
         $this->loadShareComponents();
+        $this->loadLivewireComponents();
     }
 
     /**
@@ -136,5 +139,13 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadViewComponentsAs('share', [
             Error::class,
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function loadLivewireComponents(): void
+    {
+        Livewire::component('fa-price-input', FaPriceInput::class);
     }
 }
