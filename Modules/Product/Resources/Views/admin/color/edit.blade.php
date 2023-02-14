@@ -2,6 +2,7 @@
 
 @section('head-tag')
     <title>ویرایش رنگ</title>
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -39,8 +40,10 @@
                                            :model="$color"/>
                             <x-panel-input col="10" name="color" type="color" label="رنگ" :message="$message"
                                            method="edit" :model="$color"/>
-                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message"
-                                           method="edit" :model="$color"/>
+                            <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
+                                                     :message="$message" class="dir-ltr"
+                                                     method="edit"
+                                                     :obj="$color"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"
                                                 :model="$color"/>
@@ -57,4 +60,7 @@
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    @livewireScripts
 @endsection

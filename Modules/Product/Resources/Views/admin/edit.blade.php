@@ -56,8 +56,6 @@
                                            :model="$product"/>
                             <x-panel-input col="10" name="height" label="ارتفاع" :message="$message" method="edit"
                                            :model="$product"/>
-{{--                            <x-panel-input col="10" name="price" label="قیمت کالا" :message="$message" method="edit"--}}
-{{--                                           :model="$product"/>--}}
                             <livewire:fa-price-input col="10" name="price" label="قیمت کالا" :message="$message" class="dir-ltr"
                                                      method="edit"
                                                      :obj="$product"/>

@@ -63,7 +63,7 @@
                                                     <section
                                                         class="d-flex align-items-center justify-content-start gap-1 post-user border-top">
                                                         <span><i class="fa fa-user"></i></span>
-                                                        <a href="{{ route('customer.author.bio', $post->author) }}"
+                                                        <a href="{{ route('customer.author.bio', ['user' => $post->author]) }}"
                                                            class="author text-decoration-none text-dark pointer mt-2">
                                                             <span>{{ $post->getAuthorName() }}</span>
                                                         </a>

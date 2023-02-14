@@ -3,6 +3,7 @@
 @section('head-tag')
     <title>ویرایش تخفیف عمومی</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -38,10 +39,14 @@
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="percentage" label="درصد تخفیف" :message="$message"
                                            method="edit" :model="$commonDiscount"/>
-                            <x-panel-input col="10" name="discount_ceiling" label="حداکثر تخفیف" :message="$message"
-                                           method="edit" :model="$commonDiscount"/>
-                            <x-panel-input col="10" name="minimal_order_amount" label="حداقل مبلغ خرید"
-                                           :message="$message" method="edit" :model="$commonDiscount"/>
+                            <livewire:fa-price-input col="10" name="discount_ceiling" label="حداکثر تخفیف"
+                                                     :message="$message" class="dir-ltr"
+                                                     method="edit"
+                                                     :obj="$commonDiscount"/>
+                            <livewire:fa-price-input col="10" name="minimal_order_amount" label="حداقل مبلغ خرید"
+                                                     :message="$message" class="dir-ltr"
+                                                     method="edit"
+                                                     :obj="$commonDiscount"/>
                             <x-panel-input col="10" name="title" label="عنوان مناسبت" :message="$message" method="edit"
                                            :model="$commonDiscount"/>
                             <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
@@ -50,7 +55,7 @@
                                            :message="$message" method="edit" :model="$commonDiscount"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"
-                                            :model="$commonDiscount"/>
+                                                :model="$commonDiscount"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
@@ -64,7 +69,7 @@
 
 
 @section('script')
-
+    @livewireScripts
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
 

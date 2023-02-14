@@ -50,7 +50,8 @@
                             <x-panel-input col="10" name="width" label="عرض" :message="$message"/>
                             <x-panel-input col="10" name="height" label="ارتفاع" :message="$message"/>
 
-                            <livewire:fa-price-input col="10" name="price" label="قیمت کالا" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="price" label="قیمت کالا" class="dir-ltr"
+                                                     :message="$message"/>
                             <x-panel-text-area col="10" name="introduction" label="توضیحات" rows="12"
                                                :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"

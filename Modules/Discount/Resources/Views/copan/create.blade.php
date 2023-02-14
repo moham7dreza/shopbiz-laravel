@@ -3,6 +3,7 @@
 @section('head-tag')
     <title>ایجاد کوپن تخفیف</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -47,8 +48,10 @@
                             <x-panel-select-box col="10" name="user_id" label="کاربران" disabled
                                                 :message="$message" :collection="$users"
                                                 property="fullName" option="کاربر را انتخاب کنید"/>
-                            <x-panel-input col="10" name="amount" label="میزان تخفیف" :message="$message"/>
-                            <x-panel-input col="10" name="discount_ceiling" label="حداکثر تخفیف" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="amount" label="میزان تخفیف"
+                                                     class="dir-ltr" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="discount_ceiling" label="حداکثر تخفیف"
+                                                     class="dir-ltr" :message="$message"/>
                             <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message"/>
                             <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
@@ -67,9 +70,9 @@
 @endsection
 
 @section('script')
+    @livewireScripts
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
-
 
     <script>
         $(document).ready(function () {
@@ -83,7 +86,6 @@
                 })
         });
     </script>
-
 
     <script>
         $("#type").change(function () {

@@ -3,6 +3,7 @@
 @section('head-tag')
     <title>ایجاد تخفیف عمومی</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -35,16 +36,17 @@
                         <section class="row">
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="percentage" label="درصد تخفیف" :message="$message"/>
-                            <x-panel-input col="10" name="discount_ceiling" label="حداکثر تخفیف" :message="$message"/>
-                            <x-panel-input col="10" name="minimal_order_amount" label="حداقل مبلغ خرید"
-                                           :message="$message"/>
+                            <livewire:fa-price-input col="10" name="discount_ceiling" label="حداکثر تخفیف"
+                                                     class="dir-ltr" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="minimal_order_amount" label="حداقل مبلغ خرید"
+                                                     class="dir-ltr" :message="$message"/>
                             <x-panel-input col="10" name="title" label="عنوان مناسبت" :message="$message"/>
                             <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message"/>
                             <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
-                                                :message="$message" :hasDefaultStatus="true" />
+                                                :message="$message" :hasDefaultStatus="true"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>
@@ -58,7 +60,7 @@
 
 
 @section('script')
-
+    @livewireScripts
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
 

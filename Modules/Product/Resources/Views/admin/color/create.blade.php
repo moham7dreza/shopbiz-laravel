@@ -2,6 +2,7 @@
 
 @section('head-tag')
     <title>ایجاد رنگ</title>
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -36,7 +37,8 @@
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="color_name" label="نام رنگ" :message="$message"/>
                             <x-panel-input col="10" name="color" type="color" label="رنگ" :message="$message"/>
-                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
+                                                     class="dir-ltr" :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true"/>
                             <x-panel-input col="10" name="marketable_number" label="تعداد قابل فروش" :message="$message"/>
@@ -51,4 +53,7 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    @livewireScripts
 @endsection

@@ -2,6 +2,7 @@
 
 @section('head-tag')
     <title> ایجاد روش ارسال</title>
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -36,8 +37,8 @@
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="name" label="نام روش ارسال"
                                            :message="$message"/>
-                            <x-panel-input col="10" name="amount" label="هزینه روش ارسال"
-                                           :message="$message"/>
+                            <livewire:fa-price-input col="10" name="amount" label="هزینه روش ارسال"
+                                                     class="dir-ltr" :message="$message"/>
                             <x-panel-input col="10" name="delivery_time" label="زمان ارسال"
                                            :message="$message"/>
                             <x-panel-input col="10" name="delivery_time_unit" label="واحد زمان ارسال"
@@ -53,4 +54,7 @@
         </section>
     </section>
 
+@endsection
+@section('script')
+    @livewireScripts
 @endsection

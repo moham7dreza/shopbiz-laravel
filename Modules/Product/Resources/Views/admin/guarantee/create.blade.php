@@ -2,6 +2,7 @@
 
 @section('head-tag')
     <title>ایجاد گارانتی</title>
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -15,7 +16,6 @@
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ایجاد گارانتی</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -37,7 +37,8 @@
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="name" label="نام گارانتی" :message="$message"/>
                             <x-panel-input col="10" name="duration" label="مدت زمان اعتبار گارانتی" :message="$message" placeholder="بر حسب ماه ..."/>
-                            <x-panel-input col="10" name="price_increase" label="افزایش قیمت" :message="$message"/>
+                            <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
+                                                     class="dir-ltr" :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true"/>
                             <x-panel-button col="12" title="ثبت"/>
@@ -47,4 +48,7 @@
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    @livewireScripts
 @endsection

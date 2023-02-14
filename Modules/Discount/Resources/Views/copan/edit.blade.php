@@ -3,6 +3,7 @@
 @section('head-tag')
     <title>ویرایش کوپن تخفیف</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -53,10 +54,14 @@
                                                 :message="$message" :collection="$users"
                                                 property="fullName" option="کاربر را انتخاب کنید" method="edit"
                                                 :model="$copanDiscount"/>
-                            <x-panel-input col="10" name="amount" label="میزان تخفیف" :message="$message" method="edit"
-                                           :model="$copanDiscount"/>
-                            <x-panel-input col="10" name="discount_ceiling" label="حداکثر تخفیف" :message="$message"
-                                           method="edit" :model="$copanDiscount"/>
+                            <livewire:fa-price-input col="10" name="amount" label="میزان تخفیف"
+                                                     :message="$message" class="dir-ltr"
+                                                     method="edit"
+                                                     :obj="$copanDiscount"/>
+                            <livewire:fa-price-input col="10" name="discount_ceiling" label="حداکثر تخفیف"
+                                                     :message="$message" class="dir-ltr"
+                                                     method="edit"
+                                                     :obj="$copanDiscount"/>
                             <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message" method="edit" :model="$copanDiscount"/>
                             <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
@@ -76,6 +81,7 @@
 @endsection
 
 @section('script')
+    @livewireScripts
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
 
