@@ -15,9 +15,10 @@
                         موجودی محصول <strong>{{ $product->name }}</strong> به <strong>اتمام</strong> رسید.
                     </li>
                 @else
-                <li class="alert alert-danger list-style-none font-size-80">
-                    از محصول <strong>{{ $product->name }}</strong> فقط به تعداد <strong>{{ convertEnglishToPersian($product->marketable_number) }}</strong> عدد موجود است.
-                </li>
+                    <li class="alert alert-danger list-style-none font-size-80">
+                        از محصول <strong>{{ $product->name }}</strong> فقط به تعداد
+                        <strong>{{ convertEnglishToPersian($product->marketable_number) }}</strong> عدد موجود است.
+                    </li>
                 @endif
             @endforeach
         </ul>
@@ -25,20 +26,15 @@
 
     @include('Cart::home.partials.cart-items')
 
-{{--    @include('Cart::home.partials.related-products')--}}
-
-    @include('Share::wrapper.product-lazy-load-with-reactions-and-counters', [
-               'class' => 'py-4 bg-blue-light',
-       'title' => 'کالاهای مرتبط',
-       'products' => $relatedProducts,
-       'productIds' => $cartItems->pluck('product_id')->toArray(),
-       'viewAllRoute' => route('customer.market.query-products', 'inputQuery=mostVisitedProducts')
-   ])
-
+    <x-home-product-lazy-load-with-reactions title="کالاهای مرتبط با سبد خرید شما" :products="$relatedProducts"
+                                             :productIds="$cartItems->pluck('product_id')->toArray()"
+                                             class="py-4 bg-blue-light"
+                                             viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=mostVisitedProducts') }}"/>
 @endsection
 
 
 @section('script')
 
     @include('Cart::home.partials.scripts')
+
 @endsection

@@ -10,16 +10,10 @@
 
     @include('Product::home.partials.description')
 
-{{--    @include('Product::home.partials.related-products')--}}
-
-    @include('Share::wrapper.product-lazy-load-with-reactions-and-counters', [
-                'class' => 'py-4 bg-blue-light',
-        'title' => 'کالاهای مرتبط',
-        'products' => $relatedProducts,
-        'productIds' => $userCartItemsProductIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=mostVisitedProducts')
-    ])
-
+    <x-home-product-lazy-load-with-reactions title="کالاهای مرتبط با سبد خرید شما" :products="$relatedProducts"
+                                             :productIds="$userCartItemsProductIds"
+                                             class="py-4 bg-blue-light"
+                                             viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=mostVisitedProducts') }}"/>
 @endsection
 
 @section('script')
