@@ -4,14 +4,12 @@
     {!! SEO::generate() !!}
 @endsection
 
-@php $user = auth()->user(); @endphp
-
 @section('content')
 
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
-            <x-share-error />
+            <x-share-error/>
 
             <section class="row">
                 <section class="col">
@@ -44,154 +42,41 @@
                                 </section>
 
                                 <section class="row pb-3">
-
+                                    @php
+                                        $message = $message ?? null;
+                                        $user = auth()->user();
+                                    @endphp
                                     @if(empty($user->first_name))
-                                        <section class="col-12 col-md-6 my-2">
-                                            <div class="form-group">
-                                                <label for="first_name">نام</label>
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="first_name" id="first_name"
-                                                       value="{{ old('first_name') }}">
-                                            </div>
-                                            @error('first_name')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                            <strong>
-                                                {{ $message }}
-                                            </strong>
-                                        </span>
-                                            @enderror
-                                        </section>
+                                        <x-panel-input col="6" name="first_name" label="نام"
+                                                       :message="$message"/>
                                     @endif
-
 
                                     @if(empty($user->last_name))
-                                        <section class="col-12 col-md-6 my-2">
-                                            <div class="form-group">
-                                                <label for="last_name">نام خانوادگی</label>
-                                                <input type="text" class="form-control form-control-sm" name="last_name"
-                                                       id="last_name" value="{{ old('last_name') }}">
-                                            </div>
-                                            @error('last_name')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                            <strong>
-                                                {{ $message }}
-                                            </strong>
-                                        </span>
-                                            @enderror
-                                        </section>
+                                        <x-panel-input col="6" name="last_name" label="نام خانوادگی"
+                                                       :message="$message"/>
                                     @endif
-
 
                                     @if(empty($user->mobile))
-                                        <section class="col-12 col-md-6 my-2">
-                                            <div class="form-group">
-                                                <label for="mobile">موبایل</label>
-                                                <input type="text" class="form-control form-control-sm" name="mobile"
-                                                       id="mobile" value="{{ old('mobile') }}">
-                                            </div>
-                                            @error('mobile')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                            <strong>
-                                                {{ $message }}
-                                            </strong>
-                                        </span>
-                                            @enderror
-                                        </section>
+                                        <x-panel-input col="6" name="mobile" label="موبایل"
+                                                       :message="$message"/>
                                     @endif
 
-
                                     @if(empty($user->national_code))
-                                        <section class="col-12 col-md-6 my-2">
-                                            <div class="form-group">
-                                                <label for="national_code">کد ملی</label>
-                                                <input type="text" class="form-control form-control-sm"
-                                                       name="national_code" id="national_code"
-                                                       value="{{ old('national_code') }}">
-                                            </div>
-                                            @error('national_code')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                            <strong>
-                                                {{ $message }}
-                                            </strong>
-                                        </span>
-                                            @enderror
-                                        </section>
+                                        <x-panel-input col="6" name="national_code" label="کد ملی"
+                                                       :message="$message"/>
                                     @endif
 
                                     @if(empty($user->email))
-                                        <section class="col-12 col-md-6 my-2">
-                                            <div class="form-group">
-                                                <label for="email">ایمیل (اختیاری)</label>
-                                                <input type="text" class="form-control form-control-sm" name="email"
-                                                       id="email" value="{{ old('email') }}">
-                                            </div>
-                                            @error('email')
-                                            <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
-                                                <strong>
-                                                    {{ $message }}
-                                                </strong>
-                                            </span>
-                                            @enderror
-                                        </section>
+                                        <x-panel-input col="6" name="email" label="ایمیل (اختیاری)"
+                                                       :message="$message"/>
                                     @endif
-
-
                                 </section>
                             </form>
 
                         </section>
                         <section class="col-md-3">
-                            <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
-                                @php
-                                    $totalProductPrice = 0;
-                                    $totalDiscount = 0;
-                                @endphp
-
-                                @foreach($cartItems as $cartItem)
-                                    @php
-                                        $totalProductPrice += $cartItem->cartItemProductPrice() * $cartItem->number;
-                                        $totalDiscount += $cartItem->cartItemProductDiscount() * $cartItem->number;
-                                    @endphp
-                                @endforeach
-
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">قیمت کالاها ({{ $cartItem->getFaItemsCount() }})</p>
-                                    <p class="text-muted" id="total_product_price">
-                                        {{ $cartItem->getFaPrice($totalProductPrice) }}
-                                    </p>
-                                </section>
-
-                                @if ($totalDiscount != 0)
-                                    <section class="d-flex justify-content-between align-items-center">
-                                        <p class="text-muted">تخفیف کالاها</p>
-                                        <p class="text-danger fw-bolder"
-                                           id="total_discount">{{ $cartItem->getFaPrice($totalDiscount) }}
-                                        </p>
-                                    </section>
-                                @endif
-                                <section class="border-bottom mb-3"></section>
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder" id="total_price">
-                                        {{ $cartItem->getFaPrice($totalProductPrice - $totalDiscount) }}</p>
-                                </section>
-
-                                <p class="my-3">
-                                    <i class="fa fa-info-circle me-1"></i>کاربر گرامی خرید شما هنوز نهایی نشده است. برای
-                                    ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید و سپس نحوه ارسال را انتخاب
-                                    کنید. نحوه ارسال انتخابی شما محاسبه و به این مبلغ اضافه شده خواهد شد. و در نهایت
-                                    پرداخت این سفارش صورت میگیرد.
-                                </p>
-
-
-                                <section class="">
-                                    <button type="button"
-                                            onclick="document.getElementById('profile_completion').submit();"
-                                            class="btn btn-danger d-block w-100">تکمیل فرآیند خرید
-                                    </button>
-                                </section>
-
-                            </section>
+                            <x-home-cart-price :cartItems="$cartItems" formId="profile_completion"
+                                               buttonText="ثبت اطلاعات کاربری"/>
                         </section>
                     </section>
                 </section>
@@ -200,5 +85,4 @@
         </section>
     </section>
     <!-- end cart -->
-
 @endsection

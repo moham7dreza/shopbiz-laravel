@@ -1,5 +1,4 @@
 <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
-
     <!-- start content header -->
     <section class="content-header mb-3">
         <section class="d-flex justify-content-between align-items-center">
@@ -23,7 +22,6 @@
         </section>
 
         @foreach ($deliveryMethods as $deliveryMethod)
-
             <input type="radio" form="myForm" name="delivery_id"
                    value="{{ $deliveryMethod->id }}" id="d-{{ $deliveryMethod->id }}"/>
             <label for="d-{{ $deliveryMethod->id }}"
@@ -37,9 +35,6 @@
                     {{ $deliveryMethod->explainDeliveryTime() }}
                 </section>
             </label>
-
         @endforeach
-
-
     </section>
 </section>

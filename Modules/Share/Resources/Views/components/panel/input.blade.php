@@ -1,4 +1,4 @@
-<section class="col-12 col-md-{{ $col }}">
+<section class="col-12 col-md-{{ $col }} {{ $dadClass }}">
     <div class="form-group">
         <label for="{{ $name }}">{{ $label }}</label>
         <input type="{{ $type }}" class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror"

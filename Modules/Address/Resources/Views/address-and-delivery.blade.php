@@ -26,22 +26,22 @@
 
                     <section class="row mt-4">
 
-                        @if ($errors->any())
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="alert alert-danger list-style-none font-size-80">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <x-share-error />
 
                         <section class="col-md-9">
                             @include('Address::partials.address-select')
 
                             @include('Address::partials.delivery-select')
-
                         </section>
 
-                        @include('Address::partials.checkout')
+                        <section class="col-md-3">
+                            <form action="{{ route('customer.sales-process.choose-address-and-delivery') }}"
+                                  method="post" id="myForm">
+                                @csrf
+                            </form>
+                            <x-home-cart-price :cartItems="$cartItems" formId="myForm"
+                                               buttonText="پرداخت و تکمیل فرآیند خرید"/>
+                        </section>
                     </section>
                 </section>
             </section>

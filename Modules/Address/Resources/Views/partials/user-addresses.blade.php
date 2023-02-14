@@ -64,7 +64,6 @@
                                     <option
                                         {{ old('city_id'. $address->city_id) == $city->id ? 'selected' : '' }} value="{{ $city->id }}">{{ $city->name }}</option>
                                 @endforeach
-
                             </select>
                         </section>
                         <section class="col-12 mb-2">
@@ -144,7 +143,6 @@
                                 class="form-control form-control-sm" id="mobile"
                                 placeholder="شماره موبایل">
                         </section>
-
 
                 </section>
                 <section class="modal-footer py-1">

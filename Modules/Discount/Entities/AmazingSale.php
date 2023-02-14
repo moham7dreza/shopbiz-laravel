@@ -86,7 +86,7 @@ class AmazingSale extends Model
      */
     public function getFaPercentage(): string
     {
-        return ' % ' . convertEnglishToPersian($this->percentage) ?? $this->percentage . ' %';
+        return '% ' . convertEnglishToPersian($this->percentage) ?? $this->percentage . ' %';
     }
 
     // ********************************************* product

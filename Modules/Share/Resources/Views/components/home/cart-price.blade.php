@@ -12,7 +12,7 @@
     @endforeach
 
     <section class="d-flex justify-content-between align-items-center">
-        <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
+        <p class="text-muted">قیمت کالاها ({{ convertEnglishToPersian($cartItems->count()) }})</p>
         <p class="text-muted"><span
                 id="total_product_price">{{ priceFormat($totalProductPrice) }}</span> تومان
         </p>
@@ -28,42 +28,54 @@
 
     <section class="border-bottom mb-3"></section>
 
-
-    @if ($order->commonDiscount != null)
+    @if (!is_null($commonDiscount))
         <section class="d-flex justify-content-between align-items-center">
             <p class="text-muted">میزان تخفیف عمومی</p>
             <p class="text-danger fw-bolder"><span
-                    id="total_discount">{{ priceFormat($order->commonDiscount->percentage) }}</span>
-                درصد</p>
+                    id="common_discount">{{ $commonDiscount->getFaPercentage() }}</span>
+            </p>
         </section>
 
         <section class="d-flex justify-content-between align-items-center">
             <p class="text-muted">میزان حداکثر تخفیف عمومی</p>
-            <p class="text-danger fw-bolder"><span
-                    id="total_discount">{{ priceFormat($order->commonDiscount->discount_ceiling) }}</span>
-                تومان</p>
+            <p class="text-danger fw-bolder"><span>{{ $commonDiscount->getFaDiscountCeiling() }}</span>
+            </p>
         </section>
-
-
 
         <section class="d-flex justify-content-between align-items-center">
             <p class="text-muted">حداقل موجودی سبد خرید</p>
-            <p class="text-danger fw-bolder"><span
-                    id="total_discount">{{ priceFormat($order->commonDiscount->minimal_order_amount) }}</span>
-                تومان</p>
+            <p class="text-danger fw-bolder"><span>{{ $commonDiscount->getFaMinimalOrderAmountPrice() }}</span>
+            </p>
         </section>
-
     @else
         <section>
-            <p class="text-muted">هیج تخفیف عمومی فعال وجود ندارد</p>
+            <p class="text-muted text-danger">هیج تخفیف عمومی فعال وجود ندارد</p>
         </section>
     @endif
 
+    @if (!is_null($copanDiscount))
+        <section class="border-bottom mb-3"></section>
+        <section class="d-flex justify-content-between align-items-center">
+            <p class="text-muted">میزان تخفیف کوپن</p>
+            <p class="text-danger fw-bolder"><span
+                    id="copan_discount">{{ $copanDiscount->getFaAmount() }}</span>
+            </p>
+        </section>
+        @if($copanDiscount->isTypePercentage())
+            <section class="d-flex justify-content-between align-items-center">
+                <p class="text-muted">میزان حداکثر تخفیف</p>
+                <p class="text-danger fw-bolder"><span>{{ $copanDiscount->getFaDiscountCeiling() }}</span>
+                </p>
+            </section>
+        @endif
+    @endif
+
     <section class="border-bottom mb-3"></section>
+    @php $finalAmount = is_null($finalAmount) ? ($totalProductPrice - $totalDiscount) : $finalAmount; @endphp
     <section class="d-flex justify-content-between align-items-center">
         <p class="text-muted">جمع سبد خرید</p>
         <p class="fw-bolder"><span
-                id="total_price">{{ priceFormat($order->order_final_amount) }}</span>
+                id="total_price">{{ priceFormat($finalAmount) }}</span>
             تومان</p>
     </section>
 
@@ -75,11 +87,10 @@
         این سفارش صورت میگیرد.
     </p>
 
-
     <section class="">
         <button type="button"
-                onclick="document.getElementById('payment_submit').submit();"
-                class="btn btn-danger d-block w-100">تکمیل فرآیند خرید
+                onclick="document.getElementById('{{ $formId }}').submit();"
+                class="btn btn-danger d-block w-100">{{ $buttonText }}
         </button>
     </section>
 

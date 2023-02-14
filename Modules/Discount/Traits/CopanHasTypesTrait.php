@@ -34,4 +34,12 @@ trait CopanHasTypesTrait
         self::AMOUNT_TYPE_PERCENTAGE => 'درصدی',
         self::AMOUNT_TYPE_PRICE => 'عددی'
     ];
+
+    /**
+     * @return bool
+     */
+    public function isTypePercentage(): bool
+    {
+        return $this->amount_type == self::AMOUNT_TYPE_PERCENTAGE;
+    }
 }

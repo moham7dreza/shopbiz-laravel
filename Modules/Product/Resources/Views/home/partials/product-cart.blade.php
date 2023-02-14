@@ -48,7 +48,8 @@
                             @endphp
                             @if(!empty($amazingSale) && $product->marketable_number > 0)
                                 <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">تخفیف کالا</p>
+                                    <p class="text-muted">تخفیف کالا (<span class="text-danger font-weight-bold mx-1">{{ $amazingSale->getFaPercentage() }}</span>)
+                                    </p>
                                     <p class="text-danger fw-bolder" id="product-discount-price"
                                        data-product-discount-price="{{ ($product->price * ($amazingSale->percentage / 100) ) }}">
                                         {{ priceFormat($product->price * ($amazingSale->percentage / 100)) }}<span
