@@ -34,18 +34,21 @@ class ProductService implements ProductServiceInterface
      * @param ReviewService $reviewService
      * @param ProductRepoEloquentInterface $productRepo
      * @param SettingRepoEloquentInterface $settingRepo
+     * @param ProductColorRepoEloquentInterface $productColorRepo
      */
     public function __construct(ImageService $imageService,
                                 ProductMetaServiceInterface $metaService,
                                 ReviewService $reviewService,
                                 ProductRepoEloquentInterface $productRepo,
-                                SettingRepoEloquentInterface $settingRepo)
+                                SettingRepoEloquentInterface $settingRepo,
+                                ProductColorRepoEloquentInterface $productColorRepo)
     {
         $this->imageService = $imageService;
         $this->metaService = $metaService;
         $this->reviewService = $reviewService;
         $this->productRepo = $productRepo;
         $this->settingRepo = $settingRepo;
+        $this->productColorRepo = $productColorRepo;
     }
 
     /**

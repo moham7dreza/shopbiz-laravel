@@ -56,4 +56,20 @@ class Guarantee extends Model
     {
         return priceFormat($this->price_increase) . ' تومان ';
     }
+
+    /**
+     * @return string
+     */
+    public function getFaDurationTime(): string
+    {
+        return convertEnglishToPersian($this->duration) . ' ماهه ';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaFullName(): string
+    {
+        return $this->name . ' - ' . $this->getFaDurationTime();
+    }
 }

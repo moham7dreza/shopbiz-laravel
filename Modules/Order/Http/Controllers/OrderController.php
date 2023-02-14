@@ -231,7 +231,7 @@ class OrderController extends Controller
      */
     public function cancelOrder(Order $order): RedirectResponse
     {
-       $this->service->makeOrderStatusCanceled($order);
+        $this->service->makeOrderStatusCanceled($order);
         return $this->showMessageWithRedirectRoute('وضعیت سفارش به باطل شده تغییر کرد.');
     }
 }

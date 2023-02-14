@@ -5,6 +5,7 @@ namespace Modules\Share\Providers;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Modules\Share\Components\Home\CartPrice;
 use Modules\Share\Components\Panel\ATag;
 use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\Card;
@@ -59,6 +60,7 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadConfigFiles();
         $this->loadPanelComponents();
         $this->loadShareComponents();
+        $this->loadHomeComponents();
         $this->loadLivewireComponents();
     }
 
@@ -138,6 +140,18 @@ class ShareServiceProvider extends ServiceProvider
     {
         $this->loadViewComponentsAs('share', [
             Error::class,
+        ]);
+    }
+
+    /**
+     * Load components about panel.
+     *
+     * @return void
+     */
+    private function loadHomeComponents(): void
+    {
+        $this->loadViewComponentsAs('home', [
+            CartPrice::class,
         ]);
     }
 

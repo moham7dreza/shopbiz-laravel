@@ -11,18 +11,9 @@
     <section class="mb-4">
         <section class="container-xxl">
             <section class="row">
-                @if(session('copan'))
-                    <div class="alert alert-success">
-                        {{ session('copan') }}
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <ul class="list-group">
-                        @foreach ($errors->all() as $error)
-                            <li class="alert alert-danger list-group-item-danger" style="list-style: none;">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+
+                <x-share-error />
+
                 <section class="col">
                     <!-- start content header -->
                     <section class="content-header">

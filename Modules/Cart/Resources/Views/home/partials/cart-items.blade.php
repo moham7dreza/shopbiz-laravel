@@ -57,19 +57,32 @@
                                         <p>
                                             @if (!empty($cartItem->color))
                                                 <span style="background-color: {{ $cartItem->color->color }};"
-                                                      class="cart-product-selected-color me-1"></span> <span>
-                                                        {{ $cartItem->getColorName() }}</span>
+                                                      class="cart-product-selected-color me-1"
+                                                      title="افزایش قیمت : {{ $cartItem->color->getFaPriceIncrease() }}"
+                                                      data-bs-toggle="tooltip"
+                                                      data-bs-placement="top">
+                                                </span>
+                                                <span title="رنگ"
+                                                      data-bs-toggle="tooltip"
+                                                      data-bs-placement="top">{{ $cartItem->getColorName() }}</span>
                                             @else
                                                 <span>رنگ منتخب وجود ندارد</span>
                                             @endif
                                         </p>
                                         <p>
                                             @if (!empty($cartItem->guarantee))
-                                                <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                                <span> {{ $cartItem->getGuaranteeName() }}</span>
+                                                <i class="fa fa-shield-alt cart-product-selected-warranty me-1"
+                                                   title="افزایش قیمت : {{ $cartItem->guarantee->getFaPriceIncrease() }}"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top"></i>
+                                                <span title="گارانتی"
+                                                      data-bs-toggle="tooltip"
+                                                      data-bs-placement="top">{{ $cartItem->guarantee->getFaFullName() }}</span>
                                             @else
                                                 <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                                <span> گارانتی ندارد</span>
+                                                <span title="گارانتی"
+                                                      data-bs-toggle="tooltip"
+                                                      data-bs-placement="top"> گارانتی ندارد</span>
                                             @endif
                                         </p>
                                         <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا
@@ -85,14 +98,15 @@
                                                        value="{{ $cartItem->number }}" readonly="readonly">
                                                 <button class="cart-number cart-number-up" type="button">+</button>
                                             </section>
-{{--                                            <button class="btn btn-light btn-sm text-muted p-1"--}}
-{{--                                                    onclick="document.getElementById('delete-cart-item-form').submit();"><i class="fa fa-trash-alt"></i> حذف از سبد</button>--}}
+                                            {{--                                            <button class="btn btn-light btn-sm text-muted p-1"--}}
+                                            {{--                                                    onclick="document.getElementById('delete-cart-item-form').submit();"><i class="fa fa-trash-alt"></i> حذف از سبد</button>--}}
                                             <a class="text-decoration-none ms-4 cart-delete"
-{{--                                               id="delete-{{ $cartItem->id }}"--}}
-                                               href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i class="fa fa-trash-alt"></i> حذف از سبد</a>
-{{--                                            <a class="d-none" id="delete-route-{{ $cartItem->id }}"--}}
-{{--                                               href="">--}}
-{{--                                            </a>--}}
+                                               {{--                                               id="delete-{{ $cartItem->id }}"--}}
+                                               href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i
+                                                    class="fa fa-trash-alt"></i> حذف از سبد</a>
+                                            {{--                                            <a class="d-none" id="delete-route-{{ $cartItem->id }}"--}}
+                                            {{--                                               href="">--}}
+                                            {{--                                            </a>--}}
                                         </section>
 
                                     </section>
@@ -110,7 +124,8 @@
 
 
                         </form>
-                        <form action="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}" id="delete-cart-item-form">
+                        <form action="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"
+                              id="delete-cart-item-form">
 
                         </form>
                     </section>
