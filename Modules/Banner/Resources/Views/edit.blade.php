@@ -39,7 +39,7 @@
                                            method="edit" :model="$banner"/>
 
                             <x-panel-input col="10" type="file" name="image" label="تصویر بنر"
-                                           :message="$message" method="edit" :model="$banner"/>
+                                           :message="$message" method="edit" :model="$banner" :showImage="true"/>
 
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"

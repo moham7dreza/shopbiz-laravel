@@ -6,57 +6,35 @@
 
 @section('content')
 
-    @php
-        $productIds = $repo->userCartItemsProductIds();
-    @endphp
+    @php $productIds = $repo->userCartItemsProductIds(); @endphp
 
     @include('Home::partials.banners.slide-show-and-top-banners')
 
-    @include('Share::wrapper.product-lazy-load', [
-        'class' => 'py-4 bg-white',
-        'title' => 'محصولات فروش ویژه',
-        'products' => $repo->productsWithActiveAmazingSales(),
-        'productIds' => $productIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=productsWithActiveAmazingSales')
-    ])
+    <x-home-product-lazy-load title="محصولات فروش ویژه" :products="$repo->productsWithActiveAmazingSales()"
+                              :productIds="$productIds" class="py-4 bg-white"
+                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=productsWithActiveAmazingSales') }}"/>
 
     @include('Home::partials.banners.four-col-banners')
 
-    @include('Share::wrapper.product-lazy-load-with-reactions-and-counters', [
-                'class' => 'py-4 bg-blue-light',
-        'title' => 'پربازدیدترین محصولات',
-        'products' => $repo->mostVisitedProducts(),
-        'productIds' => $productIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=mostVisitedProducts')
-    ])
+    <x-home-product-lazy-load-with-reactions title="پربازدیدترین محصولات" :products="$repo->mostVisitedProducts()"
+                              :productIds="$productIds" class="py-4 bg-blue-light"
+                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=mostVisitedProducts') }}"/>
 
     @include('Home::partials.banners.middle-banners')
 
-    @include('Share::wrapper.product-lazy-load', [
-                'class' => '',
-        'title' => 'محصولات پیشنهادی',
-        'products' => $repo->offerProducts(),
-        'productIds' => $productIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=offerProducts')
-    ])
+    <x-home-product-lazy-load title="محصولات پیشنهادی" :products="$repo->offerProducts()"
+                              :productIds="$productIds"
+                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=offerProducts') }}"/>
 
     @include('Home::partials.banners.bottom-banner')
 
-    @include('Share::wrapper.product-lazy-load', [
-                'class' => 'py-4 bg-white',
-        'title' => 'جدیدترین محصولات',
-        'products' => $repo->newestProducts(),
-        'productIds' => $productIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=newestProducts')
-    ])
+    <x-home-product-lazy-load title="جدیدترین محصولات" :products="$repo->newestProducts()"
+                              :productIds="$productIds" class="py-4 bg-white"
+                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=newestProducts') }}"/>
 
-    @include('Share::wrapper.product-lazy-load', [
-                'class' => 'py-4',
-        'title' => 'محبوب ترین کالاها',
-        'products' => $repo->popularProducts(),
-        'productIds' => $productIds,
-        'viewAllRoute' => route('customer.market.query-products', 'inputQuery=popularProducts')
-    ])
+    <x-home-product-lazy-load title="محبوب ترین کالاها" :products="$repo->popularProducts()"
+                              :productIds="$productIds" class="py-4"
+                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=popularProducts') }}"/>
 
     @include('Home::partials.banners.slider-banner')
 

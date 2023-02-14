@@ -108,7 +108,7 @@ class Product extends Model implements Viewable
      */
     public function scopeSelected($query, int $selected = self::SELECTED): mixed
     {
-        return $query->where('selected', );
+        return $query->where('selected', $selected);
     }
 
     /**

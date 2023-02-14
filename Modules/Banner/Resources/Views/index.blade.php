@@ -8,9 +8,9 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#">بخش محتوی</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page">بنر ها</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}"> خانه</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش محتوی</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> بنر ها</li>
         </ol>
     </nav>
 

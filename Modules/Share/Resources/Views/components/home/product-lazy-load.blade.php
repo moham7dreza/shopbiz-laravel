@@ -97,7 +97,7 @@
                                                         <section class="product-colors"></section>
                                                         <section class="product-name">
                                                             <h3>{{ $product->getLimitedName() }}</h3></section>
-                                                        @include('Share::wrapper.partials.calc-stars-count-from-rate')
+                                                        @include('Share::components.home.partials.calc-stars-count-from-rate')
                                                         <section class="product-price-wrapper mb-4">
                                                             @if($product->activeAmazingSales())
                                                                 <section class="product-discount" title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"

@@ -22,24 +22,22 @@ class ReviewService
             ['reviewable_type', get_class($model)],
         ])->first();
         if ($review) {
-            Review::query()->where([
-                ['user_id', auth()->id()],
-                ['reviewable_id', $model->id],
-                ['reviewable_type', get_class($model)],
-            ])->update(['rate' => $rate]);
-            $review->refresh();
+            $review->rate = $rate;
         } else {
             $review = new Review();
             $review->user_id = auth()->id();
             $review->reviewable_id = $model->id;
             $review->reviewable_type = get_class($model);
-            $review->save();
         }
+        $review->save();
         $rating = $model->calculateRate();
         $product = Product::query()->where('id', $model->id)->first();
         if ($product) {
-            Product::query()->where('id', $model->id)->update(['rating' => $rating]);
-            $product->refresh();
+            $product->rating = $rating;
+            if ($rating > 4) {
+                $product->popular = 1;
+            }
+            $product->save();
         }
 //        $this->query()->create([
 //           'user_id' => auth()->id(),

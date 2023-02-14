@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\Share\Components\Home\CartPrice;
+use Modules\Share\Components\Home\ProductLazyLoad;
+use Modules\Share\Components\Home\ProductLazyLoadWithReactions;
 use Modules\Share\Components\Panel\ATag;
 use Modules\Share\Components\Panel\Button;
 use Modules\Share\Components\Panel\Card;
@@ -152,6 +154,8 @@ class ShareServiceProvider extends ServiceProvider
     {
         $this->loadViewComponentsAs('home', [
             CartPrice::class,
+            ProductLazyLoad::class,
+            ProductLazyLoadWithReactions::class,
         ]);
     }
 
