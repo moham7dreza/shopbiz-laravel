@@ -43,11 +43,11 @@ class BannerController extends Controller
         $this->service = $bannerService;
 
 //        $this->middleware('can:role-admin')->only(['index']);
-        $this->middleware('can:permission-banners')->only(['index']);
-        $this->middleware('can:permission-banner-create')->only(['create', 'store']);
-        $this->middleware('can:permission-banner-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-banner-delete')->only(['destroy']);
-        $this->middleware('can:permission-banner-status')->only(['status']);
+        $this->middleware('can:permission banners')->only(['index']);
+        $this->middleware('can:permission banner create')->only(['create', 'store']);
+        $this->middleware('can:permission banner edit')->only(['edit', 'update']);
+        $this->middleware('can:permission banner delete')->only(['destroy']);
+        $this->middleware('can:permission banner status')->only(['status']);
     }
 
     /**

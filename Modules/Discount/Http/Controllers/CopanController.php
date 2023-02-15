@@ -43,10 +43,10 @@ class CopanController extends Controller
         $this->copanDiscountService = $copanDiscountService;
 
         // set middlewares
-        $this->middleware('can:permission-product-coupon-discounts')->only(['copan']);
-        $this->middleware('can:permission-product-coupon-discount-create')->only(['copanCreate', 'copanStore']);
-        $this->middleware('can:permission-product-coupon-discount-edit')->only(['copanEdit', 'copanUpdate']);
-        $this->middleware('can:permission-product-coupon-discount-delete')->only(['copanDestroy']);
+        $this->middleware('can:permission coupon discounts')->only(['index']);
+        $this->middleware('can:permission coupon discount create')->only(['create', 'store']);
+        $this->middleware('can:permission coupon discount edit')->only(['edit', 'update']);
+        $this->middleware('can:permission coupon discount delete')->only(['destroy']);
     }
 
     /**

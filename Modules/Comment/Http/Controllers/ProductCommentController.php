@@ -41,10 +41,10 @@ class ProductCommentController extends Controller
         $this->repo = $postCommentRepoEloquent;
         $this->service = $commentService;
 
-        $this->middleware('can:permission-product-comments')->only(['index']);
-        $this->middleware('can:permission-product-comment-show')->only(['show']);
-        $this->middleware('can:permission-product-comment-status')->only(['status']);
-        $this->middleware('can:permission-product-comment-approve')->only(['approved']);
+        $this->middleware('can:permission product comments')->only(['index']);
+        $this->middleware('can:permission product comment show')->only(['show']);
+        $this->middleware('can:permission product comment status')->only(['status']);
+        $this->middleware('can:permission product comment approve')->only(['approved']);
     }
 
     /**

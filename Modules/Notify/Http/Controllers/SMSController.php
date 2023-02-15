@@ -43,11 +43,11 @@ class SMSController extends Controller
         $this->repo = $smsRepoEloquent;
         $this->service = $smsService;
 
-        $this->middleware('can:permission-sms-notify')->only(['index']);
-        $this->middleware('can:permission-sms-notify-create')->only(['create', 'store']);
-        $this->middleware('can:permission-sms-notify-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-sms-notify-delete')->only(['destroy']);
-        $this->middleware('can:permission-sms-notify-status')->only(['status']);
+        $this->middleware('can:permission sms notifys')->only(['index']);
+        $this->middleware('can:permission sms notify create')->only(['create', 'store']);
+        $this->middleware('can:permission sms notify edit')->only(['edit', 'update']);
+        $this->middleware('can:permission sms notify delete')->only(['destroy']);
+        $this->middleware('can:permission sms notify status')->only(['status']);
     }
 
     /**

@@ -41,14 +41,14 @@ class RoleController extends Controller
         $this->repo = $rolePermissionRepo;
         $this->service = $rolePermissionService;
 
-        $this->middleware('can:permission-user-roles')->only(['index']);
-        $this->middleware('can:permission-user-role-create')->only(['create', 'store']);
-        $this->middleware('can:permission-user-role-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-user-role-delete')->only(['destroy']);
-        $this->middleware('can:permission-user-role-status')->only(['status']);
-        $this->middleware('can:permission-user-role-permissions')->only(['permissionForm', 'permissionUpdate']);
-        $this->middleware('can:permission-user-permissions-import')->only(['permissionImport']);
-        $this->middleware('can:permission-user-permissions-export')->only(['permissionExport']);
+        $this->middleware('can:permission user roles')->only(['index']);
+        $this->middleware('can:permission user role create')->only(['create', 'store']);
+        $this->middleware('can:permission user role edit')->only(['edit', 'update']);
+        $this->middleware('can:permission user role delete')->only(['destroy']);
+        $this->middleware('can:permission user role status')->only(['status']);
+        $this->middleware('can:permission user role permissions')->only(['permissionForm', 'permissionUpdate']);
+        $this->middleware('can:permission user permissions import')->only(['permissionImport']);
+        $this->middleware('can:permission user permissions export')->only(['permissionExport']);
 
     }
 

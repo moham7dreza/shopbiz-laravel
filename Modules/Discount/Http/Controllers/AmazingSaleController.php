@@ -47,10 +47,10 @@ class AmazingSaleController extends Controller
         $this->productRepo = $productRepo;
 
         // set middlewares
-        $this->middleware('can:permission-product-amazing-sales')->only(['amazingSale']);
-        $this->middleware('can:permission-product-amazing-sale-create')->only(['amazingSaleCreate', 'amazingSaleStore']);
-        $this->middleware('can:permission-product-amazing-sale-edit')->only(['amazingSaleEdit', 'amazingSaleUpdate']);
-        $this->middleware('can:permission-product-amazing-sale-delete')->only(['amazingSaleDestroy']);
+        $this->middleware('can:permission amazing sales')->only(['index']);
+        $this->middleware('can:permission amazing sale create')->only(['create', 'store']);
+        $this->middleware('can:permission amazing sale edit')->only(['edit', 'update']);
+        $this->middleware('can:permission amazing sale delete')->only(['destroy']);
     }
 
     /**

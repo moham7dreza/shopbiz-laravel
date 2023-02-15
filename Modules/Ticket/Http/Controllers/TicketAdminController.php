@@ -40,8 +40,8 @@ class TicketAdminController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission-admin-tickets')->only(['index']);
-        $this->middleware('can:permission-admin-ticket-add')->only(['set']);
+        $this->middleware('can:permission admin tickets')->only(['index']);
+        $this->middleware('can:permission admin ticket add')->only(['set']);
     }
 
     /**

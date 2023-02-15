@@ -42,9 +42,9 @@ class GalleryController extends Controller
         $this->repo = $galleryRepoEloquent;
         $this->service = $galleryService;
 
-        $this->middleware('can:permission-product-gallery')->only(['index']);
-        $this->middleware('can:permission-product-gallery-create')->only(['create', 'store']);
-        $this->middleware('can:permission-product-gallery-delete')->only(['destroy']);
+        $this->middleware('can:permission product gallery')->only(['index']);
+        $this->middleware('can:permission product gallery create')->only(['create', 'store']);
+        $this->middleware('can:permission product gallery delete')->only(['destroy']);
     }
 
     /**

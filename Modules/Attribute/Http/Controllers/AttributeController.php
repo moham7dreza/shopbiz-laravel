@@ -43,11 +43,11 @@ class AttributeController extends Controller
         $this->repo = $attributeRepo;
         $this->service = $attributeService;
 
-        $this->middleware('can:permission-attributes')->only(['index']);
-        $this->middleware('can:permission-attribute-create')->only(['create', 'store']);
-        $this->middleware('can:permission-attribute-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-attribute-delete')->only(['destroy']);
-        $this->middleware('can:permission-attribute-status')->only(['status']);
+        $this->middleware('can:permission attributes')->only(['index']);
+        $this->middleware('can:permission attribute create')->only(['create', 'store']);
+        $this->middleware('can:permission attribute edit')->only(['edit', 'update']);
+        $this->middleware('can:permission attribute delete')->only(['destroy']);
+        $this->middleware('can:permission attribute status')->only(['status']);
     }
 
     /**

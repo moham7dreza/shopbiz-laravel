@@ -36,9 +36,12 @@ class PermissionTableSeeder extends Seeder
         // primary role and permission
         $role_super_admin = Role::query()->where('name', Role::ROLE_SUPER_ADMIN)->first();
         $permission_super_admin = Permission::query()->where('name', Permission::PERMISSION_SUPER_ADMIN)->first();
+        $permission_admin_panel = Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first();
+//        $permission_setting = Permission::query()->where('name', Permission::PERMISSION_SETTING)->first();
+//        $permission_setting_edit = Permission::query()->where('name', Permission::PERMISSION_SETTING_EDIT)->first();
 
         // assign primary permission to role
-        $role_super_admin->syncPermissions($permission_super_admin);
+        $role_super_admin->syncPermissions([$permission_super_admin, $permission_admin_panel]);
 
         // find admin
         $super_admin = User::query()->first();

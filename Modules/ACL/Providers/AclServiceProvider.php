@@ -89,7 +89,7 @@ class AclServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () use ($rolePermissionRepo) {
             $this->defineCurrentUserPermissionsInSystem($rolePermissionRepo);
-            $this->setGateBefore();
+//            $this->setGateBefore();
             $this->setMenuForPanel();
         });
     }
@@ -161,23 +161,25 @@ class AclServiceProvider extends ServiceProvider
     }
 
 
-    private function defineCurrentUserPermissionsInSystem($rolePermissionRepo)
+    /**
+     * @param $rolePermissionRepo
+     * @return void
+     */
+    private function defineCurrentUserPermissionsInSystem($rolePermissionRepo): void
     {
-        try {
-            $rolePermissionRepo->getAllPermissions()->map(function ($permission) {
-                Gate::define($permission->name, function (User $user) use ($permission) {
-                    return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
-                });
+        $rolePermissionRepo->getAllPermissions()->map(function ($permission) {
+            Gate::define($permission->name, function (User $user) use ($permission) {
+                return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
             });
-
-        } catch (Exception $e) {
-            report($e);
-            return false;
-        }
-
-        return false;
-
-
+        });
+//        try {
+//
+//
+//        } catch (Exception $e) {
+//            report($e);
+//            return false;
+//        }
+//        return false;
 //        Blade::directive('role', function ($role) {
         /*            return "<?php if(auth()->check() && auth()->user()->hasRole($role)) : ?>";*/
 //        });

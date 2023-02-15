@@ -42,11 +42,11 @@ class PageController extends Controller
         $this->repo = $pageRepoEloquent;
         $this->service = $pageService;
 
-        $this->middleware('can:permission-pages')->only(['index']);
-        $this->middleware('can:permission-page-create')->only(['create', 'store']);
-        $this->middleware('can:permission-page-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-page-delete')->only(['destroy']);
-        $this->middleware('can:permission-page-status')->only(['status']);
+        $this->middleware('can:permission pages')->only(['index']);
+        $this->middleware('can:permission page create')->only(['create', 'store']);
+        $this->middleware('can:permission page edit')->only(['edit', 'update']);
+        $this->middleware('can:permission page delete')->only(['destroy']);
+        $this->middleware('can:permission page status')->only(['status']);
     }
 
     /**

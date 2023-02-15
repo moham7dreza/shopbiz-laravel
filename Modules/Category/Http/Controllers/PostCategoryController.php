@@ -43,11 +43,11 @@ class PostCategoryController extends Controller
         $this->categoryRepo = $postCategoryRepo;
         $this->categoryService = $postCategoryService;
 //        $this->authorizeResource(PostCategory::class, 'post');
-        $this->middleware('can:permission-post-categories')->only(['index']);
-        $this->middleware('can:permission-post-categories-create')->only(['create', 'store']);
-        $this->middleware('can:permission-post-categories-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-post-categories-delete')->only(['destroy']);
-        $this->middleware('can:permission-post-categories-status')->only(['status']);
+        $this->middleware('can:permission post categories')->only(['index']);
+        $this->middleware('can:permission post category create')->only(['create', 'store']);
+        $this->middleware('can:permission post category edit')->only(['edit', 'update']);
+        $this->middleware('can:permission post category delete')->only(['destroy']);
+        $this->middleware('can:permission post category status')->only(['status']);
     }
 
 //    function __construct()

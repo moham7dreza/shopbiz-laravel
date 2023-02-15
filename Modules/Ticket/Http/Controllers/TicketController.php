@@ -40,12 +40,12 @@ class TicketController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission-all-tickets')->only(['index']);
-        $this->middleware('can:permission-new-tickets')->only(['newTickets']);
-        $this->middleware('can:permission-close-tickets')->only(['closeTickets']);
-        $this->middleware('can:permission-open-tickets')->only(['openTickets']);
-        $this->middleware('can:permission-all-ticket-show')->only(['show']);
-        $this->middleware('can:permission-all-ticket-change')->only(['change']);
+        $this->middleware('can:permission all tickets')->only(['index']);
+        $this->middleware('can:permission new tickets')->only(['newTickets']);
+        $this->middleware('can:permission close tickets')->only(['closeTickets']);
+        $this->middleware('can:permission open tickets')->only(['openTickets']);
+        $this->middleware('can:permission all ticket show')->only(['show']);
+        $this->middleware('can:permission all ticket change')->only(['change']);
     }
 
     /**

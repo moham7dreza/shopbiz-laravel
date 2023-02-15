@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @can('permission-super-admin')
+    @can(['permission super admin', 'permission admin panel'])
 
         @include('Panel::partials.counter-cards')
 

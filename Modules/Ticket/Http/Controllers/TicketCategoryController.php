@@ -41,11 +41,11 @@ class TicketCategoryController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission-ticket-categories')->only(['index']);
-        $this->middleware('can:permission-ticket-category-create')->only(['create', 'store']);
-        $this->middleware('can:permission-ticket-category-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-ticket-category-delete')->only(['destroy']);
-        $this->middleware('can:permission-ticket-category-status')->only(['status']);
+        $this->middleware('can:permission ticket categories')->only(['index']);
+        $this->middleware('can:permission ticket category create')->only(['create', 'store']);
+        $this->middleware('can:permission ticket category edit')->only(['edit', 'update']);
+        $this->middleware('can:permission ticket category delete')->only(['destroy']);
+        $this->middleware('can:permission ticket category status')->only(['status']);
     }
 
     /**

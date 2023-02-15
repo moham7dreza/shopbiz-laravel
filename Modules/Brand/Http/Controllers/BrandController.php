@@ -42,11 +42,11 @@ class BrandController extends Controller
         $this->repo = $brandRepoEloquent;
         $this->service = $brandService;
 
-        $this->middleware('can:permission-product-brands')->only(['index']);
-        $this->middleware('can:permission-product-brand-create')->only(['create', 'store']);
-        $this->middleware('can:permission-product-brand-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-product-brand-delete')->only(['destroy']);
-        $this->middleware('can:permission-product-brand-status')->only(['status']);
+        $this->middleware('can:permission product brands')->only(['index']);
+        $this->middleware('can:permission product brand create')->only(['create', 'store']);
+        $this->middleware('can:permission product brand edit')->only(['edit', 'update']);
+        $this->middleware('can:permission product brand delete')->only(['destroy']);
+        $this->middleware('can:permission product brand status')->only(['status']);
 
     }
 

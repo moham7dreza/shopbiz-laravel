@@ -43,11 +43,11 @@ class FaqController extends Controller
         $this->repo = $faqRepoEloquent;
         $this->service = $faqService;
 
-        $this->middleware('can:permission-faqs')->only(['index']);
-        $this->middleware('can:permission-faq-create')->only(['create', 'store']);
-        $this->middleware('can:permission-faq-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-faq-delete')->only(['destroy']);
-        $this->middleware('can:permission-faq-status')->only(['status']);
+        $this->middleware('can:permission faqs')->only(['index']);
+        $this->middleware('can:permission faq create')->only(['create', 'store']);
+        $this->middleware('can:permission faq edit')->only(['edit', 'update']);
+        $this->middleware('can:permission faq delete')->only(['destroy']);
+        $this->middleware('can:permission faq status')->only(['status']);
     }
 
     /**

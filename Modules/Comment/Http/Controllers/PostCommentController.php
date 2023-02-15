@@ -41,10 +41,10 @@ class PostCommentController extends Controller
         $this->repo = $postCommentRepoEloquent;
         $this->service = $commentService;
 
-        $this->middleware('can:permission-post-comments')->only(['index']);
-        $this->middleware('can:permission-post-comment-show')->only(['show']);
-        $this->middleware('can:permission-post-comment-status')->only(['status']);
-        $this->middleware('can:permission-post-comment-approve')->only(['approved']);
+        $this->middleware('can:permission post comments')->only(['index']);
+        $this->middleware('can:permission post comment show')->only(['show']);
+        $this->middleware('can:permission post comment status')->only(['status']);
+        $this->middleware('can:permission post comment approve')->only(['approved']);
     }
 
     /**

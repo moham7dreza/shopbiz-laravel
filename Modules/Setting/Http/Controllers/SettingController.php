@@ -39,8 +39,8 @@ class SettingController extends Controller
         $this->repo = $settingRepoEloquent;
         $this->service = $settingService;
 
-        $this->middleware('can:permission-setting')->only(['index']);
-        $this->middleware('can:permission-setting-edit')->only(['edit', 'update']);
+        $this->middleware('can:permission setting')->only(['index']);
+        $this->middleware('can:permission setting edit')->only(['edit', 'update']);
     }
 
     /**

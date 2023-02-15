@@ -39,10 +39,11 @@ class PaymentController extends Controller
         $this->repo = $paymentRepoEloquent;
         $this->service = $paymentService;
 
-        $this->middleware('can:permission-product-all-payments')->only(['index']);
-        $this->middleware('can:permission-product-online-payments')->only(['online']);
-        $this->middleware('can:permission-product-offline-payments')->only(['offline']);
-        $this->middleware('can:permission-product-cash-payments')->only(['cash']);
+        $this->middleware('can:permission all payments')->only(['index']);
+        $this->middleware('can:permission online payments')->only(['online']);
+        $this->middleware('can:permission offline payments')->only(['offline']);
+        $this->middleware('can:permission cash payments')->only(['cash']);
+
         $this->middleware('can:permission-product-payment-cancel,
                                         permission-product-online-payment-cancel,
                                         permission-product-offline-payment-cancel,

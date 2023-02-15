@@ -40,12 +40,12 @@ class CustomerController extends Controller
         $this->repo = $userRepoEloquent;
         $this->service = $userService;
 
-        $this->middleware('can:permission-customer-users')->only(['index']);
-        $this->middleware('can:permission-customer-user-create')->only(['create', 'store']);
-        $this->middleware('can:permission-customer-user-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-customer-user-delete')->only(['destroy']);
-        $this->middleware('can:permission-customer-user-status')->only(['status']);
-        $this->middleware('can:permission-customer-user-activation')->only(['activation']);
+        $this->middleware('can:permission customer users')->only(['index']);
+        $this->middleware('can:permission customer user create')->only(['create', 'store']);
+        $this->middleware('can:permission customer user edit')->only(['edit', 'update']);
+        $this->middleware('can:permission customer user delete')->only(['destroy']);
+        $this->middleware('can:permission customer user status')->only(['status']);
+        $this->middleware('can:permission customer user activation')->only(['activation']);
     }
 
     /**

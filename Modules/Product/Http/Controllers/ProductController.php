@@ -45,11 +45,11 @@ class ProductController extends Controller
         $this->repo = $productRepoEloquent;
         $this->service = $productService;
 
-        $this->middleware('can:permission-products')->only(['index']);
-        $this->middleware('can:permission-product-create')->only(['create', 'store']);
-        $this->middleware('can:permission-product-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-product-delete')->only(['destroy']);
-        $this->middleware('can:permission-product-status')->only(['status']);
+        $this->middleware('can:permission products')->only(['index']);
+        $this->middleware('can:permission product create')->only(['create', 'store']);
+        $this->middleware('can:permission product edit')->only(['edit', 'update']);
+        $this->middleware('can:permission product delete')->only(['destroy']);
+        $this->middleware('can:permission product status')->only(['status']);
     }
 
     /**

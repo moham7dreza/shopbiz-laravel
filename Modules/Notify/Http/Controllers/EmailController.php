@@ -42,11 +42,11 @@ class EmailController extends Controller
         $this->repo = $emailRepoEloquent;
         $this->service = $emailService;
 
-        $this->middleware('can:permission-email-notify')->only(['index']);
-        $this->middleware('can:permission-email-notify-create')->only(['create', 'store']);
-        $this->middleware('can:permission-email-notify-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-email-notify-delete')->only(['destroy']);
-        $this->middleware('can:permission-email-notify-status')->only(['status']);
+        $this->middleware('can:permission email notifys')->only(['index']);
+        $this->middleware('can:permission email notify create')->only(['create', 'store']);
+        $this->middleware('can:permission email notify edit')->only(['edit', 'update']);
+        $this->middleware('can:permission email notify delete')->only(['destroy']);
+        $this->middleware('can:permission email notify status')->only(['status']);
     }
 
     /**

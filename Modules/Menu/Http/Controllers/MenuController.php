@@ -43,11 +43,11 @@ class MenuController extends Controller
         $this->repo = $menuRepoEloquent;
         $this->service = $menuService;
 
-        $this->middleware('can:permission-menus')->only(['index']);
-        $this->middleware('can:permission-menu-create')->only(['create', 'store']);
-        $this->middleware('can:permission-menu-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-menu-delete')->only(['destroy']);
-        $this->middleware('can:permission-menu-status')->only(['status']);
+        $this->middleware('can:permission menus')->only(['index']);
+        $this->middleware('can:permission menu create')->only(['create', 'store']);
+        $this->middleware('can:permission menu edit')->only(['edit', 'update']);
+        $this->middleware('can:permission menu delete')->only(['destroy']);
+        $this->middleware('can:permission menu status')->only(['status']);
     }
 
     /**

@@ -43,10 +43,10 @@ class CommonController extends Controller
         $this->commonDiscountService = $commonDiscountService;
 
         // set middlewares
-        $this->middleware('can:permission-product-common-discounts')->only(['commonDiscount']);
-        $this->middleware('can:permission-product-common-discount-create')->only(['commonDiscountCreate', 'commonDiscountStore']);
-        $this->middleware('can:permission-product-common-discount-edit')->only(['commonDiscountEdit', 'commonDiscountUpdate']);
-        $this->middleware('can:permission-product-common-discount-delete')->only(['commonDiscountDestroy']);
+        $this->middleware('can:permission common discounts')->only(['index']);
+        $this->middleware('can:permission common discount create')->only(['create', 'store']);
+        $this->middleware('can:permission common discount edit')->only(['edit', 'update']);
+        $this->middleware('can:permission common discount delete')->only(['destroy']);
     }
 
 

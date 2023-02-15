@@ -42,11 +42,11 @@ class DeliveryController extends Controller
         $this->repo = $deliveryRepoEloquent;
         $this->service = $deliveryService;
 
-        $this->middleware('can:permission-delivery-methods')->only(['index']);
-        $this->middleware('can:permission-delivery-method-create')->only(['create', 'store']);
-        $this->middleware('can:permission-delivery-method-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-delivery-method-delete')->only(['destroy']);
-        $this->middleware('can:permission-delivery-method-status')->only(['status']);
+        $this->middleware('can:permission delivery methods')->only(['index']);
+        $this->middleware('can:permission delivery method create')->only(['create', 'store']);
+        $this->middleware('can:permission delivery method edit')->only(['edit', 'update']);
+        $this->middleware('can:permission delivery method delete')->only(['destroy']);
+        $this->middleware('can:permission delivery method status')->only(['status']);
     }
 
     /**

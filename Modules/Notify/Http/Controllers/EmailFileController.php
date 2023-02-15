@@ -45,11 +45,11 @@ class EmailFileController extends Controller
         $this->repo = $emailFileRepoEloquent;
         $this->service = $emailFileService;
 
-        $this->middleware('can:permission-email-notify-files')->only(['index']);
-        $this->middleware('can:permission-email-notify-file-create')->only(['create', 'store']);
-        $this->middleware('can:permission-email-notify-file-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-email-notify-file-delete')->only(['destroy']);
-        $this->middleware('can:permission-email-notify-file-status')->only(['status']);
+        $this->middleware('can:permission email notify files')->only(['index']);
+        $this->middleware('can:permission email notify file create')->only(['create', 'store']);
+        $this->middleware('can:permission email notify file edit')->only(['edit', 'update']);
+        $this->middleware('can:permission email notify file delete')->only(['destroy']);
+        $this->middleware('can:permission email notify file status')->only(['status']);
     }
 
     /**

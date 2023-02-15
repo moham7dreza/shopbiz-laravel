@@ -42,11 +42,11 @@ class ProductCategoryController extends Controller
         $this->categoryRepo = $productCategoryRepo;
         $this->categoryService = $productCategoryService;
 
-        $this->middleware('can:permission-product-categories')->only(['index']);
-        $this->middleware('can:permission-product-category-create')->only(['create', 'store']);
-        $this->middleware('can:permission-product-category-edit')->only(['edit', 'update']);
-        $this->middleware('can:permission-product-category-delete')->only(['destroy']);
-        $this->middleware('can:permission-product-category-status')->only(['status']);
+        $this->middleware('can:permission product categories')->only(['index']);
+        $this->middleware('can:permission product category create')->only(['create', 'store']);
+        $this->middleware('can:permission product category edit')->only(['edit', 'update']);
+        $this->middleware('can:permission product category delete')->only(['destroy']);
+        $this->middleware('can:permission product category status')->only(['status']);
     }
 
     /**

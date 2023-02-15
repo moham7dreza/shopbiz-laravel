@@ -37,9 +37,9 @@ class StoreController extends Controller
     {
         $this->productService = $productService;
 
-        $this->middleware('can:permission-product-warehouse')->only(['index']);
-        $this->middleware('can:permission-product-warehouse-add')->only(['addToStore', 'store']);
-        $this->middleware('can:permission-product-warehouse-modify')->only(['edit', 'update']);
+        $this->middleware('can:permission product warehouse')->only(['index']);
+        $this->middleware('can:permission product warehouse add')->only(['addToStore', 'store']);
+        $this->middleware('can:permission product warehouse modify')->only(['edit', 'update']);
     }
 
     /**

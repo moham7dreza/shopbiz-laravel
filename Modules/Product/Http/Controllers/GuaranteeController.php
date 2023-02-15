@@ -45,9 +45,9 @@ class GuaranteeController extends Controller
         $this->repo = $guaranteeRepoEloquent;
         $this->service = $guaranteeService;
 
-        $this->middleware('can:permission-product-guarantees')->only(['index']);
-        $this->middleware('can:permission-product-guarantee-create')->only(['create', 'store']);
-        $this->middleware('can:permission-product-guarantee-delete')->only(['destroy']);
+        $this->middleware('can:permission product guarantees')->only(['index']);
+        $this->middleware('can:permission product guarantee create')->only(['create', 'store']);
+        $this->middleware('can:permission product guarantee delete')->only(['destroy']);
     }
 
     /**
