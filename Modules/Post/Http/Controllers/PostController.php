@@ -49,9 +49,8 @@ class PostController extends Controller
         $this->middleware('can:permission post edit')->only(['edit', 'update']);
         $this->middleware('can:permission post delete')->only(['destroy']);
         $this->middleware('can:permission post status')->only(['status']);
-        $this->middleware('can:permission post status')->only(['status']);
-        $this->middleware('can:permission post set tags')->only(['setTags']);
-        $this->middleware('can:permission post update tags')->only(['updateTags']);
+        $this->middleware('can:permission post commentable')->only(['commentable']);
+        $this->middleware('can:permission post tags')->only(['setTags', 'tagsForm']);
     }
 
     // public function __construct()

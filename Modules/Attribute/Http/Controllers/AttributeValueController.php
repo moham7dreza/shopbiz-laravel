@@ -47,7 +47,7 @@ class AttributeValueController extends Controller
         $this->middleware('can:permission attribute value create')->only(['create', 'store']);
         $this->middleware('can:permission attribute value edit')->only(['edit', 'update']);
         $this->middleware('can:permission attribute value delete')->only(['destroy']);
-        $this->middleware('can:permission attribute value status')->only(['status']);
+//        $this->middleware('can:permission attribute value status')->only(['status']);
     }
 
     /**

@@ -60,7 +60,7 @@ class PermissionTableSeeder extends Seeder
 
         // assign primary role and permission to super admin
         $super_admin->assignRole($role_super_admin);
-        $super_admin->syncPermissions($permission_super_admin);
+        $super_admin->syncPermissions([$permission_super_admin, $permission_admin_panel]);
         Auth::loginUsingId($super_admin->id);
     }
 

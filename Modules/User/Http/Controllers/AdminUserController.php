@@ -54,6 +54,7 @@ class AdminUserController extends Controller
         $this->middleware('can:permission admin user status')->only(['status']);
         $this->middleware('can:permission admin user activation')->only(['activation']);
         $this->middleware('can:permission admin user roles')->only(['roleForm', 'roleUpdate']);
+        $this->middleware('can:permission admin user permissions')->only(['permissions', 'permissionsStore']);
     }
 
 

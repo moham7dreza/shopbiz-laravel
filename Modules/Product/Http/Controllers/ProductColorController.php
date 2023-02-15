@@ -47,7 +47,9 @@ class ProductColorController extends Controller
 
         $this->middleware('can:permission product colors')->only(['index']);
         $this->middleware('can:permission product color create')->only(['create', 'store']);
+        $this->middleware('can:permission product color edit')->only(['edit', 'update']);
         $this->middleware('can:permission product color delete')->only(['destroy']);
+        $this->middleware('can:permission product color status')->only(['status']);
     }
 
     /**

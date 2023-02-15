@@ -70,7 +70,7 @@ class AddressServiceProvider extends ServiceProvider
         $this->loadPolicyFiles();
         $this->bindRepository();
         $this->bindSeeder();
-        $this->setDatabaseSeederWithAddressSeeder();
+//        $this->setDatabaseSeederWithAddressSeeder();
     }
 
     /**

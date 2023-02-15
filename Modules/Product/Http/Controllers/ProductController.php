@@ -50,6 +50,9 @@ class ProductController extends Controller
         $this->middleware('can:permission product edit')->only(['edit', 'update']);
         $this->middleware('can:permission product delete')->only(['destroy']);
         $this->middleware('can:permission product status')->only(['status']);
+        $this->middleware('can:permission product marketable')->only(['marketable']);
+        $this->middleware('can:permission product selected')->only(['selected']);
+        $this->middleware('can:permission product tags')->only(['tagsForm', 'setTags']);
     }
 
     /**

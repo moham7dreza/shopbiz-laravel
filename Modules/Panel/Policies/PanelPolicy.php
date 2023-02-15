@@ -26,7 +26,8 @@ class PanelPolicy
     {
 //        if (ShareService::checkForUserHasSpecialPermissionsCount([Permission::PERMISSION_ADMIN_PANEL]) === 1)
 //            return false;
-        $permission = Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first();dd($permission);
-        return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
+//        $permission = Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first();dd($permission);
+//        return $user->hasPermissionTo($permission) || $user->hasAnyRole($permission->roles);
+        return $user->hasPermissionTo(Permission::PERMISSION_ADMIN_PANEL);
     }
 }

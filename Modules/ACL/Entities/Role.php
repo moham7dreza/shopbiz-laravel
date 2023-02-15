@@ -21,7 +21,7 @@ class Role extends \Spatie\Permission\Models\Role
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'description', 'status', 'guard_name'];
 
     // ************************** Relations
 

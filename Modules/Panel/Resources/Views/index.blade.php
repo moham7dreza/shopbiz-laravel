@@ -5,19 +5,31 @@
 @endsection
 
 @section('content')
-    @can(['permission super admin', 'permission admin panel'])
+    @can('permission admin panel')
 
-        @include('Panel::partials.counter-cards')
+        @can('permission panel counter cards')
+            @include('Panel::partials.counter-cards')
+        @endcan
 
-        @include('Panel::partials.alerts')
+        @can('permission panel alerts')
+            @include('Panel::partials.alerts')
+        @endcan
 
-        @include('Panel::partials.sales-charts')
+        @can('permission panel sales charts')
+            @include('Panel::partials.sales-charts')
+        @endcan
 
-        @include('Panel::partials.activity-log')
+        @can('permission panel activity log')
+            @include('Panel::partials.activity-log')
+        @endcan
 
-        @include('Panel::partials.latest-comments')
+        @can('permission panel latest comments')
+            @include('Panel::partials.latest-comments')
+        @endcan
 
-        @include('Panel::partials.users')
+        @can('permission panel users log')
+            @include('Panel::partials.users')
+        @endcan
 
     @endcan
 @endsection

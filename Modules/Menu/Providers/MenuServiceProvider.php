@@ -68,7 +68,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
-        $this->setDatabaseSeederWithMenuSeeder();
+//        $this->setDatabaseSeederWithMenuSeeder();
     }
 
     /**

@@ -13,7 +13,7 @@ class AddressTablesSeeder extends Seeder
     {
         $this->countries();
         $this->provinces();
-//        $this->cities();
+        $this->cities();
     }
 
     private function countries()

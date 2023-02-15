@@ -47,6 +47,7 @@ class ProductCategoryController extends Controller
         $this->middleware('can:permission product category edit')->only(['edit', 'update']);
         $this->middleware('can:permission product category delete')->only(['destroy']);
         $this->middleware('can:permission product category status')->only(['status']);
+        $this->middleware('can:permission product category show in menu')->only(['showInMenu']);
     }
 
     /**

@@ -48,6 +48,7 @@ class AttributeController extends Controller
         $this->middleware('can:permission attribute edit')->only(['edit', 'update']);
         $this->middleware('can:permission attribute delete')->only(['destroy']);
         $this->middleware('can:permission attribute status')->only(['status']);
+        $this->middleware('can:permission attribute categories')->only(['categoryForm', 'categoryUpdate']);
     }
 
     /**

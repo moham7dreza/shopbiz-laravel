@@ -18,7 +18,7 @@ class Permission extends \Spatie\Permission\Models\Permission
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'description', 'status', 'guard_name'];
 
 //    protected $casts = ['status' => PermissionStatusEnum::class];
 

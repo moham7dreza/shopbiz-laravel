@@ -51,6 +51,7 @@ class AmazingSaleController extends Controller
         $this->middleware('can:permission amazing sale create')->only(['create', 'store']);
         $this->middleware('can:permission amazing sale edit')->only(['edit', 'update']);
         $this->middleware('can:permission amazing sale delete')->only(['destroy']);
+        $this->middleware('can:permission amazing sale status')->only(['status']);
     }
 
     /**

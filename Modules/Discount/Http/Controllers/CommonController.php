@@ -47,6 +47,7 @@ class CommonController extends Controller
         $this->middleware('can:permission common discount create')->only(['create', 'store']);
         $this->middleware('can:permission common discount edit')->only(['edit', 'update']);
         $this->middleware('can:permission common discount delete')->only(['destroy']);
+        $this->middleware('can:permission common discount status')->only(['status']);
     }
 
 
