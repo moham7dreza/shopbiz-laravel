@@ -28,9 +28,9 @@ class BannerService
      * Store role with assign permissions.
      *
      * @param  $request
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request): Model|Builder|RedirectResponse
+    public function store($request): Model|Builder|string
     {
         if ($request->hasFile('image')) {
             $result = ShareService::saveImage('banner', $request->file('image'), $this->imageService);

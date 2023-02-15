@@ -4,14 +4,11 @@
     {!! SEO::generate() !!}
 @endsection
 
-
 @section('content')
     <!-- start body -->
     <section class="">
         <section id="main-body-two-col" class="container-xxl body-container">
             <section class="row">
-
-
                 @include('Home::layouts.partials.profile-sidebar')
 
                 <main id="main-body" class="main-body col-md-9">
@@ -30,7 +27,6 @@
                         </section>
                         <!-- end content header -->
 
-
                         <section class="d-flex justify-content-center my-4">
                             <a class="btn btn-outline-primary btn-sm mx-1"
                                href="{{ route('customer.profile.orders') }}">همه</a>
@@ -48,7 +44,6 @@
                                href="{{ route('customer.profile.orders', 'type=5') }}">مرجوع شده</a>
                         </section>
 
-
                         <!-- start content header -->
                         <section class="content-header mb-3">
                             <section class="d-flex justify-content-between align-items-center">
@@ -62,9 +57,7 @@
                         </section>
                         <!-- end content header -->
 
-
                         <section class="order-wrapper">
-
                             @forelse ($orders as $order)
                                 <section class="order-item">
                                     <section class="d-flex justify-content-between">
@@ -83,15 +76,17 @@
                                                     @php
                                                         $product = $orderItem->singleProduct;
                                                     @endphp
-                                                    <a href="{{ $product->path() }}"><img src="{{ $product->imagePath() }}"
-                                                                     alt="{{ $product->name }}" title="{!! $product->getTagLessIntroduction() !!}"></a>
+                                                    <a href="{{ $product->path() }}"><img
+                                                            src="{{ $product->imagePath() }}"
+                                                            alt="{{ $product->name }}"
+                                                            title="{{ $product->name }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"></a>
                                                 @endforeach
                                             </section>
                                         </section>
                                         <section class="order-item-link"><a href="#">پرداخت سفارش</a></section>
                                     </section>
                                 </section>
-
                             @empty
                                 <section class="order-item">
                                     <section class="d-flex justify-content-between">
@@ -99,11 +94,7 @@
                                     </section>
                                 </section>
                             @endforelse
-
-
                         </section>
-
-
                     </section>
                 </main>
             </section>

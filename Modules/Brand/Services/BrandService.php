@@ -28,9 +28,9 @@ class BrandService
      * Store category.
      *
      * @param  $request
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request): Model|Builder|RedirectResponse
+    public function store($request): Model|Builder|string
     {
         if ($request->hasFile('logo')) {
             $result = ShareService::saveImage('brand', $request->file('logo'), $this->imageService);
@@ -65,7 +65,7 @@ class BrandService
             $result = ShareService::saveImage('brand', $request->file('logo'), $this->imageService);
 
             if (!$result) {
-//                return 'upload failed';
+                return 'upload failed';
             }
             $request->logo = $result;
         } else {

@@ -86,6 +86,9 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request): RedirectResponse
     {
         $user = $this->service->store($request);
+        if ($user == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         $adminUser = $this->repo->findSystemAdmin();
         $this->service->sendUserCreatedNotificationToAdmin($adminUser, $user->id);
         return $this->showMessageWithRedirectRoute('مشتری جدید با موفقیت ثبت شد');
@@ -122,7 +125,10 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, User $customerUser): RedirectResponse
     {
-        $this->service->update($request, $customerUser);
+        $result = $this->service->update($request, $customerUser);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('مشتری سایت شما با موفقیت ویرایش شد');
     }
 

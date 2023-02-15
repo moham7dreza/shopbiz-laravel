@@ -30,6 +30,7 @@ class UserService
 
     /**
      * @param $adminUser
+     * @param $userId
      * @return void
      */
     public function sendUserCreatedNotificationToAdmin($adminUser, $userId): void
@@ -46,9 +47,9 @@ class UserService
      *
      * @param  $request
      * @param int $userType
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request, int $userType = User::TYPE_USER): Model|Builder|RedirectResponse
+    public function store($request, int $userType = User::TYPE_USER): Model|Builder|string
     {
         if ($request->hasFile('profile_photo_path')) {
             $result = ShareService::saveImage('users', $request->file('profile_photo_path'), $this->imageService);
@@ -75,7 +76,7 @@ class UserService
      * Update role with sync permissions.
      *
      * @param  $request
-     * @param $banner
+     * @param $user
      * @return mixed
      */
     public function update($request, $user): mixed

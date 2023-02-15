@@ -94,7 +94,10 @@ class BannerController extends Controller
      */
     public function store(BannerRequest $request): RedirectResponse
     {
-        $this->service->store($request);
+        $result = $this->service->store($request);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('بنر جدید شما با موفقیت ثبت شد');
     }
 
@@ -129,7 +132,10 @@ class BannerController extends Controller
      */
     public function update(BannerRequest $request, Banner $banner): RedirectResponse
     {
-        $this->service->update($request, $banner);
+        $result = $this->service->update($request, $banner);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('بنر شما با موفقیت ویرایش شد');
     }
 

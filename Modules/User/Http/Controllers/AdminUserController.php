@@ -94,7 +94,10 @@ class AdminUserController extends Controller
      */
     public function store(AdminUserRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->service->store($request, User::TYPE_ADMIN);
+        $result = $this->service->store($request, User::TYPE_ADMIN);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('ادمین جدید با موفقیت ثبت شد');
     }
 
@@ -129,7 +132,10 @@ class AdminUserController extends Controller
      */
     public function update(AdminUserRequest $request, User $adminUser): RedirectResponse
     {
-        $this->service->update($request, $adminUser);
+        $result = $this->service->update($request, $adminUser);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('ادمین سایت شما با موفقیت ویرایش شد');
     }
 

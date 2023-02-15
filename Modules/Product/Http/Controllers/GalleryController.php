@@ -87,7 +87,10 @@ class GalleryController extends Controller
      */
     public function store(ProductGalleryRequest $request, Product $product): RedirectResponse
     {
-        $this->service->store($request, $product->id);
+        $result = $this->service->store($request, $product->id);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('عکس شما با موفقیت ثبت شد', params: [$product]);
     }
 

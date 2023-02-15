@@ -29,9 +29,9 @@ class ProductGalleryService implements ProductGalleryServiceInterface
      *
      * @param  $request
      * @param $productId
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request, $productId): Model|Builder|RedirectResponse
+    public function store($request, $productId): Model|Builder|string
     {
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('product-gallery', $request->file('image'), $this->imageService);

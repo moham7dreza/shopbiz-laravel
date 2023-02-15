@@ -263,6 +263,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return array|string
+     */
+    public function getFaPostalCode(): array|string
+    {
+        return convertEnglishToPersian($this->postal_code);
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getFaNationalCode(): array|string
+    {
+        return convertEnglishToPersian($this->national_code);
+    }
+
+    /**
      * @return array|int|string
      */
     public function getFaId(): array|int|string

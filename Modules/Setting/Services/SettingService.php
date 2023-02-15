@@ -49,11 +49,17 @@ class SettingService
     {
         if ($request->hasFile('logo')) {
             $request->logo = $this->uploadImage($setting->logo, $request->file('logo'), 'logo');
+            if ($request->logo == 'upload failed') {
+                return 'logo upload failed';
+            }
         } else {
             $request->logo = $setting->logo;
         }
         if ($request->hasFile('icon')) {
             $request->icon = $this->uploadImage($setting->icon, $request->file('icon'), 'icon');
+            if ($request->icon == 'upload failed') {
+                return 'icon upload failed';
+            }
         } else {
             $request->icon = $setting->icon;
         }

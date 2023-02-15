@@ -101,8 +101,13 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-        $this->service->store($request);
-        return $this->showMessageWithRedirectRoute('محصول جدید شما با موفقیت ثبت شد');
+        $result = $this->service->store($request);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        } elseif ($result == 'done') {
+            return $this->showMessageWithRedirectRoute('محصول جدید شما با موفقیت ثبت شد');
+        }
+        return $this->showMessageWithRedirectRoute('عملیات ذخیره سازی با خطا مواجه شد', 'خطا', status: 'error');
     }
 
     /**
@@ -142,8 +147,13 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
-        $this->service->update($request, $product);
-        return $this->showMessageWithRedirectRoute('محصول شما با موفقیت ویرایش شد');
+        $result = $this->service->update($request, $product);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        } elseif ($result == 'done') {
+            return $this->showMessageWithRedirectRoute('محصول شما با موفقیت ویرایش شد');
+        }
+        return $this->showMessageWithRedirectRoute('عملیات ذخیره سازی با خطا مواجه شد', 'خطا', status: 'error');
     }
 
     /**

@@ -175,6 +175,33 @@ class ShareService
         return $imageService->save($imageFile);
     }
 
+    // image uploads
+    /******************************************************************************************************************/
+
+    /**
+     * @param $request
+     * @param $imageService
+     * @param $folderName
+     * @param string $imageName
+     * @param string $uploadFunctionName
+     * @return string|null
+     */
+    public static function uploadImageOfModel($request, $imageService, $folderName,
+                                              string $imageName = 'image', string $uploadFunctionName = 'saveImage'): ?string
+    {
+        if ($request->hasFile($imageName)) {
+            $result = self::$uploadFunctionName($folderName, $request->file($imageName), $imageService);
+            if (!$result) {
+                return 'upload failed';
+            }
+            $request->image = $result;
+        } else {
+            $request->image = null;
+        }
+        return $request->image;
+    }
+
+
     // ajax change
     /******************************************************************************************************************/
     /**

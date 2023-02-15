@@ -108,7 +108,10 @@ class PostController extends Controller
 
         // $this->authorize('create', Post::class);
 
-        $this->service->store($request);
+        $result = $this->service->store($request);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('پست جدید شما با موفقیت ثبت شد');
     }
 
@@ -162,7 +165,10 @@ class PostController extends Controller
 
         // $this->authorize('update', $post);
 
-        $this->service->update($request, $post);
+        $result = $this->service->update($request, $post);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('پست شما با موفقیت ویرایش شد');
     }
 

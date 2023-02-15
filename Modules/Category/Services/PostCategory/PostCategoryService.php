@@ -5,7 +5,6 @@ namespace Modules\Category\Services\PostCategory;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\RedirectResponse;
 use Modules\Category\Entities\PostCategory;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
@@ -29,9 +28,9 @@ class PostCategoryService implements PostCategoryServiceInterface
      * Store category.
      *
      * @param  $request
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request): Model|Builder|RedirectResponse
+    public function store($request): Model|Builder|string
     {
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('post-category', $request->file('image'), $this->imageService);

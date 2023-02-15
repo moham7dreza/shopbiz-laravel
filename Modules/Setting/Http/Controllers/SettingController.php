@@ -104,7 +104,12 @@ class SettingController extends Controller
      */
     public function update(SettingRequest $request, Setting $setting): RedirectResponse
     {
-        $this->service->update($request, $setting);
+        $result = $this->service->update($request, $setting);
+        if ($result == 'logo upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود لوگو با خطا مواجه شد', 'خطا', status: 'error');
+        } elseif ($result == 'icon upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود آیکون با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('تنظیمات سایت شما با موفقیت ویرایش شد');
     }
 

@@ -89,7 +89,10 @@ class BrandController extends Controller
      */
     public function store(BrandRequest $request): RedirectResponse
     {
-       $this->service->store($request);
+        $result = $this->service->store($request);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('برند جدید شما با موفقیت ثبت شد');
     }
 
@@ -125,7 +128,10 @@ class BrandController extends Controller
      */
     public function update(BrandRequest $request, Brand $brand): RedirectResponse
     {
-        $this->service->update($request, $brand);
+        $result = $this->service->update($request, $brand);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute('آپلود تصویر با خطا مواجه شد', 'خطا', status: 'error');
+        }
         return $this->showMessageWithRedirectRoute('برند شما با موفقیت ویرایش شد');
     }
 

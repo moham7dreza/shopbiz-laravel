@@ -4,28 +4,14 @@
     {!! SEO::generate() !!}
 @endsection
 
-
 @section('content')
     <!-- start body -->
     <section class="">
         <section id="main-body-two-col" class="container-xxl body-container">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
             <section class="row">
-
-
                 @include('Home::layouts.partials.profile-sidebar')
-
-
                 <main id="main-body" class="main-body col-md-9">
-                    @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                            <div class="bg-danger text-white p-3 rounded">{{ $error }}</div>
-                        @endforeach
-                    @endif
+                    <x-share-error/>
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
                         <!-- start content header -->
@@ -46,7 +32,6 @@
                                data-bs-target="#edit-profile"><i class="fa fa-edit px-1"></i>ویرایش حساب</a>
                         </section>
 
-
                         <section class="row">
                             <section class="col-6 border-bottom mb-2 py-2">
                                 <section class="field-title">نام</section>
@@ -62,7 +47,8 @@
 
                             <section class="col-6 border-bottom my-2 py-2">
                                 <section class="field-title">شماره تلفن همراه</section>
-                                <section class="field-value overflow-auto">{{ convertEnglishToPersian(auth()->user()->mobile) ?? '-' }}</section>
+                                <section
+                                    class="field-value overflow-auto">{{ auth()->user()->getFaMobileNumber() ?? '-' }}</section>
                             </section>
 
                             <section class="col-6 border-bottom my-2 py-2">
@@ -72,14 +58,13 @@
 
                             <section class="col-6 my-2 py-2">
                                 <section class="field-title">کد ملی</section>
-                                <section class="field-value overflow-auto">{{ convertEnglishToPersian(auth()->user()->national_code) ?? '-' }}
+                                <section
+                                    class="field-value overflow-auto">{{ auth()->user()->getFaNationalCode() ?? '-' }}
                                 </section>
                             </section>
-
                         </section>
 
-
-                        <section class="modal fade" id="edit-profile" tabindex="-1" aria-labelledby="edit-profile-label"
+                        <section class="modal fade high-z-index" id="edit-profile" tabindex="-1" aria-labelledby="edit-profile-label"
                                  aria-hidden="true">
                             <section class="modal-dialog">
                                 <section class="modal-content">
@@ -91,7 +76,7 @@
                                                 aria-label="Close"></button>
                                     </section>
                                     <section class="modal-body">
-                                        <form class="row" method="post"
+                                        <form class="row" method="post" id="update-profile-form"
                                               action="{{ route('customer.profile.profile.update') }}">
                                             @csrf
                                             @method('PUT')
@@ -100,7 +85,7 @@
                                                 <label for="first_name" class="form-label mb-1">نام
                                                     گیرنده</label>
                                                 <input
-                                                    value="{{ auth()->user()->first_name ?? auth()->user()->first_name }}"
+                                                    value="{{ auth()->user()->first_name ?? '-' }}"
                                                     type="text" name="first_name" class="form-control form-control-sm"
                                                     id="first_name" placeholder="نام">
                                             </section>
@@ -109,7 +94,7 @@
                                                 <label for="last_name" class="form-label mb-1">نام
                                                     خانوادگی گیرنده</label>
                                                 <input
-                                                    value="{{ auth()->user()->last_name ?? auth()->user()->last_name }}"
+                                                    value="{{ auth()->user()->last_name ?? '-' }}"
                                                     type="text" name="last_name" class="form-control form-control-sm"
                                                     id="last_name" placeholder="نام خانوادگی ">
                                             </section>
@@ -118,29 +103,26 @@
                                                 <label for="national_code" class="form-label mb-1">کد ملی
                                                 </label>
                                                 <input
-                                                    value="{{ auth()->user()->national_code ?? auth()->user()->national_code }}"
+                                                    value="{{ auth()->user()->national_code ?? '-' }}"
                                                     type="text" name="national_code"
                                                     class="form-control form-control-sm"
                                                     id="national_code" placeholder="کد ملی">
                                             </section>
-
-
+                                        </form>
                                     </section>
                                     <section class="modal-footer py-1">
-                                        <button type="submit" class="btn btn-sm btn-primary">ویرایش
+                                        <button type="submit" class="btn btn-sm btn-primary"
+                                                onclick="document.getElementById('update-profile-form').submit();">
+                                            ویرایش
                                             حساب
                                         </button>
                                         <button type="button" class="btn btn-sm btn-danger"
                                                 data-bs-dismiss="modal">بستن
                                         </button>
                                     </section>
-                                    </form>
-
                                 </section>
                             </section>
                         </section>
-
-
                     </section>
                 </main>
             </section>
