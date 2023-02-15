@@ -15,12 +15,10 @@
                             aria-label="Close"></button>
                 </section>
                 <section class="modal-body">
-                    <form class="row" method="post"
+                    <form class="row" method="post" id="add-address-form"
                           action="{{ route('customer.sales-process.add-address') }}">
                         @csrf
-                        @php
-                            $selected_province = null;
-                        @endphp
+                        @php $selected_province = null; @endphp
                         <section class="col-6 mb-2">
                             <label for="province"
                                    class="form-label mb-1">استان</label>
@@ -32,10 +30,10 @@
                                     <option value="{{ $province->id }}"
                                             data-url="{{ route('customer.sales-process.get-cities', $province->id) }}"
                                         {{ old('province_id') == $province->id ? 'selected' : '' }}>
-                                        {{ $province->name }}</option>
+                                        {{ $province->name }}
+                                    </option>
                                     @php
-                                        if ( old('province_id') == $province->id)
-                                            {
+                                        if (old('province_id') == $province->id) {
                                                 $selected_province = $province;
                                             }
                                     @endphp
@@ -59,36 +57,16 @@
                                 @endif
                             </select>
                         </section>
-                        <section class="col-12 mb-2">
-                            <label for="address"
-                                   class="form-label mb-1">نشانی</label>
-                            <textarea name="address"
-                                      class="form-control form-control-sm"
-                                      id="address" placeholder="نشانی">{{ old('address') }}</textarea>
-                        </section>
 
-                        <section class="col-6 mb-2">
-                            <label for="postal_code" class="form-label mb-1">کد
-                                پستی</label>
-                            <input type="text" name="postal_code"
-                                   class="form-control form-control-sm"
-                                   id="postal_code"
-                                   placeholder="کد پستی" value="{{ old('postal_code') }}">
-                        </section>
-
-                        <section class="col-3 mb-2">
-                            <label for="no" class="form-label mb-1">پلاک</label>
-                            <input type="text" name="no"
-                                   class="form-control form-control-sm" id="no"
-                                   placeholder="پلاک" value="{{ old('no') }}">
-                        </section>
-
-                        <section class="col-3 mb-2">
-                            <label for="unit" class="form-label mb-1">واحد</label>
-                            <input type="text" name="unit"
-                                   class="form-control form-control-sm" id="unit"
-                                   placeholder="واحد" value="{{ old('unit') }}">
-                        </section>
+                        @php $message = $message ?? null @endphp
+                        <x-panel-text-area col="12" name="address" label="نشانی" rows="4" placeholder="نشانی" class="mb-2"
+                                           :message="$message"/>
+                        <x-panel-input col="6" name="postal_code" label="کد پستی" placeholder="کد پستی"
+                                       :message="$message"/>
+                        <x-panel-input col="3" name="no" label="پلاک" placeholder="پلاک"
+                                       :message="$message"/>
+                        <x-panel-input col="3" name="unit" label="واحد" placeholder="واحد"
+                                       :message="$message"/>
 
                         <section class="border-bottom mt-2 mb-3"></section>
 
@@ -101,44 +79,24 @@
                                 </label>
                             </section>
                         </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="first_name" class="form-label mb-1">نام
-                                گیرنده</label>
-                            <input type="text" name="recipient_first_name"
-                                   class="form-control form-control-sm"
-                                   id="first_name"
-                                   placeholder="نام گیرنده" value="{{ old('recipient_first_name') }}">
-                        </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="last_name" class="form-label mb-1">نام
-                                خانوادگی گیرنده</label>
-                            <input type="text" name="recipient_last_name"
-                                   class="form-control form-control-sm"
-                                   id="last_name"
-                                   placeholder="نام خانوادگی گیرنده" value="{{ old('recipient_last_name') }}">
-                        </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="mobile" class="form-label mb-1">شماره
-                                موبایل</label>
-                            <input type="text" name="mobile"
-                                   class="form-control form-control-sm" id="mobile"
-                                   placeholder="شماره موبایل" value="{{ old('mobile') }}">
-                        </section>
-
-
+                        <x-panel-input col="6" name="recipient_first_name" label="نام گیرنده" placeholder="نام گیرنده"
+                                       :message="$message"/>
+                        <x-panel-input col="6" name="recipient_last_name" label="نام خانوادگی گیرنده"
+                                       placeholder="نام خانوادگی گیرنده"
+                                       :message="$message"/>
+                        <x-panel-input col="12" name="mobile" label="شماره موبایل" placeholder="شماره موبایل"
+                                       :message="$message"/>
+                    </form>
                 </section>
                 <section class="modal-footer py-1">
-                    <button type="submit" class="btn btn-sm btn-primary">ثبت
+                    <button type="submit" class="btn btn-sm btn-primary"
+                            onclick="document.getElementById('add-address-form').submit();">ثبت
                         آدرس
                     </button>
                     <button type="button" class="btn btn-sm btn-danger"
                             data-bs-dismiss="modal">بستن
                     </button>
                 </section>
-                </form>
 
             </section>
         </section>

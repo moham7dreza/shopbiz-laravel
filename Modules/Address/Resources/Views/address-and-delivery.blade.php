@@ -4,9 +4,7 @@
     {!! SEO::generate() !!}
 @endsection
 
-
 @section('content')
-
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl">
@@ -51,7 +49,6 @@
     <!-- end cart -->
 
 @endsection
-
 
 @section('script')
     @include('Share::ajax-functions.home.address')

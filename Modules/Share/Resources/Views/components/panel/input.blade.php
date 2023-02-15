@@ -1,6 +1,6 @@
 <section class="col-12 col-md-{{ $col }} {{ $dadClass }}">
     <div class="form-group">
-        <label for="{{ $name }}">{{ $label }}</label>
+        <label for="{{ $name }}" class="form-label">{{ $label }}</label>
         <input type="{{ $type }}" class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror"
                name="{{ $name }}"
                id="{{ $name }}"

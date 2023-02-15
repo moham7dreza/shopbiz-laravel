@@ -5,7 +5,7 @@
     <label for="a-{{ $address->id }}" class="address-wrapper mb-2 p-2">
         <section class="mb-2">
             <i class="fa fa-map-marker-alt mx-1"></i>
-            آدرس : {{ $address->address ?? '-' }}
+            آدرس : {{ $address->province->name . '،  ' . $address->city->name . '،  ' . $address->address ?? '-' }}
         </section>
         <section class="mb-2">
             <i class="fa fa-user-tag mx-1"></i>
@@ -24,7 +24,7 @@
 
 
     <!-- start edit address Modal -->
-    <section class="modal fade" id="edit-address-{{ $address->id }}" tabindex="-1"
+    <section class="modal fade high-z-index" id="edit-address-{{ $address->id }}" tabindex="-1"
              aria-labelledby="add-address-label" aria-hidden="true">
         <section class="modal-dialog">
             <section class="modal-content">
@@ -35,12 +35,12 @@
                             aria-label="Close"></button>
                 </section>
                 <section class="modal-body">
-                    <form class="row" method="post"
+                    <form class="row" method="post" id="edit-address-form"
                           action="{{ route('customer.sales-process.update-address', $address->id) }}">
                         @csrf
                         @method('PUT')
                         <section class="col-6 mb-2">
-                            <label for="province"
+                            <label for="province-{{ $address->id }}"
                                    class="form-label mb-1">استان</label>
                             <select name="province_id"
                                     class="form-select form-select-sm"
@@ -56,7 +56,7 @@
                         </section>
 
                         <section class="col-6 mb-2">
-                            <label for="city" class="form-label mb-1">شهر</label>
+                            <label for="city-{{ $address->id }}" class="form-label mb-1">شهر</label>
                             <select name="city_id"
                                     class="form-select form-select-sm"
                                     id="city-{{ $address->id }}">
@@ -66,39 +66,16 @@
                                 @endforeach
                             </select>
                         </section>
-                        <section class="col-12 mb-2">
-                            <label for="address"
-                                   class="form-label mb-1">نشانی</label>
-                            <textarea name="address"
-                                      class="form-control form-control-sm"
-                                      id="address"
-                                      placeholder="نشانی">{{ old('address', $address->address) }}</textarea>
-                        </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="postal_code" class="form-label mb-1">کد
-                                پستی</label>
-                            <input value="{{ $address->postal_code }}" type="text"
-                                   name="postal_code"
-                                   class="form-control form-control-sm"
-                                   id="postal_code"
-                                   placeholder="کد پستی">
-                        </section>
-
-                        <section class="col-3 mb-2">
-                            <label for="no" class="form-label mb-1">پلاک</label>
-                            <input type="text" value="{{ old('no', $address->no) }}" name="no"
-                                   class="form-control form-control-sm" id="no"
-                                   placeholder="پلاک">
-                        </section>
-
-                        <section class="col-3 mb-2">
-                            <label for="unit" class="form-label mb-1">واحد</label>
-                            <input type="text" value="{{ old('unit', $address->unit) }}"
-                                   name="unit"
-                                   class="form-control form-control-sm" id="unit"
-                                   placeholder="واحد">
-                        </section>
+                        @php $message = $message ?? null @endphp
+                        <x-panel-text-area col="12" name="address" label="نشانی" rows="4" placeholder="نشانی"
+                                           class="mb-2"
+                                           :message="$message" method="edit" :model="$address"/>
+                        <x-panel-input col="6" name="postal_code" label="کد پستی" placeholder="کد پستی"
+                                       :message="$message" method="edit" :model="$address"/>
+                        <x-panel-input col="3" name="no" label="پلاک" placeholder="پلاک"
+                                       :message="$message" method="edit" :model="$address"/>
+                        <x-panel-input col="3" name="unit" label="واحد" placeholder="واحد"
+                                       :message="$message" method="edit" :model="$address"/>
 
                         <section class="border-bottom mt-2 mb-3"></section>
 
@@ -114,47 +91,24 @@
                             </section>
                         </section>
 
-                        <section class="col-6 mb-2">
-                            <label for="first_name" class="form-label mb-1">نام
-                                گیرنده</label>
-                            <input
-                                value="{{ old('recipient_first_name', $address->recipient_first_name)  }}"
-                                type="text" name="recipient_first_name"
-                                class="form-control form-control-sm" id="first_name"
-                                placeholder="نام گیرنده">
-                        </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="last_name" class="form-label mb-1">نام
-                                خانوادگی گیرنده</label>
-                            <input
-                                value="{{ old('recipient_last_name', $address->recipient_last_name)  }}"
-                                type="text" name="recipient_last_name"
-                                class="form-control form-control-sm" id="last_name"
-                                placeholder="نام خانوادگی گیرنده">
-                        </section>
-
-                        <section class="col-6 mb-2">
-                            <label for="mobile" class="form-label mb-1">شماره
-                                موبایل</label>
-                            <input
-                                value="{{ old('mobile', $address->mobile) }}"
-                                type="text" name="mobile"
-                                class="form-control form-control-sm" id="mobile"
-                                placeholder="شماره موبایل">
-                        </section>
-
+                        <x-panel-input col="6" name="recipient_first_name" label="نام گیرنده" placeholder="نام گیرنده"
+                                       :message="$message" method="edit" :model="$address"/>
+                        <x-panel-input col="6" name="recipient_last_name" label="نام خانوادگی گیرنده"
+                                       placeholder="نام خانوادگی گیرنده"
+                                       :message="$message" method="edit" :model="$address"/>
+                        <x-panel-input col="12" name="mobile" label="شماره موبایل" placeholder="شماره موبایل"
+                                       :message="$message" method="edit" :model="$address"/>
+                    </form>
                 </section>
                 <section class="modal-footer py-1">
-                    <button type="submit" class="btn btn-sm btn-primary">ثبت
+                    <button type="submit" class="btn btn-sm btn-primary"
+                            onclick="document.getElementById('edit-address-form').submit();">ثبت
                         آدرس
                     </button>
                     <button type="button" class="btn btn-sm btn-danger"
                             data-bs-dismiss="modal">بستن
                     </button>
                 </section>
-                </form>
-
             </section>
         </section>
     </section>
