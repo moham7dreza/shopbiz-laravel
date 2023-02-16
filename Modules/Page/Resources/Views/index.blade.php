@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,9 +25,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('page.create') }}" class="btn btn-info btn-sm">ایجاد پیج جدید</a>
+                    @can($PERMISSION::PERMISSION_FAQ_CREATE)
+                        <a href="{{ route('page.create') }}" class="btn btn-info btn-sm">ایجاد پیج جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('page.index') }}" />
+                        <x-panel-search-form route="{{ route('page.index') }}"/>
                     </div>
                 </section>
 
@@ -51,15 +53,21 @@
                                 <td>{{ $page->tags }}</td>
                                 <td>{{ $page->slug }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="page.status" method="changeStatus"
-                                                      name="پیج ساز" :model="$page" property="status"/>
+                                    @can($PERMISSION::PERMISSION_FAQ_STATUS)
+                                        <x-panel-checkbox class="rounded" route="page.status" method="changeStatus"
+                                                          name="پیج ساز" :model="$page" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('page.edit', $page->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('page.destroy', $page->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_FAQ_EDIT)
+                                        <x-panel-a-tag route="{{ route('page.edit', $page->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_FAQ_DELETE)
+                                        <x-panel-delete-form route="{{ route('page.destroy', $page->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

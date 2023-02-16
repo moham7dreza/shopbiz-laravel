@@ -23,7 +23,7 @@ class PanelController extends Controller
 //        dd(auth()->user()->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN));
 //        dd(auth()->user()->hasAnyRole(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles));
 //        dd(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles);
-        $this->middleware('can:permission admin panel');
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_PANEL);
     }
 
     /**

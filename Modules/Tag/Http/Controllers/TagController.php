@@ -4,6 +4,7 @@ namespace Modules\Tag\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -39,14 +40,14 @@ class TagController extends Controller
     public function __construct(TagRepositoryEloquentInterface $repo, TagService $service)
     {
 //        $this->middleware('can:role-admin')->only(['index']);
-        $this->middleware('can:permission tags')->only(['index']);
-        $this->middleware('can:permission tag create')->only(['create', 'store']);
-        $this->middleware('can:permission tag edit')->only(['edit', 'update']);
-        $this->middleware('can:permission tag delete')->only(['destroy']);
-        $this->middleware('can:permission tag status')->only(['status']);
-
         $this->repo = $repo;
         $this->service = $service;
+
+        $this->middleware('can:' . Permission::PERMISSION_TAGS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_TAG_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_TAG_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_TAG_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_TAG_STATUS)->only(['status']);
     }
 
     /**

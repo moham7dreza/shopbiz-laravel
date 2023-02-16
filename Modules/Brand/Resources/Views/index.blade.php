@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,9 +24,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('brand.create') }}" class="btn btn-info btn-sm">ایجاد برند </a>
+                    @can($PERMISSION::PERMISSION_BRAND_CREATE)
+                        <a href="{{ route('brand.create') }}" class="btn btn-info btn-sm">ایجاد برند </a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('brand.index') }}" />
+                        <x-panel-search-form route="{{ route('brand.index') }}"/>
                     </div>
                 </section>
 
@@ -52,14 +54,20 @@
                                     <img src="{{ $brand->logo() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="brand.status" method="changeStatus"
-                                                      name="برند" :model="$brand" property="status"/>
+                                    @can($PERMISSION::PERMISSION_BRAND_STATUS)
+                                        <x-panel-checkbox class="rounded" route="brand.status" method="changeStatus"
+                                                          name="برند" :model="$brand" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('brand.edit', $brand->id) }}" title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('brand.destroy', $brand->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_BRAND_EDIT)
+                                        <x-panel-a-tag route="{{ route('brand.edit', $brand->id) }}" title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_BRAND_DELETE)
+                                        <x-panel-delete-form route="{{ route('brand.destroy', $brand->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

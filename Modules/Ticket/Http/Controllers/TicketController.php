@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\Ticket;
@@ -40,12 +41,12 @@ class TicketController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission all tickets')->only(['index']);
-        $this->middleware('can:permission new tickets')->only(['newTickets']);
-        $this->middleware('can:permission close tickets')->only(['closeTickets']);
-        $this->middleware('can:permission open tickets')->only(['openTickets']);
-        $this->middleware('can:permission all ticket show')->only(['show']);
-        $this->middleware('can:permission all ticket change')->only(['change']);
+        $this->middleware('can:'. Permission::PERMISSION_ALL_TICKETS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_NEW_TICKETS)->only(['newTickets']);
+        $this->middleware('can:'. Permission::PERMISSION_CLOSE_TICKETS)->only(['closeTickets']);
+        $this->middleware('can:'. Permission::PERMISSION_OPEN_TICKETS)->only(['openTickets']);
+        $this->middleware('can:'. Permission::PERMISSION_TICKET_SHOW)->only(['show']);
+        $this->middleware('can:'. Permission::PERMISSION_TICKET_CHANGE)->only(['change']);
     }
 
     /**

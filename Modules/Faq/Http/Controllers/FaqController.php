@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Faq\Entities\Faq;
 use Modules\Faq\Http\Requests\FaqRequest;
 use Modules\Faq\Repositories\FaqRepoEloquentInterface;
@@ -43,11 +44,11 @@ class FaqController extends Controller
         $this->repo = $faqRepoEloquent;
         $this->service = $faqService;
 
-        $this->middleware('can:permission faqs')->only(['index']);
-        $this->middleware('can:permission faq create')->only(['create', 'store']);
-        $this->middleware('can:permission faq edit')->only(['edit', 'update']);
-        $this->middleware('can:permission faq delete')->only(['destroy']);
-        $this->middleware('can:permission faq status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_FAQS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_FAQ_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_FAQ_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_FAQ_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_FAQ_STATUS)->only(['status']);
     }
 
     /**

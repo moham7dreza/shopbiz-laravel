@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Post\Entities\Post;
@@ -44,13 +45,13 @@ class PostController extends Controller
         $this->repo = $postRepoEloquent;
         $this->service = $postService;
 
-        $this->middleware('can:permission posts')->only(['index']);
-        $this->middleware('can:permission post create')->only(['create', 'store']);
-        $this->middleware('can:permission post edit')->only(['edit', 'update']);
-        $this->middleware('can:permission post delete')->only(['destroy']);
-        $this->middleware('can:permission post status')->only(['status']);
-        $this->middleware('can:permission post commentable')->only(['commentable']);
-        $this->middleware('can:permission post tags')->only(['setTags', 'tagsForm']);
+        $this->middleware('can:' . Permission::PERMISSION_POSTS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_COMMENTABLE)->only(['commentable']);
+        $this->middleware('can:' . Permission::PERMISSION_POST_TAGS)->only(['setTags', 'tagsForm']);
     }
 
     // public function __construct()

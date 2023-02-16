@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Banner\Entities\Banner;
 use Modules\Banner\Http\Requests\BannerRequest;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
@@ -43,11 +44,11 @@ class BannerController extends Controller
         $this->service = $bannerService;
 
 //        $this->middleware('can:role-admin')->only(['index']);
-        $this->middleware('can:permission banners')->only(['index']);
-        $this->middleware('can:permission banner create')->only(['create', 'store']);
-        $this->middleware('can:permission banner edit')->only(['edit', 'update']);
-        $this->middleware('can:permission banner delete')->only(['destroy']);
-        $this->middleware('can:permission banner status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_BANNERS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_BANNER_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_BANNER_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_BANNER_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_BANNER_STATUS)->only(['status']);
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
@@ -41,10 +42,10 @@ class ProductCommentController extends Controller
         $this->repo = $postCommentRepoEloquent;
         $this->service = $commentService;
 
-        $this->middleware('can:permission product comments')->only(['index']);
-        $this->middleware('can:permission product comment show')->only(['show']);
-        $this->middleware('can:permission product comment status')->only(['status']);
-        $this->middleware('can:permission product comment approve')->only(['approved']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_COMMENTS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_COMMENT_SHOW)->only(['show']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_COMMENT_STATUS)->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_COMMENT_APPROVE)->only(['approved']);
     }
 
     /**

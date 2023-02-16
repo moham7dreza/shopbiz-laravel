@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('adminUser.create') }}" class="btn btn-info btn-sm">ایجاد ادمین جدید</a>
+                    @can($PERMISSION::PERMISSION_ADMIN_USER_CREATE)
+                        <a href="{{ route('adminUser.create') }}" class="btn btn-info btn-sm">ایجاد ادمین جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('adminUser.index') }}"/>
                     </div>
@@ -55,17 +57,23 @@
                                 <td>{{ $admin->first_name }}</td>
                                 <td>{{ $admin->last_name }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="customerUser.activation"
-                                                      method="changeActive" uniqueId="active"
-                                                      name="ادمین" :model="$admin" property="activation"/>
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_ACTIVATION)
+                                        <x-panel-checkbox class="rounded" route="customerUser.activation"
+                                                          method="changeActive" uniqueId="active"
+                                                          name="ادمین" :model="$admin" property="activation"/>
+                                    @endcan
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="customerUser.status" method="changeStatus"
-                                                      name="ادمین" :model="$admin" property="status"/>
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_STATUS)
+                                        <x-panel-checkbox class="rounded" route="customerUser.status"
+                                                          method="changeStatus"
+                                                          name="ادمین" :model="$admin" property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @forelse($admin->roles as $role)
-                                        <a class="d-block text-decoration-none" href="{{ route('role.permission-form', $role->id) }}"
+                                        <a class="d-block text-decoration-none"
+                                           href="{{ route('role.permission-form', $role->id) }}"
                                            title="تعداد سطوح دسترسی نقش : {{ $role->permissions->count() ?? 0 }}">
                                             {{ $role->name }}
                                         </a>
@@ -87,17 +95,25 @@
                                     @endforelse
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('adminUser.permissions', $admin->id) }}"
-                                                   title="سطوح دسترسی کاربر"
-                                                   icon="user-check" color="outline-warning"/>
-                                    <x-panel-a-tag route="{{ route('adminUser.roles', $admin->id) }}"
-                                                   title="نقش های کاربر"
-                                                   icon="user-shield" color="outline-primary"/>
-                                    <x-panel-a-tag route="{{ route('adminUser.edit', $admin->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('adminUser.destroy', $admin->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_PERMISSIONS)
+                                        <x-panel-a-tag route="{{ route('adminUser.permissions', $admin->id) }}"
+                                                       title="سطوح دسترسی کاربر"
+                                                       icon="user-check" color="outline-warning"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_ROLES)
+                                        <x-panel-a-tag route="{{ route('adminUser.roles', $admin->id) }}"
+                                                       title="نقش های کاربر"
+                                                       icon="user-shield" color="outline-primary"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_EDIT)
+                                        <x-panel-a-tag route="{{ route('adminUser.edit', $admin->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_DELETE)
+                                        <x-panel-delete-form route="{{ route('adminUser.destroy', $admin->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

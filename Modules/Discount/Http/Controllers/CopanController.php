@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Discount\Entities\Copan;
 use Modules\Discount\Http\Requests\CopanRequest;
 use Modules\Discount\Repositories\Copan\CopanDiscountRepoEloquentInterface;
@@ -43,11 +44,11 @@ class CopanController extends Controller
         $this->copanDiscountService = $copanDiscountService;
 
         // set middlewares
-        $this->middleware('can:permission coupon discounts')->only(['index']);
-        $this->middleware('can:permission coupon discount create')->only(['create', 'store']);
-        $this->middleware('can:permission coupon discount edit')->only(['edit', 'update']);
-        $this->middleware('can:permission coupon discount delete')->only(['destroy']);
-        $this->middleware('can:permission coupon discount status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNTS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNT_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNT_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNT_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNT_STATUS)->only(['status']);
     }
 
     /**

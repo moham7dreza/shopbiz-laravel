@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Modules\Ticket\Entities\TicketAdmin;
@@ -40,8 +41,8 @@ class TicketAdminController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission admin tickets')->only(['index']);
-        $this->middleware('can:permission admin ticket add')->only(['set']);
+        $this->middleware('can:'. Permission::PERMISSION_ADMIN_TICKETS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_ADMIN_TICKET_ADD)->only(['set']);
     }
 
     /**

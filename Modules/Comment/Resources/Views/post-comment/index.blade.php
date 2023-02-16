@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}"> خانه</a></li>
@@ -13,7 +13,6 @@
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> نظرات</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -60,23 +59,29 @@
                                 <td>{{ $comment->getCommentableName() }}</td>
                                 <td>{{ $comment->getFaApproved() }} </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="postComment.status" method="changeStatus"
-                                                      name="نظر" :model="$comment" property="status"/>
+                                    @can($PERMISSION::PERMISSION_POST_COMMENT_STATUS)
+                                        <x-panel-checkbox class="rounded" route="postComment.status"
+                                                          method="changeStatus"
+                                                          name="نظر" :model="$comment" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('postComment.show', $comment->id) }}"
-                                                   title="نمایش نظر"
-                                                   icon="eye" color="outline-info"/>
-
-                                    @if($comment->approved == 1)
-                                        <x-panel-a-tag route="{{ route('postComment.approved', $comment->id) }}"
-                                                       title="عدم تایید نظر"
-                                                       icon="clock" color="outline-warning"/>
-                                    @else
-                                        <x-panel-a-tag route="{{ route('postComment.approved', $comment->id) }}"
-                                                       title="تایید نظر"
-                                                       icon="check" color="outline-success"/>
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_POST_COMMENT_SHOW)
+                                        <x-panel-a-tag route="{{ route('postComment.show', $comment->id) }}"
+                                                       title="نمایش نظر"
+                                                       icon="eye" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_POST_COMMENT_APPROVE)
+                                        @if($comment->approved == 1)
+                                            <x-panel-a-tag route="{{ route('postComment.approved', $comment->id) }}"
+                                                           title="عدم تایید نظر"
+                                                           icon="clock" color="outline-warning"/>
+                                        @else
+                                            <x-panel-a-tag route="{{ route('postComment.approved', $comment->id) }}"
+                                                           title="تایید نظر"
+                                                           icon="check" color="outline-success"/>
+                                        @endif
+                                    @endcan
                                 </td>
 
                             </tr>

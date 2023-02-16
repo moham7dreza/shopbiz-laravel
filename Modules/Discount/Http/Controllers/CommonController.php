@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Discount\Entities\CommonDiscount;
 use Modules\Discount\Http\Requests\CommonDiscountRequest;
 use Modules\Discount\Repositories\Common\CommonDiscountRepoEloquentInterface;
@@ -43,11 +44,11 @@ class CommonController extends Controller
         $this->commonDiscountService = $commonDiscountService;
 
         // set middlewares
-        $this->middleware('can:permission common discounts')->only(['index']);
-        $this->middleware('can:permission common discount create')->only(['create', 'store']);
-        $this->middleware('can:permission common discount edit')->only(['edit', 'update']);
-        $this->middleware('can:permission common discount delete')->only(['destroy']);
-        $this->middleware('can:permission common discount status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNTS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNT_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNT_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNT_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNT_STATUS)->only(['status']);
     }
 
 

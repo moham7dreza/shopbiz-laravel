@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Http\Requests\MenuRequest;
 use Modules\Menu\Repositories\MenuRepoEloquentInterface;
@@ -43,11 +44,11 @@ class MenuController extends Controller
         $this->repo = $menuRepoEloquent;
         $this->service = $menuService;
 
-        $this->middleware('can:permission menus')->only(['index']);
-        $this->middleware('can:permission menu create')->only(['create', 'store']);
-        $this->middleware('can:permission menu edit')->only(['edit', 'update']);
-        $this->middleware('can:permission menu delete')->only(['destroy']);
-        $this->middleware('can:permission menu status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_MENUS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_MENU_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_MENU_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_MENU_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_MENU_STATUS)->only(['status']);
     }
 
     /**

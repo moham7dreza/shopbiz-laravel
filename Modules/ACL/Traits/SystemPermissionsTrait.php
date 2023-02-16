@@ -86,57 +86,57 @@ trait SystemPermissionsTrait
     public const PERMISSION_ORDERS = 'permission orders';
     // 1  NEW ORDER
     public const PERMISSION_NEW_ORDERS = 'permission new orders';
-    public const PERMISSION_NEW_ORDER_SHOW = 'permission new order show';
-    public const PERMISSION_NEW_ORDER_DETAIL = 'permission new order detail';
-    public const PERMISSION_NEW_ORDER_PRINT = 'permission new order print';
-    public const PERMISSION_NEW_ORDER_CANCEL = 'permission new order cancel';
-    public const PERMISSION_NEW_ORDER_CHANGE_STATUS = 'permission new order status';
-    public const PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS = 'permission new order send status';
+//    public const PERMISSION_NEW_ORDER_SHOW = 'permission new order show';
+//    public const PERMISSION_NEW_ORDER_DETAIL = 'permission new order detail';
+//    public const PERMISSION_NEW_ORDER_PRINT = 'permission new order print';
+//    public const PERMISSION_NEW_ORDER_CANCEL = 'permission new order cancel';
+//    public const PERMISSION_NEW_ORDER_CHANGE_STATUS = 'permission new order status';
+//    public const PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS = 'permission new order send status';
 
     // 2  SENDING ORDER
     public const PERMISSION_SENDING_ORDERS = 'permission sending orders';
-    public const PERMISSION_SENDING_ORDER_SHOW = 'permission sending order show';
-    public const PERMISSION_SENDING_ORDER_DETAIL = 'permission sending order detail';
-    public const PERMISSION_SENDING_ORDER_PRINT = 'permission sending order print';
-    public const PERMISSION_SENDING_ORDER_CANCEL = 'permission sending order cancel';
-    public const PERMISSION_SENDING_ORDER_CHANGE_STATUS = 'permission sending order status';
-    public const PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS = 'permission sending order send status';
+//    public const PERMISSION_SENDING_ORDER_SHOW = 'permission sending order show';
+//    public const PERMISSION_SENDING_ORDER_DETAIL = 'permission sending order detail';
+//    public const PERMISSION_SENDING_ORDER_PRINT = 'permission sending order print';
+//    public const PERMISSION_SENDING_ORDER_CANCEL = 'permission sending order cancel';
+//    public const PERMISSION_SENDING_ORDER_CHANGE_STATUS = 'permission sending order status';
+//    public const PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS = 'permission sending order send status';
 
     // 3  UNPAID ORDER
     public const PERMISSION_UNPAID_ORDERS = 'permission unpaid orders';
-    public const PERMISSION_UNPAID_ORDER_SHOW = 'permission unpaid order show';
-    public const PERMISSION_UNPAID_ORDER_SHOW_DETAIL = 'permission unpaid order detail';
-    public const PERMISSION_UNPAID_ORDER_SHOW_PRINT = 'permission unpaid order print';
-    public const PERMISSION_UNPAID_ORDER_CANCEL = 'permission unpaid order cancel';
-    public const PERMISSION_UNPAID_ORDER_CHANGE_STATUS = 'permission unpaid order status';
-    public const PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS = 'permission unpaid order send status';
+//    public const PERMISSION_UNPAID_ORDER_SHOW = 'permission unpaid order show';
+//    public const PERMISSION_UNPAID_ORDER_SHOW_DETAIL = 'permission unpaid order detail';
+//    public const PERMISSION_UNPAID_ORDER_SHOW_PRINT = 'permission unpaid order print';
+//    public const PERMISSION_UNPAID_ORDER_CANCEL = 'permission unpaid order cancel';
+//    public const PERMISSION_UNPAID_ORDER_CHANGE_STATUS = 'permission unpaid order status';
+//    public const PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS = 'permission unpaid order send status';
 
     // 4  CANCELED ORDER
     public const PERMISSION_CANCELED_ORDERS = 'permission canceled orders';
-    public const PERMISSION_CANCELED_ORDER_SHOW = 'permission canceled order show';
-    public const PERMISSION_CANCELED_ORDER_SHOW_DETAIL = 'permission canceled order detail';
-    public const PERMISSION_CANCELED_ORDER_SHOW_PRINT = 'permission canceled order print';
-    public const PERMISSION_CANCELED_ORDER_CANCEL = 'permission canceled order cancel';
-    public const PERMISSION_CANCELED_ORDER_CHANGE_STATUS = 'permission canceled order status';
-    public const PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS = 'permission canceled order send status';
+//    public const PERMISSION_CANCELED_ORDER_SHOW = 'permission canceled order show';
+//    public const PERMISSION_CANCELED_ORDER_SHOW_DETAIL = 'permission canceled order detail';
+//    public const PERMISSION_CANCELED_ORDER_SHOW_PRINT = 'permission canceled order print';
+//    public const PERMISSION_CANCELED_ORDER_CANCEL = 'permission canceled order cancel';
+//    public const PERMISSION_CANCELED_ORDER_CHANGE_STATUS = 'permission canceled order status';
+//    public const PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS = 'permission canceled order send status';
 
     // 5  RETURNED ORDER
     public const PERMISSION_RETURNED_ORDERS = 'permission returned orders';
-    public const PERMISSION_RETURNED_ORDER_SHOW = 'permission returned order show';
-    public const PERMISSION_RETURNED_ORDER_SHOW_DETAIL = 'permission returned order detail';
-    public const PERMISSION_RETURNED_ORDER_SHOW_PRINT = 'permission returned order print';
-    public const PERMISSION_RETURNED_ORDER_CANCEL = 'permission returned order cancel';
-    public const PERMISSION_RETURNED_ORDER_CHANGE_STATUS = 'permission returned order status';
-    public const PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS = 'permission returned order send status';
+//    public const PERMISSION_RETURNED_ORDER_SHOW = 'permission returned order show';
+//    public const PERMISSION_RETURNED_ORDER_SHOW_DETAIL = 'permission returned order detail';
+//    public const PERMISSION_RETURNED_ORDER_SHOW_PRINT = 'permission returned order print';
+//    public const PERMISSION_RETURNED_ORDER_CANCEL = 'permission returned order cancel';
+//    public const PERMISSION_RETURNED_ORDER_CHANGE_STATUS = 'permission returned order status';
+//    public const PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS = 'permission returned order send status';
 
     // 6  ALL ORDER
     public const PERMISSION_ALL_ORDERS = 'permission all orders';
     public const PERMISSION_ORDER_SHOW = 'permission order show';
     public const PERMISSION_ORDER_SHOW_DETAIL = 'permission order detail';
-    public const PERMISSION_ORDER_SHOW_PRINT = 'permission order print';
+    public const PERMISSION_ORDER_PRINT = 'permission order print';
     public const PERMISSION_ORDER_CANCEL = 'permission order cancel';
-    public const PERMISSION_ORDER_CHANGE_STATUS = 'permission order status';
-    public const PERMISSION_ORDER_CHANGE_SEND_STATUS = 'permission order send status';
+    public const PERMISSION_ORDER_CHANGE_STATUS = 'permission order change status';
+    public const PERMISSION_ORDER_CHANGE_SEND_STATUS = 'permission order change send status';
 
     // C. PAYMENT
     public const PERMISSION_PAYMENTS = 'permission payments';
@@ -149,21 +149,21 @@ trait SystemPermissionsTrait
 
     // 2  ONLINE PAYMENT
     public const PERMISSION_ONLINE_PAYMENTS = 'permission online payments';
-    public const PERMISSION_ONLINE_PAYMENT_SHOW = 'permission online payment show';
-    public const PERMISSION_ONLINE_PAYMENT_CANCEL = 'permission online payment cancel';
-    public const PERMISSION_ONLINE_PAYMENT_RETURN = 'permission online payment return';
+//    public const PERMISSION_ONLINE_PAYMENT_SHOW = 'permission online payment show';
+//    public const PERMISSION_ONLINE_PAYMENT_CANCEL = 'permission online payment cancel';
+//    public const PERMISSION_ONLINE_PAYMENT_RETURN = 'permission online payment return';
 
     // 3  OFFLINE PAYMENT
     public const PERMISSION_OFFLINE_PAYMENTS = 'permission offline payments';
-    public const PERMISSION_OFFLINE_PAYMENT_SHOW = 'permission offline payment show';
-    public const PERMISSION_OFFLINE_PAYMENT_CANCEL = 'permission offline payment cancel';
-    public const PERMISSION_OFFLINE_PAYMENT_RETURN = 'permission offline payment return';
+//    public const PERMISSION_OFFLINE_PAYMENT_SHOW = 'permission offline payment show';
+//    public const PERMISSION_OFFLINE_PAYMENT_CANCEL = 'permission offline payment cancel';
+//    public const PERMISSION_OFFLINE_PAYMENT_RETURN = 'permission offline payment return';
 
     // 4  CASH PAYMENT
     public const PERMISSION_CASH_PAYMENTS = 'permission cash payments';
-    public const PERMISSION_CASH_PAYMENT_SHOW = 'permission cash payment show';
-    public const PERMISSION_CASH_PAYMENT_CANCEL = 'permission cash payment cancel';
-    public const PERMISSION_CASH_PAYMENT_RETURN = 'permission cash payment return';
+//    public const PERMISSION_CASH_PAYMENT_SHOW = 'permission cash payment show';
+//    public const PERMISSION_CASH_PAYMENT_CANCEL = 'permission cash payment cancel';
+//    public const PERMISSION_CASH_PAYMENT_RETURN = 'permission cash payment return';
 
     // D. DISCOUNTS
     public const PERMISSION_DISCOUNTS = 'permission discounts';
@@ -287,8 +287,8 @@ trait SystemPermissionsTrait
     public const PERMISSION_ROLE_DELETE = 'permission role delete';
     public const PERMISSION_ROLE_STATUS = 'permission role status';
     public const PERMISSION_ROLE_PERMISSIONS = 'permission role permissions';
-    public const PERMISSION_PERMISSIONS_IMPORT = 'permission permissions import';
-    public const PERMISSION_PERMISSIONS_EXPORT = 'permission permissions export';
+//    public const PERMISSION_PERMISSIONS_IMPORT = 'permission permissions import';
+//    public const PERMISSION_PERMISSIONS_EXPORT = 'permission permissions export';
 
     // 4  Permissions
     public const PERMISSIONS = 'permissions';
@@ -352,10 +352,10 @@ trait SystemPermissionsTrait
     public const PERMISSION_EMAIL_NOTIFY_DELETE = 'permission email notify delete';
     public const PERMISSION_EMAIL_NOTIFY_STATUS = 'permission email notify status';
     public const PERMISSION_EMAIL_NOTIFY_FILES = 'permission email notify files';
-    public const PERMISSION_EMAIL_NOTIFY_FILES_CREATE = 'permission email notify file create';
-    public const PERMISSION_EMAIL_NOTIFY_FILES_EDIT = 'permission email notify file edit';
-    public const PERMISSION_EMAIL_NOTIFY_FILES_DELETE = 'permission email notify file delete';
-    public const PERMISSION_EMAIL_NOTIFY_FILES_STATUS = 'permission email notify file status';
+    public const PERMISSION_EMAIL_NOTIFY_FILE_CREATE = 'permission email notify file create';
+    public const PERMISSION_EMAIL_NOTIFY_FILE_EDIT = 'permission email notify file edit';
+    public const PERMISSION_EMAIL_NOTIFY_FILE_DELETE = 'permission email notify file delete';
+    public const PERMISSION_EMAIL_NOTIFY_FILE_STATUS = 'permission email notify file status';
 
     // 2  SMS NOTIFY
     public const PERMISSION_SMS_NOTIFYS = 'permission sms notifys';
@@ -464,44 +464,44 @@ trait SystemPermissionsTrait
         , self::PERMISSION_PRODUCT_COMMENT_APPROVE
         , self::PERMISSION_ORDERS
         , self::PERMISSION_NEW_ORDERS
-        , self::PERMISSION_NEW_ORDER_SHOW
-        , self::PERMISSION_NEW_ORDER_DETAIL
-        , self::PERMISSION_NEW_ORDER_PRINT
-        , self::PERMISSION_NEW_ORDER_CANCEL
-        , self::PERMISSION_NEW_ORDER_CHANGE_STATUS
-        , self::PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS
+//        , self::PERMISSION_NEW_ORDER_SHOW
+//        , self::PERMISSION_NEW_ORDER_DETAIL
+//        , self::PERMISSION_NEW_ORDER_PRINT
+//        , self::PERMISSION_NEW_ORDER_CANCEL
+//        , self::PERMISSION_NEW_ORDER_CHANGE_STATUS
+//        , self::PERMISSION_NEW_ORDER_CHANGE_SEND_STATUS
         , self::PERMISSION_SENDING_ORDERS
-        , self::PERMISSION_SENDING_ORDER_SHOW
-        , self::PERMISSION_SENDING_ORDER_DETAIL
-        , self::PERMISSION_SENDING_ORDER_PRINT
-        , self::PERMISSION_SENDING_ORDER_CANCEL
-        , self::PERMISSION_SENDING_ORDER_CHANGE_STATUS
-        , self::PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS
+//        , self::PERMISSION_SENDING_ORDER_SHOW
+//        , self::PERMISSION_SENDING_ORDER_DETAIL
+//        , self::PERMISSION_SENDING_ORDER_PRINT
+//        , self::PERMISSION_SENDING_ORDER_CANCEL
+//        , self::PERMISSION_SENDING_ORDER_CHANGE_STATUS
+//        , self::PERMISSION_SENDING_ORDER_CHANGE_SEND_STATUS
         , self::PERMISSION_UNPAID_ORDERS
-        , self::PERMISSION_UNPAID_ORDER_SHOW
-        , self::PERMISSION_UNPAID_ORDER_SHOW_DETAIL
-        , self::PERMISSION_UNPAID_ORDER_SHOW_PRINT
-        , self::PERMISSION_UNPAID_ORDER_CANCEL
-        , self::PERMISSION_UNPAID_ORDER_CHANGE_STATUS
-        , self::PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS
+//        , self::PERMISSION_UNPAID_ORDER_SHOW
+//        , self::PERMISSION_UNPAID_ORDER_SHOW_DETAIL
+//        , self::PERMISSION_UNPAID_ORDER_SHOW_PRINT
+//        , self::PERMISSION_UNPAID_ORDER_CANCEL
+//        , self::PERMISSION_UNPAID_ORDER_CHANGE_STATUS
+//        , self::PERMISSION_UNPAID_ORDER_CHANGE_SEND_STATUS
         , self::PERMISSION_CANCELED_ORDERS
-        , self::PERMISSION_CANCELED_ORDER_SHOW
-        , self::PERMISSION_CANCELED_ORDER_SHOW_DETAIL
-        , self::PERMISSION_CANCELED_ORDER_SHOW_PRINT
-        , self::PERMISSION_CANCELED_ORDER_CANCEL
-        , self::PERMISSION_CANCELED_ORDER_CHANGE_STATUS
-        , self::PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS
+//        , self::PERMISSION_CANCELED_ORDER_SHOW
+//        , self::PERMISSION_CANCELED_ORDER_SHOW_DETAIL
+//        , self::PERMISSION_CANCELED_ORDER_SHOW_PRINT
+//        , self::PERMISSION_CANCELED_ORDER_CANCEL
+//        , self::PERMISSION_CANCELED_ORDER_CHANGE_STATUS
+//        , self::PERMISSION_CANCELED_ORDER_CHANGE_SEND_STATUS
         , self::PERMISSION_RETURNED_ORDERS
-        , self::PERMISSION_RETURNED_ORDER_SHOW
-        , self::PERMISSION_RETURNED_ORDER_SHOW_DETAIL
-        , self::PERMISSION_RETURNED_ORDER_SHOW_PRINT
-        , self::PERMISSION_RETURNED_ORDER_CANCEL
-        , self::PERMISSION_RETURNED_ORDER_CHANGE_STATUS
-        , self::PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS
+//        , self::PERMISSION_RETURNED_ORDER_SHOW
+//        , self::PERMISSION_RETURNED_ORDER_SHOW_DETAIL
+//        , self::PERMISSION_RETURNED_ORDER_SHOW_PRINT
+//        , self::PERMISSION_RETURNED_ORDER_CANCEL
+//        , self::PERMISSION_RETURNED_ORDER_CHANGE_STATUS
+//        , self::PERMISSION_RETURNED_ORDER_CHANGE_SEND_STATUS
         , self::PERMISSION_ALL_ORDERS
         , self::PERMISSION_ORDER_SHOW
         , self::PERMISSION_ORDER_SHOW_DETAIL
-        , self::PERMISSION_ORDER_SHOW_PRINT
+        , self::PERMISSION_ORDER_PRINT
         , self::PERMISSION_ORDER_CANCEL
         , self::PERMISSION_ORDER_CHANGE_STATUS
         , self::PERMISSION_ORDER_CHANGE_SEND_STATUS
@@ -511,17 +511,17 @@ trait SystemPermissionsTrait
         , self::PERMISSION_PAYMENT_CANCEL
         , self::PERMISSION_PAYMENT_RETURN
         , self::PERMISSION_ONLINE_PAYMENTS
-        , self::PERMISSION_ONLINE_PAYMENT_SHOW
-        , self::PERMISSION_ONLINE_PAYMENT_CANCEL
-        , self::PERMISSION_ONLINE_PAYMENT_RETURN
+//        , self::PERMISSION_ONLINE_PAYMENT_SHOW
+//        , self::PERMISSION_ONLINE_PAYMENT_CANCEL
+//        , self::PERMISSION_ONLINE_PAYMENT_RETURN
         , self::PERMISSION_OFFLINE_PAYMENTS
-        , self::PERMISSION_OFFLINE_PAYMENT_SHOW
-        , self::PERMISSION_OFFLINE_PAYMENT_CANCEL
-        , self::PERMISSION_OFFLINE_PAYMENT_RETURN
+//        , self::PERMISSION_OFFLINE_PAYMENT_SHOW
+//        , self::PERMISSION_OFFLINE_PAYMENT_CANCEL
+//        , self::PERMISSION_OFFLINE_PAYMENT_RETURN
         , self::PERMISSION_CASH_PAYMENTS
-        , self::PERMISSION_CASH_PAYMENT_SHOW
-        , self::PERMISSION_CASH_PAYMENT_CANCEL
-        , self::PERMISSION_CASH_PAYMENT_RETURN
+//        , self::PERMISSION_CASH_PAYMENT_SHOW
+//        , self::PERMISSION_CASH_PAYMENT_CANCEL
+//        , self::PERMISSION_CASH_PAYMENT_RETURN
         , self::PERMISSION_DISCOUNTS
         , self::PERMISSION_COUPON_DISCOUNTS
         , self::PERMISSION_COUPON_DISCOUNT_CREATE
@@ -607,8 +607,8 @@ trait SystemPermissionsTrait
         , self::PERMISSION_ROLE_DELETE
         , self::PERMISSION_ROLE_STATUS
         , self::PERMISSION_ROLE_PERMISSIONS
-        , self::PERMISSION_PERMISSIONS_IMPORT
-        , self::PERMISSION_PERMISSIONS_EXPORT
+//        , self::PERMISSION_PERMISSIONS_IMPORT
+//        , self::PERMISSION_PERMISSIONS_EXPORT
         , self::PERMISSIONS
         , self::PERMISSION_CREATE
         , self::PERMISSION_EDIT
@@ -646,10 +646,10 @@ trait SystemPermissionsTrait
         , self::PERMISSION_EMAIL_NOTIFY_DELETE
         , self::PERMISSION_EMAIL_NOTIFY_STATUS
         , self::PERMISSION_EMAIL_NOTIFY_FILES
-        , self::PERMISSION_EMAIL_NOTIFY_FILES_CREATE
-        , self::PERMISSION_EMAIL_NOTIFY_FILES_EDIT
-        , self::PERMISSION_EMAIL_NOTIFY_FILES_DELETE
-        , self::PERMISSION_EMAIL_NOTIFY_FILES_STATUS
+        , self::PERMISSION_EMAIL_NOTIFY_FILE_CREATE
+        , self::PERMISSION_EMAIL_NOTIFY_FILE_EDIT
+        , self::PERMISSION_EMAIL_NOTIFY_FILE_DELETE
+        , self::PERMISSION_EMAIL_NOTIFY_FILE_STATUS
         , self::PERMISSION_SMS_NOTIFYS
         , self::PERMISSION_SMS_NOTIFY_CREATE
         , self::PERMISSION_SMS_NOTIFY_EDIT

@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Entities\EmailFile;
 use Modules\Notify\Http\Requests\EmailFileRequest;
@@ -45,11 +46,11 @@ class EmailFileController extends Controller
         $this->repo = $emailFileRepoEloquent;
         $this->service = $emailFileService;
 
-        $this->middleware('can:permission email notify files')->only(['index']);
-        $this->middleware('can:permission email notify file create')->only(['create', 'store']);
-        $this->middleware('can:permission email notify file edit')->only(['edit', 'update']);
-        $this->middleware('can:permission email notify file delete')->only(['destroy']);
-        $this->middleware('can:permission email notify file status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_FILES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_FILE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_FILE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_FILE_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_FILE_STATUS)->only(['status']);
     }
 
     /**

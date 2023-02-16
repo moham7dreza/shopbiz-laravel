@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -41,11 +42,11 @@ class TicketPriorityController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission ticket priorities')->only(['index']);
-        $this->middleware('can:permission ticket priority create')->only(['create', 'store']);
-        $this->middleware('can:permission ticket priority edit')->only(['edit', 'update']);
-        $this->middleware('can:permission ticket priority delete')->only(['destroy']);
-        $this->middleware('can:permission ticket priority status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_PRIORITIES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_PRIORITY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_PRIORITY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_PRIORITY_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_PRIORITY_STATUS)->only(['status']);
     }
 
     /**

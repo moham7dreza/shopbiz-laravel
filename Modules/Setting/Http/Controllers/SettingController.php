@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
@@ -39,8 +40,8 @@ class SettingController extends Controller
         $this->repo = $settingRepoEloquent;
         $this->service = $settingService;
 
-        $this->middleware('can:permission setting')->only(['index']);
-        $this->middleware('can:permission setting edit')->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_SETTING)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_SETTING_EDIT)->only(['edit', 'update']);
     }
 
     /**

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,8 +24,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('commonDiscount.create') }}" class="btn btn-info btn-sm">ایجاد تخفیف
-                        عمومی</a>
+                    @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_CREATE)
+                        <a href="{{ route('commonDiscount.create') }}" class="btn btn-info btn-sm">ایجاد تخفیف
+                            عمومی</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('commonDiscount.index') }}"/>
                     </div>
@@ -57,9 +59,12 @@
                                 <td>{{ $commonDiscount->getFaStartDate() }}</td>
                                 <td>{{ $commonDiscount->getFaEndDate() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="commonDiscount.status"
-                                                      method="changeStatus" name="تخفیف عمومی" :model="$commonDiscount"
-                                                      property="status"/>
+                                    @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_STATUS)
+                                        <x-panel-checkbox class="rounded" route="commonDiscount.status"
+                                                          method="changeStatus" name="تخفیف عمومی"
+                                                          :model="$commonDiscount"
+                                                          property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @if($commonDiscount->activated())
@@ -69,11 +74,15 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form
-                                        route="{{ route('commonDiscount.destroy', $commonDiscount->id) }}"
-                                        title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_EDIT)
+                                        <x-panel-a-tag route="{{ route('commonDiscount.edit', $commonDiscount->id) }}"
+                                                       title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('commonDiscount.destroy', $commonDiscount->id) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
 

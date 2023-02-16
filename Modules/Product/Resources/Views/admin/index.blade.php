@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,8 +24,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('product.create') }}" class="btn btn-info btn-sm">ایجاد کالای
-                        جدید </a>
+                    @can($PERMISSION::PERMISSION_PRODUCT_CREATE)
+                        <a href="{{ route('product.create') }}" class="btn btn-info btn-sm">ایجاد کالای
+                            جدید </a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('product.index') }}"/>
                     </div>
@@ -82,54 +84,73 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="product.status" method="changeStatus"
-                                                      name="کالا" :model="$product" property="status"/>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_STATUS)
+                                        <x-panel-checkbox class="rounded" route="product.status" method="changeStatus"
+                                                          name="کالا" :model="$product" property="status"/>
+                                    @endcan
                                 </td>
 
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="product.marketable" method="marketable"
-                                                      uniqueId="marketable"
-                                                      name="پست" :model="$product" property="marketable"/>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_MARKETABLE)
+                                        <x-panel-checkbox class="rounded" route="product.marketable" method="marketable"
+                                                          uniqueId="marketable"
+                                                          name="پست" :model="$product" property="marketable"/>
+                                    @endcan
                                 </td>
 
                                 <td class="width-12-rem text-left">
-                                    @php $flag = $product->selected(); @endphp
-                                    <x-panel-a-tag route="{{ route('product.selected', $product->id) }}"
-                                                   title="{{ $flag ? 'حذف از محصولات پیشنهادی' : 'افزودن به محصولات پیشنهادی' }}"
-                                                   icon="{{ $flag ? 'times' : 'shopping-cart' }}"
-                                                   color="{{ $flag ? 'outline-danger' : 'outline-success' }}"
-                                                   class="{{ $flag ? 'pad-03-07' : '' }}"/>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_SELECTED)
+                                        @php $flag = $product->selected(); @endphp
+                                        <x-panel-a-tag route="{{ route('product.selected', $product->id) }}"
+                                                       title="{{ $flag ? 'حذف از محصولات پیشنهادی' : 'افزودن به محصولات پیشنهادی' }}"
+                                                       icon="{{ $flag ? 'times' : 'shopping-cart' }}"
+                                                       color="{{ $flag ? 'outline-danger' : 'outline-success' }}"
+                                                       class="{{ $flag ? 'pad-03-07' : '' }}"/>
+                                    @endcan
                                     <x-panel-dropdown text="عملیات" icon="tools">
-                                        <a href="{{ route('product.gallery.index', $product->id) }}"
-                                           class="dropdown-item text-right">
-                                            <i class="fa fa-images text-warning"></i><span class="mx-2">گالری</span>
-                                        </a>
-                                        <a href="{{ route('product.color.index', $product->id) }}"
-                                           class="dropdown-item text-right"><i
-                                                class="fa fa-circle-notch text-greenyellow"></i><span
-                                                class="mx-2">رنگ</span>
-                                        </a>
-                                        <a href="{{ route('product.guarantee.index', $product->id) }}"
-                                           class="dropdown-item text-right"><i
-                                                class="fa fa-shield-alt text-secondary"></i><span
-                                                class="mx-2">گارانتی</span></a>
-                                        <a href="{{ route('product.tags-from', $product->id) }}"
-                                           class="dropdown-item text-right"><i
-                                                class="fa fa-tags text-primary"></i><span
-                                                class="mx-2">تگ</span></a>
-                                        <a href="{{ route('product.edit', $product->id) }}"
-                                           class="dropdown-item text-right"><i class="fa fa-edit text-info"></i><span
-                                                class="mx-2">ویرایش</span></a>
-                                        <form class="d-inline"
-                                              action="{{ route('product.destroy', $product->id) }}"
-                                              method="post">
-                                            @csrf
-                                            @method('Delete')
-                                            <button type="submit" class="dropdown-item text-right"><i
-                                                    class="fa fa-window-close text-danger"></i> <span
-                                                    class="mx-2">حذف</span>
-                                            </button>
-                                        </form>
+                                        @can($PERMISSION::PERMISSION_PRODUCT_GALLERY)
+                                            <a href="{{ route('product.gallery.index', $product->id) }}"
+                                               class="dropdown-item text-right">
+                                                <i class="fa fa-images text-warning"></i><span class="mx-2">گالری</span>
+                                            </a>
+                                        @endcan
+                                        @can($PERMISSION::PERMISSION_PRODUCT_COLORS)
+                                            <a href="{{ route('product.color.index', $product->id) }}"
+                                               class="dropdown-item text-right"><i
+                                                    class="fa fa-circle-notch text-greenyellow"></i><span
+                                                    class="mx-2">رنگ</span>
+                                            </a>
+                                        @endcan
+                                        @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEES)
+                                            <a href="{{ route('product.guarantee.index', $product->id) }}"
+                                               class="dropdown-item text-right"><i
+                                                    class="fa fa-shield-alt text-secondary"></i><span
+                                                    class="mx-2">گارانتی</span></a>
+                                        @endcan
+                                        @can($PERMISSION::PERMISSION_PRODUCT_TAGS)
+                                            <a href="{{ route('product.tags-from', $product->id) }}"
+                                               class="dropdown-item text-right"><i
+                                                    class="fa fa-tags text-primary"></i><span
+                                                    class="mx-2">تگ</span></a>
+                                        @endcan
+                                        @can($PERMISSION::PERMISSION_PRODUCT_EDIT)
+                                            <a href="{{ route('product.edit', $product->id) }}"
+                                               class="dropdown-item text-right"><i
+                                                    class="fa fa-edit text-info"></i><span
+                                                    class="mx-2">ویرایش</span></a>
+                                        @endcan
+                                        @can($PERMISSION::PERMISSION_PRODUCT_DELETE)
+                                            <form class="d-inline"
+                                                  action="{{ route('product.destroy', $product->id) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('Delete')
+                                                <button type="submit" class="dropdown-item text-right"><i
+                                                        class="fa fa-window-close text-danger"></i> <span
+                                                        class="mx-2">حذف</span>
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </x-panel-dropdown>
                                 </td>
                             </tr>

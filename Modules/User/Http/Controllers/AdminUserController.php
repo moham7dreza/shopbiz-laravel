@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Modules\ACL\Entities\Permission;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\Image\ImageService;
@@ -47,14 +48,14 @@ class AdminUserController extends Controller
         $this->repo = $userRepoEloquent;
         $this->service = $userService;
 
-        $this->middleware('can:permission admin users')->only(['index']);
-        $this->middleware('can:permission admin user create')->only(['create', 'store']);
-        $this->middleware('can:permission admin user edit')->only(['edit', 'update']);
-        $this->middleware('can:permission admin user delete')->only(['destroy']);
-        $this->middleware('can:permission admin user status')->only(['status']);
-        $this->middleware('can:permission admin user activation')->only(['activation']);
-        $this->middleware('can:permission admin user roles')->only(['roleForm', 'roleUpdate']);
-        $this->middleware('can:permission admin user permissions')->only(['permissions', 'permissionsStore']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USERS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_ACTIVATION)->only(['activation']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_ROLES)->only(['roleForm', 'roleUpdate']);
+        $this->middleware('can:' . Permission::PERMISSION_ADMIN_USER_PERMISSIONS)->only(['permissions', 'permissionsStore']);
     }
 
 

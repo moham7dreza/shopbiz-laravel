@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
@@ -47,10 +47,12 @@
                                 <td>{{ $admin->fullName }}</td>
                                 <td>{{ $admin->email }}</td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('ticket-admin.set', $admin->id) }}"
-                                                   title="{{ $admin->ticketCssStatus() == 'success' ? 'اضافه به لیست ادمین تیکت ها' : 'حذف از لیست ادمین تیکت ها' }}"
-                                                   icon="{{ $admin->ticketIconStatus() }}"
-                                                   color="{{ $admin->ticketCssStatus() }}"/>
+                                    @can($PERMISSION::PERMISSION_ADMIN_TICKET_ADD)
+                                        <x-panel-a-tag route="{{ route('ticket-admin.set', $admin->id) }}"
+                                                       title="{{ $admin->ticketCssStatus() == 'success' ? 'اضافه به لیست ادمین تیکت ها' : 'حذف از لیست ادمین تیکت ها' }}"
+                                                       icon="{{ $admin->ticketIconStatus() }}"
+                                                       color="{{ $admin->ticketCssStatus() }}"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

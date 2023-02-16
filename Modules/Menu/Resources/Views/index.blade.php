@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('menu.create') }}" class="btn btn-info btn-sm">ایجاد منوی جدید</a>
+                    @can($PERMISSION::PERMISSION_MENU_CREATE)
+                        <a href="{{ route('menu.create') }}" class="btn btn-info btn-sm">ایجاد منوی جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('menu.index') }}"/>
                     </div>
@@ -50,15 +52,21 @@
                                 <td>{{ $menu->getParentName() }}</td>
                                 <td class="text-left dir-ltr">{{ $menu->url }}</td>
                                 <td class="text-center">
-                                    <x-panel-checkbox class="rounded" route="menu.status" method="changeStatus"
-                                                      name="منو" :model="$menu" property="status"/>
+                                    @can($PERMISSION::PERMISSION_MENU_STATUS)
+                                        <x-panel-checkbox class="rounded" route="menu.status" method="changeStatus"
+                                                          name="منو" :model="$menu" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('menu.edit', $menu->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('menu.destroy', $menu->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_MENU_EDIT)
+                                        <x-panel-a-tag route="{{ route('menu.edit', $menu->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_MENU_DELETE)
+                                        <x-panel-delete-form route="{{ route('menu.destroy', $menu->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

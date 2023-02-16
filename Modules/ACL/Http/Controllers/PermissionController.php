@@ -41,11 +41,11 @@ class PermissionController extends Controller
         $this->repo = $rolePermissionRepo;
         $this->service = $rolePermissionService;
 
-        $this->middleware('can:permissions')->only(['index']);
-        $this->middleware('can:permission create')->only(['create', 'store']);
-        $this->middleware('can:permission edit')->only(['edit', 'update']);
-        $this->middleware('can:permission delete')->only(['destroy']);
-        $this->middleware('can:permission status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSIONS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_STATUS)->only(['status']);
     }
 
     /**

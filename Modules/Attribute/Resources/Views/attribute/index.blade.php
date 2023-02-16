@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,9 +25,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                    @can($PERMISSION::PERMISSION_ATTRIBUTE_CREATE)
+                        <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('attribute.index') }}" />
+                        <x-panel-search-form route="{{ route('attribute.index') }}"/>
                     </div>
                 </section>
 
@@ -59,13 +61,28 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="attribute.status" method="changeStatus" name="فرم کالا" :model="$attribute" property="status" />
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="attribute.status" method="changeStatus"
+                                                          name="فرم کالا" :model="$attribute" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}" title="تعریف دسته بندی" icon="list-ul" color="outline-success" />
-                                    <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" title="مقادیر فرم کالا" icon="weight" color="outline-warning" />
-                                    <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}" title="ویرایش آیتم" icon="edit" color="outline-info" />
-                                    <x-panel-delete-form route="{{ route('attribute.destroy', $attribute->id) }}" title="حذف آیتم" />
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_CATEGORIES)
+                                        <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}"
+                                                       title="تعریف دسته بندی" icon="list-ul" color="outline-success"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUES)
+                                        <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}"
+                                                       title="مقادیر فرم کالا" icon="weight" color="outline-warning"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_EDIT)
+                                        <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}"
+                                                       title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_DELETE)
+                                        <x-panel-delete-form route="{{ route('attribute.destroy', $attribute->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
 

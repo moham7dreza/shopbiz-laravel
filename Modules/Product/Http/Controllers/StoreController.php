@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreRequest;
 use Modules\Product\Http\Requests\StoreUpdateRequest;
@@ -37,9 +38,9 @@ class StoreController extends Controller
     {
         $this->productService = $productService;
 
-        $this->middleware('can:permission warehouse')->only(['index']);
-        $this->middleware('can:permission warehouse add')->only(['addToStore', 'store']);
-        $this->middleware('can:permission warehouse modify')->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_WAREHOUSE)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_WAREHOUSE_ADD)->only(['addToStore', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_WAREHOUSE_MODIFY)->only(['edit', 'update']);
     }
 
     /**

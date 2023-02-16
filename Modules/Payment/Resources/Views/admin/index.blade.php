@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -53,15 +53,21 @@
                                 <td>{{ $payment->paymentStatusValue() }}</td>
                                 <td>{{ $payment->paymentTypeValue() }}</td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('payment.show', $payment->id) }}"
-                                                   title="نمایش جزئیات پرداخت"
-                                                   icon="eye" color="outline-info"/>
-                                    <x-panel-a-tag route="{{ route('payment.canceled', $payment->id) }}"
-                                                   title="باطل کردن پرداخت"
-                                                   icon="times" color="outline-warning"/>
-                                    <x-panel-a-tag route="{{ route('payment.returned', $payment->id) }}"
-                                                   title="بازگرداندن پرداخت"
-                                                   icon="reply" color="outline-danger"/>
+                                    @can($PERMISSION::PERMISSION_PAYMENT_SHOW)
+                                        <x-panel-a-tag route="{{ route('payment.show', $payment->id) }}"
+                                                       title="نمایش جزئیات پرداخت"
+                                                       icon="eye" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_PAYMENT_CANCEL)
+                                        <x-panel-a-tag route="{{ route('payment.canceled', $payment->id) }}"
+                                                       title="باطل کردن پرداخت"
+                                                       icon="times" color="outline-warning"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_PAYMENT_RETURN)
+                                        <x-panel-a-tag route="{{ route('payment.returned', $payment->id) }}"
+                                                       title="بازگرداندن پرداخت"
+                                                       icon="reply" color="outline-danger"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

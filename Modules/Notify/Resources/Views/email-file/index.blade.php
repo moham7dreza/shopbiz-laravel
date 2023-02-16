@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,8 +25,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
-                        فایل اطلائیه ایمیلی</a>
+                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_CREATE)
+                        <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
+                            فایل اطلائیه ایمیلی</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('email-file.index', $email->id) }}"/>
                     </div>
@@ -52,15 +54,22 @@
                                 <td>{{ $file->getFaFileSize() }}</td>
                                 <td>{{ $file->file_type }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="email-file.status" method="changeStatus"
-                                                      name="فایل" :model="$file" property="status"/>
+                                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="email-file.status"
+                                                          method="changeStatus"
+                                                          name="فایل" :model="$file" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('email-file.edit', $file->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('email-file.destroy', $file->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_EDIT)
+                                        <x-panel-a-tag route="{{ route('email-file.edit', $file->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_DELETE)
+                                        <x-panel-delete-form route="{{ route('email-file.destroy', $file->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

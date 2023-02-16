@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Http\Requests\AmazingSaleRequest;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInterface;
@@ -47,11 +48,11 @@ class AmazingSaleController extends Controller
         $this->productRepo = $productRepo;
 
         // set middlewares
-        $this->middleware('can:permission amazing sales')->only(['index']);
-        $this->middleware('can:permission amazing sale create')->only(['create', 'store']);
-        $this->middleware('can:permission amazing sale edit')->only(['edit', 'update']);
-        $this->middleware('can:permission amazing sale delete')->only(['destroy']);
-        $this->middleware('can:permission amazing sale status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_AMAZING_SALES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_AMAZING_SALE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_AMAZING_SALE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_AMAZING_SALE_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_AMAZING_SALE_STATUS)->only(['status']);
     }
 
     /**

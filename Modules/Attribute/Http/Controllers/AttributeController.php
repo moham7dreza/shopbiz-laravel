@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Attribute\Entities\Attribute;
 use Modules\Attribute\Http\Requests\AttributeRequest;
 use Modules\Attribute\Repositories\Attribute\AttributeRepoEloquentInterface;
@@ -43,12 +44,12 @@ class AttributeController extends Controller
         $this->repo = $attributeRepo;
         $this->service = $attributeService;
 
-        $this->middleware('can:permission attributes')->only(['index']);
-        $this->middleware('can:permission attribute create')->only(['create', 'store']);
-        $this->middleware('can:permission attribute edit')->only(['edit', 'update']);
-        $this->middleware('can:permission attribute delete')->only(['destroy']);
-        $this->middleware('can:permission attribute status')->only(['status']);
-        $this->middleware('can:permission attribute categories')->only(['categoryForm', 'categoryUpdate']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_STATUS)->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_CATEGORIES)->only(['categoryForm', 'categoryUpdate']);
     }
 
     /**

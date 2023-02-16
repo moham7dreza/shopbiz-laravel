@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -40,12 +41,12 @@ class CustomerController extends Controller
         $this->repo = $userRepoEloquent;
         $this->service = $userService;
 
-        $this->middleware('can:permission customer users')->only(['index']);
-        $this->middleware('can:permission customer user create')->only(['create', 'store']);
-        $this->middleware('can:permission customer user edit')->only(['edit', 'update']);
-        $this->middleware('can:permission customer user delete')->only(['destroy']);
-        $this->middleware('can:permission customer user status')->only(['status']);
-        $this->middleware('can:permission customer user activation')->only(['activation']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USERS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USER_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USER_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USER_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USER_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_CUSTOMER_USER_ACTIVATION)->only(['activation']);
     }
 
     /**

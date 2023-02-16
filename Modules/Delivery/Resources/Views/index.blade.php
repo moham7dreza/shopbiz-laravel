@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -13,7 +13,6 @@
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> روش های ارسال</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -25,9 +24,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال جدید </a>
+                    @can($PERMISSION::PERMISSION_DELIVERY_METHOD_CREATE)
+                        <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال جدید </a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('delivery.index') }}" />
+                        <x-panel-search-form route="{{ route('delivery.index') }}"/>
                     </div>
                 </section>
 
@@ -45,36 +46,38 @@
                         </thead>
                         <tbody>
                         @foreach ($delivery_methods as $delivery_method)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $delivery_method->name }}</td>
                                 <td>{{ $delivery_method->getFaAmount() }}</td>
                                 <td>{{ $delivery_method->getFaDeliveryTime() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="delivery.status" method="changeStatus"
-                                                      name="روش ارسال" :model="$delivery_method" property="status"/>
+                                    @can($PERMISSION::PERMISSION_DELIVERY_METHOD_STATUS)
+                                        <x-panel-checkbox class="rounded" route="delivery.status" method="changeStatus"
+                                                          name="روش ارسال" :model="$delivery_method" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('delivery.edit', $delivery_method->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('delivery.destroy', $delivery_method->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_DELIVERY_METHOD_EDIT)
+                                        <x-panel-a-tag route="{{ route('delivery.edit', $delivery_method->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_DELIVERY_METHOD_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('delivery.destroy', $delivery_method->id) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
-
                         @endforeach
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $delivery_methods->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
 
 @section('script')

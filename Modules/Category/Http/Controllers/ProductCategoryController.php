@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Category\Http\Requests\ProductCategoryRequest;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
@@ -42,12 +43,12 @@ class ProductCategoryController extends Controller
         $this->categoryRepo = $productCategoryRepo;
         $this->categoryService = $productCategoryService;
 
-        $this->middleware('can:permission product categories')->only(['index']);
-        $this->middleware('can:permission product category create')->only(['create', 'store']);
-        $this->middleware('can:permission product category edit')->only(['edit', 'update']);
-        $this->middleware('can:permission product category delete')->only(['destroy']);
-        $this->middleware('can:permission product category status')->only(['status']);
-        $this->middleware('can:permission product category show in menu')->only(['showInMenu']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORIES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORY_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORY_STATUS)->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_PRODUCT_CATEGORY_SHOW_IN_MENU)->only(['showInMenu']);
     }
 
     /**

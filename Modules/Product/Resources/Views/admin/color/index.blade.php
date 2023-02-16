@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,8 +25,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
-                        رنگ جدید </a>
+                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_CREATE)
+                        <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
+                            رنگ جدید </a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('product.color.index', $product->id) }}"/>
                     </div>
@@ -58,17 +60,24 @@
                                 <td>{{ $color->getFaSoldNumber() }}</td>
                                 <td>{{ $color->getFaFrozenNumber() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="product.color.status" method="changeStatus"
-                                                      name="رنگ کالا" :model="$color" property="status"/>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_STATUS)
+                                        <x-panel-checkbox class="rounded" route="product.color.status"
+                                                          method="changeStatus"
+                                                          name="رنگ کالا" :model="$color" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-12-rem text-center">
-                                    <x-panel-a-tag
-                                        route="{{ route('product.color.edit', ['product' => $product->id , 'color' => $color->id]) }}"
-                                        title="ویرایش آیتم"
-                                        icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form
-                                        route="{{ route('product.color.destroy', ['product' => $product->id , 'color' => $color->id] ) }}"
-                                        title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_EDIT)
+                                        <x-panel-a-tag
+                                            route="{{ route('product.color.edit', ['product' => $product->id , 'color' => $color->id]) }}"
+                                            title="ویرایش آیتم"
+                                            icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('product.color.destroy', ['product' => $product->id , 'color' => $color->id] ) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

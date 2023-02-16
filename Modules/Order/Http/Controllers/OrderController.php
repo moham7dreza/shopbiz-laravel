@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepoEloquentInterface;
@@ -40,37 +41,16 @@ class OrderController extends Controller
         $this->repo = $orderRepoEloquent;
         $this->service = $orderService;
 
-        $this->middleware('can:permission new orders')->only(['newOrders']);
-        $this->middleware('can:permission sending orders')->only(['sending']);
-        $this->middleware('can:permission canceled orders')->only(['canceled']);
-        $this->middleware('can:permission all orders')->only(['all']);
-        $this->middleware('can:permission unpaid orders')->only(['unpaid']);
-        $this->middleware('can:permission returned orders')->only(['returned']);
-
-        $this->middleware('can:permission order-show,
-                                        permission returned-order-show,
-                                        permission canceled-order-show,
-                                        permission sending-order-show,
-                                        permission unpaid-order-show,
-                                        permission new-order-show')->only(['show']);
-        $this->middleware('can:permission order-detail
-                                        permission returned-order-detail,
-                                        permission canceled-order-detail,
-                                        permission sending-order-detail,
-                                        permission unpaid-order-detail,
-                                        permission new-order-detail')->only(['detail']);
-        $this->middleware('can:permission order-status
-                                        permission returned-order-status,
-                                        permission canceled-order-status,
-                                        permission sending-order-status,
-                                        permission unpaid-order-status,
-                                        permission new-order-status')->only(['changeOrderStatus']);
-        $this->middleware('can:permission order-send-status
-                                        permission returned-order-send-status,
-                                        permission canceled-order-send-status,
-                                        permission sending-order-send-status,
-                                        permission unpaid-order-send-status,
-                                        permission new-order-send-status')->only(['changeSendStatus']);
+        $this->middleware('can:'. Permission::PERMISSION_NEW_ORDERS)->only(['newOrders']);
+        $this->middleware('can:'. Permission::PERMISSION_SENDING_ORDERS)->only(['sending']);
+        $this->middleware('can:'. Permission::PERMISSION_CANCELED_ORDERS)->only(['canceled']);
+        $this->middleware('can:'. Permission::PERMISSION_ALL_ORDERS)->only(['all']);
+        $this->middleware('can:'. Permission::PERMISSION_UNPAID_ORDERS)->only(['unpaid']);
+        $this->middleware('can:'. Permission::PERMISSION_RETURNED_ORDERS)->only(['returned']);
+        $this->middleware('can:'. Permission::PERMISSION_ORDER_SHOW)->only(['show']);
+        $this->middleware('can:'. Permission::PERMISSION_ORDER_SHOW_DETAIL)->only(['detail']);
+        $this->middleware('can:'. Permission::PERMISSION_ORDER_CHANGE_STATUS)->only(['changeOrderStatus']);
+        $this->middleware('can:'. Permission::PERMISSION_ORDER_CHANGE_SEND_STATUS)->only(['changeSendStatus']);
     }
 
     /**

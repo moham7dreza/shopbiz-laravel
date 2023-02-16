@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -37,15 +37,19 @@
                         <tr class="table-primary">
                             <th>{{ $order->getFaId() }}</th>
                             <td class="width-24-rem text-left">
-                                <a href="" class="btn btn-dark btn-sm text-white" id="print">
-                                    <i class="fa fa-print"></i>
-                                    چاپ
-                                </a>
-                                <a href="{{ route('order.show.detail', $order->id) }}"
-                                   class="btn btn-warning btn-sm">
-                                    <i class="fa fa-book"></i>
-                                    جزئیات
-                                </a>
+                                @can($PERMISSION::PERMISSION_ORDER_PRINT)
+                                    <a href="" class="btn btn-dark btn-sm text-white" id="print">
+                                        <i class="fa fa-print"></i>
+                                        چاپ
+                                    </a>
+                                @endcan
+                                @can($PERMISSION::PERMISSION_ORDER_SHOW_DETAIL)
+                                    <a href="{{ route('order.show.detail', $order->id) }}"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="fa fa-book"></i>
+                                        جزئیات
+                                    </a>
+                                @endcan
                             </td>
                         </tr>
 

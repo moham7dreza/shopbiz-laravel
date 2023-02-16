@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,8 +24,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست
-                        شگفت انگیز</a>
+                    @can($PERMISSION::PERMISSION_AMAZING_SALE_CREATE)
+                        <a href="{{ route('amazingSale.create') }}" class="btn btn-info btn-sm">افزودن کالا به لیست
+                            شگفت انگیز</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('amazingSale.index') }}"/>
                     </div>
@@ -54,8 +56,12 @@
                                 <td>{{ $amazingSale->getFaStartDate() }}</td>
                                 <td>{{ $amazingSale->getFaEndDate() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="amazingSale.status" method="changeStatus"
-                                                      name="تخفیف شگفت انگیز" :model="$amazingSale" property="status"/>
+                                    @can($PERMISSION::PERMISSION_AMAZING_SALE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="amazingSale.status"
+                                                          method="changeStatus"
+                                                          name="تخفیف شگفت انگیز" :model="$amazingSale"
+                                                          property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @if($amazingSale->activated())
@@ -65,10 +71,15 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('amazingSale.edit', $amazingSale->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('amazingSale.destroy', $amazingSale->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_AMAZING_SALE_EDIT)
+                                        <x-panel-a-tag route="{{ route('amazingSale.edit', $amazingSale->id) }}"
+                                                       title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_AMAZING_SALE_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('amazingSale.destroy', $amazingSale->id) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
 

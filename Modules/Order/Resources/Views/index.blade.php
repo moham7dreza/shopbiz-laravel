@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="" class="btn btn-info btn-sm disabled">ایجاد سفارش </a>
+                    <a href="#" class="btn btn-info btn-sm disabled">ایجاد سفارش </a>
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('order.index') }}"/>
                     </div>
@@ -51,7 +51,6 @@
                         </thead>
                         <tbody>
                         @foreach ($orders as $order)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $order->getFaId() }}</td>
@@ -73,18 +72,30 @@
                                             <i class="fa fa-tools"></i> عملیات
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a href="{{ route('order.show', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-images text-success"></i> مشاهده
-                                                فاکتور</a>
-                                            <a href="{{ route('order.changeSendStatus', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-list-ul text-warning"></i> تغییر
-                                                وضعیت ارسال</a>
-                                            <a href="{{ route('order.changeOrderStatus', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-edit text-primary"></i> تغییر وضعیت
-                                                سفارش</a>
-                                            <a href="{{ route('order.cancelOrder', $order->id) }}"
-                                               class="dropdown-item text-right"><i class="fa fa-window-close text-danger"></i> باطل
-                                                کردن سفارش</a>
+                                            @can($PERMISSION::PERMISSION_ORDER_SHOW)
+                                                <a href="{{ route('order.show', $order->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-images text-success"></i> مشاهده
+                                                    فاکتور</a>
+                                            @endcan
+                                            @can($PERMISSION::PERMISSION_ORDER_CHANGE_SEND_STATUS)
+                                                <a href="{{ route('order.changeSendStatus', $order->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-list-ul text-warning"></i> تغییر
+                                                    وضعیت ارسال</a>
+                                            @endcan
+                                            @can($PERMISSION::PERMISSION_ORDER_CHANGE_STATUS)
+                                                <a href="{{ route('order.changeOrderStatus', $order->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-edit text-primary"></i> تغییر وضعیت
+                                                    سفارش</a>
+                                            @endcan
+                                            @can($PERMISSION::PERMISSION_ORDER_CANCEL)
+                                                <a href="{{ route('order.cancelOrder', $order->id) }}"
+                                                   class="dropdown-item text-right"><i
+                                                        class="fa fa-window-close text-danger"></i> باطل
+                                                    کردن سفارش</a>
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>

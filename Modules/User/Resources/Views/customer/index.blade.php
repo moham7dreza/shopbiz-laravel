@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('customerUser.create') }}" class="btn btn-info btn-sm">ایجاد مشتری جدید</a>
+                    @can($PERMISSION::PERMISSION_CUSTOMER_USER_CREATE)
+                        <a href="{{ route('customerUser.create') }}" class="btn btn-info btn-sm">ایجاد مشتری جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('customerUser.index') }}"/>
                     </div>
@@ -53,20 +55,29 @@
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="customerUser.activation"
-                                                      method="changeActive" uniqueId="active"
-                                                      name="مشتری" :model="$user" property="activation"/>
+                                    @can($PERMISSION::PERMISSION_CUSTOMER_USER_ACTIVATION)
+                                        <x-panel-checkbox class="rounded" route="customerUser.activation"
+                                                          method="changeActive" uniqueId="active"
+                                                          name="مشتری" :model="$user" property="activation"/>
+                                    @endcan
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="customerUser.status" method="changeStatus"
-                                                      name="مشتری" :model="$user" property="status"/>
+                                    @can($PERMISSION::PERMISSION_CUSTOMER_USER_STATUS)
+                                        <x-panel-checkbox class="rounded" route="customerUser.status"
+                                                          method="changeStatus"
+                                                          name="مشتری" :model="$user" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('customerUser.edit', $user->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('customerUser.destroy', $user->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_CUSTOMER_USER_EDIT)
+                                        <x-panel-a-tag route="{{ route('customerUser.edit', $user->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_CUSTOMER_USER_DELETE)
+                                        <x-panel-delete-form route="{{ route('customerUser.destroy', $user->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

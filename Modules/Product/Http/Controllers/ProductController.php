@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Category\Repositories\ProductCategory\ProductCategoryRepoEloquentInterface;
 use Modules\Product\Entities\Product;
@@ -45,14 +46,14 @@ class ProductController extends Controller
         $this->repo = $productRepoEloquent;
         $this->service = $productService;
 
-        $this->middleware('can:permission products')->only(['index']);
-        $this->middleware('can:permission product create')->only(['create', 'store']);
-        $this->middleware('can:permission product edit')->only(['edit', 'update']);
-        $this->middleware('can:permission product delete')->only(['destroy']);
-        $this->middleware('can:permission product status')->only(['status']);
-        $this->middleware('can:permission product marketable')->only(['marketable']);
-        $this->middleware('can:permission product selected')->only(['selected']);
-        $this->middleware('can:permission product tags')->only(['tagsForm', 'setTags']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCTS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_MARKETABLE)->only(['marketable']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_SELECTED)->only(['selected']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_TAGS)->only(['tagsForm', 'setTags']);
     }
 
     /**

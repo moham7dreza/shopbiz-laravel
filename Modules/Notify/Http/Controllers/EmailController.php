@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Http\Requests\EmailRequest;
 use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
@@ -42,11 +43,11 @@ class EmailController extends Controller
         $this->repo = $emailRepoEloquent;
         $this->service = $emailService;
 
-        $this->middleware('can:permission email notifys')->only(['index']);
-        $this->middleware('can:permission email notify create')->only(['create', 'store']);
-        $this->middleware('can:permission email notify edit')->only(['edit', 'update']);
-        $this->middleware('can:permission email notify delete')->only(['destroy']);
-        $this->middleware('can:permission email notify status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFYS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_STATUS)->only(['status']);
     }
 
     /**

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,8 +24,10 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('sms.create') }}" class="btn btn-info btn-sm">ایجاد اطلائیه
-                        پیامکی</a>
+                    @can($PERMISSION::PERMISSION_SMS_NOTIFY_CREATE)
+                        <a href="{{ route('sms.create') }}" class="btn btn-info btn-sm">ایجاد اطلائیه
+                            پیامکی</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('sms.index') }}"/>
                     </div>
@@ -59,15 +61,21 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="sms.status" method="changeStatus"
-                                                      name="پیامک" :model="$single_sms" property="status"/>
+                                    @can($PERMISSION::PERMISSION_SMS_NOTIFY_STATUS)
+                                        <x-panel-checkbox class="rounded" route="sms.status" method="changeStatus"
+                                                          name="پیامک" :model="$single_sms" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('sms.edit', $single_sms->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('sms.destroy', $single_sms->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_SMS_NOTIFY_EDIT)
+                                        <x-panel-a-tag route="{{ route('sms.edit', $single_sms->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_SMS_NOTIFY_DELETE)
+                                        <x-panel-delete-form route="{{ route('sms.destroy', $single_sms->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

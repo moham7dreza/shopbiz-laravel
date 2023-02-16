@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Brand\Entities\Brand;
 use Modules\Brand\Http\Requests\BrandRequest;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
@@ -42,12 +43,11 @@ class BrandController extends Controller
         $this->repo = $brandRepoEloquent;
         $this->service = $brandService;
 
-        $this->middleware('can:permission brands')->only(['index']);
-        $this->middleware('can:permission brand create')->only(['create', 'store']);
-        $this->middleware('can:permission brand edit')->only(['edit', 'update']);
-        $this->middleware('can:permission brand delete')->only(['destroy']);
-        $this->middleware('can:permission brand status')->only(['status']);
-
+        $this->middleware('can:'. Permission::PERMISSION_BRANDS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_BRAND_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_BRAND_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_BRAND_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_BRAND_STATUS)->only(['status']);
     }
 
     /**

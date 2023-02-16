@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Delivery\Entities\Delivery;
 use Modules\Delivery\Http\Requests\DeliveryRequest;
 use Modules\Delivery\Repositories\DeliveryRepoEloquentInterface;
@@ -42,11 +43,11 @@ class DeliveryController extends Controller
         $this->repo = $deliveryRepoEloquent;
         $this->service = $deliveryService;
 
-        $this->middleware('can:permission delivery methods')->only(['index']);
-        $this->middleware('can:permission delivery method create')->only(['create', 'store']);
-        $this->middleware('can:permission delivery method edit')->only(['edit', 'update']);
-        $this->middleware('can:permission delivery method delete')->only(['destroy']);
-        $this->middleware('can:permission delivery method status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_DELIVERY_METHODS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_DELIVERY_METHOD_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_DELIVERY_METHOD_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_DELIVERY_METHOD_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_DELIVERY_METHOD_STATUS)->only(['status']);
     }
 
     /**

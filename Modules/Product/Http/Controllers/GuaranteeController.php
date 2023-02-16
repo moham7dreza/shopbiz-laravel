@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\ProductGalleryRequest;
@@ -45,11 +46,11 @@ class GuaranteeController extends Controller
         $this->repo = $guaranteeRepoEloquent;
         $this->service = $guaranteeService;
 
-        $this->middleware('can:permission product guarantees')->only(['index']);
-        $this->middleware('can:permission product guarantee create')->only(['create', 'store']);
-        $this->middleware('can:permission product guarantee edit')->only(['edit', 'update']);
-        $this->middleware('can:permission product guarantee delete')->only(['destroy']);
-        $this->middleware('can:permission product guarantee status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_STATUS)->only(['status']);
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Gallery;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\ProductGalleryRequest;
@@ -42,9 +43,9 @@ class GalleryController extends Controller
         $this->repo = $galleryRepoEloquent;
         $this->service = $galleryService;
 
-        $this->middleware('can:permission product gallery')->only(['index']);
-        $this->middleware('can:permission product gallery create')->only(['create', 'store']);
-        $this->middleware('can:permission product gallery delete')->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GALLERY)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GALLERY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GALLERY_DELETE)->only(['destroy']);
     }
 
     /**

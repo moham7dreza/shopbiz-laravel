@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,7 +25,7 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a class="btn btn-info btn-sm disabled">ایجاد تنظیمات جدید</a>
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('setting.index') }}" />
+                        <x-panel-search-form route="{{ route('setting.index') }}"/>
                     </div>
                 </section>
 
@@ -51,8 +51,10 @@
                             <td><img src="{{ $setting->logo() }}" alt="" width="100" height="50"></td>
                             <td><img src="{{ $setting->icon() }}" alt="" width="100" height="50"></td>
                             <td class="width-8-rem text-left">
-                                <x-panel-a-tag route="{{ route('setting.edit', $setting->id) }}" title="ویرایش آیتم"
-                                               icon="edit" color="outline-info"/>
+                                @can($PERMISSION::PERMISSION_SETTING_EDIT)
+                                    <x-panel-a-tag route="{{ route('setting.edit', $setting->id) }}" title="ویرایش آیتم"
+                                                   icon="edit" color="outline-info"/>
+                                @endcan
                             </td>
                         </tr>
                         </tbody>

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Page\Entities\Page;
 use Modules\Page\Http\Requests\PageRequest;
 use Modules\Page\Repositories\PageRepoEloquentInterface;
@@ -42,11 +43,11 @@ class PageController extends Controller
         $this->repo = $pageRepoEloquent;
         $this->service = $pageService;
 
-        $this->middleware('can:permission pages')->only(['index']);
-        $this->middleware('can:permission page create')->only(['create', 'store']);
-        $this->middleware('can:permission page edit')->only(['edit', 'update']);
-        $this->middleware('can:permission page delete')->only(['destroy']);
-        $this->middleware('can:permission page status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_FAQS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_FAQ_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_FAQ_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_FAQ_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_FAQ_STATUS)->only(['status']);
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Attribute\Entities\Attribute;
 use Modules\Attribute\Entities\AttributeValue;
 use Modules\Attribute\Http\Requests\AttributeValueRequest;
@@ -43,10 +44,10 @@ class AttributeValueController extends Controller
         $this->repo = $repo;
         $this->service = $service;
 
-        $this->middleware('can:permission attribute values')->only(['index']);
-        $this->middleware('can:permission attribute value create')->only(['create', 'store']);
-        $this->middleware('can:permission attribute value edit')->only(['edit', 'update']);
-        $this->middleware('can:permission attribute value delete')->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_VALUES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_VALUE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_VALUE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_VALUE_DELETE)->only(['destroy']);
 //        $this->middleware('can:permission attribute value status')->only(['status']);
     }
 

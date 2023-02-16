@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Notify\Entities\SMS;
 use Modules\Notify\Http\Requests\SMSRequest;
 use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
@@ -43,11 +44,11 @@ class SMSController extends Controller
         $this->repo = $smsRepoEloquent;
         $this->service = $smsService;
 
-        $this->middleware('can:permission sms notifys')->only(['index']);
-        $this->middleware('can:permission sms notify create')->only(['create', 'store']);
-        $this->middleware('can:permission sms notify edit')->only(['edit', 'update']);
-        $this->middleware('can:permission sms notify delete')->only(['destroy']);
-        $this->middleware('can:permission sms notify status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_SMS_NOTIFYS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_SMS_NOTIFY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_SMS_NOTIFY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_SMS_NOTIFY_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_SMS_NOTIFY_STATUS)->only(['status']);
     }
 
     /**

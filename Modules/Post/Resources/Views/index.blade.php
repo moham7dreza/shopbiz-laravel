@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('post.create') }}" class="btn btn-info btn-sm">ایجاد پست </a>
+                    @can($PERMISSION::PERMISSION_POST_CREATE)
+                        <a href="{{ route('post.create') }}" class="btn btn-info btn-sm">ایجاد پست </a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('post.index') }}"/>
                     </div>
@@ -69,13 +71,17 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="post.status" method="changeStatus"
-                                                      name="پست" :model="$post" property="status"/>
+                                    @can($PERMISSION::PERMISSION_POST_STATUS)
+                                        <x-panel-checkbox class="rounded" route="post.status" method="changeStatus"
+                                                          name="پست" :model="$post" property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="post.commentable" method="commentable"
-                                                      uniqueId="commentable"
-                                                      name="پست" :model="$post" property="commentable"/>
+                                    @can($PERMISSION::PERMISSION_POST_COMMENTABLE)
+                                        <x-panel-checkbox class="rounded" route="post.commentable" method="commentable"
+                                                          uniqueId="commentable"
+                                                          name="پست" :model="$post" property="commentable"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
                                     {{-- @can('update', $post) --}}
@@ -93,14 +99,20 @@
                                     @elsecanany(['view'])
 
                                     @endcanany --}}
-                                    <x-panel-a-tag route="{{ route('post.tags-from', $post->id) }}"
-                                                   title="افزودن تگ"
-                                                   icon="tag" color="outline-success"/>
-                                    <x-panel-a-tag route="{{ route('post.edit', $post->id) }}"
-                                                   title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('post.destroy', $post->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_POST_TAGS)
+                                        <x-panel-a-tag route="{{ route('post.tags-from', $post->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_POST_EDIT)
+                                        <x-panel-a-tag route="{{ route('post.edit', $post->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_POST_DELETE)
+                                        <x-panel-delete-form route="{{ route('post.destroy', $post->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
@@ -56,12 +56,17 @@
                                 <td>{{ $ticket->getReferenceName() }}</td>
                                 <td>{{ $ticket->getParentTitle() }}</td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('ticket.show', $ticket->id) }}"
-                                                   title="نمایش تیکت"
-                                                   icon="eye" color="outline-info"/>
-                                    <x-panel-a-tag route="{{ route('ticket.change', $ticket->id) }}"
-                                                   title="تغییر وضعیت تیکت"
-                                                   icon="{{ $ticket->iconStatus() }}" color="{{ $ticket->cssStatus() }}"/>
+                                    @can($PERMISSION::PERMISSION_TICKET_SHOW)
+                                        <x-panel-a-tag route="{{ route('ticket.show', $ticket->id) }}"
+                                                       title="نمایش تیکت"
+                                                       icon="eye" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_TICKET_CHANGE)
+                                        <x-panel-a-tag route="{{ route('ticket.change', $ticket->id) }}"
+                                                       title="تغییر وضعیت تیکت"
+                                                       icon="{{ $ticket->iconStatus() }}"
+                                                       color="{{ $ticket->cssStatus() }}"/>\
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

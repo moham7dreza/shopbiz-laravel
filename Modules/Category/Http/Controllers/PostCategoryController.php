@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Category\Entities\PostCategory;
 use Modules\Category\Http\Requests\PostCategoryRequest;
 use Modules\Category\Repositories\PostCategory\PostCategoryRepoEloquentInterface;
@@ -43,11 +44,11 @@ class PostCategoryController extends Controller
         $this->categoryRepo = $postCategoryRepo;
         $this->categoryService = $postCategoryService;
 //        $this->authorizeResource(PostCategory::class, 'post');
-        $this->middleware('can:permission post categories')->only(['index']);
-        $this->middleware('can:permission post category create')->only(['create', 'store']);
-        $this->middleware('can:permission post category edit')->only(['edit', 'update']);
-        $this->middleware('can:permission post category delete')->only(['destroy']);
-        $this->middleware('can:permission post category status')->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_CATEGORIES)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_CATEGORY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_CATEGORY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_CATEGORY_DELETE)->only(['destroy']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_CATEGORY_STATUS)->only(['status']);
     }
 
 //    function __construct()

@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
@@ -41,10 +42,10 @@ class PostCommentController extends Controller
         $this->repo = $postCommentRepoEloquent;
         $this->service = $commentService;
 
-        $this->middleware('can:permission post comments')->only(['index']);
-        $this->middleware('can:permission post comment show')->only(['show']);
-        $this->middleware('can:permission post comment status')->only(['status']);
-        $this->middleware('can:permission post comment approve')->only(['approved']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_COMMENTS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_COMMENT_SHOW)->only(['show']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_COMMENT_STATUS)->only(['status']);
+        $this->middleware('can:'. Permission::PERMISSION_POST_COMMENT_APPROVE)->only(['approved']);
     }
 
     /**

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}"> خانه</a></li>
@@ -24,9 +24,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
+                    @can($PERMISSION::PERMISSION_BANNER_CREATE)
+                        <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('banner.index') }}" />
+                        <x-panel-search-form route="{{ route('banner.index') }}"/>
                     </div>
                 </section>
 
@@ -55,17 +57,24 @@
                                     <img src="{{ $banner->image() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="banner.status" method="changeStatus"
-                                                      name="بنر" :model="$banner" property="status"/>
+                                    @can($PERMISSION::PERMISSION_BANNER_STATUS)
+                                        <x-panel-checkbox class="rounded" route="banner.status" method="changeStatus"
+                                                          name="بنر" :model="$banner" property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     {{ $banner->getFaPosition() }}
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('banner.edit', $banner->id) }}" title="ویرایش آیتم"
-                                                   icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('banner.destroy', $banner->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_BANNER_EDIT)
+                                        <x-panel-a-tag route="{{ route('banner.edit', $banner->id) }}"
+                                                       title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_BANNER_DELETE)
+                                        <x-panel-delete-form route="{{ route('banner.destroy', $banner->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

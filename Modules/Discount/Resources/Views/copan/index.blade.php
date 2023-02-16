@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('copanDiscount.create') }}" class="btn btn-info btn-sm">ایجاد کوپن تخفیف</a>
+                    @can($PERMISSION::PERMISSION_COUPON_DISCOUNT_CREATE)
+                        <a href="{{ route('copanDiscount.create') }}" class="btn btn-info btn-sm">ایجاد کوپن تخفیف</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('copanDiscount.index') }}"/>
                     </div>
@@ -48,9 +50,7 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach ($copans as $copan)
-
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <th>{{ $copan->code }}</th>
@@ -61,8 +61,11 @@
                                 <td>{{ $copan->getFaStartDate() }}</td>
                                 <td>{{ $copan->getFaEndDate() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="copanDiscount.status" method="changeStatus"
-                                                      name="کپن تخفیف" :model="$copan" property="status"/>
+                                    @can($PERMISSION::PERMISSION_COUPON_DISCOUNT_STATUS)
+                                        <x-panel-checkbox class="rounded" route="copanDiscount.status"
+                                                          method="changeStatus"
+                                                          name="کپن تخفیف" :model="$copan" property="status"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @if($copan->activated())
@@ -72,27 +75,26 @@
                                     @endif
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    <x-panel-a-tag route="{{ route('copanDiscount.edit', $copan->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form
-                                        route="{{ route('copanDiscount.destroy', $copan->id) }}"
-                                        title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_COUPON_DISCOUNT_EDIT)
+                                        <x-panel-a-tag route="{{ route('copanDiscount.edit', $copan->id) }}"
+                                                       title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_COUPON_DISCOUNT_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('copanDiscount.destroy', $copan->id) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
-
                         @endforeach
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $copans->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
-
 
 @section('script')
     @include('Share::ajax-functions.panel.status')

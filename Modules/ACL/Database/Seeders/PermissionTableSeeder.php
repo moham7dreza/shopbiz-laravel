@@ -15,6 +15,7 @@ class PermissionTableSeeder extends Seeder
     {
 //        $this->createPermissionFromModel();
         $this->implementPermissionsWithSpatie();
+//        $this->seedPermissions();
     }
 
     /**
@@ -64,11 +65,22 @@ class PermissionTableSeeder extends Seeder
 
         // assign primary role and permission to super admin
         auth()->user()->syncRoles(Role::ROLE_SUPER_ADMIN);
-        DB::table('role_has_permissions')->insert(collect($role_super_admin->permissions()->pluck('id')->get())->map(fn($id) => [
+        DB::table('role_has_permissions')->insert(collect($role_super_admin->permissions()->pluck('id')->all())->map(fn($id) => [
             'role_id' => $role_super_admin->id,
             'permission_id' => $id
         ])->toArray());
 //        $super_admin->syncPermissions([Permission::PERMISSION_SUPER_ADMIN, Permission::PERMISSION_ADMIN_PANEL]);
+    }
+
+    /**
+     * @return void
+     */
+    private function seedPermissions(): void
+    {
+        // all system permissions
+        foreach (Permission::$permissions as $permission) {
+            Permission::query()->updateOrCreate(['name' => $permission, 'description' => null, 'status' => 1]);
+        }
     }
 
     /**

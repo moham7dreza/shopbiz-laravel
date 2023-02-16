@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -25,10 +25,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('attributeValue.create', $attribute->id) }}"
-                       class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
+                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_CREATE)
+                        <a href="{{ route('attributeValue.create', $attribute->id) }}"
+                           class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('attributeValue.index', $attribute->id) }}" />
+                        <x-panel-search-form route="{{ route('attributeValue.index', $attribute->id) }}"/>
                     </div>
                 </section>
 
@@ -57,12 +59,16 @@
                                 <td>{{ $value->getFaPriceIncreaseAmount() }}</td>
                                 <td>{{ $value->getFaType() }}</td>
                                 <td class="width-22-rem text-left">
-                                    <x-panel-a-tag
-                                        route="{{ route('attributeValue.edit', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
-                                        title="ویرایش آیتم" icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form
-                                        route="{{ route('attributeValue.destroy', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
-                                        title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_EDIT)
+                                        <x-panel-a-tag
+                                            route="{{ route('attributeValue.edit', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
+                                            title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('attributeValue.destroy', ['attribute' => $attribute->id , 'value' => $value->id]) }}"
+                                            title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

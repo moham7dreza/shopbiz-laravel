@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
 use Modules\Product\Http\Requests\ProductColorRequest;
@@ -45,11 +46,11 @@ class ProductColorController extends Controller
         $this->repo = $colorRepoEloquent;
         $this->service = $colorService;
 
-        $this->middleware('can:permission product colors')->only(['index']);
-        $this->middleware('can:permission product color create')->only(['create', 'store']);
-        $this->middleware('can:permission product color edit')->only(['edit', 'update']);
-        $this->middleware('can:permission product color delete')->only(['destroy']);
-        $this->middleware('can:permission product color status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_COLORS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_COLOR_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_COLOR_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_COLOR_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_COLOR_STATUS)->only(['status']);
     }
 
     /**

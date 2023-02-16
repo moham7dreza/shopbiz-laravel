@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -41,11 +42,11 @@ class TicketCategoryController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:permission ticket categories')->only(['index']);
-        $this->middleware('can:permission ticket category create')->only(['create', 'store']);
-        $this->middleware('can:permission ticket category edit')->only(['edit', 'update']);
-        $this->middleware('can:permission ticket category delete')->only(['destroy']);
-        $this->middleware('can:permission ticket category status')->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CATEGORIES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CATEGORY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CATEGORY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CATEGORY_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CATEGORY_STATUS)->only(['status']);
     }
 
     /**

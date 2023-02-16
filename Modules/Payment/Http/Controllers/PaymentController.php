@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
@@ -39,23 +40,13 @@ class PaymentController extends Controller
         $this->repo = $paymentRepoEloquent;
         $this->service = $paymentService;
 
-        $this->middleware('can:permission all payments')->only(['index']);
-        $this->middleware('can:permission online payments')->only(['online']);
-        $this->middleware('can:permission offline payments')->only(['offline']);
-        $this->middleware('can:permission cash payments')->only(['cash']);
-
-        $this->middleware('can:permission-product-payment-cancel,
-                                        permission-product-online-payment-cancel,
-                                        permission-product-offline-payment-cancel,
-                                        permission-product-cash-payment-cancel')->only(['canceled']);
-        $this->middleware('can:permission-product-payment-return,
-                                        permission-product-online-payment-return,
-                                        permission-product-offline-payment-return,
-                                        permission-product-cash-payment-return')->only(['returned']);
-        $this->middleware('can:permission-product-payment-show,
-                                        permission-product-online-payment-show,
-                                        permission-product-offline-payment-show,
-                                        permission-product-cash-payment-show')->only(['show']);
+        $this->middleware('can:'. Permission::PERMISSION_ALL_PAYMENTS)->only(['index']);
+        $this->middleware('can:'. Permission::PERMISSION_ONLINE_PAYMENTS)->only(['online']);
+        $this->middleware('can:'. Permission::PERMISSION_OFFLINE_PAYMENTS)->only(['offline']);
+        $this->middleware('can:'. Permission::PERMISSION_CASH_PAYMENTS)->only(['cash']);
+        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_CANCEL)->only(['canceled']);
+        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_RETURN)->only(['returned']);
+        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_SHOW)->only(['show']);
     }
 
     /**
