@@ -15,7 +15,8 @@ class UserRepoEloquent implements UserRepoEloquentInterface
      */
     public function findSystemAdmin(): Model|Collection|Builder|array|null
     {
-        return $this->findById(1);
+//        return $this->findById(1);
+        return $this->query()->admin()->permission('permission super admin')->first();
     }
 
     /**

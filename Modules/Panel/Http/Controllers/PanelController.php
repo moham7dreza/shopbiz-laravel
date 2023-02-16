@@ -19,20 +19,20 @@ class PanelController extends Controller
      */
     public function __construct()
     {
-//        dd(auth()->user()->hasPermissionTo(Permission::PERMISSION_ADMIN_PANEL));
+//        dd(auth()->user()->role('role super admin')->first());
+//        dd(auth()->user()->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN));
 //        dd(auth()->user()->hasAnyRole(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles));
 //        dd(Permission::query()->where('name', Permission::PERMISSION_ADMIN_PANEL)->first()->roles);
-//        $this->middleware('can:permission admin panel');
+        $this->middleware('can:permission admin panel');
     }
 
     /**
      * @param PanelRepo $panelRepo
      * @return Application|Factory|View
-     * @throws AuthorizationException
      */
     public function __invoke(PanelRepo $panelRepo): View|Factory|Application
     {
-        $this->authorize('manage', Panel::class);
+//        $this->authorize('manage', Panel::class);
         return view('Panel::index', compact(['panelRepo']));
     }
 }

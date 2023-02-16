@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
