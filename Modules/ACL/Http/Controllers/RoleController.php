@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\ACL\Http\Requests\RoleRequest;
@@ -166,6 +167,10 @@ class RoleController extends Controller
     {
 //        $this->service->rolePermissionsUpdate($request, $role);
         $role->syncPermissions($request->permissions);
+        DB::table('role_has_permissions')->insert(collect($request->permissions)->map(fn($id) => [
+            'role_id' => $role->id,
+            'permission_id' => $id
+        ])->toArray());
         return $this->showMessageWithRedirectRoute('سطوح دسترسی نقش با موفقیت بروز رسانی شد');
     }
 

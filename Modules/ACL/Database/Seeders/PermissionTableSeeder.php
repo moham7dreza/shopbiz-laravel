@@ -4,6 +4,7 @@ namespace Modules\ACL\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Modules\ACL\Entities\Permission;
 use Modules\ACL\Entities\Role;
 use Modules\User\Entities\User;
@@ -63,6 +64,10 @@ class PermissionTableSeeder extends Seeder
 
         // assign primary role and permission to super admin
         auth()->user()->syncRoles(Role::ROLE_SUPER_ADMIN);
+        DB::table('role_has_permissions')->insert(collect($role_super_admin->permissions()->pluck('id')->get())->map(fn($id) => [
+            'role_id' => $role_super_admin->id,
+            'permission_id' => $id
+        ])->toArray());
 //        $super_admin->syncPermissions([Permission::PERMISSION_SUPER_ADMIN, Permission::PERMISSION_ADMIN_PANEL]);
     }
 

@@ -281,21 +281,21 @@ trait SystemPermissionsTrait
     public const PERMISSION_CUSTOMER_USER_ACTIVATION = 'permission customer user activation';
 
     // 3  USER ROLES
-    public const PERMISSION_USER_ROLES = 'permission user roles';
-    public const PERMISSION_USER_ROLE_CREATE = 'permission user role create';
-    public const PERMISSION_USER_ROLE_EDIT = 'permission user role edit';
-    public const PERMISSION_USER_ROLE_DELETE = 'permission user role delete';
-    public const PERMISSION_USER_ROLE_STATUS = 'permission user role status';
-    public const PERMISSION_USER_ROLE_PERMISSIONS = 'permission user role permissions';
-    public const PERMISSION_USER_PERMISSIONS_IMPORT = 'permission user permissions import';
-    public const PERMISSION_USER_PERMISSIONS_EXPORT = 'permission user permissions export';
+    public const PERMISSION_ROLES = 'permission roles';
+    public const PERMISSION_ROLE_CREATE = 'permission role create';
+    public const PERMISSION_ROLE_EDIT = 'permission role edit';
+    public const PERMISSION_ROLE_DELETE = 'permission role delete';
+    public const PERMISSION_ROLE_STATUS = 'permission role status';
+    public const PERMISSION_ROLE_PERMISSIONS = 'permission role permissions';
+    public const PERMISSION_PERMISSIONS_IMPORT = 'permission permissions import';
+    public const PERMISSION_PERMISSIONS_EXPORT = 'permission permissions export';
 
     // 4  Permissions
-    public const PERMISSIONS = 'permission user roles';
-    public const PERMISSION_CREATE = 'permission user role create';
-    public const PERMISSION_EDIT = 'permission user role edit';
-    public const PERMISSION_DELETE = 'permission user role delete';
-    public const PERMISSION_STATUS = 'permission user role status';
+    public const PERMISSIONS = 'permissions';
+    public const PERMISSION_CREATE = 'permission create';
+    public const PERMISSION_EDIT = 'permission edit';
+    public const PERMISSION_DELETE = 'permission delete';
+    public const PERMISSION_STATUS = 'permission status';
 
     // TICKET Section Permissions
     //******************************************************************************************************************
@@ -346,7 +346,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_NOTIFY = 'permission notify';
 
     // 1  EMAIL NOTIFY
-    public const PERMISSION_EMAIL_NOTIFY = 'permission email notify';
+    public const PERMISSION_EMAIL_NOTIFYS = 'permission email notifys';
     public const PERMISSION_EMAIL_NOTIFY_CREATE = 'permission email notify create';
     public const PERMISSION_EMAIL_NOTIFY_EDIT = 'permission email notify edit';
     public const PERMISSION_EMAIL_NOTIFY_DELETE = 'permission email notify delete';
@@ -358,7 +358,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_EMAIL_NOTIFY_FILES_STATUS = 'permission email notify file status';
 
     // 2  SMS NOTIFY
-    public const PERMISSION_SMS_NOTIFY = 'permission sms notify';
+    public const PERMISSION_SMS_NOTIFYS = 'permission sms notifys';
     public const PERMISSION_SMS_NOTIFY_CREATE = 'permission sms notify create';
     public const PERMISSION_SMS_NOTIFY_EDIT = 'permission sms notify edit';
     public const PERMISSION_SMS_NOTIFY_DELETE = 'permission sms notify delete';
@@ -601,14 +601,14 @@ trait SystemPermissionsTrait
         , self::PERMISSION_CUSTOMER_USER_DELETE
         , self::PERMISSION_CUSTOMER_USER_STATUS
         , self::PERMISSION_CUSTOMER_USER_ACTIVATION
-        , self::PERMISSION_USER_ROLES
-        , self::PERMISSION_USER_ROLE_CREATE
-        , self::PERMISSION_USER_ROLE_EDIT
-        , self::PERMISSION_USER_ROLE_DELETE
-        , self::PERMISSION_USER_ROLE_STATUS
-        , self::PERMISSION_USER_ROLE_PERMISSIONS
-        , self::PERMISSION_USER_PERMISSIONS_IMPORT
-        , self::PERMISSION_USER_PERMISSIONS_EXPORT
+        , self::PERMISSION_ROLES
+        , self::PERMISSION_ROLE_CREATE
+        , self::PERMISSION_ROLE_EDIT
+        , self::PERMISSION_ROLE_DELETE
+        , self::PERMISSION_ROLE_STATUS
+        , self::PERMISSION_ROLE_PERMISSIONS
+        , self::PERMISSION_PERMISSIONS_IMPORT
+        , self::PERMISSION_PERMISSIONS_EXPORT
         , self::PERMISSIONS
         , self::PERMISSION_CREATE
         , self::PERMISSION_EDIT
@@ -640,7 +640,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_TICKET_SHOW
         , self::PERMISSION_TICKET_CHANGE
         , self::PERMISSION_NOTIFY
-        , self::PERMISSION_EMAIL_NOTIFY
+        , self::PERMISSION_EMAIL_NOTIFYS
         , self::PERMISSION_EMAIL_NOTIFY_CREATE
         , self::PERMISSION_EMAIL_NOTIFY_EDIT
         , self::PERMISSION_EMAIL_NOTIFY_DELETE
@@ -650,7 +650,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_EMAIL_NOTIFY_FILES_EDIT
         , self::PERMISSION_EMAIL_NOTIFY_FILES_DELETE
         , self::PERMISSION_EMAIL_NOTIFY_FILES_STATUS
-        , self::PERMISSION_SMS_NOTIFY
+        , self::PERMISSION_SMS_NOTIFYS
         , self::PERMISSION_SMS_NOTIFY_CREATE
         , self::PERMISSION_SMS_NOTIFY_EDIT
         , self::PERMISSION_SMS_NOTIFY_DELETE

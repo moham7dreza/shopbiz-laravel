@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -13,7 +13,6 @@
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> نقش ها</li>
         </ol>
     </nav>
-
 
     <section class="row">
         <section class="col-12">
@@ -25,9 +24,11 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
+                    @can($PERMISSION::PERMISSION_ROLE_CREATE)
+                        <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('role.index') }}" />
+                        <x-panel-search-form route="{{ route('role.index') }}"/>
                     </div>
                 </section>
 
@@ -44,7 +45,6 @@
                         </thead>
                         <tbody>
                         @foreach ($roles as $key => $role)
-
                             <tr>
                                 <th>{{ $role->id }}</th>
                                 <td>{{ $role->name }}</td>
@@ -58,30 +58,41 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="role.status" method="changeStatus" name="نقش" :model="$role" property="status" />
+                                    @can($PERMISSION::PERMISSION_ROLE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="role.status" method="changeStatus"
+                                                          name="نقش" :model="$role" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-22-rem text-left">
-                                    <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}" title="سطوح دسترسی نقش" icon="user-graduate" color="outline-success" />
-                                    <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم" icon="edit" color="outline-info" />
-                                    <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}" title="حذف آیتم" />
+                                    @can($PERMISSION::PERMISSION_ROLE_PERMISSIONS)
+                                        <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}"
+                                                       title="سطوح دسترسی نقش" icon="user-graduate"
+                                                       color="outline-success"/>
+                                    @endcan
+                                        @can($PERMISSION::PERMISSION_ROLE_EDIT)
+                                        <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم"
+                                                       icon="edit" color="outline-info"/>
+                                    @endcan
+                                        @can($PERMISSION::PERMISSION_ROLE_DELETE)
+                                        <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                     <section class="border-top pt-3">{{ $roles->links() }}</section>
                 </section>
-
             </section>
         </section>
     </section>
-
 @endsection
 
 @section('script')
+
     @include('Share::ajax-functions.panel.status')
+
     @include('Share::alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
 @endsection

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -24,7 +24,9 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
+                    @can($PERMISSION::PERMISSION_CREATE)
+                        <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
+                    @endcan
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('permission.index') }}"/>
                     </div>
@@ -52,20 +54,27 @@
                                         <span class="text-danger">برای این دسترسی هیچ نقشی تعریف نشده است</span>
                                     @else
                                         @foreach($permission->roles as $role)
-                                            {{ $role->name }} <br>
+                                            <span class="d-block" title="{{ 1 }}">{{ $role->name }}</span>
                                         @endforeach
                                     @endif
                                 </td>
                                 <td>{{ $permission->getLimitedDescription() }}</td>
                                 <td>
-                                    <x-panel-checkbox class="rounded" route="permission.status" method="changeStatus"
-                                                      name="دسترسی" :model="$permission" property="status"/>
+                                    @can($PERMISSION::PERMISSION_STATUS)
+                                        <x-panel-checkbox class="rounded" route="permission.status"
+                                                          method="changeStatus"
+                                                          name="دسترسی" :model="$permission" property="status"/>
+                                    @endcan
                                 </td>
                                 <td class="width-12-rem text-left">
-                                    <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}"
-                                                   title="ویرایش آیتم" icon="edit" color="outline-info"/>
-                                    <x-panel-delete-form route="{{ route('permission.destroy', $permission->id) }}"
-                                                         title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_EDIT)
+                                        <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}"
+                                                       title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_DELETE)
+                                        <x-panel-delete-form route="{{ route('permission.destroy', $permission->id) }}"
+                                                             title="حذف آیتم"/>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach
