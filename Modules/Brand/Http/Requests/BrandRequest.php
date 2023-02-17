@@ -3,6 +3,7 @@
 namespace Modules\Brand\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class BrandRequest extends FormRequest
 {
@@ -23,6 +24,12 @@ class BrandRequest extends FormRequest
      */
     public function rules(): array
     {
+        $route = Route::current();
+        if ($route->getName() === 'brand.tags.sync') {
+            return [
+                'tags.*' => 'exists:tags,id'
+            ];
+        }
         $rules = [
             'original_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'persian_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',

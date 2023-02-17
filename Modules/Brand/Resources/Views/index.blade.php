@@ -40,6 +40,7 @@
                             <th>نام فارسی برند</th>
                             <th>نام اصلی برند</th>
                             <th>لوگو</th>
+                            <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -54,12 +55,26 @@
                                     <img src="{{ $brand->logo() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
+                                    @if(empty($brand->tags()->get()->toArray()))
+                                        <span class="text-danger">برای این برند هیچ تگی تعریف نشده است</span>
+                                    @else
+                                        @foreach($brand->tags as $tag)
+                                            {{ $tag->name }} <br>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td>
                                     @can($PERMISSION::PERMISSION_BRAND_STATUS)
                                         <x-panel-checkbox class="rounded" route="brand.status" method="changeStatus"
                                                           name="برند" :model="$brand" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_BRAND_TAGS)
+                                        <x-panel-a-tag route="{{ route('brand.tags-from', $brand->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_BRAND_EDIT)
                                         <x-panel-a-tag route="{{ route('brand.edit', $brand->id) }}" title="ویرایش آیتم"
                                                        icon="edit" color="outline-info"/>

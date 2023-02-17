@@ -16,6 +16,7 @@ use Modules\Brand\Services\BrandService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class BrandController extends Controller
 {
@@ -154,5 +155,27 @@ class BrandController extends Controller
     public function status(Brand $brand): JsonResponse
     {
         return ShareService::changeStatus($brand);
+    }
+
+    /**
+     * @param Brand $brand
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(Brand $brand, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Brand::tags-form', compact(['brand', 'tags']));
+    }
+
+    /**
+     * @param BrandRequest $request
+     * @param Brand $brand
+     * @return RedirectResponse
+     */
+    public function setTags(BrandRequest $request, Brand $brand): RedirectResponse
+    {
+        $brand->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های برند با موفقیت بروزرسانی شد');
     }
 }

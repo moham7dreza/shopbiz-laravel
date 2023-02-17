@@ -46,6 +46,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_BRAND_EDIT = 'permission brand edit';
     public const PERMISSION_BRAND_DELETE = 'permission brand delete';
     public const PERMISSION_BRAND_STATUS = 'permission brand status';
+    public const PERMISSION_BRAND_TAGS = 'permission brand tags';
 
     // 4  PRODUCT
     public const PERMISSION_PRODUCTS = 'permission products';
@@ -434,6 +435,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_BRAND_EDIT
         , self::PERMISSION_BRAND_DELETE
         , self::PERMISSION_BRAND_STATUS
+        , self::PERMISSION_BRAND_TAGS
         , self::PERMISSION_PRODUCTS
         , self::PERMISSION_PRODUCT_CREATE
         , self::PERMISSION_PRODUCT_EDIT
