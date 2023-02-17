@@ -11,7 +11,7 @@ use Modules\Cart\Traits\PriceCalcTrait;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 use Modules\User\Entities\User;
 

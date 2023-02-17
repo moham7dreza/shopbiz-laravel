@@ -137,6 +137,14 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function newOrdersCount(): mixed
+    {
+        return $this->query()->new()->count();
+    }
+
+    /**
      * panel
      * @return Builder|Model|null
      */

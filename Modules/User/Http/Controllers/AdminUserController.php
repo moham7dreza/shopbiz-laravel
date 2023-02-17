@@ -168,6 +168,7 @@ class AdminUserController extends Controller
      */
     public function activation(User $user): JsonResponse
     {
+        $user->activation_date = $user->activation == User::ACTIVATE ? null : now();
         return ShareService::ajaxChangeModelSpecialField($user, 'activation');
     }
 

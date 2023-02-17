@@ -12,7 +12,7 @@ use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductColor;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 
 class OrderItem extends Model
 {

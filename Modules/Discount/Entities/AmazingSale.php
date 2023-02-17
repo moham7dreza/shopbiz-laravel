@@ -14,7 +14,7 @@ use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquentInt
 use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 use function Assert\that;
 

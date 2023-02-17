@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Modules\Banner\Traits\HasPositionsTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 
 class Banner extends Model

@@ -30,6 +30,24 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     }
 
     /**
+     * used in panel
+     * @return int
+     */
+    public function lowNumberProductsCount(): int
+    {
+        return $this->query()->lowMarketableNumber()->count();
+    }
+
+    /**
+     * used in panel
+     * @return int
+     */
+    public function lowViewProductsCount(): int
+    {
+        return $this->query()->lowViewNumber()->count();
+    }
+
+    /**
      * Get latest products.
      *
      * @return Builder
@@ -193,7 +211,7 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
      */
     public function lowMarketableNumber(): Builder
     {
-        return $this->query()->where('marketable_number', '<', 10)->latest();
+        return $this->query()->lowMarketableNumber()->latest();
     }
 
     /**

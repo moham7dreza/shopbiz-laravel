@@ -141,6 +141,14 @@ class PostRepoEloquent implements PostRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function notPublishedPostsCount(): int
+    {
+        return $this->query()->notPublished()->count();
+    }
+
+    /**
      * Get builder query.
      *
      * @return Builder

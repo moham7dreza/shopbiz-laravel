@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Attribute\Traits\HasTypesTrait;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 
 class AttributeValue extends Model
 {

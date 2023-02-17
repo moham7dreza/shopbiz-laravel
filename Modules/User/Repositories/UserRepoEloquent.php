@@ -67,9 +67,33 @@ class UserRepoEloquent implements UserRepoEloquentInterface
     /**
      * @return int
      */
+    public function notVerifiedCustomerUsersCount(): int
+    {
+        return $this->query()->user()->whereNull('email_verified_at')->orWhereNull('mobile_verified_at')->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function notActivatedCustomerUsersCount(): int
+    {
+        return $this->query()->user()->whereNull('activation_date')->count();
+    }
+
+    /**
+     * @return int
+     */
     public function adminUsersCount(): int
     {
         return $this->query()->admin()->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function notActiveAdminUsersCount(): int
+    {
+        return $this->query()->admin()->activate(User::NOT_ACTIVE)->orWhereNull('activation_date')->count();
     }
 
     /**

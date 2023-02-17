@@ -70,6 +70,14 @@ class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
     }
 
     /**
+     * @return Builder
+     */
+    public function getActivePermissions(): Builder
+    {
+        return Permission::query()->active();
+    }
+
+    /**
      * Delete role by id.
      *
      * @param $id

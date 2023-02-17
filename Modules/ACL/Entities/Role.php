@@ -10,7 +10,7 @@ use Modules\ACL\Traits\SystemRolesTrait;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\User\Entities\User;
 use Spatie\Permission\Traits\HasPermissions;
 

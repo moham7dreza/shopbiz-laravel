@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\Banner\Repositories\BannerRepoEloquentInterface;
 use Modules\Brand\Repositories\BrandRepoEloquentInterface;
 use Modules\Comment\Entities\Comment;
@@ -48,6 +49,7 @@ class PanelRepo
     public ProductRepoEloquentInterface $productRepo;
     public BrandRepoEloquentInterface $brandRepo;
     public BannerRepoEloquentInterface $bannerRepo;
+    public RolePermissionRepoEloquentInterface $permissionRepo;
 
     public function __construct(UserRepoEloquentInterface                $userRepoEloquent,
                                 PostRepoEloquentInterface                $postRepoEloquent,
@@ -59,9 +61,10 @@ class PanelRepo
                                 TicketRepoEloquentInterface              $ticketRepoEloquent,
                                 SettingRepoEloquentInterface             $settingRepoEloquent,
                                 CopanDiscountRepoEloquentInterface       $copanDiscountRepo,
-                                ProductRepoEloquentInterface $productRepo,
-                                BrandRepoEloquentInterface $brandRepo,
-                                BannerRepoEloquentInterface $bannerRepo)
+                                ProductRepoEloquentInterface             $productRepo,
+                                BrandRepoEloquentInterface               $brandRepo,
+                                BannerRepoEloquentInterface              $bannerRepo,
+                                RolePermissionRepoEloquentInterface      $permissionRepo)
     {
         $this->userRepo = $userRepoEloquent;
         $this->postRepo = $postRepoEloquent;
@@ -76,30 +79,47 @@ class PanelRepo
         $this->productRepo = $productRepo;
         $this->brandRepo = $brandRepo;
         $this->bannerRepo = $bannerRepo;
+        $this->permissionRepo = $permissionRepo;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function customersCount(): int
+    public function customersCount(): string
     {
-        return $this->userRepo->customerUsersCount();
+        return convertEnglishToPersian($this->userRepo->customerUsersCount());
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function adminUsersCount(): int
+    public function notVerifiedCustomerUsersCount(): string
     {
-        return $this->userRepo->adminUsersCount();
+        return convertEnglishToPersian($this->userRepo->notVerifiedCustomerUsersCount());
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function postsCount(): int
+    public function adminUsersCount(): string
     {
-        return $this->postRepo->postsCount();
+        return convertEnglishToPersian($this->userRepo->adminUsersCount());
+    }
+
+    /**
+     * @return string
+     */
+    public function notActiveAdminUsersCount(): string
+    {
+        return convertEnglishToPersian($this->userRepo->notActiveAdminUsersCount());
+    }
+
+    /**
+     * @return string
+     */
+    public function notPublishedPostsCount(): string
+    {
+        return convertEnglishToPersian($this->postRepo->notPublishedPostsCount());
     }
 
     /**
@@ -111,16 +131,35 @@ class PanelRepo
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function ordersCount(): int
+    public function unseenProductCommentsCount(): string
     {
-        return $this->orderRepo->ordersCount();
+        return convertEnglishToPersian($this->commentRepo->latestProductCommentsWithoutAdminCount());
     }
 
+    /**
+     * @return string
+     */
+    public function newOrdersCount(): string
+    {
+        return convertEnglishToPersian($this->orderRepo->newOrdersCount());
+    }
+
+    /**
+     * @return int
+     */
     public function paymentsCount(): int
     {
         return $this->paymentRepo->paymentsCount();
+    }
+
+    /**
+     * @return string
+     */
+    public function notPaidPaymentsCount(): string
+    {
+        return convertEnglishToPersian($this->paymentRepo->notPaidPaymentsCount());
     }
 
     /**
@@ -131,17 +170,28 @@ class PanelRepo
         return $this->productRepo->productsCount();
     }
 
-    public function activeAmazingSalesCount(): int
+    /**
+     * @return string
+     */
+    public function lowViewProductsCount(): string
     {
-        return $this->amazingSaleDiscountRepo->activeAmazingSalesCount();
+        return convertEnglishToPersian($this->productRepo->lowViewProductsCount());
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function newTicketsCount(): int
+    public function activeAmazingSalesCount(): string
     {
-        return $this->ticketRepo->newTicketsCount();
+        return convertEnglishToPersian($this->amazingSaleDiscountRepo->activeAmazingSalesCount());
+    }
+
+    /**
+     * @return string
+     */
+    public function newTicketsCount(): string
+    {
+        return convertEnglishToPersian($this->ticketRepo->newTicketsCount());
     }
 
     /**
@@ -161,11 +211,19 @@ class PanelRepo
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function bannersCount(): int
+    public function permissionsCount(): string
     {
-        return $this->bannerRepo->index()->count();
+        return convertEnglishToPersian($this->permissionRepo->getActivePermissions()->count());
+    }
+
+    /**
+     * @return string
+     */
+    public function bannersCount(): string
+    {
+        return convertEnglishToPersian($this->bannerRepo->index()->count());
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Payment\Traits\PaymentStatusTrait;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\User\Entities\User;
 
 class Payment extends Model
@@ -45,6 +45,15 @@ class Payment extends Model
     public function scopeCashType($query): mixed
     {
         return $query->where('paymentable_type', 'Modules\Payment\Entities\CashPayment');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeNotPaid($query): mixed
+    {
+        return $query->where('status', Payment::PAYMENT_STATUS_NOT_PAID);
     }
 
     // ********************************************* Relations

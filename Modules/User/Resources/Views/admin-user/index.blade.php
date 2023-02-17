@@ -58,14 +58,14 @@
                                 <td>{{ $admin->last_name }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ADMIN_USER_ACTIVATION)
-                                        <x-panel-checkbox class="rounded" route="customerUser.activation"
+                                        <x-panel-checkbox class="rounded" route="adminUser.activation"
                                                           method="changeActive" uniqueId="active"
                                                           name="ادمین" :model="$admin" property="activation"/>
                                     @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ADMIN_USER_STATUS)
-                                        <x-panel-checkbox class="rounded" route="customerUser.status"
+                                        <x-panel-checkbox class="rounded" route="adminUser.status"
                                                           method="changeStatus"
                                                           name="ادمین" :model="$admin" property="status"/>
                                     @endcan

@@ -68,6 +68,7 @@ class UserService
             'password' => Hash::make($request->password),
             'profile_photo_path' => $request->profile_photo_path,
             'activation' => $request->activation,
+            'activation_date' => $request->activation == User::ACTIVATE ? now() : null,
             'user_type' => $userType,
         ]);
     }

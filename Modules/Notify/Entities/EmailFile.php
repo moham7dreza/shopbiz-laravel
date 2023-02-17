@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Share\Traits\HasDefaultStatus;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 
 class EmailFile extends Model
 {

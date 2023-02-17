@@ -14,7 +14,7 @@ use Modules\Discount\Entities\Copan;
 use Modules\Order\Traits\OrderStatusTrait;
 use Modules\Payment\Entities\Payment;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\User\Entities\User;
 
 class Order extends Model
@@ -27,6 +27,42 @@ class Order extends Model
         'order_discount_amount', 'copan_id', 'order_copan_discount_amount', 'common_discount_id',
         'order_common_discount_amount', 'order_total_products_discount_amount', 'order_status'
     ];
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeNew($query): mixed
+    {
+        return $query->where('order_status', Order::ORDER_STATUS_NOT_CHECKED);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeSending($query): mixed
+    {
+        return $query->where('delivery_status', Order::DELIVERY_STATUS_SENDING);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUnpaid($query): mixed
+    {
+        return $query->where('payment_status', Order::PAYMENT_STATUS_NOT_PAID);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCanceled($query): mixed
+    {
+        return $query->where('order_status', Order::ORDER_STATUS_CANCELED);
+    }
 
 
     // ********************************************* Relations

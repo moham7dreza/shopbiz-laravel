@@ -21,7 +21,7 @@ use Modules\Product\Entities\Product;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;

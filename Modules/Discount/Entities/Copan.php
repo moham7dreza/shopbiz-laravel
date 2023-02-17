@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 use Modules\Discount\Traits\CopanHasTypesTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\User\Entities\User;
 
 class Copan extends Model

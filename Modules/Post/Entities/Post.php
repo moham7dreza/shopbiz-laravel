@@ -18,7 +18,7 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Share\Traits\HasDefaultStatus;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 use Modules\User\Entities\User;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
@@ -95,6 +95,15 @@ class Post extends Model implements Viewable
             ['commentable', self::IS_COMMENTABLE],
             ['published_at', '<', now()]
         ]);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeNotPublished($query): mixed
+    {
+        return $query->where('published_at', '>', now());
     }
 
     // ********************************************* Relations

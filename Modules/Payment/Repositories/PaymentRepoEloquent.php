@@ -86,6 +86,14 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
     }
 
     /**
+     * @return int
+     */
+    public function notPaidPaymentsCount(): int
+    {
+        return $this->query()->notPaid()->count();
+    }
+
+    /**
      * Builder for queue model.
      *
      * @return Builder

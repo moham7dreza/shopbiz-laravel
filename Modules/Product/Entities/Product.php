@@ -25,7 +25,7 @@ use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-use Modules\Share\Traits\HasFaPropertiesTrait;
+
 use Modules\Share\Traits\HasImageTrait;
 use Modules\User\Entities\User;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
@@ -133,6 +133,26 @@ class Product extends Model implements Viewable
             ['marketable_number', '>', 0],
             ['published_at', '<', now()]
         ]);
+    }
+
+    /**
+     * @param $query
+     * @param int $count
+     * @return mixed
+     */
+    public function scopeLowMarketableNumber($query, int $count = 10): mixed
+    {
+        return $query->where('marketable_number', '<', $count);
+    }
+
+    /**
+     * @param $query
+     * @param int $count
+     * @return mixed
+     */
+    public function scopeLowViewNumber($query, int $count = 10): mixed
+    {
+        return $query->where('views_count', '<', $count);
     }
 
     // ********************************************* Relations

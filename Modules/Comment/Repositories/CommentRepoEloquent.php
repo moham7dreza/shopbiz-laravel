@@ -120,6 +120,15 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
 
     /**
      * panel
+     * @return int
+     */
+    public function latestProductCommentsWithoutAdminCount(): int
+    {
+        return $this->query()->productType()->where('author_id', '!=', auth()->id())->count();
+    }
+
+    /**
+     * panel
      * @return Builder
      */
     public function latestCommentWithoutAdmin(): Builder
