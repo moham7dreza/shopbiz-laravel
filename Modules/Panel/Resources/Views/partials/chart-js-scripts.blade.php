@@ -89,7 +89,7 @@
         subtitle: {
             text: 'منبع داده : ' +
                 '<a href="" ' +
-                'target="_blank">techzilla.com</a>'
+                'target="_blank">shopbiz.ir</a>'
         },
         accessibility: {
             announceNewData: {
@@ -106,16 +106,16 @@
             }
         },
         plotOptions: {
-            // line: {
-            //     dataLabels: {
-            //         enabled: true
-            //     },
-            //     enableMouseTracking: false
-            // },
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: true
+            },
             series: {
                 borderWidth: 0,
                 dataLabels: {
-                    enabled: false,
+                    enabled: true,
                     format: '{point.y:.0f}'
                 }
             }
@@ -134,9 +134,9 @@
     fetch('{{ route('api.market.report.monthly.sales') }}', {headers: {Accept: 'application/json'}})
         .then(result => result.json())
         .then(result => {
+            console.log(result)
             monthlySalesChart.series[0].setData(result.data);
             // console.log(result.data)
-        })
-        .catch(error => console.log(error));
+        }).catch(error => console.log(error));
 
 </script>

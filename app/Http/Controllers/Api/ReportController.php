@@ -103,4 +103,78 @@ class ReportController extends Controller
             'status' => 'success',
             'data' => $result]);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function monthlyFaTotalSales(): JsonResponse
+    {
+        $payments = Payment::query()->orderBy('updated_at', 'desc')->get();
+        $result = [];
+        $faMonths = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+        $monthlyTotalSales = [
+            'فروردین' => 0,
+            'اردیبهشت' => 0,
+            'خرداد' => 0,
+            'تیر' => 0,
+            'مرداد' => 0,
+            'شهریور' => 0,
+            'مهر' => 0,
+            'آبان' => 0,
+            'آذر' => 0,
+            'دی' => 0,
+            'بهمن' => 0,
+            'اسفند' => 0,
+        ];
+        for ($i = 0; $i < 12; $i++) {
+            if ($i == 0) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-03-21 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-04-21 00:00:00');
+            } elseif ($i == 1) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-04-21 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-05-22 00:00:00');
+            } elseif ($i == 2) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-05-22 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-06-22 00:00:00');
+            } elseif ($i == 3) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-06-22 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-07-23 00:00:00');
+            } elseif ($i == 4) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-07-23 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-08-23 00:00:00');
+            } elseif ($i == 5) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-08-23 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-09-23 00:00:00');
+            } elseif ($i == 6) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-09-23 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-10-23 00:00:00');
+            } elseif ($i == 7) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-10-23 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-11-22 00:00:00');
+            } elseif ($i == 8) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-11-22 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-12-22 00:00:00');
+            } elseif ($i == 9) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2022-12-22 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2023-01-21 00:00:00');
+            } elseif ($i == 10) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2023-01-21 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2023-02-20 00:00:00');
+            } elseif ($i == 11) {
+                $start_date = Carbon::createFromFormat('Y-m-d H:i:s', '2023-02-20 00:00:00');
+                $end_date = Carbon::createFromFormat('Y-m-d H:i:s', '2023-03-21 00:00:00');
+            }
+            foreach ($payments as $payment) {
+                if ($payment->updated_at >= $start_date && $payment->updated_at <= $end_date) {
+                    $monthlyTotalSales[$faMonths[$i]] += $payment->amount;
+                }
+            }
+        }
+        foreach ($monthlyTotalSales as $key => $value) {
+            $result[] = ['name' => $key, 'y' => $value];
+        }
+        return response()->json(['message' => 'مبلغ فروش در طول سال جاری',
+            'status' => 'success',
+            'data' => $result]);
+    }
 }

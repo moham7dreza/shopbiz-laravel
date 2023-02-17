@@ -3,6 +3,7 @@
 namespace Modules\Payment\Traits;
 
 use Carbon\Carbon;
+use Modules\Payment\Entities\Payment;
 
 trait SaleCalculator
 {

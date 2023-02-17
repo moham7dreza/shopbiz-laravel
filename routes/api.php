@@ -22,5 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('report')->group(function () {
     Route::get('/weekly-sales', [ReportController::class, 'weeklyTotalSales'])->name('api.market.report.weekly.sales');
-    Route::get('/monthly-sales', [ReportController::class, 'monthlyTotalSales'])->name('api.market.report.monthly.sales');
+    Route::get('/monthly-sales', [ReportController::class, 'monthlyFaTotalSales'])->name('api.market.report.monthly.sales');
 });
