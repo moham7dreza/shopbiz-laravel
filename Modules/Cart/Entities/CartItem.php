@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Cart\Traits\PriceCalcTrait;
-use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\Color;
-
-use Modules\Share\Traits\HasImageTrait;
+use Modules\Product\Entities\ProductColor;
+use Modules\Product\Entities\ProductGuarantee;
 use Modules\User\Entities\User;
 
 
@@ -51,13 +49,13 @@ class CartItem extends Model
      */
     public function guarantee(): BelongsTo
     {
-        return $this->belongsTo(Guarantee::class);
+        return $this->belongsTo(ProductGuarantee::class);
     }
 
 
     public function color(): BelongsTo
     {
-        return $this->belongsTo(Color::class);
+        return $this->belongsTo(ProductColor::class);
     }
 
     /**

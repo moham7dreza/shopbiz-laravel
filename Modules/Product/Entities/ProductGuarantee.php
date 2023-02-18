@@ -26,6 +26,8 @@ class ProductGuarantee extends Model
         'duration'
     ];
 
+    protected $table = 'product_guarantee';
+
     // ********************************************* Relations
 
     /**
@@ -34,6 +36,14 @@ class ProductGuarantee extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function guarantee(): BelongsTo
+    {
+        return $this->belongsTo(Guarantee::class);
     }
 
     // ********************************************* Methods

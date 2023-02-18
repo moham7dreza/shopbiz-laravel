@@ -39,8 +39,9 @@
                         @method('put')
                         <section class="row">
                             @php $message = $message ?? null @endphp
-                            <x-panel-input col="10" name="name" label="نام گارانتی" :message="$message" method="edit"
-                                           :model="$guarantee"/>
+                            <x-panel-select-box col="10" name="guarantee_id" label="گارانتی"
+                                                :message="$message" :collection="$guarantees"
+                                                property="name" method="edit" :model="$guarantee"/>
                             <x-panel-input col="10" name="duration" label="مدت زمان اعتبار گارانتی" :message="$message"
                                            placeholder="بر حسب ماه ..." method="edit" :model="$guarantee"/>
                             <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
@@ -60,4 +61,13 @@
 @endsection
 @section('script')
     @livewireScripts
+
+    <script>
+        const guarantee_id = $('#guarantee_id');
+        guarantee_id.select2({
+            placeholder: 'لطفا رنگ را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

@@ -5,7 +5,6 @@ namespace Modules\Product\Repositories\ProductColor;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Product\Entities\Product;
 use Modules\Product\Entities\Color;
 
 class ProductColorRepoEloquent implements ProductColorRepoEloquentInterface

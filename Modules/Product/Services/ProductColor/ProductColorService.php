@@ -5,7 +5,7 @@ namespace Modules\Product\Services\ProductColor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Modules\Product\Entities\Color;
+use Modules\Product\Entities\ProductColor;
 
 class ProductColorService implements ProductColorServiceInterface
 {
@@ -20,10 +20,9 @@ class ProductColorService implements ProductColorServiceInterface
     public function store($request, $productId): Model|Builder|RedirectResponse
     {
         return $this->query()->create([
-            'color_name' => $request->color_name,
-            'color' => $request->color,
             'product_id' => $productId,
             'status' => $request->status,
+            'color_id' => $request->color_id,
             'price_increase' => $request->price_increase,
             'sold_number' => $request->sold_number,
             'frozen_number' => $request->frozen_number,
@@ -41,10 +40,9 @@ class ProductColorService implements ProductColorServiceInterface
     public function update($request, $productId, $color): mixed
     {
         return $color->update([
-            'color_name' => $request->color_name,
-            'color' => $request->color,
             'product_id' => $productId,
             'status' => $request->status,
+            'color_id' => $request->color_id,
             'price_increase' => $request->price_increase,
             'sold_number' => $request->sold_number,
             'frozen_number' => $request->frozen_number,
@@ -59,6 +57,6 @@ class ProductColorService implements ProductColorServiceInterface
      */
     private function query(): Builder
     {
-        return Color::query();
+        return ProductColor::query();
     }
 }

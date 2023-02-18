@@ -35,8 +35,9 @@
                         @csrf
                         <section class="row">
                             @php $message = $message ?? null @endphp
-                            <x-panel-input col="10" name="color_name" label="نام رنگ" :message="$message"/>
-                            <x-panel-input col="10" name="color" type="color" label="رنگ" :message="$message"/>
+                            <x-panel-select-box col="10" name="color_id" label="رنگ"
+                                                :message="$message" :collection="$colors"
+                                                property="name" option="رنگ را انتخاب کنید"/>
                             <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
                                                      class="dir-ltr" :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
@@ -56,4 +57,13 @@
 @endsection
 @section('script')
     @livewireScripts
+
+    <script>
+        const color_id = $('#color_id');
+        color_id.select2({
+            placeholder: 'لطفا رنگ را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

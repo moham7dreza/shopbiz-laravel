@@ -5,7 +5,7 @@ namespace Modules\Product\Services\ProductGuarantee;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Modules\Product\Entities\Guarantee;
+use Modules\Product\Entities\ProductGuarantee;
 
 class ProductGuaranteeService implements ProductGuaranteeServiceInterface
 {
@@ -19,7 +19,7 @@ class ProductGuaranteeService implements ProductGuaranteeServiceInterface
     public function store($request, $productId): Model|Builder|RedirectResponse
     {
         return $this->query()->create([
-            'name' => $request->name,
+            'guarantee_id' => $request->guarantee_id,
             'duration' => $request->duration,
             'product_id' => $productId,
             'status' => $request->status,
@@ -36,7 +36,7 @@ class ProductGuaranteeService implements ProductGuaranteeServiceInterface
     public function update($request, $productId, $guarantee): mixed
     {
         return $guarantee->update([
-            'name' => $request->name,
+            'guarantee_id' => $request->guarantee_id,
             'duration' => $request->duration,
             'product_id' => $productId,
             'status' => $request->status,
@@ -51,6 +51,6 @@ class ProductGuaranteeService implements ProductGuaranteeServiceInterface
      */
     private function query(): Builder
     {
-        return Guarantee::query();
+        return ProductGuarantee::query();
     }
 }

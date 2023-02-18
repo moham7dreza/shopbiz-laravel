@@ -52,8 +52,8 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $guarantee->name }}</td>
-                                <td>{{ $guarantee->period }}</td>
+                                <td>{{ $guarantee->guarantee->name }}</td>
+                                <td>{{ $guarantee->duration }}</td>
                                 <td>{{ $guarantee->getFaPriceIncrease() }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_STATUS)

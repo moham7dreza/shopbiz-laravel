@@ -12,10 +12,12 @@ use Illuminate\Http\Request;
 use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductGuarantee;
 use Modules\Product\Http\Requests\ProductGalleryRequest;
 use Modules\Product\Http\Requests\ProductGuaranteeRequest;
-use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface;
-use Modules\Product\Services\Guarantee\ProductGuaranteeService;
+use Modules\Product\Repositories\Guarantee\GuaranteeRepoEloquentInterface;
+use Modules\Product\Repositories\ProductGuarantee\ProductGuaranteeRepoEloquentInterface;
+use Modules\Product\Services\ProductGuarantee\ProductGuaranteeService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -70,18 +72,20 @@ class ProductGuaranteeController extends Controller
             $guarantees = $product->guarantees()->paginate(10);
         }
 
-        return view('Product::admin.guarantee.index', compact(['product', 'guarantees']));
+        return view('Product::admin.product-guarantee.index', compact(['product', 'guarantees']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param Product $product
+     * @param GuaranteeRepoEloquentInterface $guaranteeRepo
      * @return Application|Factory|View
      */
-    public function create(Product $product): View|Factory|Application
+    public function create(Product $product, GuaranteeRepoEloquentInterface $guaranteeRepo): View|Factory|Application
     {
-        return view('Product::admin.guarantee.create', compact(['product']));
+        $guarantees = $guaranteeRepo->getLatest()->get();
+        return view('Product::admin.product-guarantee.create', compact(['product', 'guarantees']));
     }
 
     /**
@@ -112,12 +116,14 @@ class ProductGuaranteeController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @param Guarantee $guarantee
+     * @param ProductGuarantee $guarantee
+     * @param GuaranteeRepoEloquentInterface $guaranteeRepo
      * @return Application|Factory|View
      */
-    public function edit(Product $product, Guarantee $guarantee): View|Factory|Application
+    public function edit(Product $product, ProductGuarantee $guarantee, GuaranteeRepoEloquentInterface $guaranteeRepo): View|Factory|Application
     {
-        return view('Product::admin.guarantee.edit', compact(['product', 'guarantee']));
+        $guarantees = $guaranteeRepo->getLatest()->get();
+        return view('Product::admin.product-guarantee.edit', compact(['product', 'guarantee', 'guarantees']));
     }
 
     /**
@@ -125,10 +131,10 @@ class ProductGuaranteeController extends Controller
      *
      * @param ProductGuaranteeRequest $request
      * @param Product $product
-     * @param Guarantee $guarantee
+     * @param ProductGuarantee $guarantee
      * @return RedirectResponse
      */
-    public function update(ProductGuaranteeRequest $request, Product $product, Guarantee $guarantee): RedirectResponse
+    public function update(ProductGuaranteeRequest $request, Product $product, ProductGuarantee $guarantee): RedirectResponse
     {
         $this->service->update($request, $product->id, $guarantee);
         return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ویرایش شد', params: [$product]);
@@ -138,20 +144,20 @@ class ProductGuaranteeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @param Guarantee $guarantee
+     * @param ProductGuarantee $guarantee
      * @return RedirectResponse
      */
-    public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
+    public function destroy(Product $product, ProductGuarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
         return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**
-     * @param Guarantee $guarantee
+     * @param ProductGuarantee $guarantee
      * @return JsonResponse
      */
-    public function status(Guarantee $guarantee): JsonResponse
+    public function status(ProductGuarantee $guarantee): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($guarantee);
     }

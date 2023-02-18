@@ -186,7 +186,7 @@ class Product extends Model implements Viewable
      */
     public function colors(): HasMany
     {
-        return $this->hasMany(Color::class);
+        return $this->hasMany(ProductColor::class);
     }
 
     /**
@@ -202,7 +202,7 @@ class Product extends Model implements Viewable
      */
     public function guarantees(): HasMany
     {
-        return $this->hasMany(Guarantee::class);
+        return $this->hasMany(ProductGuarantee::class);
     }
 
     /**

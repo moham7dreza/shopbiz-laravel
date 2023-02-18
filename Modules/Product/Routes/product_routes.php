@@ -42,7 +42,7 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/color/create/{product}', [ProductColorController::class, 'create'])->name('product.color.create');
         Route::post('/color/store/{product}', [ProductColorController::class, 'store'])->name('product.color.store');
         Route::get('/color/edit/{product}/{color}', [ProductColorController::class, 'edit'])->name('product.color.edit');
-        Route::post('/color/update/{product}/{color}', [ProductColorController::class, 'update'])->name('product.color.update');
+        Route::put('/color/update/{product}/{color}', [ProductColorController::class, 'update'])->name('product.color.update');
         Route::delete('/color/destroy/{product}/{color}', [ProductColorController::class, 'destroy'])->name('product.color.destroy');
         Route::get('/color/status/{color}', [ProductColorController::class, 'status'])->name('product.color.status');
 
@@ -51,7 +51,7 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/guarantee/create/{product}', [ProductGuaranteeController::class, 'create'])->name('product.guarantee.create');
         Route::post('/guarantee/store/{product}', [ProductGuaranteeController::class, 'store'])->name('product.guarantee.store');
         Route::get('/guarantee/edit/{product}/{guarantee}', [ProductGuaranteeController::class, 'edit'])->name('product.guarantee.edit');
-        Route::post('/guarantee/update/{product}/{guarantee}', [ProductGuaranteeController::class, 'update'])->name('product.guarantee.update');
+        Route::put('/guarantee/update/{product}/{guarantee}', [ProductGuaranteeController::class, 'update'])->name('product.guarantee.update');
         Route::delete('/guarantee/destroy/{product}/{guarantee}', [ProductGuaranteeController::class, 'destroy'])->name('product.guarantee.destroy');
         Route::get('/guarantee/status/{guarantee}', [ProductGuaranteeController::class, 'status'])->name('product.guarantee.status');
 

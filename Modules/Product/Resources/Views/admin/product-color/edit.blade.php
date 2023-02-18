@@ -12,7 +12,8 @@
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
             <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.color.index', $product->id) }}"> رنگ های کالا</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.color.index', $product->id) }}"> رنگ های
+                    کالا</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> ویرایش رنگ</li>
         </ol>
     </nav>
@@ -36,10 +37,10 @@
                         @method('put')
                         <section class="row">
                             @php $message = $message ?? null @endphp
-                            <x-panel-input col="10" name="color_name" label="نام رنگ" :message="$message" method="edit"
-                                           :model="$color"/>
-                            <x-panel-input col="10" name="color" type="color" label="رنگ" :message="$message"
-                                           method="edit" :model="$color"/>
+                            <x-panel-select-box col="10" name="color_id" label="رنگ"
+                                                :message="$message" :collection="$colors"
+                                                property="name" method="edit"
+                                                :model="$color"/>
                             <livewire:fa-price-input col="10" name="price_increase" label="افزایش قیمت"
                                                      :message="$message" class="dir-ltr"
                                                      method="edit"
@@ -63,4 +64,13 @@
 @endsection
 @section('script')
     @livewireScripts
+
+    <script>
+        const color_id = $('#color_id');
+        color_id.select2({
+            placeholder: 'لطفا رنگ را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
+    </script>
 @endsection

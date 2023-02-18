@@ -13,9 +13,11 @@ use Illuminate\Http\Response;
 use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\Color;
+use Modules\Product\Entities\ProductColor;
 use Modules\Product\Http\Requests\ProductColorRequest;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
-use Modules\Product\Services\Color\ProductColorService;
+use Modules\Product\Repositories\Color\ColorRepoEloquentInterface;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquentInterface;
+use Modules\Product\Services\ProductColor\ProductColorService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -70,18 +72,20 @@ class ProductColorController extends Controller
             $colors = $product->colors()->paginate(10);
         }
 
-        return view('Product::admin.color.index', compact(['product', 'colors']));
+        return view('Product::admin.product-color.index', compact(['product', 'colors']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param Product $product
+     * @param ColorRepoEloquentInterface $colorRepo
      * @return Application|Factory|View
      */
-    public function create(Product $product): View|Factory|Application
+    public function create(Product $product, ColorRepoEloquentInterface $colorRepo): View|Factory|Application
     {
-        return view('Product::admin.color.create', compact(['product']));
+        $colors = $colorRepo->getLatest()->get();
+        return view('Product::admin.product-color.create', compact(['product', 'colors']));
     }
 
     /**
@@ -113,21 +117,23 @@ class ProductColorController extends Controller
      *
      * @param Product $product
      * @param Color $color
+     * @param ColorRepoEloquentInterface $colorRepo
      * @return Application|Factory|View
      */
-    public function edit(Product $product, Color $color): Application|Factory|View
+    public function edit(Product $product, Color $color, ColorRepoEloquentInterface $colorRepo): Application|Factory|View
     {
-        return view('Product::admin.color.edit', compact(['product', 'color']));
+        $colors = $colorRepo->getLatest()->get();
+        return view('Product::admin.product-color.edit', compact(['product', 'color', 'colors']));
     }
 
 
     /**
      * @param ProductColorRequest $request
      * @param Product $product
-     * @param Color $color
+     * @param ProductColor $color
      * @return RedirectResponse
      */
-    public function update(ProductColorRequest $request, Product $product, Color $color): RedirectResponse
+    public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
     {
         $this->service->update($request, $product->id, $color);
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ویرایش شد', params: [$product]);
@@ -137,20 +143,20 @@ class ProductColorController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @param Color $color
+     * @param ProductColor $color
      * @return RedirectResponse
      */
-    public function destroy(Product $product, Color $color): RedirectResponse
+    public function destroy(Product $product, ProductColor $color): RedirectResponse
     {
         $color->delete();
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**
-     * @param Color $color
+     * @param ProductColor $color
      * @return JsonResponse
      */
-    public function status(Color $color): JsonResponse
+    public function status(ProductColor $color): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($color);
     }

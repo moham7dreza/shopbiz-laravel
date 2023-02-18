@@ -24,8 +24,7 @@ class ProductColorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'color' => 'required|max:120',
+            'color_id' => 'required|exists:colors,id',
             'price_increase' => 'required|numeric',
             'marketable_number' => 'required|numeric',
             'frozen_number' => 'required|numeric',

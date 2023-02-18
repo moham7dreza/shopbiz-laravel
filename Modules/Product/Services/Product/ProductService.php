@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Product\Entities\Product;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;

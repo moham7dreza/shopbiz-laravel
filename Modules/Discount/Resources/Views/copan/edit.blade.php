@@ -52,7 +52,7 @@
 
                             <x-panel-select-box col="10" name="user_id" label="کاربران" disabled
                                                 :message="$message" :collection="$users"
-                                                property="fullName" option="کاربر را انتخاب کنید" method="edit"
+                                                property="fullName" method="edit"
                                                 :model="$copanDiscount"/>
                             <livewire:fa-price-input col="10" name="amount" label="میزان تخفیف"
                                                      :message="$message" class="dir-ltr"
@@ -112,5 +112,14 @@
                 $('#user_id').attr('disabled', 'disabled');
             }
         });
+    </script>
+
+    <script>
+        const user_id = $('#user_id');
+        user_id.select2({
+            // placeholder: 'لطفا کاربر را انتخاب نمایید',
+            multiple: false,
+            tags: false
+        })
     </script>
 @endsection

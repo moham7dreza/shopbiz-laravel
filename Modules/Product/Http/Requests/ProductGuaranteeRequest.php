@@ -24,7 +24,7 @@ class ProductGuaranteeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'guarantee_id' => 'required|exists:guarantees,id',
             'duration' => 'required',
             'price_increase' => 'required|numeric',
             'status' => 'required|numeric|in:0,1',

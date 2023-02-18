@@ -14,6 +14,7 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\ProductRequest;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductService;
+use Modules\Product\Services\Product\ProductServiceInterface;
 use Modules\Setting\Repositories\SettingRepoEloquent;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
@@ -35,13 +36,13 @@ class ProductController extends Controller
     private string $class = Product::class;
 
     public ProductRepoEloquentInterface $repo;
-    public ProductService $service;
+    public ProductServiceInterface $service;
 
     /**
      * @param ProductRepoEloquentInterface $productRepoEloquent
-     * @param ProductService $productService
+     * @param ProductServiceInterface $productService
      */
-    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductService $productService)
+    public function __construct(ProductRepoEloquentInterface $productRepoEloquent, ProductServiceInterface $productService)
     {
         $this->repo = $productRepoEloquent;
         $this->service = $productService;

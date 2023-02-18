@@ -41,6 +41,7 @@
                             <th>#</th>
                             <th>نام کالا</th>
                             <th>رنگ کالا</th>
+                            <th>رنگ</th>
                             <th>افزایش قیمت</th>
                             <th>تعداد قابل فروش</th>
                             <th>تعداد فروخته شده</th>
@@ -54,7 +55,11 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $color->color_name }}</td>
+                                <td>{{ $color->color->name }}</td>
+                                <td>
+                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};"
+                                          class="colors"></span>
+                                </td>
                                 <td>{{ $color->getFaPriceIncrease() }}</td>
                                 <td>{{ $color->getFaMarketableNumber() }}</td>
                                 <td>{{ $color->getFaSoldNumber() }}</td>
