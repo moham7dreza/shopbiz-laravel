@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Repositories\Color;
+namespace Modules\Product\Repositories\ProductColor;
 
 interface ProductColorRepoEloquentInterface
 {

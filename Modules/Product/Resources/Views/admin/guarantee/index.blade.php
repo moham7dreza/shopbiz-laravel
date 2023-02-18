@@ -10,7 +10,6 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> گارانتی</li>
         </ol>
     </nav>
@@ -25,12 +24,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_CREATE)
-                        <a href="{{ route('product.guarantee.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
+                    @can($PERMISSION::PERMISSION_GUARANTEE_CREATE)
+                        <a href="{{ route('guarantee.create') }}" class="btn btn-info btn-sm">ایجاد
                             گارانتی جدید </a>
                     @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('product.guarantee.index', $product->id) }}"/>
+                        <x-panel-search-form route="{{ route('guarantee.index') }}"/>
                     </div>
                 </section>
 
@@ -39,10 +38,9 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام کالا</th>
-                            <th>گارانتی کالا</th>
-                            <th>اعتبار گارانتی</th>
-                            <th>افزایش قیمت</th>
+                            <th>عنوان گارانتی</th>
+                            <th>اعتبار پیشفرض گارانتی</th>
+                            <th>آدرس URL وبسایت</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -51,27 +49,26 @@
                         @foreach ($guarantees as $guarantee)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $product->name }}</td>
                                 <td>{{ $guarantee->name }}</td>
-                                <td>{{ $guarantee->period }}</td>
-                                <td>{{ $guarantee->getFaPriceIncrease() }}</td>
+                                <td>{{ $guarantee->default_duration }}</td>
+                                <td>{{ $guarantee->website_link }}</td>
                                 <td>
-                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_STATUS)
-                                        <x-panel-checkbox class="rounded" route="product.guarantee.status"
+                                    @can($PERMISSION::PERMISSION_GUARANTEE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="guarantee.status"
                                                           method="changeStatus"
                                                           name="گارانتی کالا" :model="$guarantee" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-center">
-                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_EDIT)
+                                    @can($PERMISSION::PERMISSION_GUARANTEE_EDIT)
                                         <x-panel-a-tag
-                                            route="{{ route('product.guarantee.edit', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
+                                            route="{{ route('guarantee.edit', $guarantee->id) }}"
                                             title="ویرایش آیتم"
                                             icon="edit" color="outline-info"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_DELETE)
+                                    @can($PERMISSION::PERMISSION_GUARANTEE_DELETE)
                                         <x-panel-delete-form
-                                            route="{{ route('product.guarantee.destroy', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
+                                            route="{{ route('guarantee.destroy', $guarantee->id) }}"
                                             title="حذف آیتم"/>
                                     @endcan
                                 </td>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 
-class ProductGuaranteeRepoEloquent implements ProductGuaranteeRepoEloquentInterface
+class GuaranteeRepoEloquent implements GuaranteeRepoEloquentInterface
 {
 
     /**

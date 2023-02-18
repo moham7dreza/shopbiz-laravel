@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Services\Guarantee;
+namespace Modules\Product\Services\ProductGuarantee;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

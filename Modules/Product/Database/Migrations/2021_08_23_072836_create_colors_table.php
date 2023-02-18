@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuaranteesTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateGuaranteesTable extends Migration
      */
     public function up()
     {
-        Schema::create('guarantees', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('website_link')->nullable();
-            $table->string('default_duration')->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('color')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -31,6 +31,6 @@ class CreateGuaranteesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guarantees');
+        Schema::dropIfExists('colors');
     }
 }

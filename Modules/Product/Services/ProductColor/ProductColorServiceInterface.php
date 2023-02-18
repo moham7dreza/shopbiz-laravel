@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Services\Color;
+namespace Modules\Product\Services\ProductColor;
 
 interface ProductColorServiceInterface
 {

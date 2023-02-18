@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Product\Services\Color;
+namespace Modules\Product\Services\ProductColor;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Modules\Product\Entities\ProductColor;
+use Modules\Product\Entities\Color;
 
 class ProductColorService implements ProductColorServiceInterface
 {
@@ -59,6 +59,6 @@ class ProductColorService implements ProductColorServiceInterface
      */
     private function query(): Builder
     {
-        return ProductColor::query();
+        return Color::query();
     }
 }

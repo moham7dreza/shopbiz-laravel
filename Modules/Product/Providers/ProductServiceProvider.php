@@ -7,30 +7,35 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Product\Entities\Product;
 use Modules\Product\Policies\ProductPolicy;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquent;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
+use Modules\Product\Repositories\Color\ColorRepoEloquent;
+use Modules\Product\Repositories\Color\ColorRepoEloquentInterface;
+use Modules\Product\Repositories\Guarantee\GuaranteeRepoEloquent;
+use Modules\Product\Repositories\Guarantee\GuaranteeRepoEloquentInterface;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquent;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Gallery\ProductGalleryRepoEloquent;
 use Modules\Product\Repositories\Gallery\ProductGalleryRepoEloquentInterface;
-use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquent;
-use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface;
+use Modules\Product\Repositories\ProductGuarantee\ProductGuaranteeRepoEloquent;
+use Modules\Product\Repositories\ProductGuarantee\ProductGuaranteeRepoEloquentInterface;
 use Modules\Product\Repositories\Meta\ProductMetaRepoEloquent;
 use Modules\Product\Repositories\Meta\ProductMetaRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquent;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
-use Modules\Product\Repositories\Store\ProductStoreRepoEloquent;
-use Modules\Product\Repositories\Store\ProductStoreRepoEloquentInterface;
-use Modules\Product\Services\Color\ProductColorService;
-use Modules\Product\Services\Color\ProductColorServiceInterface;
+use Modules\Product\Services\Color\ColorService;
+use Modules\Product\Services\Color\ColorServiceInterface;
+use Modules\Product\Services\Guarantee\GuaranteeService;
+use Modules\Product\Services\ProductColor\ProductColorService;
+use Modules\Product\Services\ProductColor\ProductColorServiceInterface;
 use Modules\Product\Services\Gallery\ProductGalleryService;
 use Modules\Product\Services\Gallery\ProductGalleryServiceInterface;
-use Modules\Product\Services\Guarantee\ProductGuaranteeService;
-use Modules\Product\Services\Guarantee\ProductGuaranteeServiceInterface;
+use Modules\Product\Services\ProductGuarantee\ProductGuaranteeService;
+use Modules\Product\Services\Guarantee\GuaranteeServiceInterface;
 use Modules\Product\Services\Meta\ProductMetaService;
 use Modules\Product\Services\Meta\ProductMetaServiceInterface;
 use Modules\Product\Services\Product\ProductService;
 use Modules\Product\Services\Product\ProductServiceInterface;
-use Modules\Product\Services\Store\ProductStoreService;
-use Modules\Product\Services\Store\ProductStoreServiceInterface;
+use Modules\Product\Services\ProductGuarantee\ProductGuaranteeServiceInterface;
+
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -168,8 +173,10 @@ class ProductServiceProvider extends ServiceProvider
         $this->app->bind(ProductColorRepoEloquentInterface::class, ProductColorRepoEloquent::class);
         $this->app->bind(ProductGalleryRepoEloquentInterface::class, ProductGalleryRepoEloquent::class);
         $this->app->bind(ProductGuaranteeRepoEloquentInterface::class, ProductGuaranteeRepoEloquent::class);
-        $this->app->bind(ProductStoreRepoEloquentInterface::class, ProductStoreRepoEloquent::class);
         $this->app->bind(ProductMetaRepoEloquentInterface::class, ProductMetaRepoEloquent::class);
+
+        $this->app->bind(ColorRepoEloquentInterface::class, ColorRepoEloquent::class);
+        $this->app->bind(GuaranteeRepoEloquentInterface::class, GuaranteeRepoEloquent::class);
     }
 
     /**
@@ -181,7 +188,9 @@ class ProductServiceProvider extends ServiceProvider
         $this->app->bind(ProductColorServiceInterface::class, ProductColorService::class);
         $this->app->bind(ProductGalleryServiceInterface::class, ProductGalleryService::class);
         $this->app->bind(ProductGuaranteeServiceInterface::class, ProductGuaranteeService::class);
-        $this->app->bind(ProductStoreServiceInterface::class, ProductStoreService::class);
         $this->app->bind(ProductMetaServiceInterface::class, ProductMetaService::class);
+
+        $this->app->bind(ColorServiceInterface::class, ColorService::class);
+        $this->app->bind(GuaranteeServiceInterface::class, GuaranteeService::class);
     }
 }

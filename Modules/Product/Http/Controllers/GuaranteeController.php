@@ -12,10 +12,10 @@ use Illuminate\Http\Request;
 use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
-use Modules\Product\Http\Requests\ProductGalleryRequest;
+use Modules\Product\Http\Requests\GuaranteeRequest;
 use Modules\Product\Http\Requests\ProductGuaranteeRequest;
-use Modules\Product\Repositories\Guarantee\ProductGuaranteeRepoEloquentInterface;
-use Modules\Product\Services\Guarantee\ProductGuaranteeService;
+use Modules\Product\Repositories\Guarantee\GuaranteeRepoEloquentInterface;
+use Modules\Product\Services\Guarantee\GuaranteeService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
@@ -27,37 +27,36 @@ class GuaranteeController extends Controller
     /**
      * @var string
      */
-    private string $redirectRoute = 'product.guarantee.index';
+    private string $redirectRoute = 'guarantee.index';
 
     /**
      * @var string
      */
     private string $class = Guarantee::class;
 
-    public ProductGuaranteeRepoEloquentInterface $repo;
-    public ProductGuaranteeService $service;
+    public GuaranteeRepoEloquentInterface $repo;
+    public GuaranteeService $service;
 
     /**
-     * @param ProductGuaranteeRepoEloquentInterface $guaranteeRepoEloquent
-     * @param ProductGuaranteeService $guaranteeService
+     * @param GuaranteeRepoEloquentInterface $guaranteeRepoEloquent
+     * @param GuaranteeService $guaranteeService
      */
-    public function __construct(ProductGuaranteeRepoEloquentInterface $guaranteeRepoEloquent, ProductGuaranteeService $guaranteeService)
+    public function __construct(GuaranteeRepoEloquentInterface $guaranteeRepoEloquent, GuaranteeService $guaranteeService)
     {
         $this->repo = $guaranteeRepoEloquent;
         $this->service = $guaranteeService;
 
-        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEES)->only(['index']);
-        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_CREATE)->only(['create', 'store']);
-        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_EDIT)->only(['edit', 'update']);
-        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_DELETE)->only(['destroy']);
-        $this->middleware('can:' . Permission::PERMISSION_PRODUCT_GUARANTEE_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_GUARANTEES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_GUARANTEE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_GUARANTEE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_GUARANTEE_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_GUARANTEE_STATUS)->only(['status']);
     }
 
     /**
-     * @param Product $product
      * @return Application|Factory|View|RedirectResponse
      */
-    public function index(Product $product): Factory|View|Application|RedirectResponse
+    public function index(): Factory|View|Application|RedirectResponse
     {
         if (isset(request()->search)) {
             $guarantees = $this->repo->search(request()->search, $product->id)->paginate(10);
@@ -67,34 +66,33 @@ class GuaranteeController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } else {
-            $guarantees = $product->guarantees()->paginate(10);
+            $guarantees = $this->repo->getLatest()->paginate(10);
         }
 
-        return view('Product::admin.guarantee.index', compact(['product', 'guarantees']));
+        return view('Product::admin.guarantee.index', compact(['guarantees']));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @param Product $product
+     * @param
      * @return Application|Factory|View
      */
-    public function create(Product $product): View|Factory|Application
+    public function create(): View|Factory|Application
     {
-        return view('Product::admin.guarantee.create', compact(['product']));
+        return view('Product::admin.guarantee.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProductGuaranteeRequest $request
-     * @param Product $product
+     * @param GuaranteeRequest $request
      * @return RedirectResponse
      */
-    public function store(ProductGuaranteeRequest $request, Product $product): RedirectResponse
+    public function store(GuaranteeRequest $request): RedirectResponse
     {
-        $this->service->store($request, $product->id);
-        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ثبت شد', params: [$product]);
+        $this->service->store($request);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ثبت شد');
     }
 
     /**
@@ -111,40 +109,37 @@ class GuaranteeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Product $product
      * @param Guarantee $guarantee
      * @return Application|Factory|View
      */
-    public function edit(Product $product, Guarantee $guarantee): View|Factory|Application
+    public function edit(Guarantee $guarantee): View|Factory|Application
     {
-        return view('Product::admin.guarantee.edit', compact(['product', 'guarantee']));
+        return view('Product::admin.guarantee.edit', compact(['guarantee']));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param ProductGuaranteeRequest $request
-     * @param Product $product
+     * @param GuaranteeRequest $request
      * @param Guarantee $guarantee
      * @return RedirectResponse
      */
-    public function update(ProductGuaranteeRequest $request, Product $product, Guarantee $guarantee): RedirectResponse
+    public function update(GuaranteeRequest $request, Guarantee $guarantee): RedirectResponse
     {
-        $this->service->update($request, $product->id, $guarantee);
-        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ویرایش شد', params: [$product]);
+        $this->service->update($request,$guarantee);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Product $product
      * @param Guarantee $guarantee
      * @return RedirectResponse
      */
-    public function destroy(Product $product, Guarantee $guarantee): RedirectResponse
+    public function destroy(Guarantee $guarantee): RedirectResponse
     {
         $guarantee->delete();
-        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت حذف شد', params: [$product]);
+        return $this->showMessageWithRedirectRoute('گارانتی شما با موفقیت حذف شد');
     }
 
     /**

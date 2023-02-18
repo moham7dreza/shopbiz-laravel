@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Repositories\Guarantee;
+namespace Modules\Product\Repositories\ProductGuarantee;
 
 interface ProductGuaranteeRepoEloquentInterface
 {

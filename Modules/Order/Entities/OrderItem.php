@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductColor;
+use Modules\Product\Entities\Color;
 use Modules\Share\Traits\HasFaDate;
 
 
@@ -52,7 +52,7 @@ class OrderItem extends Model
      */
     public function color(): BelongsTo
     {
-        return $this->belongsTo(ProductColor::class);
+        return $this->belongsTo(Color::class);
     }
 
     /**

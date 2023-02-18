@@ -82,6 +82,12 @@
                                 @can($PERMISSION::PERMISSION_PRODUCT_COMMENTS)
                                     <a href="{{ route('productComment.index') }}">نظرات</a>
                                 @endcan
+                                @can($PERMISSION::PERMISSION_COLORS)
+                                    <a href="{{ route('color.index') }}">رنگ ها</a>
+                                @endcan
+                                @can($PERMISSION::PERMISSION_GUARANTEES)
+                                    <a href="{{ route('guarantee.index') }}">گارانتی</a>
+                                @endcan
                             </section>
                         </section>
                     @endcan

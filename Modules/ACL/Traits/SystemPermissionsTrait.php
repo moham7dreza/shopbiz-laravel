@@ -94,6 +94,19 @@ trait SystemPermissionsTrait
     public const PERMISSION_PRODUCT_COMMENT_STATUS = 'permission product comment status';
     public const PERMISSION_PRODUCT_COMMENT_APPROVE = 'permission product comment approve';
 
+    // 7  colors
+    public const PERMISSION_COLORS = 'permission colors';
+    public const PERMISSION_COLOR_CREATE = 'permission color create';
+    public const PERMISSION_COLOR_EDIT = 'permission color edit';
+    public const PERMISSION_COLOR_DELETE = 'permission color delete';
+    public const PERMISSION_COLOR_STATUS = 'permission color status';
+
+    // 7  guarantees
+    public const PERMISSION_GUARANTEES = 'permission guarantees';
+    public const PERMISSION_GUARANTEE_CREATE = 'permission guarantee create';
+    public const PERMISSION_GUARANTEE_EDIT = 'permission guarantee edit';
+    public const PERMISSION_GUARANTEE_DELETE = 'permission guarantee delete';
+    public const PERMISSION_GUARANTEE_STATUS = 'permission guarantee status';
 
     // B. ORDER
     public const PERMISSION_ORDERS = 'permission orders';
@@ -468,6 +481,16 @@ trait SystemPermissionsTrait
         , self::PERMISSION_PRODUCT_COLOR_EDIT
         , self::PERMISSION_PRODUCT_COLOR_DELETE
         , self::PERMISSION_PRODUCT_COLOR_STATUS
+        , self::PERMISSION_COLORS
+        , self::PERMISSION_COLOR_CREATE
+        , self::PERMISSION_COLOR_EDIT
+        , self::PERMISSION_COLOR_DELETE
+        , self::PERMISSION_COLOR_STATUS
+        , self::PERMISSION_GUARANTEES
+        , self::PERMISSION_GUARANTEE_CREATE
+        , self::PERMISSION_GUARANTEE_EDIT
+        , self::PERMISSION_GUARANTEE_DELETE
+        , self::PERMISSION_GUARANTEE_STATUS
         , self::PERMISSION_WAREHOUSE
         , self::PERMISSION_WAREHOUSE_ADD
         , self::PERMISSION_WAREHOUSE_MODIFY

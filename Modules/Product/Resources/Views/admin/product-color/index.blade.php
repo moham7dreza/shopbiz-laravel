@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>رنگ</title>
+    <title>مدیریت رنگ های محصول</title>
 @endsection
 
 @section('content')
@@ -10,6 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> رنگ</li>
         </ol>
     </nav>
@@ -24,12 +25,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_COLOR_CREATE)
-                        <a href="{{ route('color.create') }}" class="btn btn-info btn-sm">ایجاد
+                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_CREATE)
+                        <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                             رنگ جدید </a>
                     @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('color.index') }}"/>
+                        <x-panel-search-form route="{{ route('product.color.index', $product->id) }}"/>
                     </div>
                 </section>
 
@@ -38,9 +39,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام رنگ</th>
-                            <th>نام لاتین</th>
-                            <th>رنگ</th>
+                            <th>نام کالا</th>
+                            <th>رنگ کالا</th>
+                            <th>افزایش قیمت</th>
+                            <th>تعداد قابل فروش</th>
+                            <th>تعداد فروخته شده</th>
+                            <th>تعداد رزرو شده</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -49,29 +53,29 @@
                         @foreach ($colors as $color)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $color->name }}</td>
-                                <td>{{ $color->name_en }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $color->color_name }}</td>
+                                <td>{{ $color->getFaPriceIncrease() }}</td>
+                                <td>{{ $color->getFaMarketableNumber() }}</td>
+                                <td>{{ $color->getFaSoldNumber() }}</td>
+                                <td>{{ $color->getFaFrozenNumber() }}</td>
                                 <td>
-                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};"
-                                          class="colors"></span>
-                                </td>
-                                <td>
-                                    @can($PERMISSION::PERMISSION_COLOR_STATUS)
-                                        <x-panel-checkbox class="rounded" route="color.status"
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_STATUS)
+                                        <x-panel-checkbox class="rounded" route="product.color.status"
                                                           method="changeStatus"
-                                                          name="رنگ" :model="$color" property="status"/>
+                                                          name="رنگ کالا" :model="$color" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-12-rem text-center">
-                                    @can($PERMISSION::PERMISSION_COLOR_EDIT)
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_EDIT)
                                         <x-panel-a-tag
-                                            route="{{ route('color.edit', $color->id) }}"
+                                            route="{{ route('product.color.edit', ['product' => $product->id , 'color' => $color->id]) }}"
                                             title="ویرایش آیتم"
                                             icon="edit" color="outline-info"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_COLOR_DELETE)
+                                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_DELETE)
                                         <x-panel-delete-form
-                                            route="{{ route('color.destroy', $color->id) }}"
+                                            route="{{ route('product.color.destroy', ['product' => $product->id , 'color' => $color->id] ) }}"
                                             title="حذف آیتم"/>
                                     @endcan
                                 </td>

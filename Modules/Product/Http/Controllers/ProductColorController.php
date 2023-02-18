@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\ACL\Entities\Permission;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductColor;
+use Modules\Product\Entities\Color;
 use Modules\Product\Http\Requests\ProductColorRequest;
 use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
 use Modules\Product\Services\Color\ProductColorService;
@@ -32,7 +32,7 @@ class ProductColorController extends Controller
     /**
      * @var string
      */
-    private string $class = ProductColor::class;
+    private string $class = Color::class;
 
     public ProductColorRepoEloquentInterface $repo;
     public ProductColorService $service;
@@ -112,10 +112,10 @@ class ProductColorController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @param ProductColor $color
+     * @param Color $color
      * @return Application|Factory|View
      */
-    public function edit(Product $product, ProductColor $color): Application|Factory|View
+    public function edit(Product $product, Color $color): Application|Factory|View
     {
         return view('Product::admin.color.edit', compact(['product', 'color']));
     }
@@ -124,10 +124,10 @@ class ProductColorController extends Controller
     /**
      * @param ProductColorRequest $request
      * @param Product $product
-     * @param ProductColor $color
+     * @param Color $color
      * @return RedirectResponse
      */
-    public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
+    public function update(ProductColorRequest $request, Product $product, Color $color): RedirectResponse
     {
         $this->service->update($request, $product->id, $color);
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ویرایش شد', params: [$product]);
@@ -137,20 +137,20 @@ class ProductColorController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @param ProductColor $color
+     * @param Color $color
      * @return RedirectResponse
      */
-    public function destroy(Product $product, ProductColor $color): RedirectResponse
+    public function destroy(Product $product, Color $color): RedirectResponse
     {
         $color->delete();
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت حذف شد', params: [$product]);
     }
 
     /**
-     * @param ProductColor $color
+     * @param Color $color
      * @return JsonResponse
      */
-    public function status(ProductColor $color): JsonResponse
+    public function status(Color $color): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($color);
     }

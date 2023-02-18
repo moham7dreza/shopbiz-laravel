@@ -17,8 +17,9 @@ class ProductColor extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['color_name', 'color' , 'product_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number'];
+    protected $fillable = ['product_id', 'color_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number'];
 
+    // ********************************************* relations
 
     /**
      * @return BelongsTo
@@ -26,6 +27,14 @@ class ProductColor extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function color(): BelongsTo
+    {
+        return $this->belongsTo(Color::class);
     }
 
     // ********************************************* Methods
@@ -38,6 +47,7 @@ class ProductColor extends Model
     {
         return Str::limit($this->product->name, $size) ?? '-';
     }
+
 
     // ********************************************* FA Properties
 

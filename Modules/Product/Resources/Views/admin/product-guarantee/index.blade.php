@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>رنگ</title>
+    <title>گارانتی</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> رنگ</li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('product.index') }}"> کالاها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> گارانتی</li>
         </ol>
     </nav>
 
@@ -19,17 +20,17 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        رنگ
+                        گارانتی
                     </h5>
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_COLOR_CREATE)
-                        <a href="{{ route('color.create') }}" class="btn btn-info btn-sm">ایجاد
-                            رنگ جدید </a>
+                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_CREATE)
+                        <a href="{{ route('product.guarantee.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
+                            گارانتی جدید </a>
                     @endcan
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('color.index') }}"/>
+                        <x-panel-search-form route="{{ route('product.guarantee.index', $product->id) }}"/>
                     </div>
                 </section>
 
@@ -38,40 +39,39 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام رنگ</th>
-                            <th>نام لاتین</th>
-                            <th>رنگ</th>
+                            <th>نام کالا</th>
+                            <th>گارانتی کالا</th>
+                            <th>اعتبار گارانتی</th>
+                            <th>افزایش قیمت</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($colors as $color)
+                        @foreach ($guarantees as $guarantee)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $color->name }}</td>
-                                <td>{{ $color->name_en }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $guarantee->name }}</td>
+                                <td>{{ $guarantee->period }}</td>
+                                <td>{{ $guarantee->getFaPriceIncrease() }}</td>
                                 <td>
-                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};"
-                                          class="colors"></span>
-                                </td>
-                                <td>
-                                    @can($PERMISSION::PERMISSION_COLOR_STATUS)
-                                        <x-panel-checkbox class="rounded" route="color.status"
+                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_STATUS)
+                                        <x-panel-checkbox class="rounded" route="product.guarantee.status"
                                                           method="changeStatus"
-                                                          name="رنگ" :model="$color" property="status"/>
+                                                          name="گارانتی کالا" :model="$guarantee" property="status"/>
                                     @endcan
                                 </td>
-                                <td class="width-12-rem text-center">
-                                    @can($PERMISSION::PERMISSION_COLOR_EDIT)
+                                <td class="width-16-rem text-center">
+                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_EDIT)
                                         <x-panel-a-tag
-                                            route="{{ route('color.edit', $color->id) }}"
+                                            route="{{ route('product.guarantee.edit', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
                                             title="ویرایش آیتم"
                                             icon="edit" color="outline-info"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_COLOR_DELETE)
+                                    @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_DELETE)
                                         <x-panel-delete-form
-                                            route="{{ route('color.destroy', $color->id) }}"
+                                            route="{{ route('product.guarantee.destroy', ['product' => $product->id , 'guarantee' => $guarantee->id]) }}"
                                             title="حذف آیتم"/>
                                     @endcan
                                 </td>
@@ -79,7 +79,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <section class="border-top pt-3">{{ $colors->links() }}</section>
+                    <section class="border-top pt-3">{{ $guarantees->links() }}</section>
                 </section>
             </section>
         </section>
