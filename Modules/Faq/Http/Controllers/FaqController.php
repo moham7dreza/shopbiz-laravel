@@ -17,6 +17,7 @@ use Modules\Faq\Services\FaqService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class FaqController extends Controller
 {
@@ -150,5 +151,27 @@ class FaqController extends Controller
     public function status(Faq $faq): JsonResponse
     {
         return ShareService::changeStatus($faq);
+    }
+
+    /**
+     * @param Faq $faq
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(Faq $faq, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Faq::tags-form', compact(['faq', 'tags']));
+    }
+
+    /**
+     * @param FaqRequest $request
+     * @param Faq $faq
+     * @return RedirectResponse
+     */
+    public function setTags(FaqRequest $request, Faq $faq): RedirectResponse
+    {
+        $faq->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های سوال با موفقیت بروزرسانی شد');
     }
 }

@@ -56,6 +56,14 @@ class Faq extends Model
         return Str::limit($this->answer, 50);
     }
 
+    /**
+     * @return string
+     */
+    public function getTagLessAnswer(): string
+    {
+        return strip_tags($this->answer);
+    }
+
     // ********************************************* paths
 
     // ********************************************* FA Properties

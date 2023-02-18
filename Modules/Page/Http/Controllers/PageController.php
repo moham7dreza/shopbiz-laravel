@@ -16,6 +16,7 @@ use Modules\Page\Services\PageService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class PageController extends Controller
 {
@@ -148,5 +149,27 @@ class PageController extends Controller
     public function status(Page $page): JsonResponse
     {
         return ShareService::changeStatus($page);
+    }
+
+    /**
+     * @param Page $page
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(Page $page, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Page::tags-form', compact(['page', 'tags']));
+    }
+
+    /**
+     * @param PageRequest $request
+     * @param Page $page
+     * @return RedirectResponse
+     */
+    public function setTags(PageRequest $request, Page $page): RedirectResponse
+    {
+        $page->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های پیج با موفقیت بروزرسانی شد');
     }
 }

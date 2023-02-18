@@ -232,6 +232,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_FAQ_EDIT = 'permission faq edit';
     public const PERMISSION_FAQ_DELETE = 'permission faq delete';
     public const PERMISSION_FAQ_STATUS = 'permission faq status';
+    public const PERMISSION_FAQ_TAGS = 'permission faq tags';
 
     // 5  PAGE
     public const PERMISSION_PAGES = 'permission pages';
@@ -239,6 +240,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_PAGE_EDIT = 'permission page edit';
     public const PERMISSION_PAGE_DELETE = 'permission page delete';
     public const PERMISSION_PAGE_STATUS = 'permission page status';
+    public const PERMISSION_PAGE_TAGS = 'permission page tags';
 
     // 6  MENU
     public const PERMISSION_MENUS = 'permission menus';
@@ -574,11 +576,13 @@ trait SystemPermissionsTrait
         , self::PERMISSION_FAQ_EDIT
         , self::PERMISSION_FAQ_DELETE
         , self::PERMISSION_FAQ_STATUS
+        , self::PERMISSION_FAQ_TAGS
         , self::PERMISSION_PAGES
         , self::PERMISSION_PAGE_CREATE
         , self::PERMISSION_PAGE_EDIT
         , self::PERMISSION_PAGE_DELETE
         , self::PERMISSION_PAGE_STATUS
+        , self::PERMISSION_PAGE_TAGS
         , self::PERMISSION_MENUS
         , self::PERMISSION_MENU_CREATE
         , self::PERMISSION_MENU_EDIT

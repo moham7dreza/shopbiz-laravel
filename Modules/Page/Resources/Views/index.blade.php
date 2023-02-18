@@ -50,21 +50,30 @@
                             <tr>
                                 <th>{{ $key + 1 }}</th>
                                 <td>{{ $page->getLimitedTitle() }}</td>
-                                <td>{{ $page->tags }}</td>
+                                <td>
+                                    @can($PERMISSION::PERMISSION_PAGE_TAGS)
+                                        <x-panel-tags :model="$page" related="tags" name="پیج"/>
+                                    @endcan
+                                </td>
                                 <td>{{ $page->slug }}</td>
                                 <td>
-                                    @can($PERMISSION::PERMISSION_FAQ_STATUS)
+                                    @can($PERMISSION::PERMISSION_PAGE_STATUS)
                                         <x-panel-checkbox class="rounded" route="page.status" method="changeStatus"
                                                           name="پیج ساز" :model="$page" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
-                                    @can($PERMISSION::PERMISSION_FAQ_EDIT)
+                                    @can($PERMISSION::PERMISSION_PAGE_TAGS)
+                                        <x-panel-a-tag route="{{ route('page.tags-from', $page->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_PAGE_EDIT)
                                         <x-panel-a-tag route="{{ route('page.edit', $page->id) }}"
                                                        title="ویرایش آیتم"
                                                        icon="edit" color="outline-info"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_FAQ_DELETE)
+                                    @can($PERMISSION::PERMISSION_PAGE_DELETE)
                                         <x-panel-delete-form route="{{ route('page.destroy', $page->id) }}"
                                                              title="حذف آیتم"/>
                                     @endcan

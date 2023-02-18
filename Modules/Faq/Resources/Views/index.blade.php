@@ -39,6 +39,7 @@
                             <th>#</th>
                             <th>پرسش</th>
                             <th>خلاصه پاسخ</th>
+                            <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -50,12 +51,22 @@
                                 <td>{{ $faq->getLimitedQuestion() }}</td>
                                 <td>{!! $faq->getLimitedAnswer() !!}</td>
                                 <td>
+                                    @can($PERMISSION::PERMISSION_FAQ_TAGS)
+                                        <x-panel-tags :model="$faq" related="tags" name="سوال"/>
+                                    @endcan
+                                </td>
+                                <td>
                                     @can($PERMISSION::PERMISSION_FAQ_STATUS)
                                         <x-panel-checkbox class="rounded" route="faq.status" method="changeStatus"
                                                           name="سوال" :model="$faq" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_FAQ_TAGS)
+                                        <x-panel-a-tag route="{{ route('faq.tags-from', $faq->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_FAQ_EDIT)
                                         <x-panel-a-tag route="{{ route('faq.edit', $faq->id) }}"
                                                        title="ویرایش آیتم"

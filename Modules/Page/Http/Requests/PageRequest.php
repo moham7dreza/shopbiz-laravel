@@ -3,6 +3,7 @@
 namespace Modules\Page\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class PageRequest extends FormRequest
 {
@@ -23,8 +24,13 @@ class PageRequest extends FormRequest
      */
     public function rules(): array
     {
+        $route = Route::current();
+        if ($route->getName() === 'page.tags.sync') {
+            return [
+                'tags.*' => 'exists:tags,id'
+            ];
+        }
         return [
-
             'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'body' => 'required|max:1000|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
             'status' => 'required|numeric|in:0,1',

@@ -3,6 +3,7 @@
 namespace Modules\Faq\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class FaqRequest extends FormRequest
 {
@@ -23,6 +24,12 @@ class FaqRequest extends FormRequest
      */
     public function rules(): array
     {
+        $route = Route::current();
+        if ($route->getName() === 'faq.tags.sync') {
+            return [
+                'tags.*' => 'exists:tags,id'
+            ];
+        }
         return [
             'question' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;&?؟ ]+$/u',
             'answer' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
