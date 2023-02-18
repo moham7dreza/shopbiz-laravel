@@ -14,15 +14,14 @@ use Modules\Share\Components\Panel\Card;
 use Modules\Share\Components\Panel\Checkbox;
 use Modules\Share\Components\Panel\DeleteForm;
 use Modules\Share\Components\Panel\Dropdown;
-use Modules\Share\Components\Panel\File;
 use Modules\Share\Components\Panel\ImageIndex;
 use Modules\Share\Components\Panel\Input;
 use Modules\Share\Components\Panel\MultiSelection;
 use Modules\Share\Components\Panel\SearchForm;
 use Modules\Share\Components\Panel\Section;
 use Modules\Share\Components\Panel\SelectBox;
-use Modules\Share\Components\Panel\Status;
 use Modules\Share\Components\Panel\TableRow;
+use Modules\Share\Components\Panel\Tags;
 use Modules\Share\Components\Panel\TextArea;
 use Modules\Share\Components\Share\Error;
 use Modules\Share\Livewire\Panel\FaPriceInput;
@@ -130,6 +129,7 @@ class ShareServiceProvider extends ServiceProvider
             Card::class,
             ImageIndex::class,
             Dropdown::class,
+            Tags::class,
         ]);
     }
 

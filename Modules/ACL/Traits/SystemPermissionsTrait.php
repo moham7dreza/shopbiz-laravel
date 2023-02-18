@@ -26,6 +26,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_PRODUCT_CATEGORY_DELETE = 'permission product category delete';
     public const PERMISSION_PRODUCT_CATEGORY_STATUS = 'permission product category status';
     public const PERMISSION_PRODUCT_CATEGORY_SHOW_IN_MENU = 'permission product category show in menu';
+    public const PERMISSION_PRODUCT_CATEGORY_TAGS = 'permission product category tags';
 
     // 2  PRODUCT PROPERTY
     public const PERMISSION_ATTRIBUTES = 'permission attributes';
@@ -207,6 +208,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_POST_CATEGORY_EDIT = 'permission post category edit';
     public const PERMISSION_POST_CATEGORY_DELETE = 'permission post category delete';
     public const PERMISSION_POST_CATEGORY_STATUS = 'permission post category status';
+    public const PERMISSION_POST_CATEGORY_TAGS = 'permission post category tags';
 
     // 2  post
     public const PERMISSION_POSTS = 'permission posts';
@@ -251,6 +253,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_BANNER_EDIT = 'permission banner edit';
     public const PERMISSION_BANNER_DELETE = 'permission banner delete';
     public const PERMISSION_BANNER_STATUS = 'permission banner status';
+    public const PERMISSION_BANNER_LOCATION_SHOW = 'permission banner location show';
 
     // 8  TAG
     public const PERMISSION_TAGS = 'permission tags';
@@ -297,6 +300,7 @@ trait SystemPermissionsTrait
     public const PERMISSION_EDIT = 'permission edit';
     public const PERMISSION_DELETE = 'permission delete';
     public const PERMISSION_STATUS = 'permission status';
+    public const PERMISSION_ROLES_SHOW = 'permission roles show';
 
     // TICKET Section Permissions
     //******************************************************************************************************************
@@ -419,6 +423,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_PRODUCT_CATEGORY_DELETE
         , self::PERMISSION_PRODUCT_CATEGORY_STATUS
         , self::PERMISSION_PRODUCT_CATEGORY_SHOW_IN_MENU
+        , self::PERMISSION_PRODUCT_CATEGORY_TAGS
         , self::PERMISSION_ATTRIBUTES
         , self::PERMISSION_ATTRIBUTE_CREATE
         , self::PERMISSION_ATTRIBUTE_EDIT
@@ -551,6 +556,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_POST_CATEGORY_EDIT
         , self::PERMISSION_POST_CATEGORY_DELETE
         , self::PERMISSION_POST_CATEGORY_STATUS
+        , self::PERMISSION_POST_CATEGORY_TAGS
         , self::PERMISSION_POSTS
         , self::PERMISSION_POST_CREATE
         , self::PERMISSION_POST_EDIT
@@ -583,6 +589,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_BANNER_EDIT
         , self::PERMISSION_BANNER_DELETE
         , self::PERMISSION_BANNER_STATUS
+        , self::PERMISSION_BANNER_LOCATION_SHOW
         , self::PERMISSION_TAGS
         , self::PERMISSION_TAG_CREATE
         , self::PERMISSION_TAG_EDIT
@@ -616,6 +623,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_EDIT
         , self::PERMISSION_STATUS
         , self::PERMISSION_DELETE
+        , self::PERMISSION_ROLES_SHOW
         , self::PERMISSION_TICKETS
         , self::PERMISSION_TICKET_CATEGORIES
         , self::PERMISSION_TICKET_CATEGORY_CREATE

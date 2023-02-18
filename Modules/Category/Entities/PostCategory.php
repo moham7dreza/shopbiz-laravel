@@ -86,6 +86,14 @@ class PostCategory extends Model
         return is_null($this->parent_id) ? 'دسته اصلی' : $this->parent->name;
     }
 
+    /**
+     * @return mixed|string
+     */
+    public function getTagLessDescription(): mixed
+    {
+        return strip_tags($this->description) ?? $this->description ?? '-';
+    }
+
 
     // ********************************************* paths
 

@@ -55,13 +55,9 @@
                                     <img src="{{ $brand->logo() }}" alt="" width="100" height="50">
                                 </td>
                                 <td>
-                                    @if(empty($brand->tags()->get()->toArray()))
-                                        <span class="text-danger">برای این برند هیچ تگی تعریف نشده است</span>
-                                    @else
-                                        @foreach($brand->tags as $tag)
-                                            {{ $tag->name }} <br>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_BRAND_TAGS)
+                                        <x-panel-tags :model="$brand" related="tags" name="برند"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_BRAND_STATUS)

@@ -52,13 +52,10 @@
                                 <td>{{ $attribute->name }}</td>
                                 <td>{{ $attribute->unit }}</td>
                                 <td>
-                                    @if(empty($attribute->categories()->get()->toArray()))
-                                        <span class="text-danger">برای این فرم کالا هیچ دسته بندی تعریف نشده است</span>
-                                    @else
-                                        @foreach($attribute->categories as $category)
-                                            {{ $category->name }} <br>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_CATEGORIES)
+                                        <x-panel-tags :model="$attribute" related="categories" name="فرم کالا"
+                                                      title="دسته بندی"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ATTRIBUTE_STATUS)

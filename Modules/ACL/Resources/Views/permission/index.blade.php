@@ -50,13 +50,10 @@
                                 <th>{{ $permission->id }}</th>
                                 <td>{{ $permission->name }}</td>
                                 <td>
-                                    @if(empty($permission->roles()->get()->toArray()))
-                                        <span class="text-danger">برای این دسترسی هیچ نقشی تعریف نشده است</span>
-                                    @else
-                                        @foreach($permission->roles as $role)
-                                            <span class="d-block" title="{{ 1 }}">{{ $role->name }}</span>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_ROLES_SHOW)
+                                        <x-panel-tags :model="$permission" related="roles" name="دسترسی"
+                                                      title="نقش"/>
+                                    @endcan
                                 </td>
                                 <td>{{ $permission->getLimitedDescription() }}</td>
                                 <td>

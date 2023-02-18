@@ -38,9 +38,9 @@
                         <tr>
                             <th>#</th>
                             <th>عنوان بنر</th>
-                            <th>آدرس</th>
                             <th>تصویر</th>
-                            <th>وضعیت</th>
+                            <th class="text-left">آدرس</th>
+                            <th class="text-center">وضعیت</th>
                             <th>مکان</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -52,18 +52,20 @@
                             <tr>
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $banner->getLimitedTitle() }}</td>
-                                <td>{{ $banner->url }}</td>
                                 <td>
                                     <img src="{{ $banner->image() }}" alt="" width="100" height="50">
                                 </td>
-                                <td>
+                                <td class="text-left dir-ltr">{{ $banner->url }}</td>
+                                <td class="text-center">
                                     @can($PERMISSION::PERMISSION_BANNER_STATUS)
                                         <x-panel-checkbox class="rounded" route="banner.status" method="changeStatus"
                                                           name="بنر" :model="$banner" property="status"/>
                                     @endcan
                                 </td>
                                 <td>
+                                    @can($PERMISSION::PERMISSION_BANNER_LOCATION_SHOW)
                                     {{ $banner->getFaPosition() }}
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
                                     @can($PERMISSION::PERMISSION_BANNER_EDIT)

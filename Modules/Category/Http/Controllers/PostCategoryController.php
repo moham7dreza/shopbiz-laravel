@@ -17,6 +17,7 @@ use Modules\Category\Services\PostCategory\PostCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class PostCategoryController extends Controller
 {
@@ -173,5 +174,27 @@ class PostCategoryController extends Controller
     public function status(PostCategory $postCategory): JsonResponse
     {
         return ShareService::changeStatus($postCategory);
+    }
+
+    /**
+     * @param PostCategory $postCategory
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(PostCategory $postCategory, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Category::post-category.tags-form', compact(['postCategory', 'tags']));
+    }
+
+    /**
+     * @param PostCategoryRequest $request
+     * @param PostCategory $postCategory
+     * @return RedirectResponse
+     */
+    public function setTags(PostCategoryRequest $request, PostCategory $postCategory): RedirectResponse
+    {
+        $postCategory->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های دسته بندی با موفقیت بروزرسانی شد');
     }
 }

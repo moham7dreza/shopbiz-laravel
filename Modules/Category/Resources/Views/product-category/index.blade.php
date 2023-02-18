@@ -39,6 +39,7 @@
                             <th>#</th>
                             <th>نام دسته بندی</th>
                             <th>دسته والد</th>
+                            <th>تگ ها</th>
                             <th>وضعیت</th>
                             <th>نمایش در منو</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -51,6 +52,11 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $productCategory->name }}</td>
                                 <td>{{ $productCategory->getParentName() }}</td>
+                                <td>
+                                    @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_TAGS)
+                                        <x-panel-tags :model="$productCategory" related="tags" name="دسته بندی"/>
+                                    @endcan
+                                </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_STATUS)
                                         <x-panel-checkbox class="rounded" route="productCategory.status"
@@ -68,6 +74,11 @@
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_TAGS)
+                                        <x-panel-a-tag route="{{ route('productCategory.tags-from', $productCategory->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_EDIT)
                                         <x-panel-a-tag route="{{ route('productCategory.edit', $productCategory->id) }}"
                                                        title="ویرایش آیتم"

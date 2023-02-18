@@ -16,6 +16,7 @@ use Modules\Category\Services\ProductCategory\ProductCategoryServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\Tag\Repositories\TagRepositoryEloquentInterface;
 
 class ProductCategoryController extends Controller
 {
@@ -164,5 +165,27 @@ class ProductCategoryController extends Controller
     public function showInMenu(ProductCategory $productCategory): JsonResponse
     {
         return ShareService::ajaxChangeModelSpecialField($productCategory, 'show_in_menu');
+    }
+
+    /**
+     * @param ProductCategory $productCategory
+     * @param TagRepositoryEloquentInterface $tagRepositoryEloquent
+     * @return Application|Factory|View
+     */
+    public function tagsForm(ProductCategory $productCategory, TagRepositoryEloquentInterface $tagRepositoryEloquent): View|Factory|Application
+    {
+        $tags = $tagRepositoryEloquent->index()->get();
+        return view('Category::product-category.tags-form', compact(['productCategory', 'tags']));
+    }
+
+    /**
+     * @param ProductCategoryRequest $request
+     * @param ProductCategory $productCategory
+     * @return RedirectResponse
+     */
+    public function setTags(ProductCategoryRequest $request, ProductCategory $productCategory): RedirectResponse
+    {
+        $productCategory->tags()->sync($request->tags);
+        return $this->showMessageWithRedirectRoute('تگ های دسته بندی با موفقیت بروزرسانی شد');
     }
 }

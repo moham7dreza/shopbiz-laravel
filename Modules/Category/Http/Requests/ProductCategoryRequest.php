@@ -3,6 +3,7 @@
 namespace Modules\Category\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class ProductCategoryRequest extends FormRequest
 {
@@ -23,6 +24,12 @@ class ProductCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $route = Route::current();
+        if ($route->getName() === 'productCategory.tags.sync') {
+            return [
+                'tags.*' => 'exists:tags,id'
+            ];
+        }
         $rules = [
             'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',

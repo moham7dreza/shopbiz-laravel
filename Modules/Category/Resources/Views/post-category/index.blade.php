@@ -39,7 +39,6 @@
                             <th>#</th>
                             <th>نام دسته بندی</th>
                             <th>توضیحات</th>
-                            {{--                            <th>اسلاگ</th>--}}
                             <th>عکس</th>
                             <th>تگ ها</th>
                             <th>وضعیت</th>
@@ -54,13 +53,16 @@
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $postCategory->name }}</td>
                                 <td>{!! $postCategory->getLimitedDescription() !!}</td>
-                                {{--                                <td>{{ $postCategory->slug }}</td>--}}
                                 <td>
                                     <img
                                         src="{{ $postCategory->getImagePath() }}"
                                         alt="" width="100" height="50">
                                 </td>
-                                <td>{{ $postCategory->tags }}</td>
+                                <td>
+                                    @can($PERMISSION::PERMISSION_POST_CATEGORY_TAGS)
+                                        <x-panel-tags :model="$postCategory" related="tags" name="دسته بندی"/>
+                                    @endcan
+                                </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_POST_CATEGORY_STATUS)
                                         <x-panel-checkbox class="rounded" route="postCategory.status"
@@ -69,6 +71,11 @@
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_POST_CATEGORY_TAGS)
+                                        <x-panel-a-tag route="{{ route('postCategory.tags-from', $postCategory->id) }}"
+                                                       title="افزودن تگ"
+                                                       icon="tag" color="outline-success"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_POST_CATEGORY_EDIT)
                                         <x-panel-a-tag route="{{ route('postCategory.edit', $postCategory->id) }}"
                                                        title="ویرایش آیتم"

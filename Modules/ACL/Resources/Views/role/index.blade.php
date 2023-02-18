@@ -49,13 +49,10 @@
                                 <th>{{ $role->id }}</th>
                                 <td>{{ $role->name }}</td>
                                 <td>
-                                    @if(empty($role->permissions()->get()->toArray()))
-                                        <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده است</span>
-                                    @else
-                                        @foreach($role->permissions as $permission)
-                                            {{ $permission->name }} <br>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_ROLE_PERMISSIONS)
+                                        <x-panel-tags :model="$role" related="permissions" name="نقش"
+                                                      title="سطح دسترسی"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ROLE_STATUS)
@@ -69,11 +66,11 @@
                                                        title="سطوح دسترسی نقش" icon="user-graduate"
                                                        color="outline-success"/>
                                     @endcan
-                                        @can($PERMISSION::PERMISSION_ROLE_EDIT)
+                                    @can($PERMISSION::PERMISSION_ROLE_EDIT)
                                         <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم"
                                                        icon="edit" color="outline-info"/>
                                     @endcan
-                                        @can($PERMISSION::PERMISSION_ROLE_DELETE)
+                                    @can($PERMISSION::PERMISSION_ROLE_DELETE)
                                         <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}"
                                                              title="حذف آیتم"/>
                                     @endcan

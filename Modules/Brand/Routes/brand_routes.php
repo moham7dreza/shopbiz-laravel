@@ -18,8 +18,8 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
     Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
 
     // tags
-    Route::get('/tags-form/{brand}', [BrandController::class, 'tagsForm'])->name('brand.tags-from');
-    Route::put('/tags-sync/{brand}', [BrandController::class, 'setTags'])->name('brand.tags.sync');
+    Route::get('brand/tags-form/{brand}', [BrandController::class, 'tagsForm'])->name('brand.tags-from');
+    Route::put('brand/tags-sync/{brand}', [BrandController::class, 'setTags'])->name('brand.tags.sync');
 });
 // products of special brand
 Route::get('/brand/{brand:slug}/products', [HomeBrandController::class, 'brandProducts'])->name('customer.market.brand.products');

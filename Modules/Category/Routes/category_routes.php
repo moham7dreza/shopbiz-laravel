@@ -19,9 +19,15 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
     $router->resource('productCategory', 'ProductCategoryController', ['except' => 'show']);
     Route::get('productCategory/status/{productCategory}', [ProductCategoryController::class, 'status'])->name('productCategory.status');
     Route::get('productCategory/showInMenu/{productCategory}', [ProductCategoryController::class, 'showInMenu'])->name('productCategory.showInMenu');
+    // tags
+    Route::get('productCategory/tags-form/{productCategory}', [ProductCategoryController::class, 'tagsForm'])->name('productCategory.tags-from');
+    Route::put('productCategory/tags-sync/{productCategory}', [ProductCategoryController::class, 'setTags'])->name('productCategory.tags.sync');
 
     $router->resource('postCategory', 'PostCategoryController', ['except' => 'show']);
     Route::get('postCategory/status/{postCategory}', [PostCategoryController::class, 'status'])->name('postCategory.status');
+    // tags
+    Route::get('postCategory/tags-form/{postCategory}', [PostCategoryController::class, 'tagsForm'])->name('postCategory.tags-from');
+    Route::put('postCategory/tags-sync/{postCategory}', [PostCategoryController::class, 'setTags'])->name('postCategory.tags.sync');
 });
 
 // products of special category
