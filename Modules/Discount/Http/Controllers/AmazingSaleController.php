@@ -150,9 +150,12 @@ class AmazingSaleController extends Controller
         $product = $this->productRepo->findById($amazingSale->product_id);
         if ($amazingSale->activated()) {
             $product->active_discount_percentage = $amazingSale->percentage;
+            $amazingSale->link = $product->path();
         } else {
             $product->active_discount_percentage = null;
+            $amazingSale->link = null;
         }
+        $amazingSale->save();
         $product->save();
     }
 }

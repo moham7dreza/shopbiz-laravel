@@ -62,13 +62,9 @@
                                 <td>{{ $post->getFaViewsCount() }}</td>
                                 <td>{{ $post->getFaLikersCount() }}</td>
                                 <td>
-                                    @if(empty($post->tags()->get()->toArray()))
-                                        <span class="text-danger">برای این پست هیچ تگی تعریف نشده است</span>
-                                    @else
-                                        @foreach($post->tags as $tag)
-                                            {{ $tag->name }} <br>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_POST_TAGS)
+                                        <x-panel-tags :model="$post" related="tags" name="پست"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_POST_STATUS)

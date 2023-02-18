@@ -14,6 +14,17 @@ trait SystemPermissionsTrait
 
     // Market section Permissions
     //******************************************************************************************************************
+
+    public const PERMISSION_COMMON = 'permission common';
+    // 1.  TAG
+    public const PERMISSION_TAGS = 'permission tags';
+    public const PERMISSION_TAG_CREATE = 'permission tag create';
+    public const PERMISSION_TAG_EDIT = 'permission tag edit';
+    public const PERMISSION_TAG_DELETE = 'permission tag delete';
+    public const PERMISSION_TAG_STATUS = 'permission tag status';
+
+    // Market section Permissions
+    //******************************************************************************************************************
     public const PERMISSION_MARKET = 'permission market';
 
     // A. Vitrine
@@ -256,13 +267,6 @@ trait SystemPermissionsTrait
     public const PERMISSION_BANNER_DELETE = 'permission banner delete';
     public const PERMISSION_BANNER_STATUS = 'permission banner status';
     public const PERMISSION_BANNER_LOCATION_SHOW = 'permission banner location show';
-
-    // 8  TAG
-    public const PERMISSION_TAGS = 'permission tags';
-    public const PERMISSION_TAG_CREATE = 'permission tag create';
-    public const PERMISSION_TAG_EDIT = 'permission tag edit';
-    public const PERMISSION_TAG_DELETE = 'permission tag delete';
-    public const PERMISSION_TAG_STATUS = 'permission tag status';
 
     // User Section Permissions
     //******************************************************************************************************************
@@ -594,6 +598,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_BANNER_DELETE
         , self::PERMISSION_BANNER_STATUS
         , self::PERMISSION_BANNER_LOCATION_SHOW
+        , self::PERMISSION_COMMON
         , self::PERMISSION_TAGS
         , self::PERMISSION_TAG_CREATE
         , self::PERMISSION_TAG_EDIT

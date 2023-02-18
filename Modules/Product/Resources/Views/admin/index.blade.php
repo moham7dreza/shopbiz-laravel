@@ -75,13 +75,9 @@
                                 <td>{{ $viewsCount }}</td>
                                 <td>{{ $likesCount }}</td>
                                 <td>
-                                    @if(empty($product->tags()->get()->toArray()))
-                                        <span class="text-danger">برای این کالا هیچ تگی تعریف نشده است</span>
-                                    @else
-                                        @foreach($product->tags as $tag)
-                                            {{ $tag->name }} <br>
-                                        @endforeach
-                                    @endif
+                                    @can($PERMISSION::PERMISSION_PRODUCT_TAGS)
+                                        <x-panel-tags :model="$product" related="tags" name="کالا"/>
+                                    @endcan
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_PRODUCT_STATUS)

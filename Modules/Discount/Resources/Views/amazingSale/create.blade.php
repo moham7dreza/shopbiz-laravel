@@ -40,7 +40,7 @@
                             <x-panel-input col="5" name="percentage" label="درصد تخفیف" :message="$message"/>
                             <x-panel-input col="5" name="start_date" label="تاریخ شروع" :date="true" class="d-none"
                                            :message="$message"/>
-                            <x-panel-input col="5" name="end_date" label="تاریخ شروع" :date="true" class="d-none"
+                            <x-panel-input col="5" name="end_date" label="تاریخ پایان" :date="true" class="d-none"
                                            :message="$message"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" />
