@@ -69,6 +69,8 @@ trait SystemPermissionsTrait
     public const PERMISSION_PRODUCT_MARKETABLE = 'permission product marketable';
     public const PERMISSION_PRODUCT_SELECTED = 'permission product selected';
     public const PERMISSION_PRODUCT_TAGS = 'permission product tags';
+    public const PERMISSION_PRODUCT_VALUES = 'permission product values';
+    public const PERMISSION_PRODUCT_VALUE_SELECT = 'permission product value select';
     public const PERMISSION_PRODUCT_GALLERY = 'permission product gallery';
     public const PERMISSION_PRODUCT_GALLERY_CREATE = 'permission product gallery create';
     public const PERMISSION_PRODUCT_GALLERY_DELETE = 'permission product gallery delete';
@@ -468,6 +470,8 @@ trait SystemPermissionsTrait
         , self::PERMISSION_PRODUCT_SELECTED
         , self::PERMISSION_PRODUCT_MARKETABLE
         , self::PERMISSION_PRODUCT_TAGS
+        , self::PERMISSION_PRODUCT_VALUES
+        , self::PERMISSION_PRODUCT_VALUE_SELECT
         , self::PERMISSION_PRODUCT_GALLERY
         , self::PERMISSION_PRODUCT_GALLERY_CREATE
         , self::PERMISSION_PRODUCT_GALLERY_DELETE

@@ -119,11 +119,17 @@
                                                                 </section>
                                                             @endif
                                                         </section>
+
                                                         <section class="product-colors">
                                                             @foreach ($product->colors()->get() as $color)
                                                                 <section class="product-colors-item"
                                                                          style="background-color: {{ $color->getColorCode() }};"></section>
                                                             @endforeach
+                                                        </section>
+
+                                                        <section class="product-metas">
+                                                            <span class="product-metas-item text-muted alert alert-light">OLED</span>
+                                                            <span class="product-metas-item alert alert-light">IPS</span>
                                                         </section>
                                                     </a>
                                                 </section>

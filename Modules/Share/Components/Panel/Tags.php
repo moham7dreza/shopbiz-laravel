@@ -15,19 +15,25 @@ class Tags extends Component
     public string $property;
     public string $name;
     public string $title;
+    public string $href;
+    public ?string $toolTip;
+    public ?string $route;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($model, $related, $name, $property = 'name', $title = 'تگ')
+    public function __construct($model, $related, $name, $property = 'name', $title = 'تگ', $toolTip = null, $href = '#', $route = null)
     {
         $this->model = $model;
         $this->related = $related;
         $this->name = $name;
         $this->property = $property;
         $this->title = $title;
+        $this->href = $href;
+        $this->toolTip = $toolTip;
+        $this->route = $route;
     }
 
     /**

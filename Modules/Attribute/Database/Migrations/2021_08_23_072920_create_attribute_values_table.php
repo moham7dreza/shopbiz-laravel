@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('attribute_id')->constrained('attributes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->text('value');
             $table->tinyInteger('type')->default(0)->comment('value type is 0 => simple, 1 => multi values select by customers (affected on price)');
+            $table->tinyInteger('selected')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

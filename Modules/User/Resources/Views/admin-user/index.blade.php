@@ -71,28 +71,18 @@
                                     @endcan
                                 </td>
                                 <td>
-                                    @forelse($admin->roles as $role)
-                                        <a class="d-block text-decoration-none"
-                                           href="{{ route('role.permission-form', $role->id) }}"
-                                           title="تعداد سطوح دسترسی نقش : {{ $role->permissions->count() ?? 0 }}">
-                                            {{ $role->name }}
-                                        </a>
-                                    @empty
-                                        <div class="text-danger">
-                                            نقشی یافت نشد
-                                        </div>
-                                    @endforelse
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_ROLES)
+                                        <x-panel-tags :model="$admin" related="roles" name="ادمین"
+                                                      route="role.permission-form"
+                                                      {{--                                                      toolTip="تعداد سطوح دسترسی نقش : {{ $role->permissions->count() ?? 0 }}"--}}
+                                                      title="نقش"/>
+                                    @endcan
                                 </td>
                                 <td>
-                                    @forelse($admin->permissions as $permission)
-                                        <div>
-                                            {{ $permission->name }}
-                                        </div>
-                                    @empty
-                                        <div class="text-danger">
-                                            سطوح دسترسی یافت نشد
-                                        </div>
-                                    @endforelse
+                                    @can($PERMISSION::PERMISSION_ADMIN_USER_PERMISSIONS)
+                                        <x-panel-tags :model="$admin" related="permissions" name="ادمین"
+                                                      title="سطوح دسترسی"/>
+                                    @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
                                     @can($PERMISSION::PERMISSION_ADMIN_USER_PERMISSIONS)

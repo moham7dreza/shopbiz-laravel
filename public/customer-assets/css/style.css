@@ -709,6 +709,24 @@ body {
     border: 1px solid #dedede;
 }
 
+.product-metas {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    padding: 0.2rem;
+}
+
+.product-metas-item {
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.2rem;
+    border-radius: 50%;
+    padding: 0.2rem;
+    /*color: white;*/
+    font-size: 0.7rem;
+    /*border: 1px solid #dedede;*/
+    box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.12);
+}
 
 .product-name {
     /*text-align: center;*/

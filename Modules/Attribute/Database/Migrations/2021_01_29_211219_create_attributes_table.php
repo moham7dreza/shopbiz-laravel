@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('attributes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_en')->nullable();
             $table->tinyInteger('type')->default(0);
             $table->string('unit');
+            $table->string('unit_en')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

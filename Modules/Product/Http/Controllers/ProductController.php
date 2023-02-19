@@ -231,6 +231,26 @@ class ProductController extends Controller
     }
 
     /**
+     * @param Product $product
+     * @return Application|Factory|View
+     */
+    public function valuesForm(Product $product): View|Factory|Application
+    {
+        return view('Product::admin.values-form', compact(['product']));
+    }
+
+    /**
+     * @param ProductRequest $request
+     * @param Product $product
+     * @return RedirectResponse
+     */
+    public function setValues(ProductRequest $request, Product $product): RedirectResponse
+    {
+
+        return $this->showMessageWithRedirectRoute('تگ های محصول با موفقیت بروزرسانی شد');
+    }
+
+    /**
      * @return void
      */
     private function calcTotalRate(): void

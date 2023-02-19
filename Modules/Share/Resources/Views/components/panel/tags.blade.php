@@ -3,7 +3,8 @@
 @else
     @foreach($model->$related as $object)
         <span class="d-inline-block mx-1 alert alert-secondary p-2 rounded-05rem">
-            <a href="#" class="text-decoration-none">{{ $object->$property }}</a>
+            <a href="{{ isset($route) ? route($route, $object->id) : $href }}" class="text-decoration-none" title="{{ $toolTip }}" data-bs-toggle="tooltip"
+               data-bs-placement="top">{{ $object->$property }}</a>
         </span>
     @endforeach
 @endif

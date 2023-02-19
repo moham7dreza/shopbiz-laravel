@@ -110,9 +110,9 @@
                                                             @endforeach
                                                         </section>
                                                         @if($product->activeAmazingSales())
-                                                            <section class="border mt-4"></section>
+                                                            <section class="border-top mt-4"></section>
                                                         @else
-                                                            <section class="border mt-1"></section>
+                                                            <section class="border-top mt-1"></section>
                                                         @endif
                                                         <section
                                                             class="d-flex justify-content-start align-items-center post-count my-2">

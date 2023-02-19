@@ -30,7 +30,11 @@ class ProductRequest extends FormRequest
                 'tags.*' => 'exists:tags,id'
             ];
         }
-
+        if ($route->getName() === 'product.values.sync') {
+            return [
+                'values.*' => 'exists:attribute_values,id'
+            ];
+        }
         $rules = [
             'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'introduction' => 'required|max:1000|min:5',

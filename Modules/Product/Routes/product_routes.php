@@ -30,6 +30,10 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         // tags
         Route::get('/tags-form/{product}', [ProductController::class, 'tagsForm'])->name('product.tags-from');
         Route::put('/tags-sync/{product}', [ProductController::class, 'setTags'])->name('product.tags.sync');
+
+        // tags
+        Route::get('/values-form/{product}', [ProductController::class, 'valuesForm'])->name('product.values-from');
+        Route::put('/values-sync/{product}', [ProductController::class, 'setValues'])->name('product.values.sync');
         //gallery
         Route::get('/gallery/{product}', [GalleryController::class, 'index'])->name('product.gallery.index');
         Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('product.gallery.create');
