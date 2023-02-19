@@ -26,7 +26,7 @@ class ColorRequest extends FormRequest
         return [
             'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'name_en' => 'nullable|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'color' => 'required|max:120',
+            'code' => 'required|max:120',
             'status' => 'required|numeric|in:0,1',
         ];
     }

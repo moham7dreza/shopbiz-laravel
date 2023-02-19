@@ -38,7 +38,7 @@
                                            :model="$color"/>
                             <x-panel-input col="10" name="name_en" label="نام لاتین" :message="$message" method="edit"
                                            :model="$color"/>
-                            <x-panel-input col="10" name="color" type="color" label="رنگ" :message="$message"
+                            <x-panel-input col="10" name="code" type="color" label="رنگ" :message="$message"
                                            method="edit" :model="$color"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
                                                 :message="$message" :hasDefaultStatus="true" method="edit"

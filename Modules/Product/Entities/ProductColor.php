@@ -19,6 +19,9 @@ class ProductColor extends Model
      */
     protected $fillable = ['product_id', 'color_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number'];
 
+    /**
+     * @var string
+     */
     protected $table = 'product_color';
 
     // ********************************************* relations
@@ -50,6 +53,18 @@ class ProductColor extends Model
         return Str::limit($this->product->name, $size) ?? '-';
     }
 
+    /**
+     * @return mixed
+     */
+    public function getColorCode(): mixed
+    {
+        return $this->color->code;
+    }
+
+    public function getColorName()
+    {
+        return $this->color->name;
+    }
 
     // ********************************************* FA Properties
 

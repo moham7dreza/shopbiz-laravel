@@ -24,9 +24,9 @@ class GuaranteeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'default_duration' => 'required',
-            'website_link' => 'required|max:500|min:1',
+            'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
+            'default_duration' => 'nullable|max:500|min:1',
+            'website_link' => 'nullable|max:500|min:1',
             'status' => 'required|numeric|in:0,1',
         ];
     }

@@ -14,7 +14,7 @@ use Modules\Cart\Http\Requests\CartRequest;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
 use Modules\Cart\Services\CartService;
 use Modules\Product\Entities\Product;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;

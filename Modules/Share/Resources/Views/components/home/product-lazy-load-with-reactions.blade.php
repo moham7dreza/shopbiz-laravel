@@ -106,7 +106,7 @@
                                                         <section class="product-colors">
                                                             @foreach ($product->colors()->get() as $color)
                                                                 <section class="product-colors-item"
-                                                                         style="background-color: {{ $color->color }};"></section>
+                                                                         style="background-color: {{ $color->getColorCode() }};"></section>
                                                             @endforeach
                                                         </section>
                                                         @if($product->activeAmazingSales())

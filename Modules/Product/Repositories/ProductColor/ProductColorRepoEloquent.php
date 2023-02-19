@@ -5,7 +5,7 @@ namespace Modules\Product\Repositories\ProductColor;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Product\Entities\Color;
+use Modules\Product\Entities\ProductColor;
 
 class ProductColorRepoEloquent implements ProductColorRepoEloquentInterface
 {
@@ -59,6 +59,6 @@ class ProductColorRepoEloquent implements ProductColorRepoEloquentInterface
      */
     private function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return Color::query();
+        return ProductColor::query();
     }
 }

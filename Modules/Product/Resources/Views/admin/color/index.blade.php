@@ -52,7 +52,7 @@
                                 <td>{{ $color->name }}</td>
                                 <td>{{ $color->name_en }}</td>
                                 <td>
-                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};"
+                                    <span style="background-color: {{ $color->code ?? '#ffffff' }};"
                                           class="colors"></span>
                                 </td>
                                 <td>

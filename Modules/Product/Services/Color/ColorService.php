@@ -21,7 +21,7 @@ class ColorService implements ColorServiceInterface
         return $this->query()->create([
             'name' => $request->name,
             'name_en' => $request->name_en,
-            'color' => $request->color,
+            'code' => $request->code,
             'status' => $request->status,
         ]);
     }
@@ -37,7 +37,7 @@ class ColorService implements ColorServiceInterface
         return $color->update([
             'name' => $request->name,
             'name_en' => $request->name_en,
-            'color' => $request->color,
+            'code' => $request->code,
             'status' => $request->status,
         ]);
     }

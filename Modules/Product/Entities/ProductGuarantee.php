@@ -26,6 +26,9 @@ class ProductGuarantee extends Model
         'duration'
     ];
 
+    /**
+     * @var string
+     */
     protected $table = 'product_guarantee';
 
     // ********************************************* Relations
@@ -57,6 +60,14 @@ class ProductGuarantee extends Model
         return Str::limit($this->product->name, $size) ?? '-';
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGuaranteeName(): mixed
+    {
+        return $this->guarantee->name;
+    }
+
     // ********************************************* FA Properties
 
     /**
@@ -80,6 +91,6 @@ class ProductGuarantee extends Model
      */
     public function getFaFullName(): string
     {
-        return $this->name . ' - ' . $this->getFaDurationTime();
+        return $this->guarantee->name . ' - ' . $this->getFaDurationTime();
     }
 }

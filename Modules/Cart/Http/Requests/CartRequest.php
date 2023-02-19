@@ -24,8 +24,8 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'color' => 'nullable|exists:product_colors,id',
-            'guarantee' => 'nullable|exists:guarantees,id',
+            'color' => 'nullable|exists:product_color,id',
+            'guarantee' => 'nullable|exists:product_guarantee,id',
             'number' => 'numeric|min:1|max:5'
         ];
     }

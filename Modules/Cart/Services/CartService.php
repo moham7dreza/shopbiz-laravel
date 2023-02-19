@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Cart\Entities\CartItem;
 use Modules\Cart\Entities\CartItemAttribute;
 use Modules\Cart\Repositories\CartRepoEloquentInterface;
-use Modules\Product\Repositories\Color\ProductColorRepoEloquentInterface;
-use Modules\Product\Repositories\Product\ProductRepoEloquent;
+use Modules\Product\Repositories\ProductColor\ProductColorRepoEloquentInterface;
 use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 
 class CartService implements CartServiceInterface

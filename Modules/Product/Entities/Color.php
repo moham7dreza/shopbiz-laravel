@@ -15,7 +15,7 @@ class Color extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'name_en', 'color', 'status'];
+    protected $fillable = ['name', 'name_en', 'code', 'status'];
 
     // ********************************************* Methods
 

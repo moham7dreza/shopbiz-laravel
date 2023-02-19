@@ -56,7 +56,7 @@
                                         </section>
                                         <p>
                                             @if (!empty($cartItem->color))
-                                                <span style="background-color: {{ $cartItem->color->color }};"
+                                                <span style="background-color: {{ $cartItem->color->getColorCode() }};"
                                                       class="cart-product-selected-color me-1"
                                                       title="افزایش قیمت : {{ $cartItem->color->getFaPriceIncrease() }}"
                                                       data-bs-toggle="tooltip"
@@ -64,7 +64,7 @@
                                                 </span>
                                                 <span title="رنگ"
                                                       data-bs-toggle="tooltip"
-                                                      data-bs-placement="top">{{ $cartItem->getColorName() }}</span>
+                                                      data-bs-placement="top">{{ $cartItem->color->getColorName() }}</span>
                                             @else
                                                 <span>رنگ منتخب وجود ندارد</span>
                                             @endif

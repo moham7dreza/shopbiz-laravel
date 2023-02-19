@@ -81,7 +81,7 @@ class CartItem extends Model
      */
     public function getColorName(): string
     {
-        return $this->color->color_name ?? '-';
+        return $this->color->color->name ?? '-';
     }
 
     /**
@@ -89,7 +89,7 @@ class CartItem extends Model
      */
     public function getGuaranteeName(): string
     {
-        return $this->guarantee->name ?? '-';
+        return $this->guarantee->guarantee->name ?? '-';
     }
 
     /**

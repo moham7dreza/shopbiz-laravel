@@ -18,40 +18,43 @@
                 @csrf
 
                 <!-- product colors -->
-                @php $colors = $product->colors()->get(); @endphp
-                @if($colors->count() != 0)
+                @php $productColors = $product->colors()->get(); @endphp
+                @if($productColors->count() != 0)
                     <p>
                                             <span>رنگ انتخاب شده : <span class="font-weight-bold"
-                                                                         id="selected_color_name">{{ $colors->first()->color_name }}</span>
+                                                                         id="selected_color_name">{{ $productColors->first()->getColorName() }}</span>
                                             </span>
                     </p>
                     <p>
-                        @foreach ($colors as $key => $color)
-                            <label for="{{ 'color_' . $color->id }}"
-                                   style="background-color: {{ $color->color ?? '#ffffff' }};"
+                        @foreach ($productColors as $key => $productColor)
+                            <label for="{{ 'color_' . $productColor->id }}"
+                                   style="background-color: {{ $productColor->getColorCode() ?? '#ffffff' }};"
                                    class="product-info-colors me-1" data-bs-toggle="tooltip"
                                    data-bs-placement="top"
-                                   title="{{ $color->color_name }}">
+                                   title="{{ $productColor->getColorName() }}">
                             </label>
                             <input class="d-none" type="radio" name="color"
-                                   id="{{ 'color_' . $color->id }}" value="{{ $color->id }}"
-                                   data-color-name="{{ $color->color_name }}"
-                                   data-color-price={{ $color->price_increase }} @if($key == 0) checked @endif>
+                                   id="{{ 'color_' . $productColor->id }}" value="{{ $productColor->id }}"
+                                   data-color-name="{{ $productColor->getColorName() }}"
+                                   data-color-price={{ $productColor->price_increase }} @if($key == 0) checked @endif>
                         @endforeach
                     </p>
                 @endif
 
                 <!-- product guarantees -->
-                @php $guarantees = $product->guarantees()->get(); @endphp
-                @if($guarantees->count() != 0)
+                @php $productGuarantees = $product->guarantees()->get(); @endphp
+                @if($productGuarantees->count() != 0)
                     <p class="font-weight-bold"><i
                             class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                        <label for="guarantee">گارانتی :</label><select name="guarantee"
-                                                                        id="guarantee"
-                                                                        class="guarantee p-1">
-                            @foreach ($guarantees as $key => $guarantee)
-                                <option value="{{ $guarantee->id }}"
-                                        data-guarantee-price={{ $guarantee->price_increase }}  @if($key == 0) selected @endif>{{ $guarantee->getFaFullName() }}</option>
+                        <label for="guarantee">گارانتی :</label>
+                        <select name="guarantee"
+                                id="guarantee"
+                                class="guarantee p-1">
+                            @foreach ($productGuarantees as $key => $productGuarantee)
+                                <option value="{{ $productGuarantee->id }}"
+                                        data-guarantee-price={{ $productGuarantee->price_increase }}
+                                        @if($key == 0) selected @endif>{{ $productGuarantee->getFaFullName() }}
+                                </option>
                             @endforeach
                         </select>
                     </p>

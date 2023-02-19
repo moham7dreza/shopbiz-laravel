@@ -17,7 +17,7 @@ class CreateColorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_en')->nullable();
-            $table->string('color')->nullable();
+            $table->string('code')->nullable()->comment('like #ffffff');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

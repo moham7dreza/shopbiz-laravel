@@ -57,7 +57,7 @@
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $color->color->name }}</td>
                                 <td>
-                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};"
+                                    <span style="background-color: {{ $color->color->color ?? '#ffffff' }};"
                                           class="colors"></span>
                                 </td>
                                 <td>{{ $color->getFaPriceIncrease() }}</td>
