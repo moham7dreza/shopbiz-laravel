@@ -68,7 +68,7 @@
     <script>
         const color_id = $('#color_id');
         color_id.select2({
-            placeholder: 'لطفا رنگ را انتخاب نمایید',
+            // placeholder: 'لطفا رنگ را انتخاب نمایید',
             multiple: false,
             tags: false
         })

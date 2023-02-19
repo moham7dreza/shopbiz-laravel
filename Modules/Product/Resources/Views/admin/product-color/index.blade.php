@@ -55,9 +55,9 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $color->color->name }}</td>
+                                <td>{{ $color->getColorName() }}</td>
                                 <td>
-                                    <span style="background-color: {{ $color->color->color ?? '#ffffff' }};"
+                                    <span style="background-color: {{ $color->getColorCode() ?? '#ffffff' }};"
                                           class="colors"></span>
                                 </td>
                                 <td>{{ $color->getFaPriceIncrease() }}</td>

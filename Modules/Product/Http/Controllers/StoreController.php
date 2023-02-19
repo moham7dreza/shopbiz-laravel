@@ -17,6 +17,7 @@ use Modules\Product\Repositories\Product\ProductRepoEloquentInterface;
 use Modules\Product\Services\Product\ProductServiceInterface;
 use Modules\Product\Services\Store\ProductStoreServiceInterface;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class StoreController extends Controller
@@ -83,7 +84,7 @@ class StoreController extends Controller
     public function store(StoreRequest $request, Product $product): \Illuminate\Http\RedirectResponse
     {
         $this->productService->productAddToStore($request, $product);
-        Product::ProductWarehouseReport($request, $product);
+        ShareService::ProductWarehouseReport($request, $product);
         return $this->showMessageWithRedirectRoute('موجودی جدید با موفقیت ثبت شد');
     }
 
@@ -119,7 +120,7 @@ class StoreController extends Controller
     public function update(StoreUpdateRequest $request, Product $product): RedirectResponse
     {
         $this->productService->updateProductStore($request, $product);
-        Product::ProductWarehouseReport($request, $product, 'products', 'update-store');
+        ShareService::ProductWarehouseReport($request, $product, 'products', 'update-store');
         return $this->showMessageWithRedirectRoute('موجودی با موفقیت ویرایش شد');
     }
 

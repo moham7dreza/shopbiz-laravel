@@ -84,7 +84,7 @@ class ProductColorController extends Controller
      */
     public function create(Product $product, ColorRepoEloquentInterface $colorRepo): View|Factory|Application
     {
-        $colors = $colorRepo->getLatest()->get();
+        $colors = $colorRepo->getLatest()->get()->except($product->colors()->pluck('color_id')->toArray());
         return view('Product::admin.product-color.create', compact(['product', 'colors']));
     }
 
@@ -97,7 +97,8 @@ class ProductColorController extends Controller
      */
     public function store(ProductColorRequest $request, Product $product): RedirectResponse
     {
-        $this->service->store($request, $product->id);
+        $color = $this->service->store($request, $product->id);
+        ShareService::ProductColorWarehouseReport($request, $product, $color);
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ثبت شد', params: [$product]);
     }
 
@@ -116,13 +117,13 @@ class ProductColorController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @param Color $color
+     * @param ProductColor $color
      * @param ColorRepoEloquentInterface $colorRepo
      * @return Application|Factory|View
      */
-    public function edit(Product $product, Color $color, ColorRepoEloquentInterface $colorRepo): Application|Factory|View
+    public function edit(Product $product, ProductColor $color, ColorRepoEloquentInterface $colorRepo): Application|Factory|View
     {
-        $colors = $colorRepo->getLatest()->get();
+        $colors = $colorRepo->getLatest()->get()->except($product->colors()->get()->except($color->id)->pluck('color_id')->toArray());
         return view('Product::admin.product-color.edit', compact(['product', 'color', 'colors']));
     }
 
@@ -136,6 +137,7 @@ class ProductColorController extends Controller
     public function update(ProductColorRequest $request, Product $product, ProductColor $color): RedirectResponse
     {
         $this->service->update($request, $product->id, $color);
+        ShareService::ProductColorWarehouseReport($request, $product, $color, event: 'update');
         return $this->showMessageWithRedirectRoute('رنگ شما با موفقیت ویرایش شد', params: [$product]);
     }
 

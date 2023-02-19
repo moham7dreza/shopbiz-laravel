@@ -84,7 +84,7 @@ class ProductGuaranteeController extends Controller
      */
     public function create(Product $product, GuaranteeRepoEloquentInterface $guaranteeRepo): View|Factory|Application
     {
-        $guarantees = $guaranteeRepo->getLatest()->get();
+        $guarantees = $guaranteeRepo->getLatest()->get()->except($product->guarantees()->pluck('guarantee_id')->toArray());
         return view('Product::admin.product-guarantee.create', compact(['product', 'guarantees']));
     }
 
@@ -122,7 +122,7 @@ class ProductGuaranteeController extends Controller
      */
     public function edit(Product $product, ProductGuarantee $guarantee, GuaranteeRepoEloquentInterface $guaranteeRepo): View|Factory|Application
     {
-        $guarantees = $guaranteeRepo->getLatest()->get();
+        $guarantees = $guaranteeRepo->getLatest()->get()->except($product->guarantees()->get()->except($guarantee->id)->pluck('guarantee_id')->toArray());
         return view('Product::admin.product-guarantee.edit', compact(['product', 'guarantee', 'guarantees']));
     }
 

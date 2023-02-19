@@ -82,36 +82,5 @@ trait HasActivityLogTrait
         }
     }
 
-    /**
-     * @param $request
-     * @param $model
-     * @param string $table
-     * @param string $event
-     * @return void
-     */
-    public static function ProductWarehouseReport($request, $model, string $table = "products", string $event = "add-to-store"): void
-    {
-        switch ($event) {
-            case "add-to-store" :
-                activity()->causedBy(auth()->id())->performedOn($model)->useLog($table)
-                    ->withProperties([
-                        'نام کالا ' => $model->name,
-                        'فرد دریافت کننده کالا ' => $request->receiver,
-                        'فرد تحویل دهنده کالا ' => $request->deliverer,
-                        'توضیحات ' => $request->description,
-                        'تعداد دریافت شده ' => convertEnglishToPersian($request->marketable_number),
-                        'تعداد کالاهای قابل فروش ' => convertEnglishToPersian($model->marketable_number),
-                    ])->log('موجودی انبار کالا افزایش یافت');
-                break;
-            case "update-store" :
-                activity()->causedBy(auth()->id())->performedOn($model)->useLog($table)
-                    ->withProperties([
-                        'نام کالا ' => $model->name,
-                        'تعداد کالاهای قابل فروش ' => convertEnglishToPersian($request->marketable_number),
-                        'تعداد کالاهای رزرو ' => convertEnglishToPersian($request->frozen_number),
-                        'تعداد کالاهای فروخته شده ' => convertEnglishToPersian($request->sold_number),
-                    ])->log('موجودی انبار کالا بروزرسانی شد');
-                break;
-        }
-    }
+
 }

@@ -17,7 +17,6 @@ use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Discount\Entities\AmazingSale;
 use Modules\Discount\Repositories\AmazingSale\AmazingSaleDiscountRepoEloquent;
-use Modules\Share\Traits\HasActivityLogTrait;
 use Modules\Share\Traits\HasComment;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
@@ -29,7 +28,7 @@ class Product extends Model implements Viewable
 {
     use HasFactory, SoftDeletes, Sluggable, HasTags,
         HasFaDate, HasComment, HasDefaultStatus,
-        InteractsWithViews, Likeable, Favoriteable, HasActivityLogTrait;
+        InteractsWithViews, Likeable, Favoriteable;
 
     public const POPULAR = 1;
     public const NOT_POPULAR = 0;

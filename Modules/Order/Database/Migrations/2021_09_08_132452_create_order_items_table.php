@@ -24,8 +24,8 @@ class CreateOrderItemsTable extends Migration
             $table->integer('number')->default(1);
             $table->decimal('final_product_price',20, 3)->nullable();
             $table->decimal('final_total_price',20, 3)->nullable()->comment('number * final_product_price');
-            $table->foreignId('color_id')->nullable()->constrained('product_colors')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('guarantee_id')->nullable()->constrained('guarantees')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('color_id')->nullable()->constrained('product_color')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('guarantee_id')->nullable()->constrained('product_guarantee')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

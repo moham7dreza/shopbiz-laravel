@@ -52,7 +52,7 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $guarantee->guarantee->name }}</td>
+                                <td>{{ $guarantee->getGuaranteeName() }}</td>
                                 <td>{{ $guarantee->duration }}</td>
                                 <td>{{ $guarantee->getFaPriceIncrease() }}</td>
                                 <td>
