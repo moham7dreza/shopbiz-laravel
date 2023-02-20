@@ -40,6 +40,14 @@ class LoginRegisterController extends Controller
     }
 
     /**
+     * @return Application|Factory|View
+     */
+    public function loginForm(): Factory|View|Application
+    {
+        return view('Auth::home.login');
+    }
+
+    /**
      * @param LoginRegisterRequest $request
      * @param UserRepoEloquentInterface $userRepo
      * @return RedirectResponse
@@ -51,6 +59,11 @@ class LoginRegisterController extends Controller
             return $this->showAlertWithRedirect(message:'شناسه ورودی شما نه شماره موبایل است نه ایمیل', title: 'خطا', type: 'error', route: 'auth.login-register-form');
         }
         return to_route('auth.login-confirm-form', $token);
+    }
+
+    public function login(LoginRegisterRequest $request)
+    {
+
     }
 
 

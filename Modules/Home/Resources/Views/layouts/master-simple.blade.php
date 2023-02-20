@@ -4,7 +4,7 @@
     @include('Home::layouts.head-tag')
     @yield('head-tag')
 </head>
-<body>
+<body class="authentication-bg">
 
 <main id="main-body-one-col" class="main-body">
 

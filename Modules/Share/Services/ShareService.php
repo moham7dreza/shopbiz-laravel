@@ -36,7 +36,7 @@ class ShareService
         if (is_null($user)) {
             $user = auth()->user();
         }
-        return $user->hasPermissionTo($permission) && ($user->user_type === $type);
+        return !is_null($user) && $user->hasPermissionTo($permission) && ($user->user_type === $type);
     }
 
     /**

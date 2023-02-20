@@ -22,9 +22,6 @@
                             <section class="lazyload-wrapper">
                                 <section class="lazyload light-owl-nav owl-carousel owl-theme">
                                     @foreach ($products as $product)
-                                        @php
-                                            $hasFavorited = auth()->user()->hasFavorited($product);
-                                        @endphp
                                         <section class="item">
                                             <section class="lazyload-item-wrapper">
                                                 <section class="product">
@@ -41,9 +38,11 @@
                                                     @auth
                                                         <section class="product-add-to-cart">
                                                             @php
-                                                                $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
-                                                                $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
-                                                                $productIsInCart = in_array($product->id, $productIds);
+                                                                $hasFavorited = auth()->user()->hasFavorited($product);
+
+                                                                    $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
+                                                                    $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
+                                                                    $productIsInCart = in_array($product->id, $productIds);
                                                             @endphp
                                                             <form
                                                                 action="{{ route('customer.sales-process.add-to-cart', $product) }}"

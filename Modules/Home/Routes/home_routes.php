@@ -12,10 +12,8 @@ use Modules\Home\Http\Controllers\SalesProcess\ProfileCompletionController;
 | Here you can see panel routes.
 |
 */
-
+Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 Route::group(['prefix' => '/', 'middleware' => 'auth'], static function ($router) {
-    Route::get('/', [HomeController::class, 'home'])->name('customer.home');
-
     //profile completion
     Route::get('/profile-completion', [ProfileCompletionController::class, 'profileCompletion'])->name('customer.sales-process.profile-completion');
     Route::post('/profile-completion', [ProfileCompletionController::class, 'update'])->name('customer.sales-process.profile-completion-update');

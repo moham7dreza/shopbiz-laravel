@@ -22,10 +22,6 @@
                         <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                             @foreach ($repo->posts() as $post)
-                                @php
-                                    $hasFavorited = auth()->user()->hasFavorited($post);
-                                    $hasLiked = auth()->user()->hasLiked($post);
-                                @endphp
                                 <section class="item">
                                     <section class="lazyload-item-wrapper">
                                         <section class="product">
@@ -72,6 +68,10 @@
                                                     <section
                                                         class="d-flex align-items-center justify-content-end gap-2">
                                                         @auth
+                                                            @php
+                                                                $hasFavorited = auth()->user()->hasFavorited($post);
+                                                                $hasLiked = auth()->user()->hasLiked($post);
+                                                            @endphp
                                                             @if ($hasLiked)
                                                                 <section class="post-like-btn">
                                                                     <button

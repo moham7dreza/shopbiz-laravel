@@ -14,8 +14,11 @@ use Modules\Auth\Http\Controllers\LoginRegisterController;
 */
 
 Route::group([], static function ($router) {
+//    Route::get('login', [ 'as' => 'login', 'uses' => 'LoginRegisterController@loginRegisterForm']);
         Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.login-register-form');
+        Route::get('login', [LoginRegisterController::class, 'loginForm'])->name('auth.login-form');
         Route::middleware('throttle:customer-login-register-limiter')->post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.login-register');
+        Route::post('/login', [LoginRegisterController::class, 'login'])->name('auth.login');
         Route::get('login-confirm/{token}', [LoginRegisterController::class, 'loginConfirmForm'])->name('auth.login-confirm-form');
         Route::middleware('throttle:customer-login-confirm-limiter')->post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('auth.login-confirm');
         Route::middleware('throttle:customer-login-resend-otp-limiter')->get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('auth.login-resend-otp');
