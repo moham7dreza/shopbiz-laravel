@@ -22,5 +22,6 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
         Route::get('/edit/{attribute}/{value}', [AttributeValueController::class, 'edit'])->name('attributeValue.edit');
         Route::put('/update/{attribute}/{value}', [AttributeValueController::class, 'update'])->name('attributeValue.update');
         Route::delete('/destroy/{attribute}/{value}', [AttributeValueController::class, 'destroy'])->name('attributeValue.destroy');
+        Route::get('/selected/{value}', [AttributeValueController::class, 'selected'])->name('attributeValue.selected');
     });
 });

@@ -19,7 +19,7 @@ class Attribute extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'type', 'unit', 'status'];
+    protected $fillable = ['name', 'name_en', 'type', 'unit', 'unit_en', 'status'];
 
     // ********************************************* Relations
 

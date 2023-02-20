@@ -132,7 +132,7 @@
                                         @can($PERMISSION::PERMISSION_PRODUCT_VALUES)
                                             <a href="{{ route('product.values-from', $product->id) }}"
                                                class="dropdown-item text-right"><i
-                                                    class="fa fa-tags text-primary"></i><span
+                                                    class="fab fa-xbox text-dark"></i><span
                                                     class="mx-2">متا</span></a>
                                         @endcan
                                         @can($PERMISSION::PERMISSION_PRODUCT_EDIT)

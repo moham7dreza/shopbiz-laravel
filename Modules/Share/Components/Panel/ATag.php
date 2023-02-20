@@ -14,6 +14,7 @@ class ATag extends Component
     public string $color;
     public ?string $text;
     public string $icon;
+    public string $group;
     public ?string $class;
 
     /**
@@ -21,7 +22,7 @@ class ATag extends Component
      *
      * @return void
      */
-    public function __construct($route, $color = 'primary', $icon = null, $title = null, $text = null, $class = null,)
+    public function __construct($route, $color = 'primary', $icon = null, $title = null, $text = null, $class = null, $group = 'fa')
     {
         $this->title = $title;
         $this->route = $route;
@@ -29,6 +30,7 @@ class ATag extends Component
         $this->icon = $icon;
         $this->class = $class;
         $this->color = $color;
+        $this->group = $group;
     }
 
     /**

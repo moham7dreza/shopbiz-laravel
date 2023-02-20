@@ -100,7 +100,8 @@
                                                         @include('Share::components.home.partials.calc-stars-count-from-rate')
                                                         <section class="product-price-wrapper mb-4">
                                                             @if($product->activeAmazingSales())
-                                                                <section class="product-discount" title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
+                                                                <section class="product-discount"
+                                                                         title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                             <span
@@ -108,7 +109,8 @@
                                                                     <span
                                                                         class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                                                 </section>
-                                                                <section class="product-price" title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
+                                                                <section class="product-price"
+                                                                         title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                                     {{ $product->getFaFinalPrice() }}
@@ -127,9 +129,11 @@
                                                             @endforeach
                                                         </section>
 
-                                                        <section class="product-metas">
-                                                            <span class="product-metas-item text-muted alert alert-light">OLED</span>
-                                                            <span class="product-metas-item alert alert-light">IPS</span>
+                                                        <section class="product-metas dir-ltr">
+                                                            @foreach($product->values()->selected()->get() as $value)
+                                                                <span
+                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>
+                                                            @endforeach
                                                         </section>
                                                     </a>
                                                 </section>

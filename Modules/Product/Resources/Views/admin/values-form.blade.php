@@ -47,25 +47,35 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($product->values()->get() as $value)
+                        @foreach ($values as $value)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <th>{{ $value->attribute()->first()->name }}</th>
-                                <td>{{ $value->getFaValue() . ' ' . $value->attribute()->first()->unit }}</td>
-                                <td>{{ json_decode($value->value)->value }} {{ $value->attribute()->first()->unit_en }}</td>
-                                <td class="width-12-rem text-left">
-                                    @can($PERMISSION::PERMISSION_PRODUCT_VALUE_SELECT)
-                                        <x-panel-a-tag route="{{ route('brand.tags-from', 1) }}"
-                                                       title="افزودن تگ"
-                                                       icon="tag" color="outline-success"/>
+                                <th>{{ $value->attribute->name }}</th>
+                                <td>{{ $value->generateFaValue() }}</td>
+                                <td class="dir-ltr">{{ $value->generateEnValue() }}</td>
+                                <td class="width-22-rem text-left">
+                                    @can($PERMISSION::PERMISSION_PRODUCT_VALUE_SELECTED)
+                                        @php $flag = $value->selected() @endphp
+                                        <x-panel-a-tag route="{{ route('attributeValue.selected', $value) }}"
+                                                       title="{{ $flag ? 'حذف از برچسب های کالا' : 'افزودن به برچسب های کالا' }}"
+                                                       icon="{{ $flag ? 'times' : 'check' }}"
+                                                       color="{{ $flag ? 'outline-danger' : 'outline-success' }}"
+                                                       class="{{ $flag ? 'pad-03-07' : '' }}"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_BRAND_EDIT)
-                                        <x-panel-a-tag route="{{ route('brand.edit', 1) }}" title="ویرایش آیتم"
-                                                       icon="edit" color="outline-info"/>
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_CREATE)
+                                        <x-panel-a-tag
+                                            route="{{ route('attributeValue.create', $value->attribute->id) }}"
+                                            title="ایجاد مقدار فرم کالا جدید" icon="plus" color="outline-primary"/>
                                     @endcan
-                                    @can($PERMISSION::PERMISSION_BRAND_DELETE)
-                                        <x-panel-delete-form route="{{ route('brand.destroy', 1) }}"
-                                                             title="حذف آیتم"/>
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_EDIT)
+                                        <x-panel-a-tag
+                                            route="{{ route('attributeValue.edit', ['attribute' => $value->attribute->id , 'value' => $value->id]) }}"
+                                            title="ویرایش آیتم" icon="edit" color="outline-info"/>
+                                    @endcan
+                                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_DELETE)
+                                        <x-panel-delete-form
+                                            route="{{ route('attributeValue.destroy', ['attribute' => $value->attribute->id , 'value' => $value->id]) }}"
+                                            title="حذف آیتم"/>
                                     @endcan
                                 </td>
                             </tr>
@@ -78,7 +88,7 @@
                         {{--                        @endforeach--}}
                         </tbody>
                     </table>
-{{--                    <section class="border-top pt-3">{{ $products->links() }}</section>--}}
+                    <section class="border-top pt-3">{{ $values->links() }}</section>
                 </section>
             </section>
         </section>

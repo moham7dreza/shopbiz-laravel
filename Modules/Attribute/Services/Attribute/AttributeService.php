@@ -18,8 +18,10 @@ class AttributeService implements AttributeServiceInterface
     {
         return $this->query()->create([
             'name' => $request->name,
-//            'type' => $request->type,
+            'name_en' => $request->name_en,
+            'type' => $request->type,
             'unit' => $request->unit,
+            'unit_en' => $request->unit_en,
             'status' => $request->status
         ]);
     }
@@ -35,8 +37,10 @@ class AttributeService implements AttributeServiceInterface
     {
         return $attribute->update([
             'name' => $request->name,
-//            'type' => $request->type,
+            'name_en' => $request->name_en,
+            'type' => $request->type,
             'unit' => $request->unit,
+            'unit_en' => $request->unit_en,
             'status' => $request->status
         ]);
     }

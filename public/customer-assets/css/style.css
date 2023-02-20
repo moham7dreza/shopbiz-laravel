@@ -728,6 +728,14 @@ body {
     box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.12);
 }
 
+.dir-ltr {
+    direction: ltr;
+}
+
+.dir-rtl {
+    direction: rtl;
+}
+
 .product-name {
     /*text-align: center;*/
     padding: 0rem;

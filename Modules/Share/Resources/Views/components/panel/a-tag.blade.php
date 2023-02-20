@@ -3,7 +3,7 @@
    data-bs-toggle="tooltip"
    data-bs-placement="top" {{ $attributes }}>
     @if(!is_null($icon))
-        <i class="fa fa-{{ $icon }}"></i>
+        <i class="{{ $group }} fa-{{ $icon }}"></i>
     @endif
     {{ $text }}
 </a>

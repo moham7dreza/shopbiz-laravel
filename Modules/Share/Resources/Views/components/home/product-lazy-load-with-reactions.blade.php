@@ -109,6 +109,12 @@
                                                                          style="background-color: {{ $color->getColorCode() }};"></section>
                                                             @endforeach
                                                         </section>
+{{--                                                        <section class="product-metas dir-ltr">--}}
+{{--                                                            @foreach($product->values()->selected()->get() as $value)--}}
+{{--                                                                <span--}}
+{{--                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>--}}
+{{--                                                            @endforeach--}}
+{{--                                                        </section>--}}
                                                         @if($product->activeAmazingSales())
                                                             <section class="border-top mt-4"></section>
                                                         @else

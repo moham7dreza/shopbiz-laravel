@@ -50,6 +50,8 @@
                             @php $types = \Modules\Attribute\Entities\Attribute::$typesWithValues @endphp
                             <x-panel-select-box col="10" name="type" label="نوع"
                                                 :message="$message" :arr="$types"/>
+                            <x-panel-select-box col="10" name="selected" label="نمایش در برچسب کالا"
+                                                :message="$message" :hasDefaultStatus="true" />
                             <x-panel-button col="12" title="ثبت" />
                         </section>
                     </form>

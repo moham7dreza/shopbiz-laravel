@@ -57,6 +57,9 @@
                             <x-panel-select-box col="10" name="type" label="نوع"
                                                 :message="$message" :arr="$types" method="edit"
                                                 :model="$value"/>
+                            <x-panel-select-box col="10" name="selected" label="نمایش در برچسب کالا"
+                                                :message="$message" :hasDefaultStatus="true" method="edit"
+                                                :model="$value"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

@@ -236,18 +236,8 @@ class ProductController extends Controller
      */
     public function valuesForm(Product $product): View|Factory|Application
     {
-        return view('Product::admin.values-form', compact(['product']));
-    }
-
-    /**
-     * @param ProductRequest $request
-     * @param Product $product
-     * @return RedirectResponse
-     */
-    public function setValues(ProductRequest $request, Product $product): RedirectResponse
-    {
-
-        return $this->showMessageWithRedirectRoute('تگ های محصول با موفقیت بروزرسانی شد');
+        $values = $product->values()->paginate(10);
+        return view('Product::admin.values-form', compact(['product', 'values']));
     }
 
     /**

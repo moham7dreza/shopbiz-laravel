@@ -16,15 +16,30 @@ class AttributeValue extends Model
 {
     use HasFactory, SoftDeletes, HasTypesTrait;
 
+    public const SELECTED = 1;
+    public const NOT_SELECTED = 0;
+
     /**
      * @var string[]
      */
-    protected $fillable = ['product_id', 'attribute_id', 'category_id', 'value', 'type'];
+    protected $fillable = ['product_id', 'attribute_id', 'category_id', 'value', 'type', 'selected'];
 
     /**
      * @var string
      */
     protected $table = 'attribute_values';
+
+    // ********************************************* scopes
+
+    /**
+     * @param $query
+     * @param int $selected
+     * @return mixed
+     */
+    public function scopeSelected($query, int $selected = self::SELECTED): mixed
+    {
+        return $query->where('selected', $selected);
+    }
 
     // ********************************************* Relations
 
@@ -78,6 +93,14 @@ class AttributeValue extends Model
         return $this->attribute->name ?? 'فرم کالا ندارد';
     }
 
+    /**
+     * @return bool
+     */
+    public function selected(): bool
+    {
+        return $this->selected == self::SELECTED;
+    }
+
     // ********************************************* FA Properties
 
     /**
@@ -94,5 +117,21 @@ class AttributeValue extends Model
     public function getFaValue(): string|array
     {
         return convertEnglishToPersian(json_decode($this->value)->value) ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function generateFaValue(): string
+    {
+        return $this->getFaValue() . ' ' . $this->attribute->unit;
+    }
+
+    /**
+     * @return string
+     */
+    public function generateEnValue(): string
+    {
+        return json_decode($this->value)->value . ' ' . $this->attribute->unit_en;
     }
 }

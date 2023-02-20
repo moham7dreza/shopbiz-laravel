@@ -28,7 +28,7 @@ class HomeController extends Controller
      * @return Application|Factory|View
      */
     public function home(HomeRepoEloquentInterface $repo): Factory|View|Application
-    {
+    {dd(readFaPrice(115568000));
         $this->setMetas($repo);
 
         if (session('block') !== 'yes') {

@@ -34,10 +34,17 @@
                         <section class="row">
                             @php $message = $message ?? null @endphp
                             <x-panel-input col="10" name="name" label="نام فرم" :message="$message"/>
+                            <x-panel-input col="10" name="name_en" label="نام فرم لاتین" :message="$message"
+                                           placeholder="اختیاریست ..."/>
                             <x-panel-input col="10" name="unit" label="واحد اندازه گیری"
                                            :message="$message"/>
+                            <x-panel-input col="10" name="unit_en" label="واحد اندازه گیری لاتین"
+                                           :message="$message" placeholder="اختیاریست ..."/>
+                            @php $types = \Modules\Attribute\Entities\Attribute::$typesWithValues @endphp
+                            <x-panel-select-box col="10" name="type" label="نوع"
+                                                :message="$message" :arr="$types"/>
                             <x-panel-select-box col="10" name="status" label="وضعیت"
-                                                :message="$message" :hasDefaultStatus="true" />
+                                                :message="$message" :hasDefaultStatus="true"/>
                             <x-panel-button col="12" title="ثبت"/>
                         </section>
                     </form>

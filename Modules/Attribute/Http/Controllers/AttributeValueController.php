@@ -170,4 +170,22 @@ class AttributeValueController extends Controller
         $result = $value->delete();
         return $this->showMessageWithRedirectRoute(msg: 'مقدار فرم کالای  شما با موفقیت حذف شد', params: [$attribute->id]);
     }
+
+    /**
+     * @param AttributeValue $value
+     * @return RedirectResponse
+     */
+    public function selected(AttributeValue $value): RedirectResponse
+    {
+        $message = null;
+        if ($value->selected == AttributeValue::SELECTED) {
+            $value->selected = AttributeValue::NOT_SELECTED;
+            $message = 'مقدار فرم کالا از برچسب های محصول حذف شد.';
+        } elseif ($value->selected == AttributeValue::NOT_SELECTED) {
+            $value->selected = AttributeValue::SELECTED;
+            $message = 'مقدار فرم کالا به برچسب های محصول اضافه شد.';
+        }
+        $value->save();
+        return $this->showAlertWithRedirect(message: $message);
+    }
 }
