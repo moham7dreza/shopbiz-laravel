@@ -48,7 +48,7 @@
                                                             <form
                                                                 action="{{ route('customer.sales-process.add-to-cart', $product) }}"
                                                                 method="post" data-bs-toggle="tooltip"
-                                                                data-bs-placement="left"
+                                                                data-bs-placement="top"
                                                                 title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}">
                                                                 @csrf
                                                                 <input type="hidden" name="color"
@@ -67,7 +67,7 @@
                                                                 <button
                                                                     class="btn btn-light btn-sm text-decoration-none"
                                                                     data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="حذف از علاقه مندی">
                                                                     <i class="fa fa-bookmark text-info"></i>
                                                                 </button>
@@ -77,7 +77,7 @@
                                                                 <button
                                                                     class="btn btn-light btn-sm text-decoration-none"
                                                                     data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="اضافه به علاقه مندی">
                                                                     <i class="fa fa-bookmark"></i>
                                                                 </button>
@@ -110,14 +110,17 @@
                                                                         class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                                                 </section>
                                                                 <section class="product-price"
-                                                                         title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
+                                                                         title="{{ $product->getFaPriceRead() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                                     {{ $product->getFaFinalPrice() }}
                                                                 </section>
                                                             @else
                                                                 <section
-                                                                    class="product-price">{{ $product->getFaPrice() }}
+                                                                    class="product-price"
+                                                                    title="{{ $product->getFaPriceRead() }}"
+                                                                    data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top">{{ $product->getFaPrice() }}
                                                                 </section>
                                                             @endif
                                                         </section>
@@ -125,7 +128,10 @@
                                                         <section class="product-colors">
                                                             @foreach ($product->colors()->get() as $color)
                                                                 <section class="product-colors-item"
-                                                                         style="background-color: {{ $color->getColorCode() }};"></section>
+                                                                         style="background-color: {{ $color->getColorCode() }};"
+                                                                         title="{{ $color->getColorName() }}"
+                                                                         data-bs-toggle="tooltip"
+                                                                         data-bs-placement="top"></section>
                                                             @endforeach
                                                         </section>
 

@@ -14,7 +14,9 @@
     <section class="d-flex justify-content-between align-items-center">
         <p class="text-muted">قیمت کالاها ({{ convertEnglishToPersian($cartItems->count()) }})</p>
         <p class="text-muted"><span
-                id="total_product_price">{{ priceFormat($totalProductPrice) }}</span> تومان
+                id="total_product_price" title="{{ generateReadingPrice((int)$totalProductPrice) }}"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top">{{ priceFormat($totalProductPrice) }}</span> تومان
         </p>
     </section>
 
@@ -22,7 +24,9 @@
         <section class="d-flex justify-content-between align-items-center">
             <p class="text-muted">تخفیف کالاها</p>
             <p class="text-danger fw-bolder"><span
-                    id="total_discount">{{ priceFormat($totalDiscount) }}</span> تومان</p>
+                    id="total_discount" title="{{ generateReadingPrice((int)$totalDiscount) }}"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top">{{ priceFormat($totalDiscount) }}</span> تومان</p>
         </section>
     @endif
 
@@ -75,7 +79,9 @@
     <section class="d-flex justify-content-between align-items-center">
         <p class="text-muted">جمع سبد خرید</p>
         <p class="fw-bolder"><span
-                id="total_price">{{ priceFormat($finalAmount) }}</span>
+                id="total_price" title="{{ generateReadingPrice((int)$finalAmount) }}"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top">{{ priceFormat($finalAmount) }}</span>
             تومان</p>
     </section>
 

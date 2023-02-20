@@ -383,6 +383,14 @@ class Product extends Model implements Viewable
     }
 
     /**
+     * @return string
+     */
+    public function getFaPriceRead(): string
+    {
+        return generateReadingPrice((int)$this->price) . ' تومان ';
+    }
+
+    /**
      * @return array|string|string[]
      */
     public function getFaFinalPrice(): array|string

@@ -32,6 +32,10 @@
         var product_price = product_original_price + selected_color_price + selected_guarantee_price;
         var final_price = number * (product_price - product_discount_price);
         $('#product_price').html(toFarsiNumber(product_price));
+{{--        $('#product_price').attr('data-original-title', {{ generateReadingPrice() }});--}}
+{{--        $('#product_price').attr('data-bs-original-title', {{ generateReadingPrice() }});--}}
         $('#final-price').html(toFarsiNumber(final_price));
+        // $('#final-price').attr('data-original-title', 'حذف از علاقه مندی ها');
+        // $('#final-price').attr('data-bs-original-title', 'حذف از علاقه مندی ها');
     }
 </script>

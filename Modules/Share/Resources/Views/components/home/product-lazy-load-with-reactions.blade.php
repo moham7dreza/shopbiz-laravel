@@ -51,7 +51,7 @@
                                                             <form
                                                                 action="{{ route('customer.sales-process.add-to-cart', $product) }}"
                                                                 method="post" data-bs-toggle="tooltip"
-                                                                data-bs-placement="left"
+                                                                data-bs-placement="top"
                                                                 title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}">
                                                                 @csrf
                                                                 <input type="hidden" name="color_id"
@@ -84,7 +84,8 @@
                                                         @include('Share::components.home.partials.calc-stars-count-from-rate')
                                                         <section class="product-price-wrapper">
                                                             @if($product->activeAmazingSales())
-                                                                <section class="product-discount" title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
+                                                                <section class="product-discount"
+                                                                         title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                             <span
@@ -92,29 +93,36 @@
                                                                     <span
                                                                         class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                                                 </section>
-                                                                <section class="product-price" title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
+                                                                <section class="product-price"
+                                                                         title="{{ $product->getFaPriceRead() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                                     {{ $product->getFaFinalPrice() }}
                                                                 </section>
                                                             @else
                                                                 <section
-                                                                    class="product-price">{{ $product->getFaPrice() }}
+                                                                    class="product-price"
+                                                                    title="{{ $product->getFaPriceRead() }}"
+                                                                    data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top">{{ $product->getFaPrice() }}
                                                                 </section>
                                                             @endif
                                                         </section>
                                                         <section class="product-colors">
                                                             @foreach ($product->colors()->get() as $color)
                                                                 <section class="product-colors-item"
-                                                                         style="background-color: {{ $color->getColorCode() }};"></section>
+                                                                         style="background-color: {{ $color->getColorCode() }};"
+                                                                         title="{{ $color->getColorName() }}"
+                                                                         data-bs-toggle="tooltip"
+                                                                         data-bs-placement="top"></section>
                                                             @endforeach
                                                         </section>
-{{--                                                        <section class="product-metas dir-ltr">--}}
-{{--                                                            @foreach($product->values()->selected()->get() as $value)--}}
-{{--                                                                <span--}}
-{{--                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>--}}
-{{--                                                            @endforeach--}}
-{{--                                                        </section>--}}
+                                                        {{--                                                        <section class="product-metas dir-ltr">--}}
+                                                        {{--                                                            @foreach($product->values()->selected()->get() as $value)--}}
+                                                        {{--                                                                <span--}}
+                                                        {{--                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>--}}
+                                                        {{--                                                            @endforeach--}}
+                                                        {{--                                                        </section>--}}
                                                         @if($product->activeAmazingSales())
                                                             <section class="border-top mt-4"></section>
                                                         @else
@@ -122,8 +130,13 @@
                                                         @endif
                                                         <section
                                                             class="d-flex justify-content-start align-items-center post-count my-2">
-                                                            <span><i class="fa fa-eye mx-2"></i>{{ $product->getFaViewsCount() }}</span>
-                                                            <span><i class="fa fa-comment mx-2"></i>{{ $product->allActiveProductCommentsCount() }}</span>
+                                                            <span title="تعداد بازدید"
+                                                                  data-bs-toggle="tooltip"
+                                                                  data-bs-placement="top"><i class="fa fa-eye mx-2"></i>{{ $product->getFaViewsCount() }}</span>
+                                                            <span title="تعداد نظرات"
+                                                                  data-bs-toggle="tooltip"
+                                                                  data-bs-placement="top"><i
+                                                                    class="fa fa-comment mx-2"></i>{{ $product->allActiveProductCommentsCount() }}</span>
                                                         </section>
                                                     </a>
                                                     @auth
@@ -135,7 +148,7 @@
                                                                             class="btn btn-light btn-sm text-decoration-none"
                                                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="right"
+                                                                            data-bs-placement="top"
                                                                             title="حذف از علاقه مندی">
                                                                         <i class="fa fa-bookmark text-info"></i>
                                                                     </button>
@@ -146,7 +159,7 @@
                                                                             class="btn btn-light btn-sm text-decoration-none"
                                                                             data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="right"
+                                                                            data-bs-placement="top"
                                                                             title="اضافه به علاقه مندی">
                                                                         <i class="fa fa-bookmark"></i>
                                                                     </button>
@@ -158,7 +171,7 @@
                                                                             class="btn btn-light btn-sm text-decoration-none"
                                                                             data-url="{{ route('customer.product.like', $product) }}"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="left"
+                                                                            data-bs-placement="top"
                                                                             title="لایک نکردن">
                                                                         <i class="fa fa-heart text-danger"></i>
                                                                     </button>
@@ -169,7 +182,7 @@
                                                                             class="btn btn-light btn-sm text-decoration-none"
                                                                             data-url="{{ route('customer.product.like', $product) }}"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="left"
+                                                                            data-bs-placement="top"
                                                                             title="لایک کردن">
                                                                         <i class="fa fa-heart"></i>
                                                                     </button>

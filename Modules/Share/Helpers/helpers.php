@@ -225,23 +225,32 @@ function hezarGan($price, $index)
 
 }
 
-function sadGan($price)
+/**
+ * @param $price
+ * @return string
+ */
+function sadGan($price): string
 {
     return match ($price) {
         1 => 'صد',
         2 => 'دویست',
-        3 => 'سی صد',
-        4 => 'چهار صد',
-        5 => ' پانصد',
-        6 => 'شش صد',
-        7 => 'هفت صد',
-        8 => 'هشت صد',
-        9 => 'نه صد',
+        3 => 'سیصد',
+        4 => 'چهارصد',
+        5 => 'پانصد',
+        6 => 'ششصد',
+        7 => 'هفتصد',
+        8 => 'هشتصد',
+        9 => 'نهصد',
         default => ' ',
     };
 }
 
-function dahGan($array, $index)
+/**
+ * @param $array
+ * @param $index
+ * @return string
+ */
+function dahGan($array, $index): string
 {
     if ($array[$index] == 1) {
         return match ($array[$index + 1]) {
@@ -250,7 +259,7 @@ function dahGan($array, $index)
             2 => 'دوازده',
             3 => 'سیزده',
             4 => 'چهارده',
-            5 => ' پانزده',
+            5 => 'پانزده',
             6 => 'شانزده',
             7 => 'هفده',
             8 => 'هجده',
@@ -262,14 +271,14 @@ function dahGan($array, $index)
             2 => 'بیست',
             3 => 'سی',
             4 => 'چهل',
-            5 => ' پنجاه',
+            5 => 'پنجاه',
             6 => 'شصت',
             7 => 'هفتاد',
             8 => 'هشتاد',
             9 => 'نود',
             default => ' ',
         };
-        if ($array[$index] != 0) {
+        if ($array[$index + 1] != 0) {
             $result .= ' و ';
             $result .= yekan($array[$index + 1]);
         }
@@ -277,14 +286,18 @@ function dahGan($array, $index)
     }
 }
 
-function yekan($price)
+/**
+ * @param $price
+ * @return string
+ */
+function yekan($price): string
 {
     return match ($price) {
         1 => 'یک',
         2 => 'دو',
         3 => 'سه',
         4 => 'چهار',
-        5 => ' پنج',
+        5 => 'پنج',
         6 => 'شش',
         7 => 'هفت',
         8 => 'هشت',
@@ -293,264 +306,87 @@ function yekan($price)
     };
 }
 
-function readFaPrice($price)
+/**
+ * @param $price
+ * @return string
+ */
+function generateReadingPrice($price): string
 {
     $result = '';
     $array = array_map('intval', str_split($price));
     $len = count($array);
-    if ($len <= 4) {
-        $result .= yekan($array[0]);
-        $result .= ' هزار';
-    }
-    elseif ($len <= 5) {
-        $result .= dahGan($array, 0);
-        $result .= ' هزار';
-    }
-    elseif ($len <= 6) {
-        // 121
+    if ($len <= 3) {
         $result .= sadGan($array[0]); // صد
-        if ($array[1] != 0 && $array[2] != 0) {
-            $result .= ' و';   // صد و
+        if ($array[1] != 0 || $array[2] != 0) {
+            $result .= ' و ';   // صد و
         }
         if ($array[1] != 0) {   // 121
             $result .= dahGan($array, 1);   // صد و بیست و یک
         } elseif ($array[2] != 0) {    // 101
             $result .= yekan($array[2]);    // صد و یک
         }
-        $result .= ' هزار';
     }
-//    if ($len == 7) {
-//        $result .= match ($array[0]) {
-//            1 => 'یک',
-//            2 => 'دو',
-//            3 => 'سه',
-//            4 => 'چهار',
-//            5 => ' پنج',
-//            6 => 'شش',
-//            7 => 'هفت',
-//            8 => 'هشت',
-//            9 => 'نه',
-//            default => ' ',
-//        };
-//    }
-//    elseif ($len == 8) {
-//        if ($array[0] == 1) {
-//            $result .= match ($array[1]) {
-//                0 => 'ده',
-//                1 => 'یازده',
-//                2 => 'دوازده',
-//                3 => 'سیزده',
-//                4 => 'چهارده',
-//                5 => ' پانزده',
-//                6 => 'شانزده',
-//                7 => 'هفده',
-//                8 => 'هجده',
-//                9 => 'نوزده',
-//                default => ' ',
-//            };
-//        } else {
-//            $result .= match ($array[0]) {
-//                2 => 'بیست',
-//                3 => 'سی',
-//                4 => 'چهل',
-//                5 => ' پنجاه',
-//                6 => 'شصت',
-//                7 => 'هفتاد',
-//                8 => 'هشتاد',
-//                9 => 'نود',
-//                default => ' ',
-//            };
-//            if ($array[1] != 0) {
-//                $result .= ' و ';
-//                $result .= match ($array[1]) {
-//                    1 => 'یک',
-//                    2 => 'دو',
-//                    3 => 'سه',
-//                    4 => 'چهار',
-//                    5 => ' پنج',
-//                    6 => 'شش',
-//                    7 => 'هفت',
-//                    8 => 'هشت',
-//                    9 => 'نه',
-//                    default => ' ',
-//                };
-//            }
-//        }
-//    }
-//    elseif ($len == 9) {
-//        $result .= match ($array[0]) {
-//            1 => 'صد',
-//            2 => 'دویست',
-//            3 => 'سی صد',
-//            4 => 'چهار صد',
-//            5 => ' پانصد',
-//            6 => 'شش صد',
-//            7 => 'هفت صد',
-//            8 => 'هشت صد',
-//            9 => 'نه صد',
-//            default => ' ',
-//        };
-//        $result .= ' و ';
-//        if ($array[1] == 1) {
-//            $result .= match ($array[2]) {
-//                0 => 'ده',
-//                1 => 'یازده',
-//                2 => 'دوازده',
-//                3 => 'سیزده',
-//                4 => 'چهارده',
-//                5 => 'پانزده',
-//                6 => 'شانزده',
-//                7 => 'هفده',
-//                8 => 'هجده',
-//                9 => 'نوزده',
-//                default => ' ',
-//            };
-//        } else {
-//            $result .= match ($array[1]) {
-//                2 => 'بیست',
-//                3 => 'سی',
-//                4 => 'چهل',
-//                5 => 'پنجاه',
-//                6 => 'شصت',
-//                7 => 'هفتاد',
-//                8 => 'هشتاد',
-//                9 => 'نود',
-//                default => ' ',
-//            };
-//            if ($array[2] != 0) {
-//                $result .= ' و ';
-//                $result .= match ($array[2]) {
-//                    1 => 'یک',
-//                    2 => 'دو',
-//                    3 => 'سه',
-//                    4 => 'چهار',
-//                    5 => 'پنج',
-//                    6 => 'شش',
-//                    7 => 'هفت',
-//                    8 => 'هشت',
-//                    9 => 'نه',
-//                    default => ' ',
-//                };
-//            }
-//        }
-//        $result .= ' میلیون';
-//    }
-//    if($len >= 6) {
-//        $result .= ' و ';
-//        $result .= match ($array[0]) {
-//            1 => 'صد',
-//            2 => 'دویست',
-//            3 => 'سی صد',
-//            4 => 'چهار صد',
-//            5 => ' پانصد',
-//            6 => 'شش صد',
-//            7 => 'هفت صد',
-//            8 => 'هشت صد',
-//            9 => 'نه صد',
-//            default => ' ',
-//        };
-//        $result .= ' و ';
-//        if ($array[1] == 1) {
-//            $result .= match ($array[2]) {
-//                0 => 'ده',
-//                1 => 'یازده',
-//                2 => 'دوازده',
-//                3 => 'سیزده',
-//                4 => 'چهارده',
-//                5 => ' پانزده',
-//                6 => 'شانزده',
-//                7 => 'هفده',
-//                8 => 'هجده',
-//                9 => 'نوزده',
-//                default => ' ',
-//            };
-//        } else {
-//            $result .= match ($array[1]) {
-//                2 => 'بیست',
-//                3 => 'سی',
-//                4 => 'چهل',
-//                5 => ' پنجاه',
-//                6 => 'شصت',
-//                7 => 'هفتاد',
-//                8 => 'هشتاد',
-//                9 => 'نود',
-//                default => ' ',
-//            };
-//            if ($array[2] != 0) {
-//                $result .= ' و ';
-//                $result .= match ($array[2]) {
-//                    1 => 'یک',
-//                    2 => 'دو',
-//                    3 => 'سه',
-//                    4 => 'چهار',
-//                    5 => ' پنج',
-//                    6 => 'شش',
-//                    7 => 'هفت',
-//                    8 => 'هشت',
-//                    9 => 'نه',
-//                    default => ' ',
-//                };
-//            }
-//        }
-//        $result .= ' هزار';
-//    } elseif ($len == 5) {
-//        if ($array[0] == 1) {
-//            $result .= match ($array[1]) {
-//                0 => 'ده',
-//                1 => 'یازده',
-//                2 => 'دوازده',
-//                3 => 'سیزده',
-//                4 => 'چهارده',
-//                5 => ' پانزده',
-//                6 => 'شانزده',
-//                7 => 'هفده',
-//                8 => 'هجده',
-//                9 => 'نوزده',
-//                default => ' ',
-//            };
-//        } else {
-//            $result .= match ($array[0]) {
-//                2 => 'بیست',
-//                3 => 'سی',
-//                4 => 'چهل',
-//                5 => ' پنجاه',
-//                6 => 'شصت',
-//                7 => 'هفتاد',
-//                8 => 'هشتاد',
-//                9 => 'نود',
-//                default => ' ',
-//            };
-//            if ($array[1] != 0) {
-//                $result .= ' و ';
-//                $result .= match ($array[1]) {
-//                    1 => 'یک',
-//                    2 => 'دو',
-//                    3 => 'سه',
-//                    4 => 'چهار',
-//                    5 => ' پنج',
-//                    6 => 'شش',
-//                    7 => 'هفت',
-//                    8 => 'هشت',
-//                    9 => 'نه',
-//                    default => ' ',
-//                };
-//            }
-//        }
-//        $result .= ' هزار';
-//    } elseif ($len == 4) {
-//        $result .= match ($array[1]) {
-//            1 => 'یک',
-//            2 => 'دو',
-//            3 => 'سه',
-//            4 => 'چهار',
-//            5 => ' پنج',
-//            6 => 'شش',
-//            7 => 'هفت',
-//            8 => 'هشت',
-//            9 => 'نه',
-//            default => ' ',
-//        };
-//        $result .= ' هزار';
-//    }
-    return $result . ' تومان';
+    elseif ($len <= 4) {
+        $result .= yekan($array[0]);
+        $result .= ' هزار';
+        if ($array[1] != 0 || $array[2] != 0 || $array[3] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 1, $len - 1)));
+    } elseif ($len <= 5) {
+        $result .= dahGan($array, 0);
+        $result .= ' هزار';
+        if ($array[2] != 0 || $array[3] != 0 || $array[4] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 2, $len - 2)));
+    } elseif ($len <= 6) {
+        // 121
+        $result .= sadGan($array[0]); // صد
+        if ($array[1] != 0 || $array[2] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        if ($array[1] != 0) {   // 121
+            $result .= dahGan($array, 1);   // صد و بیست و یک
+            $result .= ' هزار';
+        } elseif ($array[2] != 0) {    // 101
+            $result .= yekan($array[2]);    // صد و یک
+            $result .= ' هزار';
+        }
+        if ($array[3] != 0 || $array[4] != 0 || $array[5] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 3, $len - 3)));
+    } elseif ($len <= 7) {
+        // 2 600 000
+        $result .= yekan($array[0]);
+        $result .= ' میلیون';
+        if ($array[1] != 0 || $array[2] != 0 || $array[3] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 1, $len - 1)));
+    } elseif ($len <= 8) {
+        $result .= dahGan($array, 0);
+        $result .= ' میلیون';
+        if ($array[2] != 0 || $array[3] != 0 || $array[4] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 2, $len - 2)));
+    } elseif ($len <= 9) {
+        $result .= sadGan($array[0]); // صد
+        if ($array[1] != 0 || $array[2] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        if ($array[1] != 0) {   // 121
+            $result .= dahGan($array, 1);   // صد و بیست و یک
+        } elseif ($array[2] != 0) {    // 101
+            $result .= yekan($array[2]);    // صد و یک
+        }
+        $result .= ' میلیون';
+        if ($array[3] != 0 || $array[4] != 0 || $array[5] != 0) {
+            $result .= ' و ';   // صد و
+        }
+        $result .= generateReadingPrice(implode("", array_splice($array, 3, $len - 3)));
+    }
+    return $result;
 }

@@ -33,6 +33,9 @@
                                 <p class="text-muted">قیمت کالا</p>
                                 @if($product->marketable_number > 0)
                                     <p class="text-muted"><span id="product_price"
+                                                                title="{{ generateReadingPrice((int)$product->price) }}"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
                                                                 data-product-original-price={{ $product->price }}>{{ priceFormat($product->price) }}</span>
                                         <span class="small">تومان</span></p>
                                 @else
@@ -48,11 +51,16 @@
                             @endphp
                             @if(!empty($amazingSale) && $product->marketable_number > 0)
                                 <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">تخفیف کالا (<span class="text-danger font-weight-bold mx-1">{{ $amazingSale->getFaPercentage() }}</span>)
+                                    <p class="text-muted">تخفیف کالا (<span
+                                            class="text-danger font-weight-bold mx-1">{{ $amazingSale->getFaPercentage() }}</span>)
                                     </p>
+                                    @php $discount = $product->price * ($amazingSale->percentage / 100) @endphp
                                     <p class="text-danger fw-bolder" id="product-discount-price"
-                                       data-product-discount-price="{{ ($product->price * ($amazingSale->percentage / 100) ) }}">
-                                        {{ priceFormat($product->price * ($amazingSale->percentage / 100)) }}<span
+                                       data-product-discount-price="{{ $discount }}"
+                                       title="{{ generateReadingPrice($discount) }}"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top">
+                                        {{ priceFormat($discount) }}<span
                                             class="small"> تومان</span>
                                     </p>
                                 </section>
