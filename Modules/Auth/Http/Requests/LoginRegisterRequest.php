@@ -32,8 +32,16 @@ class LoginRegisterRequest extends FormRequest
                 'email' => ['required', 'string', 'email', 'exists:users,email'],
                 'password' => ['required'],
             ];
-        }
-        elseif ($route->getName() == 'auth.login-register') {
+        } elseif ($route->getName() == 'auth.register') {
+            return [
+                'rules' => 'required',
+                'first_name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+                'last_name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+//                'mobile' => ['required', 'digits:11', 'unique:users,mobile'],
+                'email' => ['required', 'string', 'email', 'unique:users,email'],
+                'password' => ['required', 'unique:users', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised(), 'confirmed'],
+            ];
+        } elseif ($route->getName() == 'auth.login-register') {
             return [
                 'rules' => 'required',
                 'id' => 'required|min:11|max:64|regex:/^[a-zA-Z0-9_.@\+]*$/',
@@ -89,7 +97,7 @@ class LoginRegisterRequest extends FormRequest
     {
         $factory = $this->container->make(ValidationFactory::class);
 
-        return ! $factory->make(
+        return !$factory->make(
             ['username' => $param],
             ['username' => 'email']
         )->fails();

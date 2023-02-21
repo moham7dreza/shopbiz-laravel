@@ -8,7 +8,7 @@
 }
 
 .login-logo {
-    margin-bottom: 3.6rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
 }
@@ -19,7 +19,7 @@
 
 
 .login-title {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     font-size: 1rem;
     font-weight: bold;
 }
@@ -54,4 +54,24 @@
 
 .login-terms-and-conditions {
     font-size: 0.8rem;
+}
+.home-btn {
+    position: absolute;
+    left: 25px;
+    right: auto;
+}
+.register a {
+    color: black;
+}
+.register > a:hover {
+    color: red;
+    font-size: .9rem;
+}
+body.authentication-bg {
+    background-image: url(../images/bg1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.font-size-90 {
+    font-size: 90%;
 }

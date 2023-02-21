@@ -38,8 +38,8 @@
                     <button class="btn btn-danger">ورود به آمازون</button>
                 </section>
                 <section class="login-terms-and-conditions d-flex align-items-center">
-                    <input type="checkbox" name="rules" class="mx-1" {{ old('rules') == 'on' ? 'checked' : '' }}>
-                    <a href="#" class="text-decoration-none"> شرایط و قوانین </a>را خوانده ام و پذیرفته ام
+                    <input type="checkbox" name="rules" class="mx-1 rounded" {{ old('rules') == 'on' ? 'checked' : '' }}>
+                    <a href="#" class="text-decoration-none mx-1 font-weight-bold"> شرایط و قوانین </a>را خوانده ام و پذیرفته ام
                 </section>
                 @error('rules')
                 <span class="alert alert-danger -p-1 my-3 d-block font-size-80" role="alert">
@@ -49,6 +49,12 @@
             </span>
                 @enderror
                 <section class="border-bottom mt-3"></section>
+                <section class="mt-3 text-center font-size-80 register">
+                    <span class="text-dark text-muted mx-1">حساب کاربری ندارید؟</span>
+                    <a href="{{ route('auth.register') }}" class="text-decoration-none font-weight-bold">
+                        ساخت حساب کاربری
+                    </a>
+                </section>
                 <section class="mt-3 text-center">
                     <a href="{{ route('customer.home') }}" class="text-decoration-none text-danger font-size-80">برگشت
                         به فروشگاه</a>

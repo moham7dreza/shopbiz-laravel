@@ -13,7 +13,9 @@ use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 use Modules\Auth\Services\AuthService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\User\Entities\User;
 use Modules\User\Repositories\UserRepoEloquentInterface;
+use Modules\User\Services\UserService;
 
 class LoginRegisterController extends Controller
 {
@@ -49,6 +51,14 @@ class LoginRegisterController extends Controller
     }
 
     /**
+     * @return Application|Factory|View
+     */
+    public function registerForm(): Factory|View|Application
+    {
+        return view('Auth::home.register');
+    }
+
+    /**
      * @param LoginRegisterRequest $request
      * @param UserRepoEloquentInterface $userRepo
      * @return RedirectResponse
@@ -77,6 +87,20 @@ class LoginRegisterController extends Controller
         return $this->showAlertWithRedirect('با موفقیت وارد شدید', route: 'customer.home');
     }
 
+    /**
+     * @param LoginRegisterRequest $request
+     * @return RedirectResponse
+     */
+    public function register(LoginRegisterRequest $request): RedirectResponse
+    {
+        $user = User::query()->create($request->validated());
+
+        auth()->loginUsingId($user->id);
+
+//        event(new Registered($user));
+
+        return $this->showAlertWithRedirect('حساب شما با موفقیت ایجاد شد.', route: 'customer.home');
+    }
 
     /**
      * @param $token

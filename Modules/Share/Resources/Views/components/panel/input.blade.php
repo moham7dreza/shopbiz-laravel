@@ -23,7 +23,7 @@
         @endif
     </div>
     @error($name)
-    <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+    <span class="alert alert-danger -p-1 mb-3 d-block font-size-80 mt-1" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>

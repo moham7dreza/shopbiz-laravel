@@ -19,6 +19,9 @@ Route::group([], static function ($router) {
         Route::get('login', [LoginRegisterController::class, 'loginForm'])->name('auth.login-form');
         Route::middleware('throttle:customer-login-register-limiter')
             ->post('/login', [LoginRegisterController::class, 'login'])->name('auth.login');
+        Route::get('register', [LoginRegisterController::class, 'registerForm'])->name('auth.register-form');
+        Route::middleware('throttle:customer-login-register-limiter')
+            ->post('/register', [LoginRegisterController::class, 'register'])->name('auth.register');
     });
     //
     Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.login-register-form');
