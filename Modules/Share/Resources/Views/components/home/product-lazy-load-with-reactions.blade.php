@@ -52,8 +52,8 @@
                                                                    value="{{ $defaultSelectedGuarantee }}">
                                                             <input type="hidden" name="number" value="1">
                                                             <button type="submit"
-                                                                    class="btn btn-light btn-sm add-to-cart-btn {{ $productIsInCart ? 'text-danger' : '' }}">
-                                                                <i class="fa fa-cart-plus text-muted"></i>
+                                                                    class="btn btn-light btn-sm add-to-cart-btn text-muted">
+                                                                <i class="fa fa-cart-plus {{ $productIsInCart ? 'text-danger' : '' }}"></i>
                                                             </button>
                                                         </form>
                                                     </section>
@@ -147,7 +147,7 @@
                                                         @php $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product); @endphp
                                                         <section class="post-favorite-btn">
                                                             <button
-                                                                class="btn btn-light btn-sm text-decoration-none"
+                                                                class="btn btn-light btn-sm text-decoration-none text-muted"
                                                                 data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 @auth
@@ -156,7 +156,7 @@
                                                                 @guest
                                                                     title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
                                                                 @endguest>
-                                                                <i class="fa fa-bookmark text-muted {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
                                                             </button>
                                                         </section>
                                                         <!-- end product add to favorite button -->
@@ -165,7 +165,7 @@
                                                         @php $hasLiked = auth()->check() && auth()->user()->hasLiked($product); @endphp
                                                         <section class="post-like-btn">
                                                             <button type="button"
-                                                                    class="btn btn-light btn-sm text-decoration-none"
+                                                                    class="btn btn-light btn-sm text-decoration-none text-muted"
                                                                     data-url="{{ route('customer.product.like', $product) }}"
                                                                     data-bs-toggle="tooltip"
                                                                     data-bs-placement="top"
@@ -175,7 +175,7 @@
                                                                     @guest
                                                                         title="برای لایک کردن وارد حساب کاربری خود شوید"
                                                                 @endguest>
-                                                                <i class="fa fa-heart text-muted {{ $hasLiked ? 'text-danger' : '' }}"></i>
+                                                                <i class="fa fa-heart {{ $hasLiked ? 'text-danger' : '' }}"></i>
                                                             </button>
                                                         </section>
                                                         <!-- end product like button -->

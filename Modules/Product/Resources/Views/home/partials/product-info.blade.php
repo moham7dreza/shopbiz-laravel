@@ -117,7 +117,7 @@
                         <section class="product-add-to-favorite position-relative"
                                  style="top: 0">
                             <button type="button"
-                                    class="btn btn-light btn-sm text-decoration-none"
+                                    class="btn btn-light btn-sm text-decoration-none text-muted"
                                     data-url="{{ route('customer.product.add-to-favorite', $product) }}"
                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                     @auth
@@ -127,7 +127,7 @@
                                         title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
                                 @endguest
                             >
-                                <i class="fa fa-bookmark text-muted {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
                             </button>
                         </section>
                         <!-- end product favorite button -->
@@ -137,7 +137,7 @@
                         <section class="product-like position-relative"
                                  style="top: 0">
                             <button type="button"
-                                    class="btn btn-light btn-sm text-decoration-none"
+                                    class="btn btn-light btn-sm text-decoration-none text-muted"
                                     data-url="{{ route('customer.product.like', $product) }}"
                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                     @auth

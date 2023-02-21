@@ -8,7 +8,7 @@
 <script src="{{ asset('customer-assets/plugins/owlcarousel/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('admin-assets/sweetalert/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('customer-assets/js/main.js') }}"></script>
-
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script>
     $(document).ready(function () {
         $('.preloader').delay(100).fadeOut('fast');
