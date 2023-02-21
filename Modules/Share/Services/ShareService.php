@@ -408,7 +408,7 @@ class ShareService
                 $body .= '</section>';
             }
             self::showAnimatedToastWithHtml($header, $body, 'info', 8000);
-        } elseif(auth()->user()->user_type == User::TYPE_ADMIN) {
+        } elseif(auth()->check() && auth()->user()->user_type == User::TYPE_ADMIN) {
             self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' ادمین عزیز خوش آمدید.')->position('top-left');
         }
         else {

@@ -14,6 +14,37 @@ class Review extends Model
 
     protected $fillable = ['user_id', 'reviewable_id', 'reviewable_type', 'rate'];
 
+    // ********************************************* scopes
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeProductType($query): mixed
+    {
+        return $query->where('reviewable_type', 'Modules\Product\Entities\Product');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopePostType($query): mixed
+    {
+        return $query->where('reviewable_type', 'Modules\Post\Entities\Post');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUser($query): mixed
+    {
+        return $query->where('user_id', auth()->id());
+    }
+
+    // ********************************************* Relations
+
     /**
      * @return MorphTo
      */
@@ -29,7 +60,11 @@ class Review extends Model
     {
         return $this->belongsTo(User::class);
     }
+// ********************************************* Methods
 
+
+
+// ********************************************* paths
     /**
      * @return mixed
      */

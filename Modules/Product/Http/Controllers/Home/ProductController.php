@@ -52,7 +52,8 @@ class ProductController extends Controller
         views($product)->record();
         $relatedProducts = $this->repo->relatedItems($product)->get();
         $userCartItemsProductIds = $this->cartRepo->findUserCartItems()->pluck('product_id')->all();
-        return view('Product::home.product', compact(['product', 'relatedProducts', 'userCartItemsProductIds']));
+        $review = $this->repo->getUserReviewedProductRate($product);
+        return view('Product::home.product', compact(['product', 'relatedProducts', 'userCartItemsProductIds', 'review']));
     }
 
     /**

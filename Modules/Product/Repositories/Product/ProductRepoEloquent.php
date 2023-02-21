@@ -190,6 +190,14 @@ class ProductRepoEloquent implements ProductRepoEloquentInterface
     // home
 
 
+    /**
+     * @param $product
+     * @return mixed
+     */
+    public function getUserReviewedProductRate($product): mixed
+    {
+        return $product->reviews()->user()->pluck('rate')->last();
+    }
 
     /**
      * @return Collection

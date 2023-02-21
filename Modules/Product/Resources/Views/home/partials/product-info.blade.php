@@ -106,91 +106,55 @@
                     class="d-flex align-items-center justify-content-between mx-2 my-3 flex-row-reverse product-reactions">
                     <!-- product reactions -->
                     <section class="d-flex align-items-center reactions">
-                        @guest
-                            <section class="product-add-to-favorite position-relative"
-                                     style="top: 0">
-                                <button type="button"
-                                        class="btn btn-light btn-sm text-decoration-none"
-                                        data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="اضافه به علاقه مندی">
-                                    <i class="fa fa-heart"></i>
-                                </button>
-                            </section>
-                        @endguest
-                        @auth
-                            @php
-                                $hasFavorited = auth()->user()->hasFavorited($product);
-                    $hasLiked = auth()->user()->hasLiked($product);
-                            @endphp
-                            @if ($hasFavorited)
-                                <section class="product-add-to-favorite position-relative"
-                                         style="top: 0">
-                                    <button type="button"
-                                            class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="حذف از علاقه مندی">
-                                        <i class="fa fa-bookmark text-info"></i>
-                                    </button>
-                                </section>
-                            @else
-                                <section class="product-add-to-favorite position-relative"
-                                         style="top: 0">
-                                    <button type="button"
-                                            class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="اضافه به علاقه مندی">
-                                        <i class="fa fa-bookmark"></i>
-                                    </button>
-                                </section>
-                            @endif
-                            @if ($hasLiked)
-                                <section class="product-like position-relative"
-                                         style="top: 0">
-                                    <button type="button"
-                                            class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.product.like', $product) }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="لایک نکردن">
-                                        <i class="fa fa-heart text-danger"></i>
-                                    </button>
-                                </section>
-                            @else
-                                <section class="product-like position-relative"
-                                         style="top: 0">
-                                    <button type="button"
-                                            class="btn btn-light btn-sm text-decoration-none"
-                                            data-url="{{ route('customer.product.like', $product) }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="لایک کردن">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                </section>
-                            @endif
-                            <section class="product-add-to-favorite position-relative"
-                                     style="top: 0">
-                                <button type="button"
-                                        onclick="document.getElementById('comment-add-button').click();"
-                                        class="btn btn-light btn-sm text-decoration-none"
-                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="افزودن نظر">
-                                    <i class="fa fa-comment"></i>
-                                </button>
-                            </section>
-                        @endauth
+                        @php
+                            $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product);
+                $hasLiked = auth()->check() && auth()->user()->hasLiked($product);
+                        @endphp
+                        <section class="product-add-to-favorite position-relative"
+                                 style="top: 0">
+                            <button type="button"
+                                    class="btn btn-light btn-sm text-decoration-none"
+                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    @auth
+                                        title="{{ $hasFavorited ? 'حذف از علاقه مندی' : 'اضافه به علاقه مندی' }}"
+                                    @endauth
+                                    @guest
+                                        title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
+                                @endguest
+                            >
+                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                            </button>
+                        </section>
+                        <section class="product-like position-relative"
+                                 style="top: 0">
+                            <button type="button"
+                                    class="btn btn-light btn-sm text-decoration-none"
+                                    data-url="{{ route('customer.product.like', $product) }}"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    @auth
+                                        title="{{ $hasLiked ? 'لایکش نکن' : 'لایکش کن' }}"
+                                    @endauth
+                                    @guest
+                                        title="برای لایک کردن وارد حساب کاربری خود شوید"
+                                @endguest
+                            >
+                                <i class="fa fa-heart {{ $hasLiked ? 'text-danger' : '' }}"></i>
+                            </button>
+                        </section>
+                        <section class="product-add-to-favorite position-relative"
+                                 style="top: 0">
+                            <button type="button"
+                                    onclick="document.getElementById('comment-add-button').click();"
+                                    class="btn btn-light btn-sm text-decoration-none"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="افزودن نظر">
+                                <i class="fa fa-comment"></i>
+                            </button>
+                        </section>
                     </section>
 
                     <!-- product review -->
-                    @php
-                        //                                            $review = $product->reviews()->where('user_id', auth()->id())->first();
-                                                                    $review = \Modules\Share\Entities\Review::query()->where([
-                                                                      ['user_id', auth()->id()],
-                                                                      ['reviewable_id', $product->id],
-                                                                      ['reviewable_type', get_class($product)]
-                                                                      ])->pluck('rate')->first();
-                    @endphp
                     <section class="d-flex align-items-start flex-column reviews w-50">
                         <section class="d-flex align-items-center">
                             <i class="fa fa-ticket-alt"></i>
@@ -200,7 +164,12 @@
                                                 <span><i class="fa fa-pen" title="لطفا در نظر سنجی کالا شرکت کنید"
                                                          data-bs-toggle="tooltip"
                                                          data-bs-placement="top"></i></span>
-                            <section class="d-flex">
+                            <section class="d-flex"
+                                     @guest
+                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                     title="برای ثبت نظر وارد حساب کاربری خود شوید"
+                                @endguest
+                            >
                                 <button
                                     class="btn {{ $review > 4 ? 'text-greenyellow' : 'text-gray' }}"
                                     type="button" id="rate_very_good" title="عالی"
