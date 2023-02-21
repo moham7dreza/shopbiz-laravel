@@ -25,7 +25,7 @@
                 </section>
                 <section class="login-info ms-2">رمز عبور</section>
                 <section class="login-input-text">
-                    <input type="text" name="password" value="{{ old('password') }}">
+                    <input type="password" name="password" value="{{ old('password') }}" autocomplete="on">
                     @error('password')
                     <span class="alert alert-danger -p-1 my-3 d-block font-size-80" role="alert">
                 <strong>
@@ -35,7 +35,7 @@
                     @enderror
                 </section>
                 <section class="login-btn d-grid g-2">
-                    <button type="submit" class="btn btn-danger">ورود به آمازون</button>
+                    <button class="btn btn-danger">ورود به آمازون</button>
                 </section>
                 <section class="login-terms-and-conditions d-flex align-items-center">
                     <input type="checkbox" name="rules" class="mx-1" {{ old('rules') == 'on' ? 'checked' : '' }}>

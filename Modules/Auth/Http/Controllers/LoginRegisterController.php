@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Modules\Auth\Http\Requests\LoginRegisterRequest;
 use Modules\Auth\Repositories\AuthRepoEloquentInterface;
 use Modules\Auth\Services\AuthService;
@@ -61,9 +62,19 @@ class LoginRegisterController extends Controller
         return to_route('auth.login-confirm-form', $token);
     }
 
-    public function login(LoginRegisterRequest $request)
+    /**
+     * @param LoginRegisterRequest $request
+     * @return RedirectResponse
+     */
+    public function login(LoginRegisterRequest $request): RedirectResponse
     {
-
+        $credentials = $request->only('email', 'password');
+        if (!Auth::validate($credentials)) {
+            return $this->showAlertWithRedirect(message:'ایمیل و رمز عبور با یکدیگر مطابقت ندارند.', title: 'خطا', type: 'error', route: 'auth.login-form');
+        }
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        Auth::login($user);
+        return $this->showAlertWithRedirect('با موفقیت وارد شدید', route: 'customer.home');
     }
 
 
@@ -127,6 +138,7 @@ class LoginRegisterController extends Controller
      */
     public function logout(): RedirectResponse
     {
+        Session::flush();
         Auth::logout();
         return $this->showToastWithRedirect(title: 'شما از حساب کاربری خود خارج شدید', route: 'customer.home');
 //        return to_route('customer.home');

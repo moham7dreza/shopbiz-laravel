@@ -15,7 +15,7 @@ class LoginRegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() === true;
+        return true;
     }
 
     /**
@@ -29,8 +29,8 @@ class LoginRegisterRequest extends FormRequest
         if ($route->getName() == 'auth.login') {
             return [
                 'rules' => 'required',
-                'email' => ['required', 'string', 'email', 'unique:users,email'],
-                'password' => ['required', 'unique:users', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
+                'email' => ['required', 'string', 'email', 'exists:users,email'],
+                'password' => ['required'],
             ];
         }
         elseif ($route->getName() == 'auth.login-register') {
@@ -52,5 +52,46 @@ class LoginRegisterRequest extends FormRequest
             'id' => 'ایمیل یا شماره موبایل',
             'rules' => 'شرایط و قوانین'
         ];
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function getCredentials()
+    {
+        // The form field for providing username or password
+        // have name of "username", however, in order to support
+        // logging users in with both (username and email)
+        // we have to check if user has entered one or another
+        $username = $this->get('username');
+
+        if ($this->isEmail($username)) {
+            return [
+                'email' => $username,
+                'password' => $this->get('password')
+            ];
+        }
+
+        return $this->only('username', 'password');
+    }
+
+    /**
+     * Validate if provided parameter is valid email.
+     *
+     * @param $param
+     * @return bool
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    private function isEmail($param)
+    {
+        $factory = $this->container->make(ValidationFactory::class);
+
+        return ! $factory->make(
+            ['username' => $param],
+            ['username' => 'email']
+        )->fails();
     }
 }
