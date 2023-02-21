@@ -4,8 +4,9 @@ namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rules\Password;
 
-class LoginRegisterRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,19 +25,15 @@ class LoginRegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $route = Route::current();
-        if ($route->getName() == 'auth.login-register') {
-            return [
-                'rules' => 'required',
-                'id' => 'required|min:11|max:64|regex:/^[a-zA-Z0-9_.@\+]*$/',
-            ];
-        } elseif ($route->getName() == 'auth.login-confirm') {
-            return [
-                'otp' => 'required|min:6|max:6',
-            ];
-        } else return [];
+        return [
+            'rules' => 'required',
+            'first_name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+            'last_name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+//                'mobile' => ['required', 'digits:11', 'unique:users,mobile'],
+            'email' => ['required', 'string', 'email', 'unique:users,email'],
+            'password' => ['required', 'unique:users', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised(), 'confirmed'],
+        ];
     }
-
 
     /**
      * @return string[]
@@ -44,7 +41,6 @@ class LoginRegisterRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'id' => 'ایمیل یا شماره موبایل',
             'rules' => 'شرایط و قوانین'
         ];
     }

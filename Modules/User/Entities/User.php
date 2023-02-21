@@ -18,15 +18,11 @@ use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
-use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
-
-use Modules\Share\Traits\HasImageTrait;
 use Modules\Ticket\Entities\Ticket;
 use Modules\Ticket\Entities\TicketAdmin;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
-use Overtrue\LaravelLike\Traits\Likeable;
 use Overtrue\LaravelLike\Traits\Liker;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;

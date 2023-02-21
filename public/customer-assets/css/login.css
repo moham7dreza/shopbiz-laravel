@@ -4,7 +4,7 @@
     padding: 4rem 2rem 3rem 2rem;
     border: 1px solid #efefef;
     width: 22rem;
-    box-shadow: 0rem 0rem 0.2rem 0.1rem rgba(0,0,0,0.06);
+    box-shadow: 0rem 0rem 0.2rem 0.1rem rgba(0, 0, 0, 0.06);
 }
 
 .login-logo {
@@ -34,7 +34,7 @@
     margin-bottom: 1rem;
 }
 
-.login-input-text input{
+.login-input-text input {
     outline: none;
     border: 1px solid #efefef;
     display: block;
@@ -46,7 +46,6 @@
 }
 
 
-
 .login-btn {
     margin-bottom: 2rem;
 }
@@ -55,23 +54,56 @@
 .login-terms-and-conditions {
     font-size: 0.8rem;
 }
+
 .home-btn {
     position: absolute;
     left: 25px;
     right: auto;
 }
+
 .register a {
     color: black;
 }
+
 .register > a:hover {
     color: red;
     font-size: .9rem;
 }
+
 body.authentication-bg {
     background-image: url(../images/bg1.jpg);
     background-size: cover;
     background-position: center;
 }
+
 .font-size-90 {
     font-size: 90%;
+}
+
+.font-size-70 {
+    font-size: 70%;
+}
+
+
+.login-input {
+    outline: none;
+    border: 1px solid #efefef;
+    display: block;
+    width: 100%;
+    border-radius: 0.25rem;
+    /*font-size: 0.9rem;*/
+    line-height: 2rem;
+    /*background-color: #f7f7f7;*/
+}
+
+.go-home > a {
+    color: red;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.go-home > a:hover {
+    color: black;
+    font-size: 1rem;
 }

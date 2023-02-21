@@ -43,22 +43,6 @@ class LoginRegisterController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
-     */
-    public function loginForm(): Factory|View|Application
-    {
-        return view('Auth::home.login');
-    }
-
-    /**
-     * @return Application|Factory|View
-     */
-    public function registerForm(): Factory|View|Application
-    {
-        return view('Auth::home.register');
-    }
-
-    /**
      * @param LoginRegisterRequest $request
      * @param UserRepoEloquentInterface $userRepo
      * @return RedirectResponse
@@ -70,36 +54,6 @@ class LoginRegisterController extends Controller
             return $this->showAlertWithRedirect(message:'شناسه ورودی شما نه شماره موبایل است نه ایمیل', title: 'خطا', type: 'error', route: 'auth.login-register-form');
         }
         return to_route('auth.login-confirm-form', $token);
-    }
-
-    /**
-     * @param LoginRegisterRequest $request
-     * @return RedirectResponse
-     */
-    public function login(LoginRegisterRequest $request): RedirectResponse
-    {
-        $credentials = $request->only('email', 'password');
-        if (!Auth::validate($credentials)) {
-            return $this->showAlertWithRedirect(message:'ایمیل و رمز عبور با یکدیگر مطابقت ندارند.', title: 'خطا', type: 'error', route: 'auth.login-form');
-        }
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-        Auth::login($user);
-        return $this->showAlertWithRedirect('با موفقیت وارد شدید', route: 'customer.home');
-    }
-
-    /**
-     * @param LoginRegisterRequest $request
-     * @return RedirectResponse
-     */
-    public function register(LoginRegisterRequest $request): RedirectResponse
-    {
-        $user = User::query()->create($request->validated());
-
-        auth()->loginUsingId($user->id);
-
-//        event(new Registered($user));
-
-        return $this->showAlertWithRedirect('حساب شما با موفقیت ایجاد شد.', route: 'customer.home');
     }
 
     /**
