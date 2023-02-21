@@ -40,6 +40,7 @@
                         @endforeach
                     </p>
                 @endif
+                <!-- end product colors -->
 
                 <!-- product guarantees -->
                 @php $productGuarantees = $product->guarantees()->get(); @endphp
@@ -59,8 +60,9 @@
                         </select>
                     </p>
                 @endif
+                <!-- end product guarantees -->
 
-                <!-- product marketable number -->
+                <!-- product has marketable number -->
                 <p class="font-weight-bold">
                     @if($product->marketable_number > 0)
                         <i class="fa fa-store-alt cart-product-selected-store me-1"></i>
@@ -69,6 +71,7 @@
                         <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا ناموجود</span>
                     @endif
                 </p>
+                <!-- end product has marketable number -->
 
                 <!-- product numbers -->
                 <section>
@@ -84,6 +87,7 @@
                         <button class="cart-number cart-number-up" type="button">+</button>
                     </section>
                 </section>
+                <!-- end product numbers -->
 
                 <!-- product tags -->
                 @if($product->tags()->count() > 0)
@@ -100,16 +104,16 @@
                         </section>
                     </section>
                 @endif
+                <!-- end product tags -->
 
                 <!-- product reactions -->
                 <section
                     class="d-flex align-items-center justify-content-between mx-2 my-3 flex-row-reverse product-reactions">
-                    <!-- product reactions -->
+
                     <section class="d-flex align-items-center reactions">
-                        @php
-                            $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product);
-                $hasLiked = auth()->check() && auth()->user()->hasLiked($product);
-                        @endphp
+
+                        <!-- product favorite button -->
+                        @php $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product); @endphp
                         <section class="product-add-to-favorite position-relative"
                                  style="top: 0">
                             <button type="button"
@@ -123,9 +127,13 @@
                                         title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
                                 @endguest
                             >
-                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                <i class="fa fa-bookmark text-muted {{ $hasFavorited ? 'text-info' : '' }}"></i>
                             </button>
                         </section>
+                        <!-- end product favorite button -->
+
+                        <!-- product like button -->
+                        @php  $hasLiked = auth()->check() && auth()->user()->hasLiked($product); @endphp
                         <section class="product-like position-relative"
                                  style="top: 0">
                             <button type="button"
@@ -142,6 +150,9 @@
                                 <i class="fa fa-heart {{ $hasLiked ? 'text-danger' : '' }}"></i>
                             </button>
                         </section>
+                        <!-- end product like button -->
+
+                        <!-- add comment button -->
                         <section class="product-add-to-favorite position-relative"
                                  style="top: 0">
                             <button type="button"
@@ -149,9 +160,10 @@
                                     class="btn btn-light btn-sm text-decoration-none"
                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                     title="افزودن نظر">
-                                <i class="fa fa-comment"></i>
+                                <i class="fa fa-comment text-muted"></i>
                             </button>
                         </section>
+                        <!-- end add comment button -->
                     </section>
 
                     <!-- product review -->
@@ -208,7 +220,10 @@
                             </section>
                         </section>
                     </section>
+                    <!-- end product review -->
                 </section>
+                <!-- end product reactions -->
+
                 <section class="border-top my-2"></section>
                 <p class="mb-3 mt-3">
                     <i class="fa fa-info-circle me-1"></i>کاربر گرامی خرید شما هنوز نهایی

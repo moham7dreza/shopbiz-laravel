@@ -348,11 +348,10 @@ function generateReadingPrice($price): string
         }
         if ($array[1] != 0) {   // 121
             $result .= dahGan($array, 1);   // صد و بیست و یک
-            $result .= ' هزار';
         } elseif ($array[2] != 0) {    // 101
             $result .= yekan($array[2]);    // صد و یک
-            $result .= ' هزار';
         }
+        $result .= ' هزار';
         if ($array[3] != 0 || $array[4] != 0 || $array[5] != 0) {
             $result .= ' و ';   // صد و
         }

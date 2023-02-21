@@ -100,7 +100,7 @@
                                                     <p>کاربر گرامی لطفا برای ثبت نظر ابتدا وارد حساب کاربری خود
                                                         شوید </p>
                                                     <p>لینک ثبت نام و یا ورود
-                                                        <a href="{{ route('auth.login-register-form') }}">کلیک کنید</a>
+                                                        <a href="{{ route('auth.login-register-form') }}" class="text-decoration-none">کلیک کنید</a>
                                                     </p>
                                                 </section>
                                             @endguest

@@ -395,10 +395,26 @@ class Product extends Model implements Viewable
      */
     public function getFaFinalPrice(): array|string
     {
+        return (priceFormat($this->calcFinalPrice()) ?? 0) . ' تومان';
+    }
+
+    /**
+     * @return array|string|string[]
+     */
+    public function getFaFinalReadingPrice(): array|string
+    {
+        return generateReadingPrice($this->calcFinalPrice()) . ' تومان';
+    }
+
+    /**
+     * @return float|int|mixed
+     */
+    public function calcFinalPrice(): mixed
+    {
         $productPrice = $this->price + ($this->colors[0]->price_increase ?? 0) +
             ($this->guarantees[0]->price_increase ?? 0);
         $productDiscount = $this->price * $this->activeAmazingSales()->percentage / 100;
-        return (priceFormat($productPrice - $productDiscount) ?? 0) . ' تومان';
+        return $productPrice - $productDiscount;
     }
 
     /**

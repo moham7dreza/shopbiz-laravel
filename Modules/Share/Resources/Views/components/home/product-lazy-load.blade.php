@@ -25,64 +25,58 @@
                                         <section class="item">
                                             <section class="lazyload-item-wrapper">
                                                 <section class="product">
-                                                    @guest
-                                                        <section class="product-add-to-favorite">
-                                                            <button class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                    title="اضافه به علاقه مندی">
-                                                                <i class="fa fa-heart"></i>
-                                                            </button>
-                                                        </section>
-                                                    @endguest
-                                                    @auth
-                                                        <section class="product-add-to-cart">
-                                                            @php
-                                                                $hasFavorited = auth()->user()->hasFavorited($product);
 
-                                                                    $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
-                                                                    $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
-                                                                    $productIsInCart = in_array($product->id, $productIds);
-                                                            @endphp
-                                                            <form
-                                                                action="{{ route('customer.sales-process.add-to-cart', $product) }}"
-                                                                method="post" data-bs-toggle="tooltip"
-                                                                data-bs-placement="top"
-                                                                title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}">
-                                                                @csrf
-                                                                <input type="hidden" name="color"
-                                                                       value="{{ $defaultSelectedColor }}">
-                                                                <input type="hidden" name="guarantee"
-                                                                       value="{{ $defaultSelectedGuarantee }}">
-                                                                <input type="hidden" name="number" value="1">
-                                                                <button type="submit"
-                                                                        class="btn btn-light btn-sm add-to-cart-btn {{ $productIsInCart ? 'text-danger' : '' }}">
-                                                                    <i class="fa fa-cart-plus"></i>
-                                                                </button>
-                                                            </form>
-                                                        </section>
-                                                        @if ($hasFavorited)
-                                                            <section class="product-add-to-favorite">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="حذف از علاقه مندی">
-                                                                    <i class="fa fa-bookmark text-info"></i>
-                                                                </button>
-                                                            </section>
-                                                        @else
-                                                            <section class="product-add-to-favorite">
-                                                                <button
-                                                                    class="btn btn-light btn-sm text-decoration-none"
-                                                                    data-url="{{ route('customer.product.add-to-favorite', $product) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="اضافه به علاقه مندی">
-                                                                    <i class="fa fa-bookmark"></i>
-                                                                </button>
-                                                            </section>
-                                                        @endif
-                                                    @endauth
+                                                    <!-- product add to cart button -->
+                                                    <section class="product-add-to-cart">
+                                                        @php
+                                                            $defaultSelectedColor = !empty($product->colors->first()) ? $product->colors->first()->id : null;
+                                                            $defaultSelectedGuarantee = !empty($product->guarantees->first()) ? $product->guarantees->first()->id : null;
+                                                            $productIsInCart = in_array($product->id, $productIds);
+                                                        @endphp
+                                                        <form
+                                                            action="{{ route('customer.sales-process.add-to-cart', $product) }}"
+                                                            method="post" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            @auth
+                                                                title="{{ $productIsInCart ? 'کالا در حال حاظر در سبد خرید شما موجود است' : 'افزودن به سبد خرید' }}"
+                                                            @endauth
+                                                            @guest
+                                                                title="برای افزودن کالا به سبد خرید وارد حساب کاربری خود شوید"
+                                                            @endguest>
+                                                            @csrf
+                                                            <input type="hidden" name="color"
+                                                                   value="{{ $defaultSelectedColor }}">
+                                                            <input type="hidden" name="guarantee"
+                                                                   value="{{ $defaultSelectedGuarantee }}">
+                                                            <input type="hidden" name="number" value="1">
+                                                            <button type="submit"
+                                                                    class="btn btn-light btn-sm add-to-cart-btn {{ $productIsInCart ? 'text-danger' : '' }}">
+                                                                <i class="fa fa-cart-plus text-muted"></i>
+                                                            </button>
+                                                        </form>
+                                                    </section>
+                                                    <!-- end product add to cart button -->
+
+
+                                                    <!-- product add to favorite button -->
+                                                    @php $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product); @endphp
+                                                    <section class="product-add-to-favorite">
+                                                        <button
+                                                            class="btn btn-light btn-sm text-decoration-none"
+                                                            data-url="{{ route('customer.product.add-to-favorite', $product) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            @auth
+                                                                title="{{ $hasFavorited ? 'حذف از علاقه مندی' : 'اضافه به علاقه مندی' }}"
+                                                            @endauth
+                                                            @guest
+                                                                title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
+                                                            @endguest>
+                                                            <i class="fa fa-bookmark text-muted {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                                        </button>
+                                                    </section>
+                                                    <!-- end product add to favorite button -->
+
+                                                    <!-- start product link card -->
                                                     <a class="product-link"
                                                        href="{{ $product->path() }}">
                                                         <section class="product-image">
@@ -96,8 +90,14 @@
                                                         <section class="product-colors"></section>
                                                         <section class="product-name">
                                                             <h3>{{ $product->getLimitedName() }}</h3></section>
+
+                                                        <!-- product rate stars -->
                                                         @include('Share::components.home.partials.calc-stars-count-from-rate')
+                                                        <!-- end product rate stars -->
+
+                                                        <!-- product price -->
                                                         <section class="product-price-wrapper mb-4">
+                                                            <!-- product has discount -->
                                                             @if($product->activeAmazingSales())
                                                                 <section class="product-discount"
                                                                          title="{{ 'تخفیف : ' . $product->getFaProductDiscountPrice() }}"
@@ -109,7 +109,7 @@
                                                                         class="product-discount-amount">{{ $product->getFaAmazingSalesPercentage() }}</span>
                                                                 </section>
                                                                 <section class="product-price"
-                                                                         title="{{ $product->getFaPriceRead() }}"
+                                                                         title="{{ $product->getFaFinalReadingPrice() }}"
                                                                          data-bs-toggle="tooltip"
                                                                          data-bs-placement="top">
                                                                     {{ $product->getFaFinalPrice() }}
@@ -123,7 +123,9 @@
                                                                 </section>
                                                             @endif
                                                         </section>
+                                                        <!-- end product price -->
 
+                                                        <!-- product colors -->
                                                         <section class="product-colors">
                                                             @foreach ($product->colors()->get() as $color)
                                                                 <section class="product-colors-item"
@@ -134,6 +136,7 @@
                                                             @endforeach
                                                         </section>
 
+                                                        <!-- product metas -->
                                                         <section class="product-metas dir-ltr">
                                                             @foreach($product->values()->selected()->get() as $value)
                                                                 <span
@@ -141,6 +144,8 @@
                                                             @endforeach
                                                         </section>
                                                     </a>
+                                                    <!-- start product link card -->
+
                                                 </section>
                                             </section>
                                         </section>

@@ -42,12 +42,6 @@ class CartController extends Controller
         $this->repo = $cartRepoEloquent;
         $this->service = $cartService;
         $this->productColorRepo = $productColorRepo;
-
-//        $this->middleware('can:auth');
-
-        if (!auth()->check()) {
-            return to_route('auth.login-register-form');
-        }
     }
 
     /**
