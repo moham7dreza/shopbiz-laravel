@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "anhskohbo/no-captcha": "^3.4",
         "artesaos/seotools": "^1.0",
         "cviebrock/eloquent-sluggable": "^9.0",
         "cyrildewit/eloquent-viewable": "^6.1",

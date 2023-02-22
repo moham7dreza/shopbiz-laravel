@@ -196,6 +196,7 @@ return [
          */
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -264,5 +265,6 @@ return [
         'JsonLdMulti' => Artesaos\SEOTools\Facades\JsonLdMulti::class,
         // or
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
     ],
 ];

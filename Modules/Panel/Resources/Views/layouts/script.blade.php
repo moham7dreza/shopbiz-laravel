@@ -20,3 +20,4 @@
     });
 </script>
 
+{!! NoCaptcha::renderJs('fa') !!}
