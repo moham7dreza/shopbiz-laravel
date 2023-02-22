@@ -37,9 +37,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام دسترسی</th>
-                            <th>نام نقش ها</th>
-                            <th>توضیحات دسترسی</th>
+                            <th>
+                                <span>نام دسترسی</span>
+                                <a class="btn btn-sm btn-light" href="{{ route('permission.index', ['sort=name', 'dir=desc']) }}"><i class="fa fa-arrow-up"></i></a>
+                                <a class="btn btn-sm btn-light" href="{{ route('permission.index', ['sort=name', 'dir=asc']) }}"><i class="fa fa-arrow-down"></i></a></th>
+                            <th><a class="btn btn-sm btn-light" href="{{ route('permission.index', 'sort=roles') }}">نام نقش ها</a></th>
+                            <th><a class="btn btn-sm btn-light" href="{{ route('permission.index', 'sort=description') }}">توضیحات دسترسی</a></th>
                             <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

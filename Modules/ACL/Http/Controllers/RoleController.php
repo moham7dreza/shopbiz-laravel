@@ -68,6 +68,8 @@ class RoleController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif(isset(request()->sort)) {
+            $roles = $this->repo->index()->orderBy(request()->sort, 'desc')->paginate(10);
         } else {
             $roles = $this->repo->index()->paginate(10);
         }

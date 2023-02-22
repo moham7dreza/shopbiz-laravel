@@ -62,7 +62,10 @@ class PermissionController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
-        } else {
+        } elseif (isset(request()->sort)) {
+            $permissions = $this->repo->permissions()->orderBy(request()->sort, request()->dir)->paginate(10);
+        }
+        else {
             $permissions = $this->repo->permissions()->paginate(10);
         }
         return view('ACL::permission.index', compact(['permissions']));
