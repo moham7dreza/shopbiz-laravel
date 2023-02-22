@@ -167,7 +167,10 @@ class RoleController extends Controller
     {
 //        $this->service->rolePermissionsUpdate($request, $role);
         $role->syncPermissions($request->permissions);
-        DB::table('role_has_permissions')->insert(collect($request->permissions)->map(fn($id) => [
+        foreach ($request->permissions as $id) {
+            Permission::query()->findOrFail($id)->syncRoles($role);
+        }
+        DB::table('role_has_permissions')->insertOrIgnore(collect($request->permissions)->map(fn($id) => [
             'role_id' => $role->id,
             'permission_id' => $id
         ])->toArray());
