@@ -53,7 +53,7 @@
                                                             <input type="hidden" name="number" value="1">
                                                             <button type="submit"
                                                                     class="btn btn-light btn-sm add-to-cart-btn text-muted">
-                                                                <i class="fa fa-cart-plus {{ $productIsInCart ? 'text-danger' : '' }}"></i>
+                                                                <i class="fa fa-cart-plus {{ $productIsInCart ? 'text-lightcoral' : '' }}"></i>
                                                             </button>
                                                         </form>
                                                     </section>
@@ -141,7 +141,7 @@
 
                                                     <!-- start product reactions -->
                                                     <section
-                                                        class="d-flex align-items-center justify-content-end gap-2 pb-2 px-1 product-actions">
+                                                        class="d-flex align-items-center justify-content-end gap-2 p-2 product-actions">
 
                                                         <!-- product add to favorite button -->
                                                         @php $hasFavorited = auth()->check() && auth()->user()->hasFavorited($product); @endphp
@@ -156,7 +156,7 @@
                                                                 @guest
                                                                     title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
                                                                 @endguest>
-                                                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-lightblue' : '' }}"></i>
                                                             </button>
                                                         </section>
                                                         <!-- end product add to favorite button -->
@@ -175,7 +175,7 @@
                                                                     @guest
                                                                         title="برای لایک کردن وارد حساب کاربری خود شوید"
                                                                 @endguest>
-                                                                <i class="fa fa-heart {{ $hasLiked ? 'text-danger' : '' }}"></i>
+                                                                <i class="fa fa-heart {{ $hasLiked ? 'text-lightcoral' : '' }}"></i>
                                                             </button>
                                                         </section>
                                                         <!-- end product like button -->

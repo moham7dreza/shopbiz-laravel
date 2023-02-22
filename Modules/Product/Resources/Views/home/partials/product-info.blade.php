@@ -127,7 +127,7 @@
                                         title="برای افزودن به لیست علاقه مندی وارد حساب کاربری خود شوید"
                                 @endguest
                             >
-                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-info' : '' }}"></i>
+                                <i class="fa fa-bookmark {{ $hasFavorited ? 'text-lightblue' : '' }}"></i>
                             </button>
                         </section>
                         <!-- end product favorite button -->
@@ -147,7 +147,7 @@
                                         title="برای لایک کردن وارد حساب کاربری خود شوید"
                                 @endguest
                             >
-                                <i class="fa fa-heart {{ $hasLiked ? 'text-danger' : '' }}"></i>
+                                <i class="fa fa-heart {{ $hasLiked ? 'text-lightcoral' : '' }}"></i>
                             </button>
                         </section>
                         <!-- end product like button -->

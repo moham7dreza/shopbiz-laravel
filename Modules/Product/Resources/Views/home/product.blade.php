@@ -10,7 +10,7 @@
 
     @include('Product::home.partials.description')
 
-    <x-home-product-lazy-load-with-reactions title="کالاهای مرتبط با سبد خرید شما" :products="$relatedProducts"
+    <x-home-product-lazy-load-with-reactions title="کالاهای مرتبط با محصول" :products="$relatedProducts"
                                              :productIds="$userCartItemsProductIds"
                                              class="py-4 bg-blue-light"
                                              viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=mostVisitedProducts') }}"/>

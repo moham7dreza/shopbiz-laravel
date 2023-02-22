@@ -5,6 +5,8 @@
 @include('Share::ajax-functions.home.product-review')
 @include('Share::toast-functions.swal')
 @include('Share::toast-functions.login-toast')
+@include('Share::ajax-functions.home.post-add-to-favorite')
+@include('Share::ajax-functions.home.post-like')
 <script>
     $(document).ready(function () {
         bill();
