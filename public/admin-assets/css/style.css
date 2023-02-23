@@ -277,11 +277,12 @@ input:checked + .slider:before {
     box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.4);
 }
 .sort-arrows a{
+    color: lightskyblue;
     font-size: 0.7rem;
 }
 
 .sort-arrows a:hover{
     color: red;
     transition: 0.4s;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }

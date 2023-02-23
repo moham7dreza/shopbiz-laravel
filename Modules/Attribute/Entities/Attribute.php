@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Attribute\Traits\AttributeRoutesTrait;
 use Modules\Attribute\Traits\HasTypesTrait;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Share\Traits\HasDefaultStatus;
 
 class Attribute extends Model
 {
-    use HasFactory, SoftDeletes, HasDefaultStatus, HasTypesTrait;
+    use HasFactory, SoftDeletes, HasDefaultStatus, HasTypesTrait, AttributeRoutesTrait;
 
     /**
      * @var string[]

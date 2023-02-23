@@ -28,12 +28,12 @@
                         @can($PERMISSION::PERMISSION_BANNER_CREATE)
                             <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('banner.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($redirectRoute) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('banner.index') }}"/>
+                        <x-panel-search-form route="{{ route($redirectRoute) }}"/>
                     </div>
                 </section>
 
@@ -42,11 +42,20 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>عنوان بنر</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="عنوان بنر" property="title"/>
+                            </th>
                             <th>تصویر</th>
-                            <th class="text-left">آدرس</th>
-                            <th class="text-center">وضعیت</th>
-                            <th>مکان</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="آدرس" property="url" class="text-left"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="وضعیت" property="status"
+                                                  class="text-center"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="مکان" property="position"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -69,7 +78,7 @@
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_BANNER_LOCATION_SHOW)
-                                    {{ $banner->getFaPosition() }}
+                                        {{ $banner->getFaPosition() }}
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">

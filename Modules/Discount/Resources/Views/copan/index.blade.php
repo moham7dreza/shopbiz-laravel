@@ -26,7 +26,8 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_COUPON_DISCOUNT_CREATE)
-                            <a href="{{ route('copanDiscount.create') }}" class="btn btn-info btn-sm">ایجاد کوپن تخفیف</a>
+                            <a href="{{ route('copanDiscount.create') }}" class="btn btn-info btn-sm">ایجاد کوپن
+                                تخفیف</a>
                         @endcan
                         <x-panel-a-tag route="{{ route('copanDiscount.index') }}" text="حذف فیلتر"
                                        color="outline-danger"/>
@@ -41,16 +42,32 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'copanDiscount.index' @endphp
                             <th>#</th>
-                            <th>کد تخفیف</th>
-                            <th>میزان تخفیف</th>
-                            <th>نوع تخفیف</th>
-                            <th>سقف تخفیف</th>
-                            <th>نوع کوپن</th>
-                            <th>تاریخ شروع</th>
-                            <th>تاریخ پایان</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="کد تخفیف" property="code"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="میزان تخفیف" property="amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نوع تخفیف" property="amount_type"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="سقف تخفیف" property="discount_ceiling"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نوع کوپن" property="type"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ شروع" property="start_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ پایان" property="end_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th>هم اکنون فعال است</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

@@ -71,9 +71,9 @@ class BannerController extends Controller
         } else {
             $banners = $this->repo->index()->paginate(10);
         }
-
+        $redirectRoute = $this->redirectRoute;
         $positions = $this->repo->positions();
-        return view('Banner::index', compact(['banners', 'positions']));
+        return view('Banner::index', compact(['banners', 'positions', 'redirectRoute']));
     }
 
     /**

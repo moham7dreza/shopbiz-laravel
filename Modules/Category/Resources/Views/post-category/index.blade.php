@@ -28,12 +28,12 @@
                         @can($PERMISSION::PERMISSION_POST_CATEGORY_CREATE)
                             <a href="{{ route('postCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('postCategory.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($redirectRoute) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('postCategory.index') }}"/>
+                        <x-panel-search-form route="{{ route($redirectRoute) }}"/>
                     </div>
                 </section>
 
@@ -42,12 +42,15 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام دسته بندی</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="نام دسته بندی"/>
+                            </th>
                             <th>توضیحات</th>
                             <th>عکس</th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

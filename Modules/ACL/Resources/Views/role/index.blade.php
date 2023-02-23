@@ -6,6 +6,7 @@
 
 @section('content')
     @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
+    @php $ROLE = \Modules\ACL\Entities\Role::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -26,14 +27,14 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_ROLE_CREATE)
-                            <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
+                            <a href="{{ route($ROLE::ROUTE_CREATE) }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('role.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($ROLE::ROUTE_INDEX) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('role.index') }}"/>
+                        <x-panel-search-form route="{{ route($ROLE::ROUTE_INDEX) }}"/>
                     </div>
                 </section>
 
@@ -43,11 +44,11 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <x-panel-sort-btn route="role.index" title="نام نقش"/>
+                                <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="نام نقش"/>
                             </th>
                             <th>دسترسی ها</th>
                             <th>
-                                <x-panel-sort-btn route="role.index" title="وضعیت" property="status"/>
+                                <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="وضعیت" property="status"/>
                             </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -65,22 +66,22 @@
                                 </td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ROLE_STATUS)
-                                        <x-panel-checkbox class="rounded" route="role.status" method="changeStatus"
+                                        <x-panel-checkbox class="rounded" :route="$ROLE::ROUTE_STATUS" method="changeStatus"
                                                           name="نقش" :model="$role" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-22-rem text-left">
                                     @can($PERMISSION::PERMISSION_ROLE_PERMISSIONS)
-                                        <x-panel-a-tag route="{{ route('role.permission-form', $role->id) }}"
+                                        <x-panel-a-tag route="{{ route($ROLE::ROUTE_PERMISSIONS_FORM, $role->id) }}"
                                                        title="سطوح دسترسی نقش" icon="user-graduate"
                                                        color="outline-success"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ROLE_EDIT)
-                                        <x-panel-a-tag route="{{ route('role.edit', $role->id) }}" title="ویرایش آیتم"
+                                        <x-panel-a-tag route="{{ route($ROLE::ROUTE_EDIT, $role->id) }}" title="ویرایش آیتم"
                                                        icon="edit" color="outline-info"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ROLE_DELETE)
-                                        <x-panel-delete-form route="{{ route('role.destroy', $role->id) }}"
+                                        <x-panel-delete-form route="{{ route($ROLE::ROUTE_DELETE, $role->id) }}"
                                                              title="حذف آیتم"/>
                                     @endcan
                                 </td>

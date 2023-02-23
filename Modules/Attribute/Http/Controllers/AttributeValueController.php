@@ -72,9 +72,9 @@ class AttributeValueController extends Controller
         } else {
             $values = $attribute->values()->paginate(10);
         }
-
+        $redirectRoute = $this->redirectRoute;
         if ($attribute->categories()->count() > 0) {
-            return view('Attribute::value.index', compact(['attribute', 'values']));
+            return view('Attribute::value.index', compact(['attribute', 'values', 'redirectRoute']));
         }
         return $this->showMessageWithRedirectRoute(msg: 'برای ایجاد مقدار فرم کالا ابتدا باید دسته بندی تعریف کنید.', title: 'خطا', status: 'error', params: [$attribute->id]);
     }

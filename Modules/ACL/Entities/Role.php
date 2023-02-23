@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\ACL\Traits\RoleRoutesTrait;
 use Modules\ACL\Traits\SystemRolesTrait;
 use Modules\Share\Traits\HasCountersTrait;
 use Modules\Share\Traits\HasDefaultStatus;
@@ -16,7 +17,7 @@ use Spatie\Permission\Traits\HasPermissions;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait, RoleRoutesTrait;
 
     /**
      * @var string[]

@@ -40,14 +40,26 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نظر</th>
-                            <th>پاسخ به</th>
-                            <th>کد کاربر</th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="نظر" property="body"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="پاسخ به" property="parent_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="کد کاربر" property="author_id"/>
+                            </th>
                             <th>نویسنده نظر</th>
-                            <th>کد کالا</th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="کد کالا" property="commentable_id"/>
+                            </th>
                             <th>محصول</th>
-                            <th>وضعیت تایید</th>
-                            <th>وضعیت کامنت</th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="وضعیت تایید" property="approved"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="productComment.index" title="وضعیت کامنت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

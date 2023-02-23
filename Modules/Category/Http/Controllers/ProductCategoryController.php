@@ -72,8 +72,8 @@ class ProductCategoryController extends Controller
         } else {
             $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         }
-
-        return view('Category::product-category.index', compact(['productCategories']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Category::product-category.index', compact(['productCategories', 'redirectRoute']));
     }
 
 

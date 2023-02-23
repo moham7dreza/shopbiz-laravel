@@ -42,14 +42,26 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'commonDiscount.index' @endphp
                             <th>#</th>
-                            <th>درصد تخفیف</th>
-                            <th>سقف تخفیف</th>
-                            <th>عنوان مناسبت</th>
-                            <th>تاریخ شروع</th>
-                            <th>تاریخ پایان</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="درصد تخفیف" property="percentage"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="سقف تخفیف" property="discount_ceiling"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="عنوان مناسبت" property="title"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ شروع" property="start_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ پایان" property="end_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th>هم اکنون فعال است</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

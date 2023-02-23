@@ -42,13 +42,23 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'amazingSale.index' @endphp
                             <th>#</th>
-                            <th>نام کالا</th>
-                            <th>درصد تخفیف</th>
-                            <th>تاریخ شروع</th>
-                            <th>تاریخ پایان</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام کالا" property="product_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="درصد تخفیف" property="percentage"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ شروع" property="start_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ پایان" property="end_date"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th>هم اکنون فعال است</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

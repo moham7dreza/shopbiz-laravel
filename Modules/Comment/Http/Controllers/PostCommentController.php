@@ -65,13 +65,13 @@ class PostCommentController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } elseif (isset(request()->sort)) {
-            $postComments = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $postComments = $this->repo->sort(request()->sort, request()->dir, 'post')->paginate(10);
             $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $postComments = $this->repo->getLatestPostComments()->paginate(10);
         }
-
-        return view('Comment::post-comment.index', compact(['postComments']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Comment::post-comment.index', compact(['postComments', 'redirectRoute']));
 
     }
 

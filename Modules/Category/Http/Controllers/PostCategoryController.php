@@ -84,9 +84,8 @@ class PostCategoryController extends Controller
         }
 //        $user = auth()->user();
         // if ($user->can('show-category')) {
-
-
-        return view('Category::post-category.index', compact(['postCategories']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Category::post-category.index', compact(['postCategories', 'redirectRoute']));
         // } else {
         //     abort(403);
         // }

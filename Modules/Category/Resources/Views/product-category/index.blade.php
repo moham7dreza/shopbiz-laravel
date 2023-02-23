@@ -26,14 +26,15 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_CREATE)
-                            <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                            <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته
+                                بندی</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('productCategory.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($redirectRoute) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('productCategory.index') }}"/>
+                        <x-panel-search-form route="{{ route($redirectRoute) }}"/>
                     </div>
                 </section>
 
@@ -42,12 +43,19 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام دسته بندی</th>
-                            <th>دسته والد</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="نام دسته بندی"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="دسته والد" property="parent_id"/>
+                            </th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
-                            <th>نمایش در منو</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="وضعیت" property="status"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="نمایش در منو" property="show_in_menu"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -81,9 +89,10 @@
                                 </td>
                                 <td class="width-16-rem text-left">
                                     @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_TAGS)
-                                        <x-panel-a-tag route="{{ route('productCategory.tags-from', $productCategory->id) }}"
-                                                       title="افزودن تگ"
-                                                       icon="tag" color="outline-success"/>
+                                        <x-panel-a-tag
+                                            route="{{ route('productCategory.tags-from', $productCategory->id) }}"
+                                            title="افزودن تگ"
+                                            icon="tag" color="outline-success"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_EDIT)
                                         <x-panel-a-tag route="{{ route('productCategory.edit', $productCategory->id) }}"

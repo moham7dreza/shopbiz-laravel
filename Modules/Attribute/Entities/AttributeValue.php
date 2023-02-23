@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Attribute\Traits\AttributeValueRoutesTrait;
 use Modules\Attribute\Traits\HasTypesTrait;
 use Modules\Category\Entities\ProductCategory;
 use Modules\Product\Entities\Product;
@@ -14,7 +15,7 @@ use Modules\Product\Entities\Product;
 
 class AttributeValue extends Model
 {
-    use HasFactory, SoftDeletes, HasTypesTrait;
+    use HasFactory, SoftDeletes, HasTypesTrait, AttributeValueRoutesTrait;
 
     public const SELECTED = 1;
     public const NOT_SELECTED = 0;

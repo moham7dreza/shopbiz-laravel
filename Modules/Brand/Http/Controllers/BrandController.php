@@ -71,8 +71,8 @@ class BrandController extends Controller
         } else {
             $brands = $this->repo->index()->paginate(10);
         }
-
-        return view('Brand::index', compact(['brands']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Brand::index', compact(['brands', 'redirectRoute']));
     }
 
     /**

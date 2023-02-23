@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\ACL\Entities\Permission;
+use Modules\ACL\Enums\PermissionRoutesEnum;
 use Modules\ACL\Http\Requests\PermissionRequest;
 use Modules\ACL\Repositories\RolePermissionRepoEloquentInterface;
 use Modules\ACL\Services\RolePermissionService;
@@ -22,7 +23,7 @@ class PermissionController extends Controller
     /**
      * @var string
      */
-    private string $redirectRoute = 'permission.index';
+    private string $redirectRoute = PermissionRoutesEnum::index->value;
 
     /**
      * @var string
@@ -46,6 +47,8 @@ class PermissionController extends Controller
         $this->middleware('can:'. Permission::PERMISSION_EDIT)->only(['edit', 'update']);
         $this->middleware('can:'. Permission::PERMISSION_DELETE)->only(['destroy']);
         $this->middleware('can:'. Permission::PERMISSION_STATUS)->only(['status']);
+
+        global $redirectRoute;
     }
 
     /**
@@ -69,7 +72,8 @@ class PermissionController extends Controller
         else {
             $permissions = $this->repo->permissions()->paginate(10);
         }
-        return view('ACL::permission.index', compact(['permissions']));
+        $redirectRoute = $this->redirectRoute;
+        return view('ACL::permission.index', compact(['permissions', 'redirectRoute']));
     }
 
     /**

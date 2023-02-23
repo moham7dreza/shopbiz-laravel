@@ -74,7 +74,8 @@ class RoleController extends Controller
         } else {
             $roles = $this->repo->index()->paginate(10);
         }
-        return view('ACL::role.index', compact(['roles']));
+        $redirectRoute = $this->redirectRoute;
+        return view('ACL::role.index', compact(['roles', 'redirectRoute']));
     }
 
     /**

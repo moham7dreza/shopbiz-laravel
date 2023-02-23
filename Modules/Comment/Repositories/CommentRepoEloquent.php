@@ -14,11 +14,15 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
+     * @param string $model
      * @return Builder
      */
-    public function sort($property, $dir): Builder
+    public function sort($property, $dir, string $model = 'product'): Builder
     {
-        return $this->query()->orderBy($property, $dir);
+        if ($model == 'post') {
+            return $this->query()->postType()->orderBy($property, $dir);
+        }
+        return $this->query()->productType()->orderBy($property, $dir);
     }
 
     /**

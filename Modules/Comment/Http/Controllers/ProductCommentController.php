@@ -70,7 +70,8 @@ class ProductCommentController extends Controller
         } else {
             $productComments = $this->repo->getLatestProductComments()->paginate(10);
         }
-        return view('Comment::product-comment.index', compact(['productComments']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Comment::product-comment.index', compact(['productComments', 'redirectRoute']));
     }
 
     /**

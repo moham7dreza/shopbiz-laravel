@@ -28,12 +28,12 @@
                         @can($PERMISSION::PERMISSION_BRAND_CREATE)
                             <a href="{{ route('brand.create') }}" class="btn btn-info btn-sm">ایجاد برند </a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('brand.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($redirectRoute) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('brand.index') }}"/>
+                        <x-panel-search-form route="{{ route($redirectRoute) }}"/>
                     </div>
                 </section>
 
@@ -42,12 +42,17 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام فارسی برند</th>
-                            <th>نام اصلی برند</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="نام فارسی برند" property="persian_name"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="نام اصلی برند" property="original_name"/>
+                            </th>
                             <th>لوگو</th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$redirectRoute" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

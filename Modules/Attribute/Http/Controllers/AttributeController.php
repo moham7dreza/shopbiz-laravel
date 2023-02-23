@@ -72,8 +72,8 @@ class AttributeController extends Controller
         } else {
             $attributes = $this->repo->index()->paginate(10);
         }
-
-        return view('Attribute::attribute.index', compact(['attributes']));
+        $redirectRoute = $this->redirectRoute;
+        return view('Attribute::attribute.index', compact(['attributes', 'redirectRoute']));
     }
 
     /**

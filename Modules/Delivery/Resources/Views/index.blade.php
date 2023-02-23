@@ -26,7 +26,8 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_DELIVERY_METHOD_CREATE)
-                            <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال جدید </a>
+                            <a href="{{ route('delivery.create') }}" class="btn btn-info btn-sm">ایجاد روش ارسال
+                                جدید </a>
                         @endcan
                         <x-panel-a-tag route="{{ route('delivery.index') }}" text="حذف فیلتر"
                                        color="outline-danger"/>
@@ -42,11 +43,18 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام روش ارسال</th>
-                            <th>هزینه ارسال</th>
-                            <th>زمان ارسال</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn route="delivery.index" title="نام روش ارسال"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="delivery.index" title="هزینه ارسال" property="amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="delivery.index" title="زمان ارسال" property="delivery_time"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="delivery.index" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

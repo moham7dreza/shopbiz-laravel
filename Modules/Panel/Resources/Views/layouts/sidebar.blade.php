@@ -180,13 +180,13 @@
                     @endcan
                     @can($PERMISSION::PERMISSION_POSTS)
                         <a href="{{ route('post.index') }}" class="sidebar-link">
-                            <i class="fas fa-blog"></i>
+                            <i class="fab fa-instagram"></i>
                             <span>پست ها</span>
                         </a>
                     @endcan
                     @can($PERMISSION::PERMISSION_POST_COMMENTS)
                         <a href="{{ route('postComment.index') }}" class="sidebar-link">
-                            <i class="fas fa-comment"></i>
+                            <i class="fab fa-telegram-plane"></i>
                             <span>نظرات</span>
                         </a>
                     @endcan

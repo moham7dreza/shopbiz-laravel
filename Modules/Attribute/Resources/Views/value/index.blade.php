@@ -31,12 +31,12 @@
                             <a href="{{ route('attributeValue.create', $attribute->id) }}"
                                class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($redirectRoute, $attribute->id) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('attributeValue.index', $attribute->id) }}"/>
+                        <x-panel-search-form route="{{ route($redirectRoute, $attribute->id) }}"/>
                     </div>
                 </section>
 
@@ -52,14 +52,14 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <x-panel-sort-btn property="product_id" route="attributeValue.index"
+                                <x-panel-sort-btn property="product_id" :route="$redirectRoute"
                                                   :params="$attribute->id"
                                                   title="نام محصول"/>
                             </th>
                             <th>نام دسته بندی</th>
                             <th>مقدار</th>
                             <th>
-                                <x-panel-sort-btn property="value" route="attributeValue.index"
+                                <x-panel-sort-btn property="value" :route="$redirectRoute"
                                                   :params="$attribute->id"
                                                   title="افزایش قیمت"/>
                             </th>
