@@ -10,6 +10,16 @@ use Modules\Order\Entities\Order;
 class OrderRepoEloquent implements OrderRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @param $name
      * @param $orderType
      * @return Model|Builder|null

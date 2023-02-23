@@ -24,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_POST_CREATE)
-                        <a href="{{ route('post.create') }}" class="btn btn-info btn-sm">ایجاد پست </a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_POST_CREATE)
+                            <a href="{{ route('post.create') }}" class="btn btn-info btn-sm">ایجاد پست </a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('post.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('post.index') }}"/>
                     </div>
@@ -44,7 +49,8 @@
                             <th>تعداد بازدید</th>
                             <th>تعداد لایک</th>
                             <th>تگ ها</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th>امکان درج کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

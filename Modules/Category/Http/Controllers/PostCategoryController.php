@@ -76,6 +76,9 @@ class PostCategoryController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $postCategories = $this->categoryRepo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         }

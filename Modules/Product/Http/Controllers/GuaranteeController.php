@@ -59,12 +59,15 @@ class GuaranteeController extends Controller
     public function index(): Factory|View|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $guarantees = $this->repo->search(request()->search, $product->id)->paginate(10);
+            $guarantees = $this->repo->search(request()->search)->paginate(10);
             if (count($guarantees) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($guarantees));
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $guarantees = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $guarantees = $this->repo->getLatest()->paginate(10);
         }

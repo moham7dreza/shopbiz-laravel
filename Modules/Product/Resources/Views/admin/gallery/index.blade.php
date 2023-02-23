@@ -25,10 +25,15 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_PRODUCT_GALLERY_CREATE)
-                    <a href="{{ route('product.gallery.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
-                        عکس جدید </a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_PRODUCT_GALLERY_CREATE)
+                            <a href="{{ route('product.gallery.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
+                                عکس جدید </a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('product.gallery.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('product.gallery.index', $product->id) }}"/>
                     </div>
@@ -55,9 +60,9 @@
                                 </td>
                                 <td class="width-12-rem text-center">
                                     @can($PERMISSION::PERMISSION_PRODUCT_GALLERY_DELETE)
-                                    <x-panel-delete-form
-                                        route="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id]) }}"
-                                        title="حذف آیتم"/>
+                                        <x-panel-delete-form
+                                            route="{{ route('product.gallery.destroy', ['product' => $product->id , 'gallery' => $image->id]) }}"
+                                            title="حذف آیتم"/>
                                     @endcan
                                 </td>
                             </tr>

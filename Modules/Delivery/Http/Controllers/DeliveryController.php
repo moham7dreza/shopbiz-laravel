@@ -64,6 +64,9 @@ class DeliveryController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $delivery_methods = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $delivery_methods = $this->repo->index()->paginate(10);
         }

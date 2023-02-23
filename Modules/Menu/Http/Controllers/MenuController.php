@@ -65,6 +65,9 @@ class MenuController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $menus = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $menus = $this->repo->index()->paginate(10);
         }

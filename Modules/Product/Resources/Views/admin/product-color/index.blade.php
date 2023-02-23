@@ -25,10 +25,15 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_PRODUCT_COLOR_CREATE)
-                        <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
-                            رنگ جدید </a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_PRODUCT_COLOR_CREATE)
+                            <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
+                                رنگ جدید </a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('product.color.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('product.color.index', $product->id) }}"/>
                     </div>
@@ -46,7 +51,8 @@
                             <th>تعداد قابل فروش</th>
                             <th>تعداد فروخته شده</th>
                             <th>تعداد رزرو شده</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

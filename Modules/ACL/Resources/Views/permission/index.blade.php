@@ -24,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_CREATE)
-                        <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_CREATE)
+                            <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('permission.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('permission.index') }}"/>
                     </div>
@@ -38,12 +43,13 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <span>نام دسترسی</span>
-                                <a class="btn btn-sm btn-light" href="{{ route('permission.index', ['sort=name', 'dir=desc']) }}"><i class="fa fa-arrow-up"></i></a>
-                                <a class="btn btn-sm btn-light" href="{{ route('permission.index', ['sort=name', 'dir=asc']) }}"><i class="fa fa-arrow-down"></i></a></th>
-                            <th><a class="btn btn-sm btn-light" href="{{ route('permission.index', 'sort=roles') }}">نام نقش ها</a></th>
-                            <th><a class="btn btn-sm btn-light" href="{{ route('permission.index', 'sort=description') }}">توضیحات دسترسی</a></th>
-                            <th>وضعیت</th>
+                                <x-panel-sort-btn route="permission.index" title="نام دسترسی"/>
+                            </th>
+                            <th>نام نقش ها</th>
+                            <th>توضیحات دسترسی</th>
+                            <th>
+                                <x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

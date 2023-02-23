@@ -25,10 +25,15 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_CREATE)
-                        <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
-                            فایل اطلائیه ایمیلی</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_EMAIL_NOTIFY_FILE_CREATE)
+                            <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
+                                فایل اطلائیه ایمیلی</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('email-file.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('email-file.index', $email->id) }}"/>
                     </div>
@@ -42,7 +47,8 @@
                             <th>عنوان ایمیل</th>
                             <th>سایز فایل</th>
                             <th>نوع فایل</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

@@ -11,6 +11,16 @@ use Modules\Payment\Entities\Payment;
 class PaymentRepoEloquent implements PaymentRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @return Builder
      */
     public function offline(): Builder

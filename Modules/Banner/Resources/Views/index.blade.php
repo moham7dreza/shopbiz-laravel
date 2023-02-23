@@ -24,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_BANNER_CREATE)
-                        <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_BANNER_CREATE)
+                            <a href="{{ route('banner.create') }}" class="btn btn-info btn-sm">ایجاد بنر </a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('banner.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('banner.index') }}"/>
                     </div>

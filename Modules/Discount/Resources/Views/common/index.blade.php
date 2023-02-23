@@ -24,10 +24,15 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_CREATE)
-                        <a href="{{ route('commonDiscount.create') }}" class="btn btn-info btn-sm">ایجاد تخفیف
-                            عمومی</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_COMMON_DISCOUNT_CREATE)
+                            <a href="{{ route('commonDiscount.create') }}" class="btn btn-info btn-sm">ایجاد تخفیف
+                                عمومی</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('commonDiscount.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('commonDiscount.index') }}"/>
                     </div>
@@ -43,7 +48,8 @@
                             <th>عنوان مناسبت</th>
                             <th>تاریخ شروع</th>
                             <th>تاریخ پایان</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th>هم اکنون فعال است</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

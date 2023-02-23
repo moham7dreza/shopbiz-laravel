@@ -3,10 +3,21 @@
 namespace Modules\Notify\Repositories\Email;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Notify\Entities\Email;
 
 class EmailRepoEloquent implements EmailRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
     /**
      * @param $name
      * @return Model|Builder|null

@@ -25,9 +25,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_FAQ_CREATE)
-                        <a href="{{ route('page.create') }}" class="btn btn-info btn-sm">ایجاد پیج جدید</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_FAQ_CREATE)
+                            <a href="{{ route('page.create') }}" class="btn btn-info btn-sm">ایجاد پیج جدید</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('page.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('page.index') }}"/>
                     </div>
@@ -41,7 +46,8 @@
                             <th>عنوان</th>
                             <th>تگ ها</th>
                             <th>اسلاگ</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

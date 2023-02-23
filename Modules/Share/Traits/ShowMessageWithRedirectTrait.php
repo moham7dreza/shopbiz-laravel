@@ -122,4 +122,13 @@ trait ShowMessageWithRedirectTrait
     {
         return $this->showMessageWithRedirectRoute(msg: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', status: 'warning');
     }
+
+    /**
+     * @param $dir
+     * @return void
+     */
+    public function showToastOfSelectedDirection($dir): void
+    {
+        ShareService::showAnimatedToast('داده ها به صورت ' . ($dir == 'asc' ? 'صعودی' : 'نزولی') . ' مرتب شدند.', type: 'info')->position('top-left');
+    }
 }

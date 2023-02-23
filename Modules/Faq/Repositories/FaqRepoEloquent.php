@@ -9,6 +9,15 @@ use Modules\Faq\Entities\Faq;
 
 class FaqRepoEloquent implements FaqRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

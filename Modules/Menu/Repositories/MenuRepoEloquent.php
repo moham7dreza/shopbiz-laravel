@@ -9,6 +9,15 @@ use Modules\Menu\Entities\Menu;
 
 class MenuRepoEloquent implements MenuRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

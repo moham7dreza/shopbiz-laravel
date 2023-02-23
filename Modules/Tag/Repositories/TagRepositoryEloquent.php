@@ -9,6 +9,16 @@ use Spatie\Tags\Tag;
 class TagRepositoryEloquent implements TagRepositoryEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @return Builder
      */
     public function index(): Builder

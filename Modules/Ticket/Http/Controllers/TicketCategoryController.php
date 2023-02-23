@@ -61,6 +61,9 @@ class TicketCategoryController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $ticketCategories = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $ticketCategories = $this->repo->index()->paginate(10);
         }

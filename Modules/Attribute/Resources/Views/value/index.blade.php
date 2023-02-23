@@ -10,6 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('attribute.index') }}"> فرم کالا</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> مقدار فرم کالا</li>
         </ol>
     </nav>
@@ -25,13 +26,24 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_CREATE)
-                        <a href="{{ route('attributeValue.create', $attribute->id) }}"
-                           class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUE_CREATE)
+                            <a href="{{ route('attributeValue.create', $attribute->id) }}"
+                               class="btn btn-info btn-sm">ایجاد مقدار فرم کالا جدید</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('attributeValue.index', $attribute->id) }}"/>
                     </div>
+                </section>
+
+                <section class="row mb-4">
+                    <x-panel-section col="5" id="attribute-name" label="نام فرم" text="{{ $attribute->name }}"/>
+                    <x-panel-section col="5" id="attribute-intro" label="واحد اندازه گیری"
+                                     text="{{ $attribute->unit . ' - ' . $attribute->unit_en }}"/>
                 </section>
 
                 <section class="table-responsive">
@@ -39,11 +51,18 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام فرم</th>
-                            <th>نام محصول</th>
+                            <th>
+                                <x-panel-sort-btn property="product_id" route="attributeValue.index"
+                                                  :params="$attribute->id"
+                                                  title="نام محصول"/>
+                            </th>
                             <th>نام دسته بندی</th>
                             <th>مقدار</th>
-                            <th>افزایش قیمت</th>
+                            <th>
+                                <x-panel-sort-btn property="value" route="attributeValue.index"
+                                                  :params="$attribute->id"
+                                                  title="افزایش قیمت"/>
+                            </th>
                             <th>نوع</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -52,7 +71,6 @@
                         @foreach ($values as $value)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $attribute->name }}</td>
                                 <td>{{ $value->getProductName() }}</td>
                                 <td>{{ $value->getCategoryName() }}</td>
                                 <td>{{ $value->getFaValue() . ' ' . $attribute->unit }}</td>

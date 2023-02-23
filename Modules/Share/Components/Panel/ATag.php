@@ -13,7 +13,7 @@ class ATag extends Component
     public string $route;
     public string $color;
     public ?string $text;
-    public string $icon;
+    public ?string $icon;
     public string $group;
     public ?string $class;
 

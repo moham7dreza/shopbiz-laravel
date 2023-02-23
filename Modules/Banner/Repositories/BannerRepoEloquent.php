@@ -10,6 +10,16 @@ use Modules\Banner\Entities\Banner;
 class BannerRepoEloquent implements BannerRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */

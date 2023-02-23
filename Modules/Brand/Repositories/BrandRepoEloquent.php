@@ -10,6 +10,16 @@ use Modules\Brand\Entities\Brand;
 class BrandRepoEloquent implements BrandRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * Get the latest roles with permissions.
      *
      * @return Builder

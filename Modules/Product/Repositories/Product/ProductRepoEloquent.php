@@ -11,6 +11,16 @@ use Modules\Product\Entities\Product;
 class ProductRepoEloquent implements ProductRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */

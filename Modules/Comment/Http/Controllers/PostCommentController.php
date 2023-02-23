@@ -64,6 +64,9 @@ class PostCommentController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $postComments = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $postComments = $this->repo->getLatestPostComments()->paginate(10);
         }

@@ -11,6 +11,20 @@ use Modules\ACL\Entities\Role;
 class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @param string $model
+     * @return Builder
+     */
+    public function sort($property, $dir, string $model = 'role'): Builder
+    {
+        if ($model == 'permission') {
+            return Permission::query()->orderBy($property, $dir);
+        }
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * Get the latest roles with permissions.
      *
      * @return Builder

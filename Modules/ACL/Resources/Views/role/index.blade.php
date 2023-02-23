@@ -24,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_ROLE_CREATE)
-                        <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_ROLE_CREATE)
+                            <a href="{{ route('role.create') }}" class="btn btn-info btn-sm">ایجاد نقش جدید</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('role.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('role.index') }}"/>
                     </div>
@@ -37,9 +42,13 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th><a href="{{ route('role.index', 'sort=name') }}" class="btn btn-sm btn-light">نام نقش</a></th>
+                            <th>
+                                <x-panel-sort-btn route="role.index" title="نام نقش"/>
+                            </th>
                             <th>دسترسی ها</th>
-                            <th>وضعیت</th>
+                            <th>
+                                <x-panel-sort-btn route="role.index" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

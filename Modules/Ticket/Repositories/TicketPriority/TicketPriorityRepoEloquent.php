@@ -9,6 +9,15 @@ use Modules\Ticket\Entities\TicketPriority;
 
 class TicketPriorityRepoEloquent implements TicketPriorityRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

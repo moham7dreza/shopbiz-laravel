@@ -44,12 +44,12 @@ class AttributeController extends Controller
         $this->repo = $attributeRepo;
         $this->service = $attributeService;
 
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTES)->only(['index']);
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_CREATE)->only(['create', 'store']);
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_EDIT)->only(['edit', 'update']);
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_DELETE)->only(['destroy']);
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_STATUS)->only(['status']);
-        $this->middleware('can:'. Permission::PERMISSION_ATTRIBUTE_CATEGORIES)->only(['categoryForm', 'categoryUpdate']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTE_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTE_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_ATTRIBUTE_CATEGORIES)->only(['categoryForm', 'categoryUpdate']);
     }
 
     /**
@@ -66,6 +66,9 @@ class AttributeController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $attributes = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $attributes = $this->repo->index()->paginate(10);
         }

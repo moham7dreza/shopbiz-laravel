@@ -8,6 +8,16 @@ use Modules\Ticket\Entities\Ticket;
 class TicketRepoEloquent implements TicketRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @return Builder
      */
     public function newTickets(): Builder

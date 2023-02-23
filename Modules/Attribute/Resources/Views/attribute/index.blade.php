@@ -14,7 +14,6 @@
         </ol>
     </nav>
 
-
     <section class="row">
         <section class="col-12">
             <section class="main-body-container">
@@ -25,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_ATTRIBUTE_CREATE)
-                        <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_ATTRIBUTE_CREATE)
+                            <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('attribute.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('attribute.index') }}"/>
                     </div>
@@ -38,10 +42,13 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام فرم</th>
+                            <th>
+                                <x-panel-sort-btn route="attribute.index" title="نام فرم"/>
+                            </th>
                             <th>واحد اندازه گیری</th>
                             <th>دسته بندی ها</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

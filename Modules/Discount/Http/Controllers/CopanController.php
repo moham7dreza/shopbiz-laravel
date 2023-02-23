@@ -31,17 +31,17 @@ class CopanController extends Controller
      * @var string
      */
     private string $class = Copan::class;
-    public CopanDiscountRepoEloquentInterface $copanDiscountRepo;
-    public CopanDiscountService $copanDiscountService;
+    public CopanDiscountRepoEloquentInterface $repo;
+    public CopanDiscountService $service;
 
     /**
-     * @param CopanDiscountRepoEloquentInterface $copanDiscountRepo
-     * @param CopanDiscountService $copanDiscountService
+     * @param CopanDiscountRepoEloquentInterface $repo
+     * @param CopanDiscountService $service
      */
-    public function __construct(CopanDiscountRepoEloquentInterface $copanDiscountRepo, CopanDiscountService $copanDiscountService,)
+    public function __construct(CopanDiscountRepoEloquentInterface $repo, CopanDiscountService $service,)
     {
-        $this->copanDiscountRepo = $copanDiscountRepo;
-        $this->copanDiscountService = $copanDiscountService;
+        $this->repo = $repo;
+        $this->service = $service;
 
         // set middlewares
         $this->middleware('can:'. Permission::PERMISSION_COUPON_DISCOUNTS)->only(['index']);
@@ -57,14 +57,17 @@ class CopanController extends Controller
     public function index(): Factory|View|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $copans = $this->copanDiscountRepo->search(request()->search)->paginate(10);
+            $copans = $this->repo->search(request()->search)->paginate(10);
             if (count($copans) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($copans));
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $copans = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
-            $copans = $this->copanDiscountRepo->getLatestOrderByDate()->paginate(10);
+            $copans = $this->repo->getLatestOrderByDate()->paginate(10);
         }
 
         return view('Discount::copan.index', compact(['copans']));
@@ -89,7 +92,7 @@ class CopanController extends Controller
      */
     public function store(CopanRequest $request): RedirectResponse
     {
-        $this->copanDiscountService->store($request);
+        $this->service->store($request);
         return $this->showMessageWithRedirectRoute(' کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
@@ -112,7 +115,7 @@ class CopanController extends Controller
      */
     public function update(CopanRequest $request, Copan $copanDiscount): RedirectResponse
     {
-        $this->copanDiscountService->update($request, $copanDiscount);
+        $this->service->update($request, $copanDiscount);
         return $this->showMessageWithRedirectRoute('کد تخفیف  شما با موفقیت ویرایش شد');
     }
 

@@ -57,12 +57,15 @@ class ColorController extends Controller
     public function index(): Factory|View|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $colors = $this->repo->search(request()->search, $product->id)->paginate(10);
+            $colors = $this->repo->search(request()->search)->paginate(10);
             if (count($colors) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($colors));
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $colors = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $colors = $this->repo->getLatest()->paginate(10);
         }

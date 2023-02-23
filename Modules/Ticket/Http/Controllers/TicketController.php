@@ -41,12 +41,12 @@ class TicketController extends Controller
         $this->repo = $ticketRepoEloquent;
         $this->service = $ticketService;
 
-        $this->middleware('can:'. Permission::PERMISSION_ALL_TICKETS)->only(['index']);
-        $this->middleware('can:'. Permission::PERMISSION_NEW_TICKETS)->only(['newTickets']);
-        $this->middleware('can:'. Permission::PERMISSION_CLOSE_TICKETS)->only(['closeTickets']);
-        $this->middleware('can:'. Permission::PERMISSION_OPEN_TICKETS)->only(['openTickets']);
-        $this->middleware('can:'. Permission::PERMISSION_TICKET_SHOW)->only(['show']);
-        $this->middleware('can:'. Permission::PERMISSION_TICKET_CHANGE)->only(['change']);
+        $this->middleware('can:' . Permission::PERMISSION_ALL_TICKETS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_NEW_TICKETS)->only(['newTickets']);
+        $this->middleware('can:' . Permission::PERMISSION_CLOSE_TICKETS)->only(['closeTickets']);
+        $this->middleware('can:' . Permission::PERMISSION_OPEN_TICKETS)->only(['openTickets']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_SHOW)->only(['show']);
+        $this->middleware('can:' . Permission::PERMISSION_TICKET_CHANGE)->only(['change']);
     }
 
     /**
@@ -82,7 +82,13 @@ class TicketController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $tickets = $this->repo->index()->paginate(10);
+        if (isset(request()->sort)) {
+            $tickets = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
+        } else {
+            $tickets = $this->repo->index()->paginate(10);
+        }
+
         return view('Ticket::index', compact(['tickets']));
     }
 

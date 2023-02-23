@@ -71,6 +71,9 @@ class AdminUserController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $adminUsers = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $adminUsers = $this->repo->adminUsers()->paginate(10);
         }

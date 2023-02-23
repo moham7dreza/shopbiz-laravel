@@ -24,9 +24,14 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_CREATE)
-                        <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_PRODUCT_CATEGORY_CREATE)
+                            <a href="{{ route('productCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('productCategory.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('productCategory.index') }}"/>
                     </div>
@@ -40,7 +45,8 @@
                             <th>نام دسته بندی</th>
                             <th>دسته والد</th>
                             <th>تگ ها</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th>نمایش در منو</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

@@ -63,7 +63,8 @@ class PermissionController extends Controller
                 return $this->showAlertOfNotResultFound();
             }
         } elseif (isset(request()->sort)) {
-            $permissions = $this->repo->permissions()->orderBy(request()->sort, request()->dir)->paginate(10);
+            $permissions = $this->repo->sort(request()->sort, request()->dir, 'permission')->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         }
         else {
             $permissions = $this->repo->permissions()->paginate(10);

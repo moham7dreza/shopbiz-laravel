@@ -66,6 +66,9 @@ class ProductCategoryController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $productCategories = $this->categoryRepo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
             $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         }

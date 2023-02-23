@@ -10,6 +10,16 @@ use Modules\Page\Entities\Page;
 class PageRepoEloquent implements PageRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */

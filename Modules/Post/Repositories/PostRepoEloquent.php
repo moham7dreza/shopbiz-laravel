@@ -9,6 +9,15 @@ use Modules\Post\Entities\Post;
 
 class PostRepoEloquent implements PostRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * Find article by slug.

@@ -10,6 +10,15 @@ class PostCategoryRepoEloquent implements PostCategoryRepoEloquentInterface
 {
     private string $class = PostCategory::class;
 
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

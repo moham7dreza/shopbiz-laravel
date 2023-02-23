@@ -8,6 +8,16 @@ use Modules\Attribute\Entities\AttributeValue;
 
 class AttributeValueRepoEloquent implements AttributeValueRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @param $relatedId
+     * @return Builder
+     */
+    public function sort($property, $dir, $relatedId): Builder
+    {
+        return $this->query()->where('attribute_id', $relatedId)->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

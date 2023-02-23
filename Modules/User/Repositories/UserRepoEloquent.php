@@ -9,6 +9,15 @@ use Modules\User\Entities\User;
 
 class UserRepoEloquent implements UserRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
 
     /**
      * @return Model|Collection|Builder|array|null

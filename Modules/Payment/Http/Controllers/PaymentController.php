@@ -40,13 +40,13 @@ class PaymentController extends Controller
         $this->repo = $paymentRepoEloquent;
         $this->service = $paymentService;
 
-        $this->middleware('can:'. Permission::PERMISSION_ALL_PAYMENTS)->only(['index']);
-        $this->middleware('can:'. Permission::PERMISSION_ONLINE_PAYMENTS)->only(['online']);
-        $this->middleware('can:'. Permission::PERMISSION_OFFLINE_PAYMENTS)->only(['offline']);
-        $this->middleware('can:'. Permission::PERMISSION_CASH_PAYMENTS)->only(['cash']);
-        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_CANCEL)->only(['canceled']);
-        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_RETURN)->only(['returned']);
-        $this->middleware('can:'. Permission::PERMISSION_PAYMENT_SHOW)->only(['show']);
+        $this->middleware('can:' . Permission::PERMISSION_ALL_PAYMENTS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_ONLINE_PAYMENTS)->only(['online']);
+        $this->middleware('can:' . Permission::PERMISSION_OFFLINE_PAYMENTS)->only(['offline']);
+        $this->middleware('can:' . Permission::PERMISSION_CASH_PAYMENTS)->only(['cash']);
+        $this->middleware('can:' . Permission::PERMISSION_PAYMENT_CANCEL)->only(['canceled']);
+        $this->middleware('can:' . Permission::PERMISSION_PAYMENT_RETURN)->only(['returned']);
+        $this->middleware('can:' . Permission::PERMISSION_PAYMENT_SHOW)->only(['show']);
     }
 
     /**
@@ -54,7 +54,12 @@ class PaymentController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $payments = $this->repo->index()->paginate(10);
+        if (isset(request()->sort)) {
+            $payments = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
+        } else {
+            $payments = $this->repo->index()->paginate(10);
+        }
         return view('Payment::admin.index', compact(['payments']));
     }
 

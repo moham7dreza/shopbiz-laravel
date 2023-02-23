@@ -12,6 +12,16 @@ class ProductCategoryRepoEloquent implements ProductCategoryRepoEloquentInterfac
     private string $class = ProductCategory::class;
 
     /**
+     * @param $property
+     * @param $dir
+     * @return Builder
+     */
+    public function sort($property, $dir): Builder
+    {
+        return $this->query()->orderBy($property, $dir);
+    }
+
+    /**
      * home
      * @return Builder
      */

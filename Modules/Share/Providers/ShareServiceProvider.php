@@ -20,6 +20,7 @@ use Modules\Share\Components\Panel\MultiSelection;
 use Modules\Share\Components\Panel\SearchForm;
 use Modules\Share\Components\Panel\Section;
 use Modules\Share\Components\Panel\SelectBox;
+use Modules\Share\Components\Panel\SortBtn;
 use Modules\Share\Components\Panel\TableRow;
 use Modules\Share\Components\Panel\Tags;
 use Modules\Share\Components\Panel\TextArea;
@@ -130,6 +131,7 @@ class ShareServiceProvider extends ServiceProvider
             ImageIndex::class,
             Dropdown::class,
             Tags::class,
+            SortBtn::class
         ]);
     }
 

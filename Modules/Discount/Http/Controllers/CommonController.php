@@ -31,17 +31,17 @@ class CommonController extends Controller
      */
     private string $class = CommonDiscount::class;
 
-    public CommonDiscountRepoEloquentInterface $commonDiscountRepo;
-    public CommonDiscountService $commonDiscountService;
+    public CommonDiscountRepoEloquentInterface $repo;
+    public CommonDiscountService $service;
 
     /**
-     * @param CommonDiscountRepoEloquentInterface $commonDiscountRepo
-     * @param CommonDiscountService $commonDiscountService
+     * @param CommonDiscountRepoEloquentInterface $repo
+     * @param CommonDiscountService $service
      */
-    public function __construct(CommonDiscountRepoEloquentInterface $commonDiscountRepo, CommonDiscountService $commonDiscountService)
+    public function __construct(CommonDiscountRepoEloquentInterface $repo, CommonDiscountService $service)
     {
-        $this->commonDiscountRepo = $commonDiscountRepo;
-        $this->commonDiscountService = $commonDiscountService;
+        $this->repo = $repo;
+        $this->service = $service;
 
         // set middlewares
         $this->middleware('can:'. Permission::PERMISSION_COMMON_DISCOUNTS)->only(['index']);
@@ -58,14 +58,17 @@ class CommonController extends Controller
     public function index(): View|Factory|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $commonDiscounts = $this->commonDiscountRepo->search(request()->search)->paginate(10);
+            $commonDiscounts = $this->repo->search(request()->search)->paginate(10);
             if (count($commonDiscounts) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($commonDiscounts));
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $commonDiscounts = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $this->showToastOfSelectedDirection(request()->dir);
         } else {
-            $commonDiscounts = $this->commonDiscountRepo->getLatestOrderByDate()->paginate(10);
+            $commonDiscounts = $this->repo->getLatestOrderByDate()->paginate(10);
         }
 
         return view('Discount::common.index', compact(['commonDiscounts']));
@@ -85,7 +88,7 @@ class CommonController extends Controller
      */
     public function store(CommonDiscountRequest $request): RedirectResponse
     {
-        $this->commonDiscountService->store($request);
+        $this->service->store($request);
         return $this->showMessageWithRedirectRoute('کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 
@@ -106,7 +109,7 @@ class CommonController extends Controller
      */
     public function update(CommonDiscountRequest $request, CommonDiscount $commonDiscount): RedirectResponse
     {
-        $this->commonDiscountService->update($request, $commonDiscount);
+        $this->service->update($request, $commonDiscount);
         return $this->showMessageWithRedirectRoute('کد تخفیف جدید شما با موفقیت ویرایش شد');
     }
 

@@ -24,7 +24,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a class="btn btn-info btn-sm disabled">ایجاد ادمین تیکت </a>
+                    <section class="d-flex">
+                        <a class="btn btn-info btn-sm disabled">ایجاد ادمین تیکت </a>
+                        <x-panel-a-tag route="{{ route('ticket-admin.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('ticket-admin.index') }}"/>
                     </div>

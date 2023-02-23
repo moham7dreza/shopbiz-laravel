@@ -24,10 +24,15 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    @can($PERMISSION::PERMISSION_SMS_NOTIFY_CREATE)
-                        <a href="{{ route('sms.create') }}" class="btn btn-info btn-sm">ایجاد اطلائیه
-                            پیامکی</a>
-                    @endcan
+                    <section class="d-flex">
+                        @can($PERMISSION::PERMISSION_SMS_NOTIFY_CREATE)
+                            <a href="{{ route('sms.create') }}" class="btn btn-info btn-sm">ایجاد اطلائیه
+                                پیامکی</a>
+                        @endcan
+                        <x-panel-a-tag route="{{ route('sms.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('sms.index') }}"/>
                     </div>
@@ -42,7 +47,8 @@
                             <th>متن پیامک</th>
                             <th>تاریخ ارسال</th>
                             <th>ارسال شده</th>
-                            <th>وضعیت</th>
+                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
+</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

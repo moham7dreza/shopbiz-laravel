@@ -24,7 +24,12 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="#" class="btn btn-info btn-sm disabled">ایجاد نظر </a>
+                    <section class="d-flex">
+                        <a href="#" class="btn btn-info btn-sm disabled">ایجاد نظر </a>
+                        <x-panel-a-tag route="{{ route('productComment.index') }}" text="حذف فیلتر"
+                                       color="outline-danger"/>
+                    </section>
+
                     <div class="max-width-16-rem">
                         <x-panel-search-form route="{{ route('productComment.index') }}"/>
                     </div>
