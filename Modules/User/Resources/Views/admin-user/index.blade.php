@@ -105,6 +105,11 @@
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_CHANGE_USER_TYPE)
+                                        <x-panel-a-tag route="{{ route('change.user.type', $admin->id) }}"
+                                                       title="تغییر نوع کاربری"
+                                                       icon="times" color="outline-secondary"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_ADMIN_USER_PERMISSIONS)
                                         <x-panel-a-tag route="{{ route('adminUser.permissions', $admin->id) }}"
                                                        title="سطوح دسترسی کاربر"

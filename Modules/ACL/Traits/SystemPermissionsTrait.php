@@ -305,6 +305,8 @@ trait SystemPermissionsTrait
     public const PERMISSION_CUSTOMER_USER_STATUS = 'permission customer user status';
     public const PERMISSION_CUSTOMER_USER_ACTIVATION = 'permission customer user activation';
 
+    public const PERMISSION_CHANGE_USER_TYPE = 'permission customer users';
+
     // 3  USER ROLES
     public const PERMISSION_ROLES = 'permission roles';
     public const PERMISSION_ROLE_CREATE = 'permission role create';
@@ -646,6 +648,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_CUSTOMER_USER_DELETE
         , self::PERMISSION_CUSTOMER_USER_STATUS
         , self::PERMISSION_CUSTOMER_USER_ACTIVATION
+        , self::PERMISSION_CHANGE_USER_TYPE
         , self::PERMISSION_ROLES
         , self::PERMISSION_ROLE_CREATE
         , self::PERMISSION_ROLE_EDIT

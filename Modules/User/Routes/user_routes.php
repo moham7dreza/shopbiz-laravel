@@ -19,6 +19,7 @@ use Modules\User\Http\Controllers\Home\Profile\ProfileController;
 */
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
+
     $router->resource('adminUser', 'AdminUserController', ['except' => 'show']);
     //admin-user
     Route::prefix('adminUser')->group(function () {
@@ -36,6 +37,7 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
         Route::get('/status/{user}', [CustomerController::class, 'status'])->name('customerUser.status');
         Route::get('/activation/{user}', [CustomerController::class, 'activation'])->name('customerUser.activation');
     });
+    Route::get('change-user-type/{user}', [CustomerController::class, 'changeUserType'])->name('change.user.type');
 });
 Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');
 Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');

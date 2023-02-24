@@ -89,6 +89,11 @@
                                     @endcan
                                 </td>
                                 <td class="width-16-rem text-left">
+                                    @can($PERMISSION::PERMISSION_CHANGE_USER_TYPE)
+                                        <x-panel-a-tag route="{{ route('change.user.type', $user->id) }}"
+                                                       title="تغییر نوع کاربری"
+                                                       icon="times" color="outline-secondary"/>
+                                    @endcan
                                     @can($PERMISSION::PERMISSION_CUSTOMER_USER_EDIT)
                                         <x-panel-a-tag route="{{ route('customerUser.edit', $user->id) }}"
                                                        title="ویرایش آیتم"

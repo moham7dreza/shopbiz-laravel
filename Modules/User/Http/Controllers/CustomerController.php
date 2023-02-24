@@ -19,6 +19,7 @@ use Modules\User\Services\UserService;
 class CustomerController extends Controller
 {
     use ShowMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -65,8 +66,9 @@ class CustomerController extends Controller
             $users = $this->repo->sort(request()->sort, request()->dir, 'user')->paginate(10);
             if (count($users) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
+            } else {
+                $this->showToastOfNotDataExists();
             }
-            else { $this->showToastOfNotDataExists(); }
         } else {
             $users = $this->repo->customerUsers()->paginate(10);
         }
@@ -170,5 +172,17 @@ class CustomerController extends Controller
     {
         $user->activation_date = $user->activation == User::ACTIVATE ? null : now();
         return ShareService::ajaxChangeModelSpecialField($user, 'activation');
+    }
+
+
+    /**
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function changeUserType(User $user): RedirectResponse
+    {
+        $user->user_type = $user->user_type == User::TYPE_USER ? User::TYPE_ADMIN : User::TYPE_USER;
+        $user->save();
+        return $this->showAlertWithRedirect(message: 'نوع کاربر با موفقیت تغییر کرد');
     }
 }
