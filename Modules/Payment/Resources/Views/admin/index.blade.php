@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>پرداخت ها</title>
+    <title>{{ $title }}</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> پرداخت ها</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> پرداخت ها</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> {{ $title }}</li>
         </ol>
     </nav>
 
@@ -19,19 +20,19 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        پرداخت ها
+                        {{ $title }}
                     </h5>
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         <a href="#" class="btn btn-info btn-sm disabled">پرداخت جدید</a>
-                        <x-panel-a-tag route="{{ route('payment.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($route) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('payment.index') }}"/>
+                        <x-panel-search-form route="{{ route($route) }}"/>
                     </div>
                 </section>
 
@@ -40,11 +41,19 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>کد تراکنش</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="کد تراکنش" property="id"/>
+                            </th>
                             <th>بانک</th>
-                            <th>پرداخت کننده</th>
-                            <th>وضعیت پرداخت</th>
-                            <th>نوع پرداخت</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="پرداخت کننده" property="user_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت پرداخت" property="status"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نوع پرداخت" property="type"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

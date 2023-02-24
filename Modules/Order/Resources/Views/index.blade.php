@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>سفارشات</title>
+    <title>{{ $title }}</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش فروش</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> سفارشات</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> سفارشات</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> {{ $title }}</li>
         </ol>
     </nav>
 
@@ -19,19 +20,19 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        سفارشات
+                        {{ $title }}
                     </h5>
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         <a href="#" class="btn btn-info btn-sm disabled">ایجاد سفارش </a>
-                        <x-panel-a-tag route="{{ route('order.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($route) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('order.index') }}"/>
+                        <x-panel-search-form route="{{ route($route) }}"/>
                     </div>
                 </section>
 
@@ -40,17 +41,38 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>کد سفارش</th>
-                            <th>مجموع مبلغ سفارش (بدون تخفیف)</th>
-                            <th>مجموع تمامی مبلغ تخفیفات</th>
-                            <th>مبلغ تخفیف همه محصولات</th>
-                            <th>مبلغ نهایی</th>
-                            <th>وضعیت پرداخت</th>
-                            <th>شیوه پرداخت</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="کد سفارش" property="id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="مجموع مبلغ سفارش (بدون تخفیف)"
+                                                  property="order_final_amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="مجموع تمامی مبلغ تخفیفات"
+                                                  property="order_discount_amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="مبلغ تخفیف همه محصولات"
+                                                  property="order_total_products_discount_amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="مبلغ نهایی" property="order_final_amount"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت پرداخت" property="payment_status"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="شیوه پرداخت" property="payment_type"/>
+                            </th>
                             <th>بانک</th>
-                            <th>وضعیت ارسال</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت ارسال" property="delivery_status"/>
+                            </th>
                             <th>شیوه ارسال</th>
-                            <th>وضعیت سفارش</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت سفارش" property="order_status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

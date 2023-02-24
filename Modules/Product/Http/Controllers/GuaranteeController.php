@@ -67,7 +67,10 @@ class GuaranteeController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $guarantees = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($guarantees) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $guarantees = $this->repo->getLatest()->paginate(10);
         }

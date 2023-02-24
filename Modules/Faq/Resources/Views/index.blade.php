@@ -42,11 +42,14 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>پرسش</th>
+                            <th>
+                                <x-panel-sort-btn route="faq.index" title="پرسش" property="question"/>
+                            </th>
                             <th>خلاصه پاسخ</th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn route="faq.index" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

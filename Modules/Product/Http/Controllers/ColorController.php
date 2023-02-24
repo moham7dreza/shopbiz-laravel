@@ -65,7 +65,10 @@ class ColorController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $colors = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($colors) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $colors = $this->repo->getLatest()->paginate(10);
         }

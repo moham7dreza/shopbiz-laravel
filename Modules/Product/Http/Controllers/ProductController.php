@@ -71,7 +71,10 @@ class ProductController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $products = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($products) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $products = $this->repo->index()->with('tags')->paginate(10);
         }

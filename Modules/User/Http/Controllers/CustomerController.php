@@ -63,7 +63,10 @@ class CustomerController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $users = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($users) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $users = $this->repo->customerUsers()->paginate(10);
         }

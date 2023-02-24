@@ -3,6 +3,7 @@
 namespace Modules\Payment\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use Modules\Payment\Entities\Payment;
 use Modules\Payment\Repositories\PaymentRepoEloquentInterface;
 use Modules\Payment\Services\PaymentService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PaymentController extends Controller
@@ -50,44 +52,59 @@ class PaymentController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function index(): Factory|View|Application
+    public function index(): Factory|View|Application|RedirectResponse
     {
-        if (isset(request()->sort)) {
-            $payments = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
-        } else {
-            $payments = $this->repo->index()->paginate(10);
+        $route = 'payment.index';
+        $title = 'همه پرداخت ها';
+        $payments = $this->checkForRequestsAndMakeQuery('all');
+        if ($payments == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-        return view('Payment::admin.index', compact(['payments']));
+        return view('Payment::admin.index', compact(['payments', 'route', 'title']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function offline(): View|Factory|Application
+    public function offline(): View|Factory|Application|RedirectResponse
     {
-        $payments = $this->repo->offline()->paginate(10);
-        return view('Payment::admin.index', compact(['payments']));
+        $route = 'payment.offline';
+        $title = 'پرداخت های آفلاین';
+        $payments = $this->checkForRequestsAndMakeQuery('offline');
+        if ($payments == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Payment::admin.index', compact(['payments', 'route', 'title']));
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function online(): View|Factory|Application
+    public function online(): View|Factory|Application|RedirectResponse
     {
-        $payments = $this->repo->online()->paginate(10);
-        return view('Payment::admin.index', compact(['payments']));
+        $route = 'payment.online';
+        $title = 'پرداخت های آنلاین';
+        $payments = $this->checkForRequestsAndMakeQuery('online');
+        if ($payments == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Payment::admin.index', compact(['payments', 'route', 'title']));
     }
 
     /**
-     * @return Factory|View|Application
+     * @return Factory|View|Application|RedirectResponse
      */
-    public function cash(): Factory|View|Application
+    public function cash(): Factory|View|Application|RedirectResponse
     {
-        $payments = $this->repo->cash()->paginate(10);
-        return view('Payment::admin.index', compact(['payments']));
+        $route = 'payment.cash';
+        $title = 'پرداخت های در محل';
+        $payments = $this->checkForRequestsAndMakeQuery('cash');
+        if ($payments == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Payment::admin.index', compact(['payments', 'route', 'title']));
     }
 
     /**
@@ -117,5 +134,31 @@ class PaymentController extends Controller
     public function show(Payment $payment): View|Factory|Application
     {
         return view('Payment::admin.show', compact(['payment']));
+    }
+
+    /**
+     * @param $paymentType
+     * @return LengthAwarePaginator|string
+     */
+    private function checkForRequestsAndMakeQuery($paymentType): LengthAwarePaginator|string
+    {
+        if (isset(request()->search)) {
+            $payments = $this->repo->search(request()->search, $paymentType)->paginate(10);
+            if (count($payments) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($payments));
+            } else {
+                return 'not result found';
+            }
+        } elseif (isset(request()->sort)) {
+            $payments = $this->repo->sort(request()->sort, request()->dir, $paymentType)->paginate(10);
+            if (count($payments) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
+        } else {
+            $paymentType = $paymentType == 'all' ? 'index' : $paymentType;
+            $payments = $this->repo->$paymentType()->paginate(10);
+        }
+        return $payments;
     }
 }

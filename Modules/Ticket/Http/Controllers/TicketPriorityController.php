@@ -63,7 +63,10 @@ class TicketPriorityController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $ticketPriorities = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($ticketPriorities) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $ticketPriorities = $this->repo->index()->paginate(10);
         }

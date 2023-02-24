@@ -42,10 +42,18 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام منو</th>
-                            <th>منوی والد</th>
-                            <th class="text-left">لینک منو</th>
-                            <th class="text-center">وضعیت</th>
+                            <th>
+                                <x-panel-sort-btn route="menu.index" title="نام منو"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="menu.index" title="منوی والد" property="parent_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="menu.index" title="لینک منو" property="url" class="text-left"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="menu.index" title="وضعیت" property="status" class="text-center"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

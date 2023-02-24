@@ -4,6 +4,7 @@ namespace Modules\Order\Http\Controllers;
 
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -58,19 +59,14 @@ class OrderController extends Controller
      */
     public function newOrders(): Factory|View|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'newOrders')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->newOrders()->paginate(10);
+        $route = 'order.newOrders';
+        $title = 'سفارشات جدید';
+        $orders = $this->checkForRequestsAndMakeQuery('newOrders');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
         $this->service->setOrderStatusToAwaitConfirm($orders);
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'route', 'title']));
     }
 
     /**
@@ -78,18 +74,13 @@ class OrderController extends Controller
      */
     public function sending(): View|Factory|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'sending')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->sending()->paginate(10);
+        $route = 'order.sending';
+        $title = 'سفارشات در حال ارسال';
+        $orders = $this->checkForRequestsAndMakeQuery('sending');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'title', 'route']));
     }
 
     /**
@@ -97,18 +88,13 @@ class OrderController extends Controller
      */
     public function unpaid(): View|Factory|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'unpaid')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->unpaid()->paginate(10);
+        $route = 'order.unpaid';
+        $title = 'سفارشات پرداخت نشده';
+        $orders = $this->checkForRequestsAndMakeQuery('unpaid');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'route', 'title']));
     }
 
     /**
@@ -116,18 +102,13 @@ class OrderController extends Controller
      */
     public function canceled(): View|Factory|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'canceled')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->canceled()->paginate(10);
+        $route = 'order.canceled';
+        $title = 'سفارشات باطل شده';
+        $orders = $this->checkForRequestsAndMakeQuery('canceled');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'route', 'title']));
     }
 
     /**
@@ -135,18 +116,13 @@ class OrderController extends Controller
      */
     public function returned(): View|Factory|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'returned')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->returned()->paginate(10);
+        $route = 'order.returned';
+        $title = 'سفارشات برگشت داده شده';
+        $orders = $this->checkForRequestsAndMakeQuery('returned');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'title', 'route']));
     }
 
     /**
@@ -154,18 +130,13 @@ class OrderController extends Controller
      */
     public function all(): View|Factory|Application|RedirectResponse
     {
-        if (isset(request()->search)) {
-            $orders = $this->repo->search(request()->search, 'all')->paginate(10);
-            if (count($orders) > 0) {
-                $this->showToastOfFetchedRecordsCount(count($orders));
-            } else {
-                return $this->showAlertOfNotResultFound();
-            }
-        } else {
-            $orders = $this->repo->index()->paginate(10);
+        $route = 'order.index';
+        $title = 'همه سفارشات';
+        $orders = $this->checkForRequestsAndMakeQuery('all');
+        if ($orders == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
-
-        return view('Order::index', compact(['orders']));
+        return view('Order::index', compact(['orders', 'title', 'route']));
     }
 
     /**
@@ -214,5 +185,31 @@ class OrderController extends Controller
     {
         $this->service->makeOrderStatusCanceled($order);
         return $this->showMessageWithRedirectRoute('وضعیت سفارش به باطل شده تغییر کرد.');
+    }
+
+    /**
+     * @param $orderType
+     * @return LengthAwarePaginator|string
+     */
+    private function checkForRequestsAndMakeQuery($orderType): LengthAwarePaginator|string
+    {
+        if (isset(request()->search)) {
+            $orders = $this->repo->search(request()->search, $orderType)->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($orders));
+            } else {
+                return 'not result found';
+            }
+        } elseif (isset(request()->sort)) {
+            $orders = $this->repo->sort(request()->sort, request()->dir, $orderType)->paginate(10);
+            if (count($orders) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
+        } else {
+            $orderType = $orderType == 'all' ? 'index' : $orderType;
+            $orders = $this->repo->$orderType()->paginate(10);
+        }
+        return $orders;
     }
 }

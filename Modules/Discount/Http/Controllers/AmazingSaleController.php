@@ -70,7 +70,10 @@ class AmazingSaleController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $amazingSales = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($amazingSales) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $amazingSales = $this->repo->getLatestOrderByDate()->paginate(10);
         }

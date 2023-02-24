@@ -10,6 +10,17 @@ use Modules\Notify\Entities\EmailFile;
 class EmailFileRepoEloquent implements EmailFileRepoEloquentInterface
 {
     /**
+     * @param $property
+     * @param $dir
+     * @param $relatedId
+     * @return Builder
+     */
+    public function sort($property, $dir, $relatedId): Builder
+    {
+        return $this->query()->where('public_mail_id', $relatedId)->orderBy($property, $dir);
+    }
+
+    /**
      * @param $name
      * @return Model|Builder|null
      */

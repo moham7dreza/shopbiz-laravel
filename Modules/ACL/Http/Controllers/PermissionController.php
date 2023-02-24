@@ -67,7 +67,10 @@ class PermissionController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $permissions = $this->repo->sort(request()->sort, request()->dir, 'permission')->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($permissions) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         }
         else {
             $permissions = $this->repo->permissions()->paginate(10);

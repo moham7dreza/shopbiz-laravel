@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> اطلاع رسانی</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="{{ route('email.index') }}"> اطلائیه ایمیلی</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('email.index', $email->id) }}"> اطلائیه ایمیلی</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> فایل های اطلائیه ایمیلی</li>
         </ol>
     </nav>
@@ -30,7 +30,7 @@
                             <a href="{{ route('email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد
                                 فایل اطلائیه ایمیلی</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('email-file.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route('email-file.index', $email->id) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
@@ -39,16 +39,24 @@
                     </div>
                 </section>
 
+                <section class="row mb-4">
+                    <x-panel-section col="5" id="mail_subject" label="عنوان ایمیل" text="{{ $email->getLimitedSubject() }}"/>
+                </section>
+
                 <section class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>عنوان ایمیل</th>
-                            <th>سایز فایل</th>
-                            <th>نوع فایل</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn route="email-file.index" :params="$email->id" title="سایز فایل" property="file_size"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="email-file.index" :params="$email->id" title="نوع فایل" property="file_type"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn route="email-file.index" :params="$email->id" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -56,7 +64,6 @@
                         @foreach ($files as $key => $file)
                             <tr>
                                 <th>{{ $key + 1 }}</th>
-                                <td>{{ $email->getLimitedSubject() }}</td>
                                 <td>{{ $file->getFaFileSize() }}</td>
                                 <td>{{ $file->file_type }}</td>
                                 <td>

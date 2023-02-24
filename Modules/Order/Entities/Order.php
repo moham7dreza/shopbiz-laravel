@@ -64,6 +64,15 @@ class Order extends Model
         return $query->where('order_status', Order::ORDER_STATUS_CANCELED);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeReturned($query): mixed
+    {
+        return $query->where('order_status', Order::ORDER_STATUS_RETURNED);
+    }
+
 
     // ********************************************* Relations
 

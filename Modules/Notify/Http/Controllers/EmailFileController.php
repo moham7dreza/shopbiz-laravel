@@ -68,6 +68,12 @@ class EmailFileController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $files = $this->repo->sort(request()->sort, request()->dir, $email->id)->paginate(10);
+            if (count($files) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $files = $email->files()->paginate(10);
         }

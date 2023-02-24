@@ -70,7 +70,10 @@ class RoleController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $roles = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($roles) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $roles = $this->repo->index()->paginate(10);
         }

@@ -66,7 +66,10 @@ class DeliveryController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $delivery_methods = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($delivery_methods) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $delivery_methods = $this->repo->index()->paginate(10);
         }

@@ -66,7 +66,10 @@ class ProductCommentController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $productComments = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($productComments) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $productComments = $this->repo->getLatestProductComments()->paginate(10);
         }

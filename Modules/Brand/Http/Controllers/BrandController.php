@@ -67,7 +67,10 @@ class BrandController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $brands = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($brands) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $brands = $this->repo->index()->paginate(10);
         }

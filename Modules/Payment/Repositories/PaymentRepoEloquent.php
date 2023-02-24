@@ -13,11 +13,32 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
+     * @param $orderType
      * @return Builder
      */
-    public function sort($property, $dir): Builder
+    public function sort($property, $dir, $orderType): Builder
     {
-        return $this->query()->orderBy($property, $dir);
+        return match ($orderType) {
+            'cash' => $this->query()->cashType()->orderBy($property, $dir),
+            'online' => $this->query()->onlineType()->orderBy($property, $dir),
+            'offline' => $this->query()->offlineType()->orderBy($property, $dir),
+            default => $this->query()->orderBy($property, $dir),
+        };
+    }
+
+    /**
+     * @param $name
+     * @param $paymentType
+     * @return Model|Builder|null
+     */
+    public function search($name, $paymentType): Model|Builder|null
+    {
+        return match ($paymentType) {
+            'cash' => $this->query()->cashType()->where('id', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            'online' => $this->query()->onlineType()->where('id', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            'offline' => $this->query()->offlineType()->where('id', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            default => $this->query()->where('id', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+        };
     }
 
     /**

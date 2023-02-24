@@ -68,7 +68,10 @@ class FaqController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $faqs = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($faqs) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $faqs = $this->repo->index()->paginate(10);
         }

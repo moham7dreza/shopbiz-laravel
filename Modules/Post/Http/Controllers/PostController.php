@@ -74,7 +74,10 @@ class PostController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $posts = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($posts) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $posts = $this->repo->index()->paginate(10);
         }

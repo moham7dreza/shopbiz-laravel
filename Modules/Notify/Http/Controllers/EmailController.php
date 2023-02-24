@@ -66,7 +66,10 @@ class EmailController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $emails = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($emails) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $emails = $this->repo->index()->paginate(10);
         }

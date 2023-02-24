@@ -43,12 +43,17 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>عنوان اطلائیه</th>
+                            <th>
+                                <x-panel-sort-btn route="sms.index" title="عنوان اطلائیه" property="title"/>
+                            </th>
                             <th>متن پیامک</th>
-                            <th>تاریخ ارسال</th>
+                            <th>
+                                <x-panel-sort-btn route="sms.index" title="تاریخ ارسال" property="published_at" />
+                            </th>
                             <th>ارسال شده</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn route="sms.index" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

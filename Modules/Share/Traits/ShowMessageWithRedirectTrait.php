@@ -116,10 +116,14 @@ trait ShowMessageWithRedirectTrait
     }
 
     /**
+     * @param null $route
      * @return RedirectResponse
      */
-    public function showAlertOfNotResultFound(): RedirectResponse
+    public function showAlertOfNotResultFound($route = null): RedirectResponse
     {
+        if (!is_null($route)) {
+            return $this->showAlertWithRedirect(message: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', type: 'warning', route: $route);
+        }
         return $this->showMessageWithRedirectRoute(msg: 'هیچ نتیجه ای متناسب با کلمه مربوطه یافت نشد.', title: 'هشدار', status: 'warning');
     }
 
@@ -130,5 +134,13 @@ trait ShowMessageWithRedirectTrait
     public function showToastOfSelectedDirection($dir): void
     {
         ShareService::showAnimatedToast('داده ها به صورت ' . ($dir == 'asc' ? 'صعودی' : 'نزولی') . ' مرتب شدند.', type: 'info')->position('top-left');
+    }
+
+    /**
+     * @return void
+     */
+    public function showToastOfNotDataExists(): void
+    {
+        ShareService::showAnimatedToast('هیج داده ای برای مرتب سازی وجود ندارد.', 'warning')->position('top-left');
     }
 }

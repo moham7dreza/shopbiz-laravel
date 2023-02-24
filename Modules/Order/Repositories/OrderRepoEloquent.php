@@ -12,11 +12,19 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
+     * @param $orderType
      * @return Builder
      */
-    public function sort($property, $dir): Builder
+    public function sort($property, $dir, $orderType): Builder
     {
-        return $this->query()->orderBy($property, $dir);
+        return match ($orderType) {
+            'newOrders' => $this->query()->new()->orderBy($property, $dir),
+            'sending' => $this->query()->sending()->orderBy($property, $dir),
+            'unpaid' => $this->query()->unpaid()->orderBy($property, $dir),
+            'returned' => $this->query()->returned()->orderBy($property, $dir),
+            'canceled' => $this->query()->canceled()->orderBy($property, $dir),
+            default => $this->query()->orderBy($property, $dir),
+        };
     }
 
     /**
@@ -26,10 +34,14 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function search($name, $orderType): Model|Builder|null
     {
-        if ($orderType === 'newOrders') {
-
-        }
-        return $this->query()->where('name' , 'like', '%' . $name . '%')->latest();
+        return match ($orderType) {
+            'newOrders' => $this->query()->new()->where('id', 'like', '%' . $name . '%')->latest(),
+            'sending' => $this->query()->sending()->where('id', 'like', '%' . $name . '%')->latest(),
+            'unpaid' => $this->query()->unpaid()->where('id', 'like', '%' . $name . '%')->latest(),
+            'returned' => $this->query()->returned()->where('id', 'like', '%' . $name . '%')->latest(),
+            'canceled' => $this->query()->canceled()->where('id', 'like', '%' . $name . '%')->latest(),
+            default => $this->query()->where('id', 'like', '%' . $name . '%')->latest(),
+        };
     }
 
     /**
@@ -58,8 +70,8 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
     public function findUserUncheckedOrder(): Model|Builder|null
     {
         return $this->query()->where([
-           ['user_id', auth()->id()],
-           ['order_status', Order::ORDER_STATUS_NOT_CHECKED]
+            ['user_id', auth()->id()],
+            ['order_status', Order::ORDER_STATUS_NOT_CHECKED]
         ])->first();
     }
 
@@ -80,7 +92,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function newOrders(): Builder
     {
-        return $this->query()->where('order_status', Order::ORDER_STATUS_NOT_CHECKED)->latest();
+        return $this->query()->new()->latest();
     }
 
     /**
@@ -88,7 +100,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function sending(): Builder
     {
-        return $this->query()->where('delivery_status', Order::DELIVERY_STATUS_SENDING)->latest();
+        return $this->query()->sending()->latest();
     }
 
     /**
@@ -96,7 +108,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function unpaid(): Builder
     {
-        return $this->query()->where('payment_status', Order::PAYMENT_STATUS_NOT_PAID)->latest();
+        return $this->query()->unpaid()->latest();
     }
 
     /**
@@ -104,7 +116,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function canceled(): Builder
     {
-        return $this->query()->where('order_status', Order::ORDER_STATUS_CANCELED)->latest();
+        return $this->query()->canceled()->latest();
     }
 
     /**
@@ -112,7 +124,7 @@ class OrderRepoEloquent implements OrderRepoEloquentInterface
      */
     public function returned(): Builder
     {
-        return $this->query()->where('order_status', Order::ORDER_STATUS_RETURNED)->latest();
+        return $this->query()->returned->latest();
     }
 
     /**

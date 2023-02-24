@@ -67,7 +67,10 @@ class SMSController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $sms = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($sms) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $sms = $this->repo->index()->paginate(10);
         }

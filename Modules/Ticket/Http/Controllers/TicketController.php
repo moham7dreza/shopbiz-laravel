@@ -84,7 +84,10 @@ class TicketController extends Controller
     {
         if (isset(request()->sort)) {
             $tickets = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($tickets) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $tickets = $this->repo->index()->paginate(10);
         }

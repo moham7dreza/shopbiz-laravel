@@ -67,7 +67,10 @@ class PageController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $pages = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($pages) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $pages = $this->repo->index()->paginate(10);
         }

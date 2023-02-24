@@ -65,7 +65,10 @@ class CopanController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $copans = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($copans) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $copans = $this->repo->getLatestOrderByDate()->paginate(10);
         }

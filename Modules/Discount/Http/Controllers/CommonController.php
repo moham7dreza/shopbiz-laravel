@@ -66,7 +66,10 @@ class CommonController extends Controller
             }
         } elseif (isset(request()->sort)) {
             $commonDiscounts = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            $this->showToastOfSelectedDirection(request()->dir);
+            if (count($commonDiscounts) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            $this->showToastOfNotDataExists();
         } else {
             $commonDiscounts = $this->repo->getLatestOrderByDate()->paginate(10);
         }
