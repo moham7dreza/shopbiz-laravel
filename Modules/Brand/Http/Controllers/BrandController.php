@@ -70,7 +70,7 @@ class BrandController extends Controller
             if (count($brands) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $brands = $this->repo->index()->paginate(10);
         }

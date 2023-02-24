@@ -30,7 +30,7 @@
                             <a href="{{ route('product.guarantee.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                                 گارانتی جدید </a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('product.guarantee.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route('product.guarantee.index', $product->id) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
@@ -39,17 +39,33 @@
                     </div>
                 </section>
 
+                <section class="row mb-4 px-3">
+                    <x-panel-section col="5" id="product_name" label="عنوان کالا" text="{{ $product->name }}"
+                                     class="font-weight-bold"/>
+                </section>
+
                 <section class="table-responsive">
                     <table class="table table-striped table-hover h-150px">
                         <thead>
                         <tr>
+                            @php $route = 'product.guarantee.index' @endphp
                             <th>#</th>
-                            <th>نام کالا</th>
-                            <th>گارانتی کالا</th>
-                            <th>اعتبار گارانتی</th>
-                            <th>افزایش قیمت</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="گارانتی کالا"
+                                                  property="guarantee_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="اعتبار گارانتی"
+                                                  property="duration"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="افزایش قیمت"
+                                                  property="price_increase"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="وضعیت"
+                                                  property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -57,9 +73,8 @@
                         @foreach ($guarantees as $guarantee)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $product->name }}</td>
                                 <td>{{ $guarantee->getGuaranteeName() }}</td>
-                                <td>{{ $guarantee->duration }}</td>
+                                <td>{{ $guarantee->getFaDurationTime() }}</td>
                                 <td>{{ $guarantee->getFaPriceIncrease() }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_PRODUCT_GUARANTEE_STATUS)

@@ -68,7 +68,7 @@ class CopanController extends Controller
             if (count($copans) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $copans = $this->repo->getLatestOrderByDate()->paginate(10);
         }

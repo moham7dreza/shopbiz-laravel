@@ -69,7 +69,7 @@ class EmailController extends Controller
             if (count($emails) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $emails = $this->repo->index()->paginate(10);
         }

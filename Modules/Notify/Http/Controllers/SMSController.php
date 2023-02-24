@@ -70,7 +70,7 @@ class SMSController extends Controller
             if (count($sms) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $sms = $this->repo->index()->paginate(10);
         }

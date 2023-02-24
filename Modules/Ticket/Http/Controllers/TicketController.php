@@ -87,7 +87,7 @@ class TicketController extends Controller
             if (count($tickets) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $tickets = $this->repo->index()->paginate(10);
         }

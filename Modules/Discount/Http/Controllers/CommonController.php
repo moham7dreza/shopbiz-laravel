@@ -69,7 +69,7 @@ class CommonController extends Controller
             if (count($commonDiscounts) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $commonDiscounts = $this->repo->getLatestOrderByDate()->paginate(10);
         }

@@ -9,6 +9,16 @@ use Modules\Product\Entities\ProductColor;
 
 class ProductColorRepoEloquent implements ProductColorRepoEloquentInterface
 {
+    /**
+     * @param $property
+     * @param $dir
+     * @param $relatedId
+     * @return Builder
+     */
+    public function sort($property, $dir, $relatedId): Builder
+    {
+        return $this->query()->where('product_id', $relatedId)->orderBy($property, $dir);
+    }
 
     /**
      * @param $name

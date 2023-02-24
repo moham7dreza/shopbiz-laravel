@@ -70,7 +70,7 @@ class BannerController extends Controller
             if (count($banners) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $banners = $this->repo->index()->paginate(10);
         }

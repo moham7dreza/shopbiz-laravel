@@ -81,7 +81,7 @@ class PostCategoryController extends Controller
             if (count($postCategories) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $postCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         }

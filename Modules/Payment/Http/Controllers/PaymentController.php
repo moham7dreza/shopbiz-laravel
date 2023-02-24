@@ -154,7 +154,7 @@ class PaymentController extends Controller
             if (count($payments) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $paymentType = $paymentType == 'all' ? 'index' : $paymentType;
             $payments = $this->repo->$paymentType()->paginate(10);

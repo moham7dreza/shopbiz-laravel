@@ -42,12 +42,21 @@
                     <table class="table table-striped table-hover h-150px">
                         <thead>
                         <tr>
+                            @php $route = 'guarantee.index' @endphp
                             <th>#</th>
-                            <th>عنوان گارانتی</th>
-                            <th>اعتبار پیشفرض گارانتی</th>
-                            <th>آدرس URL وبسایت</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="عنوان گارانتی"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="اعتبار پیشفرض گارانتی"
+                                                  property="default_duration"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="آدرس URL وبسایت" property="website_link"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -56,7 +65,7 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $guarantee->name }}</td>
-                                <td>{{ $guarantee->default_duration }}</td>
+                                <td>{{ $guarantee->getFaDurationTime() }}</td>
                                 <td>{{ $guarantee->website_link }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_GUARANTEE_STATUS)

@@ -41,14 +41,28 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>کد کاربر</th>
-                            <th>ایمیل</th>
-                            <th>شماره موبایل</th>
-                            <th>نام</th>
-                            <th>نام خانوادگی</th>
-                            <th>فعال سازی</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            @php $route = 'adminUser.index' @endphp
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="کد کاربر" property="id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="ایمیل" property="email"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="شماره موبایل" property="mobile"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام" property="first_name"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام خانوادگی" property="last_name"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="فعال سازی" property="activation"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th>نقش</th>
                             <th>سطوح دسترسی</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>

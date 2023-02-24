@@ -57,6 +57,12 @@ class StoreController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $products = $productRepo->sort(request()->sort, request()->dir)->paginate(10);
+            if (count($products) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $products = $productRepo->allProductsOrderByMarketableNumber()->paginate(10);
         }

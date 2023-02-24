@@ -73,7 +73,7 @@ class RoleController extends Controller
             if (count($roles) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $roles = $this->repo->index()->paginate(10);
         }

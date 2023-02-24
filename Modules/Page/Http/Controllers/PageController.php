@@ -70,7 +70,7 @@ class PageController extends Controller
             if (count($pages) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $pages = $this->repo->index()->paginate(10);
         }

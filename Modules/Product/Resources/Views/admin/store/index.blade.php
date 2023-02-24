@@ -40,12 +40,25 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'product.store.index' @endphp
                             <th>#</th>
-                            <th>نام کالا</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام کالا"
+                                                  property="id"/>
+                            </th>
                             <th>تصویر کالا</th>
-                            <th>تعداد قابل فروش</th>
-                            <th>تعداد رزرو شده</th>
-                            <th>تعداد فروخته شده</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد قابل فروش"
+                                                  property="marketable_number"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد فروخته شده"
+                                                  property="sold_number"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد رزرو شده"
+                                                  property="frozen_number"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

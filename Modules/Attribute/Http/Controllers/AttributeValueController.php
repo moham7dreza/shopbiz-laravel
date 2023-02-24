@@ -71,7 +71,7 @@ class AttributeValueController extends Controller
             if (count($values) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $values = $attribute->values()->paginate(10);
         }

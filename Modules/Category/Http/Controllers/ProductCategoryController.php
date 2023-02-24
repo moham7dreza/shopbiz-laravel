@@ -71,7 +71,7 @@ class ProductCategoryController extends Controller
             if (count($productCategories) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $productCategories = $this->categoryRepo->getLatestCategories()->paginate(10);
         }

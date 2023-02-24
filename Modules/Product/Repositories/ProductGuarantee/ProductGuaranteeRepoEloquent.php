@@ -5,11 +5,21 @@ namespace Modules\Product\Repositories\ProductGuarantee;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Product\Entities\Guarantee;
-use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductGuarantee;
 
 class ProductGuaranteeRepoEloquent implements ProductGuaranteeRepoEloquentInterface
 {
+
+    /**
+     * @param $property
+     * @param $dir
+     * @param $relatedId
+     * @return Builder
+     */
+    public function sort($property, $dir, $relatedId): Builder
+    {
+        return $this->query()->where('product_id', $relatedId)->orderBy($property, $dir);
+    }
 
     /**
      * @param $name
@@ -71,6 +81,6 @@ class ProductGuaranteeRepoEloquent implements ProductGuaranteeRepoEloquentInterf
      */
     private function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return Guarantee::query();
+        return ProductGuarantee::query();
     }
 }

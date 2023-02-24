@@ -69,7 +69,7 @@ class DeliveryController extends Controller
             if (count($delivery_methods) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $delivery_methods = $this->repo->index()->paginate(10);
         }

@@ -66,7 +66,7 @@ class TicketPriorityController extends Controller
             if (count($ticketPriorities) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $ticketPriorities = $this->repo->index()->paginate(10);
         }

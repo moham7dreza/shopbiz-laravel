@@ -55,18 +55,18 @@ class CustomerController extends Controller
     public function index(): View|Factory|Application|RedirectResponse
     {
         if (isset(request()->search)) {
-            $users = $this->repo->search(request()->search)->paginate(10);
+            $users = $this->repo->search(request()->search, 'user')->paginate(10);
             if (count($users) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($users));
             } else {
                 return $this->showAlertOfNotResultFound();
             }
         } elseif (isset(request()->sort)) {
-            $users = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
+            $users = $this->repo->sort(request()->sort, request()->dir, 'user')->paginate(10);
             if (count($users) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $users = $this->repo->customerUsers()->paginate(10);
         }

@@ -42,18 +42,37 @@
                     <table class="table table-striped table-hover h-150px">
                         <thead>
                         <tr>
+                            @php $route = 'product.index' @endphp
                             <th>#</th>
-                            <th>نام کالا</th>
-                            <th> تصویر کالا</th>
-                            <th> قیمت</th>
-                            <th>وزن</th>
-                            <th>دسته</th>
-                            <th>تعداد بازدید</th>
-                            <th>تعداد لایک</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام کالا"/>
+                            </th>
+                            <th>تصویر کالا</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="قیمت"
+                                                  property="price"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وزن"
+                                                  property="weight"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="دسته"
+                                                  property="category_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد بازدید" property="views_count"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد لایک" property="likes_count"/>
+                            </th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
-                            <th>قابل فروش بودن</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="قابل فروش بودن" property="marketable"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

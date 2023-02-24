@@ -73,7 +73,7 @@ class AmazingSaleController extends Controller
             if (count($amazingSales) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $amazingSales = $this->repo->getLatestOrderByDate()->paginate(10);
         }

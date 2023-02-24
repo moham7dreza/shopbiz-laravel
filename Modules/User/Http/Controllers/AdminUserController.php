@@ -76,7 +76,7 @@ class AdminUserController extends Controller
             if (count($adminUsers) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $adminUsers = $this->repo->adminUsers()->paginate(10);
         }

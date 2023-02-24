@@ -69,7 +69,7 @@ class ProductCommentController extends Controller
             if (count($productComments) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $productComments = $this->repo->getLatestProductComments()->paginate(10);
         }

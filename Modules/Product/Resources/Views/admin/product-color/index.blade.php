@@ -30,7 +30,7 @@
                             <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                                 رنگ جدید </a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('product.color.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route('product.color.index', $product->id) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
@@ -39,20 +39,42 @@
                     </div>
                 </section>
 
+                <section class="row mb-4 px-3">
+                    <x-panel-section col="5" id="product_name" label="عنوان کالا" text="{{ $product->name }}"
+                                     class="font-weight-bold"/>
+                </section>
+
                 <section class="table-responsive">
                     <table class="table table-striped table-hover h-150px">
                         <thead>
                         <tr>
+                            @php $route = 'product.color.index' @endphp
                             <th>#</th>
-                            <th>نام کالا</th>
-                            <th>رنگ کالا</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="رنگ کالا"
+                                                  property="color_id"/>
+                            </th>
                             <th>رنگ</th>
-                            <th>افزایش قیمت</th>
-                            <th>تعداد قابل فروش</th>
-                            <th>تعداد فروخته شده</th>
-                            <th>تعداد رزرو شده</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="افزایش قیمت"
+                                                  property="price_increase"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="تعداد قابل فروش"
+                                                  property="marketable_number"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="تعداد فروخته شده"
+                                                  property="sold_number"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="تعداد رزرو شده"
+                                                  property="frozen_number"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" :params="$product->id" title="وضعیت"
+                                                  property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -60,7 +82,6 @@
                         @foreach ($colors as $color)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $product->name }}</td>
                                 <td>{{ $color->getColorName() }}</td>
                                 <td>
                                     <span style="background-color: {{ $color->getColorCode() ?? '#ffffff' }};"

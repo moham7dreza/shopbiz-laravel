@@ -70,7 +70,7 @@ class MenuController extends Controller
             if (count($menus) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $menus = $this->repo->index()->paginate(10);
         }

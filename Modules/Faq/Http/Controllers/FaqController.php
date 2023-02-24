@@ -71,7 +71,7 @@ class FaqController extends Controller
             if (count($faqs) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $faqs = $this->repo->index()->paginate(10);
         }

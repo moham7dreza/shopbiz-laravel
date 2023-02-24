@@ -74,7 +74,7 @@ class ProductController extends Controller
             if (count($products) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $products = $this->repo->index()->with('tags')->paginate(10);
         }

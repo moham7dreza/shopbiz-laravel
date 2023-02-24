@@ -69,7 +69,7 @@ class PostCommentController extends Controller
             if (count($postComments) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $postComments = $this->repo->getLatestPostComments()->paginate(10);
         }

@@ -68,6 +68,12 @@ class ProductGuaranteeController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $guarantees = $this->repo->sort(request()->sort, request()->dir, $product->id)->paginate(10);
+            if (count($guarantees) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $guarantees = $product->guarantees()->paginate(10);
         }

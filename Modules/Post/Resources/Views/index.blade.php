@@ -41,17 +41,31 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'post.index' @endphp
                             <th>#</th>
-                            <th>عنوان پست</th>
-                            <th>دسته</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="عنوان پست" property="title"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="دسته" property="category_id"/>
+                            </th>
                             <th>تصویر</th>
-                            <th>تاریخ انتشار</th>
-                            <th>تعداد بازدید</th>
-                            <th>تعداد لایک</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تاریخ انتشار" property="published_at"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد بازدید" property="views_count"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تعداد لایک" property="likes_count"/>
+                            </th>
                             <th>تگ ها</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
-                            <th>امکان درج کامنت</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="امکان درج کامنت" property="commentable"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

@@ -42,12 +42,20 @@
                     <table class="table table-striped table-hover h-150px">
                         <thead>
                         <tr>
+                            @php $route = 'color.index' @endphp
                             <th>#</th>
-                            <th>نام رنگ</th>
-                            <th>نام لاتین</th>
-                            <th>رنگ</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام رنگ"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام لاتین" property="name_en"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="رنگ" property="code"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

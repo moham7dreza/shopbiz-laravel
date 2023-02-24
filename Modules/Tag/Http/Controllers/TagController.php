@@ -69,7 +69,7 @@ class TagController extends Controller
             if (count($tags) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $tags = $this->repo->index()->paginate(5);
         }

@@ -205,7 +205,7 @@ class OrderController extends Controller
             if (count($orders) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $orderType = $orderType == 'all' ? 'index' : $orderType;
             $orders = $this->repo->$orderType()->paginate(10);

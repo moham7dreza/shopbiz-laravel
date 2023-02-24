@@ -77,7 +77,7 @@ class PostController extends Controller
             if (count($posts) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $posts = $this->repo->index()->paginate(10);
         }

@@ -12,11 +12,15 @@ class UserRepoEloquent implements UserRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
+     * @param string $type
      * @return Builder
      */
-    public function sort($property, $dir): Builder
+    public function sort($property, $dir, string $type = 'admin'): Builder
     {
-        return $this->query()->orderBy($property, $dir);
+        if ($type == 'user') {
+            return $this->query()->user()->orderBy($property, $dir);
+        }
+        return $this->query()->admin()->orderBy($property, $dir);
     }
 
     /**
@@ -30,11 +34,16 @@ class UserRepoEloquent implements UserRepoEloquentInterface
 
     /**
      * @param $name
+     * @param string $type
      * @return Model|Builder|null
      */
-    public function search($name): Model|Builder|null
+    public function search($name, string $type = 'admin'): Model|Builder|null
     {
-        return $this->query()->where('first_name' , 'like', '%' . $name . '%')
+        if ($type == 'user') {
+            return $this->query()->user()->where('first_name' , 'like', '%' . $name . '%')
+                ->orWhere('last_name' , 'like', '%' . $name . '%')->latest();
+        }
+        return $this->query()->admin()->where('first_name' , 'like', '%' . $name . '%')
             ->orWhere('last_name' , 'like', '%' . $name . '%')->latest();
     }
     /**

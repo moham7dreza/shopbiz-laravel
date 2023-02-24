@@ -70,7 +70,7 @@ class PermissionController extends Controller
             if (count($permissions) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         }
         else {
             $permissions = $this->repo->permissions()->paginate(10);

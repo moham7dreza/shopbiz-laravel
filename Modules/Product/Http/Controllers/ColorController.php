@@ -68,7 +68,7 @@ class ColorController extends Controller
             if (count($colors) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $colors = $this->repo->getLatest()->paginate(10);
         }

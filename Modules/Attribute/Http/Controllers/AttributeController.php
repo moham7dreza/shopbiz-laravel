@@ -71,7 +71,7 @@ class AttributeController extends Controller
             if (count($attributes) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $attributes = $this->repo->index()->paginate(10);
         }

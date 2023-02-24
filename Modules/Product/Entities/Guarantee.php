@@ -32,5 +32,11 @@ class Guarantee extends Model
 
 
     // ********************************************* FA Properties
-
+    /**
+     * @return string
+     */
+    public function getFaDurationTime(): string
+    {
+        return is_null($this->default_duration) ? '-' : convertEnglishToPersian($this->default_duration) . ' ماهه ';
+    }
 }

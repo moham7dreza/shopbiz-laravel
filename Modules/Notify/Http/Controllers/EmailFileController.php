@@ -73,7 +73,7 @@ class EmailFileController extends Controller
             if (count($files) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
             }
-            $this->showToastOfNotDataExists();
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $files = $email->files()->paginate(10);
         }
