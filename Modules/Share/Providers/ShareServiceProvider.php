@@ -3,6 +3,7 @@
 namespace Modules\Share\Providers;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\Share\Components\Home\CartPrice;
@@ -30,6 +31,13 @@ use Modules\Share\Livewire\Panel\FaPriceInput;
 class ShareServiceProvider extends ServiceProvider
 {
     /**
+     * Get namespace for panel controller.
+     *
+     * @var string
+     */
+    public string $namespace = 'Modules\Share\Http\Controllers';
+
+    /**
      * Get migration path.
      *
      * @var string
@@ -51,6 +59,20 @@ class ShareServiceProvider extends ServiceProvider
     private string $name = 'Share';
 
     /**
+     * Get middleware route.
+     *
+     * @var array|string[]
+     */
+    public array $middlewareRoute = ['web'];
+
+    /**
+     * Get route path.
+     *
+     * @var string
+     */
+    public string $routePath = '/../Routes/share_routes.php';
+
+    /**
      * @return void
      */
     public function register(): void
@@ -64,6 +86,7 @@ class ShareServiceProvider extends ServiceProvider
         $this->loadShareComponents();
         $this->loadHomeComponents();
         $this->loadLivewireComponents();
+        $this->loadRouteFiles();
     }
 
     /**
@@ -76,6 +99,18 @@ class ShareServiceProvider extends ServiceProvider
         Factory::guessFactoryNamesUsing(static function (string $modelName) {
             return 'Modules\Share\Database\\Factories\\' . class_basename($modelName) . 'Factory';
         });
+    }
+
+    /**
+     * Load panel route files.
+     *
+     * @return void
+     */
+    private function loadRouteFiles(): void
+    {
+        Route::middleware($this->middlewareRoute)
+            ->namespace($this->namespace)
+            ->group(__DIR__ . $this->routePath);
     }
 
     /**

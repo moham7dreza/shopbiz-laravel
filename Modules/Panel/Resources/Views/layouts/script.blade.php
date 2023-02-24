@@ -19,5 +19,3 @@
         })
     });
 </script>
-
-{!! NoCaptcha::renderJs('fa') !!}

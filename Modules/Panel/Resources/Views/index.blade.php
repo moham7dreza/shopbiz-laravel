@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    {!! NoCaptcha::display() !!}
     @can('permission admin panel')
 
         @can('permission panel counter cards')

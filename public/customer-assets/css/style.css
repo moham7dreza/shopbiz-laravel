@@ -1416,3 +1416,6 @@ button:hover.text-greenyellow {
 .text-lightsteelblue {
     color: lightsteelblue;
 }
+.captcha {
+    padding-top: 12rem;
+}
