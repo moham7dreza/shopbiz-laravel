@@ -39,8 +39,11 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'ticket-admin.index' @endphp
                             <th>#</th>
-                            <th>نام ادمین</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام ادمین" property="id"/>
+                            </th>
                             <th>ایمیل ادمین</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>

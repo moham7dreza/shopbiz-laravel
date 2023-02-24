@@ -1,7 +1,7 @@
 @extends('Panel::layouts.master')
 
 @section('head-tag')
-    <title>تیکت</title>
+    <title>{{ $title }}</title>
 @endsection
 
 @section('content')
@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="#"> خانه</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="#"> بخش تیکت ها</a></li>
-            <li class="breadcrumb-item font-size-16 active" aria-current="page"> تیکت</li>
+            <li class="breadcrumb-item font-size-16"><a href="#"> بخش تیکت</a></li>
+            <li class="breadcrumb-item font-size-16 active" aria-current="page"> {{ $title }}</li>
         </ol>
     </nav>
 
@@ -19,19 +19,19 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
                     <h5>
-                        تیکت
+                        {{ $title }}
                     </h5>
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         <a href="#" class="btn btn-info btn-sm disabled">ایجاد تیکت </a>
-                        <x-panel-a-tag route="{{ route('ticket.index') }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($route) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route('ticket.index') }}"/>
+                        <x-panel-search-form route="{{ route($route) }}"/>
                     </div>
                 </section>
 
@@ -40,12 +40,24 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>نویسنده تیکت</th>
-                            <th>عنوان تیکت</th>
-                            <th>دسته تیکت</th>
-                            <th>اولویت تیکت</th>
-                            <th>ارجاع شده از</th>
-                            <th>تیکت مرجع</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نویسنده تیکت" property="user_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="عنوان تیکت" property="subject"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="دسته تیکت" property="category_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="اولویت تیکت" property="priority_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="ارجاع شده از" property="reference_id"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="تیکت مرجع" property="ticket_id"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

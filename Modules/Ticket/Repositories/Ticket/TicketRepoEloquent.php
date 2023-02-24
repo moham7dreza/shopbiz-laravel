@@ -3,6 +3,7 @@
 namespace Modules\Ticket\Repositories\Ticket;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Ticket\Entities\Ticket;
 
 class TicketRepoEloquent implements TicketRepoEloquentInterface
@@ -10,11 +11,32 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
+     * @param $ticketType
      * @return Builder
      */
-    public function sort($property, $dir): Builder
+    public function sort($property, $dir, $ticketType): Builder
     {
-        return $this->query()->orderBy($property, $dir);
+        return match ($ticketType) {
+            'newTickets' => $this->query()->new()->orderBy($property, $dir),
+            'openTickets' => $this->query()->open()->orderBy($property, $dir),
+            'closeTickets' => $this->query()->close()->orderBy($property, $dir),
+            default => $this->query()->orderBy($property, $dir),
+        };
+    }
+
+    /**
+     * @param $name
+     * @param $ticketType
+     * @return Model|Builder|null
+     */
+    public function search($name, $ticketType): Model|Builder|null
+    {
+        return match ($ticketType) {
+            'newTickets' => $this->query()->new()->where('subject', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            'openTickets' => $this->query()->open()->where('subject', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            'closeTickets' => $this->query()->close()->where('subject', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+            default => $this->query()->where('subject', 'like', '%' . $name . '%')->orWhere('user_id', 'like', '%' . $name . '%')->latest(),
+        };
     }
 
     /**
@@ -22,7 +44,7 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
      */
     public function newTickets(): Builder
     {
-        return $this->query()->where('seen', 0)->latest();
+        return $this->query()->new()->latest();
     }
 
     /**
@@ -30,7 +52,7 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
      */
     public function newTicketsCount(): int
     {
-        return $this->query()->where('seen', 0)->count();
+        return $this->query()->new()->count();
     }
 
     /**
@@ -38,7 +60,7 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
      */
     public function openTickets(): Builder
     {
-        return $this->query()->where('status', 0)->latest();
+        return $this->query()->open()->latest();
     }
 
     /**
@@ -46,7 +68,7 @@ class TicketRepoEloquent implements TicketRepoEloquentInterface
      */
     public function closeTickets(): Builder
     {
-        return $this->query()->where('status', 1)->latest();
+        return $this->query()->close()->latest();
     }
 
     /**

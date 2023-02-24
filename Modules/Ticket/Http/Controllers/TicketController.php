@@ -4,6 +4,7 @@ namespace Modules\Ticket\Http\Controllers;
 
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -50,49 +51,60 @@ class TicketController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function newTickets(): View|Factory|Application
+    public function newTickets(): View|Factory|Application|RedirectResponse
     {
-        $tickets = $this->repo->newTickets()->paginate(10);
-        $this->service->makeSeenTickets($tickets);
-        return view('Ticket::index', compact(['tickets']));
-    }
-
-    /**
-     * @return Application|Factory|View
-     */
-    public function openTickets(): View|Factory|Application
-    {
-        $tickets = $this->repo->openTickets()->paginate(10);
-        return view('Ticket::index', compact(['tickets']));
-    }
-
-    /**
-     * @return Factory|View|Application
-     */
-    public function closeTickets(): Factory|View|Application
-    {
-        $tickets = $this->repo->closeTickets()->paginate(10);
-        return view('Ticket::index', compact(['tickets']));
-    }
-
-    /**
-     * @return Application|Factory|View
-     */
-    public function index(): View|Factory|Application
-    {
-        if (isset(request()->sort)) {
-            $tickets = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
-            if (count($tickets) > 0) {
-                $this->showToastOfSelectedDirection(request()->dir);
-            }
-            else { $this->showToastOfNotDataExists(); }
-        } else {
-            $tickets = $this->repo->index()->paginate(10);
+        $route = 'ticket.newTickets';
+        $title = 'تیکت های جدید';
+        $tickets = $this->checkForRequestsAndMakeQuery('newTickets');
+        if ($tickets == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
         }
+        $this->service->makeSeenTickets($tickets);
+        return view('Ticket::index', compact(['tickets', 'route', 'title']));
+    }
 
-        return view('Ticket::index', compact(['tickets']));
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function openTickets(): View|Factory|Application|RedirectResponse
+    {
+        $route = 'ticket.openTickets';
+        $title = 'تیکت های باز';
+        $tickets = $this->checkForRequestsAndMakeQuery('openTickets');
+        if ($tickets == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Ticket::index', compact(['tickets', 'route', 'title']));
+    }
+
+    /**
+     * @return Factory|View|Application|RedirectResponse
+     */
+    public function closeTickets(): Factory|View|Application|RedirectResponse
+    {
+        $route = 'ticket.closeTickets';
+        $title = 'تیکت های بسته';
+        $tickets = $this->checkForRequestsAndMakeQuery('closeTickets');
+        if ($tickets == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Ticket::index', compact(['tickets', 'route', 'title']));
+    }
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function index(): View|Factory|Application|RedirectResponse
+    {
+        $route = 'ticket.index';
+        $title = 'همه تیکت ها';
+        $tickets = $this->checkForRequestsAndMakeQuery('all');
+        if ($tickets == 'not result found') {
+            return $this->showAlertOfNotResultFound($route);
+        }
+        return view('Ticket::index', compact(['tickets', 'route', 'title']));
     }
 
     /**
@@ -182,5 +194,31 @@ class TicketController extends Controller
     {
         $this->service->changeTicketStatus($ticket);
         return $this->showMessageWithRedirectRoute('تغییر شما با موفقیت ثبت شد');
+    }
+
+    /**
+     * @param $ticketType
+     * @return LengthAwarePaginator|string
+     */
+    private function checkForRequestsAndMakeQuery($ticketType): LengthAwarePaginator|string
+    {
+        if (isset(request()->search)) {
+            $tickets = $this->repo->search(request()->search, $ticketType)->paginate(10);
+            if (count($tickets) > 0) {
+                $this->showToastOfFetchedRecordsCount(count($tickets));
+            } else {
+                return 'not result found';
+            }
+        } elseif (isset(request()->sort)) {
+            $tickets = $this->repo->sort(request()->sort, request()->dir, $ticketType)->paginate(10);
+            if (count($tickets) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            else { $this->showToastOfNotDataExists(); }
+        } else {
+            $ticketType = $ticketType == 'all' ? 'index' : $ticketType;
+            $tickets = $this->repo->$ticketType()->paginate(10);
+        }
+        return $tickets;
     }
 }

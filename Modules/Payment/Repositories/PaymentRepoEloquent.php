@@ -13,12 +13,12 @@ class PaymentRepoEloquent implements PaymentRepoEloquentInterface
     /**
      * @param $property
      * @param $dir
-     * @param $orderType
+     * @param $paymentType
      * @return Builder
      */
-    public function sort($property, $dir, $orderType): Builder
+    public function sort($property, $dir, $paymentType): Builder
     {
-        return match ($orderType) {
+        return match ($paymentType) {
             'cash' => $this->query()->cashType()->orderBy($property, $dir),
             'online' => $this->query()->onlineType()->orderBy($property, $dir),
             'offline' => $this->query()->offlineType()->orderBy($property, $dir),

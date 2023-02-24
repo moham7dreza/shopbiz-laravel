@@ -41,10 +41,14 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'ticketPriority.index' @endphp
                             <th>#</th>
-                            <th>نام اولویت</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام اولویت"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

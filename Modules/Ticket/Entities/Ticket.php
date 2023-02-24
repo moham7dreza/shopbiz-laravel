@@ -17,8 +17,8 @@ class Ticket extends Model
 {
     use HasFactory, SoftDeletes, HasFaDate;
 
-    public const STATUS_OPEN_TICKET = 1;
-    public const STATUS_CLOSE_TICKET = 0;
+    public const STATUS_OPEN_TICKET = 0;
+    public const STATUS_CLOSE_TICKET = 1;
     public const STATUS_SEEN_TICKET = 1;
     public const STATUS_UN_SEEN_TICKET = 0;
 
@@ -32,6 +32,34 @@ class Ticket extends Model
      */
     protected $fillable = ['subject', 'description', 'status', 'seen', 'reference_id', 'user_id', 'category_id', 'priority_id', 'ticket_id'];
 
+    // ********************************************* scopes
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeNew($query): mixed
+    {
+        return $query->where('seen', self::STATUS_UN_SEEN_TICKET);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOpen($query): mixed
+    {
+        return $query->where('status', self::STATUS_OPEN_TICKET);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeClose($query): mixed
+    {
+        return $query->where('status', self::STATUS_CLOSE_TICKET);
+    }
 
     // ********************************************* Relations
 

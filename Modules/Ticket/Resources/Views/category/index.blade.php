@@ -26,7 +26,8 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_TICKET_CATEGORY_CREATE)
-                            <a href="{{ route('ticketCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                            <a href="{{ route('ticketCategory.create') }}" class="btn btn-info btn-sm">ایجاد دسته
+                                بندی</a>
                         @endcan
                         <x-panel-a-tag route="{{ route('ticketCategory.index') }}" text="حذف فیلتر"
                                        color="outline-danger"/>
@@ -41,10 +42,14 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            @php $route = 'ticketCategory.index' @endphp
                             <th>#</th>
-                            <th>نام دسته بندی</th>
-                            <th><x-panel-sort-btn route="permission.index" title="وضعیت" property="status"/>
-</th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="نام دسته بندی"/>
+                            </th>
+                            <th>
+                                <x-panel-sort-btn :route="$route" title="وضعیت" property="status"/>
+                            </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>

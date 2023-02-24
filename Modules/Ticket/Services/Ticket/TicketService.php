@@ -15,7 +15,7 @@ class TicketService implements TicketServiceInterface
     public function makeSeenTickets($tickets): void
     {
         foreach ($tickets as $newTicket) {
-            $newTicket->seen = 1;
+            $newTicket->seen = Ticket::STATUS_SEEN_TICKET;
             $result = $newTicket->save();
         }
     }
@@ -45,7 +45,7 @@ class TicketService implements TicketServiceInterface
      */
     public function changeTicketStatus($ticket): void
     {
-        $ticket->status = $ticket->status == 0 ? 1 : 0;
+        $ticket->status = $ticket->status == Ticket::STATUS_OPEN_TICKET ? Ticket::STATUS_CLOSE_TICKET : Ticket::STATUS_OPEN_TICKET;
         $result = $ticket->save();
     }
 

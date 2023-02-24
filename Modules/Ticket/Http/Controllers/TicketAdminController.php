@@ -58,6 +58,12 @@ class TicketAdminController extends Controller
             } else {
                 return $this->showAlertOfNotResultFound();
             }
+        } elseif (isset(request()->sort)) {
+            $admins = $userRepo->sort(request()->sort, request()->dir)->paginate(10);
+            if (count($admins) > 0) {
+                $this->showToastOfSelectedDirection(request()->dir);
+            }
+            else { $this->showToastOfNotDataExists(); }
         } else {
             $admins = $userRepo->adminUsers()->paginate(10);
         }
