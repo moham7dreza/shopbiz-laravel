@@ -28,3 +28,4 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
         Route::get('/cancel-order/{order}', [OrderController::class, 'cancelOrder'])->name('order.cancelOrder');
     });
 });
+Route::get('order-received/{order}/{payment}', [\Modules\Order\Http\Controllers\Home\OrderController::class, 'index'])->name('order.received');

@@ -162,7 +162,7 @@ class PaymentController extends Controller
         // send notif to admin
         $admin = $this->userRepo->findSystemAdmin();
         $this->orderService->sendOrderSubmittedNotificationToAdmin($admin, $order->id);
-        return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'customer.home');
+        return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'order.received', params: [$order->id, $payment->id]);
 //        return to_route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
     }
 

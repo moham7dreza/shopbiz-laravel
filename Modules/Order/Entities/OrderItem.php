@@ -11,6 +11,8 @@ use Modules\Discount\Entities\AmazingSale;
 use Modules\Product\Entities\Guarantee;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\Color;
+use Modules\Product\Entities\ProductColor;
+use Modules\Product\Entities\ProductGuarantee;
 use Modules\Share\Traits\HasFaDate;
 
 
@@ -52,7 +54,7 @@ class OrderItem extends Model
      */
     public function color(): BelongsTo
     {
-        return $this->belongsTo(Color::class);
+        return $this->belongsTo(ProductColor::class);
     }
 
     /**
@@ -60,7 +62,7 @@ class OrderItem extends Model
      */
     public function guarantee(): BelongsTo
     {
-        return $this->belongsTo(Guarantee::class);
+        return $this->belongsTo(ProductGuarantee::class);
     }
 
     /**
@@ -86,7 +88,15 @@ class OrderItem extends Model
      */
     public function getOrderItemColorName(): int|string
     {
-        return $this->color->color_name ?? 'رنگ ندارد.';
+        return $this->color->color->name ?? 'رنگ ندارد.';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getOrderItemColorCode(): int|string
+    {
+        return $this->color->color->code ?? 'کد رنگ ندارد.';
     }
 
     /**
@@ -94,7 +104,7 @@ class OrderItem extends Model
      */
     public function getOrderItemGuaranteeName(): int|string
     {
-        return $this->guarantee->name ?? 'گارانتی ندارد.';
+        return $this->guarantee->guarantee->name ?? 'گارانتی ندارد.';
     }
 
     // ********************************************* paths
