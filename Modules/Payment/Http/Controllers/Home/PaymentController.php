@@ -44,8 +44,8 @@ class PaymentController extends Controller
                                 CopanDiscountRepoEloquentInterface $copanDiscountRepo,
                                 PaymentServiceInterface            $paymentService,
                                 UserRepoEloquentInterface          $userRepo,
-                                ProductServiceInterface $productService,
-                                CartServiceInterface $cartService)
+                                ProductServiceInterface            $productService,
+                                CartServiceInterface               $cartService)
     {
         $this->cartRepo = $cartRepo;
         $this->orderService = $orderService;
@@ -162,7 +162,8 @@ class PaymentController extends Controller
         // send notif to admin
         $admin = $this->userRepo->findSystemAdmin();
         $this->orderService->sendOrderSubmittedNotificationToAdmin($admin, $order->id);
-        return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید', route: 'order.received', params: [$order->id, $payment->id]);
+        return $this->showAlertWithRedirect(message: 'سفارش شما با موفقیت ثبت شد برای پیگیری سفارش به پروفایل کاربری خود مراجعه کنید',
+            route: 'order.received', params: [$order->id]);
 //        return to_route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
     }
 

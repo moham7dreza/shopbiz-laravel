@@ -88,4 +88,12 @@ class Address extends Model
     {
         return convertEnglishToPersian($this->postal_code) ?? '-';
     }
+
+    /**
+     * @return string
+     */
+    public function generateFullAddress(): string
+    {
+        return $this->province->name . '،  ' . $this->city->name . '،  ' . $this->address;
+    }
 }

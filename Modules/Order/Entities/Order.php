@@ -310,4 +310,20 @@ class Order extends Model
     {
         return jalaliDate($this->delivery_time) ?? 'تاریخ ارسال یافت نشد.';
     }
+
+    /**
+     * @return string
+     */
+    public function getFaDeliveryMethod(): string
+    {
+        return $this->getDeliveryMethodName() . ' ، ' . $this->delivery->explainDeliveryTime();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFaPayDate(): mixed
+    {
+        return $this->payment->getFaPayDate();
+    }
 }

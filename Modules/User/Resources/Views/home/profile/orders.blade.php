@@ -84,7 +84,15 @@
                                                 @endforeach
                                             </section>
                                         </section>
-                                        <section class="order-item-link"><a href="#">پرداخت سفارش</a></section>
+                                        <section class="d-flex flex-column gap-2">
+                                            <section class="order-item-link"><a
+                                                    class="btn btn-sm btn-outline-warning text-dark" href="#">پرداخت
+                                                    سفارش</a></section>
+                                            <section class="order-item-link"><a class="btn btn-sm btn-outline-info text-dark"
+                                                    href="{{ route('order.received', $order->id) }}">جزئیات سفارش</a>
+                                            </section>
+                                        </section>
+
                                     </section>
                                 </section>
                             @empty
