@@ -30,8 +30,6 @@
                             <a href="{{ route('product.gallery.create', $product->id) }}" class="btn btn-info btn-sm">ایجاد
                                 عکس جدید </a>
                         @endcan
-                        <x-panel-a-tag route="{{ route('product.gallery.index') }}" text="حذف فیلتر"
-                                       color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">

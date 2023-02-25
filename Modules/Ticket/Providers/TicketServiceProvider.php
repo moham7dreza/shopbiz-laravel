@@ -21,6 +21,8 @@ use Modules\Ticket\Services\TicketAdmin\TicketAdminService;
 use Modules\Ticket\Services\TicketAdmin\TicketAdminServiceInterface;
 use Modules\Ticket\Services\TicketCategory\TicketCategoryService;
 use Modules\Ticket\Services\TicketCategory\TicketCategoryServiceInterface;
+use Modules\Ticket\Services\TicketFile\TicketFileService;
+use Modules\Ticket\Services\TicketFile\TicketFileServiceInterface;
 use Modules\Ticket\Services\TicketPriority\TicketPriorityService;
 use Modules\Ticket\Services\TicketPriority\TicketPriorityServiceInterface;
 
@@ -171,5 +173,6 @@ class TicketServiceProvider extends ServiceProvider
         $this->app->bind(TicketAdminServiceInterface::class, TicketAdminService::class);
         $this->app->bind(TicketCategoryServiceInterface::class, TicketCategoryService::class);
         $this->app->bind(TicketPriorityServiceInterface::class, TicketPriorityService::class);
+        $this->app->bind(TicketFileServiceInterface::class, TicketFileService::class);
     }
 }

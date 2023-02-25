@@ -55,6 +55,9 @@ Route::group(['prefix' => '', 'middleware' => 'auth'], static function () {
         Route::get('/show/{ticket}', [ProfileTicketController::class, 'show'])->name('customer.profile.my-tickets.show');
         Route::post('/answer/{ticket}', [ProfileTicketController::class, 'answer'])->name('customer.profile.my-tickets.answer');
         Route::get('/change/{ticket}', [ProfileTicketController::class, 'change'])->name('customer.profile.my-tickets.change');
+        Route::get('/create', [ProfileTicketController::class, 'create'])->name('customer.profile.my-tickets.create');
+        Route::post('/store', [ProfileTicketController::class, 'store'])->name('customer.profile.my-tickets.store');
+
     });
 });
 

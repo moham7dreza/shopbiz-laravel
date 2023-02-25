@@ -1419,3 +1419,6 @@ button:hover.text-greenyellow {
 .captcha {
     padding-top: 12rem;
 }
+.width-8-rem {
+    width: 8rem;
+}

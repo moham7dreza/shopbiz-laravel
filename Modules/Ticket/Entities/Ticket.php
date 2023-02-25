@@ -113,6 +113,14 @@ class Ticket extends Model
         return $this->hasMany($this, 'ticket_id')->with('children');
     }
 
+    /**
+     * @return HasMany
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(TicketFile::class);
+    }
+
     // ********************************************* Methods
 
     /**
@@ -164,6 +172,38 @@ class Ticket extends Model
         return $this->priority->name ?? 'اولویت ندارد';
     }
 
+    /**
+     * @return string
+     */
+    public function getTextStatus(): string
+    {
+        return $this->isTicketOpen() ? 'بستن تیکت' : 'باز کردن تیکت';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTicketOpen(): bool
+    {
+        return $this->status === self::STATUS_OPEN_TICKET;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTicketClose(): bool
+    {
+        return $this->status === self::STATUS_CLOSE_TICKET;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTicketParent(): bool
+    {
+        return is_null($this->ticket_id);
+    }
+
     // ********************************************* css
 
 
@@ -172,8 +212,8 @@ class Ticket extends Model
      */
     public function cssStatus(): string
     {
-        if ($this->status === self::STATUS_OPEN_TICKET) return 'danger';
-        else if ($this->status === self::STATUS_CLOSE_TICKET) return 'success';
+        if ($this->isTicketOpen()) return 'danger';
+        else if ($this->isTicketClose()) return 'success';
         else return 'warning';
     }
 
@@ -182,8 +222,8 @@ class Ticket extends Model
      */
     public function iconStatus(): string
     {
-        if ($this->status === self::STATUS_OPEN_TICKET) return 'times';
-        else if ($this->status === self::STATUS_CLOSE_TICKET) return 'check';
+        if ($this->isTicketOpen()) return 'times';
+        else if ($this->isTicketClose()) return 'check';
         else return 'warning';
     }
 

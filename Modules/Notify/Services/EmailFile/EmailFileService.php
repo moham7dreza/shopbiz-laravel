@@ -12,9 +12,6 @@ use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class EmailFileService implements EmailFileServiceInterface
 {
-
-    use ShowMessageWithRedirectTrait;
-
     public FileService $fileService;
 
     public function __construct(FileService $fileService)
@@ -25,16 +22,15 @@ class EmailFileService implements EmailFileServiceInterface
     /**
      * @param $request
      * @param $emailId
-     * @return Builder|Model|RedirectResponse
+     * @return Builder|Model|string
      */
-    public function store($request, $emailId): Model|Builder|RedirectResponse
+    public function store($request, $emailId): Model|Builder|string
     {
         if ($request->hasFile('file')) {
             [$result, $fileSize, $fileFormat] = ShareService::saveFileAndMove('email-files',
                 $request->file('file'), $this->fileService);
             if (!$result) {
-                return $this->showMessageWithRedirectRoute(msg: 'آپلود فایل با خطا مواجه شد', status: 'swal-error'
-                    ,params: [$emailId]);
+                return 'upload failed';
             }
         } else {
             [$result, $fileSize, $fileFormat] = null;

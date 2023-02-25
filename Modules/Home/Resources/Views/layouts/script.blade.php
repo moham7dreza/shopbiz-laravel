@@ -7,6 +7,7 @@
 <script src="{{ asset('customer-assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('customer-assets/plugins/owlcarousel/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('admin-assets/sweetalert/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('admin-assets/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('customer-assets/js/main.js') }}"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script>

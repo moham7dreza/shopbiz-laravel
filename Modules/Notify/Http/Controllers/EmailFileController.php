@@ -102,8 +102,11 @@ class EmailFileController extends Controller
      */
     public function store(EmailFileRequest $request, Email $email): RedirectResponse
     {
-
-        $this->service->store($request, $email->id);
+        $result = $this->service->store($request, $email->id);
+        if ($result == 'upload failed') {
+            return $this->showMessageWithRedirectRoute(msg: 'آپلود فایل با خطا مواجه شد', title: 'خطا', status: 'error'
+                ,params: [$email->id]);
+        }
         return $this->showMessageWithRedirectRoute('فایل جدید شما با موفقیت ثبت شد', params: [$email]);
     }
 

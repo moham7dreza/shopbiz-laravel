@@ -16,19 +16,21 @@
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
                         <!-- start content header -->
-                        <section class="content-header">
+                        <section class="content-header my-2">
                             <section class="d-flex justify-content-between align-items-center">
                                 <h2 class="content-header-title">
                                     <span>تاریخچه تیکت ها</span>
                                 </h2>
                                 <section class="content-header-link m-2">
-                                    <a href="#" class="btn btn-success text-white">ارسال تیکت جدید</a>
+                                    <x-panel-a-tag route="{{ route('customer.profile.my-tickets.create') }}"
+                                                   title="ارسال تیکت جدید"
+                                                   icon="plus" color="outline-success"/>
                                 </section>
                             </section>
                         </section>
                         <!-- end content header -->
 
-                        <section class="order-wrapper">
+                        <section class="order-wrapper m-1">
 
                             <section class="table-responsive">
                                 <table class="table table-striped table-hover">
@@ -48,30 +50,28 @@
                                     <tbody>
 
                                     @foreach ($tickets as $ticket)
-
                                         <tr>
-                                            <th>{{ $loop->iteration }}</th>
-                                            <td>{{ $ticket->user->first_name . ' ' . $ticket->user->last_name }}</td>
-                                            <td>{{ $ticket->subject }}</td>
-                                            <td>{{ $ticket->status == 0 ? 'باز' : 'بسته' }}</td>
-                                            <td>{{ $ticket->category->name }}</td>
-                                            <td>{{ $ticket->priority->name }}</td>
-                                            <td>{{ $ticket->admin->user->first_name . ' ' . $ticket->admin->user->last_name }}</td>
-                                            <td>{{ $ticket->parent->subject ?? '-' }}</td>
-                                            <td class="width-16-rem text-left">
-                                                <a href="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
-                                                   class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                                <a href="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
-                                                   class="btn btn-warning btn-sm"><i
-                                                        @if($ticket->status == 1) class="fa fa-check"
-                                                        @else class="fa fa-times" @endif></i></a>
+                                            <th>{{ convertEnglishToPersian($loop->iteration) }}</th>
+                                            <td>{{ $ticket->getUserName() }}</td>
+                                            <td>{{ $ticket->getLimitedSubject() }}</td>
+                                            <td>{{ $ticket->isTicketOpen() ? 'باز' : 'بسته' }}</td>
+                                            <td>{{ $ticket->getCategoryName() }}</td>
+                                            <td>{{ $ticket->getPriorityName() }}</td>
+                                            <td>{{ $ticket->getReferenceName() }}</td>
+                                            <td>{{ $ticket->getParentTitle() }}</td>
+                                            <td class="width-8-rem text-left">
+                                                <x-panel-a-tag route="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
+                                                               title="نمایش تیکت"
+                                                               icon="eye" color="outline-primary"/>
+                                                <x-panel-a-tag route="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
+                                                               title="{{ $ticket->getTextStatus() }}"
+                                                               icon="{{ $ticket->iconStatus() }}" color="outline-{{ $ticket->cssStatus() }}"/>
                                             </td>
                                         </tr>
-
                                     @endforeach
-
                                     </tbody>
                                 </table>
+                                <section class="border-top pt-3">{{ $tickets->links() }}</section>
                             </section>
 
                         </section>

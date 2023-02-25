@@ -29,16 +29,30 @@
                 </section>
 
                 <section class="card mb-3">
-                    <section class="card-header text-white bg-custom-pink">
-                        {{ $ticket->getUserName() }} - {{ $ticket->getFaId() }}
+                    <section
+                        class="card-header text-white bg-custom-pink d-flex justify-content-between align-items-center">
+                        <div> {{ $ticket->getUserName() }}</div>
+                        <small class="font-weight-bold text-dark">{{ $ticket->getFaCreatedDate(true) }}</small>
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title">موضوع : {{ $ticket->subject }}
-                        </h5>
+                        <h6 class="card-title">موضوع : <span
+                                class="font-weight-bold">{{ $ticket->subject }} -  آیدی تیکت : <strong>({{ $ticket->getFaId() }})</strong></span>
+                        </h6>
                         <p class="card-text">
-                            {{ $ticket->description }}
+                            {!! $ticket->description !!}
                         </p>
                     </section>
+{{--                    <section class="card-header text-white bg-custom-pink">--}}
+{{--                        {{ $ticket->getUserName() }} - {{ $ticket->getFaId() }}--}}
+{{--                    </section>--}}
+{{--                    <section class="card-body">--}}
+
+{{--                        <h5 class="card-title">موضوع : {{ $ticket->subject }}--}}
+{{--                        </h5>--}}
+{{--                        <p class="card-text">--}}
+{{--                            {!! $ticket->description !!}--}}
+{{--                        </p>--}}
+{{--                    </section>--}}
                 </section>
 
                 <section>

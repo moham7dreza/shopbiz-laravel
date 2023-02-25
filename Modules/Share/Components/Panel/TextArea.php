@@ -18,6 +18,7 @@ class TextArea extends Component
     public ?string $method;
     public ?Model $model;
     public ?string $class;
+    public ?string $dadClass;
     public ?string $rows;
 
     /**
@@ -25,7 +26,7 @@ class TextArea extends Component
      *
      * @return void
      */
-    public function __construct($name, $label, $col, $message, $rows = '6',  $method = 'create', $model = null, $class = null, $old = null)
+    public function __construct($name, $label, $col, $message, $rows = '6',  $method = 'create', $model = null, $class = null, $old = null, $dadClass = null)
     {
         $this->name = $name;
         $this->label = $label;
@@ -36,6 +37,7 @@ class TextArea extends Component
         $this->class = $class;
         $this->rows = $rows;
         $this->old = $old;
+        $this->dadClass = $dadClass;
     }
 
     /**

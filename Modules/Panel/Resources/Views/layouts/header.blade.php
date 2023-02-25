@@ -58,6 +58,8 @@
                                         @php
                                             if (isset($notification['data']['order_id'])) {
                                                 $route = route('order.show', $notification['data']['order_id']);
+                                            } elseif (isset($notification['data']['ticket_id'])) {
+                                                $route = route('ticket.show', $notification['data']['ticket_id']);
                                             }
                                         @endphp
                                         <a @if(!empty($route)) href="{{ $route }}"

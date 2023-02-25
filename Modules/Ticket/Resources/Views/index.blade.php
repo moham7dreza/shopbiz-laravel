@@ -76,13 +76,13 @@
                                     @can($PERMISSION::PERMISSION_TICKET_SHOW)
                                         <x-panel-a-tag route="{{ route('ticket.show', $ticket->id) }}"
                                                        title="نمایش تیکت"
-                                                       icon="eye" color="outline-info"/>
+                                                       icon="eye" color="outline-primary"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_TICKET_CHANGE)
                                         <x-panel-a-tag route="{{ route('ticket.change', $ticket->id) }}"
-                                                       title="تغییر وضعیت تیکت"
+                                                       title="{{ $ticket->getTextStatus() }}"
                                                        icon="{{ $ticket->iconStatus() }}"
-                                                       color="{{ $ticket->cssStatus() }}"/>\
+                                                       color="outline-{{ $ticket->cssStatus() }}"/>
                                     @endcan
                                 </td>
                             </tr>

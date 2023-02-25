@@ -1,6 +1,6 @@
-<section class="col-12 col-md-{{ $col }}">
+<section class="col-12 col-md-{{ $col }} {{ $dadClass }}">
     <div class="form-group">
-        <label for="{{ $name }}">{{ $label }}</label>
+        <label for="{{ $name }}" class="my-1">{{ $label }}</label>
         <select name="{{ $name }}" id="{{ $name }}"
                 class="form-control form-control-sm {{ $class }} @error($name) is-invalid @enderror" {{ $attributes }}>
             @if(isset($option))
@@ -39,7 +39,7 @@
         </select>
     </div>
     @error($name)
-    <span class="alert alert-danger -p-1 mb-3 d-block font-size-80" role="alert">
+    <span class="alert alert-danger -p-1 mb-3 d-block font-size-80 mt-1" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
