@@ -8,6 +8,7 @@ use Modules\User\Http\Controllers\Home\Profile\AddressController;
 use Modules\User\Http\Controllers\Home\Profile\FavoriteController;
 use Modules\User\Http\Controllers\Home\Profile\OrderController;
 use Modules\User\Http\Controllers\Home\Profile\ProfileController;
+use Modules\User\Http\Controllers\Home\Profile\ProfileTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,11 +40,22 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($ro
     });
     Route::get('change-user-type/{user}', [CustomerController::class, 'changeUserType'])->name('change.user.type');
 });
-Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');
-Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');
-Route::get('/my-favorites/delete/product/{product}', [FavoriteController::class, 'deleteProduct'])->name('customer.profile.my-favorites.product-delete');
-Route::get('/my-favorites/delete/post/{post}', [FavoriteController::class, 'deletePost'])->name('customer.profile.my-favorites.post-delete');
-Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
-Route::get('/my-addresses', [AddressController::class, 'index'])->name('customer.profile.my-addresses');
+
+Route::group(['prefix' => '', 'middleware' => 'auth'], static function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('customer.profile.orders');
+    Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');
+    Route::get('/my-favorites/delete/product/{product}', [FavoriteController::class, 'deleteProduct'])->name('customer.profile.my-favorites.product-delete');
+    Route::get('/my-favorites/delete/post/{post}', [FavoriteController::class, 'deletePost'])->name('customer.profile.my-favorites.post-delete');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
+    Route::get('/my-addresses', [AddressController::class, 'index'])->name('customer.profile.my-addresses');
+    //
+    Route::group(['prefix' => 'my-tickets'], static function () {
+        Route::get('/', [ProfileTicketController::class, 'index'])->name('customer.profile.my-tickets');
+        Route::get('/show/{ticket}', [ProfileTicketController::class, 'show'])->name('customer.profile.my-tickets.show');
+        Route::post('/answer/{ticket}', [ProfileTicketController::class, 'answer'])->name('customer.profile.my-tickets.answer');
+        Route::get('/change/{ticket}', [ProfileTicketController::class, 'change'])->name('customer.profile.my-tickets.change');
+    });
+});
+
 Route::get('/author/{user:first_name}', [AuthorUserController::class, 'index'])->name('customer.author.bio');

@@ -23,14 +23,15 @@ class TicketService implements TicketServiceInterface
     /**
      * @param $request
      * @param $ticket
+     * @param string $type
      * @return Model|Builder
      */
-    public function store($request, $ticket): Model|Builder
+    public function store($request, $ticket, string $type = 'admin'): Model|Builder
     {
         return $this->query()->create([
             'subject' => $ticket->subject,
             'description' => $request->description,
-            'seen' => Ticket::STATUS_SEEN_TICKET,
+            'seen' => ($type == 'admin' ? Ticket::STATUS_SEEN_TICKET : Ticket::STATUS_UN_SEEN_TICKET),
             'reference_id' => $ticket->reference_id,
             'user_id' => auth()->id(),
             'category_id' => $ticket->category_id,
