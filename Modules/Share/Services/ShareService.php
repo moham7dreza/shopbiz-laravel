@@ -2,13 +2,14 @@
 
 namespace Modules\Share\Services;
 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Modules\ACL\Entities\Permission;
 use Modules\Comment\Repositories\CommentRepoEloquent;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
-use Modules\Product\Repositories\Product\ProductRepoEloquent;
 use Modules\Setting\Repositories\SettingRepoEloquent;
 use Modules\User\Entities\User;
 
@@ -408,10 +409,9 @@ class ShareService
                 $body .= '</section>';
             }
             self::showAnimatedToastWithHtml($header, $body, 'info', 8000);
-        } elseif(auth()->check() && auth()->user()->user_type == User::TYPE_ADMIN) {
+        } elseif (auth()->check() && auth()->user()->user_type == User::TYPE_ADMIN) {
             self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' ادمین عزیز خوش آمدید.')->position('top-left');
-        }
-        else {
+        } else {
             self::showAnimatedToast('با سلام ' . self::getSweetTime() . ' کاربر عزیز به فروشگاه ما خوش آمدید.')->position('top-left');
         }
     }
@@ -631,5 +631,18 @@ class ShareService
         $map = $_transliteration + $merge;
         unset($_transliteration);
         return preg_replace(array_keys($map), array_values($map), $string);
+    }
+
+    /**
+     * @param $title
+     * @param $description
+     * @param $keywords
+     * @return void
+     */
+    public static function setBasicSeoMetas($title, $description, $keywords): void
+    {
+        SEOMeta::setKeywords($keywords);
+        SEOTools::setTitle($title);
+        SEOTools::setDescription($description);
     }
 }

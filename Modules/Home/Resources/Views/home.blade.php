@@ -33,7 +33,7 @@
                               viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=newestProducts') }}"/>
 
     <x-home-product-lazy-load title="محبوب ترین کالاها" :products="$repo->popularProducts()"
-                              :productIds="$productIds" class="py-4"
+                              :productIds="$productIds" class="py-4 bg-green-light"
                               viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=popularProducts') }}"/>
 
     @include('Home::partials.banners.slider-banner')

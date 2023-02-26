@@ -12,7 +12,7 @@
 
                 @include('Home::layouts.partials.profile-sidebar')
 
-                <main id="main-body" class="main-body col-md-9">
+                <section class="col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
                         <!-- start content header -->
@@ -48,27 +48,37 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-
-                                    @foreach ($tickets as $ticket)
+                                    @if(count($tickets) < 1)
                                         <tr>
-                                            <th>{{ convertEnglishToPersian($loop->iteration) }}</th>
-                                            <td>{{ $ticket->getUserName() }}</td>
-                                            <td>{{ $ticket->getLimitedSubject() }}</td>
-                                            <td>{{ $ticket->isTicketOpen() ? 'باز' : 'بسته' }}</td>
-                                            <td>{{ $ticket->getCategoryName() }}</td>
-                                            <td>{{ $ticket->getPriorityName() }}</td>
-                                            <td>{{ $ticket->getReferenceName() }}</td>
-                                            <td>{{ $ticket->getParentTitle() }}</td>
-                                            <td class="width-8-rem text-left">
-                                                <x-panel-a-tag route="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
-                                                               title="نمایش تیکت"
-                                                               icon="eye" color="outline-primary"/>
-                                                <x-panel-a-tag route="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
-                                                               title="{{ $ticket->getTextStatus() }}"
-                                                               icon="{{ $ticket->iconStatus() }}" color="outline-{{ $ticket->cssStatus() }}"/>
-                                            </td>
+                                            <th title="برای ارسال تیکت روی آیکون + کلیک کنید" data-bs-toggle="tooltip"
+                                                data-bs-placement="top">شما تیکتی ندارید
+                                            </th>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach ($tickets as $ticket)
+                                            <tr>
+                                                <th>{{ convertEnglishToPersian($loop->iteration) }}</th>
+                                                <td>{{ $ticket->getUserName() }}</td>
+                                                <td>{{ $ticket->getLimitedSubject() }}</td>
+                                                <td>{{ $ticket->isTicketOpen() ? 'باز' : 'بسته' }}</td>
+                                                <td>{{ $ticket->getCategoryName() }}</td>
+                                                <td>{{ $ticket->getPriorityName() }}</td>
+                                                <td>{{ $ticket->getReferenceName() }}</td>
+                                                <td>{{ $ticket->getParentTitle() }}</td>
+                                                <td class="width-8-rem text-left">
+                                                    <x-panel-a-tag
+                                                        route="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
+                                                        title="نمایش تیکت"
+                                                        icon="eye" color="outline-primary"/>
+                                                    <x-panel-a-tag
+                                                        route="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
+                                                        title="{{ $ticket->getTextStatus() }}"
+                                                        icon="{{ $ticket->iconStatus() }}"
+                                                        color="outline-{{ $ticket->cssStatus() }}"/>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     </tbody>
                                 </table>
                                 <section class="border-top pt-3">{{ $tickets->links() }}</section>
@@ -77,7 +87,7 @@
                         </section>
 
                     </section>
-                </main>
+                </section>
             </section>
         </section>
     </section>

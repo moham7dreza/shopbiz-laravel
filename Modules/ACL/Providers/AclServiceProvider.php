@@ -76,7 +76,7 @@ class AclServiceProvider extends ServiceProvider
         $this->bindSeeder();
         $this->bindRepository();
 
-        $this->setDatabaseSeederWithPermissionSeeder();
+//        $this->setDatabaseSeederWithPermissionSeeder();
     }
 
     /**
