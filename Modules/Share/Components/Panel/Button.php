@@ -14,19 +14,23 @@ class Button extends Component
     public string $type;
     public string $col;
     public string $color;
+    public string $loc;
+    public string $align;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($col, $class = null, $title = 'Submit', $type = 'submit', $color = 'outline-primary')
+    public function __construct($col, $class = null, $title = 'Submit', $type = 'submit', $color = 'outline-primary', $loc = 'panel', $align = 'start')
     {
         $this->title = $title;
         $this->class = $class;
         $this->type = $type;
         $this->col = $col;
         $this->color = $color;
+        $this->loc = $loc;
+        $this->align = $align;
     }
 
     /**

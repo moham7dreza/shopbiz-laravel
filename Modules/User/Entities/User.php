@@ -18,6 +18,7 @@ use Modules\Order\Entities\Order;
 use Modules\Payment\Entities\Payment;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
+use Modules\Share\Entities\Review;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 use Modules\Ticket\Entities\Ticket;
@@ -214,6 +215,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class)->whereNull('deleted_at');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 
     // ********************************************* Methods

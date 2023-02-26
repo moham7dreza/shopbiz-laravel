@@ -48,7 +48,7 @@ class Comment extends Model
      * @param int $approved
      * @return mixed
      */
-    public function scopeApproved($query, int $approved = self::SEEN): mixed
+    public function scopeApproved($query, int $approved = self::APPROVED): mixed
     {
         return $query->where('approved', $approved);
     }
@@ -58,7 +58,7 @@ class Comment extends Model
      * @param int $approved
      * @return mixed
      */
-    public function scopeAll($query, int $approved = self::SEEN): mixed
+    public function scopeAll($query, int $approved = self::APPROVED): mixed
     {
         return $query->where([
             ['status', self::STATUS_ACTIVE],

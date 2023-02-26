@@ -49,6 +49,7 @@
             "Modules\\Faq\\" : "Modules/Faq/",
             "Modules\\Category\\" : "Modules/Category/",
             "Modules\\Comment\\" : "Modules/Comment/",
+            "Modules\\Contact\\" : "Modules/Contact/",
             "Modules\\Brand\\" : "Modules/Brand/",
             "Modules\\Product\\" : "Modules/Product/",
             "Modules\\Post\\" : "Modules/Post/",

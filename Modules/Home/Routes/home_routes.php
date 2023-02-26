@@ -23,11 +23,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], static function ($router
 
 Route::prefix('pages')->group(function () {
     Route::get('/about-us', [PageController::class, 'aboutUs'])->name('customer.pages.about-us');
-    Route::get('/contact-us', [PageController::class, 'contactUs'])->name('customer.pages.contact-us');
-    Route::post('/contact-us', [PageController::class, 'contactUsSubmit'])->name('customer.pages.contact-us.submit');
     Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('customer.pages.privacy-policy');
-    Route::get('/make-appointment', [PageController::class, 'makeAppointment'])->name('customer.pages.make-appointment');
-    Route::post('/make-appointment', [PageController::class, 'meetSubmit'])->name('customer.pages.make-appointment.submit');
     Route::get('/warranty-rules', [PageController::class, 'warrantyRules'])->name('customer.pages.warranty-rules');
     Route::get('/faq', [PageController::class, 'faq'])->name('customer.pages.faq');
     Route::get('/career', [PageController::class, 'career'])->name('customer.pages.career');

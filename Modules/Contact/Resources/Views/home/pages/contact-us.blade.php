@@ -2,7 +2,6 @@
 
 @section('head-tag')
     {!! SEO::generate() !!}
-    <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
 @section('content')
@@ -25,10 +24,10 @@
                         </section>
                         <!-- end content header -->
 
-                        <section class="order-wrapper m-1">
+                        <section class="order-wrapper m-1 p-3">
                             <section class="row">
-                                <section class="col-md-12 my-2 p-5">
-                                    <form action="{{ route('customer.pages.make-appointment.submit') }}" method="post"
+                                <section class="col-md-6 my-2 border rounded-3 p-4">
+                                    <form action="{{ route('customer.pages.contact-us.submit') }}" method="post"
                                           enctype="multipart/form-data">
                                         @csrf
                                         <section class="row">
@@ -38,22 +37,43 @@
                                             <x-panel-input col="6" name="last_name" label="نام خانوادگی"
                                                            :message="$message"/>
                                             <x-panel-input col="6" name="email" type="email" label="ایمیل"
+                                                           dadClass="my-2"
                                                            :message="$message"/>
-                                            <x-panel-input col="6" name="mobile" label=" شماره موبایل"
+                                            <x-panel-input col="6" name="phone" label=" شماره موبایل" dadClass="my-2"
                                                            :message="$message"/>
-                                            <x-panel-input col="6" name="title" label="عنوان ملاقات"
-                                                           :message="$message"/>
-                                            <x-panel-input col="6" name="meet_date" label="انتخاب زمان ملاقات" :date="true" class="d-none"
-                                                           :message="$message"/>
-                                            <x-panel-text-area col="12" name="description" label="توضیحات" rows="12"
+                                            <x-panel-text-area col="12" name="message" label="پیام شما" rows="12"
+                                                               dadClass="my-2"
                                                                dadClass="mb-2"
                                                                :message="$message"/>
                                             <x-panel-input col="12" type="file" name="file" label="فایل"
                                                            :message="$message"/>
-                                            <x-panel-button col="12" title="ثبت"/>
+                                            <x-panel-button col="12" title="ارسال پیام" align="end" loc="home"/>
 
                                         </section>
                                     </form>
+                                </section>
+
+                                <section class="col-md-5 m-5 p-5 border rounded-3">
+                                    <section class="d-flex align-items-center justify-content-between">
+                                        <p>آدرس ایمیل</p>
+                                        <p class="fw-bolder">{{ $setting->getEmail() }}</p>
+                                    </section>
+                                    <section class="border-bottom mb-3"></section>
+                                    <section class="d-flex align-items-center justify-content-between">
+                                        <p>شماره دفتر</p>
+                                        <p class="fw-bolder">{{ $setting->getOfficePhone() }}</p>
+                                    </section>
+                                    <section class="border-bottom mb-3"></section>
+                                    <section class="d-flex align-items-center justify-content-between">
+                                        <p>آدرس دفتر مرکزی</p>
+                                        <p class="fw-bolder">{!! $setting->getCentralOfficeAddress() !!}</p>
+                                    </section>
+                                    <section class="border-bottom mb-3"></section>
+                                    <section class="d-flex align-items-center justify-content-between">
+                                        <p>پیشنهادات و انتقادات</p>
+                                        <p class="fw-bolder">{{ $setting->getMobile() }}</p>
+                                    </section>
+                                    <section class="border-bottom mb-3"></section>
                                 </section>
                             </section>
                         </section>
@@ -69,24 +89,7 @@
 
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script>
-        CKEDITOR.replace('description');
-    </script>
-
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
-    <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#meet_date_view').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                altField: '#meet_date',
-                timePicker: {
-                    enabled: true,
-                    meridiem: {
-                        enabled: true
-                    }
-                }
-            })
-        });
+        CKEDITOR.replace('message');
     </script>
 
 @endsection

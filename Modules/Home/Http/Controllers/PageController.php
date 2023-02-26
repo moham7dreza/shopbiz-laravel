@@ -6,18 +6,12 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Modules\Faq\Repositories\FaqRepoEloquentInterface;
-use Modules\Home\Http\Requests\ContactUsRequest;
-use Modules\Home\Http\Requests\MeetRequest;
 use Modules\Page\Repositories\PageRepoEloquentInterface;
-use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
-use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class PageController extends Controller
 {
-    use ShowMessageWithRedirectTrait;
-
     public PageRepoEloquentInterface $pageRepo;
 
     /**
@@ -36,22 +30,6 @@ class PageController extends Controller
         $page = $this->pageRepo->search('درباره ما')->active()->first();
         ShareService::setBasicSeoMetas('درباره ما', 'درباره ما', 'درباره ما');
         return view('Home::pages.about-us', compact(['page']));
-    }
-
-    /**
-     * @param SettingRepoEloquentInterface $settingRepo
-     * @return Application|Factory|View
-     */
-    public function contactUs(SettingRepoEloquentInterface $settingRepo): View|Factory|Application
-    {
-        $setting = $settingRepo->getSystemSetting();
-        ShareService::setBasicSeoMetas('تماس با ما', 'تماس با ما', 'تماس با ما');
-        return view('Home::pages.contact-us', compact(['setting']));
-    }
-
-    public function contactUsSubmit(ContactUsRequest $request)
-    {
-
     }
 
     /**
@@ -132,19 +110,5 @@ class PageController extends Controller
         $page = $this->pageRepo->search('شرایط و قوانین ما')->active()->first();
         ShareService::setBasicSeoMetas('شرایط و قوانین ما', 'شرایط و قوانین ما', 'شرایط و قوانین ما');
         return view('Home::pages.privacy-policy', compact(['page']));
-    }
-
-    /**
-     * @return Factory|View|Application
-     */
-    public function makeAppointment(): Factory|View|Application
-    {
-        ShareService::setBasicSeoMetas('ثبت قرار ملاقات', 'ثبت قرار ملاقات', 'ثبت قرار ملاقات');
-        return view('Home::pages.make-appointment');
-    }
-
-    public function meetSubmit(MeetRequest $request)
-    {
-
     }
 }

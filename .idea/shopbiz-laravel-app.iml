@@ -35,6 +35,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Modules/Address" isTestSource="false" packagePrefix="Modules\Address\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Attribute" isTestSource="false" packagePrefix="Modules\Attribute\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Tag" isTestSource="false" packagePrefix="Modules\Tag\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Contact" isTestSource="false" packagePrefix="Modules\Contact\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />

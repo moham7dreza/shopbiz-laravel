@@ -174,6 +174,7 @@ return [
         Modules\Cart\Providers\CartServiceProvider::class,
         Modules\Category\Providers\CategoryServiceProvider::class,
         Modules\Comment\Providers\CommentServiceProvider::class,
+        Modules\Contact\Providers\ContactServiceProvider::class,
         Modules\Delivery\Providers\DeliveryServiceProvider::class,
         Modules\Discount\Providers\DiscountServiceProvider::class,
         Modules\Faq\Providers\FaqServiceProvider::class,
