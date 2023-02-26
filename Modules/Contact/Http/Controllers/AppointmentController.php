@@ -7,14 +7,14 @@ use Modules\Contact\Services\ContactService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
-class ContactController extends Controller
+class AppointmentController extends Controller
 {
     use ShowMessageWithRedirectTrait;
 
     /**
      * @var string
      */
-    private string $redirectRoute = 'contact.index';
+    private string $redirectRoute = 'appointment.index';
 
     public ContactRepoEloquentInterface $repo;
     public ContactService $service;
@@ -28,9 +28,9 @@ class ContactController extends Controller
         $this->repo = $repo;
         $this->service = $service;
 
-        $this->middleware('can:' . Permission::PERMISSION_CONTACTS)->only(['index']);
-        $this->middleware('can:' . Permission::PERMISSION_CONTACT_SHOW)->only(['show']);
-        $this->middleware('can:' . Permission::PERMISSION_CONTACT_APPROVED)->only(['approved']);
-        $this->middleware('can:' . Permission::PERMISSION_CONTACT_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_APPOINTMENTS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_APPOINTMENT_SHOW)->only(['show']);
+        $this->middleware('can:' . Permission::PERMISSION_APPOINTMENT_APPROVED)->only(['approved']);
+        $this->middleware('can:' . Permission::PERMISSION_APPOINTMENT_STATUS)->only(['status']);
     }
 }

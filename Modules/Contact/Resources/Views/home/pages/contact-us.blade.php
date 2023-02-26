@@ -10,7 +10,7 @@
         <section id="main-body-two-col" class="container-xxl body-container">
             <section class="row">
 
-                <section class="col-md-12">
+                <section class="col-12">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
                         <!-- start content header -->
@@ -26,7 +26,7 @@
 
                         <section class="order-wrapper m-1 p-3">
                             <section class="row">
-                                <section class="col-md-6 my-2 border rounded-3 p-4">
+                                <section class="col-12 col-md-6 my-2 border rounded-3 p-4">
                                     <form action="{{ route('customer.pages.contact-us.submit') }}" method="post"
                                           enctype="multipart/form-data">
                                         @csrf
@@ -53,7 +53,7 @@
                                     </form>
                                 </section>
 
-                                <section class="col-md-5 m-5 p-5 border rounded-3">
+                                <section class="col-12 col-md-5 my-2 m-md-2 p-5 border rounded-3">
                                     <section class="d-flex align-items-center justify-content-between">
                                         <p>آدرس ایمیل</p>
                                         <p class="fw-bolder">{{ $setting->getEmail() }}</p>

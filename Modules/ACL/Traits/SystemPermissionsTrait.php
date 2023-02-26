@@ -392,6 +392,18 @@ trait SystemPermissionsTrait
     public const PERMISSION_SMS_NOTIFY_DELETE = 'permission sms notify delete';
     public const PERMISSION_SMS_NOTIFY_STATUS = 'permission sms notify status';
 
+    // 3 CONTACTS
+    public const PERMISSION_CONTACTS = 'permission contacts';
+    public const PERMISSION_CONTACT_SHOW = 'permission contact show';
+    public const PERMISSION_CONTACT_STATUS = 'permission contact status';
+    public const PERMISSION_CONTACT_APPROVED = 'permission contact approved';
+
+    // 4 APPOINTMENTS
+    public const PERMISSION_APPOINTMENTS = 'permission appointments';
+    public const PERMISSION_APPOINTMENT_SHOW = 'permission appointment show';
+    public const PERMISSION_APPOINTMENT_STATUS = 'permission appointment status';
+    public const PERMISSION_APPOINTMENT_APPROVED = 'permission appointment approved';
+
     // SETTING Section Permissions
     //******************************************************************************************************************
     public const PERMISSION_SETTING = 'permission setting';
@@ -704,6 +716,14 @@ trait SystemPermissionsTrait
         , self::PERMISSION_SMS_NOTIFY_EDIT
         , self::PERMISSION_SMS_NOTIFY_DELETE
         , self::PERMISSION_SMS_NOTIFY_STATUS
+        , self::PERMISSION_CONTACTS
+        , self::PERMISSION_CONTACT_STATUS
+        , self::PERMISSION_CONTACT_SHOW
+        , self::PERMISSION_CONTACT_APPROVED
+        , self::PERMISSION_APPOINTMENTS
+        , self::PERMISSION_APPOINTMENT_STATUS
+        , self::PERMISSION_APPOINTMENT_SHOW
+        , self::PERMISSION_APPOINTMENT_APPROVED
         , self::PERMISSION_SETTING
         , self::PERMISSION_SETTING_EDIT
         , self::PERMISSION_PANEL_COUNTER_CARDS

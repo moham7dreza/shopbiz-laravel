@@ -27,6 +27,33 @@
                         </a>
                     @endcan
                 @endcan
+                @can($PERMISSION::PERMISSION_NOTIFY)
+                    <section class="sidebar-part-title">اطلاع رسانی</section>
+                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFYS)
+                        <a href="{{ route('email.index') }}" class="sidebar-link">
+                            <i class="fas fa-mail-bulk"></i>
+                            <span>اعلامیه ایمیلی</span>
+                        </a>
+                    @endcan
+                    @can($PERMISSION::PERMISSION_SMS_NOTIFYS)
+                        <a href="{{ route('sms.index') }}" class="sidebar-link">
+                            <i class="fas fa-sms"></i>
+                            <span>اعلامیه پیامکی</span>
+                        </a>
+                    @endcan
+                    @can($PERMISSION::PERMISSION_CONTACTS)
+                        <a href="{{ route('contact.index') }}" class="sidebar-link">
+                            <i class="fas fa-phone"></i>
+                            <span>ارتباط با ما</span>
+                        </a>
+                    @endcan
+                    @can($PERMISSION::PERMISSION_APPOINTMENTS)
+                        <a href="{{ route('appointment.index') }}" class="sidebar-link">
+                            <i class="fab fa-facebook-messenger"></i>
+                            <span>قرار ملاقات</span>
+                        </a>
+                    @endcan
+                @endcan
                 @can($PERMISSION::PERMISSION_USERS)
                     <section class="sidebar-part-title">بخش کاربران</section>
                     @can($PERMISSION::PERMISSION_ADMIN_USERS)
@@ -261,21 +288,7 @@
                         </a>
                     @endcan
                 @endcan
-                @can($PERMISSION::PERMISSION_NOTIFY)
-                    <section class="sidebar-part-title">اطلاع رسانی</section>
-                    @can($PERMISSION::PERMISSION_EMAIL_NOTIFYS)
-                        <a href="{{ route('email.index') }}" class="sidebar-link">
-                            <i class="fas fa-mail-bulk"></i>
-                            <span>اعلامیه ایمیلی</span>
-                        </a>
-                    @endcan
-                    @can($PERMISSION::PERMISSION_SMS_NOTIFYS)
-                        <a href="{{ route('sms.index') }}" class="sidebar-link">
-                            <i class="fas fa-sms"></i>
-                            <span>اعلامیه پیامکی</span>
-                        </a>
-                    @endcan
-                @endcan
+
             </section>
         @endcan
     </section>
