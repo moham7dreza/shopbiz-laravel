@@ -721,11 +721,17 @@ body {
     height: 0.6rem;
     margin-right: 0.2rem;
     border-radius: 50%;
-    padding: 0.2rem;
-    /*color: white;*/
+    padding: 0.3rem;
+    color: gray;
     font-size: 0.7rem;
     /*border: 1px solid #dedede;*/
-    box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.12);
+    box-shadow: 0 1px 20px 0 rgba(70, 90, 100, 0.15);
+}
+
+.product-metas-item:hover {
+    color: darkgreen;
+    font-size: .75rem;
+    font-weight: bold;
 }
 
 .dir-ltr {
@@ -774,6 +780,7 @@ body {
     font-weight: bold;
     color: #FFFFFF;
     background-color: #ff253a;
+    /*background-color: lightsalmon;*/
     padding: 0.4rem 0.2rem 0.2rem 0.4rem;
     margin: 0 0.4rem 0 0;
     border-radius: 0.25rem;

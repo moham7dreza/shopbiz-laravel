@@ -138,10 +138,24 @@
 
                                                         <!-- product metas -->
                                                         <section class="product-metas dir-ltr">
-                                                            @foreach($product->values()->selected()->get() as $value)
-                                                                <span
-                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>
-                                                            @endforeach
+                                                            @if($product->activeAmazingSales())
+                                                                @php $value = $product->values()->selected()->first() @endphp
+                                                                @if(isset($value))
+                                                                    <span
+                                                                        class="product-metas-item alert bg-green-light"
+                                                                        title="{{ $value->generateFaFullInformation() }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top">{{ $value->generateEnValue() }}</span>
+                                                                @endif
+                                                            @else
+                                                                @foreach($product->values()->selected()->get() as $value)
+                                                                    <span
+                                                                        class="product-metas-item alert bg-green-light"
+                                                                        title="{{ $value->generateFaFullInformation() }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top">{{ $value->generateEnValue() }}</span>
+                                                                @endforeach
+                                                            @endif
                                                         </section>
                                                     </a>
                                                     <!-- start product link card -->

@@ -34,9 +34,9 @@
                                                <a href="{{ $product->path() }}">
                                                    <img src="{{ $product->imagePath() }}"
                                                         alt="{{ $product->name }}"
-                                                        title="{{ $product->getTagLessIntroduction() }}"
+                                                        `title="{{ $product->getTagLessIntroduction() }}"
                                                         data-bs-toggle="tooltip"
-                                                        data-bs-placement="top">
+                                                        data-bs-placement="top"`>
                                                </a>
                                            </section>
                                            <section class="align-self-start w-100">

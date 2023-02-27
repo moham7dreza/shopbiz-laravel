@@ -135,4 +135,20 @@ class AttributeValue extends Model
     {
         return json_decode($this->value)->value . ' ' . $this->attribute->unit_en;
     }
+
+    /**
+     * @return string
+     */
+    public function generateFaFullInformation(): string
+    {
+        return $this->attribute->name . ' : ' . $this->generateFaValue();
+    }
+
+    /**
+     * @return string
+     */
+    public function generateEnFullInformation(): string
+    {
+        return $this->attribute->name_en . ' : ' . $this->generateEnValue();
+    }
 }

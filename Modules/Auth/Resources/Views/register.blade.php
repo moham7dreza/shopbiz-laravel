@@ -36,8 +36,15 @@
                         <button class="btn btn-danger">ورود به آمازون</button>
                     </section>
                     <section class="login-terms-and-conditions d-flex align-items-center">
-                        <input type="checkbox" name="rules" class="mx-1" {{ old('rules') == 'on' ? 'checked' : '' }}>
-                        <a href="#" class="text-decoration-none mx-1"> شرایط و قوانین </a>را خوانده ام و پذیرفته ام
+                        <label for="rules"></label>
+                        <input type="checkbox" name="rules" id="rules"
+                               class="mx-1 rounded" {{ old('rules') == 'on' ? 'checked' : '' }}>
+                        <a href="{{ route('customer.pages.privacy-policy') }}"
+                           class="text-decoration-none mx-1 font-weight-bold" title="برای مطالعه قوانین کلیک کنید"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="top"> شرایط و قوانین </a>را خوانده
+                        ام
+                        و پذیرفته ام
                     </section>
                     @error('rules')
                     <span class="alert alert-danger -p-1 my-3 d-block font-size-80" role="alert">

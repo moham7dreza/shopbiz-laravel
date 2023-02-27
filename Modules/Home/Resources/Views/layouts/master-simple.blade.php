@@ -9,7 +9,9 @@
 <main id="main-body-one-col" class="main-body">
 
     <div class="home-btn d-none d-sm-block m-4">
-        <a href="{{ route('customer.home') }}"><i class="fas fa-home h2 text-dark"></i></a>
+        <a href="{{ route('customer.home') }}" title="برگشت به فروشگاه"
+           data-bs-toggle="tooltip"
+           data-bs-placement="bottom"><i class="fas fa-home h2"></i></a>
     </div>
 
     @yield('content')

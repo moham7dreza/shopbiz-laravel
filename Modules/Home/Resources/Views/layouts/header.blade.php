@@ -196,6 +196,7 @@
                         </section>
                         <section class="sublist-wrapper position-absolute w-100">
                             <section class="position-relative sublist-area">
+                                @php $CATEGORY = \Modules\Category\Entities\ProductCategory::class @endphp
                                 @foreach($categories as $category)
                                     <section class="sublist-item">
                                         <section class="sublist-item-toggle">{{ $category->name }}</section>
@@ -203,13 +204,13 @@
                                             <section
                                                 class="sublist-item-sublist-wrapper d-flex justify-content-around align-items-center">
                                                 @foreach($category->children as $subCategory)
-                                                    @if($subCategory->status == 1)
+                                                    @if($subCategory->status == $CATEGORY::STATUS_ACTIVE)
                                                         <section class="sublist-column col">
                                                             <a href="{{ route('customer.market.category.products', $subCategory) }}"
                                                                class="sub-category">{{ $subCategory->name }}</a>
                                                             @if(count($subCategory->children) > 0)
                                                                 @foreach($subCategory->children as $child)
-                                                                    @if($child->status == 1)
+                                                                    @if($child->status == $CATEGORY::STATUS_ACTIVE)
                                                                         <a href="{{ route('customer.market.category.products', $child) }}"
                                                                            class="sub-sub-category">{{ $child->name }}</a>
                                                                     @endif
@@ -226,7 +227,7 @@
                         </section>
                     </section>
                     <section class="border-start my-2 mx-1"></section>
-
+                    @php $MENU = \Modules\Menu\Entities\Menu::class @endphp
                     @foreach($menus as $menu)
                         @if(count($menu->children) > 0)
                             <button
@@ -238,9 +239,12 @@
                             <section class="dropdown-menu dropdown-menu-end custom-drop-down p-3"
                                      aria-labelledby="dropdownMenuButton2">
                                 @foreach($menu->children as $child)
-                                    <section><a class="dropdown-item fw-bold" href="{{ $child->url }}"><i
-                                                class="fa fa-check fs-6 text-lightblue me-1"></i>{{ $child->name }}</a>
-                                    </section>
+                                    @if($child->status == $MENU::STATUS_ACTIVE)
+                                        <section><a class="dropdown-item fw-bold" href="{{ $child->url }}"><i
+                                                    class="fa fa-check fs-6 text-lightblue me-1"></i>{{ $child->name }}
+                                            </a>
+                                        </section>
+                                    @endif
                                 @endforeach
                             </section>
                         @else
@@ -291,7 +295,7 @@
                                         class="fa fa-angle-left"></i></span>
                                         <section class="sidebar-nav-sub-wrapper">
                                             @foreach($menu->children as $child)
-                                                @if($child->status == 1)
+                                                @if($child->status == $MENU::STATUS_ACTIVE)
                                                     <section class="sidebar-nav-sub-item">
                                         <span class="sidebar-nav-sub-item-title">
                                             <a href="{{ $child->url }}">{{ $child->name }}</a>
@@ -319,7 +323,7 @@
                                         class="fa fa-angle-left"></i></span>
                                     <section class="sidebar-nav-sub-wrapper">
                                         @foreach($category->children as $subCategory)
-                                            @if($subCategory->status == 1)
+                                            @if($subCategory->status == $CATEGORY::STATUS_ACTIVE)
                                                 <section class="sidebar-nav-sub-item">
                                         <span class="sidebar-nav-sub-item-title">
                                             <a href="{{ route('customer.market.category.products', $subCategory) }}">{{ $subCategory->name }}</a>
@@ -327,7 +331,7 @@
                                                     <section class="sidebar-nav-sub-sub-wrapper">
                                                         @if(count($subCategory->children) > 0)
                                                             @foreach($subCategory->children as $child)
-                                                                @if($child->status == 1)
+                                                                @if($child->status == $CATEGORY::STATUS_ACTIVE)
                                                                     <section class="sidebar-nav-sub-sub-item"><a
                                                                             href="{{ route('customer.market.category.products', $child) }}">{{ $child->name }}</a>
                                                                     </section>

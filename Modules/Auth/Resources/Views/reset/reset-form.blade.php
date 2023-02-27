@@ -11,7 +11,7 @@
                 <section class="login-wrapper">
                     <section class="login-logo">
                         <a href="{{ route('customer.home') }}">
-                            <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="">
+                            <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="home">
                         </a>
                     </section>
                     <section class="login-title text-center">بازنشانی کلمه عبور</section>

@@ -55,10 +55,23 @@
     font-size: 0.8rem;
 }
 
+.login-terms-and-conditions a:hover {
+    color: red;
+    font-size: 0.9rem;
+}
+
 .home-btn {
     position: absolute;
     left: 25px;
     right: auto;
+}
+
+.home-btn a {
+    color: black;
+}
+
+.home-btn a:hover {
+    color: lightcoral;
 }
 
 .register a {

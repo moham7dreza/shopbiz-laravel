@@ -115,12 +115,20 @@
                                                                          data-bs-placement="top"></section>
                                                             @endforeach
                                                         </section>
-                                                        {{--                                                        <section class="product-metas dir-ltr">--}}
-                                                        {{--                                                            @foreach($product->values()->selected()->get() as $value)--}}
-                                                        {{--                                                                <span--}}
-                                                        {{--                                                                    class="product-metas-item text-muted alert alert-light">{{ $value->generateEnValue() }}</span>--}}
-                                                        {{--                                                            @endforeach--}}
-                                                        {{--                                                        </section>--}}
+                                                        <!-- product metas -->
+                                                        <section class="product-metas dir-ltr">
+                                                            @php $value = $product->values()->selected()->first() @endphp
+                                                            @if(isset($value))
+                                                                <span
+                                                                    class="product-metas-item alert bg-green-light"
+                                                                    title="{{ $value->generateFaFullInformation() }}"
+                                                                    data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top">{{ $value->generateEnValue() }}</span>
+                                                            @endif
+                                                        </section>
+                                                        <!-- end product metas -->
+
+                                                        <!-- product card footer -->
                                                         @if($product->activeAmazingSales())
                                                             <section class="border-top mt-4"></section>
                                                         @else
