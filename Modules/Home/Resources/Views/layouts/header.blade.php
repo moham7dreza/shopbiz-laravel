@@ -226,11 +226,30 @@
                         </section>
                     </section>
                     <section class="border-start my-2 mx-1"></section>
+
                     @foreach($menus as $menu)
-                        <section class="navbar-item">
-                            {{--                            {{ $menu }}--}}
-                            <a href="{{ $menu->url }}">{{ $menu->name }}</a>
-                        </section>
+                        @if(count($menu->children) > 0)
+                            <button
+                                class="navbar-item btn btn-link text-decoration-none text-dark dropdown-toggle profile-button p-1 ms-1 fw-bold"
+                                type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{ $menu->name }}
+                            </button>
+                            <section class="dropdown-menu dropdown-menu-end custom-drop-down p-3"
+                                     aria-labelledby="dropdownMenuButton2">
+                                @foreach($menu->children as $child)
+                                    <section><a class="dropdown-item fw-bold" href="{{ $child->url }}"><i
+                                                class="fa fa-check fs-6 text-lightblue me-1"></i>{{ $child->name }}</a>
+                                    </section>
+                                @endforeach
+                            </section>
+                        @else
+                            <section class="navbar-item">
+                                <a href="{{ $menu->url }}">{{ $menu->name }}</a>
+                            </section>
+                        @endif
+
+
                         {{--                    <section class="navbar-item"><a href="#">سوپرمارکت</a></section>--}}
                         {{--                    <section class="navbar-item"><a href="#">تخفیف ها و پیشنهادها</a></section>--}}
                         {{--                    <section class="navbar-item"><a href="#">آمازون من</a></section>--}}
@@ -251,7 +270,6 @@
                     @endforeach
                 </section>
 
-
                 <!--mobile view-->
                 <section class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
                          aria-labelledby="offcanvasExampleLabel" style="z-index: 9999999;">
@@ -265,9 +283,31 @@
                     <section class="offcanvas-body">
 
                         @foreach($menus as $menu)
-                            <section class="navbar-item"><a href="{{ $menu->url }}">{{ $menu->name }}</a></section>
-                        @endforeach
+                            @if(count($menu->children) > 0)
+                                <!-- start sidebar nav-->
+                                <section class="sidebar-nav mt-2 px-3">
+                                    <section class="sidebar-nav-item">
+                                <span class="sidebar-nav-item-title">{{ $menu->name }}<i
+                                        class="fa fa-angle-left"></i></span>
+                                        <section class="sidebar-nav-sub-wrapper">
+                                            @foreach($menu->children as $child)
+                                                @if($child->status == 1)
+                                                    <section class="sidebar-nav-sub-item">
+                                        <span class="sidebar-nav-sub-item-title">
+                                            <a href="{{ $child->url }}">{{ $child->name }}</a>
+                                            </span>
+                                                    </section>
+                                                @endif
+                                            @endforeach
+                                        </section>
+                                    </section>
 
+                                </section>
+                                <!--end sidebar nav-->
+                            @else
+                                <section class="navbar-item"><a href="{{ $menu->url }}">{{ $menu->name }}</a></section>
+                            @endif
+                        @endforeach
 
                         <hr class="border-bottom">
                         <section class="navbar-item"><a href="javascript:void(0)">دسته بندی</a></section>
@@ -281,7 +321,6 @@
                                         @foreach($category->children as $subCategory)
                                             @if($subCategory->status == 1)
                                                 <section class="sidebar-nav-sub-item">
-
                                         <span class="sidebar-nav-sub-item-title">
                                             <a href="{{ route('customer.market.category.products', $subCategory) }}">{{ $subCategory->name }}</a>
                                             <i class="fa fa-angle-left"></i></span>

@@ -66,6 +66,14 @@ class Menu extends Model
         return is_null($this->parent_id) ? 'منوی اصلی' : $this->parent->name;
     }
 
+    /**
+     * @return bool
+     */
+    public function isParent(): bool
+    {
+        return is_null($this->parent_id);
+    }
+
     // ********************************************* paths
 
 

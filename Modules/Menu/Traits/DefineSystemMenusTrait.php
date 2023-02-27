@@ -7,7 +7,7 @@ trait DefineSystemMenusTrait
     public const prefix = '/pages';
     public const MENU_SPECIAL_SALE = [
         'name' => 'فروش ویژه',
-        'url' => self::prefix . self::prefix . '/products/special-sale',
+        'url' => '/products/special-sale',
         'status' => self::STATUS_ACTIVE
     ];
     public const MENU_WARRANTY_RULES = ['name' => 'شرایط گارانتی', 'url' => self::prefix . '/warranty-rules', 'status' => self::STATUS_ACTIVE];
