@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Modules\Contact\Http\Requests\ContactRequest;
+use Modules\Contact\Http\Requests\Home\ContactRequest;
 use Modules\Contact\Services\ContactService;
 use Modules\Setting\Repositories\SettingRepoEloquentInterface;
 use Modules\Share\Http\Controllers\Controller;
@@ -48,10 +48,13 @@ class HomeContactController extends Controller
     public function contactUsSubmit(ContactRequest $request): RedirectResponse
     {
         $contact = $this->service->store($request, 'contact');
-        $result = $this->storeFileService->store($request, $contact);
-        if ($result == 'upload failed') {
-            return $this->showMessageWithRedirectRoute('آپلود فایل با خطا مواجه شد', 'خطا', status: 'error');
+        if ($request->hasFile('file')) {
+            $result = $this->storeFileService->store($request, $contact);
+            if ($result == 'upload failed') {
+                return $this->showMessageWithRedirectRoute('آپلود فایل با خطا مواجه شد', 'خطا', status: 'error');
+            }
         }
+
         $adminUser = $this->userRepo->findSystemAdmin();
         $this->service->sendContactCreatedNotificationToAdmin($adminUser, $contact->id, 'contact');
         return $this->showAlertWithRedirect('پیام شما با موفقیت ثبت شد');
@@ -73,10 +76,13 @@ class HomeContactController extends Controller
     public function meetSubmit(ContactRequest $request): RedirectResponse
     {
         $contact = $this->service->store($request);
-        $result = $this->storeFileService->store($request, $contact);
-        if ($result == 'upload failed') {
-            return $this->showMessageWithRedirectRoute('آپلود فایل با خطا مواجه شد', 'خطا', status: 'error');
+        if ($request->hasFile('file')) {
+            $result = $this->storeFileService->store($request, $contact);
+            if ($result == 'upload failed') {
+                return $this->showMessageWithRedirectRoute('آپلود فایل با خطا مواجه شد', 'خطا', status: 'error');
+            }
         }
+
         $adminUser = $this->userRepo->findSystemAdmin();
         $this->service->sendContactCreatedNotificationToAdmin($adminUser, $contact->id);
         return $this->showAlertWithRedirect('فرم شما با موفقیت ثبت شد');

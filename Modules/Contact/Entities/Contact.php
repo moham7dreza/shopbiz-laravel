@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
@@ -29,6 +30,7 @@ class Contact extends Model
     ];
 
     // ********************************************* Scopes
+
     /**
      * @param $query
      * @param int $approved
@@ -51,7 +53,26 @@ class Contact extends Model
         return $query->where('is_read', $read);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAppointment($query): mixed
+    {
+        return $query->whereNotNull('meet_date');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeContact($query): mixed
+    {
+        return $query->whereNull('meet_date');
+    }
+
     // ********************************************* Relations
+
     /**
      *
      * @return MorphMany
@@ -59,5 +80,74 @@ class Contact extends Model
     public function files(): MorphMany
     {
         return $this->morphMany('Modules\Share\Entities\File', 'fileable');
+    }
+
+    // ********************************************* Methods
+
+    /**
+     * @return bool
+     */
+    public function isContactApproved(): bool
+    {
+        return $this->approved == self::APPROVED;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaChangeApprovedText(): string
+    {
+        return $this->isContactApproved() ? 'عدم تایید فرم' : 'تایید فرم';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaApprovedText(): string
+    {
+        return $this->isContactApproved() ? 'تایید شده' : 'تایید نشده';
+    }
+
+    /**
+     * @return string
+     */
+    public function getApprovedIcon(): string
+    {
+        return $this->isContactApproved() ? 'clock' : 'check';
+    }
+
+    /**
+     * @return string
+     */
+    public function getApprovedColor(): string
+    {
+        return $this->isContactApproved() ? 'warning' : 'success';
+    }
+
+    /**
+     * @param int $limit
+     * @return string
+     */
+    public function getLimitedSubject(int $limit = 50): string
+    {
+        return Str::limit($this->subject, $limit);
+    }
+
+    // ********************************************* fa
+
+    /**
+     * @return array|string
+     */
+    public function getFaPhone(): array|string
+    {
+        return convertEnglishToPersian($this->phone) ?? '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaMeetTime(): string
+    {
+        return $this->getFaDate($this->meet_date, '%A, %d %B %Y | H:i:s');
     }
 }

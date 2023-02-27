@@ -34,7 +34,7 @@ class CommentService
     public function makeSeenComments($unSeenComments): mixed
     {
         foreach ($unSeenComments as $unSeenComment) {
-            $unSeenComment->seen = 1;
+            $unSeenComment->seen = Comment::SEEN;
             $result = $unSeenComment->save();
         }
         return $unSeenComments;

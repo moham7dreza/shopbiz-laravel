@@ -20,14 +20,17 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function () 
         Route::get('/', [ContactController::class, 'index'])->name('contact.index');
         Route::get('/show/{contact}', [ContactController::class, 'show'])->name('contact.show');
         Route::post('/answer/{contact}', [ContactController::class, 'answer'])->name('contact.answer');
-        Route::get('/change/{contact}', [ContactController::class, 'change'])->name('contact.change');
+        Route::get('/approved/{contact}', [ContactController::class, 'approved'])->name('contact.approved');
+        Route::get('/status/{contact}', [ContactController::class, 'status'])->name('contact.status');
     });
 
     Route::prefix('appointment')->group(function () {
         //main
         Route::get('/', [AppointmentController::class, 'index'])->name('appointment.index');
-        Route::get('/show/{contact}', [AppointmentController::class, 'show'])->name('appointment.show');
-        Route::post('/answer/{contact}', [AppointmentController::class, 'answer'])->name('appointment.answer');
-        Route::get('/change/{contact}', [AppointmentController::class, 'change'])->name('appointment.change');
+        Route::get('/show/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
+        Route::post('/answer/{appointment}', [AppointmentController::class, 'answer'])->name('appointment.answer');
+        Route::get('/change/{appointment}', [AppointmentController::class, 'change'])->name('appointment.change');
+        Route::get('/approved/{appointment}', [AppointmentController::class, 'approved'])->name('appointment.approved');
+        Route::get('/status/{appointment}', [AppointmentController::class, 'status'])->name('appointment.status');
     });
 });

@@ -47,6 +47,29 @@ class ContactService
     }
 
     /**
+     * @param $unReadContacts
+     * @return mixed
+     */
+    public function makeReadContacts($unReadContacts): mixed
+    {
+        foreach ($unReadContacts as $unReadContact) {
+            $unReadContact->is_read = Contact::IS_READ;
+            $result = $unReadContact->save();
+        }
+        return $unReadContacts;
+    }
+
+    /**
+     * @param $contact
+     * @return mixed
+     */
+    public function approveContact($contact): mixed
+    {
+        $contact->approved = $contact->approved == Contact::APPROVED ? Contact::NOT_APPROVED : Contact::APPROVED;
+        return $contact->save();
+    }
+
+    /**
      * @return Builder
      */
     private function query(): Builder

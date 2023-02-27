@@ -58,7 +58,7 @@ class PostCommentController extends Controller
         $unSeenComments = $this->repo->getUnseenPostComments();
         $this->service->makeSeenComments($unSeenComments);
         if (isset(request()->search)) {
-            $postComments = $this->repo->search(request()->search)->paginate(10);
+            $postComments = $this->repo->search(request()->search, 'post')->paginate(10);
             if (count($postComments) > 0) {
                 $this->showToastOfFetchedRecordsCount(count($postComments));
             } else {
@@ -164,7 +164,7 @@ class PostCommentController extends Controller
         if ($result) {
             return $this->showMessageWithRedirectRoute('وضعیت نظر با موفقیت تغییر کرد');
         } else {
-            return $this->showMessageWithRedirectRoute('تایید نظر با خطا مواجه شد', 'swal-error');
+            return $this->showMessageWithRedirectRoute('تایید نظر با خطا مواجه شد', 'خطا', status: 'error');
         }
     }
 
@@ -180,7 +180,7 @@ class PostCommentController extends Controller
             $this->service->replyComment($request, $postComment);
             return $this->showMessageWithRedirectRoute('پاسخ شما با موفقیت ثبت شد');
         } else {
-            return $this->showMessageWithRedirectRoute('خطا', 'swal-error');
+            return $this->showMessageWithRedirectRoute('خطا', 'خطا', status: 'error');
         }
     }
 }
