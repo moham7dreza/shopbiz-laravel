@@ -38,4 +38,6 @@ Route::group(['prefix' => 'panel/notify', 'middleware' => 'auth'], static functi
     });
 
     Route::post('/notification/read-all', [NotificationController::class, 'readAll'])->name('notification.readAll');
+
+    Route::get('user/notifications', [NotificationController::class, 'userNotifs'])->name('user.notifications');
 });

@@ -3,13 +3,21 @@
 namespace Modules\Notify\Http\Controllers;
 
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Modules\Notify\Entities\Notification;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquentInterface;
 use Modules\Notify\Services\Notification\NotificationService;
 use Modules\Share\Http\Controllers\Controller;
+use Modules\Share\Services\ShareService;
+use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 
 class NotificationController extends Controller
 {
+    use ShowMessageWithRedirectTrait;
+
     /**
      * @var string
      */
@@ -28,12 +36,26 @@ class NotificationController extends Controller
         $this->service = $faqService;
     }
 
+
     /**
-     * @return void
+     * @return mixed
      */
-    public function readAll(): void
+    public function readAll(): mixed
     {
-        $notifications = $this->repo->all();
-        $this->service->readAllNotifications($notifications);
+        return auth()->user()->notifications()->get()->toQuery()->update(['read_at' => now()]);
+    }
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function userNotifs(): View|Factory|Application|RedirectResponse
+    {
+        $query = auth()->user()->notifications()->whereNull('read_at');
+        if ($query->count() < 1) {
+            return $this->showAlertWithRedirect(message: 'شما اعلان جدیدی ندارید', title: 'هشدار', type: 'warning');
+        }
+        $notifications = $query->latest()->get();
+        $this->readAll();
+        return view('Notify::home.user-notifications', compact('notifications'));
     }
 }

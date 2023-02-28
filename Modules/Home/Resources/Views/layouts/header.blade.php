@@ -64,18 +64,22 @@
                 </section>
 
                 <section class="mt-3 mt-md-auto text-end">
-                    <section class="d-inline user-notif-area">
+                    <section class="d-inline px-md-1 user-notif-area">
                         @auth
-                            <a href="{{ route('auth.login-form') }}"
+                            <a href="{{ route('user.notifications') }}" title="اعلان های شما" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
                                class="btn btn-link text-decoration-none text-dark profile-button position-relative">
-                                <i class="fa fa-bell text-gray"></i>
+                                <i class="fa fa-bell"></i>
                                 <span style="top: 80%;"
-                                      class="position-absolute start-0 translate-middle badge rounded-pill bg-green-light text-dark">1</span>
+                                      class="position-absolute start-0 translate-middle badge rounded-pill bg-danger">
+                                    {{ convertEnglishToPersian($notificationsCount) }}
+                                </span>
                             </a>
                         @endauth
                     </section>
 
-                    <section class="d-inline pe-md-1">
+                    <section class="d-inline px-md-1 border-start" title="پروفایل کاربری" data-bs-toggle="tooltip"
+                             data-bs-placement="top">
                         @auth
                             <button class="btn btn-link text-decoration-none text-dark dropdown-toggle profile-button"
                                     type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"

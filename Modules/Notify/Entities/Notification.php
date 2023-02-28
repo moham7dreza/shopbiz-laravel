@@ -4,7 +4,7 @@ namespace Modules\Notify\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Share\Traits\HasDefaultStatus;
 use Modules\Share\Traits\HasFaDate;
 
@@ -15,4 +15,8 @@ class Notification extends Model
     protected $guarded = ['id'];
 
     protected $casts = ['data' => 'array'];
+
+    // ********************************************* Relations
+
+
 }
