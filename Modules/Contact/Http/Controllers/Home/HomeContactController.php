@@ -46,7 +46,7 @@ class HomeContactController extends Controller
      * @return RedirectResponse
      */
     public function contactUsSubmit(ContactRequest $request): RedirectResponse
-    {
+    {dd($request->all());
         $contact = $this->service->store($request, 'contact');
         if ($request->hasFile('file')) {
             $result = $this->storeFileService->store($request, $contact);

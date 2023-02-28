@@ -64,7 +64,18 @@
                 </section>
 
                 <section class="mt-3 mt-md-auto text-end">
-                    <section class="d-inline px-md-3">
+                    <section class="d-inline user-notif-area">
+                        @auth
+                            <a href="{{ route('auth.login-form') }}"
+                               class="btn btn-link text-decoration-none text-dark profile-button position-relative">
+                                <i class="fa fa-bell text-gray"></i>
+                                <span style="top: 80%;"
+                                      class="position-absolute start-0 translate-middle badge rounded-pill bg-green-light text-dark">1</span>
+                            </a>
+                        @endauth
+                    </section>
+
+                    <section class="d-inline pe-md-1">
                         @auth
                             <button class="btn btn-link text-decoration-none text-dark dropdown-toggle profile-button"
                                     type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -98,9 +109,7 @@
                     </section>
 
                     @auth
-                        @php
-                            $cartItemsFaCount = convertEnglishToPersian($cartItems->count());
-                        @endphp
+                        @php $cartItemsFaCount = convertEnglishToPersian($cartItems->count()) @endphp
                         @if($cartItems->count() > 0)
                             <section class="header-cart d-inline ps-3 border-start position-relative">
                                 <a class="btn btn-link position-relative text-dark header-cart-link"

@@ -24,8 +24,18 @@
                             </section>
                         </section>
                         <!-- end content header -->
-
-                        <section class="order-wrapper m-5 border rounded-3">
+                        <section class="mt-2 p-3 faq-redirect">
+                            <p class="px-2 fw-bold"><i class="fa fa-check text-lightblue mx-2"></i>قبل از مطرح کردن
+                                هرگونه سوال ، بخش <a href="{{ route('customer.pages.faq') }}"
+                                                     class="text-decoration-none" title="کلیک کنید"
+                                                     data-bs-placement="top" data-bs-toggle="tooltip">سوالات
+                                    متداول</a> را مطالعه نمایید.</p>
+                            <p class="px-2 fw-bold"><i class="fa fa-check text-lightblue mx-2"></i>در صورت وجود
+                                هرگونه مشکل از طریق پنل کاربری خود ، بخش تیکت ها ، مشکل خود را پیگیری نمایید. این
+                                بخش تنها برای بخش بازرگانی سایت ، انتقادات و پیشنهادات میباشد و به ایمیل های ارسالی
+                                در مورد هرگونه مشکل پاسخی داده نمیشود.</p>
+                        </section>
+                        <section class="order-wrapper mx-5 border rounded-3">
                             <section class="row">
                                 <section class="col-md-12 my-2 px-5 py-2">
                                     <form action="{{ route('customer.pages.make-appointment.submit') }}" method="post"
@@ -52,6 +62,9 @@
                                                                :message="$message"/>
                                             <x-panel-input col="12" type="file" name="file" label="فایل"
                                                            :message="$message"/>
+                                            <section class="mt-3 d-flex justify-content-end">
+                                                {!! NoCaptcha::display() !!}
+                                            </section>
                                             <x-panel-button col="12" title="ثبت جلسه" align="end" loc="home"/>
 
                                         </section>
@@ -91,4 +104,6 @@
         });
     </script>
 
+    {{--    {!! NoCaptcha::renderJs('fa') !!}--}}
+    {!! NoCaptcha::renderJs('fa', false, 'recaptchaCallback') !!}
 @endsection

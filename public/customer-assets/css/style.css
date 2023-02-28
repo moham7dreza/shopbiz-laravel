@@ -1427,9 +1427,29 @@ button:hover.text-greenyellow {
 .text-lightsteelblue {
     color: lightsteelblue;
 }
+
 .captcha {
     padding-top: 12rem;
 }
+
 .width-8-rem {
     width: 8rem;
+}
+
+.faq-redirect p:nth-of-type(2) {
+    line-height: 2rem;
+}
+
+.faq-redirect a {
+    color: forestgreen;
+}
+
+.faq-redirect a:hover {
+    color: lightseagreen;
+    font-size: 1.1rem;
+}
+
+.user-notif-area span {
+    font-size: 0.5rem;
+    padding-top: 0.4rem;
 }

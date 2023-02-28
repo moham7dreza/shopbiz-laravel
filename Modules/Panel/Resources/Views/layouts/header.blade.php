@@ -29,14 +29,11 @@
                     <span class="ml-2 ml-md-4 position-relative">
                         <span id="header-notification-toggle" class="pointer">
                             <i class="far fa-bell"></i>
-
                                 @if($notifications->count() !== 0)
                                 <sup class="badge badge-danger">
                                     {{ $notifications->count() }}
                                 </sup>
-
                             @endif
-
                         </span>
                     <section id="header-notification" class="header-notification rounded">
                         <section class="d-flex justify-content-between">
@@ -49,9 +46,7 @@
                         </section>
 
                         <ul class="list-group rounded px-0">
-
                             @foreach ($notifications as $notification)
-
                                 <li class="list-group-item list-group-item-action">
                                 <section class="media">
                                     <section class="media-body pr-1">
@@ -69,11 +64,7 @@
                                     </section>
                                 </section>
                             </li>
-
                             @endforeach
-
-
-
                         </ul>
                     </section>
                     </span>
@@ -81,20 +72,16 @@
                         <span id="header-comment-toggle" class="pointer">
                             <i class="far fa-comment-alt">
                                 @if($unseenComments->count() !== 0)
-
                                     <sup class="badge badge-danger">
                                     {{ $unseenComments->count() }}
                                  </sup>
                                 @endif
                         </i>
                         </span>
-
                     <section id="header-comment" class="header-comment">
-
                         <section class="border-bottom px-4">
                             <input type="text" class="form-control form-control-sm my-4" placeholder="جستجو ...">
                         </section>
-
                         <section class="header-comment-wrapper">
                             <ul class="list-group rounded px-0">
                                 @foreach ($unseenComments as $unseenComment)
@@ -114,7 +101,6 @@
                                 @endforeach
                             </ul>
                         </section>
-
                     </section>
 
                     </span>

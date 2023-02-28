@@ -29,7 +29,14 @@
                         <!-- end content header -->
 
                         <section class="order-wrapper">
-                            <section class="my-3">
+                            <section class="mt-2">
+                                <p class="p-2 fw-bold"><i class="fa fa-check text-lightblue mx-2"></i>قبل از مطرح کردن
+                                    هرگونه سوال ، بخش <a href="{{ route('customer.pages.faq') }}"
+                                                         class="text-decoration-none" title="کلیک کنید"
+                                                         data-bs-placement="top" data-bs-toggle="tooltip">سوالات
+                                        متداول</a> را مطالعه نمایید.</p>
+                            </section>
+                            <section class="">
                                 <form action="{{ route('customer.profile.my-tickets.store') }}" method="post"
                                       enctype="multipart/form-data">
                                     @csrf
@@ -49,7 +56,7 @@
                                                            :message="$message"/>
                                         <x-panel-input col="12" type="file" name="file" label="فایل"
                                                        :message="$message"/>
-                                        <x-panel-button col="12" title="ثبت"/>
+                                        <x-panel-button col="12" title="ثبت" loc="home" align="end"/>
 
                                     </section>
                                 </form>

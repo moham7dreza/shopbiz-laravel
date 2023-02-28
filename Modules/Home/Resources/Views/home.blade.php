@@ -9,7 +9,7 @@
     @php $productIds = $repo->userCartItemsProductIds(); @endphp
 
     @include('Home::partials.banners.slide-show-and-top-banners')
-
+{{--@include('Home::partials.product-lazy-load')--}}
     <x-home-product-lazy-load title="محصولات فروش ویژه" :products="$repo->productsWithActiveAmazingSales()"
                               :productIds="$productIds" class="py-4 bg-white"
                               viewAllRoute="{{ route('customer.market.query-products', 'inputQuery=productsWithActiveAmazingSales') }}"/>

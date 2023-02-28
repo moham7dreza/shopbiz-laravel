@@ -33,10 +33,19 @@ class ContactRequest extends FormRequest
             'message' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي?؟.,><\/;\n\r& ]+$/u',
             'file' => 'nullable|mimes:png,jpg,jpeg,gif,zip,pdf,docx,doc',
             'meet_date' => 'nullable|numeric',
+            'g-recaptcha-response' => 'required|captcha',
         ];
         if (Route::current()->getName() === 'customer.pages.make-appointment.submit') {
                 $rules['meet_date'] = 'required|numeric';
         }
         return $rules;
+    }
+
+    public function attributes()
+    {
+        return [
+            'message' => 'پیام',
+            'g-recaptcha-response' => 'کپچا',
+        ];
     }
 }
