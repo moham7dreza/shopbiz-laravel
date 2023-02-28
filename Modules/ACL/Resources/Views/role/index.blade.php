@@ -48,6 +48,9 @@
                             </th>
                             <th>دسترسی ها</th>
                             <th>
+                                <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="تاریخ ایجاد" property="created_at"/>
+                            </th>
+                            <th>
                                 <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="وضعیت" property="status"/>
                             </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -64,6 +67,7 @@
                                                       title="سطح دسترسی"/>
                                     @endcan
                                 </td>
+                                <td>{{ $role->getFaCreatedDate(true) }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ROLE_STATUS)
                                         <x-panel-checkbox class="rounded" :route="$ROLE::ROUTE_STATUS" method="changeStatus"

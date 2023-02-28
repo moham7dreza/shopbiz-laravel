@@ -324,6 +324,9 @@ trait SystemPermissionsTrait
     public const PERMISSION_DELETE = 'permission delete';
     public const PERMISSION_STATUS = 'permission status';
     public const PERMISSION_ROLES_SHOW = 'permission roles show';
+    public const PERMISSION_EXCEL_FORM = 'permission excel form';
+    public const PERMISSION_EXCEL_IMPORT = 'permission excel import';
+    public const PERMISSION_EXCEL_EXPORT = 'permission excel export';
 
     // TICKET Section Permissions
     //******************************************************************************************************************
@@ -675,6 +678,9 @@ trait SystemPermissionsTrait
         , self::PERMISSION_STATUS
         , self::PERMISSION_DELETE
         , self::PERMISSION_ROLES_SHOW
+        , self::PERMISSION_EXCEL_FORM
+        , self::PERMISSION_EXCEL_IMPORT
+        , self::PERMISSION_EXCEL_EXPORT
         , self::PERMISSION_TICKETS
         , self::PERMISSION_TICKET_CATEGORIES
         , self::PERMISSION_TICKET_CATEGORY_CREATE

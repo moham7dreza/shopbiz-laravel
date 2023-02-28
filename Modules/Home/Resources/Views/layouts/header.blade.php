@@ -227,6 +227,11 @@
                         </section>
                     </section>
                     <section class="border-start my-2 mx-1"></section>
+                    @can(\Modules\ACL\Entities\Permission::PERMISSION_ADMIN_PANEL)
+                        <section class="navbar-item">
+                            <a href="{{ route('panel.home') }}">پنل</a>
+                        </section>
+                    @endcan
                     @php $MENU = \Modules\Menu\Entities\Menu::class @endphp
                     @foreach($menus as $menu)
                         @if(count($menu->children) > 0)

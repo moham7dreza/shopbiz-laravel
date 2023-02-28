@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\ACL\Http\Controllers\ExcelController;
 use Modules\ACL\Http\Controllers\PermissionController;
 use Modules\ACL\Http\Controllers\RoleController;
 
@@ -23,4 +24,9 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
 
     $router->resource('permission', 'PermissionController', ['except' => 'show']);
     Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
+
+    // excel
+    Route::get('/excel-form', [ExcelController::class, 'excelForm'])->name('permission.excel-form');
+    Route::post('/permission-excel-import', [ExcelController::class, 'permissionExcelImport'])->name('permission.excel.import');
+    Route::get('/permission-excel-export', [ExcelController::class, 'permissionExcelExport'])->name('permission.excel.export');
 });

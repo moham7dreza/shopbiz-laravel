@@ -27,10 +27,15 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_CREATE)
-                            <a href="{{ route($Router::create->value) }}" class="btn btn-info btn-sm">ایجاد دسترسی جدید</a>
+                            <a href="{{ route($Router::create->value) }}" class="btn btn-info btn-sm">ایجاد دسترسی
+                                جدید</a>
                         @endcan
                         <x-panel-a-tag route="{{ route($Router::index->value) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
+                        @can($PERMISSION::PERMISSION_EXCEL_FORM)
+                            <x-panel-a-tag route="{{ route('permission.excel-form') }}" title="علیات اکسلی"
+                                           color="outline-primary" icon="file-excel"/>
+                        @endcan
                     </section>
 
                     <div class="max-width-16-rem">
@@ -49,6 +54,9 @@
                             <th>نام نقش ها</th>
                             <th>توضیحات دسترسی</th>
                             <th>
+                                <x-panel-sort-btn :route="$Router::index->value" title="تاریخ ایجاد" property="created_at"/>
+                            </th>
+                            <th>
                                 <x-panel-sort-btn :route="$Router::index->value" title="وضعیت" property="status"/>
                             </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
@@ -66,6 +74,7 @@
                                     @endcan
                                 </td>
                                 <td>{{ $permission->getLimitedDescription() }}</td>
+                                <td>{{ $permission->getFaCreatedDate(true) }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_STATUS)
                                         <x-panel-checkbox class="rounded" :route="$Router::status->value"
@@ -79,8 +88,9 @@
                                                        title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_DELETE)
-                                        <x-panel-delete-form route="{{ route($Router::destroy->value, $permission->id) }}"
-                                                             title="حذف آیتم"/>
+                                        <x-panel-delete-form
+                                            route="{{ route($Router::destroy->value, $permission->id) }}"
+                                            title="حذف آیتم"/>
                                     @endcan
                                 </td>
                             </tr>

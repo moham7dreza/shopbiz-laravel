@@ -11,18 +11,23 @@ class Button extends Component
 {
     public string $title;
     public ?string $class;
+    public ?string $dadClass;
     public string $type;
     public string $col;
     public string $color;
     public string $loc;
     public string $align;
+    public string $group;
+    public string $icon;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($col, $class = null, $title = 'Submit', $type = 'submit', $color = 'outline-primary', $loc = 'panel', $align = 'start')
+    public function __construct($col, $class = null, $title = 'Submit', $type = 'submit',
+                                $color = 'outline-primary', $loc = 'panel', $align = 'start', $dadClass = null,
+                                $group = 'fab', $icon = 'telegram-plane')
     {
         $this->title = $title;
         $this->class = $class;
@@ -31,6 +36,9 @@ class Button extends Component
         $this->color = $color;
         $this->loc = $loc;
         $this->align = $align;
+        $this->dadClass = $dadClass;
+        $this->icon = $icon;
+        $this->group = $group;
     }
 
     /**
