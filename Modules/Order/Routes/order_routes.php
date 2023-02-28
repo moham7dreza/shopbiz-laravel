@@ -30,4 +30,5 @@ Route::group(['prefix' => 'panel/', 'middleware' => 'auth'], static function ($r
 });
 Route::group(['prefix' => '', 'middleware' => 'auth'], static function () {
     Route::get('order-received/{order}', [\Modules\Order\Http\Controllers\Home\OrderController::class, 'index'])->name('order.received');
+    Route::get('order-received/pdf/{order}', [\Modules\Order\Http\Controllers\Home\OrderController::class, 'pdf'])->name('order.received.pdf');
 });

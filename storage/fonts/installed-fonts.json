@@ -1,0 +1,12 @@
+{
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_ace2fdc9fc3037743f209d8ad79e704a"
+    },
+    "font awesome 5 free": {
+        "normal": "C:\\CODEX\\shopbiz-laravel-app\\storage\\fonts\/font_awesome_5_free_normal_4ea94e041fbe5a9b02b41d7fe8652e3c",
+        "900": "font_awesome_5_free_900_79128092ed5927d41feb060f73c9fb09"
+    },
+    "iransans": {
+        "normal": "iransans_normal_743c905d9ee994665afbac8105b8da77"
+    }
+}

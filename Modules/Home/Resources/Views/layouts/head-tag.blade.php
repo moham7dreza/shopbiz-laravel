@@ -4,7 +4,8 @@
 <!-- Favicon-->
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset($setting->icon) }}">
 <!-- meta character set -->
-<meta charset="UTF-8">
+{{--<meta charset="UTF-8">--}}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
