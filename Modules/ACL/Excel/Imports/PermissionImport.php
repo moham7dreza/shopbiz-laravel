@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ACL\Excel\Exports;
+namespace Modules\ACL\Excel\Imports;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;

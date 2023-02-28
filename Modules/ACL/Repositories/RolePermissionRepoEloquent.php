@@ -11,6 +11,14 @@ use Modules\ACL\Entities\Role;
 class RolePermissionRepoEloquent implements RolePermissionRepoEloquentInterface
 {
     /**
+     * @return Builder
+     */
+    public function getPermissionsForExcel(): Builder
+    {
+        return Permission::query()->select(['name', 'description', 'created_at']);
+    }
+
+    /**
      * @param $property
      * @param $dir
      * @param string $model

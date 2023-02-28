@@ -314,8 +314,9 @@ trait SystemPermissionsTrait
     public const PERMISSION_ROLE_DELETE = 'permission role delete';
     public const PERMISSION_ROLE_STATUS = 'permission role status';
     public const PERMISSION_ROLE_PERMISSIONS = 'permission role permissions';
-//    public const PERMISSION_PERMISSIONS_IMPORT = 'permission permissions import';
-//    public const PERMISSION_PERMISSIONS_EXPORT = 'permission permissions export';
+    public const PERMISSION_ROLE_EXCEL_FORM = 'permission role excel form';
+    public const PERMISSION_ROLE_EXCEL_IMPORT = 'permission role excel import';
+    public const PERMISSION_ROLE_EXCEL_EXPORT = 'permission role excel export';
 
     // 4  Permissions
     public const PERMISSIONS = 'permissions';
@@ -670,8 +671,9 @@ trait SystemPermissionsTrait
         , self::PERMISSION_ROLE_DELETE
         , self::PERMISSION_ROLE_STATUS
         , self::PERMISSION_ROLE_PERMISSIONS
-//        , self::PERMISSION_PERMISSIONS_IMPORT
-//        , self::PERMISSION_PERMISSIONS_EXPORT
+        , self::PERMISSION_ROLE_EXCEL_FORM
+        , self::PERMISSION_ROLE_EXCEL_IMPORT
+        , self::PERMISSION_ROLE_EXCEL_EXPORT
         , self::PERMISSIONS
         , self::PERMISSION_CREATE
         , self::PERMISSION_EDIT

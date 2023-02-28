@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Modules\ACL\Repositories\RolePermissionRepoEloquent;
 
-class PermissionExport implements FromCollection
+class RoleExport implements FromCollection
 {
     /**
      * @return Collection
@@ -14,6 +14,6 @@ class PermissionExport implements FromCollection
     public function collection(): Collection
     {
         $repo = new RolePermissionRepoEloquent();
-        return $repo->getPermissionsForExcel()->get();
+        return $repo->index()->get()->except(['guard']);
     }
 }

@@ -31,6 +31,10 @@
                         @endcan
                         <x-panel-a-tag route="{{ route($ROLE::ROUTE_INDEX) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
+                        @can($PERMISSION::PERMISSION_ROLE_EXCEL_FORM)
+                            <x-panel-a-tag route="{{ route('role.excel-form') }}" title="علیات اکسلی"
+                                           color="outline-primary" icon="file-excel"/>
+                        @endcan
                     </section>
 
                     <div class="max-width-16-rem">
@@ -48,7 +52,8 @@
                             </th>
                             <th>دسترسی ها</th>
                             <th>
-                                <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="تاریخ ایجاد" property="created_at"/>
+                                <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="تاریخ ایجاد"
+                                                  property="created_at"/>
                             </th>
                             <th>
                                 <x-panel-sort-btn :route="$ROLE::ROUTE_INDEX" title="وضعیت" property="status"/>
@@ -70,7 +75,8 @@
                                 <td>{{ $role->getFaCreatedDate(true) }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_ROLE_STATUS)
-                                        <x-panel-checkbox class="rounded" :route="$ROLE::ROUTE_STATUS" method="changeStatus"
+                                        <x-panel-checkbox class="rounded" :route="$ROLE::ROUTE_STATUS"
+                                                          method="changeStatus"
                                                           name="نقش" :model="$role" property="status"/>
                                     @endcan
                                 </td>
@@ -81,7 +87,8 @@
                                                        color="outline-success"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ROLE_EDIT)
-                                        <x-panel-a-tag route="{{ route($ROLE::ROUTE_EDIT, $role->id) }}" title="ویرایش آیتم"
+                                        <x-panel-a-tag route="{{ route($ROLE::ROUTE_EDIT, $role->id) }}"
+                                                       title="ویرایش آیتم"
                                                        icon="edit" color="outline-info"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ROLE_DELETE)

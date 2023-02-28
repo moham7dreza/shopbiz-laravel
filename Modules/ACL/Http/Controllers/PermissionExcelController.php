@@ -8,14 +8,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\ACL\Excel\Exports\PermissionExport;
-use Modules\ACL\Excel\Exports\PermissionImport;
+use Modules\ACL\Excel\Imports\PermissionImport;
 use Modules\ACL\Http\Requests\ExcelFileRequest;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class ExcelController extends Controller
+class PermissionExcelController extends Controller
 {
     use ShowMessageWithRedirectTrait;
 

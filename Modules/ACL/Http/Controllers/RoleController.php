@@ -43,12 +43,12 @@ class RoleController extends Controller
         $this->repo = $rolePermissionRepo;
         $this->service = $rolePermissionService;
 
-        $this->middleware('can:'. Permission::PERMISSION_ROLES)->only(['index']);
-        $this->middleware('can:'. Permission::PERMISSION_ROLE_CREATE)->only(['create', 'store']);
-        $this->middleware('can:'. Permission::PERMISSION_ROLE_EDIT)->only(['edit', 'update']);
-        $this->middleware('can:'. Permission::PERMISSION_ROLE_DELETE)->only(['destroy']);
-        $this->middleware('can:'. Permission::PERMISSION_ROLE_STATUS)->only(['status']);
-        $this->middleware('can:'. Permission::PERMISSION_ROLE_PERMISSIONS)->only(['permissionForm', 'permissionUpdate']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLES)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLE_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLE_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLE_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLE_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_ROLE_PERMISSIONS)->only(['permissionForm', 'permissionUpdate']);
 //        $this->middleware('can:permission user permissions import'. Permission::PERMISSION_)->only(['permissionImport']);
 //        $this->middleware('can:permission user permissions export'. Permission::PERMISSION_)->only(['permissionExport']);
 
@@ -72,8 +72,9 @@ class RoleController extends Controller
             $roles = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
             if (count($roles) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
+            } else {
+                $this->showToastOfNotDataExists();
             }
-            else { $this->showToastOfNotDataExists(); }
         } else {
             $roles = $this->repo->index()->paginate(10);
         }
