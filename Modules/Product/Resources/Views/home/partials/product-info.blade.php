@@ -2,13 +2,24 @@
     <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
         <!-- start content header -->
         <section class="content-header mb-3">
-            <section class="d-flex justify-content-between align-items-center">
-                <h2 class="content-header-title content-header-title-small">
-                    {{ $product->name }}
-                </h2>
-                <section class="content-header-link">
-                    <!--<a href="#">مشاهده همه</a>-->
+            <section class="d-flex flex-column">
+                <section class="d-flex justify-content-between align-items-center">
+                    <h2 class="content-header-title content-header-title-small">
+                        {{ $product->name }}
+                    </h2>
+                    <section class="content-header-link">
+                        <!--<a href="#">مشاهده همه</a>-->
+                    </section>
                 </section>
+                @if(isset($product->code_kala))
+                    <section class="d-flex justify-content-end code-kala">
+                        <!-- product code -->
+                        <span class="font-size-80 p-1" data-bs-toggle="tooltip"
+                               data-bs-placement="top"
+                               title="کد کالا">{{ $product->code_kala }}</span>
+                        <!-- end product code -->
+                    </section>
+                @endif
             </section>
         </section>
         <section class="product-info">

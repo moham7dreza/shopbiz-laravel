@@ -566,6 +566,8 @@ body {
 
 .content-header-title-small {
     font-size: 0.8rem;
+    line-height: 1.5rem;
+    text-align: justify;
 }
 
 .content-header-title span {
@@ -1452,4 +1454,14 @@ button:hover.text-greenyellow {
 .user-notif-area span {
     font-size: 0.5rem;
     padding-top: 0.4rem;
+}
+
+.code-kala span {
+    font-size: 0.7rem;
+    color: gray;
+}
+.code-kala span:hover {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: black;
 }

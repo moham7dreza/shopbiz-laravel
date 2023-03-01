@@ -78,7 +78,7 @@ class Product extends Model implements Viewable
     protected $fillable = [
         'name', 'introduction', 'slug', 'image', 'status', 'weight', 'length', 'width',
         'height', 'price', 'marketable', 'sold_number', 'frozen_number', 'marketable_number', 'brand_id',
-        'category_id', 'published_at'
+        'category_id', 'published_at', 'code_kala'
     ];
 
     // ********************************************* scope

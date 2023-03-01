@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Modules\Auth\Http\Controllers\GoogleController;
 use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\LoginRegisterController;
 use Modules\Auth\Http\Controllers\RegisterController;
@@ -33,6 +34,10 @@ Route::group([], static function ($router) {
         Route::post('reset-password', [ResetController::class, 'resetPassword'])->name('auth.reset-password');
         Route::get('verify-password', [ResetController::class, 'verifyPasswordForm'])->name('auth.verify-password-form');
         Route::post('verify-password', [ResetController::class, 'verifyPassword'])->name('auth.verify-password');
+
+        // Socialite
+        Route::get('google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+        Route::get('google/callback', [GoogleController::class, 'callback'])->name('google.callback');
     });
     // Email Verify
     Route::get('email/verify', [VerifyController::class, 'index'])->name('auth.verify.email')->middleware('auth');

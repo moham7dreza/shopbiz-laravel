@@ -67,6 +67,9 @@
                         ساخت حساب کاربری
                     </a>
                 </section>
+                <section class="mt-3 text-center">
+                    <a class="btn btn-outline-success btn-sm p-2 rounded-3" href="{{ route('google.redirect') }}">ورود با حساب گوگل</a>
+                </section>
                 <section class="mt-3 text-center go-home">
                     <a href="{{ route('customer.home') }}">برگشت
                         به فروشگاه</a>
