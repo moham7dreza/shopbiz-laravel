@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         SendEmailToUserEvent::class => [
             SendEmailToUserListener::class,
-            SendSmsToUserListener::class,
+//            SendSmsToUserListener::class,
         ],
     ];
 }

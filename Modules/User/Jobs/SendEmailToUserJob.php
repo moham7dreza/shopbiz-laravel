@@ -4,6 +4,7 @@ namespace Modules\User\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -15,15 +16,17 @@ class SendEmailToUserJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public string $email;
+    public ?Model $model;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email, $model = null)
     {
         $this->email = $email;
+        $this->model = $model;
     }
 
     /**
@@ -31,9 +34,9 @@ class SendEmailToUserJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
-        $email = new SendEmailToUserMail();
+        $email = new SendEmailToUserMail($this->model);
         Mail::to($this->email)->send($email);
     }
 }

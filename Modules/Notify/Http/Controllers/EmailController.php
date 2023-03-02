@@ -16,6 +16,7 @@ use Modules\Notify\Services\Email\EmailService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\User\Events\SendEmailToUserEvent;
 
 class EmailController extends Controller
 {
@@ -43,11 +44,11 @@ class EmailController extends Controller
         $this->repo = $emailRepoEloquent;
         $this->service = $emailService;
 
-        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFYS)->only(['index']);
-        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_CREATE)->only(['create', 'store']);
-        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_EDIT)->only(['edit', 'update']);
-        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_DELETE)->only(['destroy']);
-        $this->middleware('can:'. Permission::PERMISSION_EMAIL_NOTIFY_STATUS)->only(['status']);
+        $this->middleware('can:' . Permission::PERMISSION_EMAIL_NOTIFYS)->only(['index']);
+        $this->middleware('can:' . Permission::PERMISSION_EMAIL_NOTIFY_CREATE)->only(['create', 'store']);
+        $this->middleware('can:' . Permission::PERMISSION_EMAIL_NOTIFY_EDIT)->only(['edit', 'update']);
+        $this->middleware('can:' . Permission::PERMISSION_EMAIL_NOTIFY_DELETE)->only(['destroy']);
+        $this->middleware('can:' . Permission::PERMISSION_EMAIL_NOTIFY_STATUS)->only(['status']);
     }
 
     /**
@@ -68,8 +69,9 @@ class EmailController extends Controller
             $emails = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
             if (count($emails) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
+            } else {
+                $this->showToastOfNotDataExists();
             }
-            else { $this->showToastOfNotDataExists(); }
         } else {
             $emails = $this->repo->index()->paginate(10);
         }
@@ -97,7 +99,9 @@ class EmailController extends Controller
      */
     public function store(EmailRequest $request): RedirectResponse
     {
-        $this->service->store($request);
+        $email = $this->service->store($request);
+
+        event(new SendEmailToUserEvent(model: $email));
         return $this->showMessageWithRedirectRoute('ایمیل شما با موفقیت ثبت شد');
     }
 
