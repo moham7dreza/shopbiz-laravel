@@ -4,9 +4,11 @@
 
     <section class="vh-100 d-flex justify-content-center align-items-center pb-5">
 
-        <section class="d-flex flex-column mb-5">
-
+        <section class="d-flex flex-column">
             <section class="login-wrapper">
+                @if (session()->has('message'))
+                    <div class="alert alert-info text-center"><i class="fa fa-times mx-1"></i>{{ session()->get('message') }}</div>
+                @endif
                 <section class="login-title text-center">تایید ایمیل</section>
                 <section class="login-logo">
                     <img src="{{ asset('customer-assets/images/mail_confirm.png') }}" alt="">

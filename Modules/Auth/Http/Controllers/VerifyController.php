@@ -40,6 +40,7 @@ class VerifyController extends Controller
     public function resend(Request $request): RedirectResponse
     {
         $request->user()->sendEmailVerificationNotification();
-        return $this->showAlertWithRedirect('لینک تایید به ایمیل شما ارسال شد.');
+        return $this->showAlertWithRedirect('لینک تایید به ایمیل شما ارسال شد.')
+            ->with(['message' => 'اگر ایمیل خود را تایید کرده اید میتوانید این صفحه را ببندید.']);
     }
 }

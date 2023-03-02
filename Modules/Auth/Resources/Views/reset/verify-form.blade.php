@@ -6,7 +6,7 @@
 
         <section class="d-flex flex-column mb-5">
 
-            <form action="{{ route('auth.reset-password') }}" method="post">
+            <form action="{{ route('password.update') }}" method="post">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
                 <section class="login-wrapper">

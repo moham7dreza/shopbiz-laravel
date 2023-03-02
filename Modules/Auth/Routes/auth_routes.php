@@ -30,10 +30,15 @@ Route::group([], static function ($router) {
         Route::middleware('throttle:customer-login-register-limiter')
             ->post('/register', [RegisterController::class, 'register'])->name('auth.register');
         // reset password
+
+        // reset password view
         Route::get('reset-password', [ResetController::class, 'resetPasswordForm'])->name('auth.reset-password-form');
+        // send email for user
         Route::post('reset-password', [ResetController::class, 'resetPassword'])->name('auth.reset-password');
-        Route::get('verify-password', [ResetController::class, 'verifyPasswordForm'])->name('auth.verify-password-form');
-        Route::post('verify-password', [ResetController::class, 'verifyPassword'])->name('auth.verify-password');
+        // user clicked for button in email and redirect to this page
+        Route::get('verify-password', [ResetController::class, 'verifyPasswordForm'])->name('password.reset');
+        // user submitted new password
+        Route::post('verify-password', [ResetController::class, 'verifyPassword'])->name('password.update');
 
         // Socialite
         Route::get('google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');

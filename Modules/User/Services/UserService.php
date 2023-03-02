@@ -5,7 +5,6 @@ namespace Modules\User\Services;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Modules\Share\Services\Image\ImageService;
 use Modules\Share\Services\ShareService;
@@ -63,11 +62,11 @@ class UserService
         return $this->query()->create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'mobile' => ShareService::extractMobileNumber($request->mobile),
+            'mobile' => !is_null($request->mobile) ? ShareService::extractMobileNumber($request->mobile) : null,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'profile_photo_path' => $request->profile_photo_path,
-            'activation' => $request->activation,
+            'activation' => $request->activation ?? User::NOT_ACTIVE,
             'activation_date' => $request->activation == User::ACTIVATE ? now() : null,
             'user_type' => $userType,
         ]);

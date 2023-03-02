@@ -56,21 +56,21 @@ class ResetController extends Controller
      * @param ResetRequest $request
      * @return RedirectResponse
      */
-    #[NoReturn] public function verifyPassword(ResetRequest $request): RedirectResponse
+    public function verifyPassword(ResetRequest $request): RedirectResponse
     {
         $reset = Password::reset(
             $request->only('token', 'email', 'password', 'password_confirmation'),
-            static function ($user, $password) {
+            static function ($user, $password) use ($request) {
                 $user->forceFill(['password' => bcrypt($password)])->setRememberToken(Str::random(60));
 
                 $user->save();
 
-                event(new ResetPassword($user));
+                event(new ResetPassword($request->token));
             }
         );
 
         return $reset === Password::PASSWORD_RESET ?
-            $this->showAlertWithRedirect('رمز عبور شما با موفقیت تغییر کرد.', route: 'auth.login') :
+            $this->showAlertWithRedirect('رمز عبور شما با موفقیت تغییر کرد.', route: 'auth.login-form') :
             $this->showAlertWithRedirect(message:'مشکلی در سیستم به وجود امده لطفا دوباره تلاش کنید', title: 'خطا', type: 'error');
     }
 }

@@ -1051,6 +1051,10 @@ body {
     text-align: center;
 }
 
+.text_align_justify {
+    text-align: justify;
+}
+
 .rtl {
     direction: rtl;
 }
