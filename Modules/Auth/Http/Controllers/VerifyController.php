@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -42,5 +43,14 @@ class VerifyController extends Controller
         $request->user()->sendEmailVerificationNotification();
         return $this->showAlertWithRedirect('لینک تایید به ایمیل شما ارسال شد.')
             ->with(['message' => 'اگر ایمیل خود را تایید کرده اید میتوانید این صفحه را ببندید.']);
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function shouldVerify(): RedirectResponse
+    {
+        event(new Registered(auth()->user()));
+        return $this->showAlertWithRedirect('برای ادامه مراحل ایمیل خود را تایید کنید.', route: 'auth.verify.email');
     }
 }

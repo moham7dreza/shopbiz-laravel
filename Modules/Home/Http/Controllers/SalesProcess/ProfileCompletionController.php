@@ -3,6 +3,7 @@
 namespace Modules\Home\Http\Controllers\SalesProcess;
 
 use Artesaos\SEOTools\Facades\SEOTools;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -48,6 +49,9 @@ class ProfileCompletionController extends Controller
         $result = $this->userService->profileCompletion($request);
         if ($result === 'mobile invalid') {
             return $this->showAlertWithRedirect(message: 'فرمت شماره موبایل معتبر نیست', title: 'خطا', type: 'error');
+        }
+        if (is_null(auth()->user()->email_verified_at)) {
+            return to_route('auth.verify.email.should');
         }
         return $this->showToastWithRedirect(title: 'اطلاعات شما تکمیل و ثبت شد.', route: 'customer.sales-process.address-and-delivery');
 //        return to_route('customer.sales-process.address-and-delivery');

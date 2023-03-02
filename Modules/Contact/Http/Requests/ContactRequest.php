@@ -24,7 +24,7 @@ class ContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => 'nullable|max:120|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+            'answer' => 'nullable|max:1100|min:1|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
         ];
     }
 }

@@ -13,15 +13,19 @@ class SendEmailToUserMail extends Mailable
     use Queueable, SerializesModels;
 
     public ?Model $model;
+    public ?string $mailSubject;
+    public ?string $mailMessage;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($model = null)
+    public function __construct($model = null, $mailSubject = null, $mailMessage = null)
     {
         $this->model = $model;
+        $this->mailSubject = $mailSubject;
+        $this->mailMessage = $mailMessage;
     }
 
     /**

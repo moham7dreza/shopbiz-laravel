@@ -50,11 +50,22 @@
                                 <section
                                     class="field-value overflow-auto">{{ auth()->user()->getFaMobileNumber() ?? '-' }}</section>
                             </section>
-
-                            <section class="col-6 border-bottom my-2 py-2">
-                                <section class="field-title">ایمیل</section>
-                                <section class="field-value overflow-auto">{{ auth()->user()->email ?? '-' }}</section>
+                            <section class="d-flex justify-content-between col-6 border-bottom my-2 py-2">
+                                <section class="">
+                                    <section class="field-title">ایمیل</section>
+                                    <section
+                                        class="field-value overflow-auto">{{ auth()->user()->email ?? '-' }}</section>
+                                </section>
+                                @if(is_null(auth()->user()->email_verified_at))
+                                    <section>
+                                        <a href="{{ route('auth.verify.email.should') }}"
+                                           class="btn btn-outline-success btn-sm"
+                                           title="برای انجام خرید و پرداخت باید ایمیل خود را تایید کنید"
+                                           data-bs-toggle="tooltip" data-bs-placement="top">تایید ایمیل</a>
+                                    </section>
+                                @endif
                             </section>
+
 
                             <section class="col-6 my-2 py-2">
                                 <section class="field-title">کد ملی</section>
@@ -64,7 +75,8 @@
                             </section>
                         </section>
 
-                        <section class="modal fade high-z-index" id="edit-profile" tabindex="-1" aria-labelledby="edit-profile-label"
+                        <section class="modal fade high-z-index" id="edit-profile" tabindex="-1"
+                                 aria-labelledby="edit-profile-label"
                                  aria-hidden="true">
                             <section class="modal-dialog">
                                 <section class="modal-content">

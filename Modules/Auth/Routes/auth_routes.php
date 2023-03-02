@@ -48,7 +48,7 @@ Route::group([], static function ($router) {
     Route::get('email/verify', [VerifyController::class, 'index'])->name('auth.verify.email')->middleware('auth');
     Route::get('email/verify/{id}/{hash}', [VerifyController::class, 'verify'])->name('verification.verify')->middleware(['auth', 'signed']);
     Route::post('email/verify/resend', [VerifyController::class, 'resend'])->name('verify.resend')->middleware(['auth', 'throttle:5,1']);
-
+    Route::get('email/verify/should', [VerifyController::class, 'shouldVerify'])->name('auth.verify.email.should')->middleware(['auth', 'throttle:5,1']);
     //
     Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.login-register-form');
     Route::middleware('throttle:customer-login-register-limiter')->post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.login-register');

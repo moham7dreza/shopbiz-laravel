@@ -3,6 +3,7 @@
 namespace Modules\Home\Http\Middlewares;
 
 use Closure;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,6 +21,8 @@ class ProfileCompletion
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
+
+        // should verify email
         if (!empty($user->email) && empty($user->mobile) && empty($user->email_verified_at)) {
             return to_route('customer.sales-process.profile-completion');
         }
@@ -28,6 +31,11 @@ class ProfileCompletion
             return to_route('customer.sales-process.profile-completion');
         }
 
+        if (empty($user->email_verified_at)) {
+            return to_route('auth.verify.email.should');
+        }
+
+        // should verify mobile
         if (!empty($user->mobile) && empty($user->email) && empty($user->mobile_verified_at)) {
             return to_route('customer.sales-process.profile-completion');
         }

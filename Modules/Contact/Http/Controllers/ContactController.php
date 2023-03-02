@@ -7,6 +7,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Modules\ACL\Entities\Permission;
 use Modules\Contact\Entities\Contact;
 use Modules\Contact\Http\Requests\ContactRequest;
@@ -15,6 +17,7 @@ use Modules\Contact\Services\ContactService;
 use Modules\Share\Http\Controllers\Controller;
 use Modules\Share\Services\ShareService;
 use Modules\Share\Traits\ShowMessageWithRedirectTrait;
+use Modules\User\Mail\SendEmailToUserMail;
 
 class ContactController extends Controller
 {
@@ -63,8 +66,9 @@ class ContactController extends Controller
             $contacts = $this->repo->sort(request()->sort, request()->dir)->paginate(10);
             if (count($contacts) > 0) {
                 $this->showToastOfSelectedDirection(request()->dir);
+            } else {
+                $this->showToastOfNotDataExists();
             }
-            else { $this->showToastOfNotDataExists(); }
         } else {
             $contacts = $this->repo->getLatestContacts()->paginate(10);
         }
@@ -156,6 +160,9 @@ class ContactController extends Controller
     {
         $result = $this->service->approveContact($contact);
         if ($result) {
+            if ($contact->isContactApproved()) {
+                Mail::to($contact->email)->send(new SendEmailToUserMail(mailSubject: 'فرم تماس با ما', mailMessage: 'فرم شما تایید شد. به محض بررسی پاسخ به شما ارسال خواد شد.'));
+            }
             return $this->showMessageWithRedirectRoute('وضعیت فرم با موفقیت تغییر کرد');
         } else {
             return $this->showMessageWithRedirectRoute('تایید فرم با خطا مواجه شد', 'خطا', status: 'error');
@@ -169,7 +176,8 @@ class ContactController extends Controller
      */
     public function answer(ContactRequest $request, Contact $contact): RedirectResponse
     {
-        dd(1);
-        // TODO
+        Mail::to($contact->email)->send(new SendEmailToUserMail(mailSubject: 'پاسخ به فرم : ' . strip_tags(Str::limit($contact->message)),
+            mailMessage: $request->answer));
+        return $this->showMessageWithRedirectRoute('پاسخ شما به کاربر ارسال شد.');
     }
 }
