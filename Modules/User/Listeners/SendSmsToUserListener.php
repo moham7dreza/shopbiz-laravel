@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlk\User\Listeners;
+namespace Modules\User\Listeners;
 
 use Illuminate\Support\Facades\Log;
 

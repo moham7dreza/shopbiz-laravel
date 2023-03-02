@@ -8,7 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Mlk\User\Mail\SendEmailToUserMail;
+use Modules\User\Mail\SendEmailToUserMail;
 
 class SendEmailToUserJob implements ShouldQueue
 {

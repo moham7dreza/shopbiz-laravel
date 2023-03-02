@@ -66,6 +66,8 @@ class UserServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
+
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**

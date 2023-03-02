@@ -3,7 +3,7 @@
 namespace Modules\User\Listeners;
 
 use Illuminate\Support\Facades\Mail;
-use Mlk\User\Mail\SendEmailToUserMail;
+use Modules\User\Mail\SendEmailToUserMail;
 
 class SendEmailToUserListener
 {
