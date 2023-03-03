@@ -35,4 +35,12 @@ class BannerRequest extends FormRequest
         }
         return $rules;
     }
+
+    public function uploadImage()
+    {
+        $image = $this->file('image');
+        if(in_array($image->extension(), ['jpeg', 'jpg', 'png', 'gif'])) {
+            dd(1);
+        }
+    }
 }

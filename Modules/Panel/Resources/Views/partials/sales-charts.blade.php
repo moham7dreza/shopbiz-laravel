@@ -1,7 +1,7 @@
 <!-- sales Charts -->
 <section class="row">
     <section class="col-12">
-        <section class="main-body-container d-flex justify-content-center align-items-center">
+        <section class="main-body-container d-flex flex-row-reverse justify-content-center align-items-center">
             <section class="col-12 col-md-6">
                 <figure class="highcharts-figure">
                     <div id="monthly-sales-chart"></div>

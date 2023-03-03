@@ -50,6 +50,11 @@ class BannerService
         ]);
     }
 
+    public function onluUploadImage($request)
+    {
+
+    }
+
     /**
      * Update role with sync permissions.
      *

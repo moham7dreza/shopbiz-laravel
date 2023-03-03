@@ -73,9 +73,9 @@ class ImageToolsService
     }
 
     /**
-     * @return false|null
+     * @return bool
      */
-    public function setCurrentImageName(): ?false
+    public function setCurrentImageName(): bool
     {
         return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
         // $_FILES['image']['name']
