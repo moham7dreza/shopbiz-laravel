@@ -22,9 +22,9 @@
                             <section class="lazyload-wrapper">
                                 <section class="lazyload light-owl-nav owl-carousel owl-theme">
                                     @foreach ($products as $product)
-                                        <section class="item">
+                                        <section class="item full-width-el">
                                             <section class="lazyload-item-wrapper">
-                                                <section class="product">
+                                                <section class="product full-width-el">
 
                                                     <!-- product add to cart button -->
                                                     <section class="product-add-to-cart">

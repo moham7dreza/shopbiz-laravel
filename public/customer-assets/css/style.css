@@ -1125,6 +1125,7 @@ body {
 }
 
 @media (max-width: 767px) {
+
     .padding_layout_1 {
         padding-top: 75px;
         padding-bottom: 60px;
@@ -1465,6 +1466,7 @@ button:hover.text-greenyellow {
     font-size: 0.7rem;
     color: gray;
 }
+
 .code-kala span:hover {
     font-size: 0.8rem;
     font-weight: bold;
