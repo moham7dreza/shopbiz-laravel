@@ -69,4 +69,7 @@ return [
             'setting' => [],
         ],
     ],
+    'routes' => [
+        'index' => 'panel.home'
+    ],
 ];

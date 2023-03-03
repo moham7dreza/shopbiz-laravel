@@ -34,6 +34,13 @@ class DeliveryServiceProvider extends ServiceProvider
     public string $viewPath = '/../Resources/Views/';
 
     /**
+     * Get config path.
+     *
+     * @var string
+     */
+    public string $configPath = '/../Config/routes.php';
+
+    /**
      * Get name.
      *
      * @var string
@@ -66,6 +73,7 @@ class DeliveryServiceProvider extends ServiceProvider
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
         $this->bindRepository();
+        $this->loadConfigFiles();
     }
 
     /**
@@ -78,6 +86,16 @@ class DeliveryServiceProvider extends ServiceProvider
         $this->app->booted(function () {
             $this->setMenuForPanel();
         });
+    }
+
+    /**
+     * Load delivery config files.
+     *
+     * @return void
+     */
+    private function loadConfigFiles(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . $this->configPath, 'DeliveryConfig');
     }
 
     /**

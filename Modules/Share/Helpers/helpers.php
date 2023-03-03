@@ -193,6 +193,19 @@ if (!function_exists('startWith')) {
     }
 }
 
+if (!function_exists('router')) {
+    /**
+     * Check start with character.
+     *
+     * @param string $key
+     * @return string
+     */
+    function router(string $key): string
+    {
+        return route(config($key));
+    }
+}
+
 /**
  * @param $permission
  * @return mixed
