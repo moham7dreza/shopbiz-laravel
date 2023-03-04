@@ -55,7 +55,7 @@ class PostCommentController extends Controller
      */
     public function index(): Factory|View|Application|RedirectResponse
     {
-        $unSeenComments = $this->repo->getUnseenPostComments();
+        $unSeenComments = $this->repo->getUnseenPostComments()->get();
         $this->service->makeSeenComments($unSeenComments);
         if (isset(request()->search)) {
             $postComments = $this->repo->search(request()->search, 'post')->paginate(10);

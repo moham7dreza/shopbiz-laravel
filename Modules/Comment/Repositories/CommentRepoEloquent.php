@@ -65,21 +65,20 @@ class CommentRepoEloquent implements CommentRepoEloquentInterface
     }
 
     /**
-     * panel
-     * @return Collection|Builder[]
+     * @return mixed
      */
-    public function getUnseenPostComments(): array|Collection
+    public function getUnseenPostComments(): mixed
     {
-        return $this->query()->seen(Comment::UNSEEN)->postType()->get();
+        return $this->query()->seen(Comment::UNSEEN)->postType()->latest();
     }
 
+
     /**
-     * panel
-     * @return Builder[]|Collection
+     * @return mixed
      */
-    public function getUnseenProductComments(): array|Collection
+    public function getUnseenProductComments(): mixed
     {
-        return $this->query()->seen(Comment::UNSEEN)->productType()->get();
+        return $this->query()->seen(Comment::UNSEEN)->productType()->latest();
     }
 
     /**

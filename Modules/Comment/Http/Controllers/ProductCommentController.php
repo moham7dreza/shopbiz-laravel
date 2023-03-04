@@ -55,7 +55,7 @@ class ProductCommentController extends Controller
      */
     public function index(): Factory|View|Application|RedirectResponse
     {
-        $unSeenComments = $this->repo->getUnseenProductComments();
+        $unSeenComments = $this->repo->getUnseenProductComments()->get();
         $this->service->makeSeenComments($unSeenComments);
         if (isset(request()->search)) {
             $productComments = $this->repo->search(request()->search)->paginate(10);
