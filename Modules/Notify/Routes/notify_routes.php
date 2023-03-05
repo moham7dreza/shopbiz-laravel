@@ -5,6 +5,7 @@ use Modules\Notify\Http\Controllers\EmailController;
 use Modules\Notify\Http\Controllers\EmailFileController;
 use Modules\Notify\Http\Controllers\NotificationController;
 use Modules\Notify\Http\Controllers\SMSController;
+use Modules\Notify\Http\Controllers\TelegramBotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,15 @@ Route::group(['prefix' => 'panel/notify', 'middleware' => 'auth'], static functi
     Route::post('/notification/read-all', [NotificationController::class, 'readAll'])->name('notification.readAll');
 
     Route::get('user/notifications', [NotificationController::class, 'userNotifs'])->name('user.notifications');
+
+    /*******************************************************************************************************************
+     *  telegram bot
+     *
+     * */
+    Route::prefix('telegram-bot')->group(function () {
+        Route::prefix('send')->group(function () {
+            Route::get('/', [TelegramBotController::class, 'message'])->name('telegram.bot.message');
+            Route::post('/message', [TelegramBotController::class, 'sendMessage'])->name('telegram.bot.send.message');
+        });
+    });
 });

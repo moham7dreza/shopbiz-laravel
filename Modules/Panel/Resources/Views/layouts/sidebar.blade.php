@@ -53,6 +53,12 @@
                             <span>قرار ملاقات</span>
                         </a>
                     @endcan
+                    @can($PERMISSION::PERMISSION_TELEGRAM_BOT)
+                        <a href="{{ route('telegram.bot.message') }}" class="sidebar-link">
+                            <i class="fab fa-telegram-plane"></i>
+                            <span>ربات تلگرام</span>
+                        </a>
+                    @endcan
                 @endcan
                 @can($PERMISSION::PERMISSION_USERS)
                     <section class="sidebar-part-title">بخش کاربران</section>
@@ -213,7 +219,7 @@
                     @endcan
                     @can($PERMISSION::PERMISSION_POST_COMMENTS)
                         <a href="{{ route('postComment.index') }}" class="sidebar-link">
-                            <i class="fab fa-telegram-plane"></i>
+                            <i class="fa fa-comments"></i>
                             <span>نظرات</span>
                         </a>
                     @endcan

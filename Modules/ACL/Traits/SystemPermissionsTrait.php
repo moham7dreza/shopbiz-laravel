@@ -408,6 +408,9 @@ trait SystemPermissionsTrait
     public const PERMISSION_APPOINTMENT_STATUS = 'permission appointment status';
     public const PERMISSION_APPOINTMENT_APPROVED = 'permission appointment approved';
 
+    // 5 telegram bot
+    public const PERMISSION_TELEGRAM_BOT = 'permission telegram bot';
+
     // SETTING Section Permissions
     //******************************************************************************************************************
     public const PERMISSION_SETTING = 'permission setting';
@@ -732,6 +735,7 @@ trait SystemPermissionsTrait
         , self::PERMISSION_APPOINTMENT_STATUS
         , self::PERMISSION_APPOINTMENT_SHOW
         , self::PERMISSION_APPOINTMENT_APPROVED
+        , self::PERMISSION_TELEGRAM_BOT
         , self::PERMISSION_SETTING
         , self::PERMISSION_SETTING_EDIT
         , self::PERMISSION_PANEL_COUNTER_CARDS

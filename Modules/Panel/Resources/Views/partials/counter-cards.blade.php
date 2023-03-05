@@ -5,7 +5,7 @@
     <x-panel-card class="bg-custom-green" route="{{ route('post.index') }}" title="تعداد پست هایی که در صف انتشار هستند."
                   :counter="$panelRepo->notPublishedPostsCount()" group="fab" icon="instagram"/>
     <x-panel-card class="bg-custom-pink" route="{{ route('productComment.index') }}" title="تعداد نظرات دیده نشده که برای کالاها ارسال شده اند."
-                  :counter="$panelRepo->unseenProductCommentsCount()" group="fab" icon="telegram-plane"/>
+                  :counter="$panelRepo->unseenProductCommentsCount()" icon="comments"/>
     <x-panel-card class="bg-info" route="{{ route('order.newOrders') }}" title="تعداد سفارشات جدید"
                   :counter="$panelRepo->newOrdersCount()" icon="shopping-cart"/>
     <x-panel-card class="bg-custom-light-green text-dark" route="{{ route('product.index') }}" title="تعداد محصولاتی که بازدید کمی دارند."
