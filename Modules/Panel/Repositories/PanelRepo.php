@@ -195,11 +195,11 @@ class PanelRepo
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function lowCountProducts(): int
+    public function lowCountProducts(): string
     {
-        return $this->productRepo->lowMarketableNumber()->count();
+        return convertEnglishToPersian($this->productRepo->lowMarketableNumber()->count());
     }
 
     /**
