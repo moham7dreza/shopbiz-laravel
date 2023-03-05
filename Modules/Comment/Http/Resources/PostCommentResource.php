@@ -4,7 +4,7 @@ namespace Modules\Comment\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ProductCommentResource extends ResourceCollection
+class PostCommentResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class ProductCommentResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'message' => 'داده های مربوطه به کامنت محصولات',
+            'message' => 'داده های مربوطه به کامنت پست ها',
             'status' => 'success',
             'count' => count($this->collection),
             'data' => $this->collection->map(function ($comment) {
@@ -25,7 +25,7 @@ class ProductCommentResource extends ResourceCollection
                     'comment_parent' => $comment->getParentBody(),
 //                    'comment_answers' => $comment->answers,
                     'comment_approved' => $comment->getFaApproved(),
-                    'commentable_name' => $comment->commentable->name,
+                    'commentable_name' => $comment->commentable->title,
                     'comment_created_date' => $comment->getFaCreatedDate(true),
                     'comment_updated_date' => $comment->getFaUpdatedDate(true)
                 ];

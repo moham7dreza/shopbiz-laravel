@@ -33,10 +33,14 @@ trait HasFaDate
     }
 
     /**
+     * @param bool $hour
      * @return string
      */
-    public function getFaUpdatedDate(): string
+    public function getFaUpdatedDate(bool $hour = false): string
     {
+        if ($hour) {
+            return $this->getFaDate($this->updated_at, "H:i:s | %A, %d %B %Y");
+        }
         return jalaliDate($this->updated_at) ?? $this->updated_at;
     }
 

@@ -167,20 +167,12 @@ class Comment extends Model
     }
 
     /**
-     * @return string
-     */
-    public function getParentName(): string
-    {
-        return is_null($this->parent_id) ? 'نظر اصلی' : $this->parent->name;
-    }
-
-    /**
      * @param int $size
      * @return string
      */
     public function getParentBody(int $size = 100): string
     {
-        return is_null($this->parent_id) ? '-' : Str::limit($this->parent->body, $size);
+        return is_null($this->parent_id) ? 'نظر اصلی' : Str::limit($this->parent->body, $size);
     }
 
     // ********************************************* css
@@ -271,11 +263,12 @@ class Comment extends Model
     // ********************************************* polymorphic
 
     /**
+     * @param int $limit
      * @return string
      */
-    public function getCommentableName(): string
+    public function getCommentableName(int $limit = 150): string
     {
-        return Str::limit($this->commentable->title ?? $this->commentable->name, 50) ?? 'عنوانی ندارد';
+        return Str::limit($this->commentable->title ?? $this->commentable->name, $limit) ?? 'عنوانی ندارد';
     }
 
     /**

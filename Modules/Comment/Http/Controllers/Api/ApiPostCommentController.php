@@ -2,12 +2,13 @@
 
 namespace Modules\Comment\Http\Controllers\Api;
 
+use Modules\Comment\Http\Resources\PostCommentResource;
 use Modules\Comment\Http\Resources\ProductCommentResource;
 use Modules\Comment\Repositories\CommentRepoEloquentInterface;
 use Modules\Comment\Services\CommentService;
 use Modules\Share\Http\Controllers\Controller;
 
-class ApiProductCommentController extends Controller
+class ApiPostCommentController extends Controller
 {
     public CommentRepoEloquentInterface $repo;
     public CommentService $service;
@@ -25,22 +26,22 @@ class ApiProductCommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return ProductCommentResource
+     * @return PostCommentResource
      */
-    public function unSeenComments(): ProductCommentResource
+    public function unSeenComments(): PostCommentResource
     {
-        $unSeenComments = $this->repo->getUnseenProductComments()->get();
-        return new ProductCommentResource($unSeenComments);
+        $unSeenComments = $this->repo->getUnseenPostComments()->get();
+        return new PostCommentResource($unSeenComments);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return ProductCommentResource
+     * @return PostCommentResource
      */
-    public function comments(): ProductCommentResource
+    public function comments(): PostCommentResource
     {
-        $comments = $this->repo->getLatestProductComments()->get();
-        return new ProductCommentResource($comments);
+        $comments = $this->repo->getLatestPostComments()->get();
+        return new PostCommentResource($comments);
     }
 }

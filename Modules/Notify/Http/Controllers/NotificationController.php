@@ -27,13 +27,13 @@ class NotificationController extends Controller
     public NotificationService $service;
 
     /**
-     * @param NotificationRepoEloquentInterface $faqRepoEloquent
-     * @param NotificationService $faqService
+     * @param NotificationRepoEloquentInterface $repo
+     * @param NotificationService $service
      */
-    public function __construct(NotificationRepoEloquentInterface $faqRepoEloquent, NotificationService $faqService)
+    public function __construct(NotificationRepoEloquentInterface $repo, NotificationService $service)
     {
-        $this->repo = $faqRepoEloquent;
-        $this->service = $faqService;
+        $this->repo = $repo;
+        $this->service = $service;
     }
 
 

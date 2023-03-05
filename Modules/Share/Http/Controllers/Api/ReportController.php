@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\Share\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
