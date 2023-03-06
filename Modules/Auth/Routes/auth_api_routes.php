@@ -2,8 +2,8 @@
 
 
 use Illuminate\Support\Facades\Route;
-use Modules\Panel\Http\Controllers\Api\ApiPanelController;
+use Modules\Auth\Http\Controllers\Api\ApiLoginController;
 
-Route::prefix('panel')->group(function () {
-    Route::get('/index', [ApiPanelController::class, 'index']);
+Route::prefix('auth')->group(function () {
+    Route::post('login', [ApiLoginController::class, 'login']);
 });

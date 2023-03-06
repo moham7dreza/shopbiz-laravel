@@ -2,8 +2,8 @@
 
 
 use Illuminate\Support\Facades\Route;
-use Modules\Panel\Http\Controllers\Api\ApiPanelController;
+use Modules\Address\Http\Controllers\Api\ApiAddressController;
 
-Route::prefix('panel')->group(function () {
-    Route::get('/index', [ApiPanelController::class, 'index']);
+Route::prefix('addresses')->group(function () {
+    Route::post('/add-address', [ApiAddressController::class, 'addAddress']);
 });
