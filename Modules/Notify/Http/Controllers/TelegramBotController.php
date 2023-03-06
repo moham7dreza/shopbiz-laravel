@@ -5,6 +5,7 @@ namespace Modules\Notify\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Route;
 use Modules\Share\Http\Controllers\Controller;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Request;
@@ -22,12 +23,11 @@ class TelegramBotController extends Controller
 
     public function sendMessage(Request $request)
     {
-        $this->sendMessageTo('248824780', 'aassdd');
-        dd(1);
         //        $update = json_decode(file_get_contents('php://input'), true);
         $bot = new \basicbot();
 
         $responses = $bot->getDataFromApis();
+
 
 //        dd(json_decode($this->apiRequest('/setWebhook', ['url' => 'https://localhost/php-project/index.php'])));
         $updates = json_decode($bot->apiRequest('getUpdates', []));
@@ -71,9 +71,18 @@ class TelegramBotController extends Controller
                         break;
                     case "/products":
                         {
-                            $data = $responses['products']->successful() ? $responses['products']->json()['data'] : null;
+                            $req = $this->sendReqForProductApi();
+                            if (count($req->data) > 0) {
+                                $bot->SendMessage($chat_id, $req->message);
+                                foreach ($req->data as $data) {
+                                    $bot->SendMessage($chat_id, $data->product_name);
+                                }
+                            }
+
+                            dd(1);
+//                            $data = $responses['products']->successful() ? $responses['products']->json()['data'] : null;
                             if ($data) {
-                                $bot->SendMessage($chat_id, $responses['products']->json()['message']);
+//                                $bot->SendMessage($chat_id, $responses['products']->json()['message']);
                             } else {
                                 $bot->SendMessage($chat_id, 'اطلاعاتی از محصولات برای نمایش وجود ندارد.');
                             }
@@ -144,6 +153,14 @@ class TelegramBotController extends Controller
                         break;
                     case "3":
                         {
+                            $req = $this->sendReqForProductApi();
+                            if (count($req->data) > 0) {
+                                $bot->SendMessage($chat_id, $req->message);
+                                foreach ($req->data as $data) {
+                                    $bot->SendMessage($chat_id, $data->product_name . ' -> ' . $data->product_marketable_number);
+                                }
+                            }
+                            dd(1);
                             $data = $responses['products']->successful() ? $responses['products']->json()['data'] : null;
                             if ($data) {
                                 $bot->AnswerCBquery($callback_id, $responses['products']->json()['message']);
@@ -176,13 +193,14 @@ class TelegramBotController extends Controller
                     dump($query);
                     $greet = $bot->Greeting();
                     $bot->SendMessage($id, $greet);
-                    $products = $bot->getProductsFromApi($query);
-                    $data = $products->successful() ? $products->json()['data'] : null;
-                    if ($data) {
-                        dump($data);
+//                    $products = $bot->getProductsFromApi($query);
+                    $req_res = $this->sendSearchReqForProductApi($query);
+//                    $data = $products->successful() ? $products->json()['data'] : null;
+                    if (1) {
+//                        dump($data);
                         $q_result = [];
                         $qid = 1;
-                        foreach ($products as $key => $product) {
+                        foreach ($req_res->data as $product) {
                             $product_name = $product->product_name;
                             $product_url = $product->product_url;
                             $product_price = $product->product_price;
@@ -228,11 +246,10 @@ _" . $product_category_name . "_
                                 'url' => $product_url,
                                 'hide_url' => false,
                             ];
-                            array_push($q_result, $result);
+                            $q_result[] = $result;
                             $qid++;
-                            continue;
                         }
-                        $res = $bot->AnswerInlineQuery($query_id, $q_result);
+                        $res = $bot->AnswerInlineQuery($query_id, $q_result);dd($res);
                         $bot->SendMessage($id, $res);
                     } else {
                         $bot->SendMessage($id, 'اطلاعاتی از کوئری شما برای نمایش وجود ندارد.');
@@ -305,7 +322,7 @@ _" . $product_category_name . "_
     {
         return Http::acceptJson()->pool(fn(Pool $pool) => [
             $pool->as('notifs')->get('127.0.0.1:8001/api/admin/notification/all'),
-            $pool->as('products')->get('127.0.0.1:8001/api/admin/market/product/all'),
+            $pool->as('products')->get('127.0.0.1:8000/api/admin/market/product/all'),
             $pool->as('orders')->get('127.0.0.1:8001/api/admin/market/order/all'),
             $pool->as('comments')->get('127.0.0.1:8001/api/admin/market/comment/all'),
         ]);
@@ -333,5 +350,19 @@ _" . $product_category_name . "_
                 'text' => $text
             )
         );
+    }
+
+    private function sendReqForProductApi()
+    {
+        $request = Request::create(route('api.product.index'), 'get');
+
+        return json_decode(Route::dispatch($request)->getContent());
+    }
+
+    private function sendSearchReqForProductApi($name)
+    {
+        $request = Request::create(route('api.product.search', 'name='.$name), 'get');
+
+        return json_decode(Route::dispatch($request)->getContent());
     }
 }

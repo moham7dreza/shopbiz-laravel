@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32a3c709063ae4f82e807a444aec9842",
+    "content-hash": "e1c6fddac715843c0a854658213f05bf",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",

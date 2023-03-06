@@ -21,7 +21,7 @@ class ProductResource extends ResourceCollection
             'data' => $this->collection->map(function ($product) {
                 return [
                     'product_name' => $product->name,
-                    'product_intro' => $product->introduction,
+                    'product_intro' => strip_tags($product->introduction),
                     'product_url' => $product->path(),
                     'product_price' => priceFormat($product->price),
                     'product_image' => asset($product->image['indexArray']['medium']),

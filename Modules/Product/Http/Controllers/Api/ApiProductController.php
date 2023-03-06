@@ -30,4 +30,12 @@ class ApiProductController extends Controller
         $products = $this->repo->index()->get();
         return new ProductResource($products);
     }
+
+    public function search()
+    {
+        $result = $this->repo->search(request()->name)->get();
+//        if (count($result) > 0) {
+            return new ProductResource($result);
+//        }
+    }
 }

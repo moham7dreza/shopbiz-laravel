@@ -61,10 +61,11 @@ class basicbot
     public function getDataFromApis()
     {
         return Http::acceptJson()->pool(fn(Pool $pool) => [
-            $pool->as('notifs')->get('127.0.0.1:8001/api/admin/notify/all'),
-            $pool->as('products')->get('127.0.0.1:8001/api/admin/market/product/all'),
-            $pool->as('orders')->get('127.0.0.1:8001/api/admin/market/order/all'),
-            $pool->as('comments')->get('127.0.0.1:8001/api/admin/market/comment/all'),
+            $pool->as('notifs')->get('127.0.0.1:8000/api/admin/notify/all'),
+            $pool->as('products')->get('127.0.0.1:8000/api/product/index'),
+//            $pool->as('products')->get(route('api.product.index')),
+            $pool->as('orders')->get('127.0.0.1:8000/api/admin/market/order/all'),
+            $pool->as('comments')->get('127.0.0.1:8000/api/admin/market/comment/all'),
         ]);
     }
 
@@ -133,7 +134,8 @@ class basicbot
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-        curl_setopt($ch, CURLOPT_POST, 1);
+//        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -150,7 +152,7 @@ class basicbot
                 "results" => json_encode($inline_query_results)
             ];
 
-        $this->apiRequestI($post);
+        return $this->apiRequestI($post);
     }
 
 
