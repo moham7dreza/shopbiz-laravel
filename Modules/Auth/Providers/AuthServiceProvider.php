@@ -51,6 +51,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/auth_routes.php';
+    public string $apiRoutePath = '/../Routes/auth_api_routes.php';
 
     /**
      * Register auth files.
@@ -95,6 +96,10 @@ class AuthServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

@@ -71,6 +71,7 @@ class ShareServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/share_routes.php';
+    public string $apiRoutePath = '/../Routes/share_api_routes.php';
 
     /**
      * @return void
@@ -111,6 +112,10 @@ class ShareServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

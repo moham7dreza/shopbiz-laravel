@@ -18,7 +18,6 @@ class PanelServiceProvider extends ServiceProvider
      * @var string
      */
     public string $namespace = 'Modules\Panel\Http\Controllers';
-    public string $apiNamespace = 'Modules\Panel\Http\Controllers\Api';
 
     /**
      * Get view path.
@@ -47,7 +46,6 @@ class PanelServiceProvider extends ServiceProvider
      * @var array|string[]
      */
     public array $middlewareRoute = ['web'];
-    public array $apiMiddlewareRoute = ['api'];
 
     /**
      * Get route path.
@@ -65,7 +63,7 @@ class PanelServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->loadViewFiles();
-        $this->loadConfigFiles();
+        $this->loadConfigFiles(); 
         $this->loadRouteFiles();
         $this->loadPolicyFiles();
     }
@@ -115,6 +113,10 @@ class PanelServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**
@@ -124,10 +126,7 @@ class PanelServiceProvider extends ServiceProvider
      */
     private function loadApiRouteFiles(): void
     {
-        Route::prefix('api')
-            ->middleware($this->apiMiddlewareRoute)
-            ->namespace($this->apiNamespace)
-            ->group(__DIR__ . $this->apiRoutePath);
+
     }
 
     /**

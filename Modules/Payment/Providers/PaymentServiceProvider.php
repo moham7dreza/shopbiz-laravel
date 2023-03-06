@@ -55,6 +55,7 @@ class PaymentServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/payment_routes.php';
+    public string $apiRoutePath = '/../Routes/payment_api_routes.php';
 
     /**
      * Register payment files.
@@ -113,6 +114,10 @@ class PaymentServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

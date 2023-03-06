@@ -52,6 +52,7 @@ class CartServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/cart_routes.php';
+    public string $apiRoutePath = '/../Routes/cart_api_routes.php';
 
     /**
      * Register cart files.
@@ -97,6 +98,10 @@ class CartServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

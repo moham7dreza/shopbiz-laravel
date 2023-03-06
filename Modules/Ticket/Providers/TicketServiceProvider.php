@@ -69,6 +69,7 @@ class TicketServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/ticket_routes.php';
+    public string $apiRoutePath = '/../Routes/ticket_api_routes.php';
 
     /**
      * Register ticket files.
@@ -127,6 +128,10 @@ class TicketServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

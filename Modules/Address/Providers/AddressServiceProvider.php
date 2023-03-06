@@ -56,6 +56,7 @@ class AddressServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/address_routes.php';
+    public string $apiRoutePath = '/../Routes/address_api_routes.php';
 
     /**
      * Register address files.
@@ -115,6 +116,10 @@ class AddressServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

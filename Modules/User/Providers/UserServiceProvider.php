@@ -53,6 +53,7 @@ class UserServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/user_routes.php';
+    public string $apiRoutePath = '/../Routes/user_api_routes.php';
 
     /**
      * Register user files.
@@ -112,6 +113,10 @@ class UserServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

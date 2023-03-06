@@ -53,6 +53,7 @@ class PageServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/page_routes.php';
+    public string $apiRoutePath = '/../Routes/page_api_routes.php';
 
     /**
      * Register panel files.
@@ -110,6 +111,10 @@ class PageServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**

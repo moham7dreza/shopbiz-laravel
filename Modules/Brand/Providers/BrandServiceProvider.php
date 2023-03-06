@@ -53,6 +53,7 @@ class BrandServiceProvider extends ServiceProvider
      * @var string
      */
     public string $routePath = '/../Routes/brand_routes.php';
+    public string $apiRoutePath = '/../Routes/brand_api_routes.php';
 
     /**
      * Register brand files.
@@ -110,6 +111,10 @@ class BrandServiceProvider extends ServiceProvider
         Route::middleware($this->middlewareRoute)
             ->namespace($this->namespace)
             ->group(__DIR__ . $this->routePath);
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace . '\Api')
+            ->group(__DIR__ . $this->apiRoutePath);
     }
 
     /**
