@@ -24,7 +24,7 @@ class ProductResource extends ResourceCollection
                     'product_intro' => strip_tags($product->introduction),
                     'product_url' => $product->path(),
                     'product_price' => priceFormat($product->price),
-                    'product_image' => asset($product->image['indexArray']['medium']),
+                    'product_image' => asset($product->image['indexArray']['small']),
                     'product_sold_number' => $product->sold_number,
                     'product_marketable_number' => $product->marketable_number,
                     'product_category_name' => $product->category->name,

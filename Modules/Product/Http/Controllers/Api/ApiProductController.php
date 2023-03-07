@@ -38,4 +38,13 @@ class ApiProductController extends Controller
             return new ProductResource($result);
 //        }
     }
+
+    /**
+     * @return ProductResource
+     */
+    public function lowCountProducts(): ProductResource
+    {
+        $products = $this->repo->lowMarketableNumber()->get();
+        return new ProductResource($products);
+    }
 }

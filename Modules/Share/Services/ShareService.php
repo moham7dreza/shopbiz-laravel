@@ -7,6 +7,8 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Modules\ACL\Entities\Permission;
 use Modules\Comment\Repositories\CommentRepoEloquent;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
@@ -15,6 +17,18 @@ use Modules\User\Entities\User;
 
 class ShareService
 {
+    /**
+     * @param string|null $route
+     * @param string|null $url
+     * @return mixed
+     */
+    public static function sendInternalApiRequestAndGetResponse(string $route = null, array $params = [], string $url = null): mixed
+    {
+        $request = Request::create($url ?? route($route, $params), 'get');
+
+        return json_decode(Route::dispatch($request)->getContent());
+    }
+
     // Permission
     /******************************************************************************************************************/
     /**

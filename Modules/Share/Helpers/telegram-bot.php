@@ -235,7 +235,8 @@ class basicbot
     {
 
         $this->apiRequestP('sendPhoto', ['chat_id' => $id,
-            'photo' => new CURLFile(realpath("$filename")),
+//            'photo' => new CURLFile(realpath("$filename")),
+            'photo' => new CURLFile($filename),
             'caption' => $caption
         ]);
     }

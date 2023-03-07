@@ -32,4 +32,13 @@ class ApiOrderController extends Controller
         $orders = $this->repo->index()->get();
         return new OrderResource($orders);
     }
+
+    /**
+     * @return OrderResource
+     */
+    public function newOrders(): OrderResource
+    {
+        $orders = $this->repo->newOrders()->get();
+        return new OrderResource($orders);
+    }
 }

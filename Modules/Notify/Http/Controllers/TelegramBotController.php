@@ -10,6 +10,7 @@ use Modules\Share\Http\Controllers\Controller;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Modules\Share\Services\ShareService;
 
 class TelegramBotController extends Controller
 {
@@ -48,8 +49,16 @@ class TelegramBotController extends Controller
                 $text = $update->message->text;
 
                 switch ($text) { //commands
-                    case "/notifs":
+                    case "/notification":
                         {
+                            $req = $this->findUserNotifications(1);
+                            if (count($req->data) > 0) {
+                                $bot->SendMessage($chat_id, $req->message);
+                                foreach ($req->data as $data) {
+                                    $bot->SendMessage($chat_id, $data->notify_data);
+                                }
+                            }
+                            dd(1);
                             $data = $responses['notifs']->successful() ? $responses['notifs']->json()['data'] : null;
                             if ($data) {
                                 dump($data);
@@ -61,6 +70,15 @@ class TelegramBotController extends Controller
                         break;
                     case "/orders":
                         {
+                            $req = $this->sendNewOrdersReqForOrderApi();
+                            if (count($req->data) > 0) {
+                                $bot->SendMessage($chat_id, $req->message);
+                                foreach ($req->data as $data) {
+                                    $orderExplain = $data->order_user_name . ' _ ' . $data->order_payment_status . ' _ ' . $data->order_final_amount . ' _ ' . $data->order_status;
+                                    $bot->SendMessage($chat_id, $orderExplain);
+                                }
+                            }
+                            dd(1);
                             $data = $responses['orders']->successful() ? $responses['orders']->json()['data'] : null;
                             if ($data) {
                                 $bot->SendMessage($chat_id, $responses['orders']->json()['message']);
@@ -71,11 +89,12 @@ class TelegramBotController extends Controller
                         break;
                     case "/products":
                         {
-                            $req = $this->sendReqForProductApi();
+                            $req = $this->sendLowCountReqForProductApi();
                             if (count($req->data) > 0) {
                                 $bot->SendMessage($chat_id, $req->message);
                                 foreach ($req->data as $data) {
-                                    $bot->SendMessage($chat_id, $data->product_name);
+                                    $bot->SendPhotof($chat_id, $data->product_image, $data->product_name);
+                                    $bot->SendMessage($chat_id, 'تعداد قابل فروش : ' . $data->product_marketable_number);
                                 }
                             }
 
@@ -90,6 +109,16 @@ class TelegramBotController extends Controller
                         break;
                     case "/comments":
                         {
+                            $req = $this->unseenParentProductComments();
+                            if (count($req->data) > 0) {
+                                $bot->SendMessage($chat_id, $req->message);
+                                foreach ($req->data as $data) {
+                                    $commentExplain = $data->comment_author . ' : ' . $data->comment_body . ' _ ' . $data->comment_approved . ' => ' . $data->commentable_name;
+                                    $bot->SendMessage($chat_id, $commentExplain);
+                                }
+                            }
+
+                            dd(1);
                             $data = $responses['comments']->successful() ? $responses['comments']->json()['data'] : null;
                             if ($data) {
                                 $bot->SendMessage($chat_id, $responses['comments']->json()['message']);
@@ -249,7 +278,8 @@ _" . $product_category_name . "_
                             $q_result[] = $result;
                             $qid++;
                         }
-                        $res = $bot->AnswerInlineQuery($query_id, $q_result);dd($res);
+                        $res = $bot->AnswerInlineQuery($query_id, $q_result);
+                        dd($res);
                         $bot->SendMessage($id, $res);
                     } else {
                         $bot->SendMessage($id, 'اطلاعاتی از کوئری شما برای نمایش وجود ندارد.');
@@ -361,8 +391,30 @@ _" . $product_category_name . "_
 
     private function sendSearchReqForProductApi($name)
     {
-        $request = Request::create(route('api.product.search', 'name='.$name), 'get');
+        $request = Request::create(route('api.product.search', 'name=' . $name), 'get');
 
         return json_decode(Route::dispatch($request)->getContent());
+    }
+
+    private function sendLowCountReqForProductApi()
+    {
+        $request = Request::create(route('api.product.low-count'), 'get');
+
+        return json_decode(Route::dispatch($request)->getContent());
+    }
+
+    private function sendNewOrdersReqForOrderApi()
+    {
+        return ShareService::sendInternalApiRequestAndGetResponse('api.order.new');
+    }
+
+    public function findUserNotifications($id)
+    {
+        return ShareService::sendInternalApiRequestAndGetResponse('api.notify.user.notifications', [$id]);
+    }
+
+    public function unseenParentProductComments()
+    {
+        return ShareService::sendInternalApiRequestAndGetResponse('api.product.unseen.primary.comments');
     }
 }

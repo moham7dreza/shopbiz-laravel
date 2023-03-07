@@ -43,4 +43,13 @@ class ApiProductCommentController extends Controller
         $comments = $this->repo->getLatestProductComments()->get();
         return new ProductCommentResource($comments);
     }
+
+    /**
+     * @return ProductCommentResource
+     */
+    public function unseenPrimaryComments(): ProductCommentResource
+    {
+        $comments = $this->repo->getUnseenProductComments()->whereNull('parent_id')->get();
+        return new ProductCommentResource($comments);
+    }
 }
