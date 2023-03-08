@@ -12,6 +12,7 @@ class Card extends Component
 {
     public string $lgCol;
     public string $mdCol;
+    public string $xlCol;
     public string $class;
     public string $counter;
     public string $title;
@@ -25,10 +26,11 @@ class Card extends Component
      *
      * @return void
      */
-    public function __construct($title, $counter, $icon, $route, $updatedAt = null, $lgCol = '3', $mdCol = '6', $class = null, $group = 'fas')
+    public function __construct($title, $counter, $icon, $route, $updatedAt = null, $lgCol = '4', $mdCol = '6', $xlCol = 3, $class = null, $group = 'fas')
     {
         $this->lgCol = $lgCol;
         $this->mdCol = $mdCol;
+        $this->xlCol = $xlCol;
         $this->icon = $icon;
         $this->class = $class;
         $this->title = $title;

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Panel\Http\Controllers\PanelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], static function ($router) {
-    $router->get('/do-not-touch-my-panel', ['uses' => 'PanelController', 'as' => config('panelConfig.routes.index')]);
+    $router->get('/do-not-touch-my-panel', ['uses' => 'PanelController', 'as' => 'panel.home']);
+    Route::get('/logs', [PanelController::class, 'logs'])->name('panel.logs');
+    Route::get('/sales', [PanelController::class, 'sales'])->name('panel.sales');
 //    $router->get('index', [\Modules\Panel\Http\Controllers\PanelController::class, 'index'])->name('panel.home');
 });

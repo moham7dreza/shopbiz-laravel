@@ -36,6 +36,26 @@ class PanelController extends Controller
     public function __invoke(PanelRepo $panelRepo): View|Factory|Application
     {
 //        $this->authorize('manage', Panel::class);
-        return view('Panel::index', compact(['panelRepo']));
+        return view('Panel::dashboards.index', compact(['panelRepo']));
+    }
+
+    /**
+     * @param PanelRepo $panelRepo
+     * @return Application|Factory|View
+     */
+    public function logs(PanelRepo $panelRepo): View|Factory|Application
+    {
+//        $this->authorize('manage', Panel::class);
+        return view('Panel::dashboards.logs', compact(['panelRepo']));
+    }
+
+    /**
+     * @param PanelRepo $panelRepo
+     * @return Application|Factory|View
+     */
+    public function sales(PanelRepo $panelRepo): View|Factory|Application
+    {
+//        $this->authorize('manage', Panel::class);
+        return view('Panel::dashboards.sales', compact(['panelRepo']));
     }
 }

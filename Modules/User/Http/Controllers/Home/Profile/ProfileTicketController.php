@@ -37,7 +37,7 @@ class ProfileTicketController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $tickets = auth()->user()->tickets()->paginate(5);
+        $tickets = auth()->user()->tickets()->whereNull('ticket_id')->paginate(5);
 
         return view('User::home.profile.ticket.index', compact('tickets'));
     }

@@ -1,4 +1,4 @@
-<section class="col-lg-{{ $lgCol }} col-md-{{ $mdCol }} col-12">
+<section class="col-lg-{{ $lgCol }} col-md-{{ $mdCol }} col-xl-{{ $xlCol }} col-12">
     <a href="{{ $route }}" class="text-decoration-none d-block mb-4" data-bs-toggle="tooltip" data-bs-placement="left"
        title="{{ $title }}">
         <section class="card card-shadow text-white {{ $class }}" {{ $attributes }}>

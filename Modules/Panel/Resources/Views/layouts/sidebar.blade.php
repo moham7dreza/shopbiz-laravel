@@ -3,10 +3,26 @@
         @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
         @can($PERMISSION::PERMISSION_ADMIN_PANEL)
             <section class="sidebar-wrapper">
-                <a href="{{ route('panel.home') }}" class="sidebar-link">
-                    <i class="fas fa-home"></i>
-                    <span>خانه</span>
-                </a>
+                @can($PERMISSION::PERMISSION_ADMIN_PANEL)
+                    <section class="sidebar-group-link">
+                        <section class="sidebar-dropdown-toggle">
+                            <i class="fas fa-home icon"></i>
+                            <span>پیشخوان</span>
+                            <i class="fas fa-angle-left angle"></i>
+                        </section>
+                        <section class="sidebar-dropdown">
+                            @can($PERMISSION::PERMISSION_ADMIN_PANEL)
+                                <a href="{{ route('panel.home') }}">داشبورد اصلی</a>
+                            @endcan
+                            @can($PERMISSION::PERMISSION_ADMIN_PANEL)
+                                <a href="{{ route('panel.logs') }}">لاگ ها</a>
+                            @endcan
+                            @can($PERMISSION::PERMISSION_ADMIN_PANEL)
+                                <a href="{{ route('panel.sales') }}">فروش</a>
+                            @endcan
+                        </section>
+                    </section>
+                @endcan
                 <a href="{{ route('customer.home') }}" class="sidebar-link" target="_blank">
                     <i class="fas fa-store"></i>
                     <span>فروشگاه</span>
@@ -14,7 +30,7 @@
                 @can($PERMISSION::PERMISSION_SETTING)
                     <section class="sidebar-part-title">تنظیمات</section>
                     <a href="{{ route('setting.index') }}" class="sidebar-link">
-                        <i class="fas fa-tools"></i>
+                        <i class="fas fa-cog fa-pulse"></i>
                         <span>تنظیمات</span>
                     </a>
                 @endcan
