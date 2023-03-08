@@ -23,7 +23,7 @@ class PermissionController extends Controller
     /**
      * @var string
      */
-    private string $redirectRoute = PermissionRoutesEnum::index->value;
+    private string $redirectRoute = 'permission.index';
 
     /**
      * @var string

@@ -6,8 +6,7 @@
 
 @section('content')
     @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
-    @php $Attribute = \Modules\Attribute\Entities\Attribute::class @endphp
-    @php $AttributeValue = \Modules\Attribute\Entities\AttributeValue::class @endphp
+    @php $index_route = 'attribute.index' @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -28,14 +27,14 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_ATTRIBUTE_CREATE)
-                            <a href="{{ route($Attribute::ROUTE_CREATE) }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
+                            <a href="{{ route('attribute.create') }}" class="btn btn-info btn-sm">ایجاد فرم جدید</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route($Attribute::ROUTE_INDEX) }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($index_route) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route($Attribute::ROUTE_INDEX) }}"/>
+                        <x-panel-search-form route="{{ route($index_route) }}"/>
                     </div>
                 </section>
 
@@ -45,17 +44,17 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <x-panel-sort-btn :route="$Attribute::ROUTE_INDEX" title="نام فرم"/>
+                                <x-panel-sort-btn :route="$index_route" title="نام فرم"/>
                             </th>
                             <th>
-                                <x-panel-sort-btn :route="$Attribute::ROUTE_INDEX" title="واحد اندازه گیری" property="unit"/>
+                                <x-panel-sort-btn :route="$index_route" title="واحد اندازه گیری" property="unit"/>
                             </th>
                             <th>
-                                <x-panel-sort-btn :route="$Attribute::ROUTE_INDEX" title="واحد اندازه گیری لاتین" property="unit_en"/>
+                                <x-panel-sort-btn :route="$index_route" title="واحد اندازه گیری لاتین" property="unit_en"/>
                             </th>
                             <th>دسته بندی ها</th>
                             <th>
-                                <x-panel-sort-btn :route="$Attribute::ROUTE_INDEX" title="وضعیت" property="status"/>
+                                <x-panel-sort-btn :route="$index_route" title="وضعیت" property="status"/>
                             </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -81,19 +80,19 @@
                                 </td>
                                 <td class="width-22-rem text-left">
                                     @can($PERMISSION::PERMISSION_ATTRIBUTE_CATEGORIES)
-                                        <x-panel-a-tag route="{{ route($Attribute::ROUTE_CATEGORIES_FORM, $attribute->id) }}"
+                                        <x-panel-a-tag route="{{ route('attribute.category-form', $attribute->id) }}"
                                                        title="تعریف دسته بندی" icon="list-ul" color="outline-success"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ATTRIBUTE_VALUES)
-                                        <x-panel-a-tag route="{{ route($AttributeValue::ROUTE_INDEX, $attribute->id) }}"
+                                        <x-panel-a-tag route="{{ route('attributeValue.index', $attribute->id) }}"
                                                        title="مقادیر فرم کالا" icon="weight" color="outline-warning"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ATTRIBUTE_EDIT)
-                                        <x-panel-a-tag route="{{ route($Attribute::ROUTE_EDIT, $attribute->id) }}"
+                                        <x-panel-a-tag route="{{ route('attribute.edit', $attribute->id) }}"
                                                        title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_ATTRIBUTE_DELETE)
-                                        <x-panel-delete-form route="{{ route($Attribute::ROUTE_DELETE, $attribute->id) }}"
+                                        <x-panel-delete-form route="{{ route('attribute.destroy', $attribute->id) }}"
                                                              title="حذف آیتم"/>
                                     @endcan
                                 </td>

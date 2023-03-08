@@ -6,7 +6,7 @@
 
 @section('content')
     @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
-    @php $Router = \Modules\ACL\Enums\PermissionRoutesEnum::class @endphp
+    @php $index_route = 'permission.index' @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
@@ -27,10 +27,10 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <section class="d-flex">
                         @can($PERMISSION::PERMISSION_CREATE)
-                            <a href="{{ route($Router::create->value) }}" class="btn btn-info btn-sm">ایجاد دسترسی
+                            <a href="{{ route('permission.create') }}" class="btn btn-info btn-sm">ایجاد دسترسی
                                 جدید</a>
                         @endcan
-                        <x-panel-a-tag route="{{ route($Router::index->value) }}" text="حذف فیلتر"
+                        <x-panel-a-tag route="{{ route($index_route) }}" text="حذف فیلتر"
                                        color="outline-danger"/>
                         @can($PERMISSION::PERMISSION_EXCEL_FORM)
                             <x-panel-a-tag route="{{ route('permission.excel-form') }}" title="علیات اکسلی"
@@ -39,7 +39,7 @@
                     </section>
 
                     <div class="max-width-16-rem">
-                        <x-panel-search-form route="{{ route($Router::index->value) }}"/>
+                        <x-panel-search-form route="{{ route($index_route) }}"/>
                     </div>
                 </section>
 
@@ -49,15 +49,15 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <x-panel-sort-btn :route="$Router::index->value" title="نام دسترسی"/>
+                                <x-panel-sort-btn :route="$index_route" title="نام دسترسی"/>
                             </th>
                             <th>نام نقش ها</th>
                             <th>توضیحات دسترسی</th>
                             <th>
-                                <x-panel-sort-btn :route="$Router::index->value" title="تاریخ ایجاد" property="created_at"/>
+                                <x-panel-sort-btn :route="$index_route" title="تاریخ ایجاد" property="created_at"/>
                             </th>
                             <th>
-                                <x-panel-sort-btn :route="$Router::index->value" title="وضعیت" property="status"/>
+                                <x-panel-sort-btn :route="$index_route" title="وضعیت" property="status"/>
                             </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -77,19 +77,19 @@
                                 <td>{{ $permission->getFaCreatedDate(true) }}</td>
                                 <td>
                                     @can($PERMISSION::PERMISSION_STATUS)
-                                        <x-panel-checkbox class="rounded" :route="$Router::status->value"
+                                        <x-panel-checkbox class="rounded" route="permission.status"
                                                           method="changeStatus"
                                                           name="دسترسی" :model="$permission" property="status"/>
                                     @endcan
                                 </td>
                                 <td class="width-12-rem text-left">
                                     @can($PERMISSION::PERMISSION_EDIT)
-                                        <x-panel-a-tag route="{{ route($Router::edit->value, $permission->id) }}"
+                                        <x-panel-a-tag route="{{ route('permission.edit', $permission->id) }}"
                                                        title="ویرایش آیتم" icon="edit" color="outline-info"/>
                                     @endcan
                                     @can($PERMISSION::PERMISSION_DELETE)
                                         <x-panel-delete-form
-                                            route="{{ route($Router::destroy->value, $permission->id) }}"
+                                            route="{{ route('permission.destroy', $permission->id) }}"
                                             title="حذف آیتم"/>
                                     @endcan
                                 </td>

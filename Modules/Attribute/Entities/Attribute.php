@@ -15,7 +15,7 @@ use Modules\Share\Traits\HasDefaultStatus;
 
 class Attribute extends Model
 {
-    use HasFactory, SoftDeletes, HasDefaultStatus, HasTypesTrait, AttributeRoutesTrait;
+    use HasFactory, SoftDeletes, HasDefaultStatus, HasTypesTrait;
 
     /**
      * @var string[]

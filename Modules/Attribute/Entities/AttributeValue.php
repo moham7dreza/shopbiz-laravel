@@ -15,7 +15,7 @@ use Modules\Product\Entities\Product;
 
 class AttributeValue extends Model
 {
-    use HasFactory, SoftDeletes, HasTypesTrait, AttributeValueRoutesTrait;
+    use HasFactory, SoftDeletes, HasTypesTrait;
 
     public const SELECTED = 1;
     public const NOT_SELECTED = 0;

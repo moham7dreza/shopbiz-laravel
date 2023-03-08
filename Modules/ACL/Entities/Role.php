@@ -17,7 +17,7 @@ use Spatie\Permission\Traits\HasPermissions;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait, RoleRoutesTrait;
+    use HasFactory, SoftDeletes, HasFaDate, HasPermissions, HasDefaultStatus, SystemRolesTrait;
 
     /**
      * @var string[]

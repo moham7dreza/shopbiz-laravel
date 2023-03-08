@@ -3,11 +3,11 @@
         @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
         @can($PERMISSION::PERMISSION_ADMIN_PANEL)
             <section class="sidebar-wrapper">
-                <a href="{{ route(config('panelConfig.routes.index')) }}" class="sidebar-link">
+                <a href="{{ route('panel.home') }}" class="sidebar-link">
                     <i class="fas fa-home"></i>
                     <span>خانه</span>
                 </a>
-                <a href="{{ route(\Modules\Home\Enums\HomeRoutesEnum::index->value) }}" class="sidebar-link" target="_blank">
+                <a href="{{ route('customer.home') }}" class="sidebar-link" target="_blank">
                     <i class="fas fa-store"></i>
                     <span>فروشگاه</span>
                 </a>
@@ -104,7 +104,7 @@
                                     <a href="{{ route('attribute.index') }}">فرم کالا</a>
                                 @endcan
                                 @can($PERMISSION::PERMISSION_BRANDS)
-                                    <a href="{{ route(\Modules\Brand\Enums\BrandRoutesEnum::index) }}">برندها</a>
+                                    <a href="{{ route('brand.index') }}">برندها</a>
                                 @endcan
                                 @can($PERMISSION::PERMISSION_PRODUCTS)
                                     <a href="{{ route('product.index') }}">کالاها</a>
@@ -197,7 +197,7 @@
                         </section>
                     @endcan
                     @can($PERMISSION::PERMISSION_DELIVERY_METHODS)
-                        <a href="{{ router('DeliveryConfig.index') }}" class="sidebar-link">
+                        <a href="{{ route('delivery.index') }}" class="sidebar-link">
                             <i class="fas fa-truck-loading"></i>
                             <span>روش های ارسال</span>
                         </a>
@@ -242,7 +242,7 @@
                         </a>
                     @endcan
                     @can($PERMISSION::PERMISSION_BANNERS)
-                        <a href="{{ route(\Modules\Banner\Enums\BannerRoutesEnum::index()->value) }}" class="sidebar-link">
+                        <a href="{{ route('banner.index') }}" class="sidebar-link">
                             <i class="fas fa-ad"></i>
                             <span>بنر ها</span>
                         </a>

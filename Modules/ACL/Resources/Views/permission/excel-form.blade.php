@@ -5,13 +5,12 @@
 @endsection
 
 @section('content')
-    @php $Router = \Modules\ACL\Enums\PermissionRoutesEnum::class @endphp
     @php $PERMISSION = \Modules\ACL\Entities\Permission::class @endphp
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-16"><a href="{{ route('panel.home') }}">خانه</a></li>
             <li class="breadcrumb-item font-size-16"><a href="#"> بخش کاربران</a></li>
-            <li class="breadcrumb-item font-size-16"><a href="{{ route($Router::index->value) }}"> دسترسی ها</a></li>
+            <li class="breadcrumb-item font-size-16"><a href="{{ route('permission.index') }}"> دسترسی ها</a></li>
             <li class="breadcrumb-item font-size-16 active" aria-current="page"> عملیات اکسلی</li>
         </ol>
     </nav>
@@ -26,7 +25,7 @@
                 </section>
 
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{ route($Router::index->value) }}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{ route('permission.index') }}" class="btn btn-info btn-sm">بازگشت</a>
                     @can($PERMISSION::PERMISSION_EXCEL_EXPORT)
                         <x-panel-a-tag route="{{ route('permission.excel.export') }}" text="خروجی فایل اکسل از داده ها"
                                        color="outline-primary" icon="file-export"/>
