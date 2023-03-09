@@ -75,6 +75,12 @@
                             <span>ربات تلگرام</span>
                         </a>
                     @endcan
+{{--                    @can($PERMISSION::PERMISSION_TELEGRAM_BOT)--}}
+                        <a href="{{ route('chat.index') }}" class="sidebar-link">
+                            <i class="fa fa-comment-medical"></i>
+                            <span>گفتوگو</span>
+                        </a>
+{{--                    @endcan--}}
                 @endcan
                 @can($PERMISSION::PERMISSION_USERS)
                     <section class="sidebar-part-title">بخش کاربران</section>

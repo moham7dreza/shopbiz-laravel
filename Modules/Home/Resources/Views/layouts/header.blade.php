@@ -8,7 +8,8 @@
             <section class="d-md-flex justify-content-md-between align-items-md-center py-3">
 
                 <section class="d-flex justify-content-between align-items-center d-md-block">
-                    <a class="text-decoration-none" href="{{ route('customer.home') }}"><img
+                    <a class="text-decoration-none" href="{{ route('customer.home') }}" title="مجموعه شاپ بیز"
+                       data-bs-toggle="tooltip" data-bs-placement="bottom"><img
                             src="{{ asset($logo) }}" alt="logo"></a>
                     <button class="btn btn-link text-dark d-md-none" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Notify\Http\Controllers\ChatAdminController;
+use Modules\Notify\Http\Controllers\ChatController;
 use Modules\Notify\Http\Controllers\EmailController;
 use Modules\Notify\Http\Controllers\EmailFileController;
 use Modules\Notify\Http\Controllers\NotificationController;
@@ -51,5 +53,19 @@ Route::group(['prefix' => 'panel/notify', 'middleware' => 'auth'], static functi
             Route::get('/', [TelegramBotController::class, 'message'])->name('telegram.bot.message');
             Route::post('/message', [TelegramBotController::class, 'sendMessage'])->name('telegram.bot.send.message');
         });
+    });
+
+    // chat section
+    Route::prefix('chat')->group(function () {
+        //main
+        Route::get('/', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/show/{chat}', [ChatController::class, 'show'])->name('chat.show');
+        Route::post('/answer/{chat}', [ChatController::class, 'answer'])->name('chat.answer');
+        Route::get('/status/{chat}', [ChatController::class, 'status'])->name('chat.status');
+    });
+    //admin
+    Route::prefix('adminChat')->group(function () {
+        Route::get('/', [ChatAdminController::class, 'index'])->name('chat-admin.index');
+        Route::get('/set/{admin}', [ChatAdminController::class, 'set'])->name('chat-admin.set');
     });
 });

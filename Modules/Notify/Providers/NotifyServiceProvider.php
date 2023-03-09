@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Notify\Entities\Email;
 use Modules\Notify\Policies\NotifyPolicy;
+use Modules\Notify\Repositories\Chat\ChatRepoEloquent;
+use Modules\Notify\Repositories\Chat\ChatRepoEloquentInterface;
+use Modules\Notify\Repositories\ChatAdmin\ChatAdminRepoEloquent;
+use Modules\Notify\Repositories\ChatAdmin\ChatAdminRepoEloquentInterface;
 use Modules\Notify\Repositories\Email\EmailRepoEloquent;
 use Modules\Notify\Repositories\Email\EmailRepoEloquentInterface;
 use Modules\Notify\Repositories\EmailFile\EmailFileRepoEloquent;
@@ -15,6 +19,10 @@ use Modules\Notify\Repositories\Notification\NotificationRepoEloquent;
 use Modules\Notify\Repositories\Notification\NotificationRepoEloquentInterface;
 use Modules\Notify\Repositories\SMS\SMSRepoEloquent;
 use Modules\Notify\Repositories\SMS\SMSRepoEloquentInterface;
+use Modules\Notify\Services\Chat\ChatService;
+use Modules\Notify\Services\Chat\ChatServiceInterface;
+use Modules\Notify\Services\ChatAdmin\ChatAdminService;
+use Modules\Notify\Services\ChatAdmin\ChatAdminServiceInterface;
 use Modules\Notify\Services\Email\EmailService;
 use Modules\Notify\Services\Email\EmailServiceInterface;
 use Modules\Notify\Services\EmailFile\EmailFileService;
@@ -182,6 +190,8 @@ class NotifyServiceProvider extends ServiceProvider
         $this->app->bind(SMSRepoEloquentInterface::class, SMSRepoEloquent::class);
         $this->app->bind(EmailFileRepoEloquentInterface::class, EmailFileRepoEloquent::class);
         $this->app->bind(NotificationRepoEloquentInterface::class, NotificationRepoEloquent::class);
+        $this->app->bind(ChatRepoEloquentInterface::class, ChatRepoEloquent::class);
+        $this->app->bind(ChatAdminRepoEloquentInterface::class, ChatAdminRepoEloquent::class);
     }
 
     /**
@@ -193,5 +203,7 @@ class NotifyServiceProvider extends ServiceProvider
         $this->app->bind(SMSServiceInterface::class, SMSService::class);
         $this->app->bind(EmailFileServiceInterface::class, EmailFileService::class);
         $this->app->bind(NotificationServiceInterface::class, NotificationService::class);
+        $this->app->bind(ChatServiceInterface::class, ChatService::class);
+        $this->app->bind(ChatAdminServiceInterface::class, ChatAdminService::class);
     }
 }

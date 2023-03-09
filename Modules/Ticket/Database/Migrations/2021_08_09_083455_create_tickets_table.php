@@ -19,7 +19,7 @@ class CreateTicketsTable extends Migration
             $table->text('description');
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('seen')->default(0)->comment('0 => unseen, 1 => seen');
-            $table->foreignId('reference_id')->constrained('ticket_admins')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('reference_id')->nullable()->constrained('ticket_admins')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained('ticket_categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('priority_id')->constrained('ticket_priorities')->cascadeOnUpdate()->cascadeOnDelete();
