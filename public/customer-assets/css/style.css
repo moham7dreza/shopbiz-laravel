@@ -1505,6 +1505,15 @@ button:hover.text-greenyellow {
 }
 .chat-msg-bar {
     position: fixed;
-    left: 0;
-    bottom: 0;
+    bottom: 10px;
+    width: 15%;
+    padding: 1rem;
+}
+.chat-date {
+    font-size: 0.7rem;
+}
+.chat-user {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
 }
