@@ -243,7 +243,7 @@
                     <section class="border-start my-2 mx-1"></section>
                     @can(\Modules\ACL\Entities\Permission::PERMISSION_ADMIN_PANEL)
                         <section class="navbar-item">
-                            <a href="{{ route('panel.home') }}">پنل</a>
+                            <a href="{{ route('panel.home') }}" target="_blank">پنل</a>
                         </section>
                     @endcan
                     @php $MENU = \Modules\Menu\Entities\Menu::class @endphp

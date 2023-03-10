@@ -1487,3 +1487,24 @@ button:hover.text-greenyellow {
     padding: 12px;
     border-radius: 11px;
 }
+.header-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: .3rem;
+    margin: .2rem;
+}
+
+.header-username {
+    color: #333333;
+    font-size: .8rem;
+}
+.chat-bg {
+    background-image: url(../images/bg1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.chat-msg-bar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}

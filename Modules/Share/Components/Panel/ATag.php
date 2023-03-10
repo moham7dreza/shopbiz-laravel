@@ -16,13 +16,14 @@ class ATag extends Component
     public ?string $icon;
     public string $group;
     public ?string $class;
+    public bool $panel;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($route, $color = 'primary', $icon = null, $title = null, $text = null, $class = null, $group = 'fa')
+    public function __construct($route, $color = 'primary', $icon = null, $title = null, $text = null, $class = null, $group = 'fa', $panel = true)
     {
         $this->title = $title;
         $this->route = $route;
@@ -31,6 +32,7 @@ class ATag extends Component
         $this->class = $class;
         $this->color = $color;
         $this->group = $group;
+        $this->panel = $panel;
     }
 
     /**

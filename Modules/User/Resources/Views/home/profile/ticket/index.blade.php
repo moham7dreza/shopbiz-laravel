@@ -23,7 +23,7 @@
                                 </h2>
                                 <section class="content-header-link m-2">
                                     <x-panel-a-tag route="{{ route('customer.profile.my-tickets.create') }}"
-                                                   title="ارسال تیکت جدید"
+                                                   title="ارسال تیکت جدید" :panel="false"
                                                    icon="plus" color="outline-success"/>
                                 </section>
                             </section>

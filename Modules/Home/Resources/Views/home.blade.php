@@ -42,7 +42,8 @@
 
     @include('Home::partials.brands')
     {{--    @include('Home::partials.banners.brand-banner')--}}
-    @include('Home::partials.chat')
+
+    <livewire:home-chat />
 @endsection
 
 @section('script')

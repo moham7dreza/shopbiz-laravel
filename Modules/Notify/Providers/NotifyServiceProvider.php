@@ -5,7 +5,9 @@ namespace Modules\Notify\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Modules\Notify\Entities\Email;
+use Modules\Notify\Http\Livewire\Chat;
 use Modules\Notify\Policies\NotifyPolicy;
 use Modules\Notify\Repositories\Chat\ChatRepoEloquent;
 use Modules\Notify\Repositories\Chat\ChatRepoEloquentInterface;
@@ -97,6 +99,7 @@ class NotifyServiceProvider extends ServiceProvider
         $this->loadPolicyFiles();
         $this->bindRepository();
         $this->bindServices();
+        $this->loadLivewireComponents();
     }
 
     /**
@@ -205,5 +208,13 @@ class NotifyServiceProvider extends ServiceProvider
         $this->app->bind(NotificationServiceInterface::class, NotificationService::class);
         $this->app->bind(ChatServiceInterface::class, ChatService::class);
         $this->app->bind(ChatAdminServiceInterface::class, ChatAdminService::class);
+    }
+
+    /**
+     * @return void
+     */
+    private function loadLivewireComponents(): void
+    {
+        Livewire::component('home-chat', Chat::class);
     }
 }

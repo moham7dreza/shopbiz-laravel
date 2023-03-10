@@ -4,8 +4,8 @@
     @csrf
     @method('delete')
     <button class="btn btn-{{ $color }} btn-sm delete {{ $class }}" type="submit" title="{{ $title }}"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top" {{ $attributes }}>
+            data-toggle="tooltip"
+            data-placement="top" {{ $attributes }}>
         @if(!is_null($icon))
             <i class="fa fa-{{ $icon }}"></i>
         @endif
