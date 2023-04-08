@@ -36,6 +36,13 @@
       <sourceFolder url="file://$MODULE_DIR$/Modules/Attribute" isTestSource="false" packagePrefix="Modules\Attribute\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Tag" isTestSource="false" packagePrefix="Modules\Tag\" />
       <sourceFolder url="file://$MODULE_DIR$/Modules/Contact" isTestSource="false" packagePrefix="Modules\Contact\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/ACL/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Cart/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Category/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Comment/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Post/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/Product/Tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/User/Tests/Feature" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />

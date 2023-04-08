@@ -1472,7 +1472,7 @@ button:hover.text-greenyellow {
     font-weight: bold;
     color: black;
 }
-.course-scroll-button {
+.chat-scroll-button {
     /*display: none;*/
     position: fixed;
     bottom: 20px;

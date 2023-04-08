@@ -24,7 +24,7 @@
                             <form action="{{ route('customer.market.products.offers') }}" class="w-100 d-flex">
                                 {{--                                <section class="d-flex">--}}
                                 <input name="search" id="search" type="text" class="" placeholder="جستجو ..."
-                                       autocomplete="off">
+                                       autocomplete="on" value="{{ request()->search }}">
                                 {{--                                   onkeyup="liveSearch(this.value)">--}}
                                 <button id="search-btn" type="submit" class="btn btn-light btn-sm"
                                         data-bs-toggle="tooltip" data-bs-placement="left" title="شروع جست و جو">
@@ -33,34 +33,34 @@
                                 {{--                                </section>--}}
                             </form>
                         </section>
-                        <section class="search-result visually-hidden" id="search-result">
-                            <section id="product-category-search-result" class="d-none">
-                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
-                                                                                            id="category-search-key"></span><span
-                                        class="search-result-type">در دسته بندی ها</span></section>
-                                <section class="search-result-item d-none" id="product-category-search-result-item">
-                                    <a class="text-decoration-none" href="#">
-                                        <i class="fa fa-link"></i>
-                                    </a>
-                                </section>
-                            </section>
+{{--                        <section class="search-result visually-hidden" id="search-result">--}}
+{{--                            <section id="product-category-search-result" class="d-none">--}}
+{{--                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"--}}
+{{--                                                                                            id="category-search-key"></span><span--}}
+{{--                                        class="search-result-type">در دسته بندی ها</span></section>--}}
+{{--                                <section class="search-result-item d-none" id="product-category-search-result-item">--}}
+{{--                                    <a class="text-decoration-none" href="#">--}}
+{{--                                        <i class="fa fa-link"></i>--}}
+{{--                                    </a>--}}
+{{--                                </section>--}}
+{{--                            </section>--}}
 
-                            <section id="brand-search-result" class="d-none">
-                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
-                                                                                            id="brand-search-key"></span><span
-                                        class="search-result-type">در برندها</span></section>
-                                <section class="search-result-item d-none"><a class="text-decoration-none" href="#"><i
-                                            class="fa fa-link"></i> برند شیائومی</a></section>
-                            </section>
-                            <section id="product-search-result" class="d-none">
-                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"
-                                                                                            id="product-search-key"></span><span
-                                        class="search-result-type">در کالاها</span></section>
-                                <section class="search-result-item d-none"><span
-                                        class="search-no-result">موردی یافت نشد</span>
-                                </section>
-                            </section>
-                        </section>
+{{--                            <section id="brand-search-result" class="d-none">--}}
+{{--                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"--}}
+{{--                                                                                            id="brand-search-key"></span><span--}}
+{{--                                        class="search-result-type">در برندها</span></section>--}}
+{{--                                <section class="search-result-item d-none"><a class="text-decoration-none" href="#"><i--}}
+{{--                                            class="fa fa-link"></i> برند شیائومی</a></section>--}}
+{{--                            </section>--}}
+{{--                            <section id="product-search-result" class="d-none">--}}
+{{--                                <section class="search-result-title">نتایج جستجو برای <span class="search-words"--}}
+{{--                                                                                            id="product-search-key"></span><span--}}
+{{--                                        class="search-result-type">در کالاها</span></section>--}}
+{{--                                <section class="search-result-item d-none"><span--}}
+{{--                                        class="search-no-result">موردی یافت نشد</span>--}}
+{{--                                </section>--}}
+{{--                            </section>--}}
+{{--                        </section>--}}
                     </section>
                 </section>
 

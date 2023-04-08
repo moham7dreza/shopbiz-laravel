@@ -1,5 +1,5 @@
 <section>
-    <a class="btn btn-sm course-scroll-button" data-bs-toggle="offcanvas" href="#offcanvasChat" role="button"
+    <a class="btn btn-sm chat-scroll-button" data-bs-toggle="offcanvas" href="#offcanvasChat" role="button"
        aria-controls="offcanvasChat" title="چت روم">
         <i class="fa fa-comments"></i>
     </a>
