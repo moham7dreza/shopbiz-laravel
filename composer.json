@@ -21,8 +21,10 @@
         "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^3.1",
         "morilog/jalali": "^3.2",
+        "opcodesio/log-viewer": "^2.4",
         "overtrue/laravel-favorite": "^5.1",
         "overtrue/laravel-like": "^5.0",
+        "rappasoft/laravel-livewire-tables": "^2.12",
         "realrashid/sweet-alert": "^6.0",
         "saeedpooyanfar/zarinpal": "^5.0",
         "spatie/laravel-activitylog": "^4.7",
@@ -30,12 +32,13 @@
         "spatie/laravel-tags": "*"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^2.0",
+        "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "files": [

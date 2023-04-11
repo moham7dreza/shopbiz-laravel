@@ -33,6 +33,10 @@
                         <i class="fas fa-cog fa-pulse"></i>
                         <span>تنظیمات</span>
                     </a>
+                        <a href="{{ route('log-viewer.index') }}" class="sidebar-link">
+                            <i class="fas fa-dot-circle fa-pulse"></i>
+                            <span>لاگر</span>
+                        </a>
                 @endcan
                 @can($PERMISSION::PERMISSION_COMMON)
                     <section class="sidebar-part-title">بخش مشترک</section>
