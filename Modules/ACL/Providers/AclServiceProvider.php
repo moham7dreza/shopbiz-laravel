@@ -88,7 +88,7 @@ class AclServiceProvider extends ServiceProvider
     public function boot(RolePermissionRepoEloquentInterface $rolePermissionRepo): void
     {
         $this->app->booted(function () use ($rolePermissionRepo) {
-            $this->defineCurrentUserPermissionsInSystem($rolePermissionRepo);
+//            $this->defineCurrentUserPermissionsInSystem($rolePermissionRepo);
             $this->setGateBefore();
             $this->setMenuForPanel();
         });
