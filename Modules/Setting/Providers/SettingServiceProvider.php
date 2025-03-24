@@ -72,7 +72,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadPolicyFiles();
         $this->bindServices();
         $this->bindRepository();
-//        $this->setDatabaseSeederWithSettingSeeder();
+        $this->setDatabaseSeederWithSettingSeeder();
     }
 
     /**
