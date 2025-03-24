@@ -1,4 +1,0 @@
-return auth()->user()->unreadNotifications->markAsRead();
-Notification::send(auth()->user(), new Mlk\User\Notifications\SendEmailToUserNotification);
-event(new Mlk\User\Events\SendEmailToUserEvent('milwad@gmail.com'));
-dispatch(new Mlk\User\Jobs\SendEmailToUserJob('milwad@gmail.com'));
